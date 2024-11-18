@@ -1,0 +1,70 @@
+import { useEffect, useState } from 'react';
+import { Footer as AlpsFooter } from 'alps-library/organisms/global/footer/Footer';
+import { FooterPrimaryNavigationProps } from 'alps-library/molecules/navigation/footerPrimaryNavigation/FooterPrimaryNavigation';
+
+const scriptsToLoad = [
+  //see https://alps.adventist.io/v3/?p=viewall-pages-misc
+  '//cdn.adventist.org/alps/3/latest/js/head-script.min.js',
+  '//cdn.adventist.org/alps/3/latest/js/script.min.js'
+];
+
+const loadScript = (url: string, id: string) => {
+  return new Promise<void>((resolve, reject) => {
+    if (!document.getElementById(id)) {
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+
+      script.onload = function () {
+        resolve();
+      };
+      script.id = id;
+      script.src = url;
+      document.getElementsByTagName('head')[0].appendChild(script);
+    }
+  });
+};
+
+const Footer = () => {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!loaded) {
+      setLoaded(true);
+      Promise.all(
+        scriptsToLoad.map((script, index) =>
+          loadScript(script, `script${index}`)
+        )
+      );
+    }
+  }, []);
+
+  const primaryNav: FooterPrimaryNavigationProps = {
+    items: [
+      {
+        text: 'Email',
+        url: '#'
+      },
+      {
+        text: 'Feedback',
+        url: '#'
+      }
+    ]
+  };
+  return (
+    <AlpsFooter
+      address={{
+        //   street: 'Цветан Минков 11',
+        //   postcode: '1000',
+        locality: 'София',
+        //   region: '',
+        country: 'България',
+        phone: '0887 430 103'
+      }}
+      copyright="Copyright ©2004, Адвентната българска мрежа"
+      primaryNav={primaryNav}
+      text="Sdabg.net  - Адвентната българска мреж@ е портал с полезни ресурси и връзки в помощ на ЦАСД в България"
+    />
+  );
+};
+
+export default Footer;

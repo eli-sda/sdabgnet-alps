@@ -1,0 +1,66 @@
+$mingColor: #007f98;
+
+.u-theme--ming .u-theme--path-fill--base {
+  text > * {
+    fill: $mingColor;
+  }
+}
+
+@media (max-width: 700px) {
+  .c-drawer .c-subnav__link.u-color--gray--dark {
+    color: #4a4a4a;
+  }
+}
+
+@media (min-width: 701px) {
+  .c-header__nav-secondary .c-secondary-nav__list {
+      padding-right: 0;
+      margin-right: 9.375rem;
+  }
+}
+
+/* fix menu item */
+@media (min-width: 501px) {
+  .c-header__nav-secondary .c-secondary-nav__list-item.is-priority {
+    display: none;
+  }
+
+  .c-header__nav-secondary .c-secondary-nav__list {
+    padding-left: 9.3rem;
+  }
+
+}
+
+.o-button--toggle::after,
+.o-button--toggle:focus:after {
+  content: 'Покажи';
+}
+
+.o-button--toggle:active .u-icon,
+.o-button--toggle.this-is-active .u-icon {
+  top: 0;
+  right: 0;
+}
+.o-button--toggle:active:focus:after,
+.o-button--toggle:active::after,
+.o-button--toggle.this-is-active:focus:after,
+.o-button--toggle.this-is-active::after {
+  content: 'Затвори';
+}
+
+.o-button--expand::after,
+.o-button--expand:focus:after {
+  content: 'Покажи повече';
+}
+.o-button--expand.this-is-active:focus:after,
+.o-button--expand.this-is-active::after {
+  content: 'Покажи по-малко';
+}
+
+.download a {
+  border-bottom: 1px solid rgba(0, 0, 0, 0) !important;
+}
+.download a:hover {
+  border-bottom: 1px solid !important;
+}
+

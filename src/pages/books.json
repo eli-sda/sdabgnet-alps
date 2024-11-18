@@ -1,0 +1,54 @@
+[
+  {
+    "sectionTitle": "Елън Уайт",
+    "sectionImage": "https://api.sdabg.net/images/author/Ellen_Gould_White.png",
+    "description": "Елън Гулд Уайт (Ellen Gould White) (1827-1915) е забележителна християнска писателка, живяла през 19-ти век, но книгите й все още имат революционно въздействие върху милиони хора. Тя е най-превежданата жена писател в историята на литературата. Книгите й обхващат широк кръг от теми: религия, образование, социални взаимоотношения, пророчества, съвети за издателската дейност, хранене, съвети към църквата, премахване на робството. Много хора вярват, че тя е специален пратеник от Бога, който да привлече вниманието към Свещеното Писание и към Исус Христос.",
+    "books": [
+      {
+        "title": "Патриарси и пророци",
+        "path": "books/Ellen White/Patriarsi i proroci.zip",
+        "newLifeId": "патриарси-и-пророци",
+        "audioId": 1234
+      },
+      {
+        "title": "Пророци и царе",
+        "path": "books/Ellen White/Proroci i care.zip",
+        "newLifeId": "пророци-и-царе"
+      },
+      {
+        "title": "Животът на Исус Христос",
+        "path": "books/Ellen White/Jivotyt na Isus Hristos.zip",
+        "newLifeId": "копнежът-на-вековете"
+      },
+      {
+        "title": "Деяния на апостолите",
+        "path": "books/Ellen White/Deyaniya na apostolite.zip",
+        "newLifeId": "деяния-на-апостолите"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "Марк Финли",
+    "sectionImage": "https://api.sdabg.net/images/author/MarkFinley.png",
+    "description": "Марк Финли е автор ...",
+    "books": [
+      {
+        "title": "Писма от самотния остров (в съавторство със Стивън Мосли)",
+        "path": "books/Mark Finley/Pisma ot samotniya ostrov.zip"
+      },
+      {
+        "title": "Видео: Галелиянинът (НЕТ 2002) - Планинската проповед",
+        "path": "video/Lucian Cristescu - Galileaninat (NET 2002)/212 - Planinskata propoved.avi"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "Други",
+    "books": [
+      {
+        "title": "Отвъд въображението, Болдуин & Гибсън & Томас",
+        "path": "books/Drugi/Otvad vaobrajenieto.zip"
+      }
+    ]
+  }
+]

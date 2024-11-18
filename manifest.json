@@ -1,0 +1,20 @@
+{
+  "short_name": "SDABG.net",
+  "name": "Адвентна българска мреж@",
+  "icons": [
+    {
+      "src": "img/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "img/favicon-ming.png",
+      "type": "image/png",
+      "sizes": "216x216"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#007f98"
+}

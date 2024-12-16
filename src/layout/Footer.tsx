@@ -9,7 +9,7 @@ const scriptsToLoad = [
 ];
 
 const loadScript = (url: string, id: string) => {
-  return new Promise<void>((resolve, reject) => {
+  return new Promise<void>((resolve, _reject) => {
     if (!document.getElementById(id)) {
       const script = document.createElement('script');
       script.type = 'text/javascript';

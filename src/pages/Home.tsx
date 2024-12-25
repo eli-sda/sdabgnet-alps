@@ -1,10 +1,14 @@
 import { NavLink } from 'react-router-dom';
 // import IconsColorsSizes from '../atoms/IconsColorsSizes';
 import routes from '../routes';
+import DailyVerse from 'src/organisms/DailyVerse';
+import moment from 'moment';
 // import { VideoFull } from 'alps-library/organisms/sections/videoFull/VideoFull';
 
 const Home = () => (
   <>
+    <DailyVerse></DailyVerse>
+    <DailyVerse date={moment().subtract(1, 'year').toDate()}></DailyVerse>
     <ul>
       <li>
         <NavLink to={routes.home}>Начало</NavLink>
@@ -28,6 +32,7 @@ const Home = () => (
         Визуална идентичност Базов дизайн (Adventist Identity Manual)
       </a>
     </p>
+
     {/* <IconsColorsSizes></IconsColorsSizes> */}
     {/* <VideoFull
       srcVideo={{

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import clientVreses from '../sanityClient'; // Updated Sanity client
 import { PortableTextBlock } from '@portabletext/types';
 import { PortableText } from '@portabletext/react';
@@ -34,9 +34,13 @@ const DailyVerse: FC<{ date?: Date }> = ({ date }) => {
   const moreClasses =
     ' can-be--dark-dark u-clear-fix u-padding u-background-color--gray--light';
 
+  const formattedDate = useMemo(() => {
+    const validDate = date || new Date(); // Use the provided date or fallback to the current date
+    return validDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+  }, [date]);
+
   useEffect(() => {
-    const currentDate = (date ? date : new Date()).toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
-    const query = `*[date == '${currentDate}'][0]{date, title, text, verse, comment}`;
+    const query = `*[date == '${formattedDate}'][0]{date, title, text, verse, comment}`;
 
     clientVreses
       .fetch(query)
@@ -45,7 +49,7 @@ const DailyVerse: FC<{ date?: Date }> = ({ date }) => {
         console.error('Error fetching verse from Sanity:', error)
       )
       .finally(() => setLoading(false));
-  }, [date]);
+  }, [formattedDate]);
 
   if (loading) {
     return <i className="fa fa-spinner u-space--quarter"></i>;
@@ -88,7 +92,7 @@ const DailyVerse: FC<{ date?: Date }> = ({ date }) => {
       )}
     </div>
   ) : (
-    <p>Няма данни за тази дата</p>
+    <p>{`Няма данни за ${formattedDate}`}</p>
   );
 };
 

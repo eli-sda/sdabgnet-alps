@@ -7,8 +7,14 @@ import moment from 'moment';
 
 const Home = () => (
   <>
+    {/* verse for today */}
     <DailyVerse></DailyVerse>
+
+    {/* verse for current date but previous year */}
     <DailyVerse date={moment().subtract(1, 'year').toDate()}></DailyVerse>
+
+    {/* verse for 25.12.2024 */}
+    <DailyVerse date={new Date('2024-12-25')}></DailyVerse>
     <ul>
       <li>
         <NavLink to={routes.home}>Начало</NavLink>

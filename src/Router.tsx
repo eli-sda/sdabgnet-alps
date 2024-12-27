@@ -4,6 +4,7 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom';
 
 import Layout from './layout/Layout';
 import ChurchLife from './pages/ChurchLife';
+// import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const NotFound = lazy(() => import('./pages/NotFound'));
 const Home = lazy(() => import('./pages/Home'));
@@ -13,9 +14,12 @@ const Books = lazy(() => import('./pages/Books'));
 const Events = lazy(() => import('./pages/Events'));
 const HealthInstitutions = lazy(() => import('./pages/HealthInstitutions'));
 
+// const theme = createTheme();
+
 const Router = () => (
   <Suspense fallback={<h2>Зареждане...</h2>}>
     <BrowserRouter>
+      {/* <ThemeProvider theme={theme}> */}
       <Routes>
         <Route path={routes.home} element={<Layout />}>
           <Route index element={<Home />} />
@@ -34,10 +38,11 @@ const Router = () => (
           <Route path=":teamId" element={<Team />} />
           <Route path="new" element={<NewTeamForm />} />
           <Route index element={<LeagueStandings />} />
-        </Route> */}
+          </Route> */}
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
+      {/* </ThemeProvider> */}
     </BrowserRouter>
   </Suspense>
 );

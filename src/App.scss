@@ -56,6 +56,14 @@ $mingColor: #007f98;
 .o-button--expand.this-is-active::after {
   content: 'Покажи по-малко';
 }
+.o-button--expand.comment::after,
+.o-button--expand.comment:focus:after {
+  content: 'Покажи коментара';
+}
+.o-button--expand.comment.this-is-active:focus:after,
+.o-button--expand.comment.this-is-active::after {
+  content: 'Скрий коментара';
+}
 
 .download a {
   border-bottom: 1px solid rgba(0, 0, 0, 0) !important;

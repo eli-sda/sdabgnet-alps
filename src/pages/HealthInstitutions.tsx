@@ -1,5 +1,4 @@
 import { Button } from 'alps-library/atoms/button/Button';
-// import LinkIcon from '@mui/icons-material/Link';
 import { Page } from 'src/organisms/Page';
 import routes from 'src/routes';
 

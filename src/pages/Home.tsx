@@ -1,10 +1,20 @@
 import { NavLink } from 'react-router-dom';
 // import IconsColorsSizes from '../atoms/IconsColorsSizes';
 import routes from '../routes';
+import DailyVerse from 'src/organisms/DailyVerse';
+import moment from 'moment';
 // import { VideoFull } from 'alps-library/organisms/sections/videoFull/VideoFull';
 
 const Home = () => (
   <>
+    {/* verse for today */}
+    <DailyVerse></DailyVerse>
+
+    {/* verse for current date but previous year */}
+    <DailyVerse date={moment().subtract(1, 'year').toDate()}></DailyVerse>
+
+    {/* verse for 25.12.2024 */}
+    <DailyVerse date={new Date('2024-12-25')}></DailyVerse>
     <ul>
       <li>
         <NavLink to={routes.home}>Начало</NavLink>
@@ -28,6 +38,7 @@ const Home = () => (
         Визуална идентичност Базов дизайн (Adventist Identity Manual)
       </a>
     </p>
+
     {/* <IconsColorsSizes></IconsColorsSizes> */}
     {/* <VideoFull
       srcVideo={{

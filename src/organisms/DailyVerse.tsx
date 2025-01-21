@@ -9,6 +9,7 @@ import { themeBorderColorClass } from 'alps-library/global/colors';
 import { getFontClass } from 'alps-library/global/fonts';
 import { Button } from 'alps-library/atoms/button/Button';
 import moment from 'moment';
+import { CustomPortableText } from 'src/utils/CustomPortableText';
 
 export interface Verse {
   date: string;
@@ -65,12 +66,13 @@ const DailyVerse: FC<{ date?: Date }> = ({ date }) => {
 
       {data.date && (
         <span className="c-block__meta u-font--secondary--xs u-theme--color--dark">
+          {data.verse}&nbsp;
           <time
             className="c-block__date u-text-transform--upper"
             dateTime={`${data.date}`}
           >
             {/* {new Date(data.date).toLocaleDateString('bg-BG')} //25.12.2024 г.*/}
-            {moment(data.date).format('DD.MM.YYYY')}
+            ({moment(data.date).format('DD.MM.YYYY')})
           </time>
         </span>
       )}
@@ -78,7 +80,7 @@ const DailyVerse: FC<{ date?: Date }> = ({ date }) => {
       {data.comment && (
         <>
           <div className="c-block__content">
-            <PortableText value={data.comment} />
+            <CustomPortableText value={data.comment} />
           </div>
           <Button
             as={'a'}

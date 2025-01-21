@@ -23,10 +23,12 @@ const Router = () => (
       <Routes>
         <Route path={routes.home} element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path={routes.churchLife()} element={<ChurchLife />} />
+          {/* churchLife */}
+          <Route path={routes.lesson} element={<Lesson />} />
           <Route path={routes.churchLife('lesson')} element={<Lesson />} />
           <Route path={routes.churchLife('events')} element={<Events />} />
-          <Route path={routes.lesson} element={<Lesson />} />
+          <Route path={routes.churchLife()} element={<ChurchLife />} />
+
           <Route path={routes.churches} element={<Churches />} />
           <Route path={routes.info('churches')} element={<Churches />} />
           <Route path={routes.resources('books')} element={<Books />} />

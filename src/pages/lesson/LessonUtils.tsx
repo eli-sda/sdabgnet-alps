@@ -18,6 +18,8 @@ export type lessonParameters = {
 
 export type LessonObject = lessonParameters & {
   qTitle: string;
+  quarterlyCover?: string;
+  cover?: string;
   hasError: boolean;
   qDescription?: string;
   qIntroduction?: string;
@@ -75,6 +77,7 @@ export const getCurrentLesson = () => {
 
 type resQuarter = {
   quarterly: {
+    cover: string;
     title: string;
     description: string;
     human_date: string;
@@ -83,6 +86,7 @@ type resQuarter = {
   };
   lessons: Array<{
     id: string;
+    cover: string;
     title: string;
     start_date: string;
     end_date: string;
@@ -115,17 +119,19 @@ export const loadLesson = ({
         // setIsLoaded(true);
         // setItems(result);
         lessonDetails.hasError = false;
+        lessonDetails.quarterlyCover = quarterly.cover;
         lessonDetails.qTitle = quarterly.title;
         lessonDetails.qDescription = quarterly.description;
         lessonDetails.qHumanDate = quarterly.human_date;
         lessonDetails.qAuthor = quarterly.credits
-          ? `${quarterly.credits[0].name} : ${quarterly.credits[0].value}`
+          ? `${quarterly.credits[0].name}: ${quarterly.credits[0].value}`
           : '';
         lessonDetails.qIntroduction = quarterly.introduction;
 
         const currentLesson = lessons.find(
           (l) => l.id === twoDigits(lessonNumber)
         );
+        lessonDetails.cover = currentLesson?.cover;
         lessonDetails.title = currentLesson?.title;
         lessonDetails.startDate = currentLesson?.start_date;
         lessonDetails.endDate = currentLesson?.end_date;
@@ -139,7 +145,9 @@ export const loadLesson = ({
         // setIsLoaded(true);
         // setError(error);
 
-        lessonDetails.qTitle = `Проблем при зареждане на урок ${lessonNumber} за ${lessonQuarter} тримесечие на ${lessonYear} година.`;
+        lessonDetails.qTitle = `Проблем при зареждане на урока за ${
+          isCQ ? 'младежи' : 'възрастни'
+        } - № ${lessonNumber} за ${lessonQuarter} тримесечие на ${lessonYear} година.`;
         return Promise.resolve(lessonDetails);
       }
     );

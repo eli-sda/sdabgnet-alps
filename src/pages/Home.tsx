@@ -13,8 +13,8 @@ const Home = () => (
     {/* verse for current date but previous year */}
     <DailyVerse date={moment().subtract(1, 'year').toDate()}></DailyVerse>
 
-    {/* verse for 25.12.2024 */}
-    <DailyVerse date={new Date('2024-12-25')}></DailyVerse>
+    {/* verse for 2.01.2025  with links*/}
+    <DailyVerse date={new Date('2025-01-02')}></DailyVerse>
     <ul>
       <li>
         <NavLink to={routes.home}>Начало</NavLink>
@@ -26,6 +26,12 @@ const Home = () => (
       <li>
         <NavLink to={`${routes.churchLife('lesson')}/6/4/13`}>
           Отвори урок 13 от 4 трим. на 2006г
+        </NavLink>
+      </li>
+
+      <li>
+        <NavLink to={`${routes.churchLife('lesson')}/25/1/1`}>
+          Отвори урок 1 от 1 трим. на 2025г
         </NavLink>
       </li>
     </ul>

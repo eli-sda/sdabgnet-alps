@@ -16,18 +16,19 @@ import { LessonItem } from './LessonItem';
 import { Page } from 'src/organisms/Page';
 import routes from '../../routes';
 
+interface Props {
+  lessonYear: number;
+  lessonQuarter: number;
+  lessonNumber: number;
+}
 const Lesson = () => {
   const { year, quarter, week } = useParams();
   const [lesson, setLesson] = useState<LessonObject>();
   const [cqLesson, setCqLesson] = useState<LessonObject>();
   // const iFrameRef = useRef<HTMLIFrameElement>(null);
 
-  useEffect(() => {
-    let params: {
-      lessonYear: number;
-      lessonQuarter: number;
-      lessonNumber: number;
-    };
+  const params = useMemo(() => {
+    let params: Props;
     if (
       year &&
       isValidYear(year) &&
@@ -50,15 +51,24 @@ const Lesson = () => {
       } = lessonParams;
       params = { lessonYear, lessonQuarter, lessonNumber };
     }
-    loadLesson(params).then((lesson) => {
-      console.log('lesson:', lesson);
-      setLesson(lesson);
-    });
-    loadLesson({ ...params, isCQ: true }).then((lesson) => {
-      console.log('CQlesson:', lesson);
-      setCqLesson(lesson);
-    });
-  }, [year, quarter, week]);
+    return params;
+  }, [quarter, week, year]);
+
+  useEffect(() => {
+    loadLesson(params)
+      .then((lesson) => {
+        console.log(new Date(), ' lesson:', lesson);
+        setLesson(lesson);
+      })
+      .catch((error) => console.error(error));
+
+    loadLesson({ ...params, isCQ: true })
+      .then((lesson) => {
+        console.log(new Date(), 'CQlesson:', lesson);
+        setCqLesson(lesson);
+      })
+      .catch((error) => console.error(error));
+  }, [params]);
 
   const ssPaths = useMemo(() => {
     if (!lesson)

@@ -33,23 +33,29 @@ export const LessonItem: FC<LessonObject & { ssPath: string }> = ({
         <div
           className="ss-cover"
           style={{
-            backgroundImage: `url(${SS_API_URL_BG_QUARTER}/${
-              lesson.lessonYear
-            }-${twoDigits(lesson.lessonQuarter)}${
-              lesson.isCQ ? '-cq' : ''
-            }/cover.png)`
+            backgroundImage: `url(${lesson.quarterlyCover})`
           }}
         ></div>
         <h3>
+          {lesson.qHumanDate}
+          <br />
           {lesson.qTitle}
           <br />
           {lesson.qAuthor}
         </h3>
         <span
           dangerouslySetInnerHTML={{
-            __html: lesson.qIntroduction?.replaceAll('\n\n', '<p>') || ''
+            __html:
+              lesson.qIntroduction
+                ?.replaceAll('\n\n', '<p>')
+                .replace(/_(.*?)_/g, '<em>$1</em>')
+                .replace(
+                  /\b(www\.[^\s]+)/g,
+                  '<a href="//$1" target="_blank">$1</a>'
+                ) || ''
           }}
         />
+        <img src={lesson.cover} width="100%" />
         <a href={ssPath} target="_blank" rel="noreferrer">
           <h4>{lesson.title}</h4>
         </a>

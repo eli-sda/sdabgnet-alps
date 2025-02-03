@@ -1,10 +1,10 @@
 import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
 import { PageContent } from 'alps-library/organisms/content/pageContent/PageContent';
-import { BreadcrumbItemProps } from 'alps-library/molecules/navigation/breadcrumbs/Breadcrumbs';
+import { BreadcrumbItemProps } from 'src/alps/molecules/navigation/Breadcrumbs';
 import { Aside } from 'alps-library/organisms/asides/aside/Aside';
-import { getTitle } from 'src/layout/Header';
+import { getTitle } from 'src/utils/Navigation';
 import routes from 'src/routes';
-
+// import { Text } from 'alps-library/atoms/text/Text';
 import './Page.scss';
 
 export interface PageProps {

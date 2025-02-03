@@ -4,8 +4,11 @@ import { FooterPrimaryNavigationProps } from 'alps-library/molecules/navigation/
 
 const scriptsToLoad = [
   //see https://alps.adventist.io/v3/?p=viewall-pages-misc
-  '//cdn.adventist.org/alps/3/latest/js/head-script.min.js',
-  '//cdn.adventist.org/alps/3/latest/js/script.min.js'
+  // see latest ver. https://cdn.adventist.org/alps/3/versions.json
+  // '//cdn.adventist.org/alps/3/latest/js/head-script.min.js',//not loading leatest ver.
+  // '//cdn.adventist.org/alps/3/latest/js/script.min.js'//not loading leatest ver.
+  '//cdn.adventist.org/alps/3/3.12.2/js/head-script.min.js',
+  '//cdn.adventist.org/alps/3/3.12.2/js/script.min.js'
 ];
 
 const loadScript = (url: string, id: string) => {
@@ -28,13 +31,16 @@ const Footer = () => {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    if (!loaded) {
-      setLoaded(true);
-      Promise.all(
+    async function loadScripts() {
+      await Promise.all(
         scriptsToLoad.map((script, index) =>
           loadScript(script, `script${index}`)
         )
       );
+    }
+    if (!loaded) {
+      setLoaded(true);
+      loadScripts().catch((e) => console.log(e));
     }
   }, []);
 

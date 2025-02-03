@@ -3,10 +3,13 @@ import { NavLink } from 'react-router-dom';
 import routes from '../routes';
 import DailyVerse from 'src/organisms/DailyVerse';
 import moment from 'moment';
+// import { Button } from '@mui/material';
+// import { deleteAllLinks } from 'src/utils/DelteSanityDocuments';
 // import { VideoFull } from 'alps-library/organisms/sections/videoFull/VideoFull';
 
 const Home = () => (
   <>
+    {/* <Button onClick={() => deleteAllLinks()}>Delete all links in Sanity</Button> */}
     {/* verse for today */}
     <DailyVerse></DailyVerse>
 

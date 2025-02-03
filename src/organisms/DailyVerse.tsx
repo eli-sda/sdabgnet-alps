@@ -1,7 +1,6 @@
 import React, { FC, useEffect, useMemo, useState } from 'react';
-import clientVreses from '../sanityClient'; // Updated Sanity client
+import { clientVreses } from '../sanityClient'; // Updated Sanity client
 import { PortableTextBlock } from '@portabletext/types';
-import { PortableText } from '@portabletext/react';
 
 import useClasses from 'alps-library/helpers/useClasses';
 import useToggle from 'alps-library/helpers/useToggle';

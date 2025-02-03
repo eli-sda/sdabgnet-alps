@@ -1,5 +1,4 @@
 import { Outlet } from 'react-router-dom';
-// import Sabath from '../organisms/asides/Sabath';
 import { Sabbath } from 'alps-library/organisms/asides/sabbath/Sabbath';
 import { Main } from 'alps-library/templates/Main';
 import Footer from './Footer';

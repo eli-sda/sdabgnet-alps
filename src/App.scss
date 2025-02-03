@@ -5,6 +5,22 @@ $mingColor: #007f98;
     fill: $mingColor;
   }
 }
+body {
+  max-width: 100%;
+}
+
+// .l-sabbath__logo {
+//   padding-left: calc(2/15*((100vw / 7) - 0.01px));
+//   padding-right: calc(2/15*((100vw / 7) - 0.01px));
+// }
+
+@media (max-width: 500px) {
+  .c-header__logo svg {
+      width: 100%;
+      height: auto;
+      max-width: min(100%, calc(100vw - (100vw / 7) - 1rem));
+  }
+}
 
 @media (max-width: 700px) {
   .c-drawer .c-subnav__link.u-color--gray--dark {
@@ -25,12 +41,23 @@ $mingColor: #007f98;
     display: none;
   }
 
-  .c-header__nav-secondary .c-secondary-nav__list {
-    padding-left: 9.3rem;
+  // .c-header__nav-secondary .c-secondary-nav__list {
+  //   padding-left: 9.3rem;
+  // }
+  .l-sabbath__logo {
+   padding-left: .625rem;
+   padding-right: .625rem;
+   padding-top: .625rem;
   }
-
 }
 
+@media (min-width: 640px) {
+  .l-sabbath__logo {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    padding-top: 1.25rem;
+  }
+}
 .o-button--toggle::after,
 .o-button--toggle:focus:after {
   content: 'Покажи';

@@ -30,7 +30,7 @@ export const SubNavItem = ({
   type,
   onClick,
   isExternal = url?.indexOf('http') == 0,
-  useNavLink
+  useNavLink = true
 }: SubNavItemProps): JSX.Element => {
   const { onToggle, openClass } = useToggle(false);
   const hasSubnav = Array.isArray(subnav) && subnav.length > 0;
@@ -71,14 +71,19 @@ export const SubNavItem = ({
                 ${isTertiary ? themeBackgroundClass + '--base' : null}
             `}
     >
-      {useNavLink ? (
-        <NavLink {...linkAttr}>{text}</NavLink>
-      ) : (
+      {isExternal ? (
         <a {...linkAttr} onClick={onClick}>
           {text}
           {linkIcon}
         </a>
+      ) : useNavLink ? (
+        <NavLink {...linkAttr}>{text}</NavLink>
+      ) : (
+        <a {...linkAttr} onClick={onClick}>
+          {text}
+        </a>
       )}
+
       {hasSubnav && (
         <SubNavArrow
           fill="gray"

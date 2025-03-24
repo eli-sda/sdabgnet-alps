@@ -3,53 +3,60 @@ import { NavLink } from 'react-router-dom';
 import routes from '../routes';
 import DailyVerse from 'src/organisms/DailyVerse';
 import moment from 'moment';
+import { PageSection } from 'src/organisms/PageSection';
 // import { Button } from '@mui/material';
 // import { deleteAllLinks } from 'src/utils/DelteSanityDocuments';
 // import { VideoFull } from 'alps-library/organisms/sections/videoFull/VideoFull';
 
-const Home = () => (
-  <>
-    {/* <Button onClick={() => deleteAllLinks()}>Delete all links in Sanity</Button> */}
-    {/* verse for today */}
-    <DailyVerse></DailyVerse>
+const Home = () => {
+  return (
+    <PageSection
+      aside={
+        <>
+          {/* <Button onClick={() => deleteAllLinks()}>Delete all links in Sanity</Button> */}
+          {/* verse for today */}
+          <DailyVerse></DailyVerse>
 
-    {/* verse for current date but previous year */}
-    <DailyVerse date={moment().subtract(1, 'year').toDate()}></DailyVerse>
+          {/* verse for current date but previous year */}
+          <DailyVerse date={moment().subtract(1, 'year').toDate()}></DailyVerse>
 
-    {/* verse for 2.01.2025  with links*/}
-    <DailyVerse date={new Date('2025-01-02')}></DailyVerse>
-    <ul>
-      <li>
-        <NavLink to={routes.home}>Начало</NavLink>
-      </li>
+          {/* verse for 2.01.2025  with links*/}
+          <DailyVerse date={new Date('2025-01-02')}></DailyVerse>
+        </>
+      }
+    >
+      <h1>Тестване връзки към урок</h1>
+      <div className={'text'}>
+        <ul>
+          <li>
+            <NavLink to={routes.churchLife('lesson')}>
+              Отвори текущия урок
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to={`${routes.churchLife('lesson')}/6/4/13`}>
+              Отвори урок 13 от 4 трим. на 2006г
+            </NavLink>
+          </li>
 
-      <li>
-        <NavLink to={routes.churchLife('lesson')}>Отвори текущия урок</NavLink>
-      </li>
-      <li>
-        <NavLink to={`${routes.churchLife('lesson')}/6/4/13`}>
-          Отвори урок 13 от 4 трим. на 2006г
-        </NavLink>
-      </li>
-
-      <li>
-        <NavLink to={`${routes.churchLife('lesson')}/25/1/1`}>
-          Отвори урок 1 от 1 трим. на 2025г
-        </NavLink>
-      </li>
-    </ul>
-    <p>
-      <a
-        href="https://sdabg.net/pdf/Adventist_Identity_Manual.pdf"
-        target="_blank"
-        rel="noreferrer"
-      >
-        Визуална идентичност Базов дизайн (Adventist Identity Manual)
-      </a>
-    </p>
-
-    {/* <IconsColorsSizes></IconsColorsSizes> */}
-    {/* <VideoFull
+          <li>
+            <NavLink to={`${routes.churchLife('lesson')}/25/1/1`}>
+              Отвори урок 1 от 1 трим. на 2025г
+            </NavLink>
+          </li>
+        </ul>
+      </div>
+      <p>
+        <a
+          href="https://sdabg.net/pdf/Adventist_Identity_Manual.pdf"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Визуална идентичност Базов дизайн (Adventist Identity Manual)
+        </a>
+      </p>
+      {/* <IconsColorsSizes></IconsColorsSizes> */}
+      {/* <VideoFull
       srcVideo={{
         allow:
           'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture',
@@ -59,6 +66,7 @@ const Home = () => (
         //'https://www.youtube.com/embed/-CwVPt6r7pY?cc_load_policy=1&cc_lang_pref=bg&hl=bg'
       }}
     /> */}
-  </>
-);
+    </PageSection>
+  );
+};
 export default Home;

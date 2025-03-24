@@ -1,5 +1,6 @@
 import { Button } from 'alps-library/atoms/button/Button';
 import { Page } from 'src/organisms/Page';
+import { getTitle } from 'src/utils/Navigation';
 import routes from 'src/routes';
 
 const breadcrumbsUrls = [routes.health(), routes.health('institutions')];
@@ -13,8 +14,10 @@ const HealthInstitutions = () => {
     }
   ];
   return (
-    <div className="u-spacing--triple">
-      <Page title="Здравни институции" breadcrumbsUrls={breadcrumbsUrls} />
+    <Page
+      title={getTitle(routes.health('institutions'))}
+      breadcrumbsUrls={breadcrumbsUrls}
+    >
       {links.map((link, l) => (
         <Button
           key={l}
@@ -26,7 +29,7 @@ const HealthInstitutions = () => {
           simple={true}
         />
       ))}
-    </div>
+    </Page>
   );
 };
 export default HealthInstitutions;

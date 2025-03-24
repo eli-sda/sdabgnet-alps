@@ -1,5 +1,5 @@
+import { BreadcrumbItemProps } from 'src/alps/molecules/navigation/Breadcrumbs';
 import { PrimaryNavItemProps } from 'src/alps/molecules/navigation/PrimaryNavItem';
-import { MenuItem } from 'src/layout/Header';
 import routes from 'src/routes';
 
 export const primaryNavigationItems: PrimaryNavItemProps[] = [
@@ -13,10 +13,28 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
         url: 'https://seed.asi-bg.org/',
         isExternal: true
       },
+
       {
         type: 'primary',
-        text: 'Седмичен урок',
-        url: routes.churchLife('lesson')
+        text: 'Съботно училище',
+        url: routes.churchLife('lessons'),
+        subnav: [
+          {
+            type: 'primary',
+            text: 'СУ за възрастни',
+            url: routes.churchLife('lesson')
+          },
+          {
+            type: 'primary',
+            text: 'СУ за младежи',
+            url: routes.churchLife('lesson-cq')
+          },
+          {
+            type: 'primary',
+            text: 'СУ за юноши',
+            url: routes.churchLife('lesson-cc')
+          }
+        ]
       },
       {
         type: 'primary',
@@ -274,6 +292,14 @@ export function getTitle(url: string): string {
   return _getTitle(url);
 }
 
+type MenuItem = {
+  text: string;
+  isExternal?: boolean;
+  // useNavLink?: boolean;
+  url?: string;
+  subnav?: MenuItem[];
+};
+
 function _getTitle(
   targetUrl: string,
   items: MenuItem[] = primaryNavigationItems
@@ -290,4 +316,25 @@ function _getTitle(
     }
   }
   return ''; // if URL is not found
+}
+
+export function getBreadcrumbs(
+  breadcrumbsUrls: string[]
+): BreadcrumbItemProps[] {
+  const breadcrumbs: BreadcrumbItemProps[] =
+    breadcrumbsUrls.length > 0
+      ? [
+          {
+            text: 'Начало',
+            url: routes.home
+          }
+        ]
+      : [];
+  breadcrumbsUrls.forEach((url, i) => {
+    breadcrumbs.push({
+      text: getTitle(url),
+      url: i === breadcrumbsUrls.length - 1 ? undefined : url
+    });
+  });
+  return breadcrumbs;
 }

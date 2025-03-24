@@ -7,28 +7,6 @@ import {
   HeaderProps
 } from 'src/alps/organisms/global/Header';
 
-export type MenuItem = {
-  text: string;
-  isExternal?: boolean;
-  useNavLink?: boolean;
-  url?: string;
-  subnav?: MenuItem[];
-};
-
-function _setUseNavLink(items: MenuItem[] = primaryNavigationItems) {
-  for (const item of items) {
-    if (!item.isExternal) {
-      item.useNavLink = true;
-    }
-    // Check if subnav exists and loop recursively
-    if (item.subnav) {
-      _setUseNavLink(item.subnav);
-    }
-  }
-}
-//set useNavLink to all not external links in the menu
-_setUseNavLink();
-
 const Header = () => {
   const headerProps: HeaderProps = {
     secondaryNav: {
@@ -40,14 +18,12 @@ const Header = () => {
         {
           icon: 'find',
           text: 'Намери църква',
-          url: routes.churches,
-          useNavLink: true
+          url: routes.churches
         },
         {
           icon: 'contact',
           text: 'Контакт',
-          url: routes.contact,
-          useNavLink: true
+          url: routes.contact
         }
       ]
     },

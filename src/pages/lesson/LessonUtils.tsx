@@ -9,11 +9,25 @@ export function twoDigits(n: number) {
   return (n > 9 ? '' : '0') + n;
 }
 
+type LessonType = '' | 'cq' | 'cc'; //'' - за възрастни, cq - младежки, cc - юношески
+
+export function getRouteLesson(
+  lessonType: LessonType
+): 'lesson' | 'lesson-cq' | 'lesson-cc' {
+  switch (lessonType) {
+    case 'cq':
+      return 'lesson-cq';
+    case 'cc':
+      return 'lesson-cc';
+    default:
+      return 'lesson';
+  }
+}
 export type lessonParameters = {
   lessonYear: number;
   lessonQuarter: number;
   lessonNumber: number;
-  isCQ?: boolean;
+  type?: LessonType;
 };
 
 export type LessonObject = lessonParameters & {
@@ -28,6 +42,7 @@ export type LessonObject = lessonParameters & {
   title?: string;
   startDate?: string;
   endDate?: string;
+  qGroup?: string;
 };
 
 export const isValidYear = (yearString: string) => {
@@ -83,6 +98,7 @@ type resQuarter = {
     human_date: string;
     credits?: Array<{ name: string; value: string }>;
     introduction: string;
+    quarterly_group: { name: string };
   };
   lessons: Array<{
     id: string;
@@ -90,26 +106,51 @@ type resQuarter = {
     title: string;
     start_date: string;
     end_date: string;
+    pdfOnly: boolean;
   }>;
 };
+
+export const formatDateRange = (startDate: string, endDate: string) => {
+  const parseDate = (dateStr: string) => {
+    const [day, month, year] = dateStr.split('/').map(Number);
+    return new Date(year, month - 1, day);
+  };
+
+  const start = parseDate(startDate);
+  const end = parseDate(endDate);
+
+  const options: Intl.DateTimeFormatOptions = { day: 'numeric' };
+  const startDay = start.toLocaleDateString('bg-BG', options);
+  const endDay = end.toLocaleDateString('bg-BG', options);
+  const endMonth = end.toLocaleDateString('bg-BG', { month: 'long' });
+  const year = end.getFullYear();
+
+  if (start.getMonth() === end.getMonth()) {
+    return `${startDay} - ${endDay} ${endMonth} ${year} г.`;
+  } else {
+    const startMonth = start.toLocaleDateString('bg-BG', { month: 'long' });
+    return `${startDay} ${startMonth} - ${endDay} ${endMonth} ${year} г.`;
+  }
+};
+
 export const loadLesson = ({
   lessonYear,
   lessonQuarter,
   lessonNumber,
-  isCQ = false
+  type = ''
 }: lessonParameters): Promise<LessonObject> => {
   const lessonDetails: LessonObject = {
     lessonNumber,
     lessonQuarter,
     lessonYear,
-    isCQ,
+    type,
     qTitle: '',
     hasError: true
   };
 
   return fetch(
     `${SS_API_URL_BG_QUARTER}/${lessonYear}-${twoDigits(lessonQuarter)}${
-      isCQ ? '-cq' : ''
+      type ? `-${type}` : ''
     }/index.json`
   )
     .then((res) => res.json())
@@ -126,12 +167,15 @@ export const loadLesson = ({
         lessonDetails.qAuthor = quarterly.credits
           ? `${quarterly.credits[0].name}: ${quarterly.credits[0].value}`
           : '';
+        lessonDetails.qGroup = quarterly.quarterly_group?.name || '';
         lessonDetails.qIntroduction = quarterly.introduction;
 
         const currentLesson = lessons.find(
           (l) => l.id === twoDigits(lessonNumber)
         );
-        lessonDetails.cover = currentLesson?.cover;
+        lessonDetails.cover = currentLesson?.pdfOnly
+          ? ''
+          : currentLesson?.cover;
         lessonDetails.title = currentLesson?.title;
         lessonDetails.startDate = currentLesson?.start_date;
         lessonDetails.endDate = currentLesson?.end_date;
@@ -146,7 +190,7 @@ export const loadLesson = ({
         // setError(error);
 
         lessonDetails.qTitle = `Проблем при зареждане на урока за ${
-          isCQ ? 'младежи' : 'възрастни'
+          type === 'cq' ? 'младежи' : type === 'cc' ? 'юноши' : 'възрастни'
         } - № ${lessonNumber} за ${lessonQuarter} тримесечие на ${lessonYear} година.`;
         return Promise.resolve(lessonDetails);
       }

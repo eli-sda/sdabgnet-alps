@@ -27,7 +27,7 @@ export const SecondaryNavItem = ({
   type,
   text,
   url = '#',
-  useNavLink
+  useNavLink = true
 }: SecondaryNavItemProps): JSX.Element => {
   const linkAttr = {
     // to: url || "",

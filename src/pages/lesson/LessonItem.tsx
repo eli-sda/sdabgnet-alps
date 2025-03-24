@@ -11,7 +11,7 @@ export const LessonItem: FC<LessonObject & { ssPath: string }> = ({
   ...lesson
 }) => (
   <li style={{ paddingBottom: '60px' }}>
-    {lesson.hasError && !lesson.isCQ && (
+    {lesson.hasError && !lesson.type && (
       <p>
         <h2>{lesson.qTitle}</h2>
         Опитайте да заредите

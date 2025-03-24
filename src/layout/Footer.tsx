@@ -47,13 +47,13 @@ const Footer = () => {
   const primaryNav: FooterPrimaryNavigationProps = {
     items: [
       {
-        text: 'Email',
-        url: '#'
-      },
-      {
-        text: 'Feedback',
-        url: '#'
+        text: 'webmaster@sdabg.net',
+        url: 'mailto:webmaster@sdabg.net?subject=new.sdabg.net'
       }
+      // {
+      //   text: 'Feedback',
+      //   url: '#'
+      // }
     ]
   };
   return (

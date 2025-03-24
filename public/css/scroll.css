@@ -1,0 +1,29 @@
+/* For WebKit Browsers (Chrome, Edge, Safari) */
+/* Width of the scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Background of the scrollbar track */
+  ::-webkit-scrollbar-track {
+    background: #fff; 
+  }
+  
+  /* Scrollbar thumb (the moving part) */
+  ::-webkit-scrollbar-thumb {
+    background: #007f98; 
+    border-radius: 5px;
+  }
+  
+  /* Scrollbar thumb on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #00596A; 
+  }
+
+
+/* Works only in Firefox */
+* {
+    scrollbar-color: #007f98 #fff;  /* thumb color and track color */
+    scrollbar-width: thin; /* Options: auto, thin, none */
+  }
+    

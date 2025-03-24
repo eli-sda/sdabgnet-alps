@@ -13,11 +13,11 @@ export interface BreadcrumbItemProps {
 export const BreadcrumbItem = ({
   text,
   url,
-  useNavLink = false
+  useNavLink = true
 }: BreadcrumbItemProps): JSX.Element => {
-  console.log(
-    `in BreadcrumbItem, text: ${text}, url: ${url}, useNavLink: ${useNavLink}`
-  );
+  // console.log(
+  //   `in BreadcrumbItem, text: ${text}, url: ${url}, useNavLink: ${useNavLink}`
+  // );
   return (
     <li
       className={`c-breadcrumbs__list-item  u-font--secondary--s u-text-transform--upper u-display--inline-block ${

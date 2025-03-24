@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-comment-textnodes */
 import { FC, useEffect, useState } from 'react';
 import { Page } from 'src/organisms/Page';
 import routes from '../routes';
@@ -24,6 +23,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import AutoStories from '@mui/icons-material/AutoStories';
 import LinkIcon from '@mui/icons-material/Link';
 import AudioIcon from '@mui/icons-material/AudioFile';
+import { getTitle } from 'src/utils/Navigation';
 
 const Books = () => {
   //TODO to work #<bookId>
@@ -38,7 +38,7 @@ const Books = () => {
   const breadcrumbsUrls = [routes.resources(), routes.resources('books')];
   return (
     <Page
-      title="Книги"
+      title={getTitle(routes.resources('books'))}
       kicker="Ресурси за изтегляне"
       breadcrumbsUrls={breadcrumbsUrls}
     >

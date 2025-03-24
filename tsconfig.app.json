@@ -8,7 +8,7 @@
 
     "baseUrl": ".",
     "paths": {
-      "alps-library/*": ["../../alps/src/*"]
+      "alps-library/*": ["../../alps-elisda/src/*"]
     },
 
     /* Bundler mode */

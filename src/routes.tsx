@@ -6,14 +6,17 @@ const routes = {
 
   churchLife: (
     item?:
+      | 'lessons'
       | 'lesson'
+      | 'lesson-cq'
+      | 'lesson-cc'
       | 'events'
       | 'topics'
       | 'stories'
       | 'poetry'
       | 'humor'
       | 'donations'
-  ) => `/church_life${item ? `/${item}` : ''}`, //old ss, preach,articles, ssstories
+  ) => `/church_life${item ? `/${item}` : ''}`, //old ss, preach, articles, ssstories
   lesson: '/church_life/lesson/:year/:quarter/:week',
 
   commune: (item?: 'online') => `/commune${item ? `/${item}` : ''}`,

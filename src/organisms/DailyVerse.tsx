@@ -2,6 +2,7 @@ import React, { FC, useEffect, useMemo, useState } from 'react';
 import { clientVreses } from '../sanityClient'; // Updated Sanity client
 import { PortableTextBlock } from '@portabletext/types';
 
+import { Text } from 'alps-library/atoms/text/Text';
 import useClasses from 'alps-library/helpers/useClasses';
 import useToggle from 'alps-library/helpers/useToggle';
 import { themeBorderColorClass } from 'alps-library/global/colors';
@@ -56,7 +57,7 @@ const DailyVerse: FC<{ date?: Date }> = ({ date }) => {
   }
 
   return data ? (
-    <div className={classes + moreClasses}>
+    <Text className={classes + moreClasses}>
       <h3 className={`${getFontClass('primary', 's')} u-theme--color--darker`}>
         <strong>{data.title}</strong>
       </h3>
@@ -71,7 +72,7 @@ const DailyVerse: FC<{ date?: Date }> = ({ date }) => {
             dateTime={`${data.date}`}
           >
             {/* {new Date(data.date).toLocaleDateString('bg-BG')} //25.12.2024 г.*/}
-            ({moment(data.date).format('DD.MM.YYYY')})
+            (стих за деня {moment(data.date).format('DD.MM.YYYY')})
           </time>
         </span>
       )}
@@ -91,7 +92,7 @@ const DailyVerse: FC<{ date?: Date }> = ({ date }) => {
           />
         </>
       )}
-    </div>
+    </Text>
   ) : (
     <p>{`Няма данни за ${formattedDate}`}</p>
   );

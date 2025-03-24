@@ -8,6 +8,12 @@ $mingColor: #007f98;
 body {
   max-width: 100%;
 }
+h4 {
+  font-weight: 500;
+}
+h5, h6 {
+  font-weight: 400;
+}
 
 // .l-sabbath__logo {
 //   padding-left: calc(2/15*((100vw / 7) - 0.01px));
@@ -98,4 +104,3 @@ body {
 .download a:hover {
   border-bottom: 1px solid !important;
 }
-

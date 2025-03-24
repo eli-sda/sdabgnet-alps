@@ -59,7 +59,7 @@ export const PrimaryNavItem = ({
   onClick,
   noWrap,
   isExternal = url.indexOf('http') == 0,
-  useNavLink
+  useNavLink = true
 }: PrimaryNavItemProps): JSX.Element => {
   const [isOpen, setIsOpen] = useState(statuses.closed);
   const [openSubNav, setOpenSubNav] = useState(null);

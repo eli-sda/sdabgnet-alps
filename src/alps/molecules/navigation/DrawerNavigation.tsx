@@ -20,7 +20,6 @@ export interface DrawerNavigationProps {
   renderSearchBox?: (el: unknown) => React.ReactNode;
   search?: SearchProps;
   secondaryNav?: SecondaryNavigationProps;
-  showDrawer?: boolean;
   onClick?: () => void;
 }
 
@@ -31,16 +30,12 @@ export const DrawerNavigation = ({
   renderSearchBox,
   search,
   secondaryNav,
-  showDrawer = false,
   onClick
 }: DrawerNavigationProps): JSX.Element => {
   const searchProps = { ...search };
 
   return (
-    <GridSeven
-      className={`c-drawer ${showDrawer ? 'this-is-active' : ''}`}
-      onClick={onClick}
-    >
+    <GridSeven className="c-drawer js-toggle-menu" onClick={onClick}>
       <div
         className="c-drawer__toggle u-theme--background-color-trans--darker"
         onClick={onClick}

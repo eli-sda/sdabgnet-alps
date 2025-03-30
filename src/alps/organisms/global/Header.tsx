@@ -41,16 +41,7 @@ export const Header = ({
   primaryNav,
   secondaryNav
 }: HeaderProps): JSX.Element => {
-  const [menuIsOpen, setOpenMenu] = useState(false);
   const [search, setSearch] = useState('');
-
-  const changeOpenMenu = () => {
-    setOpenMenu(!menuIsOpen);
-  };
-
-  const changeSearchMenu = () => {
-    setOpenMenu(!menuIsOpen);
-  };
 
   const logoClass = `c-logo__link ${
     logo?.useFillTheme ? 'u-theme--path-fill--base' : ''
@@ -65,11 +56,7 @@ export const Header = ({
       >
         <div className="c-header--inner">
           <div className="c-header__nav-secondary">
-            <SecondaryNavigation
-              {...secondaryNav}
-              onClickMenu={changeOpenMenu}
-              onClickSearch={changeSearchMenu}
-            />
+            <SecondaryNavigation {...secondaryNav} />
           </div>
           <div className="c-header__logo c-logo">
             <NavLink className={logoClass} to={logo.link || ''}>
@@ -84,7 +71,6 @@ export const Header = ({
       <DrawerNavigation
         primaryNav={primaryNav}
         secondaryNav={secondaryNav}
-        showDrawer={menuIsOpen}
         search={{
           placeholder: 'Търси...',
           submitLabel: 'Търсене',
@@ -99,7 +85,6 @@ export const Header = ({
             }
           }
         }}
-        onClick={changeOpenMenu}
         {...drawer}
       />
     </>

@@ -42,6 +42,7 @@ export const Header = ({
   secondaryNav
 }: HeaderProps): JSX.Element => {
   const [menuIsOpen, setOpenMenu] = useState(false);
+  const [search, setSearch] = useState('');
 
   const changeOpenMenu = () => {
     setOpenMenu(!menuIsOpen);
@@ -84,6 +85,20 @@ export const Header = ({
         primaryNav={primaryNav}
         secondaryNav={secondaryNav}
         showDrawer={menuIsOpen}
+        search={{
+          placeholder: 'Търси...',
+          submitLabel: 'Търсене',
+          title: 'Търсене',
+          onSearch: (e: React.ChangeEvent<HTMLInputElement>) =>
+            setSearch(e.target.value.trim()),
+          onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
+            event.preventDefault();
+            alert('За съжаление, търсачката все още не работи!');
+            if (search) {
+              console.log(`Търсене по: ${search}`);
+            }
+          }
+        }}
         onClick={changeOpenMenu}
         {...drawer}
       />

@@ -104,3 +104,12 @@ h5, h6 {
 .download a:hover {
   border-bottom: 1px solid !important;
 }
+.u-theme--ming .text a:not(.o-button):hover {
+  border-color: #007f98;
+}
+// fix media image left padding (not to be 0)
+@media (min-width: 501px) {
+  .c-media-block .c-block__image.u-padding--zero--sides.u-padding--left {
+      padding-left: calc(1.25rem / 2* 1.5) !important;
+  }
+}

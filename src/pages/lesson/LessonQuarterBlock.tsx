@@ -7,6 +7,8 @@ import {
   lessonParameters,
   loadLesson
 } from './LessonUtils';
+import './LessonQuarterBlock.css';
+
 import { PageHeaderFeature2 } from 'src/organisms/sections/PageHeaderFeature2';
 import { MediaBlock } from 'src/alps/molecules/blocks/MediaBlock';
 
@@ -94,18 +96,18 @@ const LessonQuarterBlock = (params: lessonParameters) => {
           >
             <GridItem
               className={
-                'c-article u-spacing--triple l-grid-item l-grid-item--l--4-col'
+                'to-lesson c-article u-spacing--triple l-grid-item l-grid-item--l--4-col'
               }
             >
               <Text
-                as="article"
+                as="section"
                 className="c-article__body u-padding--right"
                 hasDropcap={false}
                 spacing={'double'}
               >
                 {lesson.title && (
                   <MediaBlock
-                    type="archivePage"
+                    type="featuredNews"
                     kicker="Прочети текущия урок"
                     kickerAs="h4"
                     title={lesson.title}

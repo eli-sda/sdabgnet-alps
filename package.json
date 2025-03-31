@@ -26,9 +26,11 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
+    "@types/jquery": "^3.5.32",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.2",
+    "classnames": "^2.5.1",
     "eslint": "^9.11.1",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.12",

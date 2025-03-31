@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { LogoType } from 'alps-library/atoms/icons/library/LogoType';
 import SDAbgNet from 'src/alps/atoms/images/logos/SDAbgNet';
 import { NavLink } from 'react-router-dom';
@@ -41,7 +41,40 @@ export const Header = ({
   primaryNav,
   secondaryNav
 }: HeaderProps): JSX.Element => {
+  const [menuIsOpen, setOpenMenu] = useState(false);
   const [search, setSearch] = useState('');
+
+  const updateMenuState = () => {
+    setTimeout(() => {
+      const toOpen = $('body').hasClass('menu-is-active');
+      setOpenMenu(toOpen);
+      // console.log('New menu state:', toOpen); // Debugging
+    }, 500);
+  };
+
+  useEffect(() => {
+    const handleClick = (event: Event) => {
+      const target = event.target as HTMLElement;
+      //to update statewhen click on opener of the drawer or on a link in it
+      if (target.closest('.js-toggle-menu') || target.closest('a')) {
+        updateMenuState();
+      }
+    };
+
+    document.addEventListener('click', handleClick, true);
+
+    return () => {
+      document.removeEventListener('click', handleClick, true);
+    };
+  }, []);
+
+  const changeOpenMenu = () => {
+    updateMenuState();
+  };
+
+  const changeSearchMenu = () => {
+    changeOpenMenu();
+  };
 
   const logoClass = `c-logo__link ${
     logo?.useFillTheme ? 'u-theme--path-fill--base' : ''
@@ -56,7 +89,11 @@ export const Header = ({
       >
         <div className="c-header--inner">
           <div className="c-header__nav-secondary">
-            <SecondaryNavigation {...secondaryNav} />
+            <SecondaryNavigation
+              {...secondaryNav}
+              onClickMenu={changeOpenMenu}
+              onClickSearch={changeSearchMenu}
+            />
           </div>
           <div className="c-header__logo c-logo">
             <NavLink className={logoClass} to={logo.link || ''}>
@@ -71,6 +108,7 @@ export const Header = ({
       <DrawerNavigation
         primaryNav={primaryNav}
         secondaryNav={secondaryNav}
+        showDrawer={menuIsOpen}
         search={{
           placeholder: 'Търси...',
           submitLabel: 'Търсене',
@@ -85,6 +123,7 @@ export const Header = ({
             }
           }
         }}
+        onClick={changeOpenMenu}
         {...drawer}
       />
     </>

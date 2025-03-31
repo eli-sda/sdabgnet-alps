@@ -5,9 +5,7 @@ $mingColor: #007f98;
     fill: $mingColor;
   }
 }
-body {
-  max-width: 100%;
-}
+
 h4 {
   font-weight: 500;
 }
@@ -15,6 +13,9 @@ h5, h6 {
   font-weight: 400;
 }
 
+a.c-secondary-nav__link {
+  cursor: pointer;
+}
 // .l-sabbath__logo {
 //   padding-left: calc(2/15*((100vw / 7) - 0.01px));
 //   padding-right: calc(2/15*((100vw / 7) - 0.01px));
@@ -46,7 +47,9 @@ h5, h6 {
   .c-header__nav-secondary .c-secondary-nav__list-item.is-priority {
     display: none;
   }
-
+}
+.c-header__nav-primary .c-primary-nav__subnav__subnav__list-item {
+  background-color: #4a4a4a;
   // .c-header__nav-secondary .c-secondary-nav__list {
   //   padding-left: 9.3rem;
   // }

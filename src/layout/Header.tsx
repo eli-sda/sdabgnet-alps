@@ -13,7 +13,7 @@ const Header = () => {
       menuLabel: 'Меню',
       searchLabel: 'Търси',
       showMenu: true,
-      showSearch: false, //?
+      showSearch: false, //todo show it later when Search is working
       items: [
         {
           icon: 'find',

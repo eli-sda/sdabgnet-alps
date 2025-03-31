@@ -38,7 +38,7 @@ export const SubNavItem = ({
   const navLevel = isTertiary ? 'subnav__subnav' : 'subnav';
 
   const onArrowClick = useCallback(
-    (e: { stopPropagation: () => void }) => {
+    (e: React.MouseEvent) => {
       e.stopPropagation();
       onToggle();
     },
@@ -88,7 +88,9 @@ export const SubNavItem = ({
         <SubNavArrow
           fill="gray"
           className={openClass}
-          onClick={onArrowClick}
+          onClick={(e: React.MouseEvent) => {
+            onArrowClick(e);
+          }}
           isSubNav
         />
       )}

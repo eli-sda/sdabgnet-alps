@@ -29,6 +29,12 @@ a.c-secondary-nav__link {
   }
 }
 
+/* fix sub-menu open and jump on it */
+@media (min-width: 701px) {
+  .c-drawer__nav>div, .c-drawer__about>div {
+      width: unset;
+  }
+}
 @media (max-width: 700px) {
   .c-drawer .c-subnav__link.u-color--gray--dark {
     color: #4a4a4a;

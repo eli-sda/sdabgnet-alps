@@ -17,6 +17,10 @@ export interface Verse {
   text: string;
   verse: string;
   comment: Array<PortableTextBlock>;
+  halfYear: {
+    title: string;
+    author: string;
+  };
 }
 
 const DailyVerse: FC<{ date?: Date }> = ({ date }) => {
@@ -41,7 +45,7 @@ const DailyVerse: FC<{ date?: Date }> = ({ date }) => {
   }, [date]);
 
   useEffect(() => {
-    const query = `*[date == '${formattedDate}'][0]{date, title, text, verse, comment}`;
+    const query = `*[_type=='verse'&& date=='${formattedDate}'][0]{date,title,text,verse,comment, halfYear->{author, title}}`;
 
     clientVreses
       .fetch(query)
@@ -57,7 +61,7 @@ const DailyVerse: FC<{ date?: Date }> = ({ date }) => {
   }
 
   return data ? (
-    <Text className={classes + moreClasses}>
+    <div className={classes + moreClasses}>
       <h3 className={`${getFontClass('primary', 's')} u-theme--color--darker`}>
         <strong>{data.title}</strong>
       </h3>
@@ -78,9 +82,14 @@ const DailyVerse: FC<{ date?: Date }> = ({ date }) => {
       )}
 
       {data.comment && (
-        <>
+        <div className="text">
           <div className="c-block__content">
             <CustomPortableText value={data.comment} />
+            {data.halfYear && (
+              <div className="u-text-align--right u-space--top">
+                {data.halfYear.author}, <em>{data.halfYear.title}</em>
+              </div>
+            )}
           </div>
           <Button
             as={'a'}
@@ -90,9 +99,9 @@ const DailyVerse: FC<{ date?: Date }> = ({ date }) => {
             outline={true}
             toggle={true}
           />
-        </>
+        </div>
       )}
-    </Text>
+    </div>
   ) : (
     <p>{`Няма данни за ${formattedDate}`}</p>
   );

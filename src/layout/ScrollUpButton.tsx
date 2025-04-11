@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './ScrollUpButton.scss';
+
 const ScrollUpButton = () => {
   const [isVisible, setIsVisible] = useState(false);
 

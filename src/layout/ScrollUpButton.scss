@@ -1,18 +1,21 @@
 $transformation_hover: translateY(-98%) rotate(-45deg);
 $transformation_icon: translateY(0) rotate(45deg);
+$scrollWidth: 10px;
+$buttonW: 42px;
+
 /* Colors */
-:root {
-  --sp-primary: #007f98;
-}
+// :root {
+//   --sp-primary: #007f98;
+// }
 .scrollup {
   position: fixed;
   top: 0;
-  right: 25px;
-  width: 42px;
-  height: 42px;
-  line-height: 42px;
+  right: calc((100vw / 7 - $scrollWidth - $buttonW) / 2);
+  width: $buttonW;
+  height: $buttonW;
+  line-height: $buttonW;
   padding: 0;
-  font-size: 20px;
+  font-size: 1rem;
   text-align: center;
   cursor: pointer;
   // taken from the theme:

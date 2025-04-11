@@ -86,7 +86,7 @@ const DailyVerse: FC<{ date?: Date }> = ({ date }) => {
           <div className="c-block__content">
             <CustomPortableText value={data.comment} />
             {data.halfYear && (
-              <div className="u-text-align--right u-space--top">
+              <div className="u-text-align--right u-space--half--top u-space--bottom">
                 {data.halfYear.author}, <em>{data.halfYear.title}</em>
               </div>
             )}

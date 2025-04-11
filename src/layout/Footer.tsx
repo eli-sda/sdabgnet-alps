@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Footer as AlpsFooter } from 'alps-library/organisms/global/footer/Footer';
 import { FooterPrimaryNavigationProps } from 'alps-library/molecules/navigation/footerPrimaryNavigation/FooterPrimaryNavigation';
+import ScrollUpButton from './ScrollUpButton';
 
 const scriptsToLoad = [
   //see https://alps.adventist.io/v3/?p=viewall-pages-misc
@@ -58,19 +59,22 @@ const Footer = () => {
     ]
   };
   return (
-    <AlpsFooter
-      address={{
-        //   street: 'Цветан Минков 11',
-        //   postcode: '1000',
-        locality: 'София',
-        //   region: '',
-        country: 'България',
-        phone: '0887 430 103'
-      }}
-      copyright="Copyright ©2004, Адвентната българска мрежа"
-      primaryNav={primaryNav}
-      text="Sdabg.net  - Адвентната българска мреж@ е портал с полезни ресурси и връзки в помощ на ЦАСД в България"
-    />
+    <>
+      <AlpsFooter
+        address={{
+          //   street: 'Цветан Минков 11',
+          //   postcode: '1000',
+          locality: 'София',
+          //   region: '',
+          country: 'България',
+          phone: '0887 430 103'
+        }}
+        copyright="Copyright ©2004, Адвентната българска мрежа"
+        primaryNav={primaryNav}
+        text="Sdabg.net  - Адвентната българска мреж@ е портал с полезни ресурси и връзки в помощ на ЦАСД в България"
+      />
+      <ScrollUpButton />
+    </>
   );
 };
 

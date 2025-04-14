@@ -1,6 +1,5 @@
 $transformation_hover: translateY(-98%) rotate(-45deg);
 $transformation_icon: translateY(0) rotate(45deg);
-$scrollWidth: 10px;
 $buttonW: 42px;
 
 /* Colors */
@@ -10,7 +9,7 @@ $buttonW: 42px;
 .scrollup {
   position: fixed;
   top: 0;
-  right: calc((100vw / 7 - $scrollWidth - $buttonW) / 2);
+  right: max(0px, calc((100vw / 7 - var(--scrollbar-width) - $buttonW) / 2));
   width: $buttonW;
   height: $buttonW;
   line-height: $buttonW;

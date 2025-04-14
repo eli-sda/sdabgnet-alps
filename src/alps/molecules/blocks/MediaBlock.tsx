@@ -187,7 +187,9 @@ export const MediaBlock = ({
             )}
             {title && (
               <h3
-                className={`c-block__title ${kicker ? 'u-space--zero' : ''} ${
+                className={`c-block__title hyphens-auto ${
+                  kicker ? 'u-space--zero' : ''
+                } ${
                   'title' in preset
                     ? preset.title
                     : 'u-theme--color--dark u-font--primary--l'

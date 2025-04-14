@@ -1,52 +1,16 @@
 import { FC } from 'react';
-import {
-  LessonObject,
-  OLD_SS_URL,
-  SS_API_URL_BG_QUARTER,
-  twoDigits
-} from './LessonUtils';
+import { QuarterObject, LessonDetails } from '../../utils/LessonUtils';
 
-export const LessonItem: FC<LessonObject & { ssPath: string }> = ({
-  ssPath,
-  ...lesson
-}) => (
-  <li style={{ paddingBottom: '60px' }}>
-    {lesson.hasError && !lesson.type && (
-      <p>
-        <h2>{lesson.qTitle}</h2>
-        Опитайте да заредите
-        <a
-          href={`${OLD_SS_URL}&year=${lesson.lessonYear - 2000}&quarter=${
-            lesson.lessonQuarter
-          }&week=${lesson.lessonNumber}`}
-          target="_blank"
-          rel="noreferrer"
-        >
-          {' '}
-          през стария сайт
-        </a>
-        .
-      </p>
-    )}
-    {!lesson.hasError && (
+export const LessonItem: FC<
+  QuarterObject & { lesson: LessonDetails } & { ssPath: string }
+> = ({ ssPath, lesson, ...quarterObj }) => (
+  <>
+    {!quarterObj.hasError && (
       <>
-        <div
-          className="ss-cover"
-          style={{
-            backgroundImage: `url(${lesson.quarterlyCover})`
-          }}
-        ></div>
-        <h3>
-          {lesson.qHumanDate}
-          <br />
-          {lesson.qTitle}
-          <br />
-          {lesson.qAuthor}
-        </h3>
         <span
           dangerouslySetInnerHTML={{
             __html:
-              lesson.qIntroduction
+              quarterObj.qIntroduction
                 ?.replaceAll('\n\n', '<p>')
                 .replace(/_(.*?)_/g, '<em>$1</em>')
                 .replace(
@@ -65,5 +29,5 @@ export const LessonItem: FC<LessonObject & { ssPath: string }> = ({
         </h5>
       </>
     )}
-  </li>
+  </>
 );

@@ -1,36 +1,32 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import {
-  getCurrentLesson,
   isValidLessonNumber,
   isValidQuarter,
   isValidYear,
-  LessonObject,
-  loadLesson,
+  LessonProps,
   SS_URL_BG,
   twoDigits
-} from './LessonUtils';
+} from '../../utils/LessonUtils';
 import './Lesson.css';
 
 import { LessonItem } from './LessonItem';
-import { Page } from 'src/organisms/Page';
 import routes from '../../routes';
-import { getTitle } from 'src/utils/Navigation';
+import { getBreadcrumbs, getTitle } from 'src/utils/Navigation';
+import LessonQuarterBlock from './LessonQuarterBlock';
+import { useLessonUtils } from 'src/hooks/useLessonUtils';
+import { LessonQuarterProvider } from 'src/providers/LessonQuarterProvider';
+import { useLessonQuarterContext } from 'src/contexts/LessonQuarterContext';
+import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
+import { PageContent } from 'src/alps/organisms/content/PageContent';
+import { MissingLesson } from './MissingLesson';
 
-interface Props {
-  lessonYear: number;
-  lessonQuarter: number;
-  lessonNumber: number;
-}
 const Lesson = () => {
   const { year, quarter, week } = useParams();
-  const [lesson, setLesson] = useState<LessonObject>();
-  const [cqLesson, setCqLesson] = useState<LessonObject>();
-  const [ccLesson, setCcLesson] = useState<LessonObject>();
-  // const iFrameRef = useRef<HTMLIFrameElement>(null);
+  const { currentLessonParameters } = useLessonUtils();
 
   const params = useMemo(() => {
-    let params: Props;
+    let params: LessonProps;
     if (
       year &&
       isValidYear(year) &&
@@ -45,57 +41,28 @@ const Lesson = () => {
         lessonNumber: parseInt(week)
       };
     } else {
-      const lessonParams = getCurrentLesson();
-      const {
-        year: lessonYear,
-        quarter: lessonQuarter,
-        lessonNumber
-      } = lessonParams;
-      params = { lessonYear, lessonQuarter, lessonNumber };
+      params = currentLessonParameters;
     }
     return params;
-  }, [quarter, week, year]);
-
-  useEffect(() => {
-    loadLesson(params)
-      .then((lesson) => {
-        console.log(new Date(), ' lesson:', lesson);
-        setLesson(lesson);
-      })
-      .catch((error) => console.error(error));
-
-    loadLesson({ ...params, type: 'cq' })
-      .then((lesson) => {
-        console.log(new Date(), 'CQlesson:', lesson);
-        setCqLesson(lesson);
-      })
-      .catch((error) => console.error(error));
-
-    loadLesson({ ...params, type: 'cc' })
-      .then((lesson) => {
-        console.log(new Date(), 'CClesson:', lesson);
-        setCcLesson(lesson);
-      })
-      .catch((error) => console.error(error));
-  }, [params]);
+  }, [currentLessonParameters, quarter, week, year]);
 
   const ssPaths = useMemo(() => {
-    if (!lesson)
+    if (!params)
       return {
         ss: '',
         ssInverse: '',
         ssCornerstoneConnections: ''
       };
-    const path1 = `${SS_URL_BG}/${lesson.lessonYear}-${twoDigits(
-      lesson.lessonQuarter
+    const path1 = `${SS_URL_BG}/${params.lessonYear}-${twoDigits(
+      params.lessonQuarter
     )}`;
-    const path2 = `${twoDigits(lesson.lessonNumber)}/01`;
+    const path2 = `${twoDigits(params.lessonNumber)}/01`;
     return {
       ss: `${path1}/${path2}`,
       ssInverse: `${path1}-cq/${path2}`,
       ssCornerstoneConnections: `${path1}-cc/${path2}`
     };
-  }, [lesson]);
+  }, [params]);
 
   // function resizeIframe() {
   //   const obj = iFrameRef.current;
@@ -109,29 +76,36 @@ const Lesson = () => {
     routes.churchLife('lessons'),
     routes.churchLife('lesson')
   ];
+  const breadcrumbs = getBreadcrumbs(breadcrumbsUrls);
 
-  return (
-    <Page
-      title={getTitle(routes.churchLife('lesson'))}
-      kicker={getTitle(routes.churchLife('lessons'))}
-      breadcrumbsUrls={breadcrumbsUrls}
-    >
-      {!lesson && <h3>Зареждане...</h3>}
-
-      <ul>
-        {lesson && <LessonItem {...lesson} ssPath={ssPaths.ss}></LessonItem>}
-
-        {cqLesson && (
-          <LessonItem {...cqLesson} ssPath={ssPaths.ssInverse}></LessonItem>
-        )}
-        {ccLesson && (
+  const LessonCont = () => {
+    const { lesson, quarterObject } = useLessonQuarterContext();
+    return (
+      <>
+        {quarterObject && lesson && (
           <LessonItem
-            {...ccLesson}
-            ssPath={ssPaths.ssCornerstoneConnections}
+            {...quarterObject}
+            lesson={lesson}
+            ssPath={ssPaths.ss}
           ></LessonItem>
         )}
-      </ul>
-      {/* <iframe
+        {!lesson && <MissingLesson {...params} />}
+      </>
+    );
+  };
+
+  return (
+    <>
+      <PageHeaderLong
+        title={getTitle(routes.churchLife('lesson'))}
+        kicker={getTitle(routes.churchLife('lessons'))}
+      />
+      <PageContent breadcrumbs={breadcrumbs}></PageContent>
+      <LessonQuarterProvider>
+        <LessonQuarterBlock {...params} showLessonLink={false} />
+        <LessonCont />
+
+        {/* <iframe
             title="урок"
             ref={iFrameRef}
             src="https://sabbath-school-stage.adventech.io/bg/2022-04/06/01"
@@ -139,7 +113,9 @@ const Lesson = () => {
             scrolling="no"
             onLoad={resizeIframe}
           /> */}
-    </Page>
+      </LessonQuarterProvider>
+    </>
   );
 };
+
 export default Lesson;

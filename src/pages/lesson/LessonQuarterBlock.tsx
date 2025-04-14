@@ -1,12 +1,12 @@
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
+import { isEqual } from 'lodash';
 import routes from 'src/routes';
 import {
   formatDateRange,
+  getLessonFromQuarter,
   getRouteLesson,
-  LessonObject,
-  lessonParameters,
-  loadLesson
-} from './LessonUtils';
+  QuarterProps
+} from '../../utils/LessonUtils';
 import './LessonQuarterBlock.css';
 
 import { PageHeaderFeature2 } from 'src/organisms/sections/PageHeaderFeature2';
@@ -15,21 +15,38 @@ import { MediaBlock } from 'src/alps/molecules/blocks/MediaBlock';
 import { GridSeven } from 'alps-library/atoms/grids/GridSeven';
 import { GridItem } from 'alps-library/atoms/grids/GridItem';
 import { Text } from 'alps-library/atoms/text/Text';
+import { useLessonUtils } from 'src/hooks/useLessonUtils';
+import { useLessonQuarterContext } from 'src/contexts/LessonQuarterContext';
 
-const LessonQuarterBlock = (params: lessonParameters) => {
+export type LessonQuarterBlockType = QuarterProps & {
+  lessonNumber: number;
+  showLessonLink: boolean;
+};
+
+// should be wrapped in <LessonQuarterProvider>
+const LessonQuarterBlock = (params: LessonQuarterBlockType) => {
   const ssPage = getRouteLesson(params.type || '');
   const lessonURL = routes.churchLife(ssPage);
+  const { getQuarter } = useLessonUtils();
+  const { lesson, quarterObject, setQuarter, setLessonDetails } =
+    useLessonQuarterContext();
 
-  const [lesson, setLesson] = useState<LessonObject>();
-
+  const prevParamsRef = useRef<LessonQuarterBlockType | null>(null);
   useEffect(() => {
-    loadLesson(params)
-      .then((lesson) => {
-        // console.log(new Date(), ' lesson:', lesson);
-        setLesson(lesson);
+    if (isEqual(prevParamsRef.current, params)) return;
+    prevParamsRef.current = params;
+    getQuarter(params)
+      .then((quarterObject) => {
+        if (!quarterObject.hasError) {
+          setQuarter(quarterObject);
+          if (params.lessonNumber)
+            setLessonDetails(
+              getLessonFromQuarter(quarterObject, params.lessonNumber)
+            );
+        }
       })
       .catch((error) => console.error(error));
-  }, [params]);
+  }, [getQuarter, params, setLessonDetails, setQuarter]);
 
   const dateRange = useMemo(() => {
     if (lesson && lesson.startDate && lesson.endDate) {
@@ -57,33 +74,33 @@ const LessonQuarterBlock = (params: lessonParameters) => {
       }
     };
 
-    if (lesson) {
-      if (lesson.type != 'cc' && lesson.cover) {
-        lImage.srcSet.default = lesson.cover;
-      }
-      qImage.alt = lesson.qTitle;
-      qImage.srcSet.default = lesson.quarterlyCover || '';
+    if (lesson && quarterObject?.type != 'cc' && lesson.cover) {
+      lImage.srcSet.default = lesson.cover;
+    }
+
+    if (quarterObject) {
+      qImage.alt = quarterObject.qTitle;
+      qImage.srcSet.default = quarterObject.quarterlyCover || '';
     }
 
     return { lImage, qImage };
-  }, [lesson]);
+  }, [lesson, quarterObject]);
 
   return (
     <>
-      {lesson && !lesson.hasError && (
+      {quarterObject && !quarterObject.hasError && (
         <>
           <PageHeaderFeature2
             blockType="longform"
             blocks={[
               {
                 type: 'longform', //'featureWide',
-
                 image: images.qImage,
-                category: lesson.qAuthor,
-                description: lesson.qDescription,
-                kicker: lesson.qHumanDate,
-                titlePrefix: lesson.qGroup,
-                title: lesson.qTitle
+                category: quarterObject.qAuthor,
+                description: quarterObject.qDescription,
+                kicker: quarterObject.qHumanDate,
+                titlePrefix: quarterObject.qGroup,
+                title: quarterObject.qTitle
               }
             ]}
           />
@@ -105,7 +122,7 @@ const LessonQuarterBlock = (params: lessonParameters) => {
                 hasDropcap={false}
                 spacing={'double'}
               >
-                {lesson.title && (
+                {params.showLessonLink && lesson?.title && (
                   <MediaBlock
                     type="featuredNews"
                     kicker="Прочети текущия урок"
@@ -125,4 +142,4 @@ const LessonQuarterBlock = (params: lessonParameters) => {
   );
 };
 
-export default LessonQuarterBlock;
+export default React.memo(LessonQuarterBlock);

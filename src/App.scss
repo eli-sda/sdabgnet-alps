@@ -23,16 +23,16 @@ a.c-secondary-nav__link {
 
 @media (max-width: 500px) {
   .c-header__logo svg {
-      width: 100%;
-      height: auto;
-      max-width: min(100%, calc(100vw - (100vw / 7) - 1rem));
+    width: 100%;
+    height: auto;
+    max-width: min(100%, calc(100vw - (100vw / 7) - 1rem));
   }
 }
 
 /* fix sub-menu open and jump on it */
 @media (min-width: 701px) {
   .c-drawer__nav>div, .c-drawer__about>div {
-      width: unset;
+    width: unset;
   }
 }
 @media (max-width: 700px) {
@@ -43,8 +43,8 @@ a.c-secondary-nav__link {
 
 @media (min-width: 701px) {
   .c-header__nav-secondary .c-secondary-nav__list {
-      padding-right: 0;
-      margin-right: 9.375rem;
+    padding-right: 0;
+    margin-right: 9.375rem;
   }
 }
 
@@ -60,9 +60,9 @@ a.c-secondary-nav__link {
   //   padding-left: 9.3rem;
   // }
   .l-sabbath__logo {
-   padding-left: .625rem;
-   padding-right: .625rem;
-   padding-top: .625rem;
+    padding-left: 0.625rem;
+    padding-right: 0.625rem;
+    padding-top: 0.625rem;
   }
 }
 
@@ -119,6 +119,11 @@ a.c-secondary-nav__link {
 // fix media image left padding (not to be 0)
 @media (min-width: 501px) {
   .c-media-block .c-block__image.u-padding--zero--sides.u-padding--left {
-      padding-left: calc(1.25rem / 2* 1.5) !important;
+    padding-left: calc(1.25rem / 2 * 1.5) !important;
   }
+}
+
+.hyphens-auto {
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }

@@ -1,5 +1,3 @@
-import moment from 'moment-timezone';
-
 export const OLD_SS_URL = 'https://sdabg.net/page.php?id=ss';
 export const SS_URL = 'https://sabbath-school-stage.adventech.io';
 export const SS_URL_BG = `${SS_URL}/bg`;
@@ -9,7 +7,7 @@ export function twoDigits(n: number) {
   return (n > 9 ? '' : '0') + n;
 }
 
-type LessonType = '' | 'cq' | 'cc'; //'' - за възрастни, cq - младежки, cc - юношески
+export type LessonType = '' | 'cq' | 'cc'; //'' - за възрастни, cq - младежки, cc - юношески
 
 export function getRouteLesson(
   lessonType: LessonType
@@ -23,26 +21,33 @@ export function getRouteLesson(
       return 'lesson';
   }
 }
-export type lessonParameters = {
+export type QuarterProps = {
   lessonYear: number;
   lessonQuarter: number;
-  lessonNumber: number;
   type?: LessonType;
 };
+export type LessonProps = QuarterProps & {
+  lessonNumber: number;
+};
 
-export type LessonObject = lessonParameters & {
+export type LessonDetails = {
+  num: number;
+  cover?: string;
+  title?: string;
+  startDate?: string;
+  endDate?: string;
+};
+
+export type QuarterObject = QuarterProps & {
   qTitle: string;
   quarterlyCover?: string;
-  cover?: string;
   hasError: boolean;
   qDescription?: string;
   qIntroduction?: string;
   qHumanDate?: string;
   qAuthor?: string;
-  title?: string;
-  startDate?: string;
-  endDate?: string;
   qGroup?: string;
+  lessons: Array<LessonDetails>;
 };
 
 export const isValidYear = (yearString: string) => {
@@ -58,36 +63,6 @@ export const isValidQuarter = (quarterString: string) => {
 export const isValidLessonNumber = (weekString: string) => {
   const num = parseInt(weekString);
   return num >= 1 && num <= 13;
-};
-
-export const getCurrentLesson = () => {
-  const m = moment();
-  const day = m.date();
-  const month = m.month();
-  const year = m.year();
-  const weekDay = m.day();
-  const time = m.hour();
-
-  const add = weekDay === 6 && time >= 14 ? 7 : 0;
-  const nextSabbath = moment({ year, month, day: day }).add(
-    +6 - weekDay + add,
-    'days'
-  );
-
-  const returnYear = nextSabbath.year();
-  const returnQuarter = nextSabbath.quarter();
-  const first = moment({
-    year: returnYear,
-    month: (returnQuarter - 1) * 3,
-    day: 1
-  }); // first day in the qarter
-  const returnLessonNumber = nextSabbath.diff(first, 'weeks') + 1;
-
-  return {
-    year: returnYear,
-    quarter: returnQuarter,
-    lessonNumber: returnLessonNumber
-  };
 };
 
 type resQuarter = {
@@ -133,19 +108,18 @@ export const formatDateRange = (startDate: string, endDate: string) => {
   }
 };
 
-export const loadLesson = ({
+export const loadQuarter = ({
   lessonYear,
   lessonQuarter,
-  lessonNumber,
   type = ''
-}: lessonParameters): Promise<LessonObject> => {
-  const lessonDetails: LessonObject = {
-    lessonNumber,
+}: QuarterProps): Promise<QuarterObject> => {
+  const details: QuarterObject = {
     lessonQuarter,
     lessonYear,
     type,
     qTitle: '',
-    hasError: true
+    hasError: true,
+    lessons: []
   };
 
   return fetch(
@@ -159,28 +133,28 @@ export const loadLesson = ({
         console.log(quarterly);
         // setIsLoaded(true);
         // setItems(result);
-        lessonDetails.hasError = false;
-        lessonDetails.quarterlyCover = quarterly.cover;
-        lessonDetails.qTitle = quarterly.title;
-        lessonDetails.qDescription = quarterly.description;
-        lessonDetails.qHumanDate = quarterly.human_date;
-        lessonDetails.qAuthor = quarterly.credits
+        details.hasError = false;
+        details.quarterlyCover = quarterly.cover;
+        details.qTitle = quarterly.title;
+        details.qDescription = quarterly.description;
+        details.qHumanDate = quarterly.human_date;
+        details.qAuthor = quarterly.credits
           ? `${quarterly.credits[0].name}: ${quarterly.credits[0].value}`
           : '';
-        lessonDetails.qGroup = quarterly.quarterly_group?.name || '';
-        lessonDetails.qIntroduction = quarterly.introduction;
+        details.qGroup = quarterly.quarterly_group?.name || '';
+        details.qIntroduction = quarterly.introduction;
 
-        const currentLesson = lessons.find(
-          (l) => l.id === twoDigits(lessonNumber)
-        );
-        lessonDetails.cover = currentLesson?.pdfOnly
-          ? ''
-          : currentLesson?.cover;
-        lessonDetails.title = currentLesson?.title;
-        lessonDetails.startDate = currentLesson?.start_date;
-        lessonDetails.endDate = currentLesson?.end_date;
+        lessons.forEach((lesson) => {
+          details.lessons.push({
+            num: parseInt(lesson.id),
+            title: lesson?.title,
+            cover: lesson?.pdfOnly ? '' : lesson?.cover,
+            startDate: lesson?.start_date,
+            endDate: lesson?.end_date
+          });
+        });
 
-        return Promise.resolve(lessonDetails);
+        return Promise.resolve(details);
       },
       // Note: it's important to handle errors here
       // instead of a catch() block so that we don't swallow
@@ -189,10 +163,20 @@ export const loadLesson = ({
         // setIsLoaded(true);
         // setError(error);
 
-        lessonDetails.qTitle = `Проблем при зареждане на урока за ${
+        details.qTitle = `Проблем при зареждане на уроците за ${
           type === 'cq' ? 'младежи' : type === 'cc' ? 'юноши' : 'възрастни'
-        } - № ${lessonNumber} за ${lessonQuarter} тримесечие на ${lessonYear} година.`;
-        return Promise.resolve(lessonDetails);
+        } за ${lessonQuarter} тримесечие на ${lessonYear} година.`;
+        return Promise.resolve(details);
       }
     );
+};
+
+export const getLessonFromQuarter = (
+  quarterObject: QuarterObject,
+  lessonNumber: number
+): LessonDetails | undefined => {
+  const lesson = quarterObject?.lessons.find(
+    (lesson) => lesson.num === lessonNumber
+  );
+  return lesson;
 };

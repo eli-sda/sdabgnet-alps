@@ -31,6 +31,7 @@ export const CurrentLessonProvider = ({
     }
   };
 
+  //TODO remove?
   const getLessonFromCurrentQuarter = (
     type: LessonType,
     lessonNumber: number

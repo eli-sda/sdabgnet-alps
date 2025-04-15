@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 // import IconsColorsSizes from '../atoms/IconsColorsSizes';
 import routes from '../routes';
@@ -5,11 +6,30 @@ import DailyVerse from 'src/organisms/DailyVerse';
 import moment from 'moment';
 import { PageSection } from 'src/organisms/PageSection';
 import { Carousel } from 'alps-library/molecules/components/carousel/Carousel';
+
 // import { Button } from '@mui/material';
 // import { deleteAllLinks } from 'src/utils/DelteSanityDocuments';
 // import { VideoFull } from 'alps-library/organisms/sections/videoFull/VideoFull';
 
 const Home = () => {
+  const [currentDate, setCurrentDate] = useState(() => moment());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = moment();
+      console.log(`in Home date: ${currentDate.format('YYYY-MM-DD')}`);
+      if (!now.isSame(currentDate, 'day')) {
+        setCurrentDate(now);
+      }
+    }, 60 * 1000); // Check every minute
+
+    return () => clearInterval(interval);
+  }, [currentDate]);
+
+  const prevYear = useMemo(() => {
+    return currentDate.clone().subtract(1, 'year');
+  }, [currentDate]);
+
   const testSlides = [
     {
       heading: 'Lorem Ipsum',
@@ -83,13 +103,13 @@ const Home = () => {
         <>
           {/* <Button onClick={() => deleteAllLinks()}>Delete all links in Sanity</Button> */}
           {/* verse for today */}
-          <DailyVerse></DailyVerse>
+          <DailyVerse date={currentDate}></DailyVerse>
 
           {/* verse for current date but previous year */}
-          <DailyVerse date={moment().subtract(1, 'year').toDate()}></DailyVerse>
+          <DailyVerse date={prevYear}></DailyVerse>
 
           {/* verse for 2.01.2025  with links*/}
-          <DailyVerse date={new Date('2025-01-02')}></DailyVerse>
+          <DailyVerse date={moment('2025-01-02')}></DailyVerse>
         </>
       }
     >

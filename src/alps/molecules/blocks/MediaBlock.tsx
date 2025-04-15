@@ -217,7 +217,12 @@ export const MediaBlock = ({
               </h3>
             )}
             {description && (
-              <p className="c-block__description">{description}</p>
+              <p
+                className="c-block__description"
+                dangerouslySetInnerHTML={{
+                  __html: description
+                }}
+              />
             )}
           </div>
           {(category || date) && (

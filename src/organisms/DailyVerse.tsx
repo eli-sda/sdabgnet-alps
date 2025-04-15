@@ -1,14 +1,15 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import { FC, useEffect, useMemo, useRef, useState } from 'react';
+import { isEqual } from 'lodash';
+import moment, { Moment } from 'moment';
+
 import { clientVreses } from '../sanityClient'; // Updated Sanity client
 import { PortableTextBlock } from '@portabletext/types';
 
-import { Text } from 'alps-library/atoms/text/Text';
 import useClasses from 'alps-library/helpers/useClasses';
 import useToggle from 'alps-library/helpers/useToggle';
 import { themeBorderColorClass } from 'alps-library/global/colors';
 import { getFontClass } from 'alps-library/global/fonts';
 import { Button } from 'alps-library/atoms/button/Button';
-import moment from 'moment';
 import { CustomPortableText } from 'src/utils/CustomPortableText';
 
 export interface Verse {
@@ -23,7 +24,7 @@ export interface Verse {
   };
 }
 
-const DailyVerse: FC<{ date?: Date }> = ({ date }) => {
+const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
   const [data, setData] = useState<Verse | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -40,11 +41,13 @@ const DailyVerse: FC<{ date?: Date }> = ({ date }) => {
     ' can-be--dark-dark u-clear-fix u-padding u-background-color--gray--light';
 
   const formattedDate = useMemo(() => {
-    const validDate = date || new Date(); // Use the provided date or fallback to the current date
-    return validDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+    return date.format('YYYY-MM-DD'); //date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
   }, [date]);
 
+  const prevFormattedDate = useRef<string | null>(null);
   useEffect(() => {
+    if (isEqual(prevFormattedDate.current, formattedDate)) return;
+    prevFormattedDate.current = formattedDate;
     const query = `*[_type=='verse'&& date=='${formattedDate}'][0]{date,title,text,verse,comment, halfYear->{author, title}}`;
 
     clientVreses
@@ -103,7 +106,7 @@ const DailyVerse: FC<{ date?: Date }> = ({ date }) => {
       )}
     </div>
   ) : (
-    <p>{`Няма данни за ${formattedDate}`}</p>
+    <p>{`Няма данни за ${date.format('DD.MM.YYYY')}`}</p>
   );
 };
 

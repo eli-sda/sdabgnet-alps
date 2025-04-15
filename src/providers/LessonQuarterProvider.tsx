@@ -1,8 +1,8 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 import { isEqual } from 'lodash';
 import { LessonQuarterContext } from 'src/contexts/LessonQuarterContext';
 import {
-  getLessonFromQuarter,
+  formatDateRange,
   LessonDetails,
   QuarterObject
 } from 'src/utils/LessonUtils';
@@ -13,7 +13,7 @@ export const LessonQuarterProvider = ({
   children: ReactNode;
 }) => {
   const [quarterObject, setQuarterObject] = useState<QuarterObject>();
-  const [lesson, setLesson] = useState<LessonDetails>();
+  const [qLesson, setQLesson] = useState<LessonDetails>();
 
   const setQuarter = (newQuarterObject: QuarterObject) => {
     // Avoid setting state if it hasn’t changed
@@ -27,7 +27,7 @@ export const LessonQuarterProvider = ({
 
   const setLessonDetails = (newLesson: LessonDetails | undefined) => {
     // Avoid setting state if it hasn’t changed
-    setLesson((prev) => {
+    setQLesson((prev) => {
       if (isEqual(prev, newLesson)) {
         return prev;
       }
@@ -35,13 +35,20 @@ export const LessonQuarterProvider = ({
     });
   };
 
+  const lessonDateRange = useMemo(() => {
+    if (qLesson && qLesson.startDate && qLesson.endDate) {
+      return formatDateRange(qLesson.startDate, qLesson.endDate);
+    } else return '';
+  }, [qLesson]);
+
   return (
     <LessonQuarterContext.Provider
       value={{
         quarterObject,
-        lesson,
+        qLesson,
         setQuarter,
-        setLessonDetails
+        setLessonDetails,
+        lessonDateRange
       }}
     >
       {children}

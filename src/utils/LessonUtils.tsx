@@ -42,8 +42,8 @@ export type QuarterObject = QuarterProps & {
   qTitle: string;
   quarterlyCover?: string;
   hasError: boolean;
-  qDescription?: string;
-  qIntroduction?: string;
+  qDescription: string;
+  qIntroduction: string;
   qHumanDate?: string;
   qAuthor?: string;
   qGroup?: string;
@@ -118,6 +118,8 @@ export const loadQuarter = ({
     lessonYear,
     type,
     qTitle: '',
+    qDescription: '',
+    qIntroduction: '',
     hasError: true,
     lessons: []
   };
@@ -142,7 +144,15 @@ export const loadQuarter = ({
           ? `${quarterly.credits[0].name}: ${quarterly.credits[0].value}`
           : '';
         details.qGroup = quarterly.quarterly_group?.name || '';
-        details.qIntroduction = quarterly.introduction;
+        details.qIntroduction =
+          quarterly.introduction
+            ?.replace(/^### (.+)$/m, '<b>$1</b>') //format the title
+            .replaceAll('\n\n', '<p>')
+            .replace(/_(.*?)_/g, '<em>$1</em>')
+            .replace(
+              /\b(www\.[^\s]+)/g,
+              '<a href="//$1" target="_blank">$1</a>'
+            ) || '';
 
         lessons.forEach((lesson) => {
           details.lessons.push({

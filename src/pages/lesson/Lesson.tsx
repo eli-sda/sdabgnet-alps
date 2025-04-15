@@ -79,17 +79,17 @@ const Lesson = () => {
   const breadcrumbs = getBreadcrumbs(breadcrumbsUrls);
 
   const LessonCont = () => {
-    const { lesson, quarterObject } = useLessonQuarterContext();
+    const { qLesson, lessonDateRange } = useLessonQuarterContext();
     return (
       <>
-        {quarterObject && lesson && (
+        {qLesson && (
           <LessonItem
-            {...quarterObject}
-            lesson={lesson}
+            qLesson={qLesson}
+            lessonDateRange={lessonDateRange}
             ssPath={ssPaths.ss}
           ></LessonItem>
         )}
-        {!lesson && <MissingLesson {...params} />}
+        {!qLesson && <MissingLesson {...params} />}
       </>
     );
   };
@@ -102,7 +102,11 @@ const Lesson = () => {
       />
       <PageContent breadcrumbs={breadcrumbs}></PageContent>
       <LessonQuarterProvider>
-        <LessonQuarterBlock {...params} showLessonLink={false} />
+        <LessonQuarterBlock
+          {...params}
+          withIntroduction={true}
+          showLessonLink={false}
+        />
         <LessonCont />
 
         {/* <iframe

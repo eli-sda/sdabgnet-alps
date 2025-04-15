@@ -2,10 +2,9 @@ import React, { useEffect, useMemo, useRef } from 'react';
 import { isEqual } from 'lodash';
 import routes from 'src/routes';
 import {
-  formatDateRange,
   getLessonFromQuarter,
   getRouteLesson,
-  QuarterProps
+  LessonProps
 } from '../../utils/LessonUtils';
 import './LessonQuarterBlock.css';
 
@@ -18,41 +17,42 @@ import { Text } from 'alps-library/atoms/text/Text';
 import { useLessonUtils } from 'src/hooks/useLessonUtils';
 import { useLessonQuarterContext } from 'src/contexts/LessonQuarterContext';
 
-export type LessonQuarterBlockType = QuarterProps & {
-  lessonNumber: number;
+export type LessonQuarterBlockType = LessonProps & {
+  withIntroduction?: boolean;
   showLessonLink: boolean;
 };
 
 // should be wrapped in <LessonQuarterProvider>
 const LessonQuarterBlock = (params: LessonQuarterBlockType) => {
-  const ssPage = getRouteLesson(params.type || '');
+  const { withIntroduction, showLessonLink, ...lessonProps } = params;
+  const ssPage = getRouteLesson(lessonProps.type || '');
   const lessonURL = routes.churchLife(ssPage);
   const { getQuarter } = useLessonUtils();
-  const { lesson, quarterObject, setQuarter, setLessonDetails } =
-    useLessonQuarterContext();
+  const {
+    qLesson,
+    quarterObject,
+    setQuarter,
+    setLessonDetails,
+    lessonDateRange
+  } = useLessonQuarterContext();
 
-  const prevParamsRef = useRef<LessonQuarterBlockType | null>(null);
+  const prevParamsRef = useRef<LessonProps | null>(null);
   useEffect(() => {
-    if (isEqual(prevParamsRef.current, params)) return;
-    prevParamsRef.current = params;
-    getQuarter(params)
+    if (isEqual(prevParamsRef.current, lessonProps)) return;
+    prevParamsRef.current = lessonProps;
+    getQuarter(lessonProps)
       .then((quarterObject) => {
         if (!quarterObject.hasError) {
           setQuarter(quarterObject);
-          if (params.lessonNumber)
+          if (lessonProps.lessonNumber) {
             setLessonDetails(
-              getLessonFromQuarter(quarterObject, params.lessonNumber)
+              getLessonFromQuarter(quarterObject, lessonProps.lessonNumber)
             );
+          }
         }
       })
       .catch((error) => console.error(error));
-  }, [getQuarter, params, setLessonDetails, setQuarter]);
-
-  const dateRange = useMemo(() => {
-    if (lesson && lesson.startDate && lesson.endDate) {
-      return formatDateRange(lesson.startDate, lesson.endDate);
-    } else return '';
-  }, [lesson]);
+  }, [getQuarter, lessonProps, setLessonDetails, setQuarter]);
 
   const images = useMemo(() => {
     const qImage = {
@@ -74,8 +74,8 @@ const LessonQuarterBlock = (params: LessonQuarterBlockType) => {
       }
     };
 
-    if (lesson && quarterObject?.type != 'cc' && lesson.cover) {
-      lImage.srcSet.default = lesson.cover;
+    if (qLesson && quarterObject?.type != 'cc' && qLesson.cover) {
+      lImage.srcSet.default = qLesson.cover;
     }
 
     if (quarterObject) {
@@ -84,7 +84,7 @@ const LessonQuarterBlock = (params: LessonQuarterBlockType) => {
     }
 
     return { lImage, qImage };
-  }, [lesson, quarterObject]);
+  }, [qLesson, quarterObject]);
 
   return (
     <>
@@ -97,7 +97,9 @@ const LessonQuarterBlock = (params: LessonQuarterBlockType) => {
                 type: 'longform', //'featureWide',
                 image: images.qImage,
                 category: quarterObject.qAuthor,
-                description: quarterObject.qDescription,
+                description: withIntroduction
+                  ? quarterObject.qIntroduction
+                  : quarterObject.qDescription,
                 kicker: quarterObject.qHumanDate,
                 titlePrefix: quarterObject.qGroup,
                 title: quarterObject.qTitle
@@ -122,14 +124,14 @@ const LessonQuarterBlock = (params: LessonQuarterBlockType) => {
                 hasDropcap={false}
                 spacing={'double'}
               >
-                {params.showLessonLink && lesson?.title && (
+                {showLessonLink && qLesson?.title && (
                   <MediaBlock
                     type="featuredNews"
                     kicker="Прочети текущия урок"
                     kickerAs="h4"
-                    title={lesson.title}
+                    title={qLesson.title}
                     url={lessonURL}
-                    category={dateRange}
+                    category={lessonDateRange}
                     image={images.lImage}
                   />
                 )}

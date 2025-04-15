@@ -3,16 +3,18 @@ import { QuarterObject, LessonDetails } from 'src/utils/LessonUtils';
 
 type LessonQuarterContextType = {
   quarterObject: QuarterObject | undefined;
-  lesson: LessonDetails | undefined;
+  qLesson: LessonDetails | undefined;
   setQuarter: (quarterObject: QuarterObject) => void;
   setLessonDetails: (lesson: LessonDetails | undefined) => void;
+  lessonDateRange: string;
 };
 
 export const LessonQuarterContext = createContext<LessonQuarterContextType>({
   quarterObject: undefined,
-  lesson: undefined,
+  qLesson: undefined,
   setQuarter: () => {},
-  setLessonDetails: () => {}
+  setLessonDetails: () => {},
+  lessonDateRange: ''
 });
 
 export function useLessonQuarterContext() {

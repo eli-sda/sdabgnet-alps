@@ -14,7 +14,7 @@ export const clientVreses = createClient({
 export const client = createClient({
   projectId: import.meta.env.VITE_SANITY_SDABGNET_PROJECT_ID as string,
   dataset: import.meta.env.VITE_SANITY_DATASET as string,
-  apiVersion: '2022-03-07',
+  apiVersion: '2025-04-21',
   useCdn: import.meta.env.VITE_SANITY_DATASET === 'production' // `true` for fast, cached responses
 });
 

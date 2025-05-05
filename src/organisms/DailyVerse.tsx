@@ -48,10 +48,10 @@ const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
   useEffect(() => {
     if (isEqual(prevFormattedDate.current, formattedDate)) return;
     prevFormattedDate.current = formattedDate;
-    const query = `*[_type=='verse'&& date=='${formattedDate}'][0]{date,title,text,verse,comment, halfYear->{author, title}}`;
+    const query = `*[_type=='verse'&& date==$date][0]{date,title,text,verse,comment, halfYear->{author, title}}`;
 
     clientVreses
-      .fetch(query)
+      .fetch(query, { date: formattedDate })
       .then((data: Verse) => setData(data))
       .catch((error) =>
         console.error('Error fetching verse from Sanity:', error)

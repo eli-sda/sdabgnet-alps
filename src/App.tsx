@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
+import { HelmetProvider } from 'react-helmet-async';
 import './App.scss';
 import Router from './Router';
 import { CurrentLessonProvider } from './providers/CurrentLessonProvider';
+import { PageMetaDataProvider } from './providers/PageMetaDataProvider';
 
 function App() {
   useEffect(() => {
@@ -23,9 +25,13 @@ function App() {
   }, []);
 
   return (
-    <CurrentLessonProvider>
-      <Router />
-    </CurrentLessonProvider>
+    <HelmetProvider>
+      <PageMetaDataProvider>
+        <CurrentLessonProvider>
+          <Router />
+        </CurrentLessonProvider>
+      </PageMetaDataProvider>
+    </HelmetProvider>
   );
 }
 

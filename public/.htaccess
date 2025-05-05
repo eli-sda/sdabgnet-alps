@@ -13,6 +13,9 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # Set index.php as the default file to load
+  DirectoryIndex index.php index.html
+
   # Exclude meta.php from being rewritten
   RewriteCond %{REQUEST_URI} !^/meta.php$ [NC]
 
@@ -30,7 +33,9 @@
   # Redirect all other requests to index.html (React SPA)
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^ /index.html [L]
+  # Redirect bot requests to index.php (handled by LinkPreviewDetector- NOT WORKING?!?)
+  # RewriteRule ^ index.php [L]
+  RewriteRule ^ index.html [L]
 </IfModule>
 
 # php -- BEGIN cPanel-generated handler, do not edit

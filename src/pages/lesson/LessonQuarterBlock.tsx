@@ -99,7 +99,7 @@ const LessonQuarterBlock = (params: LessonQuarterBlockType) => {
                 category: quarterObject.qAuthor,
                 description: withIntroduction
                   ? quarterObject.qIntroduction
-                  : quarterObject.qDescription,
+                  : '',
                 kicker: quarterObject.qHumanDate,
                 titlePrefix: quarterObject.qGroup,
                 title: quarterObject.qTitle

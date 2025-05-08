@@ -5,6 +5,7 @@ import {
   isValidQuarter,
   isValidYear,
   LessonProps,
+  LessonType,
   SS_URL_BG,
   twoDigits
 } from '../../utils/LessonUtils';
@@ -21,7 +22,7 @@ import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/P
 import { PageContent } from 'src/alps/organisms/content/PageContent';
 import { MissingLesson } from './MissingLesson';
 
-const Lesson = () => {
+const Lesson = ({ type = '' }: { type?: LessonType }) => {
   const { year, quarter, week } = useParams();
   const { currentLessonParameters } = useLessonUtils();
 
@@ -38,31 +39,26 @@ const Lesson = () => {
       params = {
         lessonYear: 2000 + parseInt(year),
         lessonQuarter: parseInt(quarter),
-        lessonNumber: parseInt(week)
+        lessonNumber: parseInt(week),
+        type
       };
     } else {
-      params = currentLessonParameters;
+      params = { ...currentLessonParameters, type };
     }
-    return params;
-  }, [currentLessonParameters, quarter, week, year]);
 
-  const ssPaths = useMemo(() => {
-    if (!params)
-      return {
-        ss: '',
-        ssInverse: '',
-        ssCornerstoneConnections: ''
-      };
+    return params;
+  }, [currentLessonParameters, quarter, week, year, type]);
+
+  const postfix = type ? `-${type}` : '';
+  const ssPath = useMemo(() => {
+    if (!params) return '';
+
     const path1 = `${SS_URL_BG}/${params.lessonYear}-${twoDigits(
       params.lessonQuarter
     )}`;
     const path2 = `${twoDigits(params.lessonNumber)}/01`;
-    return {
-      ss: `${path1}/${path2}`,
-      ssInverse: `${path1}-cq/${path2}`,
-      ssCornerstoneConnections: `${path1}-cc/${path2}`
-    };
-  }, [params]);
+    return `${path1}${postfix}/${path2}`;
+  }, [params, postfix]);
 
   // function resizeIframe() {
   //   const obj = iFrameRef.current;
@@ -70,11 +66,13 @@ const Lesson = () => {
   //     obj.style.height =
   //       obj.contentWindow?.document.documentElement.scrollHeight + 'px';
   // }
-
+  const lessonURL = routes.churchLife(
+    `lesson${postfix}` as 'lesson' | 'lesson-cq' | 'lesson-cc'
+  );
   const breadcrumbsUrls = [
     routes.churchLife(),
     routes.churchLife('lessons'),
-    routes.churchLife('lesson')
+    lessonURL
   ];
   const breadcrumbs = getBreadcrumbs(breadcrumbsUrls);
 
@@ -86,7 +84,7 @@ const Lesson = () => {
           <LessonItem
             qLesson={qLesson}
             lessonDateRange={lessonDateRange}
-            ssPath={ssPaths.ss}
+            ssPath={ssPath}
           ></LessonItem>
         )}
         {!qLesson && <MissingLesson {...params} />}
@@ -97,7 +95,7 @@ const Lesson = () => {
   return (
     <>
       <PageHeaderLong
-        title={getTitle(routes.churchLife('lesson'))}
+        title={getTitle(lessonURL)}
         kicker={getTitle(routes.churchLife('lessons'))}
       />
       <PageContent breadcrumbs={breadcrumbs}></PageContent>

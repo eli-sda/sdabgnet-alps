@@ -27,6 +27,14 @@ const Router = () => (
           {/* churchLife */}
           <Route path={routes.lesson} element={<Lesson />} />
           <Route path={routes.churchLife('lesson')} element={<Lesson />} />
+          <Route
+            path={routes.churchLife('lesson-cq')}
+            element={<Lesson type="cq" />}
+          />
+          <Route
+            path={routes.churchLife('lesson-cc')}
+            element={<Lesson type="cc" />}
+          />
           <Route path={routes.churchLife('lessons')} element={<Lessons />} />
           <Route path={routes.churchLife('events')} element={<Events />} />
           <Route path={routes.churchLife()} element={<ChurchLife />} />

@@ -4,9 +4,16 @@
   Header set Pragma "no-cache"
   Header set Expires 0
 
-  # Set caching for static files
-  <FilesMatch "\.(jpg|jpeg|png|gif|ico|svg|webp|pdf|css|js|woff|woff2|ttf|eot|otf|mp4|webm|ogg|mp3|wav|txt|xml|json)$">
-    Header set Cache-Control "public, max-age=86400"
+  # Ensure index.html is always fetched fresh
+  <FilesMatch "index\.html$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires 0
+  </FilesMatch>
+
+  # Cache static assets for a long time
+  <FilesMatch "\.(js|css|jpg|jpeg|png|gif|ico|svg|webp|webm|pdf|woff|woff2|ttf|eot|otf|mp4|ogg|mp3|wav|txt|xml|json)$">
+    Header set Cache-Control "max-age=31536000, immutable"
   </FilesMatch>
 </IfModule>
 
@@ -22,20 +29,14 @@
   # Exclude static files (images, icons, PDFs, etc.) from being rewritten
   RewriteCond %{REQUEST_URI} !\.(?:jpg|jpeg|png|gif|ico|svg|webp|pdf|css|js|woff|woff2|ttf|eot|otf|mp4|webm|ogg|mp3|wav|txt|xml|json)$ [NC]
 
-  # Mark request as bot if User-Agent matches known crawlers
+  # Redirect bot requests to meta.php
   RewriteCond %{HTTP_USER_AGENT} "facebookexternalhit|Viber|WhatsApp|Twitterbot|TelegramBot|Slackbot|LinkedInBot" [NC]
-  RewriteRule ^ - [E=IS_BOT:1]
-
-  # If marked as bot, redirect to meta.php with the requested path
-  RewriteCond %{ENV:IS_BOT} 1
   RewriteRule ^(.*)$ /meta.php?path=/$1 [L]
 
   # Redirect all other requests to index.html (React SPA)
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  # Redirect bot requests to index.php (handled by LinkPreviewDetector- NOT WORKING?!?)
-  # RewriteRule ^ index.php [L]
-  RewriteRule ^ index.html [L]
+  RewriteRule ^ /index.html [L]
 </IfModule>
 
 # php -- BEGIN cPanel-generated handler, do not edit

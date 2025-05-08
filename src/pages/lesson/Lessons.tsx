@@ -1,19 +1,30 @@
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { isEqual } from 'lodash';
+import { useLocation } from 'react-router-dom';
+import { client } from '../../sanityClient';
+import PageMeta, { PageMetaType } from 'src/utils/PageMeta';
+import { getResponsiveBackground } from 'src/utils/ImageHelper';
 import routes from '../../routes';
+
 import { getBreadcrumbs, getTitle } from 'src/utils/Navigation';
-import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
+import { PageHeader } from 'alps-library/organisms/sections/pageHeader/PageHeader';
 import { PageContent } from 'src/alps/organisms/content/PageContent';
 import LessonQuarterBlock from './LessonQuarterBlock';
 import { useLessonUtils } from 'src/hooks/useLessonUtils';
 import { LessonQuarterProvider } from 'src/providers/LessonQuarterProvider';
+import { usePageMeta } from 'src/hooks/usePageMeta';
 
 const Lessons = () => {
   const { currentLessonParameters } = useLessonUtils();
 
   const breadcrumbsUrls = [routes.churchLife(), routes.churchLife('lessons')];
   const breadcrumbs = getBreadcrumbs(breadcrumbsUrls);
+  const pageTitle = getTitle(routes.churchLife('lessons'));
+  const { pageBackground } = usePageMeta();
+
   return (
     <>
-      <PageHeaderLong title={getTitle(routes.churchLife('lessons'))} />
+      <PageHeader title={pageTitle} background={pageBackground} />
       <PageContent breadcrumbs={breadcrumbs}>
         <LessonQuarterProvider>
           <LessonQuarterBlock

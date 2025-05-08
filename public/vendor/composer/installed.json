@@ -1,0 +1,49 @@
+{
+    "packages": [
+        {
+            "name": "brunoinds/link-preview-detector",
+            "version": "v1.0.0",
+            "version_normalized": "1.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/brunoinds/link-preview-detector.git",
+                "reference": "ecf564929afe378271ae0e24bb51fbd7f5bc664f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/brunoinds/link-preview-detector/zipball/ecf564929afe378271ae0e24bb51fbd7f5bc664f",
+                "reference": "ecf564929afe378271ae0e24bb51fbd7f5bc664f",
+                "shasum": ""
+            },
+            "require-dev": {
+                "pestphp/pest": "^2.25"
+            },
+            "time": "2023-11-28T08:10:38+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Brunoinds\\LinkPreviewDetector\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bruno Freire",
+                    "email": "brunoqm99@gmail.com"
+                }
+            ],
+            "description": "Detect when a request is for preview generation",
+            "support": {
+                "issues": "https://github.com/brunoinds/link-preview-detector/issues",
+                "source": "https://github.com/brunoinds/link-preview-detector/tree/v1.0.0"
+            },
+            "install-path": "../brunoinds/link-preview-detector"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}

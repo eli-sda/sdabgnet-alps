@@ -3,6 +3,8 @@ import React from 'react';
 import { IconWrap } from 'alps-library/atoms/icons/IconWrap';
 import renderItems from 'alps-library/helpers/renderItems';
 import { NavLink } from 'react-router-dom';
+import { usePageMeta } from 'src/hooks/usePageMeta';
+import PageMeta from 'src/utils/PageMeta';
 
 export interface BreadcrumbItemProps {
   text: string;
@@ -49,8 +51,10 @@ export interface BreadcrumbsProps {
 }
 
 export const Breadcrumbs = ({ items = [] }: BreadcrumbsProps): JSX.Element => {
+  const { pageMeta } = usePageMeta();
   return (
     <>
+      <PageMeta meta={pageMeta} breadcrumbs={[...items]}></PageMeta>
       {items.length > 0 && (
         <nav className="c-breadcrumbs" role="navigation">
           <ul className="c-breadcrumbs__list">

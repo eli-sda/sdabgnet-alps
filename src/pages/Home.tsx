@@ -6,6 +6,8 @@ import DailyVerse from 'src/organisms/DailyVerse';
 import moment from 'moment';
 import { PageSection } from 'src/organisms/PageSection';
 import { Carousel } from 'alps-library/molecules/components/carousel/Carousel';
+import PageMeta from 'src/utils/PageMeta';
+import { usePageMeta } from 'src/hooks/usePageMeta';
 
 // import { Button } from '@mui/material';
 // import { deleteAllLinks } from 'src/utils/DelteSanityDocuments';
@@ -13,6 +15,7 @@ import { Carousel } from 'alps-library/molecules/components/carousel/Carousel';
 
 const Home = () => {
   const [currentDate, setCurrentDate] = useState(() => moment());
+  const { pageMeta } = usePageMeta();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -113,6 +116,7 @@ const Home = () => {
         </>
       }
     >
+      {pageMeta && <PageMeta meta={pageMeta} breadcrumbs={[]}></PageMeta>}
       {/* <Carousel slides={testSlides}></Carousel> */}
       <h1>Тестване връзки към урок</h1>
       <div className={'text'}>

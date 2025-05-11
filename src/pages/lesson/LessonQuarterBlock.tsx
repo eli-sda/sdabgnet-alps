@@ -11,11 +11,11 @@ import './LessonQuarterBlock.css';
 import { PageHeaderFeature2 } from 'src/organisms/sections/PageHeaderFeature2';
 import { MediaBlock } from 'src/alps/molecules/blocks/MediaBlock';
 
-import { GridSeven } from 'alps-library/atoms/grids/GridSeven';
 import { GridItem } from 'alps-library/atoms/grids/GridItem';
-import { Text } from 'alps-library/atoms/text/Text';
+import { ListContent } from 'alps-library/organisms/content/listContent/ListContent';
 import { useLessonUtils } from 'src/hooks/useLessonUtils';
 import { useLessonQuarterContext } from 'src/contexts/LessonQuarterContext';
+import { Grid } from 'alps-library/atoms/grids/Grid';
 
 export type LessonQuarterBlockType = LessonProps & {
   withIntroduction?: boolean;
@@ -106,25 +106,25 @@ const LessonQuarterBlock = (params: LessonQuarterBlockType) => {
               }
             ]}
           />
+          {showLessonLink && qLesson?.title && (
+            //from template News.tsx latest
 
-          <GridSeven
-            as="section"
-            className={
-              'l-grid l-grid--7-col l-grid-wrap--6-of-7 u-shift--left--1-col--at-large u-space--triple--bottom'
-            }
-          >
-            <GridItem
+            <Grid
               className={
-                'to-lesson c-article u-spacing--triple l-grid-item l-grid-item--l--4-col'
+                'u-spacing--double--until-large l-grid l-grid--7-col l-grid-wrap l-grid-wrap--6-of-7'
               }
+              seven={true}
+              as="section"
+              wrap={'6'}
             >
-              <Text
-                as="section"
-                className="c-article__body u-padding--right"
-                hasDropcap={false}
-                spacing={'double'}
+              <GridItem
+                className={
+                  'u-padding--zero--sides u-space--triple--bottom u-shift--left--1-col--at-large'
+                }
+                sizeAtL={'5'}
+                sizeAtXL={'4'}
               >
-                {showLessonLink && qLesson?.title && (
+                <ListContent className={'to-lesson text'}>
                   <MediaBlock
                     type="featuredNews"
                     kicker="Прочети текущия урок"
@@ -134,10 +134,10 @@ const LessonQuarterBlock = (params: LessonQuarterBlockType) => {
                     category={lessonDateRange}
                     image={images.lImage}
                   />
-                )}
-              </Text>
-            </GridItem>
-          </GridSeven>
+                </ListContent>
+              </GridItem>
+            </Grid>
+          )}
         </>
       )}
     </>

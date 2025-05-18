@@ -1,6 +1,12 @@
 import routes from './routes';
 import { lazy, Suspense, useEffect } from 'react';
-import { Routes, Route, BrowserRouter, useLocation } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  BrowserRouter,
+  useLocation,
+  Navigate
+} from 'react-router-dom';
 
 import Layout from './layout/Layout';
 import ChurchLife from './pages/ChurchLife';
@@ -35,6 +41,7 @@ const Router = () => (
       <Routes>
         <Route path={routes.home} element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path="/index.html" element={<Navigate to="/" replace />} />
           {/* churchLife */}
           <Route path={routes.lesson} element={<Lesson />} />
           <Route path={routes.churchLife('lesson')} element={<Lesson />} />

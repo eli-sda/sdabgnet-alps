@@ -1,6 +1,6 @@
 import routes from './routes';
-import { lazy, Suspense } from 'react';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { lazy, Suspense, useEffect } from 'react';
+import { Routes, Route, BrowserRouter, useLocation } from 'react-router-dom';
 
 import Layout from './layout/Layout';
 import ChurchLife from './pages/ChurchLife';
@@ -17,16 +17,35 @@ const HealthInstitutions = lazy(() => import('./pages/HealthInstitutions'));
 
 // const theme = createTheme();
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
+
 const Router = () => (
   <Suspense fallback={<h2>Зареждане...</h2>}>
     <BrowserRouter>
       {/* <ThemeProvider theme={theme}> */}
+      <ScrollToTop />
       <Routes>
         <Route path={routes.home} element={<Layout />}>
           <Route index element={<Home />} />
           {/* churchLife */}
           <Route path={routes.lesson} element={<Lesson />} />
           <Route path={routes.churchLife('lesson')} element={<Lesson />} />
+          <Route
+            path={routes.churchLife('lesson-cq')}
+            element={<Lesson type="cq" />}
+          />
+          <Route
+            path={routes.churchLife('lesson-cc')}
+            element={<Lesson type="cc" />}
+          />
           <Route path={routes.churchLife('lessons')} element={<Lessons />} />
           <Route path={routes.churchLife('events')} element={<Events />} />
           <Route path={routes.churchLife()} element={<ChurchLife />} />

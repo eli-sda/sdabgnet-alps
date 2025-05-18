@@ -1,9 +1,3 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { isEqual } from 'lodash';
-import { useLocation } from 'react-router-dom';
-import { client } from '../../sanityClient';
-import PageMeta, { PageMetaType } from 'src/utils/PageMeta';
-import { getResponsiveBackground } from 'src/utils/ImageHelper';
 import routes from '../../routes';
 
 import { getBreadcrumbs, getTitle } from 'src/utils/Navigation';

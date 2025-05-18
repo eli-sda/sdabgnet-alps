@@ -5,7 +5,7 @@ import Router from './Router';
 import { CurrentLessonProvider } from './providers/CurrentLessonProvider';
 import { PageMetaDataProvider } from './providers/PageMetaDataProvider';
 
-function App() {
+const App = () => {
   useEffect(() => {
     const setScrollbarWidth = () => {
       const scrollBarWidth =
@@ -33,6 +33,6 @@ function App() {
       </PageMetaDataProvider>
     </HelmetProvider>
   );
-}
+};
 
 export default App;

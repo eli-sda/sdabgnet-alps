@@ -68,7 +68,6 @@ $ogUrl = $site . $path;
 </head>
 
 <body>
-    <img src="<?= htmlspecialchars($imageUrl) ?>">
     <?php
     if ($debug) {
         echo "<textarea style='width: 100%; height: 300px;'>";

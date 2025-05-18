@@ -15,6 +15,16 @@
   <FilesMatch "\.(js|css|jpg|jpeg|png|gif|ico|svg|webp|webm|pdf|woff|woff2|ttf|eot|otf|mp4|ogg|mp3|wav|txt|xml|json)$">
     Header set Cache-Control "max-age=31536000, immutable"
   </FilesMatch>
+
+  # Ensure Service Worker updates are applied immediately
+  Header set Cache-Control "no-cache, no-store, must-revalidate" "expr=%{REQUEST_URI} =~ m#^/sw.js$#"
+
+  # Disable caching for phpinfo_.php
+  <FilesMatch "phpinfo_\.php$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires 0
+  </FilesMatch>
 </IfModule>
 
 <IfModule mod_rewrite.c>
@@ -23,20 +33,22 @@
   # Set index.php as the default file to load
   DirectoryIndex index.php index.html
 
-  # Exclude meta.php from being rewritten
-  RewriteCond %{REQUEST_URI} !^/meta.php$ [NC]
-
   # Exclude static files (images, icons, PDFs, etc.) from being rewritten
   RewriteCond %{REQUEST_URI} !\.(?:jpg|jpeg|png|gif|ico|svg|webp|pdf|css|js|woff|woff2|ttf|eot|otf|mp4|webm|ogg|mp3|wav|txt|xml|json)$ [NC]
 
-  # Redirect bot requests to meta.php
-  RewriteCond %{HTTP_USER_AGENT} "facebookexternalhit|Viber|WhatsApp|Twitterbot|TelegramBot|Slackbot|LinkedInBot" [NC]
-  RewriteRule ^(.*)$ /meta.php?path=/$1 [L]
+  # Explicitly allow phpinfo_.php to bypass all redirection
+  RewriteCond %{REQUEST_URI} ^/phpinfo_\.php$ [NC]
+  RewriteRule ^ - [L]
 
-  # Redirect all other requests to index.html (React SPA)
+  # Allow only index.php to be executed
+  RewriteCond %{REQUEST_URI} !^/index\.php$ [NC]
+  RewriteCond %{REQUEST_URI} \.php$ [NC]
+  RewriteRule .* - [F,L]
+
+  # Redirect all other requests to index.php with the path as a query parameter
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^ /index.html [L]
+  RewriteRule ^(.*)$ /index.php?path=/$1 [L]
 </IfModule>
 
 # php -- BEGIN cPanel-generated handler, do not edit

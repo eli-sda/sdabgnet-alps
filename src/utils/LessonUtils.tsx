@@ -152,7 +152,7 @@ export const loadQuarter = ({
             .replaceAll('\n\n', '<p>')
             .replace(/_(.*?)_/g, '<em>$1</em>')
             .replace(
-              /\b(www\.[^\s]+)/g,
+              /\b(www\.[^\s.]+(?:\.[^\s.]+)+)/g,
               '<a href="//$1" target="_blank">$1</a>'
             ) || '';
 

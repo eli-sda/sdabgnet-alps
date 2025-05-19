@@ -95,7 +95,9 @@ a.c-secondary-nav__link {
   content: 'Покажи повече';
 }
 .o-button--expand.this-is-active:focus:after,
-.o-button--expand.this-is-active::after {
+.o-button--expand.this-is-active::after,
+.o-button--expand.expanded:focus:after,
+.o-button--expand.expanded::after {
   content: 'Покажи по-малко';
 }
 .o-button--expand.comment::after,
@@ -113,8 +115,16 @@ a.c-secondary-nav__link {
 .download a:hover {
   border-bottom: 1px solid !important;
 }
-.u-theme--ming .text a:not(.o-button):hover {
-  border-color: #007f98;
+.u-theme--ming {
+  .text, .c-block__description {
+    a:not(.o-button):hover {
+      border-color: #007f98;
+      border-bottom-width: 2px;
+    }
+  }
+}
+.u-theme--ming .c-block__description a:not(.o-button) {
+  border-bottom: 1px solid #007f98;
 }
 // fix media image left padding (not to be 0)
 @media (min-width: 501px) {

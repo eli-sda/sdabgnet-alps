@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
 
 import { MediaImage } from 'alps-library/molecules/blocks/mediaBlock/MediaImage';
@@ -15,6 +14,8 @@ import useClasses from 'alps-library/helpers/useClasses';
 import { iconConfig } from 'alps-library/atoms/icons/_config';
 import { MediaBlockTypesMap } from 'alps-library/molecules/blocks/mediaBlock/MediaBlock';
 import Title from 'src/utils/Title';
+import './MediaBlock.scss';
+import useToggle from 'alps-library/helpers/useToggle';
 
 export interface MediaBlockProps {
   /**
@@ -95,6 +96,10 @@ export interface MediaBlockProps {
   titlePrefix?: string;
   type: keyof typeof MediaBlockTypesMap;
   video?: string | undefined;
+  /**
+   * Specify whether the description should be expandable
+   */
+  expandable?: boolean;
 }
 
 /**
@@ -123,7 +128,8 @@ export const MediaBlock = ({
   titlePrefix,
   type = 'default',
   video,
-  url
+  url,
+  expandable = false
 }: MediaBlockProps): JSX.Element => {
   // Get preset props current type
 
@@ -144,6 +150,8 @@ export const MediaBlock = ({
     'c-block--reversed': blockType && isReversed
   });
   const KickerTag = kickerAs; // TypeScript ensures it's a valid tag
+
+  const { onToggle, openClass } = useToggle(false, 'expanded', 'collapsed');
 
   return (
     <div
@@ -217,12 +225,28 @@ export const MediaBlock = ({
               </h3>
             )}
             {description && (
-              <p
-                className="c-block__description"
-                dangerouslySetInnerHTML={{
-                  __html: description
-                }}
-              />
+              <div
+                className={`c-block__description-wrapper u-spacing ${
+                  expandable ? openClass : ''
+                }`}
+              >
+                <p
+                  className="c-block__description"
+                  dangerouslySetInnerHTML={{
+                    __html: description
+                  }}
+                />
+                {expandable && (
+                  <Button
+                    as={'a'}
+                    className={`description ${openClass}`}
+                    expand={true}
+                    onClick={onToggle}
+                    outline={true}
+                    toggle={false}
+                  />
+                )}
+              </div>
             )}
           </div>
           {(category || date) && (

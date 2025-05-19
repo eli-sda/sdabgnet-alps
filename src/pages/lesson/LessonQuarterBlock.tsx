@@ -100,6 +100,7 @@ const LessonQuarterBlock = (params: LessonQuarterBlockType) => {
                 description: withIntroduction
                   ? quarterObject.qIntroduction
                   : '',
+                expandable: true,
                 kicker: quarterObject.qHumanDate,
                 titlePrefix: quarterObject.qGroup,
                 title: quarterObject.qTitle

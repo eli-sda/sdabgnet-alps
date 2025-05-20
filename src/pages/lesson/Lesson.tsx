@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useMemo, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   isValidLessonNumber,
   isValidQuarter,
@@ -25,6 +25,30 @@ import { MissingLesson } from './MissingLesson';
 const Lesson = ({ type = '' }: { type?: LessonType }) => {
   const { year, quarter, week } = useParams();
   const { currentLessonParameters } = useLessonUtils();
+  const navigate = useNavigate();
+
+  const postfix = type ? `-${type}` : '';
+  const lessonURL = routes.churchLife(
+    `lesson${postfix}` as 'lesson' | 'lesson-cq' | 'lesson-cc'
+  );
+
+  // When opening the page with invalid params, redirect to the current lesson
+  useEffect(() => {
+    if (
+      !year ||
+      !isValidYear(year) ||
+      !quarter ||
+      !isValidQuarter(quarter) ||
+      !week ||
+      !isValidLessonNumber(week)
+    ) {
+      const { lessonYear, lessonQuarter, lessonNumber } =
+        currentLessonParameters;
+      navigate(
+        `${lessonURL}/${lessonYear % 100}/${lessonQuarter}/${lessonNumber}`
+      );
+    }
+  }, [year, quarter, week, currentLessonParameters, lessonURL, navigate]);
 
   const params = useMemo(() => {
     let params: LessonProps;
@@ -49,7 +73,6 @@ const Lesson = ({ type = '' }: { type?: LessonType }) => {
     return params;
   }, [currentLessonParameters, quarter, week, year, type]);
 
-  const postfix = type ? `-${type}` : '';
   const ssPath = useMemo(() => {
     if (!params) return '';
 
@@ -66,9 +89,7 @@ const Lesson = ({ type = '' }: { type?: LessonType }) => {
   //     obj.style.height =
   //       obj.contentWindow?.document.documentElement.scrollHeight + 'px';
   // }
-  const lessonURL = routes.churchLife(
-    `lesson${postfix}` as 'lesson' | 'lesson-cq' | 'lesson-cc'
-  );
+
   const breadcrumbsUrls = [
     routes.churchLife(),
     routes.churchLife('lessons'),

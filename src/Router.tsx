@@ -11,6 +11,7 @@ import {
 import Layout from './layout/Layout';
 import ChurchLife from './pages/ChurchLife';
 // import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useLessonUtils } from './hooks/useLessonUtils';
 
 const NotFound = lazy(() => import('./pages/NotFound'));
 const Home = lazy(() => import('./pages/Home'));
@@ -33,6 +34,18 @@ const ScrollToTop = () => {
   return null;
 };
 
+const RedirectToCurrentLesson = ({ basePath }: { basePath: string }) => {
+  const { currentLessonParameters } = useLessonUtils();
+  const { lessonYear, lessonQuarter, lessonNumber } = currentLessonParameters;
+
+  return (
+    <Navigate
+      to={`${basePath}/${lessonYear % 100}/${lessonQuarter}/${lessonNumber}`}
+      replace
+    />
+  );
+};
+
 const Router = () => (
   <Suspense fallback={<h2>Зареждане...</h2>}>
     <BrowserRouter>
@@ -44,14 +57,29 @@ const Router = () => (
           <Route path="/index.html" element={<Navigate to="/" replace />} />
           {/* churchLife */}
           <Route path={routes.lesson} element={<Lesson />} />
-          <Route path={routes.churchLife('lesson')} element={<Lesson />} />
+          <Route path={routes.lesson_cq} element={<Lesson type="cq" />} />
+          <Route path={routes.lesson_cc} element={<Lesson type="cc" />} />
+          <Route
+            path={routes.churchLife('lesson')}
+            element={
+              <RedirectToCurrentLesson basePath={routes.churchLife('lesson')} />
+            }
+          />
           <Route
             path={routes.churchLife('lesson-cq')}
-            element={<Lesson type="cq" />}
+            element={
+              <RedirectToCurrentLesson
+                basePath={routes.churchLife('lesson-cq')}
+              />
+            }
           />
           <Route
             path={routes.churchLife('lesson-cc')}
-            element={<Lesson type="cc" />}
+            element={
+              <RedirectToCurrentLesson
+                basePath={routes.churchLife('lesson-cc')}
+              />
+            }
           />
           <Route path={routes.churchLife('lessons')} element={<Lessons />} />
           <Route path={routes.churchLife('events')} element={<Events />} />

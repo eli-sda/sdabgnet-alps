@@ -1,7 +1,12 @@
 <?php
 
+/** This page generates HTML for preview in social media
+ *  and redirects in browsers to index.html - the React app
+ */
 // Enable debugging if "debug" parameter is set
 $debug = isset($_GET['debug']) && $_GET['debug'] == '1';
+
+// example URL with debug (load the page with clear cache!): https://new.sdabg.net/church_life/lesson/25/2/9?debug=1
 
 $site = 'https://new.sdabg.net';
 $siteName = 'Адвентната българска мреж@';
@@ -10,9 +15,17 @@ $defDescription = 'Адвентната българска мрежа - Хрис
 $defImage = "$site/img/sdabg.net-logo.jpg";
 
 $path = htmlspecialchars($_GET['path'] ?? '/');
+if ($debug) echo "<b>path:</b> {$path}<br>";
+$searchPath = $path;
+// for SS lesson the path is by year and quarter (like /church_life/lesson-cq/2023/1) 
+// when the path is like /church_life/lesson-cq/2023/1/12
+if (preg_match('#(/church_life/lesson(?:-cq|-cc)?/\d+/\d+)/\d+$#', $path, $matches)) {
+    $searchPath = $matches[1];
+}
+if ($debug) echo "<b>searchPath:</b> {$searchPath}<br>";
 
 // Construct the Sanity API query
-$sanityQuery = '*[_type == "page" && path.current == "' . addslashes($path) . '"][0]{
+$sanityQuery = '*[_type == "page" && path.current == "' . addslashes($searchPath) . '"][0]{
     title,
     "path": path.current,
     description,
@@ -70,16 +83,16 @@ $ogUrl = $site . $path;
 <body>
     <?php
     if ($debug) {
-        echo "<textarea style='width: 100%; height: 300px;'>";
-        echo "Sanity URL: $sanityUrl<br>";
-        echo "Response: " . htmlspecialchars(print_r($response, true)) . "<br>";
-        echo "Title: $title<br>";
-        echo "Description: $description<br>";
-        echo "Image URL: $imageUrl<br>";
-        echo "Image Width: $imageWidth<br>";
-        echo "Image Height: $imageHeight<br>";
-        echo "OG URL: $ogUrl<br>";
-        echo "</textarea>";
+        echo "<div>";
+        echo "<b>Sanity URL:</b> " . urldecode($sanityUrl) . "<br>";
+        echo "<b>Response:</b> " . htmlspecialchars(print_r($response, true)) . "<br>";
+        echo "<b>Title:</b> $title<br>";
+        echo "<b>Description:</b> $description<br>";
+        echo "<b>Image URL:</b> $imageUrl<br>";
+        echo "<b>Image Width:</b> $imageWidth<br>";
+        echo "<b>Image Height:</b> $imageHeight<br>";
+        echo "<b>OG URL:</b> $ogUrl<br>";
+        echo "</div>";
         exit;
     }
     ?>

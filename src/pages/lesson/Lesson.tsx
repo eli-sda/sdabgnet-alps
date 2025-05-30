@@ -115,17 +115,17 @@ const Lesson = ({ type = '' }: { type?: LessonType }) => {
 
   return (
     <>
-      <PageHeaderLong
+      {/* <PageHeaderLong
         title={getTitle(lessonURL)}
         kicker={getTitle(routes.churchLife('lessons'))}
-      />
-      <PageContent breadcrumbs={breadcrumbs}></PageContent>
+      /> */}
       <LessonQuarterProvider>
         <LessonQuarterBlock
           {...params}
           withIntroduction={true}
           showLessonLink={false}
         />
+        <PageContent breadcrumbs={breadcrumbs}></PageContent>
         <LessonCont />
 
         {/* <iframe

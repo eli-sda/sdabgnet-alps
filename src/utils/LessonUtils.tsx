@@ -245,8 +245,9 @@ export const getLessonDays = async (
 
 export const getHTMLLessonText = (rawString: string): string => {
   // 1. Replace unicode escapes with actual characters
-  const decoded = rawString.replace(/\\u([\dA-F]{4})/gi, (match, grp: string) =>
-    String.fromCharCode(parseInt(grp, 16))
+  const decoded = rawString.replace(
+    /\\u([\dA-F]{4})/gi,
+    (_: string, grp: string) => String.fromCharCode(parseInt(grp, 16))
   );
 
   // 2. Optionally, remove extra backslashes (if present)

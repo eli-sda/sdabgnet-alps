@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { usePagesMetaDataContext } from '../contexts/PageMetaDataContext';
 import { PageMetaType } from 'src/utils/PageMeta';
 import { getResponsiveBackground } from 'src/utils/ImageHelper';
@@ -30,6 +30,21 @@ export function usePagesMeta() {
     return pagesMeta && path ? pagesMeta[path] || pagesMeta['/'] : null;
   }, [pagesMeta, location.pathname]);
 
+  const getMetaMap = useCallback(
+    (paths: string[]) => {
+      if (!pagesMeta) return {};
+
+      const map: Record<string, PageMetaType> = {};
+      paths.forEach((path) => {
+        if (pagesMeta[path]) {
+          map[path] = pagesMeta[path];
+        }
+      });
+      return map;
+    },
+    [pagesMeta]
+  );
+
   const pageBackground = useMemo(() => {
     if (pageMeta?.headerImage) {
       return getResponsiveBackground(pageMeta.headerImage);
@@ -37,5 +52,5 @@ export function usePagesMeta() {
     return undefined;
   }, [pageMeta]);
 
-  return { pageMeta, pageBackground };
+  return { pageMeta, getMetaMap, pageBackground };
 }

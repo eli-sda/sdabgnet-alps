@@ -15,6 +15,7 @@ export const loadPagesMeta = async (): Promise<PageMetaMap> => {
   // Fetch the page meta data from Sanity
   const data: PageMetaType[] = await client.fetch(query);
   const metaMap: PageMetaMap = {};
+  
   data.forEach((meta) => {
     if (!meta.path) return;
     metaMap[meta.path] = meta;

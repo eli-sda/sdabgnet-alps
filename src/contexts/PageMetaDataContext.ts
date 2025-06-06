@@ -1,18 +1,18 @@
 import { createContext, useContext } from 'react';
-import { PageMetaType } from 'src/utils/PageMeta';
+import { PageMetaMap } from 'src/utils/PageMeta';
 
-type PageMetaDataContextType = {
-  pageMeta: PageMetaType | undefined;
-  setPageMeta: (pageMeta: PageMetaType) => void;
+type PagesMetaDataContextType = {
+  pagesMeta: PageMetaMap | undefined;
+  setPagesMeta: (pagesMeta: PageMetaMap) => void;
 };
 
-export const PageMetaDataContext = createContext<PageMetaDataContextType>({
-  pageMeta: undefined,
-  setPageMeta: () => {}
+export const PagesMetaDataContext = createContext<PagesMetaDataContextType>({
+  pagesMeta: undefined,
+  setPagesMeta: () => {}
 });
 
-export function usePageMetaDataContext() {
-  const context = useContext(PageMetaDataContext);
+export function usePagesMetaDataContext() {
+  const context = useContext(PagesMetaDataContext);
 
   return context;
 }

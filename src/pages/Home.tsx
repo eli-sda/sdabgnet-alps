@@ -8,6 +8,7 @@ import { PageSection } from 'src/organisms/PageSection';
 import { Carousel } from 'alps-library/molecules/components/carousel/Carousel';
 import PageMeta from 'src/utils/PageMeta';
 import { usePageMeta } from 'src/hooks/usePageMeta';
+import { FetchedPageDescription } from 'src/organisms/FetchedPageDescription';
 
 // import { Button } from '@mui/material';
 // import { deleteAllLinks } from 'src/utils/DelteSanityDocuments';
@@ -172,6 +173,9 @@ const Home = () => {
           Визуална идентичност Базов дизайн (Adventist Identity Manual)
         </a>
       </p>
+      <h4>Външни връзки:</h4>
+      <FetchedPageDescription pageURL="https://newlife-bg.com/" />
+      <FetchedPageDescription pageURL="https://hm-aw.adventist.bg/" />
       {/* <IconsColorsSizes></IconsColorsSizes> */}
       {/* <VideoFull
       srcVideo={{

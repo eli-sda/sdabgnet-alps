@@ -9,7 +9,7 @@ import useClasses from 'alps-library/helpers/useClasses';
 import useToggle from 'alps-library/helpers/useToggle';
 import { themeBorderColorClass } from 'alps-library/global/colors';
 import { getFontClass } from 'alps-library/global/fonts';
-import { Button } from 'alps-library/atoms/button/Button';
+import { Button } from 'src/alps/atoms/Button';
 import { CustomPortableText } from 'src/utils/CustomPortableText';
 
 export interface Verse {

@@ -8,7 +8,7 @@ import {
   DateTimeFormat,
   StyleOptions
 } from 'alps-library/helpers/DateTimeFormat';
-import { Button } from 'alps-library/atoms/button/Button';
+import { Button } from 'src/alps/atoms/Button';
 import { ImageType } from 'alps-library/atoms/images/ImageType';
 import useClasses from 'alps-library/helpers/useClasses';
 import { iconConfig } from 'alps-library/atoms/icons/_config';
@@ -240,9 +240,9 @@ export const MediaBlock = ({
                   <Button
                     as={'a'}
                     className={`description ${openClass}`}
-                    expand={true}
+                    expand
                     onClick={onToggle}
-                    outline={true}
+                    outline
                     toggle={false}
                   />
                 )}

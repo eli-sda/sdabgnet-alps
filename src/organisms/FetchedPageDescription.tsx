@@ -3,10 +3,10 @@
  * and show it in the component.
  */
 
-import { useEffect, useState } from 'react';
-// import IconsColorsSizes from '../atoms/IconsColorsSizes';
+import { useEffect, useMemo, useState } from 'react';
 
 import { fetchMetaDescription } from 'src/utils/ExternalPageDescription';
+import { Definition } from 'alps-library/atoms/lists/definition/Definition';
 
 export const FetchedPageDescription = ({ pageURL }: { pageURL: string }) => {
   const [metaDescription, setMetaDescription] = useState<string>('');
@@ -16,15 +16,19 @@ export const FetchedPageDescription = ({ pageURL }: { pageURL: string }) => {
     const fetchDescription = async () => {
       const result = await fetchMetaDescription(pageURL);
       console.log(result.description);
-      setMetaDescription(result.description || '');
+      setMetaDescription(result.description || ' ');
     };
     void fetchDescription();
   }, [pageURL]);
 
-  return (
-    <>
-      <div>Description by URL {pageURL}</div>
-      <div>{metaDescription}</div>
-    </>
-  );
+  const items = useMemo(() => {
+    return [
+      {
+        title: `Description by URL ${pageURL}`,
+        text: metaDescription
+      }
+    ];
+  }, [pageURL, metaDescription]);
+
+  return metaDescription && <Definition items={items} />;
 };

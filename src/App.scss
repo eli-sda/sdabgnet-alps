@@ -6,6 +6,35 @@ $mingColor: #007f98;
   }
 }
 
+h4 {
+  font-weight: 500;
+}
+h5, h6 {
+  font-weight: 400;
+}
+
+a.c-secondary-nav__link {
+  cursor: pointer;
+}
+// .l-sabbath__logo {
+//   padding-left: calc(2/15*((100vw / 7) - 0.01px));
+//   padding-right: calc(2/15*((100vw / 7) - 0.01px));
+// }
+
+@media (max-width: 500px) {
+  .c-header__logo svg {
+    width: 100%;
+    height: auto;
+    max-width: min(100%, calc(100vw - (100vw / 7) - 1rem));
+  }
+}
+
+/* fix sub-menu open and jump on it */
+@media (min-width: 701px) {
+  .c-drawer__nav>div, .c-drawer__about>div {
+    width: unset;
+  }
+}
 @media (max-width: 700px) {
   .c-drawer .c-subnav__link.u-color--gray--dark {
     color: #4a4a4a;
@@ -14,8 +43,8 @@ $mingColor: #007f98;
 
 @media (min-width: 701px) {
   .c-header__nav-secondary .c-secondary-nav__list {
-      padding-right: 0;
-      margin-right: 9.375rem;
+    padding-right: 0;
+    margin-right: 9.375rem;
   }
 }
 
@@ -24,13 +53,26 @@ $mingColor: #007f98;
   .c-header__nav-secondary .c-secondary-nav__list-item.is-priority {
     display: none;
   }
-
-  .c-header__nav-secondary .c-secondary-nav__list {
-    padding-left: 9.3rem;
+}
+.c-header__nav-primary .c-primary-nav__subnav__subnav__list-item {
+  background-color: #4a4a4a;
+  // .c-header__nav-secondary .c-secondary-nav__list {
+  //   padding-left: 9.3rem;
+  // }
+  .l-sabbath__logo {
+    padding-left: 0.625rem;
+    padding-right: 0.625rem;
+    padding-top: 0.625rem;
   }
-
 }
 
+@media (min-width: 640px) {
+  .l-sabbath__logo {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    padding-top: 1.25rem;
+  }
+}
 .o-button--toggle::after,
 .o-button--toggle:focus:after {
   content: 'Покажи';
@@ -53,8 +95,18 @@ $mingColor: #007f98;
   content: 'Покажи повече';
 }
 .o-button--expand.this-is-active:focus:after,
-.o-button--expand.this-is-active::after {
+.o-button--expand.this-is-active::after,
+.o-button--expand.expanded:focus:after,
+.o-button--expand.expanded::after {
   content: 'Покажи по-малко';
+}
+.o-button--expand.comment::after,
+.o-button--expand.comment:focus:after {
+  content: 'Покажи коментара';
+}
+.o-button--expand.comment.this-is-active:focus:after,
+.o-button--expand.comment.this-is-active::after {
+  content: 'Скрий коментара';
 }
 
 .download a {
@@ -63,4 +115,25 @@ $mingColor: #007f98;
 .download a:hover {
   border-bottom: 1px solid !important;
 }
+.u-theme--ming {
+  .text, .c-block__description {
+    a:not(.o-button):hover {
+      border-color: #007f98;
+      border-bottom-width: 2px;
+    }
+  }
+}
+.u-theme--ming .c-block__description a:not(.o-button) {
+  border-bottom: 1px solid #007f98;
+}
+// fix media image left padding (not to be 0)
+@media (min-width: 501px) {
+  .c-media-block .c-block__image.u-padding--zero--sides.u-padding--left {
+    padding-left: calc(1.25rem / 2 * 1.5) !important;
+  }
+}
 
+.hyphens-auto {
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}

@@ -1,15 +1,20 @@
 import { useEffect, useState } from 'react';
 import { Footer as AlpsFooter } from 'alps-library/organisms/global/footer/Footer';
 import { FooterPrimaryNavigationProps } from 'alps-library/molecules/navigation/footerPrimaryNavigation/FooterPrimaryNavigation';
+import ScrollUpButton from './ScrollUpButton';
 
 const scriptsToLoad = [
   //see https://alps.adventist.io/v3/?p=viewall-pages-misc
-  '//cdn.adventist.org/alps/3/latest/js/head-script.min.js',
-  '//cdn.adventist.org/alps/3/latest/js/script.min.js'
+  // see latest ver. https://cdn.adventist.org/alps/3/versions.json
+  // '//cdn.adventist.org/alps/3/latest/js/head-script.min.js',//not loading leatest ver.
+  // '//cdn.adventist.org/alps/3/latest/js/script.min.js'//not loading leatest ver.
+  'https://cdn.adventist.org/alps/3/3.12.2/js/head-script.min.js',
+  // 'https://cdn.adventist.org/alps/3/3.12.2/js/script.min.js'
+  '/js/script.min.js'
 ];
 
 const loadScript = (url: string, id: string) => {
-  return new Promise<void>((resolve, reject) => {
+  return new Promise<void>((resolve, _reject) => {
     if (!document.getElementById(id)) {
       const script = document.createElement('script');
       script.type = 'text/javascript';
@@ -28,42 +33,48 @@ const Footer = () => {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    if (!loaded) {
-      setLoaded(true);
-      Promise.all(
+    async function loadScripts() {
+      await Promise.all(
         scriptsToLoad.map((script, index) =>
           loadScript(script, `script${index}`)
         )
       );
+    }
+    if (!loaded) {
+      setLoaded(true);
+      loadScripts().catch((e) => console.log(e));
     }
   }, []);
 
   const primaryNav: FooterPrimaryNavigationProps = {
     items: [
       {
-        text: 'Email',
-        url: '#'
-      },
-      {
-        text: 'Feedback',
-        url: '#'
+        text: 'webmaster@sdabg.net',
+        url: 'mailto:webmaster@sdabg.net?subject=new.sdabg.net'
       }
+      // {
+      //   text: 'Feedback',
+      //   url: '#'
+      // }
     ]
   };
   return (
-    <AlpsFooter
-      address={{
-        //   street: 'Цветан Минков 11',
-        //   postcode: '1000',
-        locality: 'София',
-        //   region: '',
-        country: 'България',
-        phone: '0887 430 103'
-      }}
-      copyright="Copyright ©2004, Адвентната българска мрежа"
-      primaryNav={primaryNav}
-      text="Sdabg.net  - Адвентната българска мреж@ е портал с полезни ресурси и връзки в помощ на ЦАСД в България"
-    />
+    <>
+      <AlpsFooter
+        address={{
+          //   street: 'Цветан Минков 11',
+          //   postcode: '1000',
+          locality: 'София',
+          //   region: '',
+          country: 'България',
+          phone: '0887 430 103'
+        }}
+        copyright="Copyright ©2004, Адвентната българска мрежа"
+        primaryNav={primaryNav}
+        text="Sdabg.net  - Адвентната българска мреж@ е портал с полезни ресурси и връзки в помощ на ЦАСД в България"
+      />
+      <ScrollUpButton />
+    </>
   );
 };
 

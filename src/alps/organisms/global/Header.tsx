@@ -55,7 +55,7 @@ export const Header = ({
   useEffect(() => {
     const handleClick = (event: Event) => {
       const target = event.target as HTMLElement;
-      //to update statewhen click on opener of the drawer or on a link in it
+      //to update state when click on opener of the drawer or on a link in it
       if (target.closest('.js-toggle-menu') || target.closest('a')) {
         updateMenuState();
       }

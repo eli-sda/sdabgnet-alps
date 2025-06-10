@@ -7,7 +7,7 @@ import moment from 'moment';
 import { PageSection } from 'src/organisms/PageSection';
 import { Carousel } from 'alps-library/molecules/components/carousel/Carousel';
 import PageMeta from 'src/utils/PageMeta';
-import { usePageMeta } from 'src/hooks/usePageMeta';
+import { usePagesMeta } from 'src/hooks/usePagesMeta';
 
 // import { Button } from '@mui/material';
 // import { deleteAllLinks } from 'src/utils/DelteSanityDocuments';
@@ -15,7 +15,7 @@ import { usePageMeta } from 'src/hooks/usePageMeta';
 
 const Home = () => {
   const [currentDate, setCurrentDate] = useState(() => moment());
-  const { pageMeta } = usePageMeta();
+  const { pageMeta } = usePagesMeta();
 
   useEffect(() => {
     const interval = setInterval(() => {

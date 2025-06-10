@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react';
-import { PagesMetaDataContext } from 'src/contexts/PageMetaDataContext';
+import { PagesMetaDataContext } from 'src/contexts/PagesMetaDataContext';
 import { PageMetaMap } from 'src/utils/PageMeta';
 
 export const PagesMetaDataProvider = ({

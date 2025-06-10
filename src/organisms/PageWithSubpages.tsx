@@ -1,4 +1,3 @@
-import './PageWithSubpages.scss';
 import { PageLinkItem } from './PageLinkItem';
 import { Grid } from 'alps-library/atoms/grids/Grid';
 import {

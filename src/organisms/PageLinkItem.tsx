@@ -1,3 +1,4 @@
+import './PageLinkItem.scss'
 import { GridItem } from 'alps-library/atoms/grids/GridItem';
 import { ContentBlock } from 'src/alps/molecules/blocks/ContentBlock';
 

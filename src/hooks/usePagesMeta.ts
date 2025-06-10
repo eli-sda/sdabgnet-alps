@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { usePagesMetaDataContext } from '../contexts/PageMetaDataContext';
+import { usePagesMetaDataContext } from '../contexts/PagesMetaDataContext';
 import { PageMetaType } from 'src/utils/PageMeta';
 import { getResponsiveBackground } from 'src/utils/ImageHelper';
 import { useLocation } from 'react-router-dom';

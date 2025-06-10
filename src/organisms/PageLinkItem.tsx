@@ -1,3 +1,4 @@
+import './PageLinkItem.scss'
 import { GridItem } from 'alps-library/atoms/grids/GridItem';
 import { BreakoutBlock } from 'src/alps/molecules/blocks/BreakoutBlock';
 import { themeBackgroundClass } from 'alps-library/global/colors';
@@ -13,9 +14,9 @@ export const PageLinkItem = ({ url, title, description }: PageLinkItemType) => {
     <>
       <GridItem
         className={
-          'u-padding--sides u-space--triple--bottom l-grid-item l-grid-item--l--5-col page-link-item'
+          'u-padding--sides u-space--triple--bottom l-grid-item page-link-item'
         }
-        sizeAtL={'3'}
+        sizeAtM={'3'}
         sizeAtXL={'2'}
       >
         <BreakoutBlock

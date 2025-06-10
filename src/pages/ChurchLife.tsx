@@ -1,9 +1,10 @@
-import { Page } from 'src/organisms/Page';
+import { PageWithSubpages } from 'src/organisms/PageWithSubpages';
 import routes from 'src/routes';
 
 const ChurchLife = () => {
   const breadcrumbsUrls = [routes.churchLife()];
-  return <Page title="Църковен живот" breadcrumbsUrls={breadcrumbsUrls} />;
+
+  return <PageWithSubpages breadcrumbsUrls={breadcrumbsUrls} />;
 };
 
 export default ChurchLife;

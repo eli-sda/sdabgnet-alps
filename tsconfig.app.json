@@ -8,7 +8,7 @@
 
     "baseUrl": ".",
     "paths": {
-      "alps-library/*": ["../../alps/src/*"]
+      "alps-library/*": ["../../alps-elisda/src/*"]
     },
 
     /* Bundler mode */
@@ -21,9 +21,9 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src", "types"]
 }

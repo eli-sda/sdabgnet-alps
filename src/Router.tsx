@@ -9,7 +9,6 @@ import {
 } from 'react-router-dom';
 
 import Layout from './layout/Layout';
-import ChurchLife from './pages/ChurchLife';
 // import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useLessonUtils } from './hooks/useLessonUtils';
 
@@ -21,6 +20,9 @@ const Churches = lazy(() => import('./pages/Churches'));
 const Books = lazy(() => import('./pages/Books'));
 const Events = lazy(() => import('./pages/Events'));
 const HealthInstitutions = lazy(() => import('./pages/HealthInstitutions'));
+const ChurchLife = lazy(() => import('./pages/ChurchLife'));
+const Info = lazy(() => import('./pages/Info'));
+const Commune = lazy(() => import('./pages/Commune'));
 
 // const theme = createTheme();
 
@@ -85,8 +87,11 @@ const Router = () => (
           <Route path={routes.churchLife('events')} element={<Events />} />
           <Route path={routes.churchLife()} element={<ChurchLife />} />
 
+          <Route path={routes.commune()} element={<Commune />} />
+
           <Route path={routes.churches} element={<Churches />} />
           <Route path={routes.info('churches')} element={<Churches />} />
+          <Route path={routes.info()} element={<Info />} />
           <Route path={routes.resources('books')} element={<Books />} />
           <Route
             path={routes.health('institutions')}

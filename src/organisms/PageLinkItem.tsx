@@ -1,7 +1,6 @@
 import './PageLinkItem.scss'
 import { GridItem } from 'alps-library/atoms/grids/GridItem';
-import { BreakoutBlock } from 'src/alps/molecules/blocks/BreakoutBlock';
-import { themeBackgroundClass } from 'alps-library/global/colors';
+import { ContentBlock } from 'src/alps/molecules/blocks/ContentBlock';
 
 export type PageLinkItemType = {
   url: string;
@@ -19,13 +18,12 @@ export const PageLinkItem = ({ url, title, description }: PageLinkItemType) => {
         sizeAtM={'3'}
         sizeAtXL={'2'}
       >
-        <BreakoutBlock
+        <ContentBlock
           title={title}
           description={description}
           url={url}
           cta="Виж повече"
-          backgroundClass={`${themeBackgroundClass}--dark`}
-        />
+        ></ContentBlock>
       </GridItem>
     </>
   );

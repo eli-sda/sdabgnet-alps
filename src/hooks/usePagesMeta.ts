@@ -26,7 +26,15 @@ export function usePagesMeta() {
   });
 
   const pageMeta: PageMetaType | null = useMemo(() => {
-    const path = location.pathname;
+    let path = location.pathname;
+    // for SS lesson the path is by year and quarter (like /church_life/lesson-cq/2023/1)
+    // when the path is like /church_life/lesson-cq/2023/1/12
+    const match = path.match(
+      /(\/church_life\/lesson(?:-cq|-cc)?\/\d+\/\d+)\/\d+$/
+    );
+    if (match) {
+      path = match[1];
+    }
     return pagesMeta && path ? pagesMeta[path] || pagesMeta['/'] : null;
   }, [pagesMeta, location.pathname]);
 

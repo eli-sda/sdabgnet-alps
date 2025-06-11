@@ -3,7 +3,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import './App.scss';
 import Router from './Router';
 import { CurrentLessonProvider } from './providers/CurrentLessonProvider';
-import { PageMetaDataProvider } from './providers/PageMetaDataProvider';
+import { PagesMetaDataProvider } from './providers/PagesMetaDataProvider';
 
 const App = () => {
   useEffect(() => {
@@ -26,11 +26,11 @@ const App = () => {
 
   return (
     <HelmetProvider>
-      <PageMetaDataProvider>
+      <PagesMetaDataProvider>
         <CurrentLessonProvider>
           <Router />
         </CurrentLessonProvider>
-      </PageMetaDataProvider>
+      </PagesMetaDataProvider>
     </HelmetProvider>
   );
 };

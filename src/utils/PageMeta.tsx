@@ -12,6 +12,10 @@ export type PageMetaType = {
   keyWords: string[];
 };
 
+export type PageMetaMap = {
+  [key: string]: PageMetaType;
+};
+
 export type PageMetaProps = {
   meta?: PageMetaType;
   breadcrumbs: BreadcrumbItemProps[];

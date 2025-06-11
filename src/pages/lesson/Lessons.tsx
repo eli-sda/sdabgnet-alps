@@ -6,7 +6,7 @@ import { PageContent } from 'src/alps/organisms/content/PageContent';
 import LessonQuarterBlock from './LessonQuarterBlock';
 import { useLessonUtils } from 'src/hooks/useLessonUtils';
 import { LessonQuarterProvider } from 'src/providers/LessonQuarterProvider';
-import { usePageMeta } from 'src/hooks/usePageMeta';
+import { usePagesMeta } from 'src/hooks/usePagesMeta';
 
 const Lessons = () => {
   const { currentLessonParameters } = useLessonUtils();
@@ -14,7 +14,7 @@ const Lessons = () => {
   const breadcrumbsUrls = [routes.churchLife(), routes.churchLife('lessons')];
   const breadcrumbs = getBreadcrumbs(breadcrumbsUrls);
   const pageTitle = getTitle(routes.churchLife('lessons'));
-  const { pageBackground } = usePageMeta();
+  const { pageBackground } = usePagesMeta();
 
   return (
     <>

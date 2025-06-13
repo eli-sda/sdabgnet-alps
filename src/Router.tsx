@@ -23,6 +23,10 @@ const HealthInstitutions = lazy(() => import('./pages/HealthInstitutions'));
 const ChurchLife = lazy(() => import('./pages/ChurchLife'));
 const Info = lazy(() => import('./pages/Info'));
 const Commune = lazy(() => import('./pages/Commune'));
+const Media = lazy(() => import('./pages/Media'));
+const Resources = lazy(() => import('./pages/Resources'));
+const Health = lazy(() => import('./pages/Health'));
+const Advertisement = lazy(() => import('./pages/Advertisement'));
 
 // const theme = createTheme();
 
@@ -92,7 +96,15 @@ const Router = () => (
           <Route path={routes.churches} element={<Churches />} />
           <Route path={routes.info('churches')} element={<Churches />} />
           <Route path={routes.info()} element={<Info />} />
+
+          <Route path={routes.media()} element={<Media />} />
+
+          <Route path={routes.resources()} element={<Resources />} />
           <Route path={routes.resources('books')} element={<Books />} />
+
+          <Route path={routes.health()} element={<Health />} />
+
+          <Route path={routes.advertisement()} element={<Advertisement />} />
           <Route
             path={routes.health('institutions')}
             element={<HealthInstitutions />}

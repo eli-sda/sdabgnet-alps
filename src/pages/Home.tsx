@@ -163,6 +163,27 @@ const Home = () => {
                 Отвори урок 2 за юноши от 1 трим. на 2025г.
               </NavLink>
             </li>
+          <li>
+            <NavLink to={routes.churchLife()}>Църковен живот</NavLink>
+          </li>
+          <li>
+            <NavLink to={routes.info()}>БГ Справочник</NavLink>
+          </li>
+          <li>
+            <NavLink to={routes.media()}>Медии</NavLink>
+          </li>
+          <li>
+            <NavLink to={routes.resources()}>Ресурси</NavLink>
+          </li>
+          <li>
+            <NavLink to={routes.health()}>Здраве</NavLink>
+          </li>
+          <li>
+            <NavLink to={routes.commune()}>Общуване</NavLink>
+          </li>
+          <li>
+            <NavLink to={routes.advertisement()}>Обяви</NavLink>
+          </li>
           </ul>
         </div>
         <p className="text">

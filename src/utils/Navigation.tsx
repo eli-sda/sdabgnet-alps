@@ -338,3 +338,19 @@ export function getBreadcrumbs(
   });
   return breadcrumbs;
 }
+
+export function findMenuItemByUrl(
+  targetUrl: string,
+  items: MenuItem[] = primaryNavigationItems
+): MenuItem | undefined {
+  for (const item of items) {
+    if (item.url === targetUrl) {
+      return item;
+    }
+    if (item.subnav) {
+      const found = findMenuItemByUrl(targetUrl, item.subnav);
+      if (found) return found;
+    }
+  }
+  return undefined;
+}

@@ -2,8 +2,9 @@ import { PageLinkItem } from './PageLinkItem';
 import { Grid } from 'alps-library/atoms/grids/Grid';
 import {
   getTitle,
-  primaryNavigationItems,
-  getBreadcrumbs
+  // primaryNavigationItems,
+  getBreadcrumbs,
+  findMenuItemByUrl
 } from 'src/utils/Navigation';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
 import { useLocation } from 'react-router-dom';
@@ -19,7 +20,7 @@ export const PageWithSubpages = ({breadcrumbsUrls}:{breadcrumbsUrls: string[]}) 
   const breadcrumbs = getBreadcrumbs(breadcrumbsUrls);
   const title = getTitle(path);
 
-  const mainNavItem = primaryNavigationItems.find((item) => item.url === path);
+  const mainNavItem = findMenuItemByUrl(path);
   const subnav = mainNavItem?.subnav || [];
 
   const subnavPaths: string[] = subnav

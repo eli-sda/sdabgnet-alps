@@ -2,10 +2,10 @@ import { PageWithSubpages } from 'src/organisms/PageWithSubpages';
 
 import routes from 'src/routes';
 
-const Commune = () => {
-  const breadcrumbsUrls = [routes.churchLife(), routes.commune()];
+const Health = () => {
+  const breadcrumbsUrls = [routes.health()];
 
   return <PageWithSubpages breadcrumbsUrls={breadcrumbsUrls} />;
 };
 
-export default Commune;
+export default Health;

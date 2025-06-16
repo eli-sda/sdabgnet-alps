@@ -11,6 +11,7 @@ import {
 } from 'alps-library/helpers/DateTimeFormat';
 import { getFontClass } from 'alps-library/global/fonts';
 import { Button } from 'src/alps/atoms/Button';
+import { NavLink } from 'react-router-dom';
 
 export interface ContentBlockProps {
   /**
@@ -73,7 +74,7 @@ export const ContentBlock = ({
   description,
   cta = '',
   date,
-  dateFormat= 'datetime',
+  dateFormat = 'datetime',
   dateLocales,
   dateStyle,
   url = '',
@@ -95,9 +96,16 @@ export const ContentBlock = ({
     `${openClass}`
   );
 
-  const moreClasses = more
-    ? ' can-be--dark-dark u-clear-fix'
-    : '';
+  const moreClasses = more ? ' can-be--dark-dark u-clear-fix' : '';
+
+  const isExternal = url.startsWith('http');
+
+  const linkAttr = {
+    target: isExternal ? '_blank' : undefined,
+    to: url || '',
+    href: url,
+    className: 'c-block__title-link u-theme--link-hover--dark'
+  };
 
   return (
     <div className={classes + moreClasses}>
@@ -109,12 +117,17 @@ export const ContentBlock = ({
         } u-theme--color--darker`}
       >
         {url ? (
-          <a
-            className="c-block__title-link u-theme--link-hover--dark"
-            href={url}
-          >
-            <strong>{title}</strong>
-          </a>
+          isExternal ? (
+            <a {...linkAttr}>
+              <strong>{title}</strong>
+            </a>
+          ) : (
+            <NavLink
+              {...linkAttr}
+            >
+              <strong>{title}</strong>
+            </NavLink>
+          )
         ) : (
           <strong>{title}</strong>
         )}
@@ -158,7 +171,6 @@ export const ContentBlock = ({
             onClick={onToggle}
             outline={true}
             toggle={true}
-            
           />
         </>
       ) : (
@@ -172,7 +184,7 @@ export const ContentBlock = ({
             outline={true}
             label={cta}
             url={url}
-            isExternal={url.startsWith('http')}
+            isExternal={isExternal}
           />
         )
       )}

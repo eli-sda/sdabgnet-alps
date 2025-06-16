@@ -3,21 +3,15 @@ import { getTitle } from 'src/utils/Navigation';
 import routes from 'src/routes';
 import { Grid } from 'alps-library/atoms/grids/Grid';
 import { PageLinkItem } from 'src/organisms/PageLinkItem';
-import healthInstitutions from 'src/utils/health-institutions.json';
 import { ImageType } from 'alps-library/atoms/images/ImageType';
-
-type HealthInstitutionLink = {
-  url: string;
-  title: string;
-  description: string;
-  img: string;
-};
+import { ExternalPageLink } from 'src/types/externalPageLink';
+import healthInstitutions from 'src/pages/HealthInstitutions.json';
 
 const breadcrumbsUrls = [routes.health(), routes.health('institutions')];
 
 const HealthInstitutions = () => {
   const title = getTitle(routes.health('institutions'));
-  const links = healthInstitutions as HealthInstitutionLink[];
+  const links = healthInstitutions as ExternalPageLink[];
 
   return (
     <>
@@ -29,20 +23,17 @@ const HealthInstitutions = () => {
         as="section"
         wrap={'6'}
       >
-        {links.map((link, idx) => (
+        {links.map(({ url, title, description, img }, idx) => (
           <PageLinkItem
             key={idx}
-            url={link.url}
-            title={link.title}
-            description={link.description}
+            url={url}
+            title={title}
+            description={description}
             img={
               {
-                alt: link.title,
+                alt: title,
                 srcSet: {
-                  default: link.img,
-                  500: link.img,
-                  750: link.img,
-                  1200: link.img
+                  default: img
                 }
               } as ImageType
             }

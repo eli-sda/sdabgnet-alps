@@ -67,8 +67,8 @@ const Contact = () => {
     <>
       <Page title={title} breadcrumbsUrls={breadcrumbsUrls}>
         <Form
-        action='contact.php'
-        method='post'
+          action="contact.php"
+          method="post"
           // onSubmit={submitHandler}
           className={
             'u-padding u-spacing u-space--quad--left u-space--quad--right'
@@ -77,7 +77,7 @@ const Contact = () => {
         >
           <OptionGroup title="Тема на съобщението">
             <Dropdown
-              defaultValue="Изберете тема"
+              defaultValue="question"
               hideNone
               label=""
               name="topic"
@@ -108,7 +108,6 @@ const Contact = () => {
 
           <TextField
             ref={nameRef}
-            id="text"
             label="Име"
             name="name"
             type="text"
@@ -117,7 +116,6 @@ const Contact = () => {
           />
           <TextField
             ref={emailRef}
-            id="email"
             label="Имейл адрес"
             name="email"
             type="email"
@@ -126,7 +124,6 @@ const Contact = () => {
           />
           <TextField
             ref={messageRef}
-            id="message"
             label="Съобщение"
             name="message"
             type="textarea"

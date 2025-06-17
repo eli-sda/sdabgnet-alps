@@ -9,6 +9,10 @@ import { Button } from 'src/alps/atoms/Button';
 import { Dropdown } from 'alps-library/molecules/forms/elements/Dropdown';
 import { OptionGroup } from 'alps-library/molecules/forms/elements/OptionGroup';
 import React, { useRef, useState } from 'react';
+import { SITE } from 'src/constants';
+
+const errorSendingMessage =
+  'Възникна грешка при изпращането. Моля, използвайте имейла долу в страницата.';
 
 const Contact = () => {
   const breadcrumbsUrls = [routes.contact];
@@ -41,16 +45,52 @@ const Contact = () => {
     }, 100);
   };
 
-  const submitHandler = (
-    e: React.MouseEvent<
-      HTMLButtonElement | HTMLAnchorElement | HTMLSpanElement,
-      MouseEvent
-    >
-  ) => {
-    if (formIsInvalid) return false;
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (formIsInvalid) return false;
 
-    // ...submit logic...
+    // Get values from DOM by name attribute
+    const name =
+      (document.querySelector('[name="name"]') as HTMLInputElement)?.value ||
+      '';
+    const email =
+      (document.querySelector('[name="email"]') as HTMLInputElement)?.value ||
+      '';
+    const message =
+      (
+        document.querySelector('[name="message"]') as
+          | HTMLInputElement
+          | HTMLTextAreaElement
+      )?.value || '';
+    const topic =
+      (document.querySelector('[name="topic"]') as HTMLSelectElement)?.value ||
+      '';
+
+    // Prepare data for x-www-form-urlencoded
+    const params = new URLSearchParams({
+      name,
+      email,
+      message,
+      topic
+    });
+
+    try {
+      const response = await fetch(`${SITE}/contact.php`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: params.toString()
+      });
+      if (response.ok) {
+        alert('Съобщението е изпратено успешно!');
+        // Optionally reset form fields here
+      } else {
+        alert(errorSendingMessage);
+      }
+    } catch {
+      alert(errorSendingMessage);
+    }
   };
 
   const cancelClickHandler = (
@@ -67,9 +107,11 @@ const Contact = () => {
     <>
       <Page title={title} breadcrumbsUrls={breadcrumbsUrls}>
         <Form
-          action="contact.php"
+          action={`${SITE}/contact.php`}
           method="post"
-          // onSubmit={submitHandler}
+          onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+            void submitHandler(e);
+          }}
           className={
             'u-padding u-spacing u-space--quad--left u-space--quad--right'
           }
@@ -131,11 +173,7 @@ const Contact = () => {
             required={true}
             onChange={handleInput}
           />
-          <Button
-            onClick={submitHandler}
-            label="Изпрати"
-            disabled={formIsInvalid}
-          />
+          <Button label="Изпрати" disabled={formIsInvalid} />
           <Button onClick={cancelClickHandler} label="Отказ" simple />
         </Form>
       </Page>

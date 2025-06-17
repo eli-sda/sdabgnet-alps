@@ -8,11 +8,10 @@ import {
 import { Button } from 'src/alps/atoms/Button';
 import { Dropdown } from 'alps-library/molecules/forms/elements/Dropdown';
 import { OptionGroup } from 'alps-library/molecules/forms/elements/OptionGroup';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 const Contact = () => {
   const breadcrumbsUrls = [routes.contact];
-  console.log('breadcrumbsUrls', breadcrumbsUrls);
 
   const title = 'Контакт';
 
@@ -24,17 +23,11 @@ const Contact = () => {
   // Track form validity
   const [formIsInvalid, setFormIsInvalid] = useState(true);
 
-  useEffect(() => {}, []);
-
   // Validate form on every change
   const validateForm = () => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     const isNameValid = nameRef.current?.isValid();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     const isEmailValid = emailRef.current?.isValid();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     const isMessageValid = messageRef.current?.isValid();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const valid = isNameValid && isEmailValid && isMessageValid;
     setFormIsInvalid(!valid);
   };
@@ -74,7 +67,9 @@ const Contact = () => {
     <>
       <Page title={title} breadcrumbsUrls={breadcrumbsUrls}>
         <Form
-          onSubmit={submitHandler}
+        action='contact.php'
+        method='post'
+          // onSubmit={submitHandler}
           className={
             'u-padding u-spacing u-space--quad--left u-space--quad--right'
           }

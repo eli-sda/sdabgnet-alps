@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { usePagesMetaDataContext } from '../contexts/PagesMetaDataContext';
 import { PageMetaType } from 'src/utils/PageMeta';
 import { getResponsiveBackground } from 'src/utils/ImageHelper';
@@ -8,11 +8,11 @@ import { loadPagesMeta } from 'src/utils/FetchHelper';
 export function usePagesMeta() {
   const { pagesMeta, setPagesMeta } = usePagesMetaDataContext();
   const location = useLocation();
-  const isLoaded = useRef<boolean>(false);
 
   useEffect(() => {
-    if (isLoaded.current) return;
-    isLoaded.current = true;
+    // Use a global variable to ensure only one fetch per session
+    if ((window as unknown as { __PAGES_META_LOADED__?: boolean }).__PAGES_META_LOADED__) return;
+    (window as unknown as { __PAGES_META_LOADED__?: boolean }).__PAGES_META_LOADED__ = true;
 
     if (!pagesMeta) {
       loadPagesMeta()
@@ -23,7 +23,7 @@ export function usePagesMeta() {
           console.error('Failed to fetch pages meta:', err);
         });
     }
-  });
+  }, [pagesMeta, setPagesMeta]);
 
   const pageMeta: PageMetaType | null = useMemo(() => {
     const path = location.pathname;

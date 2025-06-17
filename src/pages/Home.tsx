@@ -8,6 +8,7 @@ import { PageSection } from 'src/organisms/PageSection';
 import { Carousel } from 'alps-library/molecules/components/carousel/Carousel';
 import PageMeta from 'src/utils/PageMeta';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
+import { FetchedPageDescription } from 'src/organisms/FetchedPageDescription';
 
 // import { Button } from '@mui/material';
 // import { deleteAllLinks } from 'src/utils/DelteSanityDocuments';
@@ -118,49 +119,50 @@ const Home = () => {
     >
       {pageMeta && <PageMeta meta={pageMeta} breadcrumbs={[]}></PageMeta>}
       {/* <Carousel slides={testSlides}></Carousel> */}
-      <h1>Тестване връзки:</h1>
-      <div className={'text'}>
-        <ul>
-          <li>
-            <NavLink to={routes.churchLife('lessons')}>Отвори СУ</NavLink>
-          </li>
-          <li>
-            <NavLink to={routes.churchLife('lesson')}>
-              Отвори текущия урок за възрастни
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={`${routes.churchLife('lesson')}/6/4/13`}>
-              Отвори урок 13 от 4 трим. на 2006г
-            </NavLink>
-          </li>
+      <div className="u-padding--left u-padding--top u-spacing">
+        <h3>Тестване връзки:</h3>
+        <div className="text">
+          <ul>
+            <li>
+              <NavLink to={routes.churchLife('lessons')}>Отвори СУ</NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.churchLife('lesson')}>
+                Отвори текущия урок за възрастни
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to={`${routes.churchLife('lesson')}/6/4/13`}>
+                Отвори урок 13 от 4 трим. на 2006г
+              </NavLink>
+            </li>
 
-          <li>
-            <NavLink to={`${routes.churchLife('lesson')}/25/1/1`}>
-              Отвори урок 1 (за възрастни) от 1 трим. на 2025г
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={routes.churchLife('lesson-cq')}>
-              Отвори текущия урок за младежи
-            </NavLink>
-          </li>
+            <li>
+              <NavLink to={`${routes.churchLife('lesson')}/25/1/1`}>
+                Отвори урок 1 (за възрастни) от 1 трим. на 2025г
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.churchLife('lesson-cq')}>
+                Отвори текущия урок за младежи
+              </NavLink>
+            </li>
 
-          <li>
-            <NavLink to={`${routes.churchLife('lesson-cq')}/25/1/2`}>
-              Отвори урок 2 за младежи от 1 трим. на 2025г.
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={routes.churchLife('lesson-cc')}>
-              Отвори текущия урок за юноши
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={`${routes.churchLife('lesson-cc')}/25/1/2`}>
-              Отвори урок 2 за юноши от 1 трим. на 2025г.
-            </NavLink>
-          </li>
+            <li>
+              <NavLink to={`${routes.churchLife('lesson-cq')}/25/1/2`}>
+                Отвори урок 2 за младежи от 1 трим. на 2025г.
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.churchLife('lesson-cc')}>
+                Отвори текущия урок за юноши
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to={`${routes.churchLife('lesson-cc')}/25/1/2`}>
+                Отвори урок 2 за юноши от 1 трим. на 2025г.
+              </NavLink>
+            </li>
           <li>
             <NavLink to={routes.churchLife()}>Църковен живот</NavLink>
           </li>
@@ -182,19 +184,24 @@ const Home = () => {
           <li>
             <NavLink to={routes.advertisement()}>Обяви</NavLink>
           </li>
-        </ul>
-      </div>
-      <p>
-        <a
-          href="https://sdabg.net/pdf/Adventist_Identity_Manual.pdf"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Визуална идентичност Базов дизайн (Adventist Identity Manual)
-        </a>
-      </p>
-      {/* <IconsColorsSizes></IconsColorsSizes> */}
-      {/* <VideoFull
+          </ul>
+        </div>
+        <p className="text">
+          <a
+            href="https://sdabg.net/pdf/Adventist_Identity_Manual.pdf"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Визуална идентичност Базов дизайн (Adventist Identity Manual)
+          </a>
+        </p>
+        <div>
+          <h3>Description от външни връзки:</h3>
+          <FetchedPageDescription pageURL="https://newlife-bg.com/" />
+          <FetchedPageDescription pageURL="https://hm-aw.adventist.bg/" />
+        </div>
+        {/* <IconsColorsSizes></IconsColorsSizes> */}
+        {/* <VideoFull
       srcVideo={{
         allow:
           'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture',
@@ -204,6 +211,7 @@ const Home = () => {
         //'https://www.youtube.com/embed/-CwVPt6r7pY?cc_load_policy=1&cc_lang_pref=bg&hl=bg'
       }}
     /> */}
+      </div>
     </PageSection>
   );
 };

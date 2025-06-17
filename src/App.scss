@@ -9,7 +9,8 @@ $mingColor: #007f98;
 h4 {
   font-weight: 500;
 }
-h5, h6 {
+h5,
+h6 {
   font-weight: 400;
 }
 
@@ -31,7 +32,8 @@ a.c-secondary-nav__link {
 
 /* fix sub-menu open and jump on it */
 @media (min-width: 701px) {
-  .c-drawer__nav>div, .c-drawer__about>div {
+  .c-drawer__nav > div,
+  .c-drawer__about > div {
     width: unset;
   }
 }
@@ -116,7 +118,8 @@ a.c-secondary-nav__link {
   border-bottom: 1px solid !important;
 }
 .u-theme--ming {
-  .text, .c-block__description {
+  .text,
+  .c-block__description {
     a:not(.o-button):hover {
       border-color: #007f98;
       border-bottom-width: 2px;

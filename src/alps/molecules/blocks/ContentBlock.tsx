@@ -73,7 +73,7 @@ export const ContentBlock = ({
   description,
   cta = '',
   date,
-  dateFormat= 'datetime',
+  dateFormat = 'datetime',
   dateLocales,
   dateStyle,
   url = '',
@@ -84,10 +84,10 @@ export const ContentBlock = ({
   const { onToggle, openClass } = useToggle();
 
   const classes = useClasses(
-    'c-block c-block__text u-border--left u-spacing ' +
+    'c-block c-block__text u-border--left u-clear-fix ' +
       themeBorderColorClass +
       '--darker ' +
-      'u-padding u-background-color--gray--light', //Gaby added this to have a background color
+      'u-padding u-background-color--gray--light', //added this to have a background color
     {
       'c-block__text-expand': more,
       'has-image': image !== undefined
@@ -95,87 +95,85 @@ export const ContentBlock = ({
     `${openClass}`
   );
 
-  const moreClasses = more
-    ? ' can-be--dark-dark u-clear-fix'
-    : '';
+  const moreClasses = more ? ' can-be--dark-dark' : '';
 
   return (
     <div className={classes + moreClasses}>
       {image && <MediaImage image={image} url={url} />}
-
-      <h3
-        className={`${
-          titleSize ? getFontClass('primary', titleSize) : 'u-font--primary'
-        } u-theme--color--darker`}
-      >
-        {url ? (
-          <a
-            className="c-block__title-link u-theme--link-hover--dark"
-            href={url}
-          >
-            <strong>{title}</strong>
-          </a>
-        ) : (
-          <strong>{title}</strong>
-        )}
-      </h3>
-
-      {description && <p className={'c-block__body'}>{description}</p>}
-
-      {(category || date) && (
-        <span className="c-block__meta u-font--secondary--xs u-theme--color--dark">
-          {category && (
-            <div className="c-block__category u-text-transform--upper">
-              {category}
-            </div>
-          )}
-
-          {date && (
-            <time
-              className="c-block__date u-text-transform--upper"
-              dateTime={`${date}`}
+      <div className="u-spacing">
+        <h3
+          className={`${
+            titleSize ? getFontClass('primary', titleSize) : 'u-font--primary'
+          } u-theme--color--darker`}
+        >
+          {url ? (
+            <a
+              className="c-block__title-link u-theme--link-hover--dark"
+              href={url}
             >
-              <DateTimeFormat
-                datetime={date}
-                locales={dateLocales}
-                format={dateFormat}
-                style={dateStyle}
-              />
-            </time>
+              <strong>{title}</strong>
+            </a>
+          ) : (
+            <strong>{title}</strong>
           )}
-        </span>
-      )}
+        </h3>
 
-      {more ? (
-        <>
-          <div className="c-block__content">
-            <p>{more}</p>
-          </div>
-          <Button
-            as={'a'}
-            className={openClass}
-            expand={true}
-            onClick={onToggle}
-            outline={true}
-            toggle={true}
-            
-          />
-        </>
-      ) : (
-        cta &&
-        url && (
-          <Button
-            as="a"
-            className="c-block__button"
-            // icon="arrow-long-right"
-            // iconPosition="right"
-            outline={true}
-            label={cta}
-            url={url}
-            isExternal={url.startsWith('http')}
-          />
-        )
-      )}
+        {description && <p className={'c-block__body'}>{description}</p>}
+
+        {(category || date) && (
+          <span className="c-block__meta u-font--secondary--xs u-theme--color--dark">
+            {category && (
+              <div className="c-block__category u-text-transform--upper">
+                {category}
+              </div>
+            )}
+
+            {date && (
+              <time
+                className="c-block__date u-text-transform--upper"
+                dateTime={`${date}`}
+              >
+                <DateTimeFormat
+                  datetime={date}
+                  locales={dateLocales}
+                  format={dateFormat}
+                  style={dateStyle}
+                />
+              </time>
+            )}
+          </span>
+        )}
+
+        {more ? (
+          <>
+            <div className="c-block__content">
+              <p>{more}</p>
+            </div>
+            <Button
+              as={'a'}
+              className={openClass}
+              expand={true}
+              onClick={onToggle}
+              outline={true}
+              toggle={true}
+            />
+          </>
+        ) : (
+          cta &&
+          url && (
+            <Button
+              as="a"
+              className="c-block__button"
+              // icon="arrow-long-right"
+              // iconPosition="right"
+              outline={true}
+              label={cta}
+              url={url}
+              isExternal={url.startsWith('http')}
+            />
+          )
+        )}
+      </div>
     </div>
   );
 };

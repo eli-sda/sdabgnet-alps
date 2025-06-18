@@ -50,30 +50,7 @@ const Contact = () => {
     e.preventDefault();
     if (formIsInvalid) return false;
 
-    // Get values from DOM by name attribute
-    const name =
-      (document.querySelector('[name="name"]') as HTMLInputElement)?.value ||
-      '';
-    const email =
-      (document.querySelector('[name="email"]') as HTMLInputElement)?.value ||
-      '';
-    const message =
-      (
-        document.querySelector('[name="message"]') as
-          | HTMLInputElement
-          | HTMLTextAreaElement
-      )?.value || '';
-    const topic =
-      (document.querySelector('[name="topic"]') as HTMLSelectElement)?.value ||
-      '';
-
-    // Prepare data for x-www-form-urlencoded
-    const params = new URLSearchParams({
-      name,
-      email,
-      message,
-      topic
-    });
+    const formData = new FormData(e.currentTarget);
 
     try {
       const response = await fetch(`${SITE}/contact.php`, {
@@ -81,7 +58,7 @@ const Contact = () => {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: params.toString()
+        body: formData
       });
       if (response.ok) {
         alert('Съобщението е изпратено успешно!');

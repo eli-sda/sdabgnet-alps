@@ -27,6 +27,7 @@ const Media = lazy(() => import('./pages/Media'));
 const Resources = lazy(() => import('./pages/Resources'));
 const Health = lazy(() => import('./pages/Health'));
 const Advertisement = lazy(() => import('./pages/Advertisement'));
+const AdvertisementForm = lazy(() => import('./pages/AdvertisementPage'));
 const Contact = lazy(() => import('./pages/Contact'));
 
 // const theme = createTheme();
@@ -106,6 +107,10 @@ const Router = () => (
           <Route path={routes.health()} element={<Health />} />
 
           <Route path={routes.advertisement()} element={<Advertisement />} />
+
+          <Route path={routes.advertisement('buySell')} element={<AdvertisementForm />} />
+          <Route path={routes.advertisement('services')} element={<AdvertisementForm />} />
+          <Route path={routes.advertisement('other')} element={<AdvertisementForm />} />
           <Route
             path={routes.health('institutions')}
             element={<HealthInstitutions />}

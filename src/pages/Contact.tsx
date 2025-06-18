@@ -10,6 +10,7 @@ import { Dropdown } from 'alps-library/molecules/forms/elements/Dropdown';
 import { OptionGroup } from 'alps-library/molecules/forms/elements/OptionGroup';
 import React, { useRef, useState } from 'react';
 import { SITE } from 'src/constants';
+import { getTitle } from 'src/utils/Navigation';
 
 const errorSendingMessage =
   'Възникна грешка при изпращането. Моля, използвайте имейла долу в страницата.';
@@ -17,7 +18,7 @@ const errorSendingMessage =
 const Contact = () => {
   const breadcrumbsUrls = [routes.contact];
 
-  const title = 'Контакт';
+  const title = getTitle(routes.contact)
 
   // Create refs for each field
   const nameRef = useRef<TextFieldRef>(null);

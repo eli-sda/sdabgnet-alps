@@ -1,6 +1,8 @@
+import { concat } from 'lodash';
 import { BreadcrumbItemProps } from 'src/alps/molecules/navigation/Breadcrumbs';
 import { PrimaryNavItemProps } from 'src/alps/molecules/navigation/PrimaryNavItem';
 import routes from 'src/routes';
+import { SecondaryNavItemProps } from './../alps/molecules/navigation/SecondaryNavItem';
 
 export const primaryNavigationItems: PrimaryNavItemProps[] = [
   {
@@ -288,21 +290,35 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
   // }
 ];
 
-export function getTitle(url: string): string {
-  return _getTitle(url);
-}
-
 type MenuItem = {
   text: string;
   isExternal?: boolean;
   // useNavLink?: boolean;
   url?: string;
   subnav?: MenuItem[];
+  icon?: string;
 };
+
+export const secondaryNavItems: SecondaryNavItemProps[] = [
+  {
+    icon: 'find',
+    text: 'Намери църква',
+    url: routes.churches
+  },
+  {
+    icon: 'contact',
+    text: 'Контакт',
+    url: routes.contact
+  }
+];
+
+export function getTitle(url: string): string {
+  return _getTitle(url);
+}
 
 function _getTitle(
   targetUrl: string,
-  items: MenuItem[] = primaryNavigationItems
+  items: MenuItem[] = concat(primaryNavigationItems as MenuItem[], secondaryNavItems)
 ): string {
   //TODO seach in primaryNavigationItems by url
   for (const item of items) {

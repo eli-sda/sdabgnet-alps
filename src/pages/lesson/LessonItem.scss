@@ -2,3 +2,9 @@
 // from  .u-background-color--gray--light 
     background-color: #f5f5f5
 }
+
+@media (max-width: 900px) {
+    .lesson_item blockquote {
+        padding-left: 1.25rem;
+    }
+}

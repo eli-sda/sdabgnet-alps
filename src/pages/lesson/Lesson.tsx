@@ -104,7 +104,7 @@ const Lesson = ({ type = '' }: { type?: LessonType }) => {
         return [];
       const { lessonYear, lessonQuarter } = quarterObject;
       const passedLessons: MediaBlockProps[] = [];
-      for (let i = 1; i < currentLessonParameters.lessonNumber; i++) {
+      for (let i = 1; i <= currentLessonParameters.lessonNumber; i++) {
         const lesson = getLessonFromQuarter(quarterObject, i);
         if (!lesson) continue;
         const lessonBlock = {

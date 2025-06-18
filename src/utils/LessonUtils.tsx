@@ -35,9 +35,10 @@ export type LessonProps = QuarterProps & {
 export type LessonDetails = {
   num: number;
   cover?: string;
-  title?: string;
+  title: string;
   startDate?: string;
   endDate?: string;
+  full_path: string;
 };
 
 export type QuarterObject = QuarterProps & {
@@ -83,6 +84,7 @@ type resQuarter = {
     title: string;
     start_date: string;
     end_date: string;
+    full_path: string;
     pdfOnly: boolean;
   }>;
 };
@@ -161,10 +163,11 @@ export const loadQuarter = ({
         lessons.forEach((lesson) => {
           details.lessons.push({
             num: parseInt(lesson.id),
-            title: lesson?.title,
-            cover: lesson?.pdfOnly ? '' : lesson?.cover,
-            startDate: lesson?.start_date,
-            endDate: lesson?.end_date
+            title: lesson.title,
+            cover: lesson.pdfOnly ? '' : lesson.cover,
+            startDate: lesson.start_date,
+            endDate: lesson.end_date,
+            full_path: lesson.full_path
           });
         });
 
@@ -193,4 +196,68 @@ export const getLessonFromQuarter = (
     (lesson) => lesson.num === lessonNumber
   );
   return lesson;
+};
+
+type resLesson = {
+  days: Array<{
+    title: string;
+    date: string;
+    id: string;
+    full_read_path: string;
+  }>;
+};
+
+export type LessonDays = {
+  title: string;
+  date: string;
+  bible?: Array<{
+    name: string;
+    verses: { [key: string]: string };
+  }>;
+  content: string;
+};
+
+/**
+ * Fetches the full lesson details from the given lessonFullPath
+ * @param lessonFullPath - full_path form LessonDetails object, e.g. "https://sabbath-school-stage.adventech.io/api/v2/bg/quarterlies/2025-02-cc/lessons/09"
+ * @returns
+ */
+export const getLessonDays = async (
+  lessonFullPath: string
+): Promise<LessonDays[]> => {
+  // const lessonDays: LessonDays[] = [];
+  const res = await fetch(`${lessonFullPath}/index.json`);
+  const { days } = (await res.json()) as resLesson;
+
+  // Fetch details for each day in parallel
+  const dayDetails = await Promise.all(
+    days.map(async (day) => {
+      const detailRes = await fetch(`${day.full_read_path}/index.json`);
+      const detail = (await detailRes.json()) as LessonDays;
+      return {
+        title: detail.title,
+        date: detail.date,
+        bible: detail.bible || [],
+        content: getHTMLLessonText(detail.content || '')
+      };
+    })
+  );
+  return dayDetails;
+};
+
+export const getHTMLLessonText = (rawString: string): string => {
+  // 1. Replace unicode escapes with actual characters
+  const decoded = rawString.replace(
+    /\\u([\dA-F]{4})/gi,
+    (_: string, grp: string) => String.fromCharCode(parseInt(grp, 16))
+  );
+
+  // 2. Optionally, remove extra backslashes (if present)
+  const htmlString = decoded.replace(/\\(.)/g, '$1');
+
+  // 3. Render in React (dangerouslySetInnerHTML)
+  // function LessonHtml() {
+  //   return <div dangerouslySetInnerHTML={{ __html: htmlString }} />;
+  // }
+  return htmlString;
 };

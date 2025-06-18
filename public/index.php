@@ -10,7 +10,7 @@ $debug = isset($_GET['debug']) && $_GET['debug'] == '1';
 
 $site = 'https://new.sdabg.net';
 $siteName = 'Адвентната българска мреж@';
-$defTitle = '';
+$defTitle = 'Адвентната българска мреж@';
 $defDescription = 'Адвентната българска мрежа - Християнски портал на Църквата на адвентистите от седмия ден, място където да намерите книги, аудио, видео и други ресурси и адвентни сайтове, да споделите вярата си.';
 $defImage = "$site/img/sdabg.net-logo.jpg";
 
@@ -54,7 +54,8 @@ if ($response === false) {
 }
 
 // Extract dynamic data or use defaults
-$title = $page['title'] ?? $defTitle;
+// Use default title if missing or blank (including only whitespace)
+$title = ($page['title'] && trim($page['title']) !== '') ? $page['title'] : $defTitle;
 $description = $page['description'] ?? $defDescription;
 $imageUrl = $page['imageUrl'] ?? $defImage;
 $imageWidth = $page['imageWidth'] ?? 1200;

@@ -94,7 +94,7 @@ export interface MediaBlockProps {
    * Specify the titlePrefix of your  mediaIcon
    */
   titlePrefix?: string;
-  type: keyof typeof MediaBlockTypesMap;
+  type?: keyof typeof MediaBlockTypesMap;
   video?: string | undefined;
   /**
    * Specify whether the description should be expandable

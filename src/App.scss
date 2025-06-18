@@ -135,6 +135,12 @@ a.c-secondary-nav__link {
     padding-left: calc(1.25rem / 2 * 1.5) !important;
   }
 }
+// fix article when 1 col (not to be 0)
+@media  (max-width: 700px) {
+  .l-main .c-article {
+    padding-left: calc(1.25rem / 2 * 1.5) !important;
+  }
+}
 
 .hyphens-auto {
   -webkit-hyphens: auto;

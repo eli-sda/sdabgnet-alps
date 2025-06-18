@@ -318,9 +318,12 @@ export function getTitle(url: string): string {
 
 function _getTitle(
   targetUrl: string,
-  items: MenuItem[] = concat(primaryNavigationItems as MenuItem[], secondaryNavItems)
+  items: MenuItem[] = concat(
+    primaryNavigationItems as MenuItem[],
+    secondaryNavItems
+  )
 ): string {
-  //TODO seach in primaryNavigationItems by url
+  // Seach in navigation menu items by url
   for (const item of items) {
     if (item.url === targetUrl) {
       return item.text; // Return the text if URL matches

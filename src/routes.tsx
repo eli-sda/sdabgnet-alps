@@ -1,3 +1,5 @@
+import { OLD_SITE } from './constants';
+
 const routes = {
   home: '/',
 
@@ -49,6 +51,6 @@ const routes = {
       | 'institutions'
       | 'services'
   ) => `/health${item ? `/${item}` : ''}`,
-  kids: 'https://sdabg.net/page.php?id=kids'
+  kids: `${OLD_SITE}/page.php?id=kids`
 };
 export default routes;

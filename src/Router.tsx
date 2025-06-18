@@ -27,6 +27,7 @@ const Media = lazy(() => import('./pages/Media'));
 const Resources = lazy(() => import('./pages/Resources'));
 const Health = lazy(() => import('./pages/Health'));
 const Advertisement = lazy(() => import('./pages/Advertisement'));
+const Contact = lazy(() => import('./pages/Contact'));
 
 // const theme = createTheme();
 
@@ -109,6 +110,9 @@ const Router = () => (
             path={routes.health('institutions')}
             element={<HealthInstitutions />}
           />
+
+          <Route path={routes.contact} element={<Contact />} />
+
           {/* <Route path="teams" element={<Teams />}>
           <Route path=":teamId" element={<Team />} />
           <Route path="new" element={<NewTeamForm />} />

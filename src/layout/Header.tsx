@@ -1,4 +1,7 @@
-import { primaryNavigationItems } from 'src/utils/Navigation';
+import {
+  primaryNavigationItems,
+  secondaryNavItems
+} from 'src/utils/Navigation';
 import routes from '../routes';
 import './Header.scss';
 
@@ -14,18 +17,7 @@ const Header = () => {
       searchLabel: 'Търси',
       showMenu: true,
       showSearch: false, //todo show it later when Search is working
-      items: [
-        {
-          icon: 'find',
-          text: 'Намери църква',
-          url: routes.churches
-        },
-        {
-          icon: 'contact',
-          text: 'Контакт',
-          url: routes.contact
-        }
-      ]
+      items: secondaryNavItems
     },
     primaryNav: {
       items: primaryNavigationItems

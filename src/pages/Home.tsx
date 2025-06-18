@@ -9,6 +9,7 @@ import { Carousel } from 'alps-library/molecules/components/carousel/Carousel';
 import PageMeta from 'src/utils/PageMeta';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
 import { FetchedPageDescription } from 'src/organisms/FetchedPageDescription';
+import { OLD_SITE } from 'src/constants';
 
 // import { Button } from '@mui/material';
 // import { deleteAllLinks } from 'src/utils/DelteSanityDocuments';
@@ -163,32 +164,40 @@ const Home = () => {
                 Отвори урок 2 за юноши от 1 трим. на 2025г.
               </NavLink>
             </li>
-          <li>
-            <NavLink to={routes.churchLife()}>Църковен живот</NavLink>
-          </li>
-          <li>
-            <NavLink to={routes.info()}>БГ Справочник</NavLink>
-          </li>
-          <li>
-            <NavLink to={routes.media()}>Медии</NavLink>
-          </li>
-          <li>
-            <NavLink to={routes.resources()}>Ресурси</NavLink>
-          </li>
-          <li>
-            <NavLink to={routes.health()}>Здраве</NavLink>
-          </li>
-          <li>
-            <NavLink to={routes.commune()}>Общуване</NavLink>
-          </li>
-          <li>
-            <NavLink to={routes.advertisement()}>Обяви</NavLink>
-          </li>
+            <li>
+              <NavLink to={routes.churchLife()}>Църковен живот</NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.info()}>БГ Справочник</NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.media()}>Медии</NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.resources()}>Ресурси</NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.health()}>Здраве</NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.commune()}>Общуване</NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.advertisement()}>Обяви</NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.health('institutions')}>
+                Здравни институции
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.contact}>Контакт</NavLink>
+            </li>
           </ul>
         </div>
         <p className="text">
           <a
-            href="https://sdabg.net/pdf/Adventist_Identity_Manual.pdf"
+            href={`${OLD_SITE}/pdf/Adventist_Identity_Manual.pdf`}
             target="_blank"
             rel="noreferrer"
           >

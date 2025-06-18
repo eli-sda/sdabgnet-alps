@@ -2,7 +2,7 @@ import React from 'react';
 import useClasses from 'alps-library/helpers/useClasses';
 import useToggle from 'alps-library/helpers/useToggle';
 import { themeBorderColorClass } from 'alps-library/global/colors';
-import { MediaImage } from 'alps-library/molecules/blocks/mediaBlock/MediaImage';
+import { MediaImage } from './MediaImage';
 import { ImageType } from 'alps-library/atoms/images/ImageType';
 import {
   dateFormatsMap,
@@ -11,6 +11,7 @@ import {
 } from 'alps-library/helpers/DateTimeFormat';
 import { getFontClass } from 'alps-library/global/fonts';
 import { Button } from 'src/alps/atoms/Button';
+import { NavLink } from 'react-router-dom';
 
 export interface ContentBlockProps {
   /**
@@ -95,7 +96,16 @@ export const ContentBlock = ({
     `${openClass}`
   );
 
-  const moreClasses = more ? ' can-be--dark-dark' : '';
+  const moreClasses = more ? ' can-be--dark-dark u-clear-fix' : '';
+
+  const isExternal = url.startsWith('http');
+
+  const linkAttr = {
+    target: isExternal ? '_blank' : undefined,
+    to: url || '',
+    href: url,
+    className: 'c-block__title-link u-theme--link-hover--dark'
+  };
 
   return (
     <div className={classes + moreClasses}>
@@ -107,12 +117,17 @@ export const ContentBlock = ({
           } u-theme--color--darker`}
         >
           {url ? (
-            <a
-              className="c-block__title-link u-theme--link-hover--dark"
-              href={url}
-            >
-              <strong>{title}</strong>
+            isExternal ? (
+            <a {...linkAttr}>
+                <strong>{title}</strong>
             </a>
+          ) : (
+            <NavLink
+                {...linkAttr}
+              >
+                <strong>{title}</strong>
+              </NavLink>
+          )
           ) : (
             <strong>{title}</strong>
           )}
@@ -144,35 +159,35 @@ export const ContentBlock = ({
           </span>
         )}
 
-        {more ? (
-          <>
-            <div className="c-block__content">
-              <p>{more}</p>
-            </div>
-            <Button
-              as={'a'}
-              className={openClass}
-              expand={true}
-              onClick={onToggle}
-              outline={true}
-              toggle={true}
-            />
-          </>
-        ) : (
-          cta &&
-          url && (
-            <Button
-              as="a"
-              className="c-block__button"
-              // icon="arrow-long-right"
-              // iconPosition="right"
-              outline={true}
-              label={cta}
-              url={url}
-              isExternal={url.startsWith('http')}
-            />
-          )
-        )}
+      {more ? (
+        <>
+          <div className="c-block__content">
+            <p>{more}</p>
+          </div>
+          <Button
+            as={'a'}
+            className={openClass}
+            expand={true}
+            onClick={onToggle}
+            outline={true}
+            toggle={true}
+          />
+        </>
+      ) : (
+        cta &&
+        url && (
+          <Button
+            as="a"
+            className="c-block__button"
+            // icon="arrow-long-right"
+            // iconPosition="right"
+            outline={true}
+            label={cta}
+            url={url}
+            isExternal={isExternal}
+          />
+        )
+      )}
       </div>
     </div>
   );

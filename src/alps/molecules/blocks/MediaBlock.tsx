@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { MediaImage } from 'alps-library/molecules/blocks/mediaBlock/MediaImage';
+import { MediaImage } from './MediaImage';
 import presets from 'alps-library/molecules/blocks/mediaBlock/MediaBlock.presets';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import {

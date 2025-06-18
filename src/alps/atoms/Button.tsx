@@ -182,7 +182,11 @@ export const Button = ({
       elementByType = (
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        <button className={buttonClass + classes} onClick={handleClick}>
+        <button
+          className={buttonClass + classes}
+          onClick={handleClick}
+          disabled={disabled}
+        >
           {labelWithIcon}
         </button>
       );

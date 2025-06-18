@@ -1,4 +1,6 @@
-export const OLD_SS_URL = 'https://sdabg.net/page.php?id=ss';
+import { OLD_SITE } from 'src/constants';
+
+export const OLD_SS_URL = `${OLD_SITE}/page.php?id=ss`;
 export const SS_URL = 'https://sabbath-school-stage.adventech.io';
 export const SS_URL_BG = `${SS_URL}/bg`;
 export const SS_API_URL_BG_QUARTER = `${SS_URL}/api/v2/bg/quarterlies`;

@@ -2,7 +2,7 @@ import React from 'react';
 import useClasses from 'alps-library/helpers/useClasses';
 import useToggle from 'alps-library/helpers/useToggle';
 import { themeBorderColorClass } from 'alps-library/global/colors';
-import { MediaImage } from 'alps-library/molecules/blocks/mediaBlock/MediaImage';
+import { MediaImage } from './MediaImage';
 import { ImageType } from 'alps-library/atoms/images/ImageType';
 import {
   dateFormatsMap,

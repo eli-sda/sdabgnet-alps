@@ -26,7 +26,7 @@ const Commune = lazy(() => import('./pages/Commune'));
 const Media = lazy(() => import('./pages/Media'));
 const Resources = lazy(() => import('./pages/Resources'));
 const Health = lazy(() => import('./pages/Health'));
-const Advertisement = lazy(() => import('./pages/Advertisement/Advertisement'));
+const Advertisements = lazy(() => import('./pages/Advertisement/Advertisements'));
 const AdvertisementForm = lazy(() => import('./pages/Advertisement/AdvertisementPage'));
 const Contact = lazy(() => import('./pages/Contact'));
 
@@ -106,7 +106,7 @@ const Router = () => (
 
           <Route path={routes.health()} element={<Health />} />
 
-          <Route path={routes.advertisement()} element={<Advertisement />} />
+          <Route path={routes.advertisement()} element={<Advertisements />} />
 
           <Route path={routes.advertisement('buySell')} element={<AdvertisementForm />} />
           <Route path={routes.advertisement('services')} element={<AdvertisementForm />} />

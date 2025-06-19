@@ -26,8 +26,8 @@ const Commune = lazy(() => import('./pages/Commune'));
 const Media = lazy(() => import('./pages/Media'));
 const Resources = lazy(() => import('./pages/Resources'));
 const Health = lazy(() => import('./pages/Health'));
-const Advertisement = lazy(() => import('./pages/Advertisement'));
-const AdvertisementForm = lazy(() => import('./pages/AdvertisementPage'));
+const Advertisement = lazy(() => import('./pages/Advertisement/Advertisement'));
+const AdvertisementForm = lazy(() => import('./pages/Advertisement/AdvertisementPage'));
 const Contact = lazy(() => import('./pages/Contact'));
 
 // const theme = createTheme();

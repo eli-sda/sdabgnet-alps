@@ -24,8 +24,6 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
   // Track form validity
   const [formIsInvalid, setFormIsInvalid] = useState(true);
 
-  const [fileName, setFileName] = useState<string>('');
-
   // Validate form on every change
   const validateForm = () => {
     const isNameValid = nameRef.current?.isValid();
@@ -65,33 +63,6 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
     } catch {
       alert(errorSendingMessage);
     }
-  };
-
-  const cancelClickHandler = (
-    e: React.MouseEvent<
-      HTMLButtonElement | HTMLAnchorElement | HTMLSpanElement,
-      MouseEvent
-    >
-  ) => {
-    e.preventDefault();
-
-    [nameRef, cityRef, emailRef, phoneRef, adverRef, imgRef].forEach((ref) => {
-      const curr = ref.current as { clear?: () => void } | null;
-      if (curr && typeof curr.clear === 'function') {
-        curr.clear();
-      }
-    });
-    setFileName('');
-    setFormIsInvalid(true);
-  };
-
-  const handleImgChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    if (e.target instanceof HTMLInputElement && e.target.type === 'file') {
-      setFileName(e.target.files?.[0]?.name || '');
-    }
-    handleInput();
   };
 
   return (
@@ -169,18 +140,18 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
       />
       <TextField
         ref={imgRef}
-        label="Изображение"
+        label="Добави изображение"
         labelTagClass="o-button o-button--small"
         faIcon="file-image-o"
         name="image"
         type="file"
-        onChange={handleImgChange}
+        accept="image/*"
+        onChange={handleInput}
       />
-      {fileName && <span>{fileName}</span>}
 
       <div>
         <Button label="Изпрати" disabled={formIsInvalid} />
-        <Button onClick={cancelClickHandler} label="Изчисти" simple />
+        <button type="reset" className="o-button o-button--simple">Изчисти</button>
       </div>
     </Form>
   );

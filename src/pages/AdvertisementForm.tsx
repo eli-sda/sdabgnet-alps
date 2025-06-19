@@ -114,7 +114,7 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
       />
       <TextField
         ref={phoneRef}
-        label="Tел. за контакт"
+        label="Телефонен номер"
         name="phone"
         type="text"
         required={true}
@@ -123,7 +123,7 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
       <TextField
         ref={emailRef}
         id="email"
-        label="Имейл адрес за контакт"
+        label="Имейл адрес"
         name="email"
         type="email"
         onChange={handleInput}

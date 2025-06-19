@@ -18,10 +18,11 @@ const errorSendingMessage =
 const Contact = () => {
   const breadcrumbsUrls = [routes.contact];
 
-  const title = getTitle(routes.contact)
+  const title = getTitle(routes.contact);
 
   // Create refs for each field
   const nameRef = useRef<TextFieldRef>(null);
+  const phoneRef = useRef<TextFieldRef>(null);
   const emailRef = useRef<TextFieldRef>(null);
   const messageRef = useRef<TextFieldRef>(null);
 
@@ -135,11 +136,18 @@ const Contact = () => {
             onChange={handleInput}
           />
           <TextField
+            ref={phoneRef}
+            label="Телефонен номер"
+            name="phone"
+            type="text"
+            required={true}
+            onChange={handleInput}
+          />
+          <TextField
             ref={emailRef}
             label="Имейл адрес"
             name="email"
             type="email"
-            required={true}
             onChange={handleInput}
           />
           <TextField
@@ -152,7 +160,7 @@ const Contact = () => {
             onChange={handleInput}
           />
           <Button label="Изпрати" disabled={formIsInvalid} />
-          <Button onClick={cancelClickHandler} label="Отказ" simple />
+          <Button onClick={cancelClickHandler} label="Назад" simple />
         </Form>
       </Page>
     </>

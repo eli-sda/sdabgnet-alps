@@ -26,6 +26,7 @@ const Lessons = () => {
             showLessonLink={true}
           />{' '}
         </LessonQuarterProvider>
+
         <LessonQuarterProvider>
           <LessonQuarterBlock
             {...currentLessonParameters}
@@ -33,6 +34,7 @@ const Lessons = () => {
             showLessonLink={true}
           />
         </LessonQuarterProvider>
+
         <LessonQuarterProvider>
           <LessonQuarterBlock
             {...currentLessonParameters}

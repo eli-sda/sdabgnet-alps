@@ -9,13 +9,10 @@ import {
 import './LessonQuarterBlock.css';
 
 import { PageHeaderFeature2 } from 'src/organisms/sections/PageHeaderFeature2';
-import { MediaBlock } from 'src/alps/molecules/blocks/MediaBlock';
 
-import { GridItem } from 'alps-library/atoms/grids/GridItem';
-import { ListContent } from 'alps-library/organisms/content/listContent/ListContent';
 import { useLessonUtils } from 'src/hooks/useLessonUtils';
 import { useLessonQuarterContext } from 'src/contexts/LessonQuarterContext';
-import { Grid } from 'alps-library/atoms/grids/Grid';
+import LessonHead from './LessonHead';
 
 export type LessonQuarterBlockType = LessonProps & {
   withIntroduction?: boolean;
@@ -37,6 +34,7 @@ const LessonQuarterBlock = (params: LessonQuarterBlockType) => {
   } = useLessonQuarterContext();
 
   const prevParamsRef = useRef<LessonProps | null>(null);
+
   useEffect(() => {
     if (isEqual(prevParamsRef.current, lessonProps)) return;
     prevParamsRef.current = lessonProps;
@@ -54,7 +52,7 @@ const LessonQuarterBlock = (params: LessonQuarterBlockType) => {
       .catch((error) => console.error(error));
   }, [getQuarter, lessonProps, setLessonDetails, setQuarter]);
 
-  const images = useMemo(() => {
+  const qImage = useMemo(() => {
     const qImage = {
       alt: '',
       srcSet: {
@@ -64,27 +62,14 @@ const LessonQuarterBlock = (params: LessonQuarterBlockType) => {
         1200: ''
       }
     };
-    const lImage = {
-      alt: '',
-      srcSet: {
-        default: '',
-        500: '',
-        750: '',
-        1200: ''
-      }
-    };
-
-    if (qLesson && quarterObject?.type != 'cc' && qLesson.cover) {
-      lImage.srcSet.default = qLesson.cover;
-    }
 
     if (quarterObject) {
       qImage.alt = quarterObject.qTitle;
       qImage.srcSet.default = quarterObject.quarterlyCover || '';
     }
 
-    return { lImage, qImage };
-  }, [qLesson, quarterObject]);
+    return qImage;
+  }, [quarterObject]);
 
   return (
     <>
@@ -95,7 +80,7 @@ const LessonQuarterBlock = (params: LessonQuarterBlockType) => {
             blocks={[
               {
                 type: 'longform', //'featureWide',
-                image: images.qImage,
+                image: qImage,
                 category: quarterObject.qAuthor,
                 description: withIntroduction
                   ? quarterObject.qIntroduction
@@ -109,35 +94,13 @@ const LessonQuarterBlock = (params: LessonQuarterBlockType) => {
           />
           {showLessonLink && qLesson?.title && (
             //from template News.tsx latest
-
-            <Grid
-              className={
-                'u-spacing--double--until-large l-grid l-grid--7-col l-grid-wrap l-grid-wrap--6-of-7'
-              }
-              seven={true}
-              as="section"
-              wrap={'6'}
-            >
-              <GridItem
-                className={
-                  'u-padding--zero--sides u-space--triple--bottom u-shift--left--1-col--at-large'
-                }
-                sizeAtL={'5'}
-                sizeAtXL={'4'}
-              >
-                <ListContent className={'to-lesson text'}>
-                  <MediaBlock
-                    type="featuredNews"
-                    kicker="Прочети текущия урок"
-                    kickerAs="h4"
-                    title={qLesson.title}
-                    url={lessonURL}
-                    category={lessonDateRange}
-                    image={images.lImage}
-                  />
-                </ListContent>
-              </GridItem>
-            </Grid>
+            <LessonHead
+              lessonTitle={qLesson.title}
+              kicker={`Прочети текущия урок № ${qLesson.num}`}
+              lessonURL={lessonURL}
+              lessonDateRange={lessonDateRange}
+              lessonCover={qLesson.cover}
+            />
           )}
         </>
       )}

@@ -1,91 +1,61 @@
+import React, { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { SITE } from 'src/constants';
 import { Page } from 'src/organisms/Page';
 import routes from 'src/routes';
+import { getTitle } from 'src/utils/Navigation';
 import { Form } from 'alps-library/molecules/forms/elements/Form.tsx';
-import {
-  TextField,
-  TextFieldRef
-} from 'alps-library/molecules/forms/elements/TextField';
-import { Button } from 'src/alps/atoms/Button';
+import { TextField } from 'alps-library/molecules/forms/elements/TextField';
 import { Dropdown } from 'alps-library/molecules/forms/elements/Dropdown';
 import { OptionGroup } from 'alps-library/molecules/forms/elements/OptionGroup';
-import React, { useRef, useState } from 'react';
-import { SITE } from 'src/constants';
-import { getTitle } from 'src/utils/Navigation';
-
+import { Button } from 'src/alps/atoms/Button';
 const errorSendingMessage =
   'Възникна грешка при изпращането. Моля, използвайте имейла долу в страницата.';
 
 const Contact = () => {
+  const navigate = useNavigate();
   const breadcrumbsUrls = [routes.contact];
 
-  const title = getTitle(routes.contact)
+  const title = getTitle(routes.contact);
 
-  // Create refs for each field
-  const nameRef = useRef<TextFieldRef>(null);
-  const emailRef = useRef<TextFieldRef>(null);
-  const messageRef = useRef<TextFieldRef>(null);
+  const [fields, setFields] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    message: ''
+  });
+  const [touched, setTouched] = useState({
+    name: false,
+    phone: false,
+    email: false,
+    message: false
+  });
 
-  // Track form validity
-  const [formIsInvalid, setFormIsInvalid] = useState(true);
-
-  // Validate form on every change
-  const validateForm = () => {
-    const isNameValid = nameRef.current?.isValid();
-    const isEmailValid = emailRef.current?.isValid();
-    const isMessageValid = messageRef.current?.isValid();
-    const valid = isNameValid && isEmailValid && isMessageValid;
-    setFormIsInvalid(!valid);
-  };
-
-  // Call validateForm on every change
-  const handleInput = (
-    _e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setTimeout(() => {
-      validateForm();
-    }, 100);
-  };
+  // Validate form on every change of a field
+  const formIsInvalid = useMemo(() => {
+    const isNameValid = fields.name.trim() !== '';
+    const isPhoneValid = fields.phone.trim() !== '';
+    const isEmailValid = fields.email.trim() !== '';
+    const isMessageValid = fields.message.trim() !== '';
+    return !(isNameValid && isPhoneValid && isEmailValid && isMessageValid);
+  }, [fields]);
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (formIsInvalid) return false;
 
-    // Get values from DOM by name attribute
-    const name =
-      (document.querySelector('[name="name"]') as HTMLInputElement)?.value ||
-      '';
-    const email =
-      (document.querySelector('[name="email"]') as HTMLInputElement)?.value ||
-      '';
-    const message =
-      (
-        document.querySelector('[name="message"]') as
-          | HTMLInputElement
-          | HTMLTextAreaElement
-      )?.value || '';
-    const topic =
-      (document.querySelector('[name="topic"]') as HTMLSelectElement)?.value ||
-      '';
-
-    // Prepare data for x-www-form-urlencoded
-    const params = new URLSearchParams({
-      name,
-      email,
-      message,
-      topic
-    });
+    const formData = new FormData(e.currentTarget);
 
     try {
       const response = await fetch(`${SITE}/contact.php`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: params.toString()
+        body: formData
       });
       if (response.ok) {
         alert('Съобщението е изпратено успешно!');
-        // Optionally reset form fields here
+        // Reset only the message field and its touched state
+        setFields((f) => ({ ...f, message: '' }));
+        setTouched((t) => ({ ...t, message: false }));
       } else {
         alert(errorSendingMessage);
       }
@@ -101,8 +71,24 @@ const Contact = () => {
     >
   ) => {
     e.preventDefault();
-    window.history.back();
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate('/'); // fallback to home if no history
+    }
   };
+
+  // Memoize dropdown options to prevent re-creation on every render
+  const topicOptions = useMemo(
+    () => [
+      { text: 'Имам въпрос', value: 'question' },
+      { text: 'Проблем в сайта', value: 'problem' },
+      { text: 'Искам да се включа в проекта', value: 'participate' },
+      { text: 'Нужда от информация', value: 'information' },
+      { text: 'Друго', value: 'other' }
+    ],
+    []
+  );
 
   return (
     <>
@@ -124,55 +110,56 @@ const Contact = () => {
               hideNone
               label=""
               name="topic"
-              options={[
-                {
-                  text: 'Имам въпрос',
-                  value: 'question'
-                },
-                {
-                  text: 'Проблем в сайта',
-                  value: 'problem'
-                },
-                {
-                  text: 'Искам да се включа в проекта',
-                  value: 'participate'
-                },
-                {
-                  text: 'Нужда от информация',
-                  value: 'information'
-                },
-                {
-                  text: 'Друго',
-                  value: 'other'
-                }
-              ]}
+              options={topicOptions}
             />
           </OptionGroup>
 
           <TextField
-            ref={nameRef}
             label="Име"
             name="name"
             type="text"
             required={true}
-            onChange={handleInput}
+            value={fields.name}
+            onChange={(e) => setFields((f) => ({ ...f, name: e.target.value }))}
+            touched={touched.name}
+            onBlur={() => setTouched((t) => ({ ...t, name: true }))}
           />
           <TextField
-            ref={emailRef}
+            label="Телефонен номер"
+            name="phone"
+            type="text"
+            required={true}
+            value={fields.phone}
+            onChange={(e) =>
+              setFields((f) => ({ ...f, phone: e.target.value }))
+            }
+            touched={touched.phone}
+            onBlur={() => setTouched((t) => ({ ...t, phone: true }))}
+          />
+          <TextField
             label="Имейл адрес"
             name="email"
             type="email"
             required={true}
-            onChange={handleInput}
+            value={fields.email}
+            onChange={(e) =>
+              setFields((f) => ({ ...f, email: e.target.value }))
+            }
+            touched={touched.email}
+            onBlur={() => setTouched((t) => ({ ...t, email: true }))}
           />
           <TextField
-            ref={messageRef}
             label="Съобщение"
             name="message"
             type="textarea"
             rows={5}
             required={true}
-            onChange={handleInput}
+            value={fields.message}
+            onChange={(e) =>
+              setFields((f) => ({ ...f, message: e.target.value }))
+            }
+            touched={touched.message}
+            onBlur={() => setTouched((t) => ({ ...t, message: true }))}
           />
           <Button label="Изпрати" disabled={formIsInvalid} />
           <Button onClick={cancelClickHandler} label="Отказ" simple />

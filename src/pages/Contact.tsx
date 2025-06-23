@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SITE } from 'src/constants';
+import { SITE, ERROR_SENDING_MESSAGE } from 'src/constants';
 import { Page } from 'src/organisms/Page';
 import routes from 'src/routes';
 import { getTitle } from 'src/utils/Navigation';
@@ -9,8 +9,6 @@ import { TextField } from 'alps-library/molecules/forms/elements/TextField';
 import { Dropdown } from 'alps-library/molecules/forms/elements/Dropdown';
 import { OptionGroup } from 'alps-library/molecules/forms/elements/OptionGroup';
 import { Button } from 'src/alps/atoms/Button';
-const errorSendingMessage =
-  'Възникна грешка при изпращането. Моля, използвайте имейла долу в страницата.';
 
 const Contact = () => {
   const navigate = useNavigate();
@@ -57,10 +55,10 @@ const Contact = () => {
         setFields((f) => ({ ...f, message: '' }));
         setTouched((t) => ({ ...t, message: false }));
       } else {
-        alert(errorSendingMessage);
+        alert(ERROR_SENDING_MESSAGE);
       }
     } catch {
-      alert(errorSendingMessage);
+      alert(ERROR_SENDING_MESSAGE);
     }
   };
 

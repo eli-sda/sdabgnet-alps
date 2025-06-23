@@ -1,18 +1,12 @@
-import { Page } from 'src/organisms/Page';
-import { useLocation } from 'react-router-dom';
 import routes from 'src/routes';
+import { AddType } from 'src/constants';
+import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
 import AdvertisementForm from './AdvertisementForm';
 
-export type AddType = Parameters<typeof routes.advertisement>[0];
+const AdvertisementPage = ({ type }: { type: AddType }) => {
+  const title = getTitle(routes.advertisement(type));
 
-const AdvertisementPage = () => {
-  const location = useLocation();
-  const path = location.pathname;
-  const title = getTitle(path);
-
-  const typeFromUrl = location.pathname.split('/').pop() as AddType;
-  const type: AddType = typeFromUrl;
   const breadcrumbsUrls = [
     routes.churchLife(),
     routes.advertisement(),
@@ -24,7 +18,11 @@ const AdvertisementPage = () => {
       <Page
         title={title}
         breadcrumbsUrls={breadcrumbsUrls}
-        aside={<AdvertisementForm type={type} />}
+        aside={
+          <>
+            <AdvertisementForm type={type} />
+          </>
+        }
       ></Page>
     </>
   );

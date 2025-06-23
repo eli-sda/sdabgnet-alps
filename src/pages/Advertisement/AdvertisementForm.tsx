@@ -1,43 +1,79 @@
 import { Form } from 'alps-library/molecules/forms/elements/Form.tsx';
-import {
-  TextField,
-  TextFieldRef
-} from 'alps-library/molecules/forms/elements/TextField';
+import { TextField } from 'alps-library/molecules/forms/elements/TextField';
 import { Button } from 'src/alps/atoms/Button';
 import { Dropdown } from 'alps-library/molecules/forms/elements/Dropdown';
 import { OptionGroup } from 'alps-library/molecules/forms/elements/OptionGroup';
-import React, { useRef, useState } from 'react';
-import { AddType } from './AdvertisementPage';
-import { SITE } from 'src/constants';
-
-const errorSendingMessage =
-  'Възникна грешка при изпращането. Моля, използвайте имейла долу в страницата.';
+import { Caption } from 'alps-library/atoms/text/Caption';
+import React, { useMemo, useState } from 'react';
+import { ADD_TYPES, AddType, ERROR_SENDING_MESSAGE, SITE } from 'src/constants';
+import { getTitle } from 'src/utils/Navigation';
+import routes from 'src/routes';
 
 const AdvertisementForm = ({ type }: { type: AddType }) => {
-  const nameRef = useRef<TextFieldRef>(null);
-  const cityRef = useRef<TextFieldRef>(null);
-  const emailRef = useRef<TextFieldRef>(null);
-  const phoneRef = useRef<TextFieldRef>(null);
-  const adverRef = useRef<TextFieldRef>(null);
-  const imgRef = useRef<TextFieldRef>(null);
+  const [fields, setFields] = useState({
+    type: type,
+    name: '',
+    city: '',
+    phone: '',
+    email: '',
+    adver: '',
+    image: ''
+  });
+  const [touched, setTouched] = useState({
+    name: false,
+    city: false,
+    phone: false,
+    email: false,
+    adver: false
+  });
 
-  // Track form validity
-  const [formIsInvalid, setFormIsInvalid] = useState(true);
+  // Validate form on every change of a field
+  const formIsInvalid = useMemo(() => {
+    const isNameValid = fields.name.trim() !== '';
+    const isCityValid = fields.city.trim() !== '';
+    const isPhoneValid = fields.phone.trim() !== '';
+    const isEmailValid = fields.email.trim() !== '';
+    const isAdverValid = fields.adver.trim() !== '';
+    return (
+      !isNameValid ||
+      !isCityValid ||
+      !isPhoneValid ||
+      !isEmailValid ||
+      !isAdverValid
+    );
+  }, [fields]);
 
-  // Validate form on every change
-  const validateForm = () => {
-    const isNameValid = nameRef.current?.isValid();
-    const isEmailValid = emailRef.current?.isValid();
-    const isAdverValid = adverRef.current?.isValid();
-    const valid = isNameValid && isEmailValid && isAdverValid;
-    setFormIsInvalid(!valid);
-  };
+  const reset = (clearAll: boolean) => {
+    // After submit reset only the adver field and its touched state
+    let emptyFields: object = {
+      image: '',
+      adver: ''
+    };
 
-  // Call validateForm on every change
-  const handleInput = () => {
-    setTimeout(() => {
-      validateForm();
-    }, 100);
+    let touched: object = {
+      adver: false
+    };
+
+    if (clearAll) {
+      emptyFields = {
+        ...emptyFields,
+        name: '',
+        city: '',
+        phone: '',
+        email: ''
+      };
+
+      touched = {
+        ...touched,
+        name: false,
+        city: false,
+        phone: false,
+        email: false
+      };
+    }
+
+    setFields((f) => ({ ...f, ...emptyFields }));
+    setTouched((t) => ({ ...t, ...touched }));
   };
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -49,111 +85,127 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
     try {
       const response = await fetch(`${SITE}/adver.php`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
         body: formData
       });
       if (response.ok) {
-        alert('Съобщението е изпратено успешно!');
-        // Optionally reset form fields here
+        alert(
+          'Обявата е изпратена успешно! Ще бъде прегледана от администратор.'
+        );
+        reset(false);
       } else {
-        alert(errorSendingMessage);
+        alert(ERROR_SENDING_MESSAGE);
       }
     } catch {
-      alert(errorSendingMessage);
+      alert(ERROR_SENDING_MESSAGE);
     }
   };
 
-  return (
-    <Form
-      labelPosition={'top'}
-      action={`${SITE}/contact.php`}
-      method="post"
-      onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-        void submitHandler(e);
-      }}
-    >
-      <OptionGroup title="Тип на обявата">
-        <Dropdown
-          defaultValue={type || 'other'}
-          hideNone
-          label=""
-          name="topic"
-          options={[
-            {
-              text: 'Услуги/Работа',
-              value: 'services'
-            },
-            {
-              text: 'Покупко-Продажби/Наем',
-              value: 'buySell'
-            },
-            {
-              text: 'Друго',
-              value: 'other'
-            }
-          ]}
-        />
-      </OptionGroup>
-      <TextField
-        ref={nameRef}
-        label="Име за контакт"
-        name="name"
-        type="text"
-        required={true}
-        onChange={handleInput}
-      />
-      <TextField
-        ref={cityRef}
-        label="От град/село"
-        name="city"
-        type="text"
-        required={true}
-        onChange={handleInput}
-      />
-      <TextField
-        ref={phoneRef}
-        label="Телефонен номер"
-        name="phone"
-        type="text"
-        required={true}
-        onChange={handleInput}
-      />
-      <TextField
-        ref={emailRef}
-        id="email"
-        label="Имейл адрес"
-        name="email"
-        type="email"
-        onChange={handleInput}
-      />
-      <TextField
-        ref={adverRef}
-        id="adver"
-        label="Обява"
-        name="adver"
-        type="textarea"
-        rows={5}
-        required={true}
-        onChange={handleInput}
-      />
-      <TextField
-        ref={imgRef}
-        label="Добави изображение"
-        labelTagClass="o-button o-button--small"
-        faIcon="file-image-o"
-        name="image"
-        type="file"
-        accept="image/*"
-        onChange={handleInput}
-      />
+  const typeOptions = ADD_TYPES.map((type) => ({
+    text: getTitle(routes.advertisement(type)),
+    value: type
+  }));
 
-      <div>
-        <Button label="Изпрати" disabled={formIsInvalid} />
-        <button type="reset" className="o-button o-button--simple">Изчисти</button>
-      </div>
-    </Form>
+  return (
+    <>
+      <Caption>
+        Моля, изпратете имейл на{' '}
+        <a href="mailto:webmaster@sdabg.net?subject=Изтриване на обява от sdabg.net">
+          webmaster@sdabg.net
+        </a>
+        , ако желаете да премахнете вашата обява.
+      </Caption>
+      <Form
+        title="Изпрати нова обява"
+        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+          void submitHandler(e);
+        }}
+      >
+        <Dropdown
+          label="Тип на обявата"
+          name="type"
+          defaultValue={type}
+          value={fields.type}
+          hideNone
+          options={typeOptions}
+        />
+        <TextField
+          label="Име за контакт"
+          name="name"
+          type="text"
+          required={true}
+          value={fields.name}
+          onChange={(e) => setFields((f) => ({ ...f, name: e.target.value }))}
+          touched={touched.name}
+          onBlur={() => setTouched((t) => ({ ...t, name: true }))}
+        />
+        <TextField
+          label="Населено място"
+          name="city"
+          type="text"
+          required={true}
+          value={fields.city}
+          onChange={(e) => setFields((f) => ({ ...f, city: e.target.value }))}
+          touched={touched.city}
+          onBlur={() => setTouched((t) => ({ ...t, city: true }))}
+        />
+        <TextField
+          label="Телефонен номер"
+          name="phone"
+          type="text"
+          required={true}
+          value={fields.phone}
+          onChange={(e) => setFields((f) => ({ ...f, phone: e.target.value }))}
+          touched={touched.phone}
+          onBlur={() => setTouched((t) => ({ ...t, phone: true }))}
+        />
+        <TextField
+          id="email"
+          label="Имейл адрес"
+          name="email"
+          type="email"
+          required={true}
+          value={fields.email}
+          onChange={(e) => setFields((f) => ({ ...f, email: e.target.value }))}
+          touched={touched.email}
+          onBlur={() => setTouched((t) => ({ ...t, email: true }))}
+        />
+        <TextField
+          id="adver"
+          label="Обява"
+          name="adver"
+          type="textarea"
+          rows={5}
+          required={true}
+          value={fields.adver}
+          placeholder="Само грамотно написаните на кирилица обяви ще бъдат публикувани!"
+          onChange={(e) => setFields((f) => ({ ...f, adver: e.target.value }))}
+          touched={touched.adver}
+          onBlur={() => setTouched((t) => ({ ...t, adver: true }))}
+        />
+        <TextField
+          label="Добави изображение"
+          labelTagClass="o-button o-button--small"
+          faIcon="file-image-o"
+          name="image"
+          type="file"
+          accept="image/png, image/jpeg"
+          value={fields.image}
+          onChange={(e) => setFields((f) => ({ ...f, image: e.target.value }))}
+        />
+
+        <div>
+          <Button label="Изпрати" disabled={formIsInvalid} />
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+              reset(true);
+            }}
+            label="Изчисти"
+            simple
+          />
+        </div>
+      </Form>
+    </>
   );
 };
 

@@ -33,9 +33,8 @@ const Contact = () => {
   const formIsInvalid = useMemo(() => {
     const isNameValid = fields.name.trim() !== '';
     const isPhoneValid = fields.phone.trim() !== '';
-    const isEmailValid = fields.email.trim() !== '';
     const isMessageValid = fields.message.trim() !== '';
-    return !(isNameValid && isPhoneValid && isEmailValid && isMessageValid);
+    return !(isNameValid && isPhoneValid && isMessageValid);
   }, [fields]);
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -138,13 +137,10 @@ const Contact = () => {
             label="Имейл адрес"
             name="email"
             type="email"
-            required={true}
             value={fields.email}
             onChange={(e) =>
               setFields((f) => ({ ...f, email: e.target.value }))
             }
-            touched={touched.email}
-            onBlur={() => setTouched((t) => ({ ...t, email: true }))}
           />
           <TextField
             label="Съобщение"

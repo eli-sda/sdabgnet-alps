@@ -125,6 +125,7 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
           value={fields.type}
           hideNone
           options={typeOptions}
+          onChange={(e) => setFields((f) => ({ ...f, type: e.target.value }))}
         />
         <TextField
           label="Име за контакт"

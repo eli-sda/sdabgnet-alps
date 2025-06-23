@@ -2,7 +2,6 @@ import { Form } from 'alps-library/molecules/forms/elements/Form.tsx';
 import { TextField } from 'alps-library/molecules/forms/elements/TextField';
 import { Button } from 'src/alps/atoms/Button';
 import { Dropdown } from 'alps-library/molecules/forms/elements/Dropdown';
-import { OptionGroup } from 'alps-library/molecules/forms/elements/OptionGroup';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import React, { useMemo, useState } from 'react';
 import { ADD_TYPES, AddType, ERROR_SENDING_MESSAGE, SITE } from 'src/constants';
@@ -112,7 +111,7 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
         <a href="mailto:webmaster@sdabg.net?subject=Изтриване на обява от sdabg.net">
           webmaster@sdabg.net
         </a>
-        , ако желаете да премахнете вашата обява.
+        , ако желаете да премахнете ваша обява.
       </Caption>
       <Form
         title="Изпрати нова обява"
@@ -123,7 +122,6 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
         <Dropdown
           label="Тип на обявата"
           name="type"
-          defaultValue={type}
           value={fields.type}
           hideNone
           options={typeOptions}
@@ -159,7 +157,6 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
           onBlur={() => setTouched((t) => ({ ...t, phone: true }))}
         />
         <TextField
-          id="email"
           label="Имейл адрес"
           name="email"
           type="email"
@@ -170,7 +167,6 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
           onBlur={() => setTouched((t) => ({ ...t, email: true }))}
         />
         <TextField
-          id="adver"
           label="Обява"
           name="adver"
           type="textarea"

@@ -137,28 +137,6 @@ const Contact = () => {
             onBlur={() => setTouched((t) => ({ ...t, phone: true }))}
           />
           <TextField
-            label="Телефонен номер"
-            name="phone"
-            type="text"
-            required={true}
-            value={fields.name}
-            onChange={(e) => setFields((f) => ({ ...f, name: e.target.value }))}
-            touched={touched.name}
-            onBlur={() => setTouched((t) => ({ ...t, name: true }))}
-          />
-          <TextField
-            label="Телефонен номер"
-            name="phone"
-            type="text"
-            required={true}
-            value={fields.phone}
-            onChange={(e) =>
-              setFields((f) => ({ ...f, phone: e.target.value }))
-            }
-            touched={touched.phone}
-            onBlur={() => setTouched((t) => ({ ...t, phone: true }))}
-          />
-          <TextField
             label="Имейл адрес"
             name="email"
             type="email"

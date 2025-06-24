@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SITE, ERROR_SENDING_MESSAGE } from 'src/constants';
+import { SITE, EMAIL_REGEX, ERROR_SENDING_MESSAGE } from 'src/constants';
 import { Page } from 'src/organisms/Page';
 import routes from 'src/routes';
 import { getTitle } from 'src/utils/Navigation';
@@ -29,13 +29,23 @@ const Contact = () => {
     message: false
   });
 
+  const isEmailValid = useMemo(() => {
+    const email = fields.email.trim();
+    // Email is not required, but if present, must be valid
+    return email === '' || EMAIL_REGEX.test(email);
+  }, [fields.email]);
+
   // Validate form on every change of a field
   const formIsInvalid = useMemo(() => {
     const isNameValid = fields.name.trim() !== '';
     const isPhoneValid = fields.phone.trim() !== '';
     const isMessageValid = fields.message.trim() !== '';
-    return !(isNameValid && isPhoneValid && isMessageValid);
-  }, [fields]);
+    return !(isNameValid && isPhoneValid && isEmailValid && isMessageValid);
+  }, [fields, isEmailValid]);
+
+  // Email error message
+  const emailError =
+    touched.email && !isEmailValid ? 'Невалиден имейл адрес' : '';
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -91,14 +101,11 @@ const Contact = () => {
     <>
       <Page title={title} breadcrumbsUrls={breadcrumbsUrls}>
         <Form
-          action={`${SITE}/contact.php`}
-          method="post"
+          title="Изпрати съобщение"
           onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
             void submitHandler(e);
           }}
-          className={
-            'u-padding u-spacing u-space--quad--left u-space--quad--right'
-          }
+          className={'u-spacing'}
           labelPosition={'top'}
         >
           <OptionGroup title="Тема на съобщението">
@@ -141,6 +148,9 @@ const Contact = () => {
             onChange={(e) =>
               setFields((f) => ({ ...f, email: e.target.value }))
             }
+            touched={touched.email}
+            onBlur={() => setTouched((t) => ({ ...t, email: true }))}
+            error={emailError}
           />
           <TextField
             label="Съобщение"

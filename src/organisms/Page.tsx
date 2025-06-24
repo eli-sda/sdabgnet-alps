@@ -1,8 +1,8 @@
 import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
-// import { Text } from 'alps-library/atoms/text/Text';
 import './Page.scss';
 import { PageSection } from './PageSection';
 import { BreakoutBlockProps } from 'alps-library/molecules/blocks/breackoutBlock/BreakoutBlock';
+import { RelatedPostsProps } from 'src/alps/organisms/asides/RelatedPosts';
 
 export interface PageProps {
   children?: React.ReactNode;
@@ -13,6 +13,7 @@ export interface PageProps {
   url?: string; //url from router to determinate the breadcrumbs
   breakout?: BreakoutBlockProps;
   aside?: React.ReactNode;
+  relatedPosts?: RelatedPostsProps;
 }
 
 export const Page = ({
@@ -22,7 +23,8 @@ export const Page = ({
   breadcrumbsUrls = [],
   children,
   breakout,
-  aside
+  aside,
+  relatedPosts
 }: PageProps): JSX.Element => {
   return (
     <>
@@ -31,6 +33,7 @@ export const Page = ({
         breadcrumbsUrls={breadcrumbsUrls}
         breakout={breakout}
         aside={aside}
+        relatedPosts={relatedPosts}
       >
         {children}
       </PageSection>

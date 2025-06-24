@@ -56,6 +56,7 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
     if (clearAll) {
       emptyFields = {
         ...emptyFields,
+        type: type,
         name: '',
         city: '',
         phone: '',
@@ -125,7 +126,9 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
           value={fields.type}
           hideNone
           options={typeOptions}
-          onChange={(e) => setFields((f) => ({ ...f, type: e.target.value }))}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+            setFields((f) => ({ ...f, type: e.target.value as AddType }))
+          }
         />
         <TextField
           label="Име за контакт"

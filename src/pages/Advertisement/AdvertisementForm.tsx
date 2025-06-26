@@ -4,7 +4,13 @@ import { Button } from 'src/alps/atoms/Button';
 import { Dropdown } from 'alps-library/molecules/forms/elements/Dropdown';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import React, { useMemo, useState } from 'react';
-import { ADD_TYPES, AddType, ERROR_SENDING_MESSAGE, SITE } from 'src/constants';
+import {
+  ADD_TYPES,
+  AddType,
+  EMAIL_REGEX,
+  ERROR_SENDING_MESSAGE,
+  SITE
+} from 'src/constants';
 import { getTitle } from 'src/utils/Navigation';
 import routes from 'src/routes';
 
@@ -26,21 +32,30 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
     adver: false
   });
 
+  const isEmailValid = useMemo(() => {
+    const email = fields.email.trim();
+    // Email is not required, but if present, must be valid
+    return email === '' || EMAIL_REGEX.test(email);
+  }, [fields.email]);
+
   // Validate form on every change of a field
   const formIsInvalid = useMemo(() => {
     const isNameValid = fields.name.trim() !== '';
     const isCityValid = fields.city.trim() !== '';
     const isPhoneValid = fields.phone.trim() !== '';
-    const isEmailValid = fields.email.trim() !== '';
     const isAdverValid = fields.adver.trim() !== '';
-    return (
-      !isNameValid ||
-      !isCityValid ||
-      !isPhoneValid ||
-      !isEmailValid ||
-      !isAdverValid
+    return !(
+      isCityValid &&
+      isNameValid &&
+      isPhoneValid &&
+      isEmailValid &&
+      isAdverValid
     );
-  }, [fields]);
+  }, [fields, isEmailValid]);
+
+  // Email error message
+  const emailError =
+    touched.email && !isEmailValid ? 'Невалиден имейл адрес' : '';
 
   const reset = (clearAll: boolean) => {
     // After submit reset only the adver field and its touched state
@@ -91,6 +106,8 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
         alert(
           'Обявата е изпратена успешно! Ще бъде прегледана от администратор.'
         );
+        setFields((f) => ({ ...f, adver: '' }));
+        setTouched((t) => ({ ...t, adver: false }));
         reset(false);
       } else {
         alert(ERROR_SENDING_MESSAGE);
@@ -169,6 +186,7 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
           onChange={(e) => setFields((f) => ({ ...f, email: e.target.value }))}
           touched={touched.email}
           onBlur={() => setTouched((t) => ({ ...t, email: true }))}
+          error={emailError}
         />
         <TextField
           label="Обява"

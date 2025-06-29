@@ -1,5 +1,12 @@
 <?php
+include_once __DIR__ . '/constants.php';
+?>
+<script type="text/javascript">
+    // Redirect to index.html, not working for social media previews
+    window.location.href = '/index.html';
+</script>
 
+<?php
 /** This page generates HTML for preview in social media
  *  and redirects in browsers to index.html - the React app
  */
@@ -8,7 +15,7 @@ $debug = isset($_GET['debug']) && $_GET['debug'] == '1';
 
 // example URL with debug (load the page with clear cache!): https://new.sdabg.net/church_life/lesson/25/2/9?debug=1
 
-$site = 'https://new.sdabg.net';
+
 $siteName = 'Адвентната българска мреж@';
 $defTitle = 'Адвентната българска мреж@';
 $defDescription = 'Адвентната българска мрежа - Християнски портал на Църквата на адвентистите от седмия ден, място където да намерите книги, аудио, видео и други ресурси и адвентни сайтове, да споделите вярата си.';
@@ -97,10 +104,6 @@ $ogUrl = $site . $path;
         exit;
     }
     ?>
-    <script type="text/javascript">
-        // Redirect to index.html, not working for social media previews
-        window.location.href = '/index.html';
-    </script>
 </body>
 
 </html>

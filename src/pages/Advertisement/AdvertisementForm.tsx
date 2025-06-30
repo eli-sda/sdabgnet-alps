@@ -18,18 +18,18 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
   const [fields, setFields] = useState({
     type: type,
     name: '',
-    city: '',
+    place: '',
     phone: '',
     email: '',
-    adver: '',
+    ad: '',
     image: ''
   });
   const [touched, setTouched] = useState({
     name: false,
-    city: false,
+    place: false,
     phone: false,
     email: false,
-    adver: false
+    ad: false
   });
 
   const isEmailValid = useMemo(() => {
@@ -38,15 +38,17 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
     return email === '' || EMAIL_REGEX.test(email);
   }, [fields.email]);
 
+  // Image size validation state
+  const [imageError, setImageError] = useState<string>();
   // Validate form on every change of a field
   const formIsInvalid = useMemo(() => {
     const isNameValid = fields.name.trim() !== '';
-    const isCityValid = fields.city.trim() !== '';
+    const isPlaceValid = fields.place.trim() !== '';
     const isPhoneValid = fields.phone.trim() !== '';
-    const isAdverValid = fields.adver.trim() !== '';
+    const isAdverValid = fields.ad.trim() !== '';
     return !(
-      isCityValid &&
       isNameValid &&
+      isPlaceValid &&
       isPhoneValid &&
       isEmailValid &&
       isAdverValid
@@ -58,14 +60,14 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
     touched.email && !isEmailValid ? 'Невалиден имейл адрес' : '';
 
   const reset = (clearAll: boolean) => {
-    // After submit reset only the adver field and its touched state
+    // After submit reset only the image and ad field and its touched state
     let emptyFields: object = {
       image: '',
-      adver: ''
+      ad: ''
     };
 
     let touched: object = {
-      adver: false
+      ad: false
     };
 
     if (clearAll) {
@@ -73,7 +75,7 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
         ...emptyFields,
         type: type,
         name: '',
-        city: '',
+        place: '',
         phone: '',
         email: ''
       };
@@ -81,7 +83,7 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
       touched = {
         ...touched,
         name: false,
-        city: false,
+        place: false,
         phone: false,
         email: false
       };
@@ -93,15 +95,16 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (formIsInvalid) return false;
+    if (formIsInvalid || imageError) return false;
 
     const formData = new FormData(e.currentTarget);
 
     try {
-      const response = await fetch(`${SITE}/adver.php`, {
+      const response = await fetch(`${SITE}/ad.php`, {
         method: 'POST',
         body: formData
       });
+      const data = (await response.json()) as { error?: string };
       if (response.ok) {
         alert(
           'Обявата е изпратена успешно! Ще бъде прегледана от администратор.'
@@ -109,6 +112,8 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
         setFields((f) => ({ ...f, adver: '' }));
         setTouched((t) => ({ ...t, adver: false }));
         reset(false);
+      } else if (data && typeof data.error === 'string') {
+        alert(data.error);
       } else {
         alert(ERROR_SENDING_MESSAGE);
       }
@@ -121,6 +126,10 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
     text: getTitle(routes.advertisement(type)),
     value: type
   }));
+
+  // Get the display text for the selected type
+  const selectedTypeText =
+    typeOptions.find((opt) => opt.value === fields.type)?.text || '';
 
   return (
     <>
@@ -137,6 +146,7 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
           void submitHandler(e);
         }}
       >
+        <input type="hidden" name="typeText" value={selectedTypeText} />
         <Dropdown
           label="Тип на обявата"
           name="type"
@@ -159,13 +169,13 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
         />
         <TextField
           label="Населено място"
-          name="city"
+          name="place"
           type="text"
           required={true}
-          value={fields.city}
-          onChange={(e) => setFields((f) => ({ ...f, city: e.target.value }))}
-          touched={touched.city}
-          onBlur={() => setTouched((t) => ({ ...t, city: true }))}
+          value={fields.place}
+          onChange={(e) => setFields((f) => ({ ...f, place: e.target.value }))}
+          touched={touched.place}
+          onBlur={() => setTouched((t) => ({ ...t, place: true }))}
         />
         <TextField
           label="Телефонен номер"
@@ -190,15 +200,15 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
         />
         <TextField
           label="Обява"
-          name="adver"
+          name="ad"
           type="textarea"
           rows={5}
           required={true}
-          value={fields.adver}
+          value={fields.ad}
           placeholder="Само грамотно написаните на кирилица обяви ще бъдат публикувани!"
-          onChange={(e) => setFields((f) => ({ ...f, adver: e.target.value }))}
-          touched={touched.adver}
-          onBlur={() => setTouched((t) => ({ ...t, adver: true }))}
+          onChange={(e) => setFields((f) => ({ ...f, ad: e.target.value }))}
+          touched={touched.ad}
+          onBlur={() => setTouched((t) => ({ ...t, ad: true }))}
         />
         <TextField
           label="Добави изображение"
@@ -208,7 +218,16 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
           type="file"
           accept="image/png, image/jpeg"
           value={fields.image}
-          onChange={(e) => setFields((f) => ({ ...f, image: e.target.value }))}
+          onChange={(e) => {
+            setFields((f) => ({ ...f, image: e.target.value }));
+            setImageError(undefined);
+            const input = e.target as HTMLInputElement;
+            const file = input.files && input.files[0];
+            if (file && file.size > 1024 * 1024) {
+              setImageError('Изображението трябва да е до 1MB.');
+            }
+          }}
+          error={imageError}
         />
 
         <div>

@@ -58,11 +58,14 @@ const Contact = () => {
         method: 'POST',
         body: formData
       });
+      const data = (await response.json()) as { error?: string };
       if (response.ok) {
         alert('Съобщението е изпратено успешно!');
         // Reset only the message field and its touched state
         setFields((f) => ({ ...f, message: '' }));
         setTouched((t) => ({ ...t, message: false }));
+      } else if (data && typeof data.error === 'string') {
+        alert(data.error);
       } else {
         alert(ERROR_SENDING_MESSAGE);
       }

@@ -1,5 +1,9 @@
-import { client } from 'src/sanityClient';
+import { client, clientVreses } from 'src/sanityClient';
 import { PageMetaMap, PageMetaType } from './PageMeta';
+import {
+  AdvertisementsMap,
+  AdvertisementType
+} from 'src/contexts/AdvertisementsContext';
 
 export const loadPagesMeta = async (): Promise<PageMetaMap> => {
   const query = `*[_type == "page"] {
@@ -15,10 +19,43 @@ export const loadPagesMeta = async (): Promise<PageMetaMap> => {
   // Fetch the page meta data from Sanity
   const data: PageMetaType[] = await client.fetch(query);
   const metaMap: PageMetaMap = {};
-  
+
   data.forEach((meta) => {
     if (!meta.path) return;
     metaMap[meta.path] = meta;
   });
   return metaMap;
 };
+
+export const loadAdvertisements =
+  async (): Promise<AdvertisementsMap> => {
+    const adQuery = `*[_type == "advertisement"] | order(date desc) {
+    _id,
+    type,
+    date,
+    name,
+    place,
+    email,
+    phone,
+    hasViber,
+    text,
+    image
+  }`;
+
+    const advertisements: AdvertisementType[] = await clientVreses.fetch(
+      adQuery
+    );
+    const adsMap: AdvertisementsMap = {};
+
+    advertisements.forEach((ad) => {
+      if (!ad.type) return;
+
+      if (!adsMap[ad.type]) {
+        adsMap[ad.type] = [];
+      }
+
+      adsMap[ad.type].push(ad);
+    });
+
+    return adsMap;
+  };

@@ -6,19 +6,26 @@ import { getTitle } from 'src/utils/Navigation';
 import AdvertisementForm from './AdvertisementForm';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
 import { MediaBlockProps } from 'src/alps/molecules/blocks/MediaBlock';
-import AdvertisementBlock, {
-  AdvertisementBlockProps
-} from './AdvertisementBlock';
-import ads from './ads.json';
+import { AdvertisementBlockProps } from './AdvertisementBlock';
 import { BlockFeed } from 'src/organisms/sections/BlockFeed';
 import { getResponsiveImage } from 'src/utils/ImageHelper';
-import { SourceSet } from 'alps-library/atoms/images/SourceSet';
+import { useAdvertisements } from 'src/hooks/useAdvertisements';
+import { AdvertisementType } from 'src/contexts/AdvertisementsContext';
+import { useEffect, useState } from 'react';
 
 const AdvertisementPage = ({ type }: { type: AddType }) => {
   const { getMetaMap } = usePagesMeta();
   const { pageBackground } = usePagesMeta();
   const title = getTitle(routes.advertisement(type));
   const kicker = getTitle(routes.advertisement());
+  const [ads, setAds] = useState<AdvertisementType[]>([]);
+  const { getAdvertisements } = useAdvertisements();
+
+  // useEffect(() => {
+  //   void getAdvertisements(type)
+  //     .then((ads) => setAds(ads))
+  //     .catch();
+  // }, [getAdvertisements, type]);
 
   const relatedItems: MediaBlockProps[] = [];
 
@@ -51,34 +58,21 @@ const AdvertisementPage = ({ type }: { type: AddType }) => {
     routes.advertisement(),
     routes.advertisement(type)
   ];
-  type AdvertisementType = {
-    type: AddType;
-    date: string;
-    text: string;
-    name: string;
-    place: string;
-    email: string;
-    phone: string;
-    hasViber: boolean;
-    image: SanityImageSource | null;
-  };
 
-  const adBlocks: AdvertisementBlockProps[] = (ads as AdvertisementType[])
-    .filter((ad) => ad.type === type)
-    .map((ad) => {
-      const srcSet = ad.image ? getResponsiveImage(ad.image, true) : undefined;
-      const img = srcSet ? { alt: '', srcSet: srcSet } : undefined;
-      return {
-        // ...ad,
-        name: ad.name,
-        place: ad.place,
-        email: ad.email,
-        phone: ad.phone,
-        hasViber: ad.hasViber,
-        description: ad.text,
-        image: img
-      };
-    });
+  const adBlocks: AdvertisementBlockProps[] = ads.map((ad) => {
+    const srcSet = ad.image ? getResponsiveImage(ad.image, true) : undefined;
+    const img = srcSet ? { alt: '', srcSet: srcSet } : undefined;
+    return {
+      // ...ad,
+      name: ad.name,
+      place: ad.place,
+      email: ad.email,
+      phone: ad.phone,
+      hasViber: ad.hasViber,
+      description: ad.text,
+      image: img
+    };
+  });
   return (
     <Page
       title={title}
@@ -89,11 +83,13 @@ const AdvertisementPage = ({ type }: { type: AddType }) => {
       background={pageBackground}
       blockType="archive"
     >
-      <BlockFeed
-        blocks={adBlocks}
-        blocksType="archivePage"
-        mediaBlockComponent="AdvertisementBlock"
-      />
+      {adBlocks && (
+        <BlockFeed
+          blocks={adBlocks}
+          blocksType="archivePage"
+          mediaBlockComponent="AdvertisementBlock"
+        />
+      )}
     </Page>
   );
 };

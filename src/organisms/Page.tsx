@@ -16,6 +16,7 @@ export interface PageProps {
   aside?: React.ReactNode;
   relatedPosts?: RelatedPostsProps;
   background?: SourceSet;
+  blockType?: 'archive' | 'article';
 }
 
 export const Page = ({
@@ -27,16 +28,23 @@ export const Page = ({
   breakout,
   aside,
   relatedPosts,
-  background
+  background,
+  blockType
 }: PageProps): JSX.Element => {
   return (
     <>
-      <PageHeaderLong title={title} kicker={kicker} subtitle={subtitle} background={background} />
+      <PageHeaderLong
+        title={title}
+        kicker={kicker}
+        subtitle={subtitle}
+        background={background}
+      />
       <PageSection
         breadcrumbsUrls={breadcrumbsUrls}
         breakout={breakout}
         aside={aside}
         relatedPosts={relatedPosts}
+        blockType={blockType}
       >
         {children}
       </PageSection>

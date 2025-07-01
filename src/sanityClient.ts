@@ -19,6 +19,7 @@ export const client = createClient({
 });
 
 const builder = imageUrlBuilder(client);
+const builderVreses = imageUrlBuilder(clientVreses);
 
 // Helper
-export const urlFor = (source: SanityImageSource) => builder.image(source);
+export const urlFor = (source: SanityImageSource, isVersesClient = false) => isVersesClient ? builderVreses.image(source) : builder.image(source);

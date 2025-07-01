@@ -1,4 +1,5 @@
-import { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import { useEffect, useRef, useState } from 'react';
+import { isEqual } from 'lodash';
 import routes from 'src/routes';
 import { ADD_TYPES, AddType } from 'src/constants';
 import { Page } from 'src/organisms/Page';
@@ -11,7 +12,6 @@ import { BlockFeed } from 'src/organisms/sections/BlockFeed';
 import { getResponsiveImage } from 'src/utils/ImageHelper';
 import { useAdvertisements } from 'src/hooks/useAdvertisements';
 import { AdvertisementType } from 'src/contexts/AdvertisementsContext';
-import { useEffect, useState } from 'react';
 
 const AdvertisementPage = ({ type }: { type: AddType }) => {
   const { getMetaMap } = usePagesMeta();
@@ -21,11 +21,16 @@ const AdvertisementPage = ({ type }: { type: AddType }) => {
   const [ads, setAds] = useState<AdvertisementType[]>([]);
   const { getAdvertisements } = useAdvertisements();
 
-  // useEffect(() => {
-  //   void getAdvertisements(type)
-  //     .then((ads) => setAds(ads))
-  //     .catch();
-  // }, [getAdvertisements, type]);
+  const prevParamsRef = useRef<AddType | null>(null);
+
+  useEffect(() => {
+    if (isEqual(prevParamsRef.current, type)) return;
+    prevParamsRef.current = type;
+
+    getAdvertisements(type)
+      .then(setAds)
+      .catch((error) => console.error(error));
+  }, [getAdvertisements, type]);
 
   const relatedItems: MediaBlockProps[] = [];
 
@@ -63,7 +68,6 @@ const AdvertisementPage = ({ type }: { type: AddType }) => {
     const srcSet = ad.image ? getResponsiveImage(ad.image, true) : undefined;
     const img = srcSet ? { alt: '', srcSet: srcSet } : undefined;
     return {
-      // ...ad,
       name: ad.name,
       place: ad.place,
       email: ad.email,

@@ -21,12 +21,16 @@ export type AdvertisementsMap = {
 export type AdvertisementsContextType = {
   advertisements: AdvertisementsMap | undefined;
   setAdvertisements: (advertisements: AdvertisementsMap) => void;
+  lastLoaded: string | undefined;
+  setLastLoaded: (date: string) => void;
 };
 
 export const AdvertisementsContext =
   createContext<AdvertisementsContextType>({
     advertisements: undefined,
-    setAdvertisements: () => {}
+    setAdvertisements: () => {},
+    lastLoaded: undefined,
+    setLastLoaded: () => {}
   });
 
 export function useAdvertisementsContext() {

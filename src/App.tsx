@@ -4,6 +4,7 @@ import './App.scss';
 import Router from './Router';
 import { CurrentLessonProvider } from './providers/CurrentLessonProvider';
 import { PagesMetaDataProvider } from './providers/PagesMetaDataProvider';
+import { AdvertisementsProvider } from './providers/AdvertisementsProvider';
 
 const App = () => {
   useEffect(() => {
@@ -28,7 +29,9 @@ const App = () => {
     <HelmetProvider>
       <PagesMetaDataProvider>
         <CurrentLessonProvider>
-          <Router />
+          <AdvertisementsProvider>
+            <Router />
+          </AdvertisementsProvider>
         </CurrentLessonProvider>
       </PagesMetaDataProvider>
     </HelmetProvider>

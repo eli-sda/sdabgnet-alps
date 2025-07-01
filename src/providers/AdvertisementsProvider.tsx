@@ -9,11 +9,14 @@ export const AdvertisementsProvider = ({
 }) => {
   const [advertisements, setAdvertisements] =
     useState<AdvertisementsMap>();
+  const [lastLoaded, setLastLoaded] = useState<string>();
   return (
     <AdvertisementsContext.Provider
       value={{
         advertisements,
-        setAdvertisements
+        setAdvertisements,
+        lastLoaded,
+        setLastLoaded
       }}
     >
       {children}

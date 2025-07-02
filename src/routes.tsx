@@ -22,7 +22,7 @@ const routes = {
   lesson: '/church_life/lesson/:year/:quarter/:week',
   lesson_cq: '/church_life/lesson-cq/:year/:quarter/:week',
   lesson_cc: '/church_life/lesson-cc/:year/:quarter/:week',
-  commune: (item?: 'online') => `/commune${item ? `/${item}` : ''}`,
+  commune: (item?: 'pastor-online') => `/commune${item ? `/${item}` : ''}`,
   advertisement: (item?: AddType) => `/adver${item ? `/${item}` : ''}`,
 
   media: (item?: 'radio' | 'tv' | 'links' | 'courses' | 'bg-links' | 'app') =>

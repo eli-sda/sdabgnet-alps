@@ -1,4 +1,3 @@
-import React from 'react';
 import moment from 'moment';
 import { MediaImage } from 'src/alps/molecules/blocks/MediaImage';
 import presets from 'alps-library/molecules/blocks/mediaBlock/MediaBlock.presets';
@@ -6,12 +5,19 @@ import useClasses from 'alps-library/helpers/useClasses';
 import 'src/alps/molecules/blocks/MediaBlock.scss';
 import { MediaBlockProps } from '../../alps/molecules/blocks/MediaBlock';
 import './AdvertisementBlock.scss';
+import { PortableTextBlock } from '@portabletext/types';
+import { CustomPortableText } from 'src/utils/CustomPortableText';
 
 /**
  * Extended MediaBlock
  */
 
-export type AdvertisementBlockProps = MediaBlockProps & {
+export type AdvertisementBlockProps = Omit<
+  MediaBlockProps,
+  'description' | 'date'
+> & {
+  description: Array<PortableTextBlock>;
+  date: string;
   name: string;
   place: string;
   email: string;
@@ -37,18 +43,23 @@ AdvertisementBlockProps): JSX.Element => {
   // Get preset props current type
   const preset = presets[type];
 
-  const blockType = 'type' in preset ? preset.type as string : type;
+  const blockType = 'type' in preset ? (preset.type as string) : type;
 
-  const wrapClasses = useClasses(`advertisement c-media-block c-block u-padding--left`, {
-    [`c-block__${blockType}`]: blockType
-  });
+  const wrapClasses = useClasses(
+    `advertisement c-media-block c-block u-padding--left`,
+    {
+      [`c-block__${blockType}`]: blockType
+    }
+  );
+
+  const phones = phone
+    .split(',')
+    .map((p) => p.trim())
+    .filter(Boolean);
 
   return (
     <>
-      <div
-        className={` ${wrapClasses}`}
-        {...blockProps}
-      >
+      <div className={` ${wrapClasses}`} {...blockProps}>
         {image && (
           <MediaImage
             className={`${'image' in preset ? preset.image : ''}`}
@@ -62,21 +73,14 @@ AdvertisementBlockProps): JSX.Element => {
             'content' in preset ? preset.content : ''
           }`}
         >
-          <div
-            className={"c-block__group u-spacing"}
-          >
+          <div className={'c-block__group u-spacing'}>
             <div className="u-width--100p u-spacing">
               {description && (
                 <div
                   className={`c-block__description-wrapper u-spacing
                 }`}
                 >
-                  <p
-                    className="c-block__description"
-                    dangerouslySetInnerHTML={{
-                      __html: description
-                    }}
-                  />
+                  <CustomPortableText value={description} />
                 </div>
               )}
 
@@ -92,11 +96,21 @@ AdvertisementBlockProps): JSX.Element => {
                 </p>
 
                 <p>
-                  <i className="fa fa-phone"></i> {phone}
+                  {phones.map((p, i) => {
+                    const tel = p.replace(/\D/g, ''); // href numbers only
+                    return (
+                      <>
+                        <i className="fa fa-phone"></i>{' '}
+                        <a href={`tel:${tel}`}>{p}</a>
+                        {i < phones.length - 1 ? ', ' : ''}
+                      </>
+                    );
+                  })}
                 </p>
                 {hasViber && (
                   <p>
-                    <i className="fa fa-whatsapp"></i> {phone}
+                    <i className="fa fa-whatsapp"></i> Viber:{' '}
+                    <strong>{phone}</strong>
                   </p>
                 )}
               </div>
@@ -110,7 +124,7 @@ AdvertisementBlockProps): JSX.Element => {
                 {date && (
                   <time
                     className="c-block__date u-text-transform--upper"
-                    dateTime={date.toString()}
+                    dateTime={date}
                   >
                     {moment(date).format('DD.MM.YYYY')}
                   </time>

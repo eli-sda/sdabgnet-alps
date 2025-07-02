@@ -1,3 +1,4 @@
+import { PortableTextBlock } from '@portabletext/types';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { createContext, useContext } from 'react';
 import { AddType } from 'src/constants';
@@ -5,7 +6,7 @@ import { AddType } from 'src/constants';
 export type AdvertisementType = {
   type: AddType;
   date: string;
-  text: string;
+  text: Array<PortableTextBlock>;
   name: string;
   place: string;
   email: string;

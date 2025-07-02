@@ -74,6 +74,7 @@ const AdvertisementPage = ({ type }: { type: AddType }) => {
       phone: ad.phone,
       hasViber: ad.hasViber,
       description: ad.text,
+      date: ad.date,
       image: img
     };
   });

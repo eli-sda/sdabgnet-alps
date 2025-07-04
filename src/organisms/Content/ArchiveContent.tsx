@@ -27,7 +27,7 @@ export const ArchiveContent = ({
         >
           <GridItem
             className={
-              'u-spacing--double u-no-gutters u-shift--right--1-col--at-large l-grid-item--5-col l-grid-item--l--4-col l-grid-item--xl--3-col'
+              'u-spacing--double u-no-gutters u-shift--right--1-col--at-large'
             }
           >
             {children}

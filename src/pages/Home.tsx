@@ -186,6 +186,15 @@ const Home = () => {
               <NavLink to={routes.advertisement()}>Обяви</NavLink>
             </li>
             <li>
+              <NavLink to={routes.advertisement('services')}>Услуги/Работа</NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.advertisement('buySell')}>Покупко-Продажби/Наем</NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.advertisement('other')}>Други</NavLink>
+            </li>
+            <li>
               <NavLink to={routes.health('institutions')}>
                 Здравни институции
               </NavLink>

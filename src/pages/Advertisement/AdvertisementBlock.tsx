@@ -110,7 +110,7 @@ AdvertisementBlockProps): JSX.Element => {
                 {hasViber && (
                   <p>
                     <i className="fa fa-whatsapp"></i> Viber:{' '}
-                    <strong>{phone}</strong>
+                    <a href={`viber://chat?number=${phone}`}>{phone}</a>
                   </p>
                 )}
               </div>

@@ -134,7 +134,7 @@ AdvertisementBlockProps): JSX.Element => {
           </div>
         </div>
       </div>
-      <hr className="u-background-color--winter u-space--right" />
+      <hr className="u-background-color--winter u-space--right w70" />
     </>
   );
 };

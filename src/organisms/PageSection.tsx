@@ -10,6 +10,7 @@ import {
 } from 'src/alps/organisms/asides/RelatedPosts';
 import { PageContent } from 'src/alps/organisms/content/PageContent';
 import { getBreadcrumbs } from 'src/utils/Navigation';
+import { ArchiveContent } from './Content/ArchiveContent';
 
 export interface PageSectionProps {
   children?: React.ReactNode;
@@ -26,6 +27,7 @@ export interface PageSectionProps {
    * Specify relatedPosts inside sideBar
    */
   relatedPosts?: RelatedPostsProps;
+  blockType?: 'archive' | 'article';
 }
 
 //see BasicPage from alps
@@ -34,25 +36,28 @@ export const PageSection = ({
   children,
   breakout,
   aside,
-  relatedPosts
+  relatedPosts,
+  blockType='article'
 }: PageSectionProps): JSX.Element => {
   const breadcrumbs = getBreadcrumbs(breadcrumbsUrls);
   const hasSidebar = aside || breakout || relatedPosts;
+
+  const sidebar = hasSidebar && (
+    <>
+      {breakout && <BreakoutBlock {...breakout} />}
+      {aside && <Aside>{aside}</Aside>}
+      {relatedPosts && <RelatedPosts {...relatedPosts} />}
+    </>
+  );
+
   return (
     <PageContent breadcrumbs={breadcrumbs}>
-      <ArticleContent
-        sidebar={
-          hasSidebar && (
-            <>
-              {breakout && <BreakoutBlock {...breakout} />}
-              {aside && <Aside>{aside}</Aside>}
-              {relatedPosts && <RelatedPosts {...relatedPosts} />}
-            </>
-          )
-        }
-      >
-        {children}
-      </ArticleContent>
+      {blockType == 'article' && (
+        <ArticleContent sidebar={sidebar}>{children}</ArticleContent>
+      )}
+      {blockType == 'archive' && (
+        <ArchiveContent sidebar={sidebar}>{children}</ArchiveContent>
+      )}
     </PageContent>
   );
 };

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { usePagesMetaDataContext } from '../contexts/PagesMetaDataContext';
 import { PageMetaType } from 'src/utils/PageMeta';
-import { getResponsiveBackground } from 'src/utils/ImageHelper';
+import { getResponsiveImage } from 'src/utils/ImageHelper';
 import { useLocation } from 'react-router-dom';
 import { loadPagesMeta } from 'src/utils/FetchHelper';
 
@@ -55,7 +55,7 @@ export function usePagesMeta() {
 
   const pageBackground = useMemo(() => {
     if (pageMeta?.headerImage) {
-      return getResponsiveBackground(pageMeta.headerImage);
+      return getResponsiveImage(pageMeta.headerImage);
     }
     return undefined;
   }, [pageMeta]);

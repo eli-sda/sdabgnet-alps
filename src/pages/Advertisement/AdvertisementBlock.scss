@@ -1,0 +1,17 @@
+.advertisement {
+  a:has(picture) {
+    cursor: zoom-in;
+  }
+  .c-block__content:first-child {
+    padding-left: 0 !important;
+  }
+  ul {
+      margin-top: 0.2rem;
+      &:not(.c-breadcrumbs__list):not(.o-inline-list):not(.c-share-tools__list) {
+      padding-left: .625rem;
+      li {
+        padding-left: .625rem;
+      }
+    }
+  }
+}

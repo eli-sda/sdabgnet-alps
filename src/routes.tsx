@@ -1,4 +1,4 @@
-import { OLD_SITE, AddType } from './constants';
+import { OLD_SITE, AdType } from './constants';
 
 const routes = {
   home: '/',
@@ -23,7 +23,7 @@ const routes = {
   lesson_cq: '/church_life/lesson-cq/:year/:quarter/:week',
   lesson_cc: '/church_life/lesson-cc/:year/:quarter/:week',
   commune: (item?: 'pastor-online') => `/commune${item ? `/${item}` : ''}`,
-  advertisement: (item?: AddType) => `/adver${item ? `/${item}` : ''}`,
+  advertisement: (item?: AdType) => `/adver${item ? `/${item}` : ''}`,
 
   media: (item?: 'radio' | 'tv' | 'links' | 'courses' | 'bg-links' | 'app') =>
     `/media${item ? `/${item}` : ''}`, //use radios info in media/

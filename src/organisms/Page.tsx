@@ -3,6 +3,7 @@ import './Page.scss';
 import { PageSection } from './PageSection';
 import { BreakoutBlockProps } from 'alps-library/molecules/blocks/breackoutBlock/BreakoutBlock';
 import { RelatedPostsProps } from 'src/alps/organisms/asides/RelatedPosts';
+import { SourceSet } from 'alps-library/atoms/images/SourceSet';
 
 export interface PageProps {
   children?: React.ReactNode;
@@ -14,6 +15,8 @@ export interface PageProps {
   breakout?: BreakoutBlockProps;
   aside?: React.ReactNode;
   relatedPosts?: RelatedPostsProps;
+  background?: SourceSet;
+  blockType?: 'archive' | 'article';
 }
 
 export const Page = ({
@@ -24,16 +27,24 @@ export const Page = ({
   children,
   breakout,
   aside,
-  relatedPosts
+  relatedPosts,
+  background,
+  blockType
 }: PageProps): JSX.Element => {
   return (
     <>
-      <PageHeaderLong title={title} kicker={kicker} subtitle={subtitle} />
+      <PageHeaderLong
+        title={title}
+        kicker={kicker}
+        subtitle={subtitle}
+        background={background}
+      />
       <PageSection
         breadcrumbsUrls={breadcrumbsUrls}
         breakout={breakout}
         aside={aside}
         relatedPosts={relatedPosts}
+        blockType={blockType}
       >
         {children}
       </PageSection>

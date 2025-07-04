@@ -2,8 +2,8 @@ import moment from 'moment';
 import { MediaImage } from 'src/alps/molecules/blocks/MediaImage';
 import presets from 'alps-library/molecules/blocks/mediaBlock/MediaBlock.presets';
 import useClasses from 'alps-library/helpers/useClasses';
+import { MediaBlockProps } from 'src/alps/molecules/blocks/MediaBlock';
 import 'src/alps/molecules/blocks/MediaBlock.scss';
-import { MediaBlockProps } from '../../alps/molecules/blocks/MediaBlock';
 import './AdvertisementBlock.scss';
 import { PortableTextBlock } from '@portabletext/types';
 import { CustomPortableText } from 'src/utils/CustomPortableText';
@@ -99,11 +99,11 @@ AdvertisementBlockProps): JSX.Element => {
                   {phones.map((p, i) => {
                     const tel = p.replace(/\D/g, ''); // href numbers only
                     return (
-                      <>
+                      <span key={i}>
                         <i className="fa fa-phone"></i>{' '}
                         <a href={`tel:${tel}`}>{p}</a>
                         {i < phones.length - 1 ? ', ' : ''}
-                      </>
+                      </span>
                     );
                   })}
                 </p>

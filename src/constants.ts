@@ -3,8 +3,8 @@ export const OLD_SITE = 'https://sdabg.net';
 
 export const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-export type AddType = 'services' | 'buySell' | 'other';
-export const ADD_TYPES: AddType[] = ['services', 'buySell', 'other'];
+export type AdType = 'services' | 'buySell' | 'other';
+export const AD_TYPES: AdType[] = ['services', 'buySell', 'other'];
 
 export const ERROR_SENDING_MESSAGE =
   'Възникна грешка при изпращането. Моля, използвайте имейла долу в страницата.';

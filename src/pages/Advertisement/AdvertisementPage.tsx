@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { isEqual } from 'lodash';
 import routes from 'src/routes';
-import { ADD_TYPES, AddType } from 'src/constants';
+import { AD_TYPES, AdType } from 'src/constants';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
 import AdvertisementForm from './AdvertisementForm';
@@ -13,7 +13,7 @@ import { getResponsiveImage } from 'src/utils/ImageHelper';
 import { useAdvertisements } from 'src/hooks/useAdvertisements';
 import { AdvertisementType } from 'src/contexts/AdvertisementsContext';
 
-const AdvertisementPage = ({ type }: { type: AddType }) => {
+const AdvertisementPage = ({ type }: { type: AdType }) => {
   const { getMetaMap } = usePagesMeta();
   const { pageBackground } = usePagesMeta();
   const title = getTitle(routes.advertisement(type));
@@ -21,7 +21,7 @@ const AdvertisementPage = ({ type }: { type: AddType }) => {
   const [ads, setAds] = useState<AdvertisementType[]>([]);
   const { getAdvertisements } = useAdvertisements();
 
-  const prevParamsRef = useRef<AddType | null>(null);
+  const prevParamsRef = useRef<AdType | null>(null);
 
   useEffect(() => {
     if (isEqual(prevParamsRef.current, type)) return;
@@ -34,7 +34,7 @@ const AdvertisementPage = ({ type }: { type: AddType }) => {
 
   const relatedItems: MediaBlockProps[] = [];
 
-  ADD_TYPES.filter((t) => t !== type).forEach((t) => {
+  AD_TYPES.filter((t) => t !== type).forEach((t) => {
     const url = routes.advertisement(t);
     const metaMap = getMetaMap([url]);
     const meta = metaMap[url];

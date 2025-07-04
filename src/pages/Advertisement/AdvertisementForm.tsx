@@ -5,8 +5,8 @@ import { Dropdown } from 'alps-library/molecules/forms/elements/Dropdown';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import React, { useMemo, useState } from 'react';
 import {
-  ADD_TYPES,
-  AddType,
+  AD_TYPES,
+  AdType,
   EMAIL_REGEX,
   ERROR_SENDING_MESSAGE,
   SITE
@@ -14,7 +14,7 @@ import {
 import { getTitle } from 'src/utils/Navigation';
 import routes from 'src/routes';
 
-const AdvertisementForm = ({ type }: { type: AddType }) => {
+const AdvertisementForm = ({ type }: { type: AdType }) => {
   const [fields, setFields] = useState({
     type: type,
     name: '',
@@ -122,7 +122,7 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
     }
   };
 
-  const typeOptions = ADD_TYPES.map((type) => ({
+  const typeOptions = AD_TYPES.map((type) => ({
     text: getTitle(routes.advertisement(type)),
     value: type
   }));
@@ -154,7 +154,7 @@ const AdvertisementForm = ({ type }: { type: AddType }) => {
           hideNone
           options={typeOptions}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-            setFields((f) => ({ ...f, type: e.target.value as AddType }))
+            setFields((f) => ({ ...f, type: e.target.value as AdType }))
           }
         />
         <TextField

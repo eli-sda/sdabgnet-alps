@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { AddType } from 'src/constants';
+import { AdType } from 'src/constants';
 import { useAdvertisementsContext } from 'src/contexts/AdvertisementsContext';
 import { loadAdvertisements } from 'src/utils/FetchHelper';
 
@@ -19,7 +19,7 @@ export function useAdvertisements() {
    * @returns Promise resolving to an array of advertisements for the given type
    */
   const getAdvertisements = useCallback(
-    async (type: AddType) => {
+    async (type: AdType) => {
       const today = getTodayString();
       if (advertisements && lastLoaded === today) {
         return Promise.resolve(advertisements[type] || []);

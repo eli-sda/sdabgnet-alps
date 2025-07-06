@@ -125,10 +125,15 @@ const Contact = () => {
 
         {topic === 'participate' ? (
           <h4>
-            Моля, попълнете този {' '}
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLScuGmqB24Pq1YZtmgJ6wn-iqOY48enerD_9jHqtngh5ykpE9Q/viewform" target='blanck'>
+            Моля, попълнете този{' '}
+            <a
+              href="https://docs.google.com/forms/d/e/1FAIpQLScuGmqB24Pq1YZtmgJ6wn-iqOY48enerD_9jHqtngh5ykpE9Q/viewform"
+              target="blanck"
+            >
               Google формуляр
             </a>
+            , за да се включите в проекта &quot;Нова версия на Адвентната
+            българска мреж@&quot;
           </h4>
         ) : (
           <>

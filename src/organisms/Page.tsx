@@ -1,6 +1,6 @@
 import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
 import './Page.scss';
-import { PageSection } from './PageSection';
+import { PageSection, PageSectionBlockType } from './PageSection';
 import { BreakoutBlockProps } from 'alps-library/molecules/blocks/breackoutBlock/BreakoutBlock';
 import { RelatedPostsProps } from 'src/alps/organisms/asides/RelatedPosts';
 import { SourceSet } from 'alps-library/atoms/images/SourceSet';
@@ -16,7 +16,7 @@ export interface PageProps {
   aside?: React.ReactNode;
   relatedPosts?: RelatedPostsProps;
   background?: SourceSet;
-  blockType?: 'archive' | 'article';
+  blockType?: PageSectionBlockType;
 }
 
 export const Page = ({

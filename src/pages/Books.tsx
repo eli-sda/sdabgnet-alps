@@ -43,7 +43,7 @@ const Books = () => {
       breadcrumbsUrls={breadcrumbsUrls}
     >
       {/* <section className="l-grid l-grid--7-col u-shift--left--1-col--at-large l-grid-wrap--6-of-7 u-spacing--double--until-xxlarge u-padding--zero--sides"> */}
-      <div className="download c-article l-grid-item l-grid-item--l--4-col u-padding--zero--sides u-spacing--double">
+      <div className="download u-spacing--double">
         {allBooks &&
           allBooks.map((bookSection, i) => (
             <ListSection key={i} {...bookSection}></ListSection>
@@ -68,9 +68,6 @@ const ListSection: FC<BooksSection> = ({
 
   return (
     <div className="c-block c-block__text  u-theme--border-color--darker u-border--left u-spacing--half">
-      <ListItemButton>
-        <ListItemText primary="Inbox" />
-      </ListItemButton>
       <ListItemButton onClick={handleClick} alignItems="flex-start">
         <ListItemAvatar>
           {sectionImage && <Avatar alt={sectionTitle} src={sectionImage} />}

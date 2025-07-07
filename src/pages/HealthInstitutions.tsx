@@ -15,14 +15,7 @@ const HealthInstitutions = () => {
 
   return (
     <>
-      <Page title={title} breadcrumbsUrls={breadcrumbsUrls}></Page>
-
-      <Grid
-        className={'l-grid l-grid--7-col l-grid-wrap l-grid-wrap--6-of-7'}
-        seven={true}
-        as="section"
-        wrap={'6'}
-      >
+      <Page title={title} breadcrumbsUrls={breadcrumbsUrls} blockType="wrap6">
         {links.map(({ url, title, description, img }, idx) => (
           <PageLinkItem
             key={idx}
@@ -41,7 +34,7 @@ const HealthInstitutions = () => {
             sizeAtXL="3"
           />
         ))}
-      </Grid>
+      </Page>
     </>
   );
 };

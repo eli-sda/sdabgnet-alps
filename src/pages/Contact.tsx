@@ -29,6 +29,8 @@ const Contact = () => {
     message: false
   });
 
+  const [topic, setTopic] = useState('question');
+
   const isEmailValid = useMemo(() => {
     const email = fields.email.trim();
     // Email is not required, but if present, must be valid
@@ -101,78 +103,95 @@ const Contact = () => {
   );
 
   return (
-    <>
-      <Page title={title} breadcrumbsUrls={breadcrumbsUrls}>
-        <Form
-          title="Изпрати съобщение"
-          onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-            void submitHandler(e);
-          }}
-          className={'u-spacing'}
-          labelPosition={'top'}
-        >
-          <OptionGroup title="Тема на съобщението">
-            <Dropdown
-              defaultValue="question"
-              hideNone
-              label=""
-              name="topic"
-              options={topicOptions}
-            />
-          </OptionGroup>
+    <Page title={title} breadcrumbsUrls={breadcrumbsUrls}>
+      <Form
+        title="Изпрати съобщение"
+        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+          void submitHandler(e);
+        }}
+        className={'u-spacing'}
+        labelPosition={'top'}
+      >
+        <OptionGroup title="Тема на съобщението">
+          <Dropdown
+            value={topic}
+            onChange={(e) => setTopic(e.target.value)}
+            hideNone
+            label=""
+            name="topic"
+            options={topicOptions}
+          />
+        </OptionGroup>
 
-          <TextField
-            label="Име"
-            name="name"
-            type="text"
-            required={true}
-            value={fields.name}
-            onChange={(e) => setFields((f) => ({ ...f, name: e.target.value }))}
-            touched={touched.name}
-            onBlur={() => setTouched((t) => ({ ...t, name: true }))}
-          />
-          <TextField
-            label="Телефонен номер"
-            name="phone"
-            type="text"
-            required={true}
-            value={fields.phone}
-            onChange={(e) =>
-              setFields((f) => ({ ...f, phone: e.target.value }))
-            }
-            touched={touched.phone}
-            onBlur={() => setTouched((t) => ({ ...t, phone: true }))}
-          />
-          <TextField
-            label="Имейл адрес"
-            name="email"
-            type="email"
-            value={fields.email}
-            onChange={(e) =>
-              setFields((f) => ({ ...f, email: e.target.value }))
-            }
-            touched={touched.email}
-            onBlur={() => setTouched((t) => ({ ...t, email: true }))}
-            error={emailError}
-          />
-          <TextField
-            label="Съобщение"
-            name="message"
-            type="textarea"
-            rows={5}
-            required={true}
-            value={fields.message}
-            onChange={(e) =>
-              setFields((f) => ({ ...f, message: e.target.value }))
-            }
-            touched={touched.message}
-            onBlur={() => setTouched((t) => ({ ...t, message: true }))}
-          />
-          <Button label="Изпрати" disabled={formIsInvalid} />
-          <Button onClick={cancelClickHandler} label="Назад" simple />
-        </Form>
-      </Page>
-    </>
+        {topic === 'participate' ? (
+          <h4>
+            Моля, попълнете този{' '}
+            <a
+              href="https://docs.google.com/forms/d/e/1FAIpQLScuGmqB24Pq1YZtmgJ6wn-iqOY48enerD_9jHqtngh5ykpE9Q/viewform"
+              target="blanck"
+            >
+              Google формуляр
+            </a>
+            , за да се включите в проекта &quot;Нова версия на Адвентната
+            българска мреж@&quot;
+          </h4>
+        ) : (
+          <>
+            <TextField
+              label="Име"
+              name="name"
+              type="text"
+              required={true}
+              value={fields.name}
+              onChange={(e) =>
+                setFields((f) => ({ ...f, name: e.target.value }))
+              }
+              touched={touched.name}
+              onBlur={() => setTouched((t) => ({ ...t, name: true }))}
+            />
+            <TextField
+              label="Телефонен номер"
+              name="phone"
+              type="text"
+              required={true}
+              value={fields.phone}
+              onChange={(e) =>
+                setFields((f) => ({ ...f, phone: e.target.value }))
+              }
+              touched={touched.phone}
+              onBlur={() => setTouched((t) => ({ ...t, phone: true }))}
+            />
+            <TextField
+              label="Имейл адрес"
+              name="email"
+              type="email"
+              value={fields.email}
+              onChange={(e) =>
+                setFields((f) => ({ ...f, email: e.target.value }))
+              }
+              touched={touched.email}
+              onBlur={() => setTouched((t) => ({ ...t, email: true }))}
+              error={emailError}
+            />
+            <TextField
+              label="Съобщение"
+              name="message"
+              type="textarea"
+              rows={5}
+              required={true}
+              value={fields.message}
+              onChange={(e) =>
+                setFields((f) => ({ ...f, message: e.target.value }))
+              }
+              touched={touched.message}
+              onBlur={() => setTouched((t) => ({ ...t, message: true }))}
+            />
+            <Button label="Изпрати" disabled={formIsInvalid} />
+            <Button onClick={cancelClickHandler} label="Назад" simple />
+          </>
+        )}
+      </Form>
+    </Page>
   );
 };
 

@@ -7,7 +7,6 @@ import { EMAIL_REGEX, ERROR_SENDING_MESSAGE, SITE } from 'src/constants';
 const PastorOnline = () => {
   const [fields, setFields] = useState({
     name: '',
-    phone: '',
     email: '',
     question: ''
   });
@@ -19,14 +18,14 @@ const PastorOnline = () => {
 
   const isEmailValid = useMemo(() => {
     const email = fields.email.trim();
-    return email === '' || EMAIL_REGEX.test(email);
+    return EMAIL_REGEX.test(email);
   }, [fields.email]);
 
   // Validate form on every change of a field
   const formIsInvalid = useMemo(() => {
     const isNameValid = fields.name.trim() !== '';
-    const isAdverValid = fields.question.trim() !== '';
-    return !isNameValid || !isEmailValid || !isAdverValid;
+    const isQuestionValid = fields.question.trim() !== '';
+    return !isNameValid || !isEmailValid || !isQuestionValid;
   }, [fields, isEmailValid]);
 
   const emailError =

@@ -8,23 +8,18 @@ export interface QuestionProps {
    */
   avatar: string;
   name: string;
-  /**
-   * Specify the byline of your Comment
-   */
-  byline: string;
   text: string | Array<PortableTextBlock>;
 }
 
 export const Question = ({
   avatar,
   name,
-  byline,
   text
 }: QuestionProps): JSX.Element => {
   return (
-    <div className="c-comment--inner u-border--left u-space--bottom  u-theme--border-color--darker">
+    <div className="text c-comment--inner u-border--left u-space--bottom  u-theme--border-color--darker">
       <div className="c-comment__avatar u-space--right">
-        <Image src={avatar} alt={byline} />
+        <Image src={avatar} alt="картинка на потребител" />
       </div>
       <div className="c-comment__body u-spacing--quarter">
         <div className="c-comment__meta">

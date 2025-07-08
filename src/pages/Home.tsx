@@ -183,6 +183,9 @@ const Home = () => {
               <NavLink to={routes.commune()}>Общуване</NavLink>
             </li>
             <li>
+              <NavLink to={routes.commune('pastor-online')}>Пастор онайн</NavLink>
+            </li>
+            <li>
               <NavLink to={routes.advertisement()}>Обяви</NavLink>
             </li>
             <li>

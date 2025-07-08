@@ -51,7 +51,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
           {
             type: 'primary',
             text: 'Пастор онлайн',
-            url: routes.commune('online')
+            url: routes.commune('pastor-online')
           },
           {
             type: 'primary',

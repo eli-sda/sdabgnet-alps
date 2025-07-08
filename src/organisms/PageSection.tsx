@@ -53,7 +53,7 @@ export const PageSection = ({
   return (
     <PageContent breadcrumbs={breadcrumbs}>
       {blockType == 'article' && (
-        <ArticleContent sidebar={sidebar}>{children}</ArticleContent>
+        <ArticleContent sidebar={sidebar} hasDropcap={false}>{children}</ArticleContent>
       )}
       {blockType == 'archive' && (
         <ArchiveContent sidebar={sidebar}>{children}</ArchiveContent>

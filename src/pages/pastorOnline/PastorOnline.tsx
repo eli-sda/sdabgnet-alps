@@ -22,7 +22,7 @@ const PastorOnline = () => {
 
   const items: QuestionItem[] = PastorOnlineQestions.map((item) => ({
     text: item.text,
-    avatar: '/img/pastorOnline/question_avatar.png',
+    avatar: '/img/pastorOnline/user-question-darker.svg',
     name: item.name,
     answer: item.answer
       ? {
@@ -33,11 +33,10 @@ const PastorOnline = () => {
       : undefined
   }));
 
-    const relatedItems: MediaBlockProps[] = [];
+  const relatedItems: MediaBlockProps[] = [];
   const relatedQuestion: MediaBlockProps = {
     title: 'GotQuestions.org',
-    description:
-      'Българската версия на сайта с отговорени библейски въпроси',
+    description: 'Българската версия на сайта с отговорени библейски въпроси',
     image: {
       alt: '',
       srcSet: {
@@ -49,7 +48,7 @@ const PastorOnline = () => {
     },
     url: 'https://www.gotquestions.org/Bulgarian/'
   };
-relatedItems.push(relatedQuestion);
+  relatedItems.push(relatedQuestion);
   return (
     <Page
       title={title}

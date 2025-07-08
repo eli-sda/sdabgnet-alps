@@ -73,7 +73,7 @@ const PastorOnline = () => {
         формуляра и ще получите отговор по имейл.
       </Caption>
 
-      <section className="c-comments u-spacing--double">
+      <section className="c-comments u-spacing--double u-space--top">
         <HeadingBlock title="Въпроси с отговори" />
         <QuestionsList items={items} />
       </section>

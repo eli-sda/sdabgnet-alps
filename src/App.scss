@@ -151,6 +151,7 @@ a.c-secondary-nav__link {
 .hyphens-auto {
   -webkit-hyphens: auto;
   hyphens: auto;
+  word-break: break-all;
 }
 
 .flex-1 {

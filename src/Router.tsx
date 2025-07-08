@@ -23,14 +23,15 @@ const HealthInstitutions = lazy(() => import('./pages/HealthInstitutions'));
 const ChurchLife = lazy(() => import('./pages/ChurchLife'));
 const Info = lazy(() => import('./pages/Info'));
 const Commune = lazy(() => import('./pages/Commune'));
+const PastorOnline = lazy(() => import('./pages/pastorOnline/PastorOnline'));
 const Media = lazy(() => import('./pages/Media'));
 const Resources = lazy(() => import('./pages/Resources'));
 const Health = lazy(() => import('./pages/Health'));
 const Advertisements = lazy(
-  () => import('./pages/Advertisement/Advertisements')
+  () => import('./pages/advertisement/Advertisements')
 );
 const AdvertisementPage = lazy(
-  () => import('./pages/Advertisement/AdvertisementPage')
+  () => import('./pages/advertisement/AdvertisementPage')
 );
 const Contact = lazy(() => import('./pages/Contact'));
 
@@ -98,6 +99,7 @@ const Router = () => (
           <Route path={routes.churchLife()} element={<ChurchLife />} />
 
           <Route path={routes.commune()} element={<Commune />} />
+          <Route path={routes.commune('pastor-online')} element={<PastorOnline />} />
 
           <Route path={routes.churches} element={<Churches />} />
           <Route path={routes.info('churches')} element={<Churches />} />

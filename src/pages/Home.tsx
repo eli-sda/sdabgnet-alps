@@ -202,6 +202,9 @@ const Home = () => {
             <li>
               <NavLink to={routes.contact}>Контакт</NavLink>
             </li>
+            <li>
+              <NavLink to={routes.commune('pastor-online')}>Пастор онайн</NavLink>
+            </li>
           </ul>
         </div>
         <p className="text">

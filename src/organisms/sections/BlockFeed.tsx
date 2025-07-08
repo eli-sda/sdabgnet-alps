@@ -3,7 +3,7 @@
 import renderItems from 'alps-library/helpers/renderItems';
 import AdvertisementBlock, {
   AdvertisementBlockProps
-} from 'src/pages/Advertisement/AdvertisementBlock';
+} from 'src/pages/advertisement/AdvertisementBlock';
 
 import { MediaBlock, MediaBlockProps } from 'src/alps/molecules/blocks/MediaBlock';
 import { MediaBlockTypesMap } from 'alps-library/molecules/blocks/mediaBlock/MediaBlock';

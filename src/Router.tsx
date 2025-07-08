@@ -28,10 +28,10 @@ const Media = lazy(() => import('./pages/Media'));
 const Resources = lazy(() => import('./pages/Resources'));
 const Health = lazy(() => import('./pages/Health'));
 const Advertisements = lazy(
-  () => import('./pages/Advertisement/Advertisements')
+  () => import('./pages/advertisement/Advertisements')
 );
 const AdvertisementPage = lazy(
-  () => import('./pages/Advertisement/AdvertisementPage')
+  () => import('./pages/advertisement/AdvertisementPage')
 );
 const Contact = lazy(() => import('./pages/Contact'));
 

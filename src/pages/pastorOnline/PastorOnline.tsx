@@ -55,6 +55,7 @@ const PastorOnline = () => {
       breadcrumbsUrls={breadcrumbsUrls}
       aside={<PastorOnlineForm />}
       relatedPosts={{ heading: 'Полезно', blocks: relatedItems }}
+      pageClassName='page-aside-top'
     >
       <Caption>
         Тук са публикувани някои от зададените въпроси с отговори от{' '}

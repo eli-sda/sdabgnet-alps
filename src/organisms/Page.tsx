@@ -17,6 +17,7 @@ export interface PageProps {
   relatedPosts?: RelatedPostsProps;
   background?: SourceSet;
   blockType?: PageSectionBlockType;
+  pageClassName?: string; 
 }
 
 export const Page = ({
@@ -29,7 +30,8 @@ export const Page = ({
   aside,
   relatedPosts,
   background,
-  blockType
+  blockType,
+  pageClassName
 }: PageProps): JSX.Element => {
   return (
     <>
@@ -45,6 +47,7 @@ export const Page = ({
         aside={aside}
         relatedPosts={relatedPosts}
         blockType={blockType}
+        pageClassName={pageClassName}
       >
         {children}
       </PageSection>

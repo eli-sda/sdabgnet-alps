@@ -17,7 +17,7 @@ export const Question = ({
   text
 }: QuestionProps): JSX.Element => {
   return (
-    <div className="text c-comment--inner u-border--left u-space--bottom  u-theme--border-color--darker">
+    <div className="text c-comment--inner u-border--left u-space--bottom u-theme--border-color--darker">
       <div className="c-comment__avatar u-space--right">
         <Image src={avatar} alt="картинка на потребител" />
       </div>

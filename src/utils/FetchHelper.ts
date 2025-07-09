@@ -58,7 +58,7 @@ export const loadAdvertisements = async (): Promise<AdvertisementsMap> => {
   return adsMap;
 };
 
-export const loadQuestions = async () => {
+export const loadQuestions = async (): Promise<QuestionType[]> => {
   const questionsQuery = `*[_type == "questionAnswer"] | order(_createdAt desc) {
    name,
    text,

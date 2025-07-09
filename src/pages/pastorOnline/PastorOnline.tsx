@@ -30,17 +30,15 @@ const PastorOnline = () => {
       .catch((error) => console.error(error));
   }, [getQuestions]);
 
-  const items: QuestionItem[] = questions.map((item) => ({
-    text: item.text,
+  const items: QuestionItem[] = questions.map(({ text, name, answer }) => ({
+    text: text,
     avatar: '/img/pastorOnline/user-question-darker.svg',
-    name: item.name,
-    answer: item.answer
-      ? {
-          text: item.answer,
-          avatar: '/img/pastorOnline/pastorVentsislavPanayotov.png',
-          name: 'п-р Венцислав Панайотов'
-        }
-      : undefined
+    name: name,
+    answer: {
+      text: answer,
+      avatar: '/img/pastorOnline/pastorVentsislavPanayotov.png',
+      name: 'п-р Венцислав Панайотов'
+    }
   }));
 
   const relatedItems: MediaBlockProps[] = [];

@@ -87,6 +87,7 @@ const AdvertisementPage = ({ type }: { type: AdType }) => {
       relatedPosts={{ heading: 'Още обяви', blocks: relatedItems }}
       background={pageBackground}
       blockType="archive"
+      pageClassName="page-aside-top"
     >
       {adBlocks && (
         <BlockFeed

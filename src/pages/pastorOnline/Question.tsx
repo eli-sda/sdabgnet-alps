@@ -32,7 +32,10 @@ export const Question = ({
           </span>
         </div>
         {typeof text === 'string' ? (
-          <p className="c-comment__content">{text}</p>
+          <p
+            className="c-comment__content"
+            dangerouslySetInnerHTML={{ __html: text.replace(/\n/g, '<br/>') }}
+          />
         ) : (
           <CustomPortableText value={text} />
         )}

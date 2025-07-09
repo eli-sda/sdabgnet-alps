@@ -2,15 +2,16 @@ import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
 import PastorOnlineForm from './PastorOnlineForm';
-import PastorOnlineQestions from 'src/pages/pastorOnline/PastorOnlineQuestions.json';
 import {
   QuestionItem,
   QuestionsList
 } from 'src/pages/pastorOnline/QuestionsList';
-import { PortableTextBlock } from '@portabletext/types';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import { MediaBlockProps } from 'src/alps/molecules/blocks/MediaBlock';
+import { useEffect, useState } from 'react';
+import { QuestionType } from 'src/contexts/QuestionsContext';
+import { useQuestions } from 'src/hooks/useQuestions';
 
 const PastorOnline = () => {
   const title = getTitle(routes.commune('pastor-online'));
@@ -20,17 +21,24 @@ const PastorOnline = () => {
     routes.commune('pastor-online')
   ];
 
-  const items: QuestionItem[] = PastorOnlineQestions.map((item) => ({
-    text: item.text,
+  const [questions, setQuestions] = useState<QuestionType[]>([]);
+  const { getQuestions } = useQuestions();
+
+  useEffect(() => {
+    getQuestions()
+      .then(setQuestions)
+      .catch((error) => console.error(error));
+  }, [getQuestions]);
+
+  const items: QuestionItem[] = questions.map(({ text, name, answer }) => ({
+    text: text,
     avatar: '/img/pastorOnline/user-question-darker.svg',
-    name: item.name,
-    answer: item.answer
-      ? {
-          text: item.answer as PortableTextBlock[],
-          avatar: '/img/pastorOnline/pastorVentsislavPanayotov.png',
-          name: 'п-р Венцислав Панайотов'
-        }
-      : undefined
+    name: name,
+    answer: {
+      text: answer,
+      avatar: '/img/pastorOnline/pastorVentsislavPanayotov.png',
+      name: 'п-р Венцислав Панайотов'
+    }
   }));
 
   const relatedItems: MediaBlockProps[] = [];
@@ -63,7 +71,7 @@ const PastorOnline = () => {
         формуляра и ще получите отговор по имейл.
       </Caption>
 
-      <section className="c-comments u-spacing--double">
+      <section className="c-comments u-spacing--double u-space--top">
         <HeadingBlock title="Въпроси с отговори" />
         <QuestionsList items={items} />
       </section>

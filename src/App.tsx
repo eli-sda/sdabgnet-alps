@@ -5,6 +5,7 @@ import Router from './Router';
 import { CurrentLessonProvider } from './providers/CurrentLessonProvider';
 import { PagesMetaDataProvider } from './providers/PagesMetaDataProvider';
 import { AdvertisementsProvider } from './providers/AdvertisementsProvider';
+import { QuestionsProvider } from './providers/QuestionsProvider';
 
 const App = () => {
   useEffect(() => {
@@ -30,7 +31,9 @@ const App = () => {
       <PagesMetaDataProvider>
         <CurrentLessonProvider>
           <AdvertisementsProvider>
-            <Router />
+            <QuestionsProvider>
+              <Router />
+            </QuestionsProvider>
           </AdvertisementsProvider>
         </CurrentLessonProvider>
       </PagesMetaDataProvider>

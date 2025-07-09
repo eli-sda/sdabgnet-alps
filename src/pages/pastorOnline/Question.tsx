@@ -17,7 +17,7 @@ export const Question = ({
   text
 }: QuestionProps): JSX.Element => {
   return (
-    <div className="text c-comment--inner u-border--left u-space--bottom  u-theme--border-color--darker">
+    <div className="text c-comment--inner u-border--left u-space--bottom u-theme--border-color--darker">
       <div className="c-comment__avatar u-space--right">
         <Image src={avatar} alt="картинка на потребител" />
       </div>
@@ -32,7 +32,10 @@ export const Question = ({
           </span>
         </div>
         {typeof text === 'string' ? (
-          <p className="c-comment__content">{text}</p>
+          <p
+            className="c-comment__content"
+            dangerouslySetInnerHTML={{ __html: text.replace(/\n/g, '<br/>') }}
+          />
         ) : (
           <CustomPortableText value={text} />
         )}

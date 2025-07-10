@@ -183,7 +183,7 @@ hr.w70 {
       text-indent: initial;
     }
   }
-  ul:not(.c-breadcrumbs__list):not(.o-inline-list):not(.c-share-tools__list) {
+  ul {
     margin-top: 0.2rem;
     &:not(.c-breadcrumbs__list):not(.o-inline-list):not(.c-share-tools__list) {
       padding-left: 0.625rem;

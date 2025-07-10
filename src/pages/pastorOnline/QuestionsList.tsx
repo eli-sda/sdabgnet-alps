@@ -20,7 +20,7 @@ export const QuestionsList = ({
   const itemClass = `${listClass}-item`;
 
   return (
-    <ul className={listClass + ' u-spacing'}>
+    <ul className={`${listClass} ${level > 0 ? 'u-spacing' : 'u-spacing--double'}`}>
       {items.map(({ answer, text, avatar, name }, key) => (
         <li
           className={`${itemClass} comment  u-spacing`}

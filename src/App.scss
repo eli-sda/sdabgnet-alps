@@ -136,14 +136,14 @@ a.c-secondary-nav__link {
   }
 }
 // fix article when 1 col (not to be 0)
-@media  (max-width: 700px) {
+@media (max-width: 700px) {
   .l-main .c-article {
     padding-left: calc(1.25rem / 2 * 1.5) !important;
   }
 }
 
 @media (max-width: 700px) {
-  [class*="grid--"]>.c-sidebar {
+  [class*='grid--'] > .c-sidebar {
     padding-left: calc(1.25rem / 2 * 1.5) !important;
   }
 }
@@ -166,13 +166,15 @@ a.c-secondary-nav__link {
 
 //like p
 li {
-    line-height: 1.6;
+  font-family: 'Noto Serif', Georgia, Times, 'Times New Roman', serif;
+  font-size: 0.875rem;
+  line-height: 1.6;
 }
-  hr.w70 {
-    width: 70%;
-    margin-left: auto;
-    margin-right: auto;
-  }
+hr.w70 {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 //use this on page to put aside on top on small screens
 @media (max-width: 900px) {
@@ -182,6 +184,25 @@ li {
     &.u-spacing--double--until-xxlarge > * + * {
       margin-top: 0;
       margin-bottom: 2.5rem;
+    }
+  }
+}
+
+
+.text {
+  ol {
+    padding-left: 1rem;
+    li {
+      text-indent: initial;
+    }
+  }
+  ul {
+    margin-top: 0.2rem;
+    &:not(.c-breadcrumbs__list):not(.o-inline-list):not(.c-share-tools__list) {
+      padding-left: 0.625rem;
+      li {
+        padding-left: 0.625rem;
+      }
     }
   }
 }

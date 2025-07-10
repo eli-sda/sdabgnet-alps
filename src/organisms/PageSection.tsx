@@ -42,7 +42,7 @@ export const PageSection = ({
   aside,
   relatedPosts,
   blockType,
-  pageClassName
+  pageClassName = ''
 }: PageSectionProps): JSX.Element => {
   const breadcrumbs = getBreadcrumbs(breadcrumbsUrls);
   const hasSidebar = aside || breakout || relatedPosts;
@@ -58,12 +58,18 @@ export const PageSection = ({
   return (
     <PageContent breadcrumbs={breadcrumbs}>
       {blockType == 'article' && (
-        <ArticleContent sidebar={sidebar} hasDropcap={false} pageClassName={pageClassName}>
+        <ArticleContent
+          sidebar={sidebar}
+          hasDropcap={false}
+          pageClassName={pageClassName}
+        >
           {children}
         </ArticleContent>
       )}
       {blockType == 'archive' && (
-        <ArchiveContent sidebar={sidebar} pageClassName={pageClassName}>{children}</ArchiveContent>
+        <ArchiveContent sidebar={sidebar} pageClassName={pageClassName}>
+          {children}
+        </ArchiveContent>
       )}
       {blockType == 'wrap6' && (
         <Grid
@@ -79,7 +85,7 @@ export const PageSection = ({
         <section
           className={`l-main__content u-space u-spacing--double--until-xxlarge l-grid l-grid--7-col l-grid-wrap l-grid-wrap--6-of-7 u-shift--left--1-col--at-${
             hasSidebar ? 'xxlarge' : 'large'
-          }${pageClassName ? ` ${pageClassName}` : ''}`}
+          } ${pageClassName}`}
         >
           <section
             className={`c-article l-grid-item l-grid-item--l--4-col ${

@@ -5,16 +5,18 @@ import { Text } from 'alps-library/atoms/text/Text';
 export interface ArchiveContentProps {
   children?: React.ReactNode;
   sidebar?: React.ReactNode;
+  pageClassName?: string;
 }
 
 //taken from alps ArchivePage
 export const ArchiveContent = ({
   children,
-  sidebar
+  sidebar,
+  pageClassName='',
 }: ArchiveContentProps): JSX.Element => {
   return (
     <GridSeven
-      className="l-main__content u-padding--zero--sides u-spacing--double--until-xxlarge l-grid l-grid--7-col l-grid-wrap--6-of-7 u-shift--left--1-col--at-xxlarge"
+      className={`l-main__content u-padding--zero--sides u-spacing--double--until-xxlarge l-grid l-grid--7-col l-grid-wrap--6-of-7 u-shift--left--1-col--at-xxlarge ${pageClassName}`}
       id="top"
       as="section"
     >

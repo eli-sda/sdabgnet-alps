@@ -176,6 +176,19 @@ hr.w70 {
   margin-right: auto;
 }
 
+//use this on page to put aside on top on small screens
+@media (max-width: 900px) {
+  .page-aside-top {
+    flex-direction: column-reverse;
+    &.u-spacing--double--until-large,
+    &.u-spacing--double--until-xxlarge > * + * {
+      margin-top: 0;
+      margin-bottom: 2.5rem;
+    }
+  }
+}
+
+
 .text {
   ol {
     padding-left: 1rem;

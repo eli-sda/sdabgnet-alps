@@ -12,6 +12,7 @@ import { BlockFeed } from 'src/organisms/sections/BlockFeed';
 import { getResponsiveImage } from 'src/utils/ImageHelper';
 import { useAdvertisements } from 'src/hooks/useAdvertisements';
 import { AdvertisementType } from 'src/contexts/AdvertisementsContext';
+import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 
 const AdvertisementPage = ({ type }: { type: AdType }) => {
   const { getMetaMap } = usePagesMeta();
@@ -87,13 +88,17 @@ const AdvertisementPage = ({ type }: { type: AdType }) => {
       relatedPosts={{ heading: 'Още обяви', blocks: relatedItems }}
       background={pageBackground}
       blockType="archive"
+      pageClassName="page-aside-top"
     >
       {adBlocks && (
-        <BlockFeed
-          blocks={adBlocks}
-          blocksType="archivePage"
-          mediaBlockComponent="AdvertisementBlock"
-        />
+        <>
+          <HeadingBlock title="Обяви" />
+          <BlockFeed
+            blocks={adBlocks}
+            blocksType="archivePage"
+            mediaBlockComponent="AdvertisementBlock"
+          />
+        </>
       )}
     </Page>
   );

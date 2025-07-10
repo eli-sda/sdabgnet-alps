@@ -1,7 +1,6 @@
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
 import routes from 'src/routes';
-import { Grid } from 'alps-library/atoms/grids/Grid';
 import { PageLinkItem } from 'src/organisms/PageLinkItem';
 import { ImageType } from 'alps-library/atoms/images/ImageType';
 import { ExternalPageLink } from 'src/types/externalPageLink';

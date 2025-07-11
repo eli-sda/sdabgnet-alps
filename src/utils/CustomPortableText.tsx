@@ -21,7 +21,8 @@ const portableTextComponents = {
   marks: {
     link: ({ children, value }: PortableTextMarkComponentProps<LinkValue>) => {
       const href = value?.href || '#';
-      const isExternal = href.startsWith('http');
+      const isRelative = href.startsWith('/') && !href.startsWith('//');
+      const isExternal = isRelative || href.startsWith('http');
       return (
         <a
           className="u-theme--link-hover--dark"

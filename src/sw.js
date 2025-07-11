@@ -1,32 +1,71 @@
-import { precacheAndRoute, cleanupOutdatedCaches } from 'workbox-precaching';
-import { registerRoute } from 'workbox-routing';
-import { NetworkFirst, NetworkOnly } from 'workbox-strategies';
-import { ExpirationPlugin } from 'workbox-expiration';
+// Service Worker: Workbox injectManifest entry
+// This file uses Workbox globals injected at build time. Do not use import/export here.
 
-// Skip waiting and claim clients immediately
-self.skipWaiting();
-self.clientsClaim();
+// Activate new SW immediately
+self.skipWaiting && self.skipWaiting();
+// Take control of clients if available (Workbox injects this in some builds, but not always)
+if (typeof self.clientsClaim === 'function') {
+  self.clientsClaim();
+}
 
-// Clean up outdated caches
-cleanupOutdatedCaches();
+// Clean up outdated caches if available
+if (typeof cleanupOutdatedCaches === 'function') {
+  cleanupOutdatedCaches();
+}
 
 // Exclude PHP files from all service worker handling
-registerRoute(({ url }) => url.pathname.endsWith('.php'), new NetworkOnly());
+if (
+  typeof registerRoute === 'function' &&
+  typeof workbox !== 'undefined' &&
+  workbox.strategies &&
+  workbox.strategies.NetworkOnly
+) {
+  registerRoute(
+    ({ url }) => url.pathname.endsWith('.php'),
+    new workbox.strategies.NetworkOnly()
+  );
+}
 
-// Handle navigation requests but exclude PHP files
-registerRoute(
-  ({ request, url }) =>
-    request.mode === 'navigate' && !url.pathname.endsWith('.php'),
-  new NetworkFirst({
-    cacheName: 'navigation-cache',
-    plugins: [
-      new ExpirationPlugin({
-        maxEntries: 50,
-        maxAgeSeconds: 86400 // Cache for 1 day
-      })
-    ]
-  })
-);
+// Exclude /img/ from all service worker handling
+if (
+  typeof registerRoute === 'function' &&
+  typeof workbox !== 'undefined' &&
+  workbox.strategies &&
+  workbox.strategies.NetworkOnly
+) {
+  registerRoute(
+    ({ url }) => url.pathname.startsWith('/img/'),
+    new workbox.strategies.NetworkOnly()
+  );
+}
 
-// Ensure precached assets are handled correctly
-precacheAndRoute(self.__WB_MANIFEST || []);
+// Handle navigation requests, but exclude PHP files and /img/
+if (
+  typeof registerRoute === 'function' &&
+  typeof workbox !== 'undefined' &&
+  workbox.strategies &&
+  workbox.strategies.NetworkFirst &&
+  workbox.expiration &&
+  workbox.expiration.ExpirationPlugin
+) {
+  registerRoute(
+    ({ request, url }) =>
+      request.mode === 'navigate' &&
+      !url.pathname.endsWith('.php') &&
+      !url.pathname.startsWith('/img/'),
+    new workbox.strategies.NetworkFirst({
+      cacheName: 'navigation-cache',
+      plugins: [
+        new workbox.expiration.ExpirationPlugin({
+          maxEntries: 50,
+          maxAgeSeconds: 86400 // Cache for 1 day
+        })
+      ]
+    })
+  );
+}
+
+// Precache assets injected by Workbox
+if (typeof precacheAndRoute === 'function') {
+  precacheAndRoute(self.__WB_MANIFEST || []);
+}

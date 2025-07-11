@@ -6,9 +6,6 @@ import { VitePWA } from 'vite-plugin-pwa';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { resolve } from 'path';
 
-// Generate a unique cache version based on the current timestamp
-const cacheVersion = `v${Date.now()}`;
-
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -19,24 +16,10 @@ export default defineConfig({
     visualizer({ open: true }), // Opens a report in the browser after build
     VitePWA({
       registerType: 'autoUpdate',
-      workbox: {
-        clientsClaim: true,
-        skipWaiting: true,
-        navigateFallback: '/index.html', // Ensure navigation requests fallback to index.html
-        runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/new\.sdabg\.net\/.*$/,
-            handler: 'NetworkFirst', // Use NetworkFirst strategy for dynamic content
-            options: {
-              cacheName: `dynamic-content-${cacheVersion}`,
-              expiration: {
-                maxEntries: 50,
-                maxAgeSeconds: 86400
-              }
-            }
-          }
-        ]
-      },
+      srcDir: 'src',
+      filename: 'sw.js',
+      strategies: 'injectManifest', // Use your custom service worker
+      injectRegister: 'auto',
       devOptions: {
         enabled: false // Disable Service Worker in development
       }

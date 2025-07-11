@@ -88,7 +88,7 @@ export const PageSection = ({
           } ${pageClassName}`}
         >
           <section
-            className={`c-article l-grid-item l-grid-item--l--4-col ${
+            className={`page_cont c-article l-grid-item l-grid-item--l--4-col ${
               hasSidebar ? 'l-grid-item--xl--3-col' : ''
             }`}
           >

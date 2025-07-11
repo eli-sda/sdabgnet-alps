@@ -206,3 +206,16 @@ hr.w70 {
     }
   }
 }
+
+//add left padding to the page content when no space on the left
+@media (min-width: 901px) and (max-width: 1300px) {
+  .l-grid-wrap--6-of-7.l-grid--7-col.u-shift--left--1-col--at-xxlarge  {
+  // when page takes 4 or 3 columns and the asside is on the right - 2 colums
+  // have to add left padding to the page content
+    .page_cont {
+      &.l-grid-item--l--4-col.l-grid-item--xl--3-col {
+        padding-left: calc(1.25rem / 2 * 1.5) !important;
+      }
+    }
+  }
+}

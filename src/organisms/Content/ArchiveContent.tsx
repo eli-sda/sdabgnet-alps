@@ -12,7 +12,7 @@ export interface ArchiveContentProps {
 export const ArchiveContent = ({
   children,
   sidebar,
-  pageClassName='',
+  pageClassName = ''
 }: ArchiveContentProps): JSX.Element => {
   return (
     <GridSeven
@@ -20,7 +20,7 @@ export const ArchiveContent = ({
       id="top"
       as="section"
     >
-      <GridItem className="c-article" sizeAtL="4" sizeAtXL="3">
+      <GridItem className="page_cont c-article" sizeAtL="4" sizeAtXL="3">
         <Text
           as="article"
           className="c-article__body u-space--top"

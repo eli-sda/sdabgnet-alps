@@ -6,9 +6,6 @@ import { VitePWA } from 'vite-plugin-pwa';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { resolve } from 'path';
 
-// Generate a unique cache version based on the current timestamp
-// const cacheVersion = `v${Date.now()}`;
-
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [

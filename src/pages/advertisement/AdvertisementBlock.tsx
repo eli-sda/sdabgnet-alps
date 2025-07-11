@@ -45,12 +45,9 @@ AdvertisementBlockProps): JSX.Element => {
 
   const blockType = 'type' in preset ? (preset.type as string) : type;
 
-  const wrapClasses = useClasses(
-    `advertisement c-media-block c-block u-padding--left`,
-    {
-      [`c-block__${blockType}`]: blockType
-    }
-  );
+  const wrapClasses = useClasses(`advertisement c-media-block c-block`, {
+    [`c-block__${blockType}`]: blockType
+  });
 
   const phones = phone
     .split(',')

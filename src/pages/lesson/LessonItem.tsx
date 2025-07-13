@@ -1,13 +1,14 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Blockquote } from 'alps-library/atoms/text/Blockquote';
+import { Text } from 'alps-library/atoms/text/Text';
+import { VerseLink } from './VerseLink';
+// For robust HTML parsing
 import './LessonItem.scss';
 import {
   LessonDetails,
   getLessonDays,
   LessonDays
 } from '../../utils/LessonUtils';
-import { Text } from 'alps-library/atoms/text/Text';
-import { Blockquote } from 'alps-library/atoms/text/Blockquote';
-import { VerseLink } from './VerseLink';
 
 type LessonItemType = {
   qLesson: LessonDetails;
@@ -16,75 +17,131 @@ type LessonItemType = {
 export const LessonItem = ({ qLesson }: LessonItemType) => {
   const [days, setDays] = useState<LessonDays[]>([]);
 
-  // Helper to render content with <Blockquote />
+  // Robust HTML-to-React rendering with inline verse link replacement
   function renderContent(html: string, bible: LessonDays['bible'] = []) {
     const parts = html.split(/<blockquote>|<\/blockquote>/i);
     return parts.map((part, idx) => {
       if (idx % 2 === 1) {
-        // Replace the first <p>...</p> with <h3>...</h3> and wrap the rest in <span>
-        const trimmed = part.trim();
-        const pMatch = trimmed.match(/<p>([\s\S]*?)<\/p>/i);
-        let replaced = trimmed;
-        if (pMatch) {
-          const h3 = `<h3 class="u-padding--half--bottom">${pMatch[1]}</h3>`;
-          const afterP = trimmed.replace(/^[\s\S]*?<\/p>/i, '');
-          const rest = afterP.trim() ? `<span>${afterP.trim()}</span>` : '';
-          replaced = h3 + rest;
-        }
+        // Special blockquote logic: first <p> becomes <h3>, rest as <p>, others as normal
+        const parser = new window.DOMParser();
+        const docEl = parser.parseFromString(
+          `<body>${part}</body>`,
+          'text/html'
+        );
+        const nodes = Array.from(docEl.body.childNodes);
+        let firstPDone = false;
+        const blocks: React.ReactNode[] = [];
+        let key = 0;
+        nodes.forEach((node) => {
+          if (
+            node.nodeType === Node.ELEMENT_NODE &&
+            (node as HTMLElement).tagName.toLowerCase() === 'p'
+          ) {
+            if (!firstPDone) {
+              firstPDone = true;
+              blocks.push(
+                <h3 className="u-padding--half--bottom" key={`h3-${key++}`}>
+                  {parseHtmlToReact(
+                    (node as HTMLElement).innerHTML,
+                    bible,
+                    `bq-h3-${key}`
+                  )}
+                </h3>
+              );
+            } else {
+              blocks.push(
+                <p key={`p-${key++}`}>
+                  {parseHtmlToReact(
+                    (node as HTMLElement).innerHTML,
+                    bible,
+                    `bq-p-${key}`
+                  )}
+                </p>
+              );
+            }
+          } else if (node.nodeType === Node.ELEMENT_NODE) {
+            // Other tags (code, div, etc.)
+            const el = node as HTMLElement;
+            blocks.push(
+              React.createElement(
+                el.tagName.toLowerCase(),
+                { key: `bq-${el.tagName.toLowerCase()}-${key++}` },
+                parseHtmlToReact(
+                  el.innerHTML,
+                  bible,
+                  `bq-${el.tagName.toLowerCase()}-${key}`
+                )
+              )
+            );
+          } else if (
+            node.nodeType === Node.TEXT_NODE &&
+            node.textContent?.trim()
+          ) {
+            blocks.push(node.textContent);
+          }
+        });
         return (
           <Blockquote key={idx}>
-            <p>{replaceVerseLinks(replaced, bible)}</p>
+            <p>{blocks}</p>
           </Blockquote>
         );
       }
-      // Even indices are normal HTML
-      return part.trim() ? (
-        <div key={idx}>{replaceVerseLinks(part, bible)}</div>
-      ) : null;
+      // Outside blockquote: parse as normal
+      return parseHtmlToReact(part, bible, `nq-${idx}-`);
     });
   }
 
-  // Helper: Extract all <a class="verse" verse="...">...</a> and replace with VerseLink
-  function replaceVerseLinks(
+  // Recursively parse HTML string to React elements, replacing verse links
+  function parseHtmlToReact(
     html: string,
-    bible: LessonDays['bible'] = []
-  ): (JSX.Element | null)[] {
-    // Regex to match <a class="verse" verse="...">...</a>
-    const verseRegex = /<a class="verse" verse="([^"]+)">([\s\S]*?)<\/a>/gi;
-    let lastIndex = 0;
-    const elements: (JSX.Element | null)[] = [];
-    let match: RegExpExecArray | null;
-    let key = 0;
-    while ((match = verseRegex.exec(html))) {
-      if (match.index > lastIndex) {
-        elements.push(
-          <span
-            key={key++}
-            dangerouslySetInnerHTML={{
-              __html: html.slice(lastIndex, match.index)
-            }}
+    bible: LessonDays['bible'] = [],
+    keyPrefix = ''
+  ): React.ReactNode {
+    if (!html.trim()) return null;
+    // Use DOMParser in browser, fallback for SSR (Server-Side Rendering)
+    let doc: HTMLElement | null = null;
+    try {
+      const parser = new window.DOMParser();
+      const docEl = parser.parseFromString(`<body>${html}</body>`, 'text/html');
+      doc = docEl.body;
+    } catch {
+      // SSR fallback: render as plain text
+      return html;
+    }
+    if (!doc) return html;
+
+    const walk = (node: ChildNode, key: string): React.ReactNode => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        return node.textContent;
+      }
+      if (node.nodeType !== Node.ELEMENT_NODE) return null;
+      const el = node as HTMLElement;
+      // Replace <a class="verse" verse="...">...</a> with <VerseLink>
+      if (
+        el.tagName.toLowerCase() === 'a' &&
+        el.classList.contains('verse') &&
+        el.hasAttribute('verse')
+      ) {
+        return (
+          <VerseLink
+            key={key}
+            verseKey={el.getAttribute('verse') || ''}
+            label={el.textContent || ''}
+            bible={bible}
           />
         );
       }
-      elements.push(
-        <VerseLink
-          key={key++}
-          verseKey={match[1]}
-          label={match[2]}
-          bible={bible}
-        />
+      // For all other tags, render as their tag, recursively
+      const Tag = el.tagName.toLowerCase();
+      const children = Array.from(el.childNodes).map((child, i) =>
+        walk(child, key + '-' + i)
       );
-      lastIndex = match.index + match[0].length;
-    }
-    if (lastIndex < html.length) {
-      elements.push(
-        <span
-          key={key++}
-          dangerouslySetInnerHTML={{ __html: html.slice(lastIndex) }}
-        />
-      );
-    }
-    return elements;
+      return React.createElement(Tag, { key }, children);
+    };
+
+    return Array.from(doc.childNodes).map((node, i) =>
+      walk(node, keyPrefix + i)
+    );
   }
 
   useEffect(() => {

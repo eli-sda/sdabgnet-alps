@@ -1,6 +1,14 @@
 .lesson_item blockquote {
 // from  .u-background-color--gray--light 
-    background-color: #f5f5f5
+    background-color: #f5f5f5;
+    .lesson_to_remember {
+        h3 {
+            padding: 1.25rem 0 0 3.75rem;
+        }
+        p {
+            margin-top: 0;
+        }
+    }
 }
 
 @media (max-width: 900px) {

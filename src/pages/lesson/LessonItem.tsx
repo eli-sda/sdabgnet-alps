@@ -22,71 +22,119 @@ export const LessonItem = ({ qLesson }: LessonItemType) => {
     const parts = html.split(/<blockquote>|<\/blockquote>/i);
     return parts.map((part, idx) => {
       if (idx % 2 === 1) {
-        // Special blockquote logic: first <p> becomes <h3>, rest as <p>, others as normal
-        const parser = new window.DOMParser();
-        const docEl = parser.parseFromString(
-          `<body>${part}</body>`,
-          'text/html'
-        );
-        const nodes = Array.from(docEl.body.childNodes);
-        let firstPDone = false;
-        const blocks: React.ReactNode[] = [];
+        // Optimized blockquote logic: first <p> becomes <h3>, rest as <p>, others as normal
+        let doc: HTMLElement | null = null;
+        try {
+          const parser = new window.DOMParser();
+          const docEl = parser.parseFromString(
+            `<body>${part}</body>`,
+            'text/html'
+          );
+          doc = docEl.body;
+        } catch {
+          return part;
+        }
+        if (!doc) return part;
+        // Improved: after <h3>, group all text and inline elements (including <a>) into a single <p>, block elements break the paragraph
+        let firstP = true;
         let key = 0;
-        nodes.forEach((node) => {
+        const blocks = [];
+        let afterH3Inline: React.ReactNode[] = [];
+        let afterH3 = false;
+        // Helper: check if tag is inline
+        const isInlineTag = (tag: string) =>
+          [
+            'a',
+            'span',
+            'strong',
+            'em',
+            'b',
+            'i',
+            'u',
+            'small',
+            'abbr',
+            'cite',
+            'q',
+            'sub',
+            'sup',
+            'mark',
+            's',
+            'del',
+            'ins',
+            'code',
+            'kbd',
+            'samp',
+            'var',
+            'time',
+            'br',
+            'wbr'
+          ].includes(tag);
+        for (const node of doc.childNodes) {
           if (
             node.nodeType === Node.ELEMENT_NODE &&
             (node as HTMLElement).tagName.toLowerCase() === 'p'
           ) {
-            if (!firstPDone) {
-              firstPDone = true;
-              blocks.push(
-                <h3 className="u-padding--half--bottom" key={`h3-${key++}`}>
-                  {parseHtmlToReact(
-                    (node as HTMLElement).innerHTML,
-                    bible,
-                    `bq-h3-${key}`
-                  )}
-                </h3>
-              );
-            } else {
-              blocks.push(
-                <p key={`p-${key++}`}>
-                  {parseHtmlToReact(
-                    (node as HTMLElement).innerHTML,
-                    bible,
-                    `bq-p-${key}`
-                  )}
-                </p>
-              );
-            }
-          } else if (node.nodeType === Node.ELEMENT_NODE) {
-            // Other tags (code, div, etc.)
-            const el = node as HTMLElement;
-            blocks.push(
-              React.createElement(
-                el.tagName.toLowerCase(),
-                { key: `bq-${el.tagName.toLowerCase()}-${key++}` },
-                parseHtmlToReact(
-                  el.innerHTML,
-                  bible,
-                  `bq-${el.tagName.toLowerCase()}-${key}`
-                )
-              )
+            const content = parseHtmlToReact(
+              (node as HTMLElement).innerHTML,
+              bible,
+              `bq-p-${key}`
             );
+            if (firstP) {
+              firstP = false;
+              afterH3 = true;
+              blocks.push(<h3 key={`h3-${key}`}>{content}</h3>);
+            } else {
+              afterH3Inline.push(content);
+            }
+            key++;
+          } else if (node.nodeType === Node.ELEMENT_NODE) {
+            const el = node as HTMLElement;
+            const tag = el.tagName.toLowerCase();
+            if (afterH3 && isInlineTag(tag)) {
+              // Always use parseHtmlToReact on the OUTER HTML to allow <a class="verse"> replacement
+              const tempDiv = document.createElement('div');
+              tempDiv.appendChild(el.cloneNode(true));
+              const outer = tempDiv.innerHTML;
+              afterH3Inline.push(
+                parseHtmlToReact(outer, bible, `bq-inline-${tag}-${key}`)
+              );
+              key++;
+            } else {
+              if (afterH3 && afterH3Inline.length) {
+                blocks.push(<p key={`p-afterh3-${key++}`}>{afterH3Inline}</p>);
+                afterH3Inline = [];
+              }
+              // For block elements, also use parseHtmlToReact on the OUTER HTML
+              const tempDiv = document.createElement('div');
+              tempDiv.appendChild(el.cloneNode(true));
+              const outer = tempDiv.innerHTML;
+              blocks.push(
+                parseHtmlToReact(outer, bible, `bq-block-${tag}-${key}`)
+              );
+              key++;
+            }
           } else if (
             node.nodeType === Node.TEXT_NODE &&
             node.textContent?.trim()
           ) {
-            blocks.push(node.textContent);
+            if (afterH3) {
+              afterH3Inline.push(node.textContent);
+            } else {
+              blocks.push(node.textContent);
+            }
           }
-        });
+        }
+        // If we have collected inline after h3, flush as <p>
+        if (afterH3 && afterH3Inline.length) {
+          blocks.push(<p key={`p-afterh3-${key++}`}>{afterH3Inline}</p>);
+        }
         return (
           <Blockquote key={idx}>
-            <p>{blocks}</p>
+            <div className="lesson_to_remember">{blocks}</div>
           </Blockquote>
         );
       }
-      // Outside blockquote: parse as normal
+      // Outside blockquote: standard parsing
       return parseHtmlToReact(part, bible, `nq-${idx}-`);
     });
   }

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Blockquote } from 'alps-library/atoms/text/Blockquote';
 import { Text } from 'alps-library/atoms/text/Text';
+import { Accordion } from 'alps-library/molecules/components/accordion/Accordion';
+import { AccordionItem } from 'alps-library/molecules/components/accordion/AccordionItem';
+
 import { VerseLink } from './VerseLink';
 // For robust HTML parsing
 import './LessonItem.scss';
@@ -9,7 +12,6 @@ import {
   getLessonDays,
   LessonDays
 } from '../../utils/LessonUtils';
-
 type LessonItemType = {
   qLesson: LessonDetails;
 };
@@ -207,33 +209,61 @@ export const LessonItem = ({ qLesson }: LessonItemType) => {
           hasDropcap={false}
           spacing="double"
         >
-          {days.map((day, idx) => (
-            <div key={idx} className="u-spacing">
-              <h3>{day.title}</h3>
-              {day.date && (
-                <h4>
-                  {(() => {
-                    //day.date example: "29/03/2025"
-                    const dateStr = new Date(
-                      day.date.split('/').reverse().join('-')
-                    ).toLocaleDateString('bg-BG', {
-                      weekday: 'long',
-                      day: 'numeric',
-                      month: 'long'
-                    }); //=> 'събота, 29 март'
-                    // Format the date string to "Събота - 29 март"
-                    // Split by comma, capitalize, and join with " - "
-                    const [weekday, rest] = dateStr.split(',');
-                    return `${
-                      weekday.trim().charAt(0).toUpperCase() +
-                      weekday.trim().slice(1)
-                    } -${rest ? ' ' + rest.trim() : ''}`;
-                  })()}
-                </h4>
-              )}
-              {day.content && renderContent(day.content, day.bible)}
-            </div>
-          ))}
+          <Accordion>
+            {days.map((day, idx) => {
+              // Determine if this AccordionItem should be open
+              let isOpen = true;
+              if (day.date) {
+                // day.date is in format "dd/MM/yyyy"
+                const [d, m, y] = day.date.split('/');
+                const dayDate = new Date(`${y}-${m}-${d}`);
+                const now = new Date();
+                // Compare only date part (ignore time)
+                isOpen =
+                  dayDate.getFullYear() === now.getFullYear() &&
+                  dayDate.getMonth() === now.getMonth() &&
+                  dayDate.getDate() === now.getDate();
+              }
+              return (
+                <AccordionItem
+                  key={idx}
+                  open={isOpen}
+                  heading={
+                    <div className="day_title  flex-1">
+                      <h3>{day.title}</h3>
+                      {day.date && (
+                        <h4>
+                          {(() => {
+                            //day.date example: "29/03/2025"
+                            const dateStr = new Date(
+                              day.date.split('/').reverse().join('-')
+                            ).toLocaleDateString('bg-BG', {
+                              weekday: 'long',
+                              day: 'numeric',
+                              month: 'long'
+                            }); //=> 'събота, 29 март'
+                            // Format the date string to "Събота - 29 март"
+                            // Split by comma, capitalize, and join with " - "
+                            const [weekday, rest] = dateStr.split(',');
+                            return `${
+                              weekday.trim().charAt(0).toUpperCase() +
+                              weekday.trim().slice(1)
+                            } -${rest ? ' ' + rest.trim() : ''}`;
+                          })()}
+                        </h4>
+                      )}
+                    </div>
+                  }
+                >
+                  {day.content && (
+                    <div key={idx} className="u-spacing">
+                      {renderContent(day.content, day.bible)}
+                    </div>
+                  )}
+                </AccordionItem>
+              );
+            })}
+          </Accordion>
         </Text>
       )}
     </>

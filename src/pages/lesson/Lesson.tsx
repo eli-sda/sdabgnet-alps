@@ -25,6 +25,8 @@ import { ArticleContent } from 'alps-library/organisms/content/articleContent/Ar
 import { MediaBlockProps } from 'src/alps/molecules/blocks/MediaBlock';
 import { RelatedPosts } from 'src/alps/organisms/asides/RelatedPosts';
 import LessonHead from './LessonHead';
+import { Figure } from 'alps-library/molecules/media/figure/Figure';
+import { Aside } from 'alps-library/organisms/asides/aside/Aside';
 
 const Lesson = ({ type = '' }: { type?: LessonType }) => {
   const { year, quarter, week } = useParams();
@@ -131,6 +133,32 @@ const Lesson = ({ type = '' }: { type?: LessonType }) => {
       return passedLessons;
     }, [quarterObject, qLesson]);
 
+    const sidebar = useMemo(() => {
+      return (
+        <>
+          {quarterObject &&
+            (quarterObject.type == '' || quarterObject.type === 'cq') &&
+            quarterObject.lessonYear === 2025 &&
+            quarterObject.lessonQuarter === 3 && (
+              <Aside>
+                <Figure
+                  align="left"
+                  caption='Гледайте поредицата "Изход" с п-р Петър Стоилов'
+                  size="small"
+                  videoSrc="https://www.youtube.com/embed?listType=playlist&list=PLfCTd97jVbHUL-rsvyHnIr0L7FM8MtJnq"
+                />
+              </Aside>
+            )}
+          {passedLessons.length > 0 && (
+            <RelatedPosts
+              heading="Изминали уроци от тримесечието"
+              blocks={passedLessons}
+            />
+          )}
+        </>
+      );
+    }, [quarterObject, passedLessons]);
+
     return (
       <>
         {qLesson && (
@@ -142,16 +170,7 @@ const Lesson = ({ type = '' }: { type?: LessonType }) => {
               lessonCover={qLesson.cover}
             />
 
-            <ArticleContent
-              sidebar={
-                passedLessons.length > 0 && (
-                  <RelatedPosts
-                    heading="Изминали уроци от тримесечието"
-                    blocks={passedLessons}
-                  />
-                )
-              }
-            >
+            <ArticleContent sidebar={sidebar}>
               <LessonItem qLesson={qLesson} />
             </ArticleContent>
           </>

@@ -69,3 +69,17 @@ if (
 if (typeof precacheAndRoute === 'function') {
   precacheAndRoute(self.__WB_MANIFEST || []);
 }
+
+// Notify all clients to reload when a new SW is activated
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    (async () => {
+      if (self.clients && self.clients.matchAll) {
+        const clients = await self.clients.matchAll({ type: 'window' });
+        for (const client of clients) {
+          client.postMessage({ type: 'RELOAD_WINDOW' });
+        }
+      }
+    })()
+  );
+});

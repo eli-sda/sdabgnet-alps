@@ -1,14 +1,17 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Blockquote } from 'alps-library/atoms/text/Blockquote';
+import { Text } from 'alps-library/atoms/text/Text';
+import { Accordion } from 'alps-library/molecules/components/accordion/Accordion';
+import { AccordionItem } from 'alps-library/molecules/components/accordion/AccordionItem';
+
+import { VerseLink } from './VerseLink';
+// For robust HTML parsing
 import './LessonItem.scss';
 import {
   LessonDetails,
   getLessonDays,
   LessonDays
 } from '../../utils/LessonUtils';
-import { Text } from 'alps-library/atoms/text/Text';
-import { Blockquote } from 'alps-library/atoms/text/Blockquote';
-import { VerseLink } from './VerseLink';
-
 type LessonItemType = {
   qLesson: LessonDetails;
 };
@@ -16,75 +19,179 @@ type LessonItemType = {
 export const LessonItem = ({ qLesson }: LessonItemType) => {
   const [days, setDays] = useState<LessonDays[]>([]);
 
-  // Helper to render content with <Blockquote />
+  // Robust HTML-to-React rendering with inline verse link replacement
   function renderContent(html: string, bible: LessonDays['bible'] = []) {
     const parts = html.split(/<blockquote>|<\/blockquote>/i);
     return parts.map((part, idx) => {
       if (idx % 2 === 1) {
-        // Replace the first <p>...</p> with <h3>...</h3> and wrap the rest in <span>
-        const trimmed = part.trim();
-        const pMatch = trimmed.match(/<p>([\s\S]*?)<\/p>/i);
-        let replaced = trimmed;
-        if (pMatch) {
-          const h3 = `<h3 class="u-padding--half--bottom">${pMatch[1]}</h3>`;
-          const afterP = trimmed.replace(/^[\s\S]*?<\/p>/i, '');
-          const rest = afterP.trim() ? `<span>${afterP.trim()}</span>` : '';
-          replaced = h3 + rest;
+        // Optimized blockquote logic: first <p> becomes <h3>, rest as <p>, others as normal
+        let doc: HTMLElement | null = null;
+        try {
+          const parser = new window.DOMParser();
+          const docEl = parser.parseFromString(
+            `<body>${part}</body>`,
+            'text/html'
+          );
+          doc = docEl.body;
+        } catch {
+          return part;
+        }
+        if (!doc) return part;
+        // Improved: after <h3>, group all text and inline elements (including <a>) into a single <p>, block elements break the paragraph
+        let firstP = true;
+        let key = 0;
+        const blocks = [];
+        let afterH3Inline: React.ReactNode[] = [];
+        let afterH3 = false;
+        // Helper: check if tag is inline
+        const isInlineTag = (tag: string) =>
+          [
+            'a',
+            'span',
+            'strong',
+            'em',
+            'b',
+            'i',
+            'u',
+            'small',
+            'abbr',
+            'cite',
+            'q',
+            'sub',
+            'sup',
+            'mark',
+            's',
+            'del',
+            'ins',
+            'code',
+            'kbd',
+            'samp',
+            'var',
+            'time',
+            'br',
+            'wbr'
+          ].includes(tag);
+        for (const node of doc.childNodes) {
+          if (
+            node.nodeType === Node.ELEMENT_NODE &&
+            (node as HTMLElement).tagName.toLowerCase() === 'p'
+          ) {
+            const content = parseHtmlToReact(
+              (node as HTMLElement).innerHTML,
+              bible,
+              `bq-p-${key}`
+            );
+            if (firstP) {
+              firstP = false;
+              afterH3 = true;
+              blocks.push(<h3 key={`h3-${key}`}>{content}</h3>);
+            } else {
+              afterH3Inline.push(content);
+            }
+            key++;
+          } else if (node.nodeType === Node.ELEMENT_NODE) {
+            const el = node as HTMLElement;
+            const tag = el.tagName.toLowerCase();
+            if (afterH3 && isInlineTag(tag)) {
+              // Always use parseHtmlToReact on the OUTER HTML to allow <a class="verse"> replacement
+              const tempDiv = document.createElement('div');
+              tempDiv.appendChild(el.cloneNode(true));
+              const outer = tempDiv.innerHTML;
+              afterH3Inline.push(
+                parseHtmlToReact(outer, bible, `bq-inline-${tag}-${key}`)
+              );
+              key++;
+            } else {
+              if (afterH3 && afterH3Inline.length) {
+                blocks.push(<p key={`p-afterh3-${key++}`}>{afterH3Inline}</p>);
+                afterH3Inline = [];
+              }
+              // For block elements, also use parseHtmlToReact on the OUTER HTML
+              const tempDiv = document.createElement('div');
+              tempDiv.appendChild(el.cloneNode(true));
+              const outer = tempDiv.innerHTML;
+              blocks.push(
+                parseHtmlToReact(outer, bible, `bq-block-${tag}-${key}`)
+              );
+              key++;
+            }
+          } else if (
+            node.nodeType === Node.TEXT_NODE &&
+            node.textContent?.trim()
+          ) {
+            if (afterH3) {
+              afterH3Inline.push(node.textContent);
+            } else {
+              blocks.push(node.textContent);
+            }
+          }
+        }
+        // If we have collected inline after h3, flush as <p>
+        if (afterH3 && afterH3Inline.length) {
+          blocks.push(<p key={`p-afterh3-${key++}`}>{afterH3Inline}</p>);
         }
         return (
           <Blockquote key={idx}>
-            <p>{replaceVerseLinks(replaced, bible)}</p>
+            <div className="lesson_to_remember">{blocks}</div>
           </Blockquote>
         );
       }
-      // Even indices are normal HTML
-      return part.trim() ? (
-        <div key={idx}>{replaceVerseLinks(part, bible)}</div>
-      ) : null;
+      // Outside blockquote: standard parsing
+      return parseHtmlToReact(part, bible, `nq-${idx}-`);
     });
   }
 
-  // Helper: Extract all <a class="verse" verse="...">...</a> and replace with VerseLink
-  function replaceVerseLinks(
+  // Recursively parse HTML string to React elements, replacing verse links
+  function parseHtmlToReact(
     html: string,
-    bible: LessonDays['bible'] = []
-  ): (JSX.Element | null)[] {
-    // Regex to match <a class="verse" verse="...">...</a>
-    const verseRegex = /<a class="verse" verse="([^"]+)">([\s\S]*?)<\/a>/gi;
-    let lastIndex = 0;
-    const elements: (JSX.Element | null)[] = [];
-    let match: RegExpExecArray | null;
-    let key = 0;
-    while ((match = verseRegex.exec(html))) {
-      if (match.index > lastIndex) {
-        elements.push(
-          <span
-            key={key++}
-            dangerouslySetInnerHTML={{
-              __html: html.slice(lastIndex, match.index)
-            }}
+    bible: LessonDays['bible'] = [],
+    keyPrefix = ''
+  ): React.ReactNode {
+    if (!html.trim()) return null;
+    // Use DOMParser in browser, fallback for SSR (Server-Side Rendering)
+    let doc: HTMLElement | null = null;
+    try {
+      const parser = new window.DOMParser();
+      const docEl = parser.parseFromString(`<body>${html}</body>`, 'text/html');
+      doc = docEl.body;
+    } catch {
+      // SSR fallback: render as plain text
+      return html;
+    }
+    if (!doc) return html;
+
+    const walk = (node: ChildNode, key: string): React.ReactNode => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        return node.textContent;
+      }
+      if (node.nodeType !== Node.ELEMENT_NODE) return null;
+      const el = node as HTMLElement;
+      // Replace <a class="verse" verse="...">...</a> with <VerseLink>
+      if (
+        el.tagName.toLowerCase() === 'a' &&
+        el.classList.contains('verse') &&
+        el.hasAttribute('verse')
+      ) {
+        return (
+          <VerseLink
+            key={key}
+            verseKey={el.getAttribute('verse') || ''}
+            label={el.textContent || ''}
+            bible={bible}
           />
         );
       }
-      elements.push(
-        <VerseLink
-          key={key++}
-          verseKey={match[1]}
-          label={match[2]}
-          bible={bible}
-        />
+      // For all other tags, render as their tag, recursively
+      const Tag = el.tagName.toLowerCase();
+      const children = Array.from(el.childNodes).map((child, i) =>
+        walk(child, key + '-' + i)
       );
-      lastIndex = match.index + match[0].length;
-    }
-    if (lastIndex < html.length) {
-      elements.push(
-        <span
-          key={key++}
-          dangerouslySetInnerHTML={{ __html: html.slice(lastIndex) }}
-        />
-      );
-    }
-    return elements;
+      return React.createElement(Tag, { key }, children);
+    };
+
+    return Array.from(doc.childNodes).map((node, i) =>
+      walk(node, keyPrefix + i)
+    );
   }
 
   useEffect(() => {
@@ -102,33 +209,61 @@ export const LessonItem = ({ qLesson }: LessonItemType) => {
           hasDropcap={false}
           spacing="double"
         >
-          {days.map((day, idx) => (
-            <div key={idx} className="u-spacing">
-              <h3>{day.title}</h3>
-              {day.date && (
-                <h4>
-                  {(() => {
-                    //day.date example: "29/03/2025"
-                    const dateStr = new Date(
-                      day.date.split('/').reverse().join('-')
-                    ).toLocaleDateString('bg-BG', {
-                      weekday: 'long',
-                      day: 'numeric',
-                      month: 'long'
-                    }); //=> 'събота, 29 март'
-                    // Format the date string to "Събота - 29 март"
-                    // Split by comma, capitalize, and join with " - "
-                    const [weekday, rest] = dateStr.split(',');
-                    return `${
-                      weekday.trim().charAt(0).toUpperCase() +
-                      weekday.trim().slice(1)
-                    } -${rest ? ' ' + rest.trim() : ''}`;
-                  })()}
-                </h4>
-              )}
-              {day.content && renderContent(day.content, day.bible)}
-            </div>
-          ))}
+          <Accordion>
+            {days.map((day, idx) => {
+              // Determine if this AccordionItem should be open
+              let isOpen = true;
+              if (day.date) {
+                // day.date is in format "dd/MM/yyyy"
+                const [d, m, y] = day.date.split('/');
+                const dayDate = new Date(`${y}-${m}-${d}`);
+                const now = new Date();
+                // Compare only date part (ignore time)
+                isOpen =
+                  dayDate.getFullYear() === now.getFullYear() &&
+                  dayDate.getMonth() === now.getMonth() &&
+                  dayDate.getDate() === now.getDate();
+              }
+              return (
+                <AccordionItem
+                  key={idx}
+                  open={isOpen}
+                  heading={
+                    <div className="day_title  flex-1">
+                      <h3>{day.title}</h3>
+                      {day.date && (
+                        <h4>
+                          {(() => {
+                            //day.date example: "29/03/2025"
+                            const dateStr = new Date(
+                              day.date.split('/').reverse().join('-')
+                            ).toLocaleDateString('bg-BG', {
+                              weekday: 'long',
+                              day: 'numeric',
+                              month: 'long'
+                            }); //=> 'събота, 29 март'
+                            // Format the date string to "Събота - 29 март"
+                            // Split by comma, capitalize, and join with " - "
+                            const [weekday, rest] = dateStr.split(',');
+                            return `${
+                              weekday.trim().charAt(0).toUpperCase() +
+                              weekday.trim().slice(1)
+                            } -${rest ? ' ' + rest.trim() : ''}`;
+                          })()}
+                        </h4>
+                      )}
+                    </div>
+                  }
+                >
+                  {day.content && (
+                    <div key={idx} className="u-spacing">
+                      {renderContent(day.content, day.bible)}
+                    </div>
+                  )}
+                </AccordionItem>
+              );
+            })}
+          </Accordion>
         </Text>
       )}
     </>

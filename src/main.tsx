@@ -8,6 +8,20 @@ if ('serviceWorker' in navigator) {
     window.location.reload();
   });
 
+  // Listen for reload message from SW
+  navigator.serviceWorker.addEventListener('message', (event: MessageEvent) => {
+    const data: unknown = event.data;
+    if (
+      data &&
+      typeof data === 'object' &&
+      data !== null &&
+      'type' in data &&
+      (data as { type?: unknown }).type === 'RELOAD_WINDOW'
+    ) {
+      window.location.reload();
+    }
+  });
+
   // Check for updates on navigation
   window.addEventListener('popstate', () => {
     navigator.serviceWorker

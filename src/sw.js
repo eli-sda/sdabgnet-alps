@@ -65,6 +65,19 @@ if (
   );
 }
 
+// Fallback to index.html for navigation requests if network/cache fails (SPA routing fix)
+self.addEventListener('fetch', (event) => {
+  if (
+    event.request.mode === 'navigate' &&
+    !event.request.url.endsWith('.php') &&
+    !event.request.url.includes('/img/')
+  ) {
+    event.respondWith(
+      fetch(event.request).catch(() => caches.match('/index.html'))
+    );
+  }
+});
+
 // Precache assets injected by Workbox
 if (typeof precacheAndRoute === 'function') {
   precacheAndRoute(self.__WB_MANIFEST || []);

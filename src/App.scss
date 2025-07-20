@@ -248,7 +248,7 @@ samp {
 // added animation
 .c-accordion__item {
   .c-accordion__arrow {
-    transition: transform 0.1s ease-out;
+    transition: transform 0.2s ease-out;
   }
   &.this-is-active {
     .c-accordion__arrow {

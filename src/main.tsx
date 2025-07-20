@@ -2,6 +2,14 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 
+
+// Remove trailing slash from URL in the browser if present (but not for root)
+if (window.location.pathname.length > 1 && window.location.pathname.endsWith('/')) {
+  const url = new URL(window.location.href);
+  url.pathname = url.pathname.replace(/\/+$/, '');
+  window.history.replaceState({}, '', url.pathname + url.search + url.hash);
+}
+
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('controllerchange', () => {
     // Force reload when a new Service Worker takes control

@@ -1,19 +1,51 @@
 <?php
 include_once __DIR__ . '/constants.php';
-?>
-<script type="text/javascript">
-    // Redirect to index.html, not working for social media previews
-    window.location.href = '/index.html';
-</script>
 
+// If ?spa=1 is present, remove it from the URL (for clean navigation), serve SPA (index.html) and stop execution
+if (isset($_GET['spa'])) {
+    // Remove spa=1 from the URL using JS (if possible)
+?>
+    <script>
+        if (window.history && window.location) {
+            const url = new URL(window.location.href);
+            url.searchParams.delete("spa");
+            window.history.replaceState({}, "", url.pathname + url.search + url.hash);
+        }
+    </script>
 <?php
+    readfile(__DIR__ . '/index.html');
+    exit;
+}
+
+// Bot/crawler detection (Viber is not detected)
+function isBot()
+{
+    $ua = strtolower($_SERVER['HTTP_USER_AGENT'] ?? '');
+    return preg_match('/bot|crawl|slurp|spider|facebook|twitter|vk|telegram|whatsapp|discord|linkedin|pinterest|google|bing|yandex|duckduckgo|viber/', $ua);
+}
+
+// If not a bot and no ?spa=1, reload with ?spa=1 using JS
+if (!isBot()) {
+    // Browsers will execute JS, but Viber and other bots will not and will show the HTML with meta tags
+    // This ensures that the SPA is loaded correctly in browsers
+?>
+    <script>
+        var url = window.location.pathname + window.location.search + window.location.hash;
+        if (!/[?&]spa=1/.test(url)) {
+            var sep = url.indexOf("?") === -1 ? "?" : "&";
+            window.location.replace(url + sep + "spa=1");
+        }
+    </script>
+<?php
+}
+
 /** This page generates HTML for preview in social media
  *  and redirects in browsers to index.html - the React app
  */
 // Enable debugging if "debug" parameter is set
 $debug = isset($_GET['debug']) && $_GET['debug'] == '1';
 
-// example URL with debug (load the page with clear cache!): https://new.sdabg.net/church_life/lesson/25/2/9?debug=1
+// Example URL with debug (load the page with clear cache!): https://new.sdabg.net/church_life/lesson/25/2/9?debug=1
 
 
 $siteName = 'Адвентната българска мреж@';
@@ -24,8 +56,8 @@ $defImage = "$site/img/sdabg.net-logo.jpg";
 $path = htmlspecialchars($_GET['path'] ?? '/');
 if ($debug) echo "<b>path:</b> {$path}<br>";
 $searchPath = $path;
-// for SS lesson the path is by year and quarter (like /church_life/lesson-cq/2023/1) 
-// when the path is like /church_life/lesson-cq/2023/1/12
+// For SS lesson the path is by year and quarter (like /church_life/lesson-cq/2023/1) 
+// When the path is like /church_life/lesson-cq/2023/1/12
 if (preg_match('#(/church_life/lesson(?:-cq|-cc)?/\d+/\d+)/\d+$#', $path, $matches)) {
     $searchPath = $matches[1];
 }

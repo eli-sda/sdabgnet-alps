@@ -61,7 +61,9 @@ const RedirectToCurrentLesson = ({ basePath }: { basePath: string }) => {
 
 const Router = () => (
   <Suspense fallback={<h2>Зареждане...</h2>}>
-    <BrowserRouter>
+    <BrowserRouter
+      future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+    >
       {/* <ThemeProvider theme={theme}> */}
       <ScrollToTop />
       <Routes>

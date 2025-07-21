@@ -1,4 +1,4 @@
-@import '../styles/colors.scss';
+@use '../styles/colors.scss' as *;
 
 a.c-secondary-nav__link {
   cursor: pointer;

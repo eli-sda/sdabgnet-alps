@@ -1,4 +1,4 @@
-$mingColor: #007f98;
+@import './styles/colors.scss';
 
 .u-theme--ming .u-theme--path-fill--base {
   text > * {
@@ -14,60 +14,11 @@ h6 {
   font-weight: 400;
 }
 
-a.c-secondary-nav__link {
-  cursor: pointer;
+.l-sabbath__logo {
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+  padding-top: 0.625rem;
 }
-// .l-sabbath__logo {
-//   padding-left: calc(2/15*((100vw / 7) - 0.01px));
-//   padding-right: calc(2/15*((100vw / 7) - 0.01px));
-// }
-
-@media (max-width: 500px) {
-  .c-header__logo svg {
-    width: 100%;
-    height: auto;
-    max-width: min(100%, calc(100vw - (100vw / 7) - 1rem));
-  }
-}
-
-/* fix sub-menu open and jump on it */
-@media (min-width: 701px) {
-  .c-drawer__nav > div,
-  .c-drawer__about > div {
-    width: unset;
-  }
-}
-@media (max-width: 700px) {
-  .c-drawer .c-subnav__link.u-color--gray--dark {
-    color: #4a4a4a;
-  }
-}
-
-@media (min-width: 701px) {
-  .c-header__nav-secondary .c-secondary-nav__list {
-    padding-right: 0;
-    margin-right: 9.375rem;
-  }
-}
-
-/* fix menu item */
-@media (min-width: 501px) {
-  .c-header__nav-secondary .c-secondary-nav__list-item.is-priority {
-    display: none;
-  }
-}
-.c-header__nav-primary .c-primary-nav__subnav__subnav__list-item {
-  background-color: #4a4a4a;
-  // .c-header__nav-secondary .c-secondary-nav__list {
-  //   padding-left: 9.3rem;
-  // }
-  .l-sabbath__logo {
-    padding-left: 0.625rem;
-    padding-right: 0.625rem;
-    padding-top: 0.625rem;
-  }
-}
-
 @media (min-width: 640px) {
   .l-sabbath__logo {
     padding-left: 1.25rem;
@@ -80,9 +31,7 @@ a.c-secondary-nav__link {
   &:focus:after {
     content: 'Покажи';
   }
-}
 
-.o-button--toggle {
   &:active,
   &.this-is-active {
     .u-icon {
@@ -117,7 +66,7 @@ a.c-secondary-nav__link {
     &:focus:after {
       content: 'Покажи коментара';
     }
-    &.this-is-active{
+    &.this-is-active {
       &::after,
       &:focus:after {
         content: 'Скрий коментара';
@@ -135,15 +84,26 @@ a.c-secondary-nav__link {
 .u-theme--ming {
   .text,
   .c-block__description {
-    a:not(.o-button):hover {
-      border-color: #007f98;
-      border-bottom-width: 2px;
+    a:not(.o-button) {
+      border-bottom: 1px solid $mingColor;
+      &:hover {
+        border-color: $mingColor;
+        border-bottom-width: 2px;
+      }
+    }
+  }
+  .u-theme--background-color--darker {
+    .o-button--outline {
+      color: $lighterMingColor;
+      border-color: $lighterMingColor;
+      &:hover {
+        background-color: $lighterMingColor;
+        color: $mingDarkestColor;
+      }
     }
   }
 }
-.u-theme--ming .c-block__description a:not(.o-button) {
-  border-bottom: 1px solid #007f98;
-}
+
 // fix media image left padding (not to be 0)
 @media (min-width: 501px) {
   .c-media-block .c-block__image.u-padding--zero--sides.u-padding--left {
@@ -179,11 +139,17 @@ a.c-secondary-nav__link {
 }
 
 //like p
-li {
+.l-main__content li {
   font-family: 'Noto Serif', Georgia, Times, 'Times New Roman', serif;
   font-size: 0.875rem;
   line-height: 1.6;
 }
+@media (min-width: 901px) {
+  .l-main__content li {
+    font-size: 1rem;
+  }
+}
+
 hr.w70 {
   width: 70%;
   margin-left: auto;
@@ -242,17 +208,4 @@ samp {
   font-feature-settings: normal;
   font-variation-settings: normal;
   font-size: 1em;
-}
-
-// fix for the accordion item arrow
-// added animation
-.c-accordion__item {
-  .c-accordion__arrow {
-    transition: transform 0.2s ease-out;
-  }
-  &.this-is-active {
-    .c-accordion__arrow {
-      top: unset;
-    }
-  }
 }

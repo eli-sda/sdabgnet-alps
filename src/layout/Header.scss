@@ -1,12 +1,59 @@
-$mingColor: #007f98;
+@import '../styles/colors.scss';
+
+a.c-secondary-nav__link {
+  cursor: pointer;
+}
+
+@media (max-width: 500px) {
+  .c-header__logo svg {
+    width: 100%;
+    height: auto;
+    max-width: min(100%, calc(100vw - (100vw / 7) - 1rem));
+  }
+}
+
+/* fix sub-menu open and jump on it */
+@media (min-width: 701px) {
+  .c-drawer__nav > div,
+  .c-drawer__about > div {
+    width: unset;
+  }
+}
+@media (max-width: 700px) {
+  .c-drawer .c-subnav__link.u-color--gray--dark {
+    color: $grayDarkColor;
+  }
+}
+
+@media (min-width: 701px) {
+  .c-header__nav-secondary .c-secondary-nav__list {
+    padding-right: 0;
+    margin-right: 9.375rem;
+  }
+}
+
+/* fix menu item */
+@media (min-width: 501px) {
+  .c-header__nav-secondary .c-secondary-nav__list-item.is-priority {
+    display: none;
+  }
+}
+.c-primary-nav__subnav__subnav__list-item {
+  background-color: $grayDarkColor;
+  .c-subnav__link.active {
+    color: $lighterMingColor !important;
+  }
+}
+
 // css for fa-icon
 .c-header__nav-primary .c-primary-nav__link {
   display: flex;
   align-items: baseline;
 }
-.c-primary-nav__link, .c-subnav__link {
+.c-primary-nav__link,
+.c-subnav__link {
   white-space: nowrap !important;
   &.active {
-    color: $mingColor !important
+    color: $mingColor !important;
   }
 }

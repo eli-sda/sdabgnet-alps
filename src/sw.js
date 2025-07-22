@@ -65,6 +65,40 @@ if (
   );
 }
 
+// Fallback to index.html for navigation requests if network/cache fails (SPA routing fix)
+self.addEventListener('fetch', (event) => {
+  if (
+    event.request.mode === 'navigate' &&
+    !event.request.url.endsWith('.php') &&
+    !event.request.url.includes('/img/')
+  ) {
+    event.respondWith(
+      fetch(event.request).catch(async () => {
+        // Try to serve index.html from cache
+        const cached = await caches.match('/index.html');
+        if (cached) return cached;
+        // If not found, try root
+        return caches.match('/');
+      })
+    );
+  }
+});
+
+// Listen for chunk load errors and prompt clients to reload (for Vite/SPA chunk mismatch)
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'VITE_CHUNK_LOAD_ERROR') {
+    // Force all clients to reload
+    self.skipWaiting && self.skipWaiting();
+    if (self.clients && self.clients.matchAll) {
+      self.clients.matchAll({ type: 'window' }).then((clients) => {
+        for (const client of clients) {
+          client.postMessage({ type: 'RELOAD_WINDOW' });
+        }
+      });
+    }
+  }
+});
+
 // Precache assets injected by Workbox
 if (typeof precacheAndRoute === 'function') {
   precacheAndRoute(self.__WB_MANIFEST || []);

@@ -9,6 +9,7 @@ import {
 import './LessonQuarterBlock.css';
 
 import { PageHeaderFeature2 } from 'src/organisms/sections/PageHeaderFeature2';
+import PopupContent from './PopupContent';
 
 import { useLessonUtils } from 'src/hooks/useLessonUtils';
 import { useLessonQuarterContext } from 'src/contexts/LessonQuarterContext';
@@ -83,9 +84,19 @@ const LessonQuarterBlock = (params: LessonQuarterBlockType) => {
                 image: qImage,
                 category: quarterObject.qAuthor,
                 description: withIntroduction
-                  ? quarterObject.qIntroduction
-                  : '',
-                expandable: true,
+                  ? quarterObject.qDescription
+                  : undefined,
+                additionalContent:
+                  withIntroduction && quarterObject.qIntroduction ? (
+                    <PopupContent buttonLabel="Прочети цялото въведение към тримесечието">
+                      <div
+                        className="u-spacing"
+                        dangerouslySetInnerHTML={{
+                          __html: quarterObject.qIntroduction
+                        }}
+                      />
+                    </PopupContent>
+                  ) : undefined,
                 kicker: quarterObject.qHumanDate,
                 titlePrefix: quarterObject.qGroup,
                 title: quarterObject.qTitle

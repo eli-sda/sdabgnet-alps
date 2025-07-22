@@ -1,4 +1,5 @@
 import routes from 'src/routes';
+import './PastorOnline.scss';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
 import PastorOnlineForm from './PastorOnlineForm';
@@ -63,7 +64,7 @@ const PastorOnline = () => {
       breadcrumbsUrls={breadcrumbsUrls}
       aside={<PastorOnlineForm />}
       relatedPosts={{ heading: 'Полезно', blocks: relatedItems }}
-      pageClassName="page-aside-top"
+      pageClassName="page-aside-top page-pastor-online"
     >
       <Caption>
         Тук са публикувани някои от зададените въпроси с отговори от{' '}

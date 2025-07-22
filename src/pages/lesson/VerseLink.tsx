@@ -20,7 +20,9 @@ export const VerseLink = ({
   bible: LessonDays['bible'];
 }) => {
   const [open, setOpen] = useState(false);
-  const [translation, setTranslation] = useState(bible?.[0]?.name || 'BG1940');
+  const [translation, setTranslation] = useState(
+    bible?.some((b) => b.name === 'RIBBD') ? 'RIBBD' : bible?.[0]?.name
+  );
 
   const handleOpen = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();

@@ -51,6 +51,12 @@ export interface MediaBlockProps {
    * Specify the description of your MediaBlocks Button
    */
   description?: string;
+
+  /**
+   * Specify additional content to show in the block (e.g., modal, popup, etc.)
+   */
+  additionalContent?: React.ReactNode;
+
   /**
    * Specify the date of your MediaBlocks
    */
@@ -118,6 +124,7 @@ export const MediaBlock = ({
   dateLocales,
   dateStyle = { date: 'long' },
   description,
+  additionalContent,
   image,
   imageCaption,
   kicker,
@@ -248,6 +255,7 @@ export const MediaBlock = ({
                 )}
               </div>
             )}
+            {additionalContent}
           </div>
           {(category || date) && (
             <div

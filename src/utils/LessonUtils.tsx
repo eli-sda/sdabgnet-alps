@@ -150,7 +150,7 @@ export const loadQuarter = ({
         details.qGroup = quarterly.quarterly_group?.name || '';
         details.qIntroduction =
           quarterly.introduction
-            ?.replace(/^### (.+)$/m, '<b>$1</b>') //format the title
+            ?.replace(/^### (.+)$/m, '<h3>$1</h3>') //format the title
             .replace(/^#### .*?\n\n/m, '') // Remove text starting with #### and ending with \n\n
             .replace(/\*\*(.*?)\*\*\n\n/g, '') // Remove text wrapped with ** and ending with \n\n
             .replaceAll('\n\n', '<p>')

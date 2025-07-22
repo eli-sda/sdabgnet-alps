@@ -5,10 +5,10 @@ import routes from '../routes';
 import DailyVerse from 'src/organisms/DailyVerse';
 import moment from 'moment';
 import { PageSection } from 'src/organisms/PageSection';
-import { Carousel } from 'alps-library/molecules/components/carousel/Carousel';
+// import { Carousel } from 'alps-library/molecules/components/carousel/Carousel';
 import PageMeta from 'src/utils/PageMeta';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
-import { FetchedPageDescription } from 'src/organisms/FetchedPageDescription';
+// import { FetchedPageDescription } from 'src/organisms/FetchedPageDescription';
 import { OLD_SITE } from 'src/constants';
 
 // import { Button } from '@mui/material';
@@ -35,73 +35,73 @@ const Home = () => {
     return currentDate.clone().subtract(1, 'year');
   }, [currentDate]);
 
-  const testSlides = [
-    {
-      heading: 'Lorem Ipsum',
-      subtitle: 'Fusce nec urna ut tellus accumsan fermentum.',
-      dek: 'Morbi eleifend, mi et varius imperdiet, nunc magna ullamcorper nibh, vel varius felis dui ac arcu. Vestibulum semper commodo dolor vel congue. Curabitur eleifend ligula ut arcu finibus posuere.',
-      cta: 'Mec cursus mi',
-      url: 'https://www.adventist.org',
-      image: {
-        srcSet: {
-          default: '//picsum.photos/480/270?image=1041',
-          '500': '//picsum.photos/750/350?image=1041',
-          '750': '//picsum.photos/1200/800?image=1041',
-          '1200': '//picsum.photos/1500/900?image=1041'
-        },
-        alt: 'Placeholder image'
-      }
-    },
-    {
-      heading: 'Consequatur',
-      subtitle: 'Nulla exercitationem perspiciatis',
-      dek: 'Debitis et aut voluptatem omnis quis quis similique.',
-      cta: 'Quod voluptatibus',
-      url: 'https://www.adventist.org',
-      image: {
-        srcSet: {
-          default: '//picsum.photos/480/270?image=1044',
-          '500': '//picsum.photos/750/350?image=1044',
-          '750': '//picsum.photos/1200/800?image=1044',
-          '1200': '//picsum.photos/1500/900?image=1044'
-        },
-        alt: 'Placeholder image'
-      }
-    },
-    {
-      heading: 'Quae vel et',
-      subtitle: 'Atque numquam quo non nostrum.',
-      dek: 'Curabitur eleifend ligula ut arcu finibus posuere.',
-      cta: 'Dolorum et ligula',
-      url: 'https://www.adventist.org',
-      image: {
-        srcSet: {
-          default: '//picsum.photos/480/270?image=1002',
-          '500': '//picsum.photos/750/350?image=1002',
-          '750': '//picsum.photos/1200/800?image=1002',
-          '1200': '//picsum.photos/1500/900?image=1002'
-        },
-        alt: 'Placeholder image'
-      }
-    },
-    {
-      heading: 'Sint incidunt ut',
-      subtitle:
-        'Doloribus ut dignissimos accusantium ex sapiente quia occaecati est.',
-      dek: 'Enim qui minus beatae nemo quia laborum suscipit repudiandae. Ea neque voluptatem maxime. Ut nostrum distinctio enim blanditiis debitis.',
-      cta: 'Utex quia!',
-      url: 'https://www.adventist.org',
-      image: {
-        srcSet: {
-          default: '//picsum.photos/480/270?image=832',
-          '500': '//picsum.photos/750/350?image=832',
-          '750': '//picsum.photos/1200/800?image=832',
-          '1200': '//picsum.photos/1500/900?image=832'
-        },
-        alt: 'Placeholder image'
-      }
-    }
-  ];
+  // const testSlides = [
+  //   {
+  //     heading: 'Lorem Ipsum',
+  //     subtitle: 'Fusce nec urna ut tellus accumsan fermentum.',
+  //     dek: 'Morbi eleifend, mi et varius imperdiet, nunc magna ullamcorper nibh, vel varius felis dui ac arcu. Vestibulum semper commodo dolor vel congue. Curabitur eleifend ligula ut arcu finibus posuere.',
+  //     cta: 'Mec cursus mi',
+  //     url: 'https://www.adventist.org',
+  //     image: {
+  //       srcSet: {
+  //         default: '//picsum.photos/480/270?image=1041',
+  //         '500': '//picsum.photos/750/350?image=1041',
+  //         '750': '//picsum.photos/1200/800?image=1041',
+  //         '1200': '//picsum.photos/1500/900?image=1041'
+  //       },
+  //       alt: 'Placeholder image'
+  //     }
+  //   },
+  //   {
+  //     heading: 'Consequatur',
+  //     subtitle: 'Nulla exercitationem perspiciatis',
+  //     dek: 'Debitis et aut voluptatem omnis quis quis similique.',
+  //     cta: 'Quod voluptatibus',
+  //     url: 'https://www.adventist.org',
+  //     image: {
+  //       srcSet: {
+  //         default: '//picsum.photos/480/270?image=1044',
+  //         '500': '//picsum.photos/750/350?image=1044',
+  //         '750': '//picsum.photos/1200/800?image=1044',
+  //         '1200': '//picsum.photos/1500/900?image=1044'
+  //       },
+  //       alt: 'Placeholder image'
+  //     }
+  //   },
+  //   {
+  //     heading: 'Quae vel et',
+  //     subtitle: 'Atque numquam quo non nostrum.',
+  //     dek: 'Curabitur eleifend ligula ut arcu finibus posuere.',
+  //     cta: 'Dolorum et ligula',
+  //     url: 'https://www.adventist.org',
+  //     image: {
+  //       srcSet: {
+  //         default: '//picsum.photos/480/270?image=1002',
+  //         '500': '//picsum.photos/750/350?image=1002',
+  //         '750': '//picsum.photos/1200/800?image=1002',
+  //         '1200': '//picsum.photos/1500/900?image=1002'
+  //       },
+  //       alt: 'Placeholder image'
+  //     }
+  //   },
+  //   {
+  //     heading: 'Sint incidunt ut',
+  //     subtitle:
+  //       'Doloribus ut dignissimos accusantium ex sapiente quia occaecati est.',
+  //     dek: 'Enim qui minus beatae nemo quia laborum suscipit repudiandae. Ea neque voluptatem maxime. Ut nostrum distinctio enim blanditiis debitis.',
+  //     cta: 'Utex quia!',
+  //     url: 'https://www.adventist.org',
+  //     image: {
+  //       srcSet: {
+  //         default: '//picsum.photos/480/270?image=832',
+  //         '500': '//picsum.photos/750/350?image=832',
+  //         '750': '//picsum.photos/1200/800?image=832',
+  //         '1200': '//picsum.photos/1500/900?image=832'
+  //       },
+  //       alt: 'Placeholder image'
+  //     }
+  //   }
+  // ];
   return (
     <PageSection
       aside={
@@ -114,7 +114,7 @@ const Home = () => {
           {/* <DailyVerse date={prevYear}></DailyVerse> */}
 
           {/* verse for 2.01.2025  with links*/}
-          {/* <DailyVerse date={moment('2025-01-02')}></DailyVerse> */}
+          <DailyVerse date={moment('2025-01-02')}></DailyVerse>
         </>
       }
     >
@@ -183,16 +183,22 @@ const Home = () => {
               <NavLink to={routes.commune()}>Общуване</NavLink>
             </li>
             <li>
-              <NavLink to={routes.commune('pastor-online')}>Пастор онайн</NavLink>
+              <NavLink to={routes.commune('pastor-online')}>
+                Пастор онайн
+              </NavLink>
             </li>
             <li>
               <NavLink to={routes.advertisement()}>Обяви</NavLink>
             </li>
             <li>
-              <NavLink to={routes.advertisement('services')}>Услуги/Работа</NavLink>
+              <NavLink to={routes.advertisement('services')}>
+                Услуги/Работа
+              </NavLink>
             </li>
             <li>
-              <NavLink to={routes.advertisement('buySell')}>Покупко-Продажби/Наем</NavLink>
+              <NavLink to={routes.advertisement('buySell')}>
+                Покупко-Продажби/Наем
+              </NavLink>
             </li>
             <li>
               <NavLink to={routes.advertisement('other')}>Други</NavLink>
@@ -216,11 +222,12 @@ const Home = () => {
             Визуална идентичност Базов дизайн (Adventist Identity Manual)
           </a>
         </p>
-        <div>
+        {/* <div>
           <h3>Description от външни връзки:</h3>
           <FetchedPageDescription pageURL="https://newlife-bg.com/" />
           <FetchedPageDescription pageURL="https://hm-aw.adventist.bg/" />
-        </div>
+        </div> */}
+
         {/* <IconsColorsSizes></IconsColorsSizes> */}
         {/* <VideoFull
       srcVideo={{

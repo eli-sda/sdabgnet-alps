@@ -73,8 +73,29 @@ self.addEventListener('fetch', (event) => {
     !event.request.url.includes('/img/')
   ) {
     event.respondWith(
-      fetch(event.request).catch(() => caches.match('/index.html'))
+      fetch(event.request).catch(async () => {
+        // Try to serve index.html from cache
+        const cached = await caches.match('/index.html');
+        if (cached) return cached;
+        // If not found, try root
+        return caches.match('/');
+      })
     );
+  }
+});
+
+// Listen for chunk load errors and prompt clients to reload (for Vite/SPA chunk mismatch)
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'VITE_CHUNK_LOAD_ERROR') {
+    // Force all clients to reload
+    self.skipWaiting && self.skipWaiting();
+    if (self.clients && self.clients.matchAll) {
+      self.clients.matchAll({ type: 'window' }).then((clients) => {
+        for (const client of clients) {
+          client.postMessage({ type: 'RELOAD_WINDOW' });
+        }
+      });
+    }
   }
 });
 

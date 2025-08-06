@@ -1,0 +1,19 @@
+@import 'react-big-calendar/lib/sass/styles.scss';
+@import '../../App.scss';
+
+.rbc-event {
+  background-color: $mingColor;
+}
+
+// Remove background for all children in date cell (catch-all)
+.rbc-date-cell * {
+  background: none !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  color: inherit !important;
+}
+
+.rbc-show-more {
+  font-size: 0.73rem !important;
+}
+

@@ -61,13 +61,15 @@ const RedirectToCurrentLesson = ({ basePath }: { basePath: string }) => {
 
 const Router = () => (
   <Suspense fallback={<h2>Зареждане...</h2>}>
-    <BrowserRouter>
+    <BrowserRouter
+      future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+    >
       {/* <ThemeProvider theme={theme}> */}
       <ScrollToTop />
       <Routes>
         <Route path={routes.home} element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="/index.html" element={<Navigate to="/" replace />} />
+          <Route path="/index.html" element={<Home />} />
           {/* churchLife */}
           <Route path={routes.lesson} element={<Lesson />} />
           <Route path={routes.lesson_cq} element={<Lesson type="cq" />} />
@@ -99,7 +101,10 @@ const Router = () => (
           <Route path={routes.churchLife()} element={<ChurchLife />} />
 
           <Route path={routes.commune()} element={<Commune />} />
-          <Route path={routes.commune('pastor-online')} element={<PastorOnline />} />
+          <Route
+            path={routes.commune('pastor-online')}
+            element={<PastorOnline />}
+          />
 
           <Route path={routes.churches} element={<Churches />} />
           <Route path={routes.info('churches')} element={<Churches />} />

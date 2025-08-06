@@ -2,7 +2,6 @@ import {
   primaryNavigationItems,
   secondaryNavItems
 } from 'src/utils/Navigation';
-import routes from '../routes';
 import './Header.scss';
 
 import {

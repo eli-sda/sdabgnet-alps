@@ -1,12 +1,11 @@
 import { Page } from 'src/organisms/Page';
 import routes from 'src/routes';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
-// import 'react-big-calendar/lib/css/react-big-calendar.css';
-import './events.scss';
+import './reactBigCalendarStyles.scss';
 
 import { parse, format, startOfWeek as dfStartOfWeek, getDay } from 'date-fns';
 import { bg } from 'date-fns/locale';
-import events from './events.json';
+import events from './calendar.json';
 
 // Define available locales
 const locales = {

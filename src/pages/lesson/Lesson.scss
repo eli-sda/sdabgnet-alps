@@ -1,0 +1,39 @@
+@use '../../styles/MusicPlayer.scss';
+
+.ss-cover {
+  width: 8rem;
+  height: 12rem;
+  background-size: cover;
+  background-position: center;
+}
+
+#lesson-audio-container {
+  .react-jinke-music-player-main {
+    // Only position override - colors handled by Vite config
+    .music-player-panel {
+      position: static !important;
+    }
+    /* hide the playlist button */
+    .audio-lists-btn {
+      display: none !important;
+    }
+
+    .react-jinke-music-player-mobile {
+      position: relative;
+      padding: unset;
+      .react-jinke-music-player-mobile-progress.group {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      /* hide the playlist button in mobile view */
+      .react-jinke-music-player-mobile-operation.group {
+        display: none;
+      }
+    }
+  }
+
+  .react-jinke-music-player.react-draggable {
+    position: static !important;
+    margin: 0 auto !important;
+  }
+}

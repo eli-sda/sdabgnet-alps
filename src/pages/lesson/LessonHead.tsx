@@ -47,9 +47,7 @@ const LessonHead = ({
       wrap={'6'}
     >
       <GridItem
-        className={
-          'u-padding--zero--sides u-space--triple--bottom u-shift--left--1-col--at-large'
-        }
+        className={'u-padding--zero--sides u-shift--left--1-col--at-large'}
         sizeAtL={'5'}
       >
         <ListContent className={'to-lesson text'}>

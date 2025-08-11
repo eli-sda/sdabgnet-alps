@@ -75,7 +75,11 @@ const LessonQuarterBlock = (params: LessonQuarterBlockType) => {
   return (
     <>
       {quarterObject && !quarterObject.hasError && (
-        <>
+        <section
+          className={
+            showLessonLink ? 'u-spacing lessonQBlock-bottom-line' : undefined
+          }
+        >
           <PageHeaderFeature2
             blockType="longform"
             blocks={[
@@ -113,7 +117,7 @@ const LessonQuarterBlock = (params: LessonQuarterBlockType) => {
               lessonCover={qLesson.cover}
             />
           )}
-        </>
+        </section>
       )}
     </>
   );

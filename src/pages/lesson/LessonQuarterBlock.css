@@ -1,3 +1,13 @@
 .to-lesson img {
   border-radius: 50%;
 }
+.lessonQBlock-bottom-line {
+  position: relative;
+  &::after {
+   content: "";
+        display: block;
+        width: 80%;
+        margin: 10px auto 0;
+        border-bottom: #007f98 2px solid;
+  }
+}

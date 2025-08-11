@@ -1,0 +1,23 @@
+// Remove all shadows from react-jinke-music-player
+.react-jinke-music-player-main {
+  // Remove all shadows from player elements
+  .music-player-panel {
+    box-shadow: none !important; // Remove main panel shadow
+  }
+
+  .img-content {
+    box-shadow: none !important; // Remove cover image shadow
+  }
+
+  .audio-lists-panel {
+    box-shadow: none !important; // Remove playlist panel shadow
+  }
+
+  .react-jinke-music-player-mobile {
+    box-shadow: none !important; // Remove mobile version shadow
+  }
+
+  .rc-slider-handle {
+    z-index: 80; // Ensure slider handle is above progress-load-bar with z-index 77
+  }
+}

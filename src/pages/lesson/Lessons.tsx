@@ -20,28 +20,30 @@ const Lessons = () => {
     <>
       <PageHeader title={pageTitle} background={pageBackground} />
       <PageContent breadcrumbs={breadcrumbs}>
-        <LessonQuarterProvider>
-          <LessonQuarterBlock
-            {...currentLessonParameters}
-            showLessonLink={true}
-          />{' '}
-        </LessonQuarterProvider>
+        <section className="u-spacing--triple">
+          <LessonQuarterProvider>
+            <LessonQuarterBlock
+              {...currentLessonParameters}
+              showLessonLink={true}
+            />{' '}
+          </LessonQuarterProvider>
 
-        <LessonQuarterProvider>
-          <LessonQuarterBlock
-            {...currentLessonParameters}
-            type="cq"
-            showLessonLink={true}
-          />
-        </LessonQuarterProvider>
+          <LessonQuarterProvider>
+            <LessonQuarterBlock
+              {...currentLessonParameters}
+              type="cq"
+              showLessonLink={true}
+            />
+          </LessonQuarterProvider>
 
-        <LessonQuarterProvider>
-          <LessonQuarterBlock
-            {...currentLessonParameters}
-            type="cc"
-            showLessonLink={true}
-          />
-        </LessonQuarterProvider>
+          <LessonQuarterProvider>
+            <LessonQuarterBlock
+              {...currentLessonParameters}
+              type="cc"
+              showLessonLink={true}
+            />
+          </LessonQuarterProvider>
+        </section>
       </PageContent>
     </>
   );

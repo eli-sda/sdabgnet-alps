@@ -1,5 +1,4 @@
 @import './reactBigCalendarVariables.scss';
-@import '/src/styles/colors.scss';
 
 @import 'react-big-calendar/lib/sass/reset';
 
@@ -125,33 +124,6 @@
 
 .rbc-today {
   background-color: $today-highlight-bg;
-}
-
-.rbc-date-cell * {
-  background: none !important;
-  background-color: transparent !important;
-  box-shadow: none !important;
-  color: inherit !important;
-}
-
-.rbc-show-more {
-  font-size: 0.71rem !important;
-  color: rgb(74, 74, 74) !important;
-  background-color: inherit !important;
-}
-
-.rbc-toolbar button {
-  border-radius: 3.125rem !important;
-  margin: 0.1em !important;
-}
-
-.rbc-toolbar button:active,
-.rbc-toolbar button.rbc-active,
-.rbc-toolbar button:hover, .rbc-show-more:hover {
-  box-shadow: none !important;
-  background-color: $mingDarkColor !important;
-  border-color: $mingDarkColor !important;
-  color: #fff !important;
 }
 
 @import 'react-big-calendar/lib/sass/toolbar';

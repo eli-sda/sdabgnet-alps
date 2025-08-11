@@ -3,6 +3,7 @@ import ReactJkMusicPlayer, {
   ReactJkMusicPlayerLocale
 } from 'react-jinke-music-player';
 import { bgMusicPlayerLocale } from '../../utils/bgMusicPlayerLocale';
+import { suppressMusicPlayerWarnings } from '../../utils/suppressMusicPlayerWarnings';
 
 interface LessonAudioProps {
   year: number;
@@ -19,6 +20,11 @@ const LessonAudio: React.FC<LessonAudioProps> = ({
   title,
   getContainer
 }) => {
+  // Suppress music player warnings/errors when component mounts
+  React.useEffect(() => {
+    suppressMusicPlayerWarnings();
+  }, []);
+
   const audioUrl = `https://web.3-16.bg/lessons/${year}_Q${quarter}/${year}_Q${quarter}_Lesson_${week}.mp3`;
 
   return (

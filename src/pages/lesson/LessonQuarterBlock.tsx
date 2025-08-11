@@ -6,7 +6,7 @@ import {
   getRouteLesson,
   LessonProps
 } from '../../utils/LessonUtils';
-import './LessonQuarterBlock.css';
+import './LessonQuarterBlock.scss';
 
 import { PageHeaderFeature2 } from 'src/organisms/sections/PageHeaderFeature2';
 import PopupContent from './PopupContent';

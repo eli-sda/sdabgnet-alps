@@ -211,6 +211,9 @@ const Home = () => {
             <li>
               <NavLink to={routes.contact}>Контакт</NavLink>
             </li>
+            <li>
+              <NavLink to={routes.churchLife('events')}>Календар със събития</NavLink>
+            </li>
           </ul>
         </div>
         <p className="text">

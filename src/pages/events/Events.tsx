@@ -8,6 +8,8 @@ import './customCalendar.scss';
 import { getTitle, getBreadcrumbs } from 'src/utils/Navigation';
 import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
 import { PageContent } from 'src/alps/organisms/content/PageContent';
+import { Grid } from 'alps-library/atoms/grids/Grid';
+import { GridItem } from 'alps-library/atoms/grids/GridItem';
 
 // Define available locales
 const locales = {
@@ -91,13 +93,19 @@ const Events = () => {
   return (
     <>
       <PageHeaderLong title={title} />
-      <PageContent breadcrumbs={breadcrumbs}>
-        <div
-          style={{
-            margin: '0 auto',
-            maxWidth: '1200px',
-            padding: '0.5rem 1rem'
-          }}
+      <PageContent breadcrumbs={breadcrumbs}></PageContent>
+      <Grid
+        className={'l-grid l-grid--7-col l-grid-wrap l-grid-wrap--6-of-7'}
+        seven={true}
+        as="section"
+        wrap={'6'}
+      >
+        <GridItem
+          className={
+            'u-padding--sides u-space--triple--bottom l-grid-item page-link-item'
+          }
+          sizeAtM={'6'}
+          sizeAtXL={'6'}
         >
           <Calendar
             localizer={localizer}
@@ -106,7 +114,7 @@ const Events = () => {
             endAccessor="end"
             titleAccessor="title"
             tooltipAccessor="title"
-            style={{ height: 600 }}
+            style={{ height: 600, maxWidth: 1000, margin: '0 auto' }}
             defaultDate={firstOfMonth} // Start agenda view from the 1st of the month
             formats={formats}
             onSelectEvent={(event) => {
@@ -135,8 +143,8 @@ const Events = () => {
             defaultView="month"
             culture="bg" // Ensures Bulgarian culture is applied
           />
-        </div>
-      </PageContent>
+        </GridItem>
+      </Grid>
     </>
   );
 };

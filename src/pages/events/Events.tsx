@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { toZonedTime } from 'date-fns-tz';
 import { parse, format, startOfWeek as dfStartOfWeek, getDay } from 'date-fns';
 import { bg } from 'date-fns/locale';
 import routes from 'src/routes';
@@ -65,12 +66,25 @@ const Events = () => {
           }>
         ) => {
           setParsedEvents(
-            events.map(({ title, start, end, link }) => ({
-              title,
-              start: new Date(start),
-              end: new Date(end ?? start),
-              link: link || ''
-            }))
+            events.map(({ title, start, end, link }) => {
+              const parseSofiaDate = (dateStr: string) => toZonedTime(new Date(dateStr), 'Europe/Sofia');
+              const isAllDay = !/T\d{2}:\d{2}/.test(start);
+              const startDate = isAllDay ? parseSofiaDate(start + 'T00:00:00') : parseSofiaDate(start);
+              let endDate;
+              if (end) {
+                endDate = /T\d{2}:\d{2}/.test(end)
+                  ? parseSofiaDate(end)
+                  : parseSofiaDate(end + 'T00:00:00');
+              } else {
+                endDate = startDate;
+              }
+              return {
+                title,
+                start: startDate,
+                end: endDate,
+                link: typeof link === 'string' ? link : ''
+              };
+            })
           );
         }
       )
@@ -84,7 +98,8 @@ const Events = () => {
   const today = new Date();
   const firstOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
   const formats = {
-    agendaDateFormat: 'd.MM' // Use date-fns format string
+    agendaDateFormat: 'd.MM',
+    dayHeaderFormat: 'eeee, d MMMM'
   };
 
   const breadcrumbs = getBreadcrumbs(breadcrumbsUrls);

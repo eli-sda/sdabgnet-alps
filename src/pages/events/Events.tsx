@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { toZonedTime } from 'date-fns-tz';
-import { parse, format, startOfWeek as dfStartOfWeek, getDay } from 'date-fns';
-import { bg } from 'date-fns/locale';
+import moment from 'moment';
+import 'moment/dist/locale/bg';
+moment.locale('bg');
 import routes from 'src/routes';
-import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
+import { Calendar, momentLocalizer } from 'react-big-calendar';
 import './reactBigCalendarStyles.scss';
 import './customCalendar.scss';
 import { getTitle, getBreadcrumbs } from 'src/utils/Navigation';
@@ -12,32 +12,15 @@ import { PageContent } from 'src/alps/organisms/content/PageContent';
 import { Grid } from 'alps-library/atoms/grids/Grid';
 import { GridItem } from 'alps-library/atoms/grids/GridItem';
 
-// Define available locales
-const locales = {
-  bg: bg
-};
-
 // Ensure the week starts on Monday using Bulgarian locale
-const startOfWeek = (date: Date) => {
-  return dfStartOfWeek(date, { locale: bg });
-};
-
-// Create a dateFns localizer with explicit use of the Bulgarian locale
-const localizer = dateFnsLocalizer({
-  format: (date: Date, formatStr: string) =>
-    format(date, formatStr, { locale: bg }),
-  parse: (value: string, formatStr: string) =>
-    parse(value, formatStr, new Date(), { locale: bg }),
-  startOfWeek,
-  getDay,
-  locales
-});
+const localizer = momentLocalizer(moment);
 
 type CalendarEvent = {
   title: string;
   start: Date;
   end: Date;
   link?: string;
+  allDay: boolean;
 };
 
 const Event = ({ event }: { event: CalendarEvent }) =>
@@ -48,6 +31,14 @@ const Event = ({ event }: { event: CalendarEvent }) =>
   ) : (
     <span>{event.title}</span>
   );
+
+const formats = {
+  agendaDateFormat: 'D.MM',
+  dayHeaderFormat: 'dddd, D MMMM', // напр. "понеделник, 4 август"
+  dayFormat: 'dd', // Пн, Вт, Ср...
+  weekdayFormat: 'dddd', // Понеделник, Вторник...
+  monthHeaderFormat: 'MMMM YYYY' // август 2025
+};
 
 const Events = () => {
   const breadcrumbsUrls = [routes.churchLife(), routes.churchLife('events')];
@@ -65,27 +56,33 @@ const Events = () => {
             link?: string;
           }>
         ) => {
-          setParsedEvents(
-            events.map(({ title, start, end, link }) => {
-              const parseSofiaDate = (dateStr: string) => toZonedTime(new Date(dateStr), 'Europe/Sofia');
-              const isAllDay = !/T\d{2}:\d{2}/.test(start);
-              const startDate = isAllDay ? parseSofiaDate(start + 'T00:00:00') : parseSofiaDate(start);
+          const calendarEvents: CalendarEvent[] = events.map(
+            ({ title, start, end, link }) => {
+              const isAllDayStart = !/T\d{2}:\d{2}/.test(start);
+              const startDate = isAllDayStart
+                ? moment(start, 'YYYY-MM-DD').toDate()
+                : moment(start).toDate();
               let endDate;
+              let isAllDayEnd = false;
               if (end) {
-                endDate = /T\d{2}:\d{2}/.test(end)
-                  ? parseSofiaDate(end)
-                  : parseSofiaDate(end + 'T00:00:00');
+                isAllDayEnd = !/T\d{2}:\d{2}/.test(end);
+                endDate = isAllDayEnd
+                  ? moment(end, 'YYYY-MM-DD').toDate()
+                  : moment(end).toDate();
               } else {
                 endDate = startDate;
+                isAllDayEnd = isAllDayStart;
               }
               return {
                 title,
                 start: startDate,
                 end: endDate,
-                link: typeof link === 'string' ? link : ''
+                link: typeof link === 'string' ? link : '',
+                allDay: isAllDayStart && isAllDayEnd
               };
-            })
+            }
           );
+          setParsedEvents(calendarEvents);
         }
       )
       .catch((err) => {
@@ -97,10 +94,6 @@ const Events = () => {
   // Set agenda view to always start from the 1st of the current month
   const today = new Date();
   const firstOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-  const formats = {
-    agendaDateFormat: 'd.MM',
-    dayHeaderFormat: 'eeee, d MMMM'
-  };
 
   const breadcrumbs = getBreadcrumbs(breadcrumbsUrls);
   const title = getTitle(routes.churchLife('events'));
@@ -125,10 +118,6 @@ const Events = () => {
           <Calendar
             localizer={localizer}
             events={parsedEvents}
-            startAccessor="start"
-            endAccessor="end"
-            titleAccessor="title"
-            tooltipAccessor="title"
             style={{ height: 600, maxWidth: 1000, margin: '0 auto' }}
             defaultDate={firstOfMonth} // Start agenda view from the 1st of the month
             formats={formats}
@@ -156,7 +145,6 @@ const Events = () => {
             }}
             views={['month', 'agenda']}
             defaultView="month"
-            culture="bg" // Ensures Bulgarian culture is applied
           />
         </GridItem>
       </Grid>

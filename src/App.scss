@@ -73,6 +73,19 @@ h6 {
       }
     }
   }
+
+  &.answer {
+    &::after,
+    &:focus:after {
+      content: 'Покажи отговор';
+    }
+    &.this-is-active {
+      &::after,
+      &:focus:after {
+        content: 'Скрий отговор';
+      }
+    }
+  }
 }
 
 .download a {

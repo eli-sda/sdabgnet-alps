@@ -40,7 +40,7 @@ export const QuestionsList = ({ items = [], level = 0 }: QuestionsListProps): JS
                 outline
                 toggle
                 onClick={() => handleToggle(idx)}
-                label={toggles[idx] ? 'Скрий отговор' : 'Покажи отговор'}
+                className='answer'
               />
               {toggles[idx] && <QuestionsList items={[answer]} level={level + 1} />}
             </>

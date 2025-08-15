@@ -1,0 +1,67 @@
+@use '/src/styles/colors.scss' as *;
+
+.u-theme--ming {
+  .rbc-date-cell *,
+  button {
+    &:hover {
+      background-color: transparent;
+      border-color: transparent;
+    }
+    background: none;
+    background-color: transparent;
+    box-shadow: none;
+    color: inherit;
+  }
+
+  .rbc-event {
+    a {
+      color: white;
+    }
+  }
+  .rbc-event,
+  .rbc-agenda-table {
+    // from p styles in alps:
+      font-family: 'Noto Serif', Georgia, Times, 'Times New Roman', serif;
+      font-size: 0.875rem;
+    a {
+      text-decoration: underline;
+    }
+  }
+
+  .rbc-show-more {
+    font-size: 0.71rem;
+    background-color: inherit;
+  }
+
+  .rbc-toolbar {
+    button {
+      border-radius: 3.125rem;
+    }
+  }
+  //   .rbc-show-more:hover,
+  .rbc-toolbar {
+    flex-wrap: nowrap;
+    button {
+      &:active,
+      &.rbc-active,
+      &:hover {
+        box-shadow: none;
+        background-color: $mingDarkColor;
+        border-color: $mingDarkColor;
+        color: #fff;
+      }
+    }
+  }
+  @media (max-width: 845px) {
+    // Prevent calendar popup (rbc-overlay) from overflowing the screen
+    // Ensures the "show more" events popup stays visible and scrollable
+    .rbc-overlay {
+      max-width: 100vw;
+      max-height: 80vh;
+      left: auto !important;
+      // right: 0 !important;
+      overflow-y: auto;
+      overflow-x: auto;
+    }
+  }
+}

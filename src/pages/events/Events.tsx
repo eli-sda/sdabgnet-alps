@@ -93,7 +93,46 @@ const Events = () => {
 
   // Set agenda view to always start from the 1st of the current month
   const today = new Date();
-  const firstOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+  const getFirstOfMonth = (date: Date) =>
+    new Date(date.getFullYear(), date.getMonth(), 1);
+  const [currentDate, setCurrentDate] = useState<Date>(getFirstOfMonth(today));
+
+  const handleNavigate = (date: Date, view: string, action: string) => {
+    if (view === 'agenda') {
+      let newDate;
+      if (action === 'NEXT') {
+        // If next month, set to the first day of the next month
+        newDate = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth() + 1,
+          1
+        );
+      } else if (action === 'PREV') {
+        // If previous month, set to the first day of the previous month
+        newDate = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth() - 1,
+          1
+        );
+      } else {
+        // ТЕКУЩ (current month) - set the first day of the current month
+        newDate = new Date(date.getFullYear(), date.getMonth(), 1);
+      }
+      setCurrentDate(newDate);
+    } else {
+      setCurrentDate(new Date(date.getFullYear(), date.getMonth(), 1));
+    }
+  };
+
+  const handleView = (view: string) => {
+    if (view === 'agenda' || view === 'month') {
+      // on view change set the first day of the current month
+      setCurrentDate(
+        new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
+      );
+    }
+  };
 
   const breadcrumbs = getBreadcrumbs(breadcrumbsUrls);
   const title = getTitle(routes.churchLife('events'));
@@ -119,13 +158,15 @@ const Events = () => {
             localizer={localizer}
             events={parsedEvents}
             style={{ height: 600, maxWidth: 1000, margin: '0 auto' }}
-            defaultDate={firstOfMonth} // Start agenda view from the 1st of the month
+            date={currentDate}
             formats={formats}
             onSelectEvent={(event) => {
               if (event.link) {
                 window.open(event.link, '_blank');
               }
             }}
+            onNavigate={handleNavigate}
+            onView={handleView}
             components={{
               event: Event
             }}

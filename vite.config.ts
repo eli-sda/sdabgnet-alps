@@ -42,5 +42,40 @@ export default defineConfig({
     emptyOutDir: true,
     sourcemap: false, // Disable source map generation to exclude .map.js files
     copyPublicDir: true // Enable copying of the public folder
+  },
+  css: {
+    preprocessorOptions: {
+      less: {
+        modifyVars: {
+          // set react-jinke-music-player variables
+          // Primary theme colors using your ming palette
+          'primary-color': '#007f98', // $mingColor for active elements (track, handle)
+          'primary-color-light': '#ffffff', // White text color
+          'primary-color-dark': '#4a4a4a', // $grayDarkColor for dark background
+
+          // Background colors
+          'bg-color': '#ffffff', // White main background
+          'panel-bg': '#4a4a4a', // $grayDarkColor - dark panel background
+          'panel-bg-dark': '#4a4a4a', // $grayDarkColor - main panel background
+          'panel-bg-mobile': '#4a4a4a', // $grayDarkColor - mobile panel background
+          'panel-bg-light': '#f5f5f5', // $lightGrayColor for light panels
+          'controller-bg-light': '#f5f5f5', // $lightGrayColor for controller
+
+          // Text colors
+          'font-color': '#002938', // $mingDarkestColor for dark text
+          'base-color': '#f5f5f5', // Light gray for progress track base - no transparency
+
+          // Progress bar colors - correct variable names
+          'progress-bar-bg-color-light': '#f5f5f5', // Light gray for progress track (light mode)
+          'progress-bar-bg-color-dark': '#f5f5f5', // Light gray for progress track (dark mode)
+          'progress-load-bar-bg-color': '#d0d0d0', // Medium gray for load bar track (dark mode)
+          'progress-load-bar-bg-color-light': '#d0d0d0', // Medium gray for load bar track (light mode)
+
+          // Lyric colors
+          'player-lyric-color': '#9ae1f0' // $lighterMingColor
+        },
+        javascriptEnabled: true
+      }
+    }
   }
 });

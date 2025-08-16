@@ -9,7 +9,7 @@ import {
   LessonProps,
   LessonType
 } from '../../utils/LessonUtils';
-import './Lesson.css';
+import './Lesson.scss';
 
 import { LessonItem } from './LessonItem';
 import routes from '../../routes';
@@ -27,6 +27,7 @@ import { RelatedPosts } from 'src/alps/organisms/asides/RelatedPosts';
 import LessonHead from './LessonHead';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { Aside } from 'alps-library/organisms/asides/aside/Aside';
+import LessonAudio from './LessonAudio';
 
 const Lesson = ({ type = '' }: { type?: LessonType }) => {
   const { year, quarter, week } = useParams();
@@ -144,7 +145,7 @@ const Lesson = ({ type = '' }: { type?: LessonType }) => {
                 <Figure
                   align="left"
                   caption='Гледайте поредицата "Изход" с п-р Петър Стоилов'
-                  size="small"
+                  size="large"
                   videoSrc="https://www.youtube.com/embed?listType=playlist&list=PLfCTd97jVbHUL-rsvyHnIr0L7FM8MtJnq"
                 />
               </Aside>
@@ -169,7 +170,21 @@ const Lesson = ({ type = '' }: { type?: LessonType }) => {
               lessonDateRange={lessonDateRange}
               lessonCover={qLesson.cover}
             />
-
+            {quarterObject?.type === '' && quarterObject.lessonYear >= 2019 && (
+              <>
+                <div id="lesson-audio-container" />
+                <LessonAudio
+                  year={quarterObject.lessonYear}
+                  quarter={quarterObject.lessonQuarter}
+                  week={qLesson.num}
+                  title={qLesson.title}
+                  getContainer={() =>
+                    document.getElementById('lesson-audio-container') ||
+                    document.body
+                  }
+                />
+              </>
+            )}
             <ArticleContent sidebar={sidebar}>
               <LessonItem qLesson={qLesson} />
             </ArticleContent>

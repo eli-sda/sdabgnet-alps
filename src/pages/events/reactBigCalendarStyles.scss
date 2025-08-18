@@ -1,6 +1,6 @@
-@import './reactBigCalendarVariables.scss';
+@use './reactBigCalendarVariables.scss' as *;
 
-@import 'react-big-calendar/lib/sass/reset';
+@use 'react-big-calendar/lib/sass/reset' as *;
 
 .rbc-calendar {
   box-sizing: border-box;

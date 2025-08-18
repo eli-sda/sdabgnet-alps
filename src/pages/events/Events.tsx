@@ -157,7 +157,7 @@ const Events = () => {
           <Calendar
             localizer={localizer}
             events={parsedEvents}
-            style={{ height: 600, maxWidth: 1000, margin: '0 auto' }}
+            style={{ minHeight: 600, maxWidth: 1000, margin: '0 auto' }}
             date={currentDate}
             formats={formats}
             onSelectEvent={(event) => {

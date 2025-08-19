@@ -1,4 +1,4 @@
-import { useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { Question, QuestionProps } from 'src/pages/pastorOnline/Question';
 import { Button } from 'src/alps/atoms/Button';
 
@@ -11,7 +11,10 @@ export interface QuestionsListProps {
   items?: QuestionItem[];
 }
 
-export const QuestionsList = ({ items = [], level = 0 }: QuestionsListProps): JSX.Element => {
+export const QuestionsList = ({
+  items = [],
+  level = 0
+}: QuestionsListProps): JSX.Element => {
   const childrenClass = level > 0 ? 'children__' : '';
   const listClass = `c-comment__${childrenClass}list`;
   const itemClass = `${listClass}-item`;
@@ -24,25 +27,35 @@ export const QuestionsList = ({ items = [], level = 0 }: QuestionsListProps): JS
   }, [items]);
 
   const handleToggle = (idx: number) => {
-    setToggles(toggles => toggles.map((t, i) => i === idx ? !t : t));
+    setToggles((toggles) => toggles.map((t, i) => (i === idx ? !t : t)));
   };
 
   return (
-    <ul className={`${listClass} ${level > 0 ? 'u-spacing' : 'u-spacing--double'}`}>
+    <ul
+      className={`${listClass} ${
+        level > 0 ? 'u-spacing' : 'u-spacing--double'
+      }`}
+    >
       {items.map(({ answer, text, avatar, name }, idx) => (
-        <li className={`${itemClass} comment u-spacing`} key={`${level}-${idx}`} id={`question-${level}-${idx}`}>
+        <li
+          className={`${itemClass} comment u-spacing`}
+          key={`${level}-${idx}`}
+          id={`question-${level}-${idx}`}
+        >
           <Question text={text} avatar={avatar} name={name} />
           {answer && (
             <>
               <Button
-                as="button"
+                as="a"
                 expand
                 outline
                 toggle
                 onClick={() => handleToggle(idx)}
-                className='answer'
+                className="answer"
               />
-              {toggles[idx] && <QuestionsList items={[answer]} level={level + 1} />}
+              {toggles[idx] && (
+                <QuestionsList items={[answer]} level={level + 1} />
+              )}
             </>
           )}
         </li>

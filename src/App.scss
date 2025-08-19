@@ -77,12 +77,12 @@ h6 {
   &.answer {
     &::after,
     &:focus:after {
-      content: 'Покажи отговор';
+      content: 'Покажи отговора';
     }
     &.this-is-active {
       &::after,
       &:focus:after {
-        content: 'Скрий отговор';
+        content: 'Скрий отговора';
       }
     }
   }

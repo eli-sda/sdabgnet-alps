@@ -1,6 +1,6 @@
 @use '/src/styles/colors.scss' as *;
 
-.u-theme--ming {
+.rbc-calendar {
   .rbc-date-cell *,
   button {
     &:hover {
@@ -12,17 +12,20 @@
     box-shadow: none;
     color: inherit;
   }
+}
 
+.u-theme--ming {
   .rbc-event {
     a {
       color: white;
     }
   }
+  
   .rbc-event,
   .rbc-agenda-table {
     // from p styles in alps:
-      font-family: 'Noto Serif', Georgia, Times, 'Times New Roman', serif;
-      font-size: 0.875rem;
+    font-family: 'Noto Serif', Georgia, Times, 'Times New Roman', serif;
+    font-size: 0.875rem;
     a {
       text-decoration: underline;
     }
@@ -52,6 +55,11 @@
       }
     }
   }
+
+  .rbc-agenda-view {
+    overflow: unset;
+  }
+
   @media (max-width: 845px) {
     // Prevent calendar popup (rbc-overlay) from overflowing the screen
     // Ensures the "show more" events popup stays visible and scrollable

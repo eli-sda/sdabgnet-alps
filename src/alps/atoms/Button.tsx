@@ -54,6 +54,10 @@ export interface ButtonProps {
    */
   icon?: keyof typeof iconConfig.iconNamesMap;
   iconSize?: keyof typeof iconConfig.iconSizes.map;
+/**
+ * FontAwesome icon name, for example 'download'
+ */
+  faIcon?: string;
   /**
    * You can set position of icon into the button
    */
@@ -103,13 +107,20 @@ export const Button = ({
     toggle ? openClass : ''
   );
 
-  const icon = !isExternal && props.icon && (
+  let icon = !isExternal && props.icon && (
     <IconWrap
       color={'white'}
       name={props.icon}
       size={iconSize}
       iconPosition={iconPosition}
     />
+  );
+  icon = !icon && !!props.faIcon && (
+    <i
+      className={`fa fa-${props.faIcon} u-space--quarter--${
+        iconPosition === 'left' ? 'right' : 'left'
+      }`}
+    ></i>
   );
 
   const labelWithIcon = (

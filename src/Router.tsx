@@ -34,6 +34,7 @@ const AdvertisementPage = lazy(
   () => import('./pages/advertisement/AdvertisementPage')
 );
 const Contact = lazy(() => import('./pages/Contact'));
+const VideoResources = lazy(() => import('./pages/VideoResources'));
 
 // const theme = createTheme();
 
@@ -137,6 +138,11 @@ const Router = () => (
           />
 
           <Route path={routes.contact} element={<Contact />} />
+
+          <Route
+            path={routes.resources('video')}
+            element={<VideoResources />}
+          />
 
           {/* <Route path="teams" element={<Teams />}>
           <Route path=":teamId" element={<Team />} />

@@ -41,6 +41,37 @@ const formats = {
 };
 
 const Events = () => {
+  // Patch react-big-calendar overlay position in production
+  useEffect(() => {
+    if (import.meta.env.PROD) {
+      // Map to store initial top values for overlays
+      const initialTops = new WeakMap<Element, number>();
+
+      function fixRbcOverlayPosition() {
+        document.querySelectorAll('.rbc-overlay').forEach((overlay) => {
+          const el = overlay as HTMLElement;
+          // On first run, store the initial top
+          if (!initialTops.has(el)) {
+            const currentTop = parseFloat(
+              window.getComputedStyle(el).top || '0'
+            );
+            initialTops.set(el, currentTop);
+          }
+          const baseTop = initialTops.get(el) || 0;
+          // In production, add scrollY to baseTop
+          el.style.top = `${baseTop + window.scrollY}px`;
+        });
+      }
+
+      // Only run once on initial overlay open
+      const observer = new MutationObserver(fixRbcOverlayPosition);
+      observer.observe(document.body, { childList: true, subtree: true });
+
+      return () => {
+        observer.disconnect();
+      };
+    }
+  }, []);
   const breadcrumbsUrls = [routes.churchLife(), routes.churchLife('events')];
   const [parsedEvents, setParsedEvents] = useState<CalendarEvent[]>([]);
 
@@ -157,7 +188,7 @@ const Events = () => {
           <Calendar
             localizer={localizer}
             events={parsedEvents}
-            style={{ height: 600, maxWidth: 1000, margin: '0 auto' }}
+            style={{ minHeight: 600, maxWidth: 1000, margin: '0 auto' }}
             date={currentDate}
             formats={formats}
             onSelectEvent={(event) => {

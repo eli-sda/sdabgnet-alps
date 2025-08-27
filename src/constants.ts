@@ -1,6 +1,6 @@
 export const SITE = 'https://new.sdabg.net';
 export const OLD_SITE = 'https://sdabg.net';
-export const RESOURCES_PREFIX_URL = 'https://sdasofia.org/sdabg/';
+export const RESOURCES_PREFIX_URL = 'https://linuxman.biz/sdabg/'; //'https://sdasofia.org/sdabg/';
 
 export const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 

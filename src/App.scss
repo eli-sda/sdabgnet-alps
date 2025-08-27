@@ -231,6 +231,12 @@ samp {
   max-height: unset;
 }
 
-.download-resources td a.o-button  {
+.download-resources td a.o-button {
   text-decoration-line: none;
+}
+
+.download-list-title {
+  cursor: pointer;
+  display: block;
+  text-align: center;
 }

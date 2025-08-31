@@ -3,8 +3,11 @@ import { TextField } from 'alps-library/molecules/forms/elements/TextField';
 import { Button } from 'src/alps/atoms/Button';
 import React, { useMemo, useState } from 'react';
 import { EMAIL_REGEX, ERROR_SENDING_MESSAGE, SITE } from 'src/constants';
+import { InfoDialog } from 'src/organisms/sections/InfoDialog';
 
-const PastorOnline = () => {
+const PastorOnlineForm = () => {
+  const [infoMessage, setInfoMessage] = useState<string | null>(null);
+
   const [fields, setFields] = useState({
     name: '',
     email: '',
@@ -72,20 +75,27 @@ const PastorOnline = () => {
       });
       const data = (await response.json()) as { error?: string };
       if (response.ok) {
-        alert('Въпросът е изпратен успешно!');
+        setInfoMessage('Въпросът е изпратен успешно!');
         reset(false);
       } else if (data && typeof data.error === 'string') {
-        alert(data.error);
+        setInfoMessage(data.error);
       } else {
-        alert(ERROR_SENDING_MESSAGE);
+        setInfoMessage(ERROR_SENDING_MESSAGE);
       }
     } catch {
-      alert(ERROR_SENDING_MESSAGE);
+      setInfoMessage(ERROR_SENDING_MESSAGE);
     }
   };
 
   return (
     <>
+      {infoMessage && (
+        <InfoDialog
+          message={infoMessage}
+          onClose={() => setInfoMessage(null)}
+        />
+      )}
+
       <Form
         title="Изпрати въпрос"
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
@@ -143,4 +153,4 @@ const PastorOnline = () => {
   );
 };
 
-export default PastorOnline;
+export default PastorOnlineForm;

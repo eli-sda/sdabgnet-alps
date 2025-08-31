@@ -13,8 +13,11 @@ import {
 } from 'src/constants';
 import { getTitle } from 'src/utils/Navigation';
 import routes from 'src/routes';
+import { InfoDialog } from 'src/organisms/sections/InfoDialog';
 
 const AdvertisementForm = ({ type }: { type: AdType }) => {
+  const [infoMessage, setInfoMessage] = useState<string | null>(null);
+
   const [fields, setFields] = useState({
     type: type,
     name: '',
@@ -106,19 +109,19 @@ const AdvertisementForm = ({ type }: { type: AdType }) => {
       });
       const data = (await response.json()) as { error?: string };
       if (response.ok) {
-        alert(
+        setInfoMessage(
           'Обявата е изпратена успешно! Ще бъде прегледана от администратор.'
         );
         setFields((f) => ({ ...f, adver: '' }));
         setTouched((t) => ({ ...t, adver: false }));
         reset(false);
       } else if (data && typeof data.error === 'string') {
-        alert(data.error);
+        setInfoMessage(data.error);
       } else {
-        alert(ERROR_SENDING_MESSAGE);
+        setInfoMessage(ERROR_SENDING_MESSAGE);
       }
     } catch {
-      alert(ERROR_SENDING_MESSAGE);
+      setInfoMessage(ERROR_SENDING_MESSAGE);
     }
   };
 
@@ -140,6 +143,14 @@ const AdvertisementForm = ({ type }: { type: AdType }) => {
         </a>
         , ако желаете да премахнете ваша обява.
       </Caption>
+
+      {infoMessage && (
+        <InfoDialog
+          message={infoMessage}
+          onClose={() => setInfoMessage(null)}
+        />
+      )}
+
       <Form
         title="Изпрати нова обява"
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {

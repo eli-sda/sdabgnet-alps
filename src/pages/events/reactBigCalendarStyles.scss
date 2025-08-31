@@ -1,6 +1,6 @@
-@import './reactBigCalendarVariables.scss';
+@use './reactBigCalendarVariables.scss' as *;
 
-@import 'react-big-calendar/lib/sass/reset';
+@use 'react-big-calendar/lib/sass/reset' as *;
 
 .rbc-calendar {
   box-sizing: border-box;
@@ -126,8 +126,8 @@
   background-color: $today-highlight-bg;
 }
 
-@import 'react-big-calendar/lib/sass/toolbar';
-@import 'react-big-calendar/lib/sass/event';
-@import 'react-big-calendar/lib/sass/month';
-@import 'react-big-calendar/lib/sass/agenda';
-@import 'react-big-calendar/lib/sass/time-grid';
+@import '../../../node_modules/react-big-calendar/lib/sass/toolbar';
+@import '../../../node_modules/react-big-calendar/lib/sass/event';
+@import '../../../node_modules/react-big-calendar/lib/sass/month';
+@import '../../../node_modules/react-big-calendar/lib/sass/agenda';
+@import '../../../node_modules/react-big-calendar/lib/sass/time-grid';

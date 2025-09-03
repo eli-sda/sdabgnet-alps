@@ -71,34 +71,34 @@ export const loadQuestions = async (): Promise<QuestionType[]> => {
   return questions;
 };
 
-export const loadPlaylists = async (): Promise<PlaylistType[]> => {
+export const loadPlaylists = async (type?: string): Promise<PlaylistType[]> => {
+  const typeFilter = type ? `&& type == "${type}"` : '';
   const playlistQuery = `*[
-  _type == "playlist" &&
-  isResource == true
-] | order(_createdAt desc) {
-  _id,
-  isResource,
-  type,
-  author,
-  title,
-  keyWords,
-  image,
-  "items": items[_type == "reference"]->{
+    _type == "playlist" &&
+    isResource == true
+    ${typeFilter}
+  ] | order(_createdAt desc) {
     _id,
     isResource,
+    type,
     author,
     title,
-    description,
-    size,
     keyWords,
-    "path": select(
-      isResource == true => ^.slug.current + "/" + fileName,
-      true => URL
-    )
-  }
-}`;
+    image,
+    "items": items[_type == "reference"]->{
+      _id,
+      isResource,
+      author,
+      title,
+      description,
+      size,
+      keyWords,
+      "path": select(
+        isResource == true => ^.slug.current + "/" + fileName,
+        true => URL
+      )
+    }
+  }`;
 
-  const playlist: PlaylistType[] = await client.fetch(playlistQuery);
-
-  return playlist;
+  return await client.fetch(playlistQuery);
 };

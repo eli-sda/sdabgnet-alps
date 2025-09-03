@@ -231,12 +231,24 @@ samp {
   max-height: unset;
 }
 
-.download-resources td a.o-button {
-  text-decoration-line: none;
+//Accordion
+.c-accordion__heading {
+  display: flex;
+  user-select: none;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #f5f5f5; //.u-background-color--gray--light
+  padding-right: 0.3125rem;
+  .title {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-direction: row;
+  }
 }
 
-.download-list-title {
-  cursor: pointer;
-  display: block;
-  text-align: center;
+@media (max-width: 900px) {
+  .c-accordion__heading .title {
+    flex-direction: column-reverse;
+  }
 }

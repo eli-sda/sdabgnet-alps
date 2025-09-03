@@ -1,0 +1,24 @@
+// fix for the accordion item arrow
+// added animation for the arrow and for the content
+.c-accordion__item {
+  .c-accordion__arrow {
+    transition: transform 0.7s ease-out;
+  }
+
+  .c-accordion__content {
+    display: block;
+  }
+
+  &:not(.this-is-active) {
+    .c-accordion__content {
+      /* Styles for NOT active accordion item */
+      margin-top: 0;
+    }
+  }
+
+  &.this-is-active {
+    .c-accordion__arrow {
+      top: unset;
+    }
+  }
+}

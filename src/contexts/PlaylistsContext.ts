@@ -6,9 +6,9 @@ export type PlaylistItemType = {
   isResource?: boolean;
   author?: string;
   title: string;
-  description?: string;
+  description?: string | null;
   size?: number;
-  keyWords?: string[];
+  keyWords?: string[] | null;
   path: string;
 };
 
@@ -17,8 +17,8 @@ export type PlaylistType = {
   isResource: boolean;
   type?: string;
   author?: string;
-  title: string;
-  keyWords?: string[];
+  title?: string;
+  keyWords?: string[] | null;
   image?: SanityImageSource | null;
   items?: PlaylistItemType[];
 };

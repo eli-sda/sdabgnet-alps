@@ -50,13 +50,17 @@ export interface ButtonProps {
    */
   url?: string;
   /**
+   * If true or string, forces browser download
+   */
+  download?: boolean;
+  /**
    * Specify an `icon` to include in the Button through an string (name of the icon) representing the SVG data of the icon, similar to the `Icon` component
    */
   icon?: keyof typeof iconConfig.iconNamesMap;
   iconSize?: keyof typeof iconConfig.iconSizes.map;
-/**
- * FontAwesome icon name, for example 'download'
- */
+  /**
+   * FontAwesome icon name, for example 'download'
+   */
   faIcon?: string;
   /**
    * You can set position of icon into the button
@@ -85,6 +89,7 @@ export const Button = ({
   toggle = false,
   expand = false,
   url,
+  download = false,
   iconPosition = 'left',
   iconSize = 'xs',
   onClick,
@@ -128,13 +133,12 @@ export const Button = ({
       {iconPosition === 'left' && icon}
       {label}
       {iconPosition === 'right' && icon}
-      {isExternal && (
+      {isExternal && !download && (
         <i className="fa fa-external-link u-space--quarter--left"></i>
       )}
     </>
   );
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const _onClick = useCallback(
     (
       event: React.MouseEvent<
@@ -162,15 +166,17 @@ export const Button = ({
 
   switch (props.as) {
     case buttonConfig.asOptions[0]: {
+      const filename = url?.split('/').pop();
       const linkAttr = {
         target: isExternal ? '_blank' : undefined,
         to: url || '',
         href: url,
-        className: `${buttonClass} ${classes}`
+        className: `${buttonClass} ${classes}`,
+        download: download ? filename ?? 'download' : undefined
       };
 
       elementByType =
-        isExternal || !url ? (
+        isExternal || !url || download ? (
           <a {...linkAttr} onClick={handleClick}>
             {labelWithIcon}
           </a>
@@ -182,8 +188,6 @@ export const Button = ({
     }
     case buttonConfig.asOptions[2]:
       elementByType = (
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         <span className={buttonClass + classes} onClick={handleClick}>
           {labelWithIcon}
         </span>
@@ -191,8 +195,6 @@ export const Button = ({
       break;
     default:
       elementByType = (
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         <button
           className={buttonClass + classes}
           onClick={handleClick}
@@ -217,7 +219,6 @@ function useButtonClass(
     disabled: disabled
   };
 
-  // eslint-disable-next-line array-callback-return
   Object.keys(flags).map((flag) => {
     if (flags[flag]) {
       validClasses[`${base}--${flag}`] = flags[flag];

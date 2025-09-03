@@ -1,0 +1,64 @@
+import { useEffect, useState } from 'react';
+import { Page } from 'src/organisms/Page';
+import routes from 'src/routes';
+import { getTitle } from 'src/utils/Navigation';
+import { usePlaylists } from 'src/hooks/usePlaylists';
+import { PlaylistType } from 'src/contexts/PlaylistsContext';
+import { Caption } from 'alps-library/atoms/text/Caption';
+import DownloadList from './DownloadList';
+import { Accordion } from 'alps-library/molecules/components/accordion/Accordion';
+import { Text } from 'alps-library/atoms/text/Text';
+
+const VideoResources = () => {
+  const breadcrumbsUrls = [routes.resources(), routes.resources('video')];
+  const { getPlaylists } = usePlaylists();
+  const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
+
+  useEffect(() => {
+    getPlaylists('video')
+      .then(setPlaylists)
+      .catch((err) => console.error(err));
+  }, [getPlaylists]);
+
+  return (
+    <Page
+      title={getTitle(routes.resources('video'))}
+      kicker={getTitle(routes.resources())}
+      breadcrumbsUrls={breadcrumbsUrls}
+      pageClassName="download-resources"
+    >
+      {/* Show message if no playlists */}
+      {(!playlists || playlists.length === 0) && (
+        <Caption>No video resources available.</Caption>
+      )}
+
+      <Text
+        as="article"
+        className="lesson_item c-article__body"
+        hasDropcap={false}
+        spacing="double"
+      >
+        <Accordion>
+          {/* Map playlists to DownloadList */}
+          {playlists &&
+            playlists.map((playlist) => (
+              <DownloadList
+                key={playlist._id}
+                title={playlist.title}
+                author={playlist.author}
+                items={playlist.items?.map((item) => ({
+                  _id: item._id,
+                  title: item.title,
+                  description: item.description,
+                  size: item.size,
+                  path: item.path // for download
+                }))}
+              />
+            ))}
+        </Accordion>
+      </Text>
+    </Page>
+  );
+};
+
+export default VideoResources;

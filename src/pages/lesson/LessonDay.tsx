@@ -194,7 +194,7 @@ export const LessonDay = ({ day, isOpen }: LessonDayProps) => {
       open={opened}
       onChange={(open: boolean) => setOpend(open)}
       heading={
-        <div className="day_title flex-1" title={opened ? 'Затвори' : 'Отвори'}>
+        <div className="title flex-1" title={opened ? 'Затвори' : 'Отвори'}>
           <h3>{day.title}</h3>
           {day.date && (
             <h4>

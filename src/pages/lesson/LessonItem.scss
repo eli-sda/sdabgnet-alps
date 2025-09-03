@@ -11,27 +11,10 @@
       }
     }
   }
-  .c-accordion__heading {
-    display: flex;
-    user-select: none;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: #f5f5f5; //.u-background-color--gray--light
-    padding-right: 0.3125rem;
-    .day_title {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      flex-direction: row;
-    }
-  }
 }
 
 @media (max-width: 900px) {
   .lesson_item blockquote {
     padding-left: 1.25rem;
-  }
-  .lesson_item .c-accordion__heading .day_title {
-    flex-direction: column-reverse;
   }
 }

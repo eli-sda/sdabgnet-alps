@@ -23,17 +23,18 @@ export type PlaylistType = {
   items?: PlaylistItemType[];
 };
 
+export type PlaylistsMap = { [type: string]: PlaylistType[] };
 export type PlaylistsContextType = {
-  playlists: PlaylistType[] | undefined;
-  setPlaylists: (playlists: PlaylistType[]) => void;
-  lastLoaded: string | undefined;
-  setLastLoaded: (date: string) => void;
+  playlists: PlaylistsMap;
+  setPlaylists: (playlists: PlaylistsMap) => void;
+  lastLoaded: { [type: string]: string };
+  setLastLoaded: (type: string, date: string) => void;
 };
 
 export const PlaylistsContext = createContext<PlaylistsContextType>({
-  playlists: undefined,
+  playlists: {},
   setPlaylists: () => {},
-  lastLoaded: undefined,
+  lastLoaded: {},
   setLastLoaded: () => {}
 });
 

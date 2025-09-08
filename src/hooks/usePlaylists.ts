@@ -8,8 +8,7 @@ function getTodayString() {
 }
 
 export function usePlaylists() {
-  const { playlists, setPlaylists, lastLoaded, setLastLoaded } =
-    usePlaylistsContext();
+  const { playlists, setPlaylists, lastLoaded, setLastLoaded } = usePlaylistsContext();
 
   /**
    * Returns the playlists. If the playlists are not loaded or are stale (older than today),
@@ -20,20 +19,25 @@ export function usePlaylists() {
   const getPlaylists = useCallback(
     async (type?: string) => {
       const today = getTodayString();
+      const playlistType = type || 'all';
 
-      // Return cached playlists if they are up-to-date and no type filter is requested
-      if (playlists && lastLoaded === today && !type) {
-        return Promise.resolve(playlists);
+      // Return cached playlists for type if up-to-date
+      if (
+        playlists[playlistType] &&
+        lastLoaded[playlistType] === today
+      ) {
+        return Promise.resolve(playlists[playlistType]);
       }
 
       // Otherwise, fetch from backend
       return await loadPlaylists(type)
         .then((loadedPlaylists) => {
-          // Cache only when no type is used (to avoid mixing filtered data in global cache)
-          if (!type) {
-            setPlaylists(loadedPlaylists);
-            setLastLoaded(today);
-          }
+          // Cache by type
+          setPlaylists({
+            ...playlists,
+            [playlistType]: loadedPlaylists
+          });
+          setLastLoaded(playlistType, today);
           return Promise.resolve(loadedPlaylists);
         })
         .catch((err) => {

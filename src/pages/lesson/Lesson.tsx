@@ -136,6 +136,7 @@ const Lesson = ({ type = '' }: { type?: LessonType }) => {
 
     const video: null | { caption: string; src: string } = useMemo(() => {
       let video = null;
+      const isCQLesson = quarterObject?.type === 'cq';
       if (
         qLesson &&
         quarterObject &&
@@ -146,40 +147,40 @@ const Lesson = ({ type = '' }: { type?: LessonType }) => {
         let videoId;
         switch (qLesson.num) {
           case 2:
-            videoId = 'VQ4SD1NVbnA'; //3гл.
+            videoId = isCQLesson ? 'v6BwBvGq47s' /* 2гл. */ : 'VQ4SD1NVbnA'; //3гл.
             break;
           case 3:
-            videoId = 'c3utnt0Y8bI'; //5гл.
+            videoId = isCQLesson ? 'VQ4SD1NVbnA' /* 3гл. */ : 'c3utnt0Y8bI'; //5гл.
             break;
           case 4:
-            videoId = '2plz5iiyRD4'; //7гл.
+            videoId = isCQLesson ? 'c3utnt0Y8bI' /* 5гл. */ : '2plz5iiyRD4'; //7гл.
             break;
           case 5:
-            videoId = '4SiwsULXdzg'; //11гл.
+            videoId = isCQLesson ? '2plz5iiyRD4' /* 7гл. */ : '4SiwsULXdzg'; //11гл.
             break;
           case 6:
-            videoId = 'B92evKCcU-M'; //13гл.
+            videoId = isCQLesson ? '9fNOTOslfUg' /* 9гл. */ : 'B92evKCcU-M'; //13гл.
             break;
           case 7:
-            videoId = 'AxJKBpR1ABk'; //16гл.
+            videoId = isCQLesson ? '4SiwsULXdzg' /* 11гл. */ : 'AxJKBpR1ABk'; //16гл.
             break;
           case 8:
-            videoId = 'tQYiVnClO8U'; //19гл.
+            videoId = isCQLesson ? 'nS4Hl58MFA0' /* 14гл. */ : 'tQYiVnClO8U'; //19гл.
             break;
           case 9:
-            videoId = 'fcoEoMyE8rM'; //21гл.
+            videoId = isCQLesson ? 'tQYiVnClO8U' /* 19гл. */ : 'fcoEoMyE8rM'; //21гл.
             break;
           case 10:
-            videoId = 'KkCxsCVZstI'; //24гл.
+            videoId = isCQLesson ? 'aRMsAHTDMsw' /* 20гл. */ : 'KkCxsCVZstI'; //24гл.
             break;
           case 11:
-            videoId = 'ssLMBU_jVF0';
+            videoId = isCQLesson ? '' /* 25гл. липсва */ : 'ssLMBU_jVF0'; //32гл.
             break;
           case 12:
-            videoId = 'RzI0g9Elr_M'; //33гл.
+            videoId = isCQLesson ? 'ssLMBU_jVF0' /* 32гл. */ : 'RzI0g9Elr_M'; //33гл.
             break;
           case 13:
-            videoId = 'GxZlpW1Jjdo'; //35гл.
+            videoId = isCQLesson ? 'RzI0g9Elr_M' /* 33гл. */ : 'GxZlpW1Jjdo'; //35гл.
             break;
 
           default:

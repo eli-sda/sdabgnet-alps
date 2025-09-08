@@ -9,12 +9,15 @@ import { TextField } from 'alps-library/molecules/forms/elements/TextField';
 import { Dropdown } from 'alps-library/molecules/forms/elements/Dropdown';
 import { OptionGroup } from 'alps-library/molecules/forms/elements/OptionGroup';
 import { Button } from 'src/alps/atoms/Button';
+import { InfoDialog } from 'src/organisms/sections/InfoDialog';
 
 const Contact = () => {
   const navigate = useNavigate();
   const breadcrumbsUrls = [routes.contact];
 
   const title = getTitle(routes.contact);
+
+  const [infoMessage, setInfoMessage] = useState<string | null>(null);
 
   const [fields, setFields] = useState({
     name: '',
@@ -62,17 +65,17 @@ const Contact = () => {
       });
       const data = (await response.json()) as { error?: string };
       if (response.ok) {
-        alert('Съобщението е изпратено успешно!');
+        setInfoMessage('Съобщението е изпратено успешно!');
         // Reset only the message field and its touched state
         setFields((f) => ({ ...f, message: '' }));
         setTouched((t) => ({ ...t, message: false }));
       } else if (data && typeof data.error === 'string') {
-        alert(data.error);
+        setInfoMessage(data.error);
       } else {
-        alert(ERROR_SENDING_MESSAGE);
+        setInfoMessage(ERROR_SENDING_MESSAGE);
       }
     } catch {
-      alert(ERROR_SENDING_MESSAGE);
+      setInfoMessage(ERROR_SENDING_MESSAGE);
     }
   };
 
@@ -104,6 +107,13 @@ const Contact = () => {
 
   return (
     <Page title={title} breadcrumbsUrls={breadcrumbsUrls}>
+      {infoMessage && (
+        <InfoDialog
+          message={infoMessage}
+          onClose={() => setInfoMessage(null)}
+        />
+      )}
+
       <Form
         title="Изпрати съобщение"
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {

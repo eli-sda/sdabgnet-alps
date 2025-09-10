@@ -1,7 +1,3 @@
-.download-resources td a.o-button {
-  text-decoration-line: none;
-}
-
 .download-list-title {
   cursor: pointer;
   display: block;
@@ -11,4 +7,8 @@
 .download-item {
   display: flex;
   align-items: flex-start;
+}
+
+h4.author {
+  text-align: right;
 }

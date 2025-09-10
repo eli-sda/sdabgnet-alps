@@ -1,12 +1,7 @@
 import React from 'react';
-import {AccordionItem} from "./AccordionItem";
+import { AccordionItem } from "./AccordionItem";
+import  { AccordionProps } from "alps-library/molecules/components/accordion/Accordion.tsx"
 import renderItems from "alps-library/helpers/renderItems.tsx";
-
-export interface AccordionProps {
-    className?: string,
-    items?: [],
-    children?: React.ReactNode
-}
 
 export const Accordion = ({className = "", items, children}: AccordionProps): JSX.Element => {
     return (

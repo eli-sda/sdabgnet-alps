@@ -29,9 +29,9 @@ const DownloadList = ({ author, title, items }: DownloadListProps) => {
       faIconOpen="folder-open-o"
       heading={
         <div className="title flex-1">
-          <h3>{title}</h3>
-          {/* Show author only if it's different */}
-          {author && author !== title && <h4>{author}</h4>}
+          {/* Show title or default if missing */}
+          <h3>{title && author !== title ? title : 'Проповеди'}</h3>
+          <h4 className="author">{author}</h4>
         </div>
       }
     >

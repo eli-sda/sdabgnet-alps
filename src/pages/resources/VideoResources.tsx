@@ -29,12 +29,12 @@ const VideoResources = () => {
     >
       {/* Show message if no playlists */}
       {(!playlists || playlists.length === 0) && (
-        <Caption>No video resources available.</Caption>
+        <Caption>Няма налични видео ресурси.</Caption>
       )}
 
       <Text
         as="article"
-        className="lesson_item c-article__body"
+        className="c-article__body"
         hasDropcap={false}
         spacing="double"
       >

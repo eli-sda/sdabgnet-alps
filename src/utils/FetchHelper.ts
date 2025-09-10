@@ -71,32 +71,35 @@ export const loadQuestions = async (): Promise<QuestionType[]> => {
   return questions;
 };
 
-export const loadPlaylists = async (type?: string): Promise<PlaylistType[]> => {
-  const typeFilter = type ? `&& type == "${type}"` : '';
+export const loadPlaylists = async (type: string): Promise<PlaylistType[]> => {
   const playlistQuery = `*[
-    _type == "playlist" &&
     isResource == true
-    ${typeFilter}
+    ${type === 'image' ? '' : '&& _type == "playlist"'}
+    && type == "${type}"
   ] | order(_createdAt desc) {
     _id,
-    isResource,
-    type,
+    // isResource,
+    // type,
     author,
     title,
-    keyWords,
-    image,
-    "items": items[_type == "reference"]->{
-      _id,
-      isResource,
-      author,
-      title,
-      description,
-      size,
-      keyWords,
-      "path": select(
-        isResource == true => ^.slug.current + "/" + fileName,
-        true => URL
-      )
+    // keyWords,
+    // image,
+    ${
+      type === 'image'
+        ? `"path": select(isResource == true => "images/" + fileName, true => URL)`
+        : `"items": items[_type == "reference"]->{
+            _id,
+            // isResource,
+            author,
+            title,
+            description,
+            size,
+            // keyWords,
+            "path": select(
+              isResource == true => ^.slug.current + "/" + fileName,
+              true => URL
+            )
+          }`
     }
   }`;
 

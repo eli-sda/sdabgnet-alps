@@ -241,6 +241,11 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
         type: 'primary',
         text: 'Презентации',
         url: routes.resources('presentation')
+      },
+      {
+        type: 'primary',
+        text: 'Изображения',
+        url: routes.resources('image')
       }
     ]
   },

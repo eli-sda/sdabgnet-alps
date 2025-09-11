@@ -15,7 +15,13 @@ import { OLD_SITE } from 'src/constants';
 // import { deleteAllLinks } from 'src/utils/DelteSanityDocuments';
 // import { VideoFull } from 'alps-library/organisms/sections/videoFull/VideoFull';
 
+import playlistData from './resources/playlist.json';
+import DownloadList from './resources/DownloadList';
+import { PlaylistType } from 'src/contexts/PlaylistsContext';
+
 const Home = () => {
+  const playlists: PlaylistType[] = playlistData;
+
   const [currentDate, setCurrentDate] = useState(() => moment());
   const { pageMeta } = usePagesMeta();
 
@@ -212,10 +218,25 @@ const Home = () => {
               <NavLink to={routes.contact}>Контакт</NavLink>
             </li>
             <li>
-              <NavLink to={routes.churchLife('events')}>Календар със събития</NavLink>
+              <NavLink to={routes.churchLife('events')}>
+                Календар със събития
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.resources('video')}>Видео ресурси</NavLink>
             </li>
           </ul>
         </div>
+
+        {playlists.map((pl) => (
+          <DownloadList
+            key={pl._id}
+            author={pl.author}
+            title={pl.title}
+            items={pl.items}
+          />
+        ))}
+
         <p className="text">
           <a
             href={`${OLD_SITE}/pdf/Adventist_Identity_Manual.pdf`}

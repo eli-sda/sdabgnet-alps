@@ -25,7 +25,7 @@ const Info = lazy(() => import('./pages/Info'));
 const Commune = lazy(() => import('./pages/Commune'));
 const PastorOnline = lazy(() => import('./pages/pastorOnline/PastorOnline'));
 const Media = lazy(() => import('./pages/Media'));
-const Resources = lazy(() => import('./pages/Resources'));
+const Resources = lazy(() => import('./pages/resources/Resources'));
 const Health = lazy(() => import('./pages/Health'));
 const Advertisements = lazy(
   () => import('./pages/advertisement/Advertisements')
@@ -34,6 +34,8 @@ const AdvertisementPage = lazy(
   () => import('./pages/advertisement/AdvertisementPage')
 );
 const Contact = lazy(() => import('./pages/Contact'));
+const VideoResources = lazy(() => import('./pages/resources/VideoResources'));
+// const AudioResources = lazy(() => import('./pages/resources/AudioResources'));
 
 // const theme = createTheme();
 
@@ -137,6 +139,16 @@ const Router = () => (
           />
 
           <Route path={routes.contact} element={<Contact />} />
+
+          <Route
+            path={routes.resources('video')}
+            element={<VideoResources />}
+          />
+
+          {/* <Route
+            path={routes.resources('audio')}
+            element={<AudioResources />}
+          /> */}
 
           {/* <Route path="teams" element={<Teams />}>
           <Route path=":teamId" element={<Team />} />

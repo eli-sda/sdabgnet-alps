@@ -5,6 +5,7 @@ import {
   AdvertisementType
 } from 'src/contexts/AdvertisementsContext';
 import { QuestionType } from 'src/contexts/QuestionsContext';
+import { PlaylistType } from 'src/contexts/PlaylistsContext';
 
 export const loadPagesMeta = async (): Promise<PageMetaMap> => {
   const query = `*[_type == "page"] {
@@ -68,4 +69,36 @@ export const loadQuestions = async (): Promise<QuestionType[]> => {
   const questions: QuestionType[] = await clientVreses.fetch(questionsQuery);
 
   return questions;
+};
+
+export const loadPlaylists = async (type?: string): Promise<PlaylistType[]> => {
+  const typeFilter = type ? `&& type == "${type}"` : '';
+  const playlistQuery = `*[
+    _type == "playlist" &&
+    isResource == true
+    ${typeFilter}
+  ] | order(_createdAt desc) {
+    _id,
+    // isResource,
+    // type,
+    author,
+    title,
+    // keyWords,
+    // image,
+    "items": items[_type == "reference"]->{
+      _id,
+      // isResource,
+      author,
+      title,
+      description,
+      size,
+      // keyWords,
+      "path": select(
+        isResource == true => ^.slug.current + "/" + fileName,
+        true => URL
+      )
+    }
+  }`;
+
+  return await client.fetch(playlistQuery);
 };

@@ -13,7 +13,7 @@ export default defineConfig({
     tsconfigPaths(), // This plugin will use the paths defined in your tsconfig.json
     svgr(),
 
-    visualizer({ open: true }), // Opens a report in the browser after build
+    visualizer({ open: false }), // Generate bundle analysis report without auto-opening
     VitePWA({
       registerType: 'autoUpdate',
       srcDir: 'src',

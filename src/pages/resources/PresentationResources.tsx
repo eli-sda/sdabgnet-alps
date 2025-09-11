@@ -9,27 +9,27 @@ import DownloadList from './DownloadList';
 import { Accordion } from 'alps-library/molecules/components/accordion/Accordion';
 import { Text } from 'alps-library/atoms/text/Text';
 
-const VideoResources = () => {
-  const breadcrumbsUrls = [routes.resources(), routes.resources('video')];
+const PresentationResources = () => {
+  const breadcrumbsUrls = [routes.resources(), routes.resources('presentation')];
   const { getPlaylists } = usePlaylists();
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
 
   useEffect(() => {
-    getPlaylists('video')
+    getPlaylists('presentations')
       .then(setPlaylists)
       .catch((err) => console.error(err));
   }, [getPlaylists]);
 
   return (
     <Page
-      title={getTitle(routes.resources('video'))}
+      title={getTitle(routes.resources('presentation'))}
       kicker={getTitle(routes.resources())}
       breadcrumbsUrls={breadcrumbsUrls}
       pageClassName="download-resources"
     >
       {/* Show message if no playlists */}
       {(!playlists || playlists.length === 0) && (
-        <Caption>Няма налични видео ресурси</Caption>
+        <Caption>Няма налични ресурси презентации</Caption>
       )}
 
       <Text
@@ -38,25 +38,24 @@ const VideoResources = () => {
         spacing="double"
       >
         <Accordion>
-          {/* Map playlists to DownloadList */}
           {playlists?.filter((p) => p.items?.length).map((playlist) => (
-              <DownloadList
-                key={playlist._id}
-                title={playlist.title}
-                author={playlist.author}
-                items={playlist.items?.map((item) => ({
-                  _id: item._id,
-                  title: item.title,
-                  description: item.description,
-                  size: item.size,
-                  path: item.path // for download
-                }))}
-              />
-            ))}
+            <DownloadList
+              key={playlist._id}
+              title={playlist.title}
+              author={playlist.author}
+              items={playlist.items?.map((item) => ({
+                _id: item._id,
+                title: item.title,
+                description: item.description,
+                size: item.size,
+                path: item.path // for download
+              }))}
+            />
+          ))}
         </Accordion>
       </Text>
     </Page>
   );
 };
 
-export default VideoResources;
+export default PresentationResources;

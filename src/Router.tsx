@@ -35,6 +35,9 @@ const AdvertisementPage = lazy(
 );
 const Contact = lazy(() => import('./pages/Contact'));
 const VideoResources = lazy(() => import('./pages/resources/VideoResources'));
+const PresentationResources = lazy(
+  () => import('./pages/resources/PresentationResources')
+);
 // const AudioResources = lazy(() => import('./pages/resources/AudioResources'));
 
 // const theme = createTheme();
@@ -143,6 +146,11 @@ const Router = () => (
           <Route
             path={routes.resources('video')}
             element={<VideoResources />}
+          />
+
+          <Route
+            path={routes.resources('presentation')}
+            element={<PresentationResources />}
           />
 
           {/* <Route

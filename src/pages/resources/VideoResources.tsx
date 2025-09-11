@@ -34,7 +34,6 @@ const VideoResources = () => {
 
       <Text
         as="article"
-        className="c-article__body"
         hasDropcap={false}
         spacing="double"
       >

@@ -225,6 +225,9 @@ const Home = () => {
             <li>
               <NavLink to={routes.resources('video')}>Видео ресурси</NavLink>
             </li>
+            <li>
+              <NavLink to={routes.resources('presentation')}>Ресурси презентации</NavLink>
+            </li>
           </ul>
         </div>
 

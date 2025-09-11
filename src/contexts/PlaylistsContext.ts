@@ -1,25 +1,25 @@
-import { SanityImageSource } from '@sanity/image-url/lib/types/types';
+// import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { createContext, useContext } from 'react';
 
 export type PlaylistItemType = {
   _id: string;
-  isResource?: boolean;
+  // isResource?: boolean;
   author?: string;
   title: string;
   description?: string | null;
   size?: number;
-  keyWords?: string[] | null;
+  // keyWords?: string[] | null;
   path: string;
 };
 
 export type PlaylistType = {
   _id: string;
-  isResource: boolean;
+  // isResource: boolean;
   type?: string;
   author?: string;
   title?: string;
-  keyWords?: string[] | null;
-  image?: SanityImageSource | null;
+  // keyWords?: string[] | null;
+  // image?: SanityImageSource | null;
   items?: PlaylistItemType[];
 };
 

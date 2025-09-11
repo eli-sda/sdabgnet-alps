@@ -19,7 +19,7 @@ export function usePlaylists() {
   const getPlaylists = useCallback(
     async (type: string) => {
       const today = getTodayString();
-      const playlistType = type || 'all';
+      const playlistType = type;
 
       // Return cached playlists for type if up-to-date
       if (

@@ -134,22 +134,79 @@ const Lesson = ({ type = '' }: { type?: LessonType }) => {
       return passedLessons;
     }, [quarterObject, qLesson]);
 
+    const video: null | { caption: string; src: string } = useMemo(() => {
+      let video = null;
+      const isCQLesson = quarterObject?.type === 'cq';
+      if (
+        qLesson &&
+        quarterObject &&
+        (quarterObject.type == '' || quarterObject.type === 'cq') &&
+        quarterObject.lessonYear === 2025 &&
+        quarterObject.lessonQuarter === 3
+      ) {
+        let videoId;
+        switch (qLesson.num) {
+          case 2:
+            videoId = isCQLesson ? 'v6BwBvGq47s' /* 2гл. */ : 'VQ4SD1NVbnA'; //3гл.
+            break;
+          case 3:
+            videoId = isCQLesson ? 'VQ4SD1NVbnA' /* 3гл. */ : 'c3utnt0Y8bI'; //5гл.
+            break;
+          case 4:
+            videoId = isCQLesson ? 'c3utnt0Y8bI' /* 5гл. */ : '2plz5iiyRD4'; //7гл.
+            break;
+          case 5:
+            videoId = isCQLesson ? '2plz5iiyRD4' /* 7гл. */ : '4SiwsULXdzg'; //11гл.
+            break;
+          case 6:
+            videoId = isCQLesson ? '9fNOTOslfUg' /* 9гл. */ : 'B92evKCcU-M'; //13гл.
+            break;
+          case 7:
+            videoId = isCQLesson ? '4SiwsULXdzg' /* 11гл. */ : 'AxJKBpR1ABk'; //16гл.
+            break;
+          case 8:
+            videoId = isCQLesson ? 'nS4Hl58MFA0' /* 14гл. */ : 'tQYiVnClO8U'; //19гл.
+            break;
+          case 9:
+            videoId = isCQLesson ? 'tQYiVnClO8U' /* 19гл. */ : 'fcoEoMyE8rM'; //21гл.
+            break;
+          case 10:
+            videoId = isCQLesson ? 'aRMsAHTDMsw' /* 20гл. */ : 'KkCxsCVZstI'; //24гл.
+            break;
+          case 11:
+            videoId = isCQLesson ? '' /* 25гл. липсва */ : 'ssLMBU_jVF0'; //32гл.
+            break;
+          case 12:
+            videoId = isCQLesson ? 'ssLMBU_jVF0' /* 32гл. */ : 'RzI0g9Elr_M'; //33гл.
+            break;
+          case 13:
+            videoId = isCQLesson ? 'RzI0g9Elr_M' /* 33гл. */ : 'GxZlpW1Jjdo'; //35гл.
+            break;
+
+          default:
+            videoId = '';
+            break;
+        }
+        video = {
+          caption: 'Гледайте поредицата "Изход" с п-р Петър Стоилов',
+          src: `https://www.youtube.com/embed/${videoId}?list=PLfCTd97jVbHUL-rsvyHnIr0L7FM8MtJnq`
+        };
+      }
+      return video;
+    }, [qLesson, quarterObject]);
     const sidebar = useMemo(() => {
       return (
         <>
-          {quarterObject &&
-            (quarterObject.type == '' || quarterObject.type === 'cq') &&
-            quarterObject.lessonYear === 2025 &&
-            quarterObject.lessonQuarter === 3 && (
-              <Aside>
-                <Figure
-                  align="left"
-                  caption='Гледайте поредицата "Изход" с п-р Петър Стоилов'
-                  size="large"
-                  videoSrc="https://www.youtube.com/embed?listType=playlist&list=PLfCTd97jVbHUL-rsvyHnIr0L7FM8MtJnq"
-                />
-              </Aside>
-            )}
+          {video && (
+            <Aside>
+              <Figure
+                align="left"
+                caption={video.caption}
+                size="large"
+                videoSrc={video.src}
+              />
+            </Aside>
+          )}
           {passedLessons.length > 0 && (
             <RelatedPosts
               heading="Изминали уроци от тримесечието"
@@ -158,7 +215,7 @@ const Lesson = ({ type = '' }: { type?: LessonType }) => {
           )}
         </>
       );
-    }, [quarterObject, passedLessons]);
+    }, [video, passedLessons]);
 
     return (
       <>

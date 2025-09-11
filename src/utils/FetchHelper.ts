@@ -80,6 +80,8 @@ export const loadPlaylists = async (type: string): Promise<PlaylistType[]> => {
     _id,
     // isResource,
     // type,
+    // isResource,
+    // type,
     author,
     title,
     // keyWords,

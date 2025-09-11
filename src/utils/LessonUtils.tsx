@@ -164,7 +164,7 @@ export const loadQuarter = ({
           details.lessons.push({
             num: parseInt(lesson.id),
             title: lesson.title,
-            cover: lesson.pdfOnly ? '' : lesson.cover,
+            cover: lesson.pdfOnly ? undefined : lesson.cover, //as  the image of cc lesson is for adults
             startDate: lesson.start_date,
             endDate: lesson.end_date,
             full_path: lesson.full_path

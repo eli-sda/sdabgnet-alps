@@ -58,6 +58,7 @@ h6 {
     }
     &::before {
       content: '-';
+      vertical-align: unset;
     }
   }
 
@@ -244,6 +245,10 @@ samp {
     justify-content: space-between;
     align-items: baseline;
     flex-direction: row;
+
+    h4.author {
+      text-align: right;
+    }
   }
 }
 

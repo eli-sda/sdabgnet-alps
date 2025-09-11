@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useEffect, useState } from 'react';
 
-import './AccordionItem.scss';
+import 'alps-library/molecules/components/accordion/AccordionItem.scss';
 import useToggle from 'alps-library/helpers/useToggle';
 import { IconWrap, IconWrapProps } from 'alps-library/atoms/icons/IconWrap';
 import { themeColorClass } from 'alps-library/global/colors';
@@ -56,17 +56,7 @@ export const AccordionItem = ({
 
   // Render leading icon
   const renderLeadingIcon = () => {
-    // Case: IconWrap icon
-    if (icon) {
-      return (
-        <IconWrap
-          className="u-space--half--right"
-          name={icon}
-          size="s"
-          color="darker"
-        />
-      );
-    } else if (faIconOpen || faIcon) {
+    if (faIconOpen || faIcon) {
       // Case: use faIcons for open/closed states
       const iconName = open && faIconOpen ? faIconOpen : faIcon;
       if (iconName) {
@@ -100,6 +90,14 @@ export const AccordionItem = ({
       >
         {renderLeadingIcon()}
         {typeof heading === 'string' ? <strong>{heading}</strong> : heading}
+        {icon && (
+          <IconWrap
+            className={'u-space--half--left'}
+            name={icon}
+            size={'s'}
+            color={'darker'}
+          />
+        )}
       </div>
       <div
         className="c-accordion__content u-padding--half--left"

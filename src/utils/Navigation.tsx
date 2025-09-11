@@ -3,6 +3,7 @@ import { BreadcrumbItemProps } from 'src/alps/molecules/navigation/Breadcrumbs';
 import { PrimaryNavItemProps } from 'src/alps/molecules/navigation/PrimaryNavItem';
 import routes from 'src/routes';
 import { SecondaryNavItemProps } from './../alps/molecules/navigation/SecondaryNavItem';
+import { OLD_SITE } from 'src/constants';
 
 export const primaryNavigationItems: PrimaryNavItemProps[] = [
   {
@@ -35,6 +36,12 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
             type: 'primary',
             text: 'СУ за юноши',
             url: routes.churchLife('lesson-cc')
+          },
+          {
+            type: 'primary',
+            text: 'СУ за деца',
+            url: `${OLD_SITE}/page.php?id=kids#lessons`,
+            isExternal: true
           }
         ]
       },

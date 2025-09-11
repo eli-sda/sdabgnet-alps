@@ -7,6 +7,7 @@ import LessonQuarterBlock from './LessonQuarterBlock';
 import { useLessonUtils } from 'src/hooks/useLessonUtils';
 import { LessonQuarterProvider } from 'src/providers/LessonQuarterProvider';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
+import { OLD_SITE } from 'src/constants';
 
 const Lessons = () => {
   const { currentLessonParameters } = useLessonUtils();
@@ -43,6 +44,18 @@ const Lessons = () => {
               showLessonLink={true}
             />
           </LessonQuarterProvider>
+
+          <h3 className="text u-padding--left">
+            Съботно училищните уроци за деца може да намерите
+            <a
+              href={`${OLD_SITE}/page.php?id=kids#lessons`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {' '}
+              на стария сайт
+            </a>
+          </h3>
         </section>
       </PageContent>
     </>

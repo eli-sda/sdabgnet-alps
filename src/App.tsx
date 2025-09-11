@@ -6,6 +6,7 @@ import { CurrentLessonProvider } from './providers/CurrentLessonProvider';
 import { PagesMetaDataProvider } from './providers/PagesMetaDataProvider';
 import { AdvertisementsProvider } from './providers/AdvertisementsProvider';
 import { QuestionsProvider } from './providers/QuestionsProvider';
+import { PlaylistsProvider } from './providers/PlaylistsProvider';
 
 const App = () => {
   useEffect(() => {
@@ -32,7 +33,9 @@ const App = () => {
         <CurrentLessonProvider>
           <AdvertisementsProvider>
             <QuestionsProvider>
-              <Router />
+              <PlaylistsProvider>
+                <Router />
+              </PlaylistsProvider>
             </QuestionsProvider>
           </AdvertisementsProvider>
         </CurrentLessonProvider>

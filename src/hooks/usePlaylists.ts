@@ -14,12 +14,12 @@ export function usePlaylists() {
    * Returns the playlists. If the playlists are not loaded or are stale (older than today),
    * it will fetch them from the backend and update the provider. Otherwise, it returns the cached Playlists.
    *
-   * @param type optional filter (e.g. "video", "book")
+   * @param type filter (e.g. "video", "book")
    */
   const getPlaylists = useCallback(
-    async (type?: string) => {
+    async (type: string) => {
       const today = getTodayString();
-      const playlistType = type || 'all';
+      const playlistType = type;
 
       // Return cached playlists for type if up-to-date
       if (

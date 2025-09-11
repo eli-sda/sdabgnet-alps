@@ -23,7 +23,7 @@ export type PlaylistType = {
   items?: PlaylistItemType[];
 };
 
-export type PlaylistsMap = { [type: string]: PlaylistType[] };
+export type PlaylistsMap = { [type: string]: PlaylistType[] | PlaylistItemType[]};
 export type PlaylistsContextType = {
   playlists: PlaylistsMap;
   setPlaylists: (playlists: PlaylistsMap) => void;

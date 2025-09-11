@@ -15,7 +15,7 @@ const VideoResources = () => {
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
 
   useEffect(() => {
-    getPlaylists('video')
+    getPlaylists('playlist', 'video')
       .then(setPlaylists)
       .catch((err) => console.error(err));
   }, [getPlaylists]);
@@ -32,14 +32,12 @@ const VideoResources = () => {
         <Caption>Няма налични видео ресурси</Caption>
       )}
 
-      <Text
-        as="article"
-        hasDropcap={false}
-        spacing="double"
-      >
+      <Text as="article" hasDropcap={false} spacing="double">
         <Accordion>
           {/* Map playlists to DownloadList */}
-          {playlists?.filter((p) => p.items?.length).map((playlist) => (
+          {playlists
+            ?.filter((p) => p.items?.length)
+            .map((playlist) => (
               <DownloadList
                 key={playlist._id}
                 title={playlist.title}

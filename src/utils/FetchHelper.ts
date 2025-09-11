@@ -5,7 +5,7 @@ import {
   AdvertisementType
 } from 'src/contexts/AdvertisementsContext';
 import { QuestionType } from 'src/contexts/QuestionsContext';
-import { PlaylistType } from 'src/contexts/PlaylistsContext';
+import { PlaylistItemType, PlaylistType } from 'src/contexts/PlaylistsContext';
 
 export const loadPagesMeta = async (): Promise<PageMetaMap> => {
   const query = `*[_type == "page"] {
@@ -71,11 +71,40 @@ export const loadQuestions = async (): Promise<QuestionType[]> => {
   return questions;
 };
 
-export const loadPlaylists = async (type: string): Promise<PlaylistType[]> => {
+export const loadPlaylists = async (
+  type: 'playlist' | 'item',
+  value: string
+): Promise<PlaylistType[] | PlaylistItemType[]> => {
   const playlistQuery = `*[
     isResource == true
-    ${type === 'image' ? '' : '&& _type == "playlist"'}
-    && type == "${type}"
+    && _type == "playlist"
+    && type == "${value}"
+  ] | order(_createdAt desc) {
+    _id,
+    // isResource,
+    // type,
+    author,
+    title,
+    // keyWords,
+    // image,
+    "items": items[_type == "reference"]->{
+      _id,
+      // isResource,
+      author,
+      title,
+      description,
+      size,
+      // keyWords,
+      "path": select(
+        isResource == true => ^.slug.current + "/" + fileName,
+        true => URL
+      )
+    }
+  }`;
+
+  const itemsQuery = `*[
+    isResource == true
+    && type == "${value}"
   ] | order(_createdAt desc) {
     _id,
     // isResource,
@@ -84,26 +113,20 @@ export const loadPlaylists = async (type: string): Promise<PlaylistType[]> => {
     // type,
     author,
     title,
+    description,
+    size,
     // keyWords,
     // image,
-    ${
-      type === 'image'
-        ? `"path": select(isResource == true => "images/" + fileName, true => URL)`
-        : `"items": items[_type == "reference"]->{
-            _id,
-            // isResource,
-            author,
-            title,
-            description,
-            size,
-            // keyWords,
-            "path": select(
-              isResource == true => ^.slug.current + "/" + fileName,
-              true => URL
-            )
-          }`
-    }
+    "path": select(isResource == true => "images/" + fileName, 
+    true => URL
+    )
   }`;
 
-  return await client.fetch(playlistQuery);
+  if (type === 'playlist') {
+    return await client.fetch(playlistQuery);
+  }
+  if (type === 'item') {
+    return await client.fetch(itemsQuery);
+  }
+  return [];
 };

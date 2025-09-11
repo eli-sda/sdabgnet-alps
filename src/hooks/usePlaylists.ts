@@ -1,5 +1,9 @@
 import { useCallback } from 'react';
-import { usePlaylistsContext } from 'src/contexts/PlaylistsContext';
+import {
+  PlaylistItemType,
+  PlaylistType,
+  usePlaylistsContext
+} from 'src/contexts/PlaylistsContext';
 import { loadPlaylists } from 'src/utils/FetchHelper';
 
 function getTodayString() {
@@ -8,7 +12,8 @@ function getTodayString() {
 }
 
 export function usePlaylists() {
-  const { playlists, setPlaylists, lastLoaded, setLastLoaded } = usePlaylistsContext();
+  const { playlists, setPlaylists, lastLoaded, setLastLoaded } =
+    usePlaylistsContext();
 
   /**
    * Returns the playlists. If the playlists are not loaded or are stale (older than today),
@@ -17,20 +22,20 @@ export function usePlaylists() {
    * @param type filter (e.g. "video", "book")
    */
   const getPlaylists = useCallback(
-    async (type: string) => {
+    async (
+      type: 'playlist' | 'item',
+      value: string
+    ): Promise<PlaylistType[] | PlaylistItemType[]> => {
       const today = getTodayString();
-      const playlistType = type;
+      const playlistType = value;
 
       // Return cached playlists for type if up-to-date
-      if (
-        playlists[playlistType] &&
-        lastLoaded[playlistType] === today
-      ) {
+      if (playlists[playlistType] && lastLoaded[playlistType] === today) {
         return Promise.resolve(playlists[playlistType]);
       }
 
       // Otherwise, fetch from backend
-      return await loadPlaylists(type)
+      return await loadPlaylists(type, value)
         .then((loadedPlaylists) => {
           // Cache by type
           setPlaylists({

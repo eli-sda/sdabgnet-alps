@@ -6,7 +6,6 @@ import { usePlaylists } from 'src/hooks/usePlaylists';
 import { PlaylistItemType } from 'src/contexts/PlaylistsContext';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import DownloadList from './DownloadList';
-import { Accordion } from 'alps-library/molecules/components/accordion/Accordion';
 import { Text } from 'alps-library/atoms/text/Text';
 
 const ImageResources = () => {
@@ -15,7 +14,7 @@ const ImageResources = () => {
   const [images, setImages] = useState<PlaylistItemType[]>([]);
 
   useEffect(() => {
-    getPlaylists('image')
+    getPlaylists('item', 'image')
       .then((result) => setImages(result as PlaylistItemType[]))
       .catch((err) => console.error(err));
   }, [getPlaylists]);
@@ -32,15 +31,8 @@ const ImageResources = () => {
         <Caption>Няма налични ресурси изображения</Caption>
       )}
 
-      <Text
-        as="article"
-        className="c-article__body"
-        hasDropcap={false}
-        spacing="double"
-      >
-        <Accordion>
-          <DownloadList items={images} />
-        </Accordion>
+      <Text as="article" hasDropcap={false} spacing="double">
+        <DownloadList items={images} />
       </Text>
     </Page>
   );

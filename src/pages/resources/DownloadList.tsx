@@ -30,7 +30,7 @@ const DownloadList = ({ author, title, items }: DownloadListProps) => {
       heading={
         <div className="title flex-1">
           {/* Show title or default if missing */}
-          <h3>{title && author !== title ? title : 'Проповеди'}</h3>
+          <h3>{title && author !== title ? title : ''}</h3>
           <h4 className="author">{author}</h4>
         </div>
       }

@@ -32,14 +32,14 @@ const VideoResources = () => {
         <Caption>Няма налични видео ресурси</Caption>
       )}
 
-      <Text
-        as="article"
-        hasDropcap={false}
-        spacing="double"
-      >
+      <Text as="article" hasDropcap={false} spacing="double">
         <Accordion>
           {/* Map playlists to DownloadList */}
-          {playlists?.filter((p) => p.items?.length).map((playlist) => (
+          {playlists
+            ?.slice() // make a copy so the original array is not modified
+            .sort((a, b) => (a.author || '').localeCompare(b.author || '')) // sort by author name (fallback to empty string)
+            .filter((p) => p.items?.length) // keep only playlists that have items
+            .map((playlist) => (
               <DownloadList
                 key={playlist._id}
                 title={playlist.title}

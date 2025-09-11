@@ -79,20 +79,20 @@ export const loadPlaylists = async (type?: string): Promise<PlaylistType[]> => {
     ${typeFilter}
   ] | order(_createdAt desc) {
     _id,
-    isResource,
-    type,
+    // isResource,
+    // type,
     author,
     title,
-    keyWords,
-    image,
+    // keyWords,
+    // image,
     "items": items[_type == "reference"]->{
       _id,
-      isResource,
+      // isResource,
       author,
       title,
       description,
       size,
-      keyWords,
+      // keyWords,
       "path": select(
         isResource == true => ^.slug.current + "/" + fileName,
         true => URL

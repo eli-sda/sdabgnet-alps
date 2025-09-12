@@ -15,7 +15,7 @@ const VideoResources = () => {
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
 
   useEffect(() => {
-    getPlaylists('playlist', 'video')
+    getPlaylists('video')
       .then(setPlaylists)
       .catch((err) => console.error(err));
   }, [getPlaylists]);

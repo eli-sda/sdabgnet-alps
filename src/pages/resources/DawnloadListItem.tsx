@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { RESOURCES_PREFIX_URL } from 'src/constants';
-import { PlaylistItemType } from 'src/contexts/PlaylistsContext';
+import { LinkType } from 'src/contexts/PlaylistsContext';
 import { Button } from 'src/alps/atoms/Button';
 
 const DawnloadListItem = ({
@@ -9,7 +9,7 @@ const DawnloadListItem = ({
   _id,
   path,
   size
-}: PlaylistItemType) => {
+}: LinkType) => {
   const icon = useMemo(() => {
     if (path.endsWith('.pdf')) return 'file-pdf-o';
     if (path.endsWith('.doc') || path.endsWith('.docx')) return 'file-word-o';

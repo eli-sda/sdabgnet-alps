@@ -5,7 +5,7 @@ import {
   AdvertisementType
 } from 'src/contexts/AdvertisementsContext';
 import { QuestionType } from 'src/contexts/QuestionsContext';
-import { PlaylistItemType, PlaylistType } from 'src/contexts/PlaylistsContext';
+import { LinkType, PlaylistType } from 'src/contexts/PlaylistsContext';
 
 export const loadPagesMeta = async (): Promise<PageMetaMap> => {
   const query = `*[_type == "page"] {
@@ -71,14 +71,11 @@ export const loadQuestions = async (): Promise<QuestionType[]> => {
   return questions;
 };
 
-export const loadPlaylists = async (
-  type: 'playlist' | 'item',
-  value: string
-): Promise<PlaylistType[] | PlaylistItemType[]> => {
+export const loadPlaylists = async (type: string): Promise<PlaylistType[]> => {
   const playlistQuery = `*[
     isResource == true
     && _type == "playlist"
-    && type == "${value}"
+    && type == "${type}"
   ] | order(_createdAt desc) {
     _id,
     // isResource,
@@ -102,9 +99,14 @@ export const loadPlaylists = async (
     }
   }`;
 
-  const itemsQuery = `*[
+  return await client.fetch(playlistQuery);
+};
+
+export const loadLinks = async (type: string): Promise<LinkType[]> => {
+  const linkQuery = `*[
     isResource == true
-    && type == "${value}"
+    && _type == "link"
+    && type == "${type}"
   ] | order(_createdAt desc) {
     _id,
     // isResource,
@@ -122,11 +124,5 @@ export const loadPlaylists = async (
     )
   }`;
 
-  if (type === 'playlist') {
-    return await client.fetch(playlistQuery);
-  }
-  if (type === 'item') {
-    return await client.fetch(itemsQuery);
-  }
-  return [];
+  return await client.fetch(linkQuery);
 };

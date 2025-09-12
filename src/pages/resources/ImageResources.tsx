@@ -3,21 +3,21 @@ import { Page } from 'src/organisms/Page';
 import routes from 'src/routes';
 import { getTitle } from 'src/utils/Navigation';
 import { usePlaylists } from 'src/hooks/usePlaylists';
-import { PlaylistItemType } from 'src/contexts/PlaylistsContext';
+import { LinkType } from 'src/contexts/PlaylistsContext';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import DownloadList from './DownloadList';
 import { Text } from 'alps-library/atoms/text/Text';
 
 const ImageResources = () => {
   const breadcrumbsUrls = [routes.resources(), routes.resources('image')];
-  const { getPlaylists } = usePlaylists();
-  const [images, setImages] = useState<PlaylistItemType[]>([]);
+  const { getLinks } = usePlaylists();
+  const [images, setImages] = useState<LinkType[]>([]);
 
   useEffect(() => {
-    getPlaylists('item', 'image')
-      .then((result) => setImages(result as PlaylistItemType[]))
+    getLinks('image')
+      .then(setImages)
       .catch((err) => console.error(err));
-  }, [getPlaylists]);
+  }, [getLinks]);
 
   return (
     <Page

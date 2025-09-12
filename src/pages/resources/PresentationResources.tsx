@@ -18,7 +18,7 @@ const PresentationResources = () => {
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
 
   useEffect(() => {
-    getPlaylists('playlist', 'presentations')
+    getPlaylists('presentations')
       .then(setPlaylists)
       .catch((err) => console.error(err));
   }, [getPlaylists]);

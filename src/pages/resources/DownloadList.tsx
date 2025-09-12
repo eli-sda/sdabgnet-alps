@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { PlaylistItemType } from 'src/contexts/PlaylistsContext';
-import { AccordionItem } from 'src/alps/molecules/components/acordion/AccordionItem';
+import { AccordionItem } from 'src/alps/molecules/components/accordion/AccordionItem';
 import DawnloadListItem from './DawnloadListItem';
 import './DownloadList.scss';
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Text } from 'alps-library/atoms/text/Text';
-import { Accordion } from 'alps-library/molecules/components/accordion/Accordion';
+import { Accordion } from 'src/alps/molecules/components/accordion/Accordion';
 
 import { LessonDay } from './LessonDay';
 // For robust HTML parsing

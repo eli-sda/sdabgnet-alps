@@ -37,8 +37,8 @@ const VideoResources = () => {
           {/* Map playlists to DownloadList */}
           {playlists
             ?.slice() // make a copy so the original array is not modified
-            .sort((a, b) => (a.author || '').localeCompare(b.author || '')) // sort by author name (fallback to empty string)
             .filter((p) => p.items?.length) // keep only playlists that have items
+            .sort((a, b) => (a.author || '').localeCompare(b.author || '')) // sort by author name (fallback to empty string)
             .map((playlist) => (
               <DownloadList
                 key={playlist._id}

@@ -73,9 +73,10 @@ export const loadQuestions = async (): Promise<QuestionType[]> => {
 
 export const loadPlaylists = async (type: string): Promise<PlaylistType[]> => {
   const playlistQuery = `*[
-    isResource == true
-    && _type == "playlist"
+    _type == "playlist"
+    && isResource == true
     && type == "${type}"
+    && count(items[_type == "reference"]) > 0
   ] | order(_createdAt desc) {
     _id,
     // isResource,
@@ -104,8 +105,8 @@ export const loadPlaylists = async (type: string): Promise<PlaylistType[]> => {
 
 export const loadLinks = async (type: string): Promise<LinkType[]> => {
   const linkQuery = `*[
-    isResource == true
-    && _type == "link"
+    _type == "link"
+    && isResource == true
     && type == "${type}"
   ] | order(_createdAt desc) {
     _id,

@@ -26,7 +26,7 @@ export function usePlaylists() {
    * - If playlists of that type are cached and up-to-date (loaded today), returns the cached data.
    * - Otherwise, fetches them from the backend, updates the cache, and returns the new data.
    *
-   * @param type The playlist category (e.g. "video", "presentation").
+   * @param type The playlist type (e.g. "video", "presentation").
    * @returns A promise resolving to an array of playlists.
    */
   const getPlaylists = useCallback(
@@ -34,7 +34,7 @@ export function usePlaylists() {
       const today = getTodayString();
 
       // Return cached playlists for type if up-to-date
-      if (playlists[type] && lastLoaded[type] === today) {
+      if (playlists[type] && lastLoaded[`playlist_${type}`] === today) {
         return Promise.resolve(playlists[type]);
       }
 
@@ -45,11 +45,11 @@ export function usePlaylists() {
             ...playlists,
             [type]: loadedPlaylists
           });
-          setLastLoaded(type, today);
+          setLastLoaded(`playlist_${type}`, today);
           return Promise.resolve(loadedPlaylists);
         })
         .catch((err) => {
-          console.error('Failed to fetch playlists: ', err);
+          console.error(`Failed to fetch ${type} playlists: ${err}`);
           return Promise.resolve([]);
         });
     },
@@ -61,7 +61,7 @@ export function usePlaylists() {
    * - If links of that type are cached and up-to-date (loaded today), returns the cached data.
    * - Otherwise, fetches them from the backend, updates the cache, and returns the new data.
    *
-   * @param type The link category (e.g. "image").
+   * @param type The link type (e.g. "image").
    * @returns A promise resolving to an array of links.
    */
   const getLinks = useCallback(
@@ -69,7 +69,7 @@ export function usePlaylists() {
       const today = getTodayString();
 
       // Return cached links if available and not stale
-      if (links[type] && lastLoaded[type] === today) {
+      if (links[type] && lastLoaded[`link_${type}`] === today) {
         return Promise.resolve(links[type]);
       }
 
@@ -80,16 +80,16 @@ export function usePlaylists() {
             ...links,
             [type]: loadedLinks
           });
-          setLastLoaded(type, today);
+          setLastLoaded(`link_${type}`, today);
           return Promise.resolve(loadedLinks);
         })
         .catch((err) => {
-          console.error('Failed to fetch links:', err);
+          console.error(`Failed to fetch ${type} links: ${err}`);
           return Promise.resolve([]);
         });
     },
     [links, lastLoaded, setLinks, setLastLoaded]
   );
 
-  return { playlists, getPlaylists, links, getLinks };
+  return { getPlaylists, getLinks };
 }

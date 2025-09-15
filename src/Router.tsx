@@ -66,7 +66,15 @@ const RedirectToCurrentLesson = ({ basePath }: { basePath: string }) => {
 };
 
 const Router = () => (
-  <Suspense fallback={<h2>Зареждане...</h2>}>
+  <Suspense
+    fallback={
+      <img
+        src="/img/sdabg.net-loading.svg"
+        alt="Зареждане..."
+        style={{ display: 'block', margin: 'auto' }}
+      />
+    }
+  >
     <BrowserRouter
       future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
     >

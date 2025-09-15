@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { AccordionItem } from 'alps-library/molecules/components/accordion/AccordionItem';
+import { AccordionItem } from 'src/alps/molecules/components/accordion/AccordionItem';
 import { Blockquote } from 'alps-library/atoms/text/Blockquote';
 import { LessonDays } from '../../utils/LessonUtils';
 import { VerseLink } from './VerseLink';

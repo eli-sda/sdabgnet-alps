@@ -1,13 +1,13 @@
 import { useMemo } from 'react';
-import { PlaylistItemType } from 'src/contexts/PlaylistsContext';
-import { AccordionItem } from 'src/alps/molecules/components/acordion/AccordionItem';
+import { LinkType } from 'src/contexts/PlaylistsContext';
+import { AccordionItem } from 'src/alps/molecules/components/accordion/AccordionItem';
 import DawnloadListItem from './DawnloadListItem';
 import './DownloadList.scss';
 
 type DownloadListProps = {
   author?: string;
   title?: string;
-  items?: PlaylistItemType[];
+  items?: LinkType[];
 };
 
 const DownloadList = ({ author, title, items }: DownloadListProps) => {

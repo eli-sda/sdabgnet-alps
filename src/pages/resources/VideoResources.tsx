@@ -6,7 +6,7 @@ import { usePlaylists } from 'src/hooks/usePlaylists';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import DownloadList from './DownloadList';
-import { Accordion } from 'alps-library/molecules/components/accordion/Accordion';
+import { Accordion } from 'src/alps/molecules/components/accordion/Accordion';
 import { Text } from 'alps-library/atoms/text/Text';
 
 const VideoResources = () => {

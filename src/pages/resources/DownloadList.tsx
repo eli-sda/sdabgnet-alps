@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { LinkType } from 'src/contexts/PlaylistsContext';
 import DawnloadListItem from './DawnloadListItem';
 import './DownloadList.scss';
-import { AccordionItem } from 'src/alps/molecules/components/acordion/AccordionItem';
+import { AccordionItem } from 'src/alps/molecules/components/accordion/AccordionItem';
 import { Button } from 'src/alps/atoms/Button';
 import { TextField } from 'src/alps/molecules/forms/elements/TextField';
 
@@ -72,7 +72,7 @@ const DownloadList = ({ _id, author, title, items }: DownloadListProps) => {
         label="Вземи линк"
         icon="share"
       />
-      
+
       {copied && (
         <div className="share-field-wrapper">
           <TextField

@@ -10,7 +10,10 @@ import { Accordion } from 'alps-library/molecules/components/accordion/Accordion
 import { Text } from 'alps-library/atoms/text/Text';
 
 const PresentationResources = () => {
-  const breadcrumbsUrls = [routes.resources(), routes.resources('presentation')];
+  const breadcrumbsUrls = [
+    routes.resources(),
+    routes.resources('presentation')
+  ];
   const { getPlaylists } = usePlaylists();
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
 

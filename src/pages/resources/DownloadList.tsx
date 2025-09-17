@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { PlaylistItemType } from 'src/contexts/PlaylistsContext';
-import { AccordionItem } from 'src/alps/molecules/components/acordion/AccordionItem';
+import { LinkType } from 'src/contexts/PlaylistsContext';
 import DawnloadListItem from './DawnloadListItem';
 import './DownloadList.scss';
+import { AccordionItem } from 'src/alps/molecules/components/acordion/AccordionItem';
 import { Button } from 'src/alps/atoms/Button';
 import { TextField } from 'src/alps/molecules/forms/elements/TextField';
 
@@ -11,7 +11,7 @@ type DownloadListProps = {
   _id: string;
   author?: string;
   title?: string;
-  items?: PlaylistItemType[];
+  items?: LinkType[];
 };
 
 const DownloadList = ({ _id, author, title, items }: DownloadListProps) => {

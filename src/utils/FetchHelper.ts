@@ -5,7 +5,7 @@ import {
   AdvertisementType
 } from 'src/contexts/AdvertisementsContext';
 import { QuestionType } from 'src/contexts/QuestionsContext';
-import { PlaylistType } from 'src/contexts/PlaylistsContext';
+import { LinkType, PlaylistType } from 'src/contexts/PlaylistsContext';
 
 export const loadPagesMeta = async (): Promise<PageMetaMap> => {
   const query = `*[_type == "page"] {
@@ -71,12 +71,12 @@ export const loadQuestions = async (): Promise<QuestionType[]> => {
   return questions;
 };
 
-export const loadPlaylists = async (type?: string): Promise<PlaylistType[]> => {
-  const typeFilter = type ? `&& type == "${type}"` : '';
+export const loadPlaylists = async (type: string): Promise<PlaylistType[]> => {
   const playlistQuery = `*[
-    _type == "playlist" &&
-    isResource == true
-    ${typeFilter}
+    _type == "playlist"
+    && isResource == true
+    && type == "${type}"
+    && count(items[_type == "reference"]) > 0
   ] | order(_createdAt desc) {
     _id,
     // isResource,
@@ -101,4 +101,29 @@ export const loadPlaylists = async (type?: string): Promise<PlaylistType[]> => {
   }`;
 
   return await client.fetch(playlistQuery);
+};
+
+export const loadLinks = async (type: string): Promise<LinkType[]> => {
+  const linkQuery = `*[
+    _type == "link"
+    && isResource == true
+    && type == "${type}"
+  ] | order(_createdAt desc) {
+    _id,
+    // isResource,
+    // type,
+    // isResource,
+    // type,
+    author,
+    title,
+    description,
+    size,
+    // keyWords,
+    // image,
+    "path": select(isResource == true => "images/" + fileName, 
+    true => URL
+    )
+  }`;
+
+  return await client.fetch(linkQuery);
 };

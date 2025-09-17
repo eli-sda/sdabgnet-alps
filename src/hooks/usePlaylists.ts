@@ -1,6 +1,10 @@
 import { useCallback } from 'react';
-import { usePlaylistsContext } from 'src/contexts/PlaylistsContext';
-import { loadPlaylists } from 'src/utils/FetchHelper';
+import {
+  LinkType,
+  PlaylistType,
+  usePlaylistsContext
+} from 'src/contexts/PlaylistsContext';
+import { loadLinks, loadPlaylists } from 'src/utils/FetchHelper';
 
 function getTodayString() {
   const today = new Date();
@@ -8,45 +12,84 @@ function getTodayString() {
 }
 
 export function usePlaylists() {
-  const { playlists, setPlaylists, lastLoaded, setLastLoaded } = usePlaylistsContext();
+  const {
+    playlists,
+    setPlaylists,
+    links,
+    setLinks,
+    lastLoaded,
+    setLastLoaded
+  } = usePlaylistsContext();
 
   /**
-   * Returns the playlists. If the playlists are not loaded or are stale (older than today),
-   * it will fetch them from the backend and update the provider. Otherwise, it returns the cached Playlists.
+   * Retrieves playlists for a given type.
+   * - If playlists of that type are cached and up-to-date (loaded today), returns the cached data.
+   * - Otherwise, fetches them from the backend, updates the cache, and returns the new data.
    *
-   * @param type filter (e.g. "video", "book")
+   * @param type The playlist type (e.g. "video", "presentation").
+   * @returns A promise resolving to an array of playlists.
    */
   const getPlaylists = useCallback(
-    async (type: string) => {
+    async (type: string): Promise<PlaylistType[]> => {
       const today = getTodayString();
-      const playlistType = type;
 
       // Return cached playlists for type if up-to-date
-      if (
-        playlists[playlistType] &&
-        lastLoaded[playlistType] === today
-      ) {
-        return Promise.resolve(playlists[playlistType]);
+      if (playlists[type] && lastLoaded[`playlist_${type}`] === today) {
+        return Promise.resolve(playlists[type]);
       }
 
-      // Otherwise, fetch from backend
+      // Otherwise, fetch from backend and update cache
       return await loadPlaylists(type)
         .then((loadedPlaylists) => {
-          // Cache by type
           setPlaylists({
             ...playlists,
-            [playlistType]: loadedPlaylists
+            [type]: loadedPlaylists
           });
-          setLastLoaded(playlistType, today);
+          setLastLoaded(`playlist_${type}`, today);
           return Promise.resolve(loadedPlaylists);
         })
         .catch((err) => {
-          console.error('Failed to fetch playlists: ', err);
+          console.error(`Failed to fetch ${type} playlists: ${err}`);
           return Promise.resolve([]);
         });
     },
     [playlists, lastLoaded, setPlaylists, setLastLoaded]
   );
 
-  return { playlists, getPlaylists };
+  /**
+   * Retrieves links for a given type.
+   * - If links of that type are cached and up-to-date (loaded today), returns the cached data.
+   * - Otherwise, fetches them from the backend, updates the cache, and returns the new data.
+   *
+   * @param type The link type (e.g. "image").
+   * @returns A promise resolving to an array of links.
+   */
+  const getLinks = useCallback(
+    async (type: string): Promise<LinkType[]> => {
+      const today = getTodayString();
+
+      // Return cached links if available and not stale
+      if (links[type] && lastLoaded[`link_${type}`] === today) {
+        return Promise.resolve(links[type]);
+      }
+
+      // Otherwise, fetch from backend and update cache
+      return await loadLinks(type)
+        .then((loadedLinks) => {
+          setLinks({
+            ...links,
+            [type]: loadedLinks
+          });
+          setLastLoaded(`link_${type}`, today);
+          return Promise.resolve(loadedLinks);
+        })
+        .catch((err) => {
+          console.error(`Failed to fetch ${type} links: ${err}`);
+          return Promise.resolve([]);
+        });
+    },
+    [links, lastLoaded, setLinks, setLastLoaded]
+  );
+
+  return { getPlaylists, getLinks };
 }

@@ -39,7 +39,7 @@ const routes = {
   ) => `/info${item ? `/${item}` : ''}`, //https://sdabg.net/page.php?id=bible_reference | sunset | teritory
 
   resources: (
-    item?: 'books' | 'audio' | 'video' | 'music' | 'presentation' //old: ... present
+    item?: 'books' | 'audio' | 'video' | 'music' | 'presentation' | 'image' //old: ... present
   ) => `/resources${item ? `/${item}` : ''}`,
   health: (
     item?:

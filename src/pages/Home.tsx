@@ -226,19 +226,26 @@ const Home = () => {
               <NavLink to={routes.resources('video')}>Видео ресурси</NavLink>
             </li>
             <li>
-              <NavLink to={routes.resources('presentation')}>Ресурси презентации</NavLink>
+              <NavLink to={routes.resources('presentation')}>
+                Ресурси презентации
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.resources('image')}>
+                Ресурси изображения
+              </NavLink>
             </li>
           </ul>
         </div>
 
-        {playlists.map((pl) => (
+        {/* {playlists.map((pl) => (
           <DownloadList
             key={pl._id}
             author={pl.author}
             title={pl.title}
             items={pl.items}
           />
-        ))}
+        ))} */}
 
         <p className="text">
           <a

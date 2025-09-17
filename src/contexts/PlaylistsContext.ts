@@ -1,7 +1,7 @@
 // import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { createContext, useContext } from 'react';
 
-export type PlaylistItemType = {
+export type LinkType = {
   _id: string;
   // isResource?: boolean;
   author?: string;
@@ -20,13 +20,17 @@ export type PlaylistType = {
   title?: string;
   // keyWords?: string[] | null;
   // image?: SanityImageSource | null;
-  items?: PlaylistItemType[];
+  items?: LinkType[];
 };
 
 export type PlaylistsMap = { [type: string]: PlaylistType[] };
+export type LinksMap = { [type: string]: LinkType[] };
+
 export type PlaylistsContextType = {
   playlists: PlaylistsMap;
   setPlaylists: (playlists: PlaylistsMap) => void;
+  links: LinksMap;
+  setLinks: (links: LinksMap) => void;
   lastLoaded: { [type: string]: string };
   setLastLoaded: (type: string, date: string) => void;
 };
@@ -34,6 +38,8 @@ export type PlaylistsContextType = {
 export const PlaylistsContext = createContext<PlaylistsContextType>({
   playlists: {},
   setPlaylists: () => {},
+  links: {},
+  setLinks: () => {},
   lastLoaded: {},
   setLastLoaded: () => {}
 });

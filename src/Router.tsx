@@ -38,6 +38,7 @@ const VideoResources = lazy(() => import('./pages/resources/VideoResources'));
 const PresentationResources = lazy(
   () => import('./pages/resources/PresentationResources')
 );
+const ImageResources = lazy(() => import('./pages/resources/ImageResources'));
 // const AudioResources = lazy(() => import('./pages/resources/AudioResources'));
 
 // const theme = createTheme();
@@ -65,7 +66,15 @@ const RedirectToCurrentLesson = ({ basePath }: { basePath: string }) => {
 };
 
 const Router = () => (
-  <Suspense fallback={<h2>Зареждане...</h2>}>
+  <Suspense
+    fallback={
+      <img
+        src="/img/sdabg.net-loading.svg"
+        alt="Зареждане..."
+        style={{ display: 'block', margin: 'auto' }}
+      />
+    }
+  >
     <BrowserRouter
       future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
     >
@@ -151,6 +160,11 @@ const Router = () => (
           <Route
             path={routes.resources('presentation')}
             element={<PresentationResources />}
+          />
+
+          <Route
+            path={routes.resources('image')}
+            element={<ImageResources />}
           />
 
           {/* <Route

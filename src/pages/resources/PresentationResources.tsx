@@ -32,26 +32,25 @@ const PresentationResources = () => {
         <Caption>Няма налични ресурси презентации</Caption>
       )}
 
-      <Text
-        as="article"
-        hasDropcap={false}
-        spacing="double"
-      >
+      <Text as="article" hasDropcap={false} spacing="double">
         <Accordion>
-          {playlists?.filter((p) => p.items?.length).map((playlist) => (
-            <DownloadList
-              key={playlist._id}
-              title={playlist.title}
-              author={playlist.author}
-              items={playlist.items?.map((item) => ({
-                _id: item._id,
-                title: item.title,
-                description: item.description,
-                size: item.size,
-                path: item.path // for download
-              }))}
-            />
-          ))}
+          {playlists
+            ?.filter((p) => p.items?.length)
+            .map((playlist, i) => (
+              <DownloadList
+                key={i}
+                _id={playlist._id}
+                title={playlist.title}
+                author={playlist.author}
+                items={playlist.items?.map((item) => ({
+                  _id: item._id,
+                  title: item.title,
+                  description: item.description,
+                  size: item.size,
+                  path: item.path // for download
+                }))}
+              />
+            ))}
         </Accordion>
       </Text>
     </Page>

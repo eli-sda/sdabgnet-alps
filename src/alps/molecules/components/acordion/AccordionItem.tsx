@@ -6,6 +6,7 @@ import { IconWrap, IconWrapProps } from 'alps-library/atoms/icons/IconWrap';
 import { themeColorClass } from 'alps-library/global/colors';
 
 export interface AccordionItemProps {
+  id?: string;
   icon?: IconWrapProps['name'];
   /**
    * FontAwesome icon name, same for both states
@@ -23,21 +24,33 @@ export interface AccordionItemProps {
 }
 
 export const AccordionItem = ({
+  id,
   children,
   content,
   icon,
   faIcon,
   faIconOpen,
   heading,
-  open: initialOpen,
+  open: controlledOpen,
   onChange
 }: AccordionItemProps): JSX.Element => {
-  const { onToggle, openClass, open } = useToggle(initialOpen);
+  const { onToggle, openClass } = useToggle(controlledOpen);
 
+  // Internal state synchronized with the `open` prop
+  const [internalOpen, setInternalOpen] = useState<boolean>(!!controlledOpen);
+
+  useEffect(() => {
+    if (controlledOpen !== undefined) {
+      setInternalOpen(controlledOpen);
+    }
+  }, [controlledOpen]);
+
+  // Toggle handler (used on heading click)
   const _onToggle = useCallback(() => {
-    if (onChange) onChange(!open);
-    onToggle();
-  }, [onChange, onToggle, open]);
+    if (onChange) onChange(!internalOpen);
+    setInternalOpen(!internalOpen);
+    onToggle(); // keep backward compatibility with hook (sets classes)
+  }, [onChange, onToggle, internalOpen]);
 
   // Dynamic height and margin animation for accordion content
   const contentRef = useRef<HTMLDivElement>(null);
@@ -45,20 +58,20 @@ export const AccordionItem = ({
   const [marginTop, setMarginTop] = useState('1rem');
 
   useEffect(() => {
-    if (open && contentRef.current) {
+    if (internalOpen && contentRef.current) {
       setMaxHeight(contentRef.current.scrollHeight + 'px');
       setMarginTop('1rem'); // Open state margin
     } else {
       setMaxHeight('0px');
       setMarginTop('0'); // Closed state margin
     }
-  }, [open, content, children]);
+  }, [internalOpen, content, children]);
 
   // Render leading icon
   const renderLeadingIcon = () => {
     if (faIconOpen || faIcon) {
       // Case: use faIcons for open/closed states
-      const iconName = open && faIconOpen ? faIconOpen : faIcon;
+      const iconName = internalOpen && faIconOpen ? faIconOpen : faIcon;
       if (iconName) {
         return (
           <i
@@ -82,6 +95,7 @@ export const AccordionItem = ({
   return (
     <div
       className={`c-accordion__item ${openClass} u-border--left u-padding--half--left u-spacing--half`}
+      id={id}
     >
       <div
         className={`c-accordion__heading u-font--primary--m ${themeColorClass}--darker`}

@@ -31,26 +31,15 @@ export const AccordionItem = ({
   faIcon,
   faIconOpen,
   heading,
-  open: controlledOpen,
+  open: initialOpen,
   onChange
 }: AccordionItemProps): JSX.Element => {
-  const { onToggle, openClass } = useToggle(controlledOpen);
+  const { onToggle, openClass, open } = useToggle(initialOpen);
 
-  // Internal state synchronized with the `open` prop
-  const [internalOpen, setInternalOpen] = useState<boolean>(!!controlledOpen);
-
-  useEffect(() => {
-    if (controlledOpen !== undefined) {
-      setInternalOpen(controlledOpen);
-    }
-  }, [controlledOpen]);
-
-  // Toggle handler (used on heading click)
   const _onToggle = useCallback(() => {
-    if (onChange) onChange(!internalOpen);
-    setInternalOpen(!internalOpen);
-    onToggle(); // keep backward compatibility with hook (sets classes)
-  }, [onChange, onToggle, internalOpen]);
+    if (onChange) onChange(!open);
+    onToggle();
+  }, [onChange, onToggle, open]);
 
   // Dynamic height and margin animation for accordion content
   const contentRef = useRef<HTMLDivElement>(null);
@@ -58,20 +47,20 @@ export const AccordionItem = ({
   const [marginTop, setMarginTop] = useState('1rem');
 
   useEffect(() => {
-    if (internalOpen && contentRef.current) {
+    if (open && contentRef.current) {
       setMaxHeight(contentRef.current.scrollHeight + 'px');
       setMarginTop('1rem'); // Open state margin
     } else {
       setMaxHeight('0px');
       setMarginTop('0'); // Closed state margin
     }
-  }, [internalOpen, content, children]);
+  }, [open, content, children]);
 
   // Render leading icon
   const renderLeadingIcon = () => {
     if (faIconOpen || faIcon) {
       // Case: use faIcons for open/closed states
-      const iconName = internalOpen && faIconOpen ? faIconOpen : faIcon;
+      const iconName = open && faIconOpen ? faIconOpen : faIcon;
       if (iconName) {
         return (
           <i

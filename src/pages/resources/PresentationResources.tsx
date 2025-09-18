@@ -42,7 +42,7 @@ const PresentationResources = () => {
             .map((playlist, i) => (
               <DownloadList
                 key={i}
-                _id={playlist._id}
+                id={playlist._id}
                 title={playlist.title}
                 author={playlist.author}
                 items={playlist.items?.map((item) => ({

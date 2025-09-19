@@ -1,10 +1,12 @@
 .playlist-action-buttons {
-  position: relative;
-}
+  .share-field {
+    position: relative;
 
-.playlist-action-buttons .close-button {
-  position: absolute;
-  top: 0.5rem;
-  right: -0.2rem;
-  padding: 0;
+    .close-button {
+      position: absolute;
+      top: 0.5rem;
+      right: 0;
+      padding: 0;
+    }
+  }
 }

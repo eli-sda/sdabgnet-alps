@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useCallback } from 'react';
+import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { LinkType } from 'src/contexts/PlaylistsContext';
 import DawnloadListItem from './DawnloadListItem';
@@ -19,24 +19,6 @@ const DownloadList = ({ id, author, title, items }: DownloadListProps) => {
   // derived state for open accordion
   const isInitiallyOpened = !!id && hash === `#${id}`;
 
-  // smooth scroll when hash matches
-  useEffect(() => {
-    if (!isInitiallyOpened || !id) return;
-
-    const scrollToElement = () => {
-      const el = document.getElementById(id);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      } else {
-        requestAnimationFrame(scrollToElement);
-      }
-    };
-    requestAnimationFrame(scrollToElement);
-  }, [isInitiallyOpened, id]);
-
-  // State for label text
-  const [copied, setCopied] = useState('');
-
   // Render playlist items
   const content = useMemo(
     () => (
@@ -49,29 +31,7 @@ const DownloadList = ({ id, author, title, items }: DownloadListProps) => {
     [items]
   );
 
-  const shareUrl = id
-    ? `${window.location.origin}${window.location.pathname}#${id}`
-    : '';
-
-  const handleShare = useCallback(() => {
-    if (!shareUrl) return;
-
-    navigator.clipboard
-      .writeText(shareUrl)
-      .then(() => setCopied('Линкът е копиран'))
-      .catch(() => setCopied(''));
-  }, [shareUrl]);
-
-  const shareBlock = id && (
-    <PlaylistActionButtons
-      shareUrl={shareUrl}
-      copied={copied}
-      onShare={handleShare}
-      onClose={() => setCopied('')}
-    />
-  );
-
-  return title || author ? (
+  return id ? (
     <AccordionItem
       id={id}
       open={isInitiallyOpened}
@@ -84,14 +44,13 @@ const DownloadList = ({ id, author, title, items }: DownloadListProps) => {
         </div>
       }
     >
-      {shareBlock}
+      <PlaylistActionButtons
+        shareUrl={`${window.location.origin}${window.location.pathname}#${id}`}
+      />
       {content}
     </AccordionItem>
   ) : (
-    <>
-      {shareBlock}
-      {content}
-    </>
+    <>{content}</>
   );
 };
 

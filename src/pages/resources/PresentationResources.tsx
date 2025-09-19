@@ -4,12 +4,15 @@ import routes from 'src/routes';
 import { getTitle } from 'src/utils/Navigation';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
+import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import DownloadList from './DownloadList';
 import { Accordion } from 'alps-library/molecules/components/accordion/Accordion';
 import { Text } from 'alps-library/atoms/text/Text';
 
 const PresentationResources = () => {
+  useScrollToHash();
+  
   const breadcrumbsUrls = [
     routes.resources(),
     routes.resources('presentation')
@@ -39,19 +42,21 @@ const PresentationResources = () => {
         <Accordion>
           {playlists
             ?.filter((p) => p.items?.length)
-            .map((playlist, i) => (
+            .map(({ _id, title, author, items }, i) => (
               <DownloadList
                 key={i}
-                id={playlist._id}
-                title={playlist.title}
-                author={playlist.author}
-                items={playlist.items?.map((item) => ({
-                  _id: item._id,
-                  title: item.title,
-                  description: item.description,
-                  size: item.size,
-                  path: item.path // for download
-                }))}
+                id={_id}
+                title={title}
+                author={author}
+                items={items?.map(
+                  ({ _id, title, description, size, path }) => ({
+                    _id,
+                    title,
+                    description,
+                    size,
+                    path // for download
+                  })
+                )}
               />
             ))}
         </Accordion>

@@ -30,10 +30,10 @@ if (!isBot()) {
     // This ensures that the SPA is loaded correctly in browsers
 ?>
     <script>
-        var url = window.location.pathname + window.location.search + window.location.hash;
-        if (!/[?&]spa=1/.test(url)) {
-            var sep = url.indexOf("?") === -1 ? "?" : "&";
-            window.location.replace(url + sep + "spa=1");
+        if (!/[?&]spa=1/.test(window.location.search)) {
+            var url = new URL(window.location.href);
+            url.searchParams.set('spa', '1');
+            window.location.replace(url.toString());
         }
     </script>
 <?php

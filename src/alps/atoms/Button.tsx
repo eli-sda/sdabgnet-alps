@@ -112,21 +112,25 @@ export const Button = ({
     toggle ? openClass : ''
   );
 
-  let icon = !isExternal && props.icon && (
-    <IconWrap
-      color={'white'}
-      name={props.icon}
-      size={iconSize}
-      iconPosition={iconPosition}
-    />
-  );
-  icon = !icon && !!props.faIcon && (
-    <i
-      className={`fa fa-${props.faIcon} u-space--quarter--${
-        iconPosition === 'left' ? 'right' : 'left'
-      }`}
-    ></i>
-  );
+  let icon: JSX.Element | null = null;
+  if (!isExternal && props.icon) {
+    icon = (
+      <IconWrap
+        color={'white'}
+        name={props.icon}
+        size={iconSize}
+        iconPosition={iconPosition}
+      />
+    );
+  } else if (props.faIcon) {
+    icon = (
+      <i
+        className={`fa fa-${props.faIcon} u-space--quarter--${
+          iconPosition === 'left' ? 'right' : 'left'
+        }`}
+      ></i>
+    );
+  }
 
   const labelWithIcon = (
     <>

@@ -6,6 +6,7 @@ import { IconWrap, IconWrapProps } from 'alps-library/atoms/icons/IconWrap';
 import { themeColorClass } from 'alps-library/global/colors';
 
 export interface AccordionItemProps {
+  id?: string;
   icon?: IconWrapProps['name'];
   /**
    * FontAwesome icon name, same for both states
@@ -23,6 +24,7 @@ export interface AccordionItemProps {
 }
 
 export const AccordionItem = ({
+  id,
   children,
   content,
   icon,
@@ -45,13 +47,20 @@ export const AccordionItem = ({
   const [marginTop, setMarginTop] = useState('1rem');
 
   useEffect(() => {
-    if (open && contentRef.current) {
-      setMaxHeight(contentRef.current.scrollHeight + 'px');
-      setMarginTop('1rem'); // Open state margin
-    } else {
-      setMaxHeight('0px');
-      setMarginTop('0'); // Closed state margin
-    }
+    const setAccordionHeight = () => {
+      if (open && contentRef.current) {
+        setMaxHeight(contentRef.current.scrollHeight + 'px');
+        setMarginTop('1rem'); // Open state margin
+      } else {
+        setMaxHeight('0px');
+        setMarginTop('0'); // Closed state margin
+      }
+    };
+    requestAnimationFrame(setAccordionHeight);
+
+    // also update on resize
+    window.addEventListener('resize', setAccordionHeight);
+    return () => window.removeEventListener('resize', setAccordionHeight);
   }, [open, content, children]);
 
   // Render leading icon
@@ -82,6 +91,7 @@ export const AccordionItem = ({
   return (
     <div
       className={`c-accordion__item ${openClass} u-border--left u-padding--half--left u-spacing--half`}
+      id={id}
     >
       <div
         className={`c-accordion__heading u-font--primary--m ${themeColorClass}--darker`}

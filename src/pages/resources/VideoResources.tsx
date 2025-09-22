@@ -4,12 +4,15 @@ import routes from 'src/routes';
 import { getTitle } from 'src/utils/Navigation';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
+import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import DownloadList from './DownloadList';
 import { Accordion } from 'src/alps/molecules/components/accordion/Accordion';
 import { Text } from 'alps-library/atoms/text/Text';
 
 const VideoResources = () => {
+  useScrollToHash();
+  
   const breadcrumbsUrls = [routes.resources(), routes.resources('video')];
   const { getPlaylists } = usePlaylists();
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
@@ -39,18 +42,21 @@ const VideoResources = () => {
             ?.slice() // make a copy so the original array is not modified
             .filter((p) => p.items?.length) // keep only playlists that have items
             .sort((a, b) => (a.author || '').localeCompare(b.author || '')) // sort by author name (fallback to empty string)
-            .map((playlist) => (
+            .map(({ _id, title, author, items }, i) => (
               <DownloadList
-                key={playlist._id}
-                title={playlist.title}
-                author={playlist.author}
-                items={playlist.items?.map((item) => ({
-                  _id: item._id,
-                  title: item.title,
-                  description: item.description,
-                  size: item.size,
-                  path: item.path // for download
-                }))}
+                key={i}
+                id={_id}
+                title={title}
+                author={author}
+                items={items?.map(
+                  ({ _id, title, description, size, path }) => ({
+                    _id,
+                    title,
+                    description,
+                    size,
+                    path // for download
+                  })
+                )}
               />
             ))}
         </Accordion>

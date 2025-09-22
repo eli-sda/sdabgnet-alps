@@ -18,6 +18,7 @@ import { OLD_SITE } from 'src/constants';
 import playlistData from './resources/playlist.json';
 import DownloadList from './resources/DownloadList';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
+import DownloadPlaylist from './resources/DownloadPlaylist';
 
 const Home = () => {
   const playlists: PlaylistType[] = playlistData;
@@ -246,6 +247,15 @@ const Home = () => {
             items={pl.items}
           />
         ))} */}
+
+        <DownloadPlaylist
+          itemUrls={[
+            '/sdabg/presentations/AWR Plovdiv - Opravdanie chrez vyara//201 - Izkupitelnata Bojia Lyubov.zip',
+            '/sdabg/presentations/AWR Plovdiv - Opravdanie chrez vyara//202 - Problemyt s greha.zip',
+            '/sdabg/presentations/AWR Plovdiv - Opravdanie chrez vyara//203 - Kakvo e tova Evangelie.zip'
+          ]}
+          playlistName="Оправдание чрез вяра"
+        />
 
         <p className="text">
           <a

@@ -120,7 +120,7 @@ const Home = () => {
           {/* <DailyVerse date={prevYear}></DailyVerse> */}
 
           {/* verse for 2.01.2025  with links*/}
-          <DailyVerse date={moment('2025-01-02')}></DailyVerse>
+          {/* <DailyVerse date={moment('2025-01-02')}></DailyVerse> */}
         </>
       }
     >

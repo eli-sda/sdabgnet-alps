@@ -46,6 +46,12 @@ const DownloadList = ({ id, author, title, items }: DownloadListProps) => {
     >
       <PlaylistActionButtons
         shareUrl={`${window.location.origin}${window.location.pathname}#${id}`}
+        itemUrls={
+          items
+            ?.map((item) => item.path)
+            .filter((path): path is string => !!path) || []
+        }
+        playlistName={title}
       />
       {content}
     </AccordionItem>

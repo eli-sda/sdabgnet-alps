@@ -66,6 +66,7 @@ const DownloadPlaylist = ({
       disabled={isLoading}
       label="Изтегли всички"
       faIcon={isLoading ? 'spinner fa-pulse' : 'download'}
+      small
     />
   );
 };

@@ -2,12 +2,19 @@ import { useState } from 'react';
 import { Button } from 'src/alps/atoms/Button';
 import { TextField } from 'alps-library/molecules/forms/elements/TextField';
 import './PlaylistActionButtons.scss';
+import DownloadPlaylist from './DownloadPlaylist';
 
 type PlaylistActionButtonsProps = {
   shareUrl?: string;
+  itemUrls?: string[];
+  playlistName?: string;
 };
 
-const PlaylistActionButtons = ({ shareUrl }: PlaylistActionButtonsProps) => {
+const PlaylistActionButtons = ({
+  shareUrl,
+  itemUrls = [],
+  playlistName = 'playlist'
+}: PlaylistActionButtonsProps) => {
   // State for label text
   const [toShow, setToShow] = useState(false);
   const [copiedLabel, setCopiedLabel] = useState('');
@@ -56,6 +63,15 @@ const PlaylistActionButtons = ({ shareUrl }: PlaylistActionButtonsProps) => {
                 simple
               />
             </div>
+          )}
+
+          {itemUrls.length > 0 && (
+            <DownloadPlaylist
+              itemUrls={itemUrls.map(
+                (url) => `/sdabg/${url.replace(/^\/+/, '')}`
+              )}
+              playlistName={playlistName}
+            />
           )}
         </>
       )}

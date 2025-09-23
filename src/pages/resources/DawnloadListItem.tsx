@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { RESOURCES_PREFIX_URL } from 'src/constants';
+import { RESOURCES_FOLDER } from 'src/constants';
 import { LinkType } from 'src/contexts/PlaylistsContext';
 import { Button } from 'src/alps/atoms/Button';
 
@@ -41,7 +41,7 @@ const DawnloadListItem = ({
           className="u-space--half--top"
           faIcon="download"
           label={`Изтегли ${size ? `(${size} MB)` : ''}`}
-          url={`${RESOURCES_PREFIX_URL}${path}`}
+          url={`${RESOURCES_FOLDER}${path}`}
           isExternal
           download
         />

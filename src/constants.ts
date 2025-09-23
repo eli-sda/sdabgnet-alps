@@ -1,6 +1,7 @@
 export const SITE = 'https://new.sdabg.net';
 export const OLD_SITE = 'https://sdabg.net';
-export const RESOURCES_PREFIX_URL = 'https://sdasofia.org/sdabg/'; //'https://linuxman.biz/sdabg/'
+
+export const RESOURCES_FOLDER = '/sdabg/'; // folder in https://sdasofia.org or https://linuxman.biz - set in vite config proxy too and download-proxy.php
 
 export const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 

@@ -30,15 +30,22 @@ const DownloadPlaylist = ({
 
       // Fetch all files in parallel
       await Promise.all(
-        itemUrls.map(async (url, index) => {
-          const res = await fetch(url);
+        itemUrls.map(async (resourcePath, index) => {
+          // Use proxy for local development to bypass CORS, PHP proxy for production
+          const fetchUrl = import.meta.env.DEV
+            ? resourcePath // Use Vite proxy in development
+            : `/download-proxy.php?resourcePath=${encodeURIComponent(
+                resourcePath
+              )}`;
+
+          const res = await fetch(fetchUrl);
           if (!res.ok) return;
 
           const blob = await res.blob();
           const buffer = new Uint8Array(await blob.arrayBuffer());
 
           const fileName = sanitizeFileName(
-            url.split('/').pop()?.split('?')[0] || `file${index + 1}`
+            resourcePath.split('/').pop()?.split('?')[0] || `file${index + 1}`
           );
 
           files[fileName] = buffer;

@@ -3,6 +3,7 @@ import { Button } from 'src/alps/atoms/Button';
 import { TextField } from 'alps-library/molecules/forms/elements/TextField';
 import './PlaylistActionButtons.scss';
 import DownloadPlaylist from './DownloadPlaylist';
+import { RESOURCES_FOLDER } from 'src/constants';
 
 type PlaylistActionButtonsProps = {
   shareUrl?: string;
@@ -19,6 +20,8 @@ const PlaylistActionButtons = ({
   const [toShow, setToShow] = useState(false);
   const [copiedLabel, setCopiedLabel] = useState('');
 
+  const hasDownload = itemUrls && itemUrls.length > 0;
+
   const handleShare = (shareUrl: string) => {
     navigator.clipboard
       .writeText(shareUrl)
@@ -34,46 +37,45 @@ const PlaylistActionButtons = ({
 
   return (
     <div className="playlist-action-buttons">
-      {shareUrl && (
-        <>
-          <Button
-            className="u-space--half--bottom"
-            onClick={() => handleShare(shareUrl)}
-            small
-            label="Вземи линк"
-            icon="share"
-          />
-
-          {toShow && (
-            <div className="share-field">
-              <TextField
-                labelClass="u-space--half--bottom"
-                name="share-link"
-                label={copiedLabel}
-                value={shareUrl}
-                readOnly
-                onClick={(e) => (e.target as HTMLInputElement).select()}
-              />
-
-              <Button
-                className="close-button"
-                faIcon="times"
-                iconPosition="right"
-                onClick={() => setToShow(false)}
-                simple
-              />
-            </div>
+      {(shareUrl || hasDownload) && (
+        <div className="buttons u-space--half--bottom">
+          {shareUrl && (
+            <Button
+              onClick={() => handleShare(shareUrl)}
+              small
+              label="Вземи линк"
+              icon="share"
+            />
           )}
-
-          {itemUrls.length > 0 && (
+          {hasDownload && (
             <DownloadPlaylist
               itemUrls={itemUrls.map(
-                (url) => `/sdabg/${url.replace(/^\/+/, '')}`
+                (url) => `${RESOURCES_FOLDER}${url.replace(/^\/+/, '')}`
               )}
               playlistName={playlistName}
             />
           )}
-        </>
+        </div>
+      )}
+      {toShow && (
+        <div className="share-field">
+          <TextField
+            labelClass="u-space--half--bottom"
+            name="share-link"
+            label={copiedLabel}
+            value={shareUrl}
+            readOnly
+            onClick={(e) => (e.target as HTMLInputElement).select()}
+          />
+
+          <Button
+            className="close-button"
+            faIcon="times"
+            iconPosition="right"
+            onClick={() => setToShow(false)}
+            simple
+          />
+        </div>
       )}
     </div>
   );

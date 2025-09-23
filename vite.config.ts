@@ -13,8 +13,7 @@ export default defineConfig({
       '/sdabg': {
         target: 'https://sdasofia.org',
         changeOrigin: true,
-        secure: false,
-        rewrite: (path) => path.replace(/^\/sdabg/, '/sdabg')
+        secure: false
       }
     }
   },

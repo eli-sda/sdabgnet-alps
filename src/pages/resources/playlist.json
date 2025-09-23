@@ -10,7 +10,9 @@
         "author": "Елън Уайт",
         "description": null,
         "isResource": true,
-        "keyWords": ["Великата борба"],
+        "keyWords": [
+          "Великата борба"
+        ],
         "path": "audio/books/Velikata borba/-1 - Predgovor.mp3",
         "size": 2,
         "title": "Предговор"
@@ -20,13 +22,18 @@
         "author": "Елън Уайт",
         "description": null,
         "isResource": true,
-        "keyWords": ["Великата борба"],
+        "keyWords": [
+          "Великата борба"
+        ],
         "path": "audio/books/Velikata borba/-2 - Zashto tryabva da prochetete tazi kniga.mp3",
         "size": 3,
         "title": "Защо трябва да прочетете тази книга?"
       }
     ],
-    "keyWords": ["Великата борба", "Елън Уайт"],
+    "keyWords": [
+      "Великата борба",
+      "Елън Уайт"
+    ],
     "title": "Великата борба",
     "type": "audio-book"
   },
@@ -34,6 +41,7 @@
     "_id": "05cc8442-e02a-483b-8b1b-ceae10b5cbff",
     "image": null,
     "isResource": true,
+    "title": "Примерни различни типове ресурси",
     "items": [
       {
         "_id": "ef2f4e93-2c70-4938-9dd7-04f6f2a694bb",

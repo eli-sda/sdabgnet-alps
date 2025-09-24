@@ -1,4 +1,8 @@
 .playlist-action-buttons {
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+  }
   .share-field {
     position: relative;
 

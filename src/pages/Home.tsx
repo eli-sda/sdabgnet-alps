@@ -18,8 +18,12 @@ import { OLD_SITE } from 'src/constants';
 import playlistData from './resources/playlist.json';
 import DownloadList from './resources/DownloadList';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
+import DownloadPlaylist from './resources/DownloadPlaylist';
+
+import { useScrollToHash } from 'src/hooks/useScrollToHash';
 
 const Home = () => {
+  useScrollToHash();
   const playlists: PlaylistType[] = playlistData;
 
   const [currentDate, setCurrentDate] = useState(() => moment());
@@ -237,15 +241,30 @@ const Home = () => {
             </li>
           </ul>
         </div>
-
-        {/* {playlists.map((pl) => (
-          <DownloadList
-            key={pl._id}
-            author={pl.author}
-            title={pl.title}
-            items={pl.items}
-          />
-        ))} */}
+        <h5>DEMO: Плейлисти с ресурси за сваляне:</h5>
+        {playlists.map((pl, i) => (
+          <div key={pl._id || i}>
+            <DownloadList
+              id={pl._id}
+              author={pl.author}
+              title={pl.title}
+              items={pl.items}
+            />
+            <hr />
+          </div>
+        ))}
+        <h5>
+          DEMO: Презентации &quot;Оправдание чрез вяра&quot; за изтегляне (201,
+          202, 203):
+        </h5>
+        <DownloadPlaylist
+          itemUrls={[
+            '/sdabg/presentations/AWR Plovdiv - Opravdanie chrez vyara//201 - Izkupitelnata Bojia Lyubov.zip',
+            '/sdabg/presentations/AWR Plovdiv - Opravdanie chrez vyara//202 - Problemyt s greha.zip',
+            '/sdabg/presentations/AWR Plovdiv - Opravdanie chrez vyara//203 - Kakvo e tova Evangelie.zip'
+          ]}
+          playlistName="Оправдание чрез вяра"
+        />
 
         <p className="text">
           <a

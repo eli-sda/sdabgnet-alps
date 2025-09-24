@@ -8,6 +8,15 @@ import { resolve } from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    proxy: {
+      '/sdabg': {
+        target: 'https://sdasofia.org',
+        changeOrigin: true,
+        secure: false
+      }
+    }
+  },
   plugins: [
     react(),
     tsconfigPaths(), // This plugin will use the paths defined in your tsconfig.json

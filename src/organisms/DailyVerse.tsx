@@ -2,30 +2,17 @@ import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { isEqual } from 'lodash';
 import moment, { Moment } from 'moment';
 
-import { clientVreses } from '../sanityClient'; // Updated Sanity client
-import { PortableTextBlock } from '@portabletext/types';
-
 import useClasses from 'alps-library/helpers/useClasses';
 import useToggle from 'alps-library/helpers/useToggle';
 import { themeBorderColorClass } from 'alps-library/global/colors';
 import { getFontClass } from 'alps-library/global/fonts';
 import { Button } from 'src/alps/atoms/Button';
 import { CustomPortableText } from 'src/utils/CustomPortableText';
-
-export interface Verse {
-  date: string;
-  title: string;
-  text: string;
-  verse: string;
-  comment: Array<PortableTextBlock>;
-  halfYear: {
-    title: string;
-    author: string;
-  };
-}
+import { useDailyVerse } from 'src/hooks/useDailyVerse';
+import { DailyVerseType } from 'src/contexts/DailyVerseContext';
 
 const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
-  const [data, setData] = useState<Verse | null>(null);
+  const [data, setData] = useState<DailyVerseType | null>(null);
   const [loading, setLoading] = useState(true);
 
   const { onToggle, openClass } = useToggle();
@@ -40,24 +27,29 @@ const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
   const moreClasses =
     ' can-be--dark-dark u-clear-fix u-padding u-background-color--gray--light';
 
-  const formattedDate = useMemo(() => {
-    return date.format('YYYY-MM-DD'); //date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
-  }, [date]);
-
+  const formattedDate = useMemo(
+    () => date.format('YYYY-MM-DD'), //date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+    [date]
+  );
   const prevFormattedDate = useRef<string | null>(null);
+
+  const { getDailyVerse } = useDailyVerse();
+
   useEffect(() => {
     if (isEqual(prevFormattedDate.current, formattedDate)) return;
     prevFormattedDate.current = formattedDate;
-    const query = `*[_type=='verse'&& date==$date][0]{date,title,text,verse,comment, halfYear->{author, title}}`;
 
-    clientVreses
-      .fetch(query, { date: formattedDate })
-      .then((data: Verse) => setData(data))
-      .catch((error) =>
-        console.error('Error fetching verse from Sanity:', error)
-      )
+    setLoading(true);
+    getDailyVerse()
+      .then((loaded) => {
+        // only set if it matches the requested date
+        if (loaded?.date === formattedDate) {
+          setData(loaded);
+        }
+      })
+      .catch((err) => console.error('Error loading daily verse: ', err))
       .finally(() => setLoading(false));
-  }, [formattedDate]);
+  }, [formattedDate, getDailyVerse]);
 
   if (loading) {
     return <i className="fa fa-spinner u-space--quarter"></i>;
@@ -76,7 +68,7 @@ const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
           {data.verse}&nbsp;
           <time
             className="c-block__date u-text-transform--upper"
-            dateTime={`${data.date}`}
+            dateTime={data.date}
           >
             {/* {new Date(data.date).toLocaleDateString('bg-BG')} //25.12.2024 г.*/}
             (стих за деня {moment(data.date).format('DD.MM.YYYY')})

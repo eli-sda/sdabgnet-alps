@@ -6,6 +6,7 @@ import {
 } from 'src/contexts/AdvertisementsContext';
 import { QuestionType } from 'src/contexts/QuestionsContext';
 import { LinkType, PlaylistType } from 'src/contexts/PlaylistsContext';
+import { DailyVerseType } from 'src/contexts/DailyVerseContext';
 
 export const loadPagesMeta = async (): Promise<PageMetaMap> => {
   const query = `*[_type == "page"] {
@@ -126,4 +127,19 @@ export const loadLinks = async (type: string): Promise<LinkType[]> => {
   }`;
 
   return await client.fetch(linkQuery);
+};
+
+export const loadDailyVerse = async (date: string): Promise<DailyVerseType> => {
+  const dailyVerseQuery = `*[
+    _type=='verse'
+    && date == $date][0] {
+    date,
+    title,
+    text,
+    verse,
+    comment,
+    halfYear->{author, title}
+  }`;
+
+  return await clientVreses.fetch(dailyVerseQuery, { date });
 };

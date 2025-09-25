@@ -40,7 +40,7 @@ const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
     prevFormattedDate.current = formattedDate;
 
     setLoading(true);
-    getDailyVerse()
+    getDailyVerse(formattedDate)
       .then((loaded) => {
         // only set if it matches the requested date
         if (loaded?.date === formattedDate) {

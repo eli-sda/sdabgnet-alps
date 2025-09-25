@@ -14,17 +14,13 @@ export type DailyVerseType = {
 };
 
 export type DailyVerseContextType = {
-  dailyVerse: DailyVerseType | undefined;
-  setDailyVerse: (dailyVerse: DailyVerseType | undefined) => void;
-  lastLoaded: string | undefined;
-  setLastLoaded: (date: string) => void;
+  verses: Record<string, DailyVerseType | null>;
+  setVerse: (date: string, verse: DailyVerseType | null) => void;
 };
 
 export const DailyVerseContext = createContext<DailyVerseContextType>({
-  dailyVerse: undefined,
-  setDailyVerse: () => {},
-  lastLoaded: undefined,
-  setLastLoaded: () => {}
+  verses: {},
+  setVerse: () => {}
 });
 
 export function useDailyVerseContext() {

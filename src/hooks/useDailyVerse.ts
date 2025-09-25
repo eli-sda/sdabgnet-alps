@@ -8,28 +8,35 @@ function getTodayString() {
 }
 
 export function useDailyVerse() {
-  const { dailyVerse, setDailyVerse, lastLoaded, setLastLoaded } =
-    useDailyVerseContext();
+  const { verses, setVerse } = useDailyVerseContext();
 
-  /**
-   * Returns the daily verse. If the daily verse is not loaded or is stale (older than today),
-   * it will fetch it from the backend and update the provider. Otherwise, it returns the cached daily verse.
-   * @returns Promise resolving to the daily verse
-   * */
+  const getDailyVerse = useCallback(
+    async (date?: string) => {
+      const targetDate = date ?? getTodayString();
 
-  const getDailyVerse = useCallback(async () => {
-    const today = getTodayString();
-    if (dailyVerse && lastLoaded === today) {
-      return Promise.resolve(dailyVerse);
-    }
-    return loadDailyVerse(today)
-      .then((loadedDailyVerse) => {
-        setDailyVerse(loadedDailyVerse);
-        setLastLoaded(today);
-        return Promise.resolve(loadedDailyVerse);
-      })
-      .catch();
-  }, [dailyVerse, lastLoaded, setDailyVerse, setLastLoaded]);
+      // if already cached (even null) → return it
+      if (Object.prototype.hasOwnProperty.call(verses, targetDate)) {
+        return Promise.resolve(verses[targetDate]);
+      }
 
-  return { dailyVerse, getDailyVerse };
+      // otherwise fetch from backend
+      return loadDailyVerse(targetDate)
+        .then((loadedDailyVerse) => {
+          if (!loadedDailyVerse) {
+            setVerse(targetDate, null);
+            return null;
+          }
+          setVerse(targetDate, loadedDailyVerse);
+          return loadedDailyVerse;
+        })
+        .catch((err) => {
+          console.error('Error fetching verse: ', err);
+          setVerse(targetDate, null);
+          return null;
+        });
+    },
+    [verses, setVerse]
+  );
+
+  return { verses, getDailyVerse };
 }

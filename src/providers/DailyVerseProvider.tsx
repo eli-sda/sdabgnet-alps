@@ -5,15 +5,17 @@ import {
 } from 'src/contexts/DailyVerseContext';
 
 export const DailyVerseProvider = ({ children }: { children: ReactNode }) => {
-  const [dailyVerse, setDailyVerse] = useState<DailyVerseType>();
-  const [lastLoaded, setLastLoaded] = useState<string>();
+  const [verses, setVerses] = useState<Record<string, DailyVerseType | null>>({});
+
+  const setVerse = (date: string, verse: DailyVerseType | null) => {
+    setVerses((prev) => ({ ...prev, [date]: verse }));
+  };
+
   return (
     <DailyVerseContext.Provider
       value={{
-        dailyVerse,
-        setDailyVerse,
-        lastLoaded,
-        setLastLoaded
+        verses,
+        setVerse
       }}
     >
       {children}

@@ -239,6 +239,9 @@ const Home = () => {
                 Ресурси изображения
               </NavLink>
             </li>
+            <li>
+              <NavLink to={routes.churchLife('donations')}>Дарения за каузи</NavLink>
+            </li>
           </ul>
         </div>
         <h5>DEMO: Плейлисти с ресурси за сваляне:</h5>

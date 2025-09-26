@@ -38,5 +38,5 @@ export function useDailyVerse() {
     [verses, setVerse]
   );
 
-  return { verses, getDailyVerse };
+  return { getDailyVerse };
 }

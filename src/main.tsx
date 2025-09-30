@@ -1,6 +1,30 @@
 import { createRoot } from 'react-dom/client';
 import 'react-jinke-music-player/lib/styles/index.less';
 import App from './App.tsx';
+import ErrorBoundary from './components/ErrorBoundary.tsx';
+
+// Simple error handler for critical failures (fallback only)
+let isReloading = false;
+
+window.addEventListener('unhandledrejection', (event) => {
+  const reason = event.reason as unknown;
+  if (
+    reason &&
+    reason instanceof Error &&
+    reason.message.includes('Loading chunk')
+  ) {
+    console.warn('Chunk loading error detected, clearing cache...');
+    if (!isReloading) {
+      isReloading = true;
+      // Clear caches and reload as last resort
+      caches
+        .keys()
+        .then((names) => Promise.all(names.map((name) => caches.delete(name))))
+        .then(() => window.location.reload())
+        .catch(() => window.location.reload());
+    }
+  }
+});
 
 // Remove trailing slash from URL in the browser if present (but not for root)
 if (
@@ -12,39 +36,19 @@ if (
   window.history.replaceState({}, '', url.pathname + url.search + url.hash);
 }
 
+// Simple service worker handling
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.addEventListener('controllerchange', () => {
-    // Force reload when a new Service Worker takes control
-    window.location.reload();
-  });
-
-  // Listen for reload message from SW
   navigator.serviceWorker.addEventListener('message', (event: MessageEvent) => {
-    const data: unknown = event.data;
-    if (
-      data &&
-      typeof data === 'object' &&
-      data !== null &&
-      'type' in data &&
-      (data as { type?: unknown }).type === 'RELOAD_WINDOW'
-    ) {
+    const data = event.data as { type?: string };
+    if (data?.type === 'RELOAD_WINDOW' && !isReloading) {
+      isReloading = true;
       window.location.reload();
     }
   });
-
-  // Check for updates on navigation
-  window.addEventListener('popstate', () => {
-    navigator.serviceWorker
-      .getRegistration()
-      .then((registration) => {
-        if (registration && registration.waiting) {
-          registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-        }
-      })
-      .catch((error) => {
-        console.error('Error checking Service Worker registration:', error);
-      });
-  });
 }
 
-createRoot(document.getElementById('root')!).render(<App />);
+createRoot(document.getElementById('root')!).render(
+  <ErrorBoundary>
+    <App />
+  </ErrorBoundary>
+);

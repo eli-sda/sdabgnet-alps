@@ -4,6 +4,19 @@
   Header set Pragma "no-cache"
   Header set Expires 0
 
+  # Ensure proper MIME types for JavaScript files to prevent module loading errors
+  <FilesMatch "\.(js)$">
+    Header set Content-Type "application/javascript; charset=utf-8"
+  </FilesMatch>
+
+  # Ensure proper MIME types for CSS files
+  <FilesMatch "\.(css)$">
+    Header set Content-Type "text/css; charset=utf-8"
+  </FilesMatch>
+
+  # Security headers to prevent MIME type sniffing
+  Header always set X-Content-Type-Options nosniff
+
   # Ensure index.html is always fetched fresh
   <FilesMatch "index\.html$">
     Header set Cache-Control "no-cache, no-store, must-revalidate"
@@ -32,6 +45,11 @@
 
   # Set index.php as the default file to load
   DirectoryIndex index.php index.html
+
+  # Handle missing JavaScript files - return 404 with proper MIME type instead of HTML error page
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_URI} \.(js)$ [NC]
+  RewriteRule ^.*$ /js_mime_fix.php [L]
 
   # Exclude static files (images, icons, PDFs, etc.) from being rewritten
   RewriteCond %{REQUEST_URI} ^/img/ [NC]

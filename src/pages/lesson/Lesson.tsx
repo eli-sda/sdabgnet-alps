@@ -99,15 +99,15 @@ const Lesson = ({ type = '' }: { type?: LessonType }) => {
       useLessonQuarterContext();
 
     const passedLessons = useMemo(() => {
-      if (
-        !quarterObject ||
-        !qLesson ||
-        !(currentLessonParameters.lessonNumber > 1)
-      )
-        return [];
+      if (!quarterObject) return [];
       const { lessonYear, lessonQuarter } = quarterObject;
       const passedLessons: MediaBlockProps[] = [];
-      for (let i = 1; i <= currentLessonParameters.lessonNumber; i++) {
+      const toLesson =
+        lessonYear === currentLessonParameters.lessonYear &&
+        lessonQuarter === currentLessonParameters.lessonQuarter
+          ? currentLessonParameters.lessonNumber //show only up to current lesson for current quarter
+          : quarterObject.lessons.length; //all lessons in quarter
+      for (let i = 1; i <= toLesson; i++) {
         const lesson = getLessonFromQuarter(quarterObject, i);
         if (!lesson) continue;
         const lessonBlock = {
@@ -132,7 +132,7 @@ const Lesson = ({ type = '' }: { type?: LessonType }) => {
         passedLessons.push(lessonBlock);
       }
       return passedLessons;
-    }, [quarterObject, qLesson]);
+    }, [quarterObject]);
 
     const video: null | { caption: string; src: string } = useMemo(() => {
       let video = null;

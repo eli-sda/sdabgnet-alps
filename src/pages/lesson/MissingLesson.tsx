@@ -8,7 +8,7 @@ export const MissingLesson = (params: LessonProps) => {
         Търсеният урок № {params.lessonNumber} от {params.lessonQuarter}{' '}
         тримесечие на {params.lessonYear} година не е намерен
       </h3>
-      {params.type == '' && (
+      {params.type == '' && params.lessonYear < 2025 && (
         <p>
           Опитайте да го заредите
           <a

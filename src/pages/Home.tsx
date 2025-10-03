@@ -9,7 +9,7 @@ import { PageSection } from 'src/organisms/PageSection';
 import PageMeta from 'src/utils/PageMeta';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
 // import { FetchedPageDescription } from 'src/organisms/FetchedPageDescription';
-import { OLD_SITE } from 'src/constants';
+import { demoAudioPlaylist, demoAudioPlaylist2, OLD_SITE } from 'src/constants';
 
 // import { Button } from '@mui/material';
 // import { deleteAllLinks } from 'src/utils/DelteSanityDocuments';
@@ -21,12 +21,15 @@ import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import DownloadPlaylist from './resources/DownloadPlaylist';
 
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
+import AudioList from './resources/AudioList';
+import AudioPlayer from './resources/AudioPlayer';
 
 const Home = () => {
   useScrollToHash();
   const playlists: PlaylistType[] = playlistData;
 
   const [currentDate, setCurrentDate] = useState(() => moment());
+  const [playlist, setPlaylists] = useState<PlaylistType>({ _id: '1' }); // for demo audio playlist
   const { pageMeta } = usePagesMeta();
 
   useEffect(() => {
@@ -112,6 +115,7 @@ const Home = () => {
   //     }
   //   }
   // ];
+
   return (
     <PageSection
       aside={
@@ -240,7 +244,9 @@ const Home = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to={routes.churchLife('donations')}>Дарения за каузи</NavLink>
+              <NavLink to={routes.churchLife('donations')}>
+                Дарения за каузи
+              </NavLink>
             </li>
           </ul>
         </div>
@@ -256,6 +262,7 @@ const Home = () => {
             <hr />
           </div>
         ))}
+
         <h5>
           DEMO: Презентации &quot;Оправдание чрез вяра&quot; за изтегляне (201,
           202, 203):
@@ -268,6 +275,23 @@ const Home = () => {
           ]}
           playlistName="Оправдание чрез вяра"
         />
+
+        <section className="u-spacing--double">
+          <h5>Аудио плeйлист демо</h5>
+          <AudioList
+            playlist={demoAudioPlaylist}
+            onPlay={() => {
+              setPlaylists(demoAudioPlaylist);
+            }}
+          />
+          <AudioList
+            playlist={demoAudioPlaylist2}
+            onPlay={() => {
+              setPlaylists(demoAudioPlaylist2);
+            }}
+          />
+          {playlist.items && <AudioPlayer playlist={playlist}></AudioPlayer>}
+        </section>
 
         <p className="text">
           <a

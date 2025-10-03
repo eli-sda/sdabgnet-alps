@@ -1,4 +1,5 @@
 // import { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { createContext, useContext } from 'react';
 
 export type LinkType = {
@@ -19,7 +20,8 @@ export type PlaylistType = {
   author?: string;
   title?: string;
   // keyWords?: string[] | null;
-  // image?: SanityImageSource | null;
+  image?: SanityImageSource | null;
+  imageUrl?: string;
   items?: LinkType[];
 };
 

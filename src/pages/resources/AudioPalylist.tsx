@@ -1,14 +1,14 @@
 import { MediaBlock } from 'src/alps/molecules/blocks/MediaBlock';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { getImage, transparentImg } from 'src/utils/ImageHelper';
-import './AudioList.scss';
+import './AudioPalylist.scss';
 
-type AudioListProps = {
+type AudioPalylistProps = {
   playlist: PlaylistType;
   onPlay: () => void;
 };
 
-const AudioList = ({ playlist, onPlay }: AudioListProps) => {
+const AudioPalylist = ({ playlist, onPlay }: AudioPalylistProps) => {
   const { author, title = '', image } = playlist;
   const img = getImage(image || transparentImg);
 
@@ -29,4 +29,4 @@ const AudioList = ({ playlist, onPlay }: AudioListProps) => {
   );
 };
 
-export default AudioList;
+export default AudioPalylist;

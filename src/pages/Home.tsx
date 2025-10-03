@@ -21,7 +21,7 @@ import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import DownloadPlaylist from './resources/DownloadPlaylist';
 
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
-import AudioList from './resources/AudioList';
+import AudioPalylist from './resources/AudioPalylist';
 import AudioPlayer from './resources/AudioPlayer';
 
 const Home = () => {
@@ -278,13 +278,13 @@ const Home = () => {
 
         <section className="u-spacing--double">
           <h5>Аудио плeйлист демо</h5>
-          <AudioList
+          <AudioPalylist
             playlist={demoAudioPlaylist}
             onPlay={() => {
               setPlaylists(demoAudioPlaylist);
             }}
           />
-          <AudioList
+          <AudioPalylist
             playlist={demoAudioPlaylist2}
             onPlay={() => {
               setPlaylists(demoAudioPlaylist2);

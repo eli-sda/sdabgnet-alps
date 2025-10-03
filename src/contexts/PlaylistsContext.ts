@@ -21,7 +21,7 @@ export type PlaylistType = {
   title?: string;
   // keyWords?: string[] | null;
   image?: SanityImageSource | null;
-  imageUrl?: string;
+  imageUrl?: string | null;
   items?: LinkType[];
 };
 

@@ -8,16 +8,20 @@ function ensureJavaScriptMimeType()
     $requestUri = $_SERVER['REQUEST_URI'] ?? '';
     $path = parse_url($requestUri, PHP_URL_PATH);
 
-    if ($path && (str_ends_with($path, '.js') || str_contains($path, '/assets/') && str_ends_with($path, '.js'))) {
-        // If it's a JS file request, set proper headers
-        header('Content-Type: application/javascript; charset=utf-8');
-        header('Cache-Control: public, max-age=31536000'); // Cache for 1 year
-
-        // Check if the file actually exists
+    if ($path && str_ends_with($path, '.js')) {
         $filePath = $_SERVER['DOCUMENT_ROOT'] . $path;
-        if (file_exists($filePath)) {
-            // File exists, serve it
-            readfile($filePath);
+        $realDocRoot = realpath($_SERVER['DOCUMENT_ROOT']);
+        $realFile = realpath($filePath);
+
+        if ($realFile && strpos($realFile, $realDocRoot) === 0 && is_file($realFile)) {
+            header('Content-Type: application/javascript; charset=utf-8');
+            header('Cache-Control: public, max-age=31536000');
+            header('Content-Length: ' . filesize($realFile));
+            // If the file exists: The content is served.
+            if (readfile($realFile) === false) {
+                http_response_code(500);
+                echo "// Error: Could not read JavaScript file.";
+            }
             exit;
         } else {
             // File doesn't exist, return 404 with proper JS MIME type

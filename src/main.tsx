@@ -3,6 +3,7 @@ import 'react-jinke-music-player/lib/styles/index.less';
 import App from './App.tsx';
 import ErrorBoundary from './components/ErrorBoundary.tsx';
 
+type ServiceWorkerMessage = { type?: string };
 // Simple error handler for critical failures (fallback only)
 let isReloading = false;
 
@@ -36,15 +37,24 @@ if (
   window.history.replaceState({}, '', url.pathname + url.search + url.hash);
 }
 
+function handleServiceWorkerMessage(event: MessageEvent) {
+  // Only accept messages from your own origin
+  if (event.origin !== window.location.origin) {
+    return;
+  }
+  const data = event.data as ServiceWorkerMessage;
+  if (data?.type === 'RELOAD_WINDOW' && !isReloading) {
+    isReloading = true;
+    window.location.reload();
+  }
+}
+
 // Simple service worker handling
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.addEventListener('message', (event: MessageEvent) => {
-    const data = event.data as { type?: string };
-    if (data?.type === 'RELOAD_WINDOW' && !isReloading) {
-      isReloading = true;
-      window.location.reload();
-    }
-  });
+  navigator.serviceWorker.addEventListener(
+    'message',
+    handleServiceWorkerMessage
+  );
 }
 
 createRoot(document.getElementById('root')!).render(

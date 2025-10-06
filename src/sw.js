@@ -86,6 +86,15 @@ self.addEventListener('fetch', (event) => {
 
 // Listen for cache clear requests
 self.addEventListener('message', (event) => {
+  // event.origin is not available on service worker 'message' events,
+  // so check the sender by the client URL
+  // using service worker's own origin
+  const client = event.source;
+  if (client && client.url && !client.url.startsWith(self.location.origin)) {
+    // Ignore messages not from your own domain
+    return;
+  }
+
   if (event.data && event.data.type === 'CLEAR_CACHE_AND_RELOAD') {
     console.log('Service Worker clearing caches and reloading...');
 

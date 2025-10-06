@@ -1,9 +1,9 @@
 <?php
+include_once __DIR__ . '/cors.php';
 include_once __DIR__ . '/constants.php';
 include_once __DIR__ . '/form_helpers.php';
 
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
 
 // Only allow POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -36,7 +36,7 @@ $body = "<html><body>"
 $headers = "From: sdabg.net <no-reply@sdabg.net>\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
 $headers .= "Content-type: text/html; charset=UTF-8\r\n";
-$headers .= "Reply-To: $email\r\n";
+$headers .= "Reply-To: " . sanitize_header($email) . "\r\n";
 
 // Send email
 $success = mail($to, $subject, $body, $headers);
@@ -44,5 +44,7 @@ $success = mail($to, $subject, $body, $headers);
 if ($success) {
     send_json_response(['success' => true]);
 } else {
+    $logLine = date('Y-m-d H:i:s') . " - Error sending question: " . json_encode($_POST) . "\n\n\n";
+    file_put_contents(__DIR__ . '/send_mail.log', $logLine, FILE_APPEND);
     send_json_response(['error' => 'Грешка при изпращане на въпроса.'], 500);
 }

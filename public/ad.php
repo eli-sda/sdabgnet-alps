@@ -1,9 +1,9 @@
 <?php
+require_once __DIR__ . '/cors.php';
 include_once __DIR__ . '/constants.php';
 include_once __DIR__ . '/form_helpers.php';
 
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
 
 // Only allow POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -63,11 +63,11 @@ $bodyHtml = "<html><body>"
     . "</body></html>";
 
 $headers = "From: sdabg.net <no-reply@sdabg.net>\r\n";
-$headers .= "Reply-To: $email\r\n";
+$headers .= "Reply-To: " . sanitize_header($email) . "\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
 
 if ($hasImage) {
-    $boundary = md5(uniqid(time()));
+    $boundary = bin2hex(random_bytes(16));
     $headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n";
     $body = "--$boundary\r\n";
     $body .= "Content-Type: text/html; charset=UTF-8\r\n";
@@ -90,5 +90,7 @@ $success = mail($to, $subject, $body, $headers);
 if ($success) {
     send_json_response(['success' => true]);
 } else {
+    $logLine = date('Y-m-d H:i:s') . " - Error sending ad: " . json_encode($_POST) . "\n\n\n";
+    file_put_contents(__DIR__ . '/send_mail.log', $logLine, FILE_APPEND);
     send_json_response(['error' => 'Грешка при изпращане на обявата.'], 500);
 }

@@ -41,10 +41,12 @@ const Home = () => {
     return () => clearInterval(interval);
   }, [currentDate]);
 
-  const prevYear = useMemo(() => {
-    return currentDate.clone().subtract(1, 'year');
-  }, [currentDate]);
+  // TODO: use next year when replace the old site
+  // const prevYear = useMemo(() => {
+  //   return currentDate.clone().subtract(1, 'year');
+  // }, [currentDate]);
 
+  /*
   // const testSlides = [
   //   {
   //     heading: 'Lorem Ipsum',
@@ -112,6 +114,7 @@ const Home = () => {
   //     }
   //   }
   // ];
+  */
   return (
     <PageSection
       aside={

@@ -23,6 +23,15 @@ const DawnloadListItem = ({
     return 'file-o';
   }, [path]);
 
+  const url = useMemo(() => {
+    const resourcePath = `${RESOURCES_FOLDER}${path.replace(/^\/+/, '')}`;
+    const url = import.meta.env.DEV
+      ? resourcePath // Use Vite proxy in development
+      : `/download-proxy.php?resourcePath=${encodeURIComponent(resourcePath)}`;
+
+    return url;
+  }, [path]);
+
   return (
     <div className="download-item">
       <h3>
@@ -41,7 +50,7 @@ const DawnloadListItem = ({
           className="u-space--half--top"
           faIcon="download"
           label={`Изтегли ${size ? `(${size} MB)` : ''}`}
-          url={`${RESOURCES_FOLDER}${path}`}
+          url={url}
           isExternal
           download
         />

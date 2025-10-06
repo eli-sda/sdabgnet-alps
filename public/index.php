@@ -123,15 +123,18 @@ $ogUrl = $site . $path;
 <body>
     <?php
     if ($debug) {
+        $debugVars = [
+            'Title' => $title,
+            'Description' => $description,
+            'Image URL' => $imageUrl,
+            'Image Width' => $imageWidth,
+            'Image Height' => $imageHeight,
+            'OG URL' => $ogUrl,
+        ];
         echo "<div>";
-        echo "<b>Sanity URL:</b> " . urldecode($sanityUrl) . "<br>";
-        echo "<b>Response:</b> " . htmlspecialchars(print_r($response, true)) . "<br>";
-        echo "<b>Title:</b> $title<br>";
-        echo "<b>Description:</b> $description<br>";
-        echo "<b>Image URL:</b> $imageUrl<br>";
-        echo "<b>Image Width:</b> $imageWidth<br>";
-        echo "<b>Image Height:</b> $imageHeight<br>";
-        echo "<b>OG URL:</b> $ogUrl<br>";
+        foreach ($debugVars as $label => $value) {
+            echo "<b>{$label}:</b> " . htmlspecialchars($value) . "<br>";
+        }
         echo "</div>";
         exit;
     }

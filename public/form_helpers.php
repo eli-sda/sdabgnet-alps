@@ -13,6 +13,12 @@ function is_valid_email($email)
     return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 
+// Санитизация на хедър (премахва нови редове)
+function sanitize_header($value)
+{
+    return str_replace(["\r", "\n"], '', $value);
+}
+
 // Връща JSON отговор и спира изпълнението
 function send_json_response($data, $status_code = 200)
 {

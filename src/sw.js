@@ -84,18 +84,37 @@ self.addEventListener('fetch', (event) => {
   }
 });
 
-// Listen for chunk load errors and prompt clients to reload (for Vite/SPA chunk mismatch)
+// Listen for cache clear requests
 self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'VITE_CHUNK_LOAD_ERROR') {
-    // Force all clients to reload
-    self.skipWaiting && self.skipWaiting();
-    if (self.clients && self.clients.matchAll) {
-      self.clients.matchAll({ type: 'window' }).then((clients) => {
-        for (const client of clients) {
-          client.postMessage({ type: 'RELOAD_WINDOW' });
+  // event.origin is not available on service worker 'message' events,
+  // so check the sender by the client URL
+  // using service worker's own origin
+  const client = event.source;
+  if (client && client.url && !client.url.startsWith(self.location.origin)) {
+    // Ignore messages not from your own domain
+    return;
+  }
+
+  if (event.data && event.data.type === 'CLEAR_CACHE_AND_RELOAD') {
+    console.log('Service Worker clearing caches and reloading...');
+
+    // Clear all caches and reload clients
+    caches
+      .keys()
+      .then((cacheNames) => {
+        return Promise.all(cacheNames.map((name) => caches.delete(name)));
+      })
+      .then(() => {
+        // Force reload all clients
+        if (self.clients && self.clients.matchAll) {
+          self.clients.matchAll({ type: 'window' }).then((clients) => {
+            clients.forEach((client) =>
+              client.postMessage({ type: 'RELOAD_WINDOW' })
+            );
+          });
         }
+        self.skipWaiting && self.skipWaiting();
       });
-    }
   }
 });
 
@@ -104,16 +123,7 @@ if (typeof precacheAndRoute === 'function') {
   precacheAndRoute(self.__WB_MANIFEST || []);
 }
 
-// Notify all clients to reload when a new SW is activated
+// Clean activation - take control immediately
 self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    (async () => {
-      if (self.clients && self.clients.matchAll) {
-        const clients = await self.clients.matchAll({ type: 'window' });
-        for (const client of clients) {
-          client.postMessage({ type: 'RELOAD_WINDOW' });
-        }
-      }
-    })()
-  );
+  event.waitUntil(self.clients.claim());
 });

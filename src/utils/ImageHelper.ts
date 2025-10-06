@@ -8,23 +8,32 @@ export const transparentImg =
 
 export const getResponsiveImage = (
   image: SanityImageSource,
-  isVersesClient = false
+  isVersesClient = false,
+  isForAside = false // images are smaller in aside, so we use smaller widths 300px
 ): SourceSet => ({
-  '500': urlFor(image, isVersesClient).width(500).auto('format').url(),
-  '750': urlFor(image, isVersesClient).width(750).auto('format').url(),
-  '1200': urlFor(image, isVersesClient).width(1200).auto('format').url(),
+  '500': isForAside
+    ? ''
+    : urlFor(image, isVersesClient).width(500).auto('format').url(),
+  '750': isForAside
+    ? ''
+    : urlFor(image, isVersesClient).width(750).auto('format').url(),
+  '1200': isForAside
+    ? ''
+    : urlFor(image, isVersesClient).width(1200).auto('format').url(),
   default: urlFor(image, isVersesClient).width(300).auto('format').url()
 });
 
 // returns ImageType object for given Sanity image or transparent image
 export const getImage = (
-  image: SanityImageSource,
+  image?: SanityImageSource,
   title = '',
-  isVersesClient = false
+  isVersesClient = false,
+  isForAside = false
 ): ImageType => {
   const srcSet = getResponsiveImage(
     image || transparentImg,
-    image ? isVersesClient : false
+    image ? isVersesClient : false,
+    isForAside
   );
   const img: ImageType = {
     alt: title,

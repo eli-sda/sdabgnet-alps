@@ -1,6 +1,7 @@
+import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { MediaBlock } from 'src/alps/molecules/blocks/MediaBlock';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
-import { getImage, transparentImg } from 'src/utils/ImageHelper';
+import { getImage } from 'src/utils/ImageHelper';
 import './AudioPalylist.scss';
 
 type AudioPalylistProps = {
@@ -10,11 +11,15 @@ type AudioPalylistProps = {
 
 const AudioPalylist = ({ playlist, onPlay }: AudioPalylistProps) => {
   const { author, title = '', image } = playlist;
-  const img = getImage(image || transparentImg);
+  const img = getImage(
+    image && typeof image === 'object'
+      ? (image as SanityImageSource)
+      : undefined
+  );
 
   return (
     <div className="playlist-card">
-      <div className="playlist-card__image-wrapper">
+      <div>
         <MediaBlock
           image={img}
           type="stacked"

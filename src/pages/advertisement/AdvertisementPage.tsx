@@ -35,14 +35,16 @@ const AdvertisementPage = ({ type }: { type: AdType }) => {
 
   const relatedItems: MediaBlockProps[] = [];
 
-  AD_TYPES.filter((t) => t !== type).forEach((t) => {
-    const url = routes.advertisement(t);
-    const metaMap = getMetaMap([url]);
+  const otherTypes = AD_TYPES.filter((t) => t !== type);
+  const urls = otherTypes.map((t) => routes.advertisement(t));
+  // get meta for other types
+  const metaMap = getMetaMap(urls);
+  urls.forEach((url) => {
     const meta = metaMap[url];
 
     if (!meta) return;
 
-    const image = getImage(meta.imageUrl, '');
+    const image = getImage(meta.imageUrl, '', false, true);
 
     const relatedAdverBlock: MediaBlockProps = {
       title: meta.title,
@@ -60,7 +62,7 @@ const AdvertisementPage = ({ type }: { type: AdType }) => {
   ];
 
   const adBlocks: AdvertisementBlockProps[] = ads.map((ad) => {
-    const img = ad.image ? getImage(ad.image, '', true) : undefined; //srcSet ? { alt: '', srcSet: srcSet } : undefined;
+    const img = ad.image ? getImage(ad.image, '', true) : undefined;
 
     return {
       name: ad.name,

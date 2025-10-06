@@ -9,3 +9,40 @@
     -webkit-box-orient: vertical;
   }
 }
+.media-icon-button-container {
+  position: relative;
+
+  .media-icon-button {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 20%;
+    height: 20%;
+    display: inline-block;
+    background-size: 70% auto;
+    border-color: transparent;
+    background-position: center;
+    background-repeat: no-repeat;
+    &.icon--audio {
+      background-image: url(../images/icons/o-icon__audio.svg);
+
+      &:hover {
+        background-image: url(../images/icons/o-icon__audio_darkest.svg);
+      }
+    }
+    &.icon--video {
+      background-image: url(../images/icons/o-icon__video.svg);
+
+      &:hover {
+        background-image: url(../images/icons/o-icon__video_darkest.svg);
+      }
+    }
+    &.icon--gallery {
+      background-image: url(../images/icons/o-icon__gallery.svg);
+
+      &:hover {
+        background-image: url(../images/icons/o-icon__gallery_darkest.svg);
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+@use '../../styles/colors.scss' as *;
+
+.playlist-card {
+  position: relative;
+
+  .media-icon-button-container {
+    background-color: $mingColor;
+  }
+}

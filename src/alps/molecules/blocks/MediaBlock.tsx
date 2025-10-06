@@ -26,6 +26,8 @@ export interface MediaBlockProps {
    * Specify the type of your  mediaIcon
    */
   mediaIcon?: 'audio' | 'gallery' | 'video';
+  mediaIconAction?: () => void; //click handler for media icon
+  mediaIconTitle?: string; //title for media icon button
   /**
    * Specify the blockProps of your MediaBlock
    */
@@ -114,6 +116,8 @@ export interface MediaBlockProps {
 export const MediaBlock = ({
   asBackgroundImage = false,
   mediaIcon,
+  mediaIconAction,
+  mediaIconTitle,
   blockProps,
   category,
   cta,
@@ -166,14 +170,24 @@ export const MediaBlock = ({
       {...blockProps}
     >
       {image && (
-        <MediaImage
-          className={`${'image' in preset ? preset.image : ''}`}
-          icon={icon}
-          asBackgroundImage={asBackgroundImage}
-          caption={imageCaption}
-          image={image}
-          url={url}
-        />
+        <div className="media-icon-button-container">
+          <MediaImage
+            className={`${'image' in preset ? preset.image : ''}`}
+            icon={!mediaIconAction ? icon : undefined}
+            asBackgroundImage={asBackgroundImage}
+            caption={imageCaption}
+            image={image}
+            url={url}
+          />
+          {mediaIconAction && (
+            <button
+              className={`media-icon-button icon--${icon} o-button o-button--simple u-space--half--left u-space--half--bottom`}
+              onClick={mediaIconAction}
+              title={mediaIconTitle}
+            >
+            </button>
+          )}
+        </div>
       )}
       {video && (
         <div className="c-block__image-wrap">

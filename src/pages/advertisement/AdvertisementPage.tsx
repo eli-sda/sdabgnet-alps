@@ -9,7 +9,7 @@ import { usePagesMeta } from 'src/hooks/usePagesMeta';
 import { MediaBlockProps } from 'src/alps/molecules/blocks/MediaBlock';
 import { AdvertisementBlockProps } from './AdvertisementBlock';
 import { BlockFeed } from 'src/organisms/sections/BlockFeed';
-import { getResponsiveImage } from 'src/utils/ImageHelper';
+import { getImage } from 'src/utils/ImageHelper';
 import { useAdvertisements } from 'src/hooks/useAdvertisements';
 import { AdvertisementType } from 'src/contexts/AdvertisementsContext';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
@@ -35,24 +35,20 @@ const AdvertisementPage = ({ type }: { type: AdType }) => {
 
   const relatedItems: MediaBlockProps[] = [];
 
-  AD_TYPES.filter((t) => t !== type).forEach((t) => {
-    const url = routes.advertisement(t);
-    const metaMap = getMetaMap([url]);
+  const otherTypes = AD_TYPES.filter((t) => t !== type);
+  const urls = otherTypes.map((t) => routes.advertisement(t));
+  // get meta for other types
+  const metaMap = getMetaMap(urls);
+  urls.forEach((url) => {
     const meta = metaMap[url];
 
     if (!meta) return;
 
+    const image = getImage(meta.imageUrl, '', false, true);
+
     const relatedAdverBlock: MediaBlockProps = {
       title: meta.title,
-      image: {
-        alt: '',
-        srcSet: {
-          default: meta.imageUrl || '',
-          500: '',
-          750: '',
-          1200: ''
-        }
-      },
+      image: image,
       url
     };
 
@@ -66,8 +62,8 @@ const AdvertisementPage = ({ type }: { type: AdType }) => {
   ];
 
   const adBlocks: AdvertisementBlockProps[] = ads.map((ad) => {
-    const srcSet = ad.image ? getResponsiveImage(ad.image, true) : undefined;
-    const img = srcSet ? { alt: '', srcSet: srcSet } : undefined;
+    const img = ad.image ? getImage(ad.image, '', true) : undefined;
+
     return {
       name: ad.name,
       place: ad.place,

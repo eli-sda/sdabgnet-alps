@@ -23,42 +23,47 @@ const DownloadPlaylist = ({
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState<number | undefined>(undefined);
 
+  // Calculate progress step (n files + 1 for zip operation)
+  const progressStep = 100 / (itemUrls.length + 1);
+
+  const nextStep = () => {
+    setProgress((prev) => (prev !== undefined ? prev + progressStep : 0));
+  }
+
   const handleDownload = async (): Promise<void> => {
     if (!itemUrls.length) return;
-    setIsLoading(true);
     setProgress(0);
-
-    // Calculate progress step (n files + 1 for zip operation)
-    const progressStep = 100 / (itemUrls.length + 1);
+    setIsLoading(true);
 
     try {
       const files: Record<string, Uint8Array> = {};
 
-      // Fetch files sequentially to track progress
-      for (let i = 0; i < itemUrls.length; i++) {
-        const resourcePath = itemUrls[i];
-        // Use proxy for local development to bypass CORS, PHP proxy for production
-        const fetchUrl = import.meta.env.DEV
-          ? resourcePath // Use Vite proxy in development
-          : `/download-proxy.php?resourcePath=${encodeURIComponent(
-              resourcePath
-            )}`;
+      // Fetch all files in parallel
+      await Promise.all(
+        itemUrls.map(async (resourcePath, index) => {
+          // Use proxy for local development to bypass CORS, PHP proxy for production
+          const fetchUrl = import.meta.env.DEV
+            ? resourcePath // Use Vite proxy in development
+            : `/download-proxy.php?resourcePath=${encodeURIComponent(
+                resourcePath
+              )}`;
 
-        const res = await fetch(fetchUrl);
-        if (!res.ok) continue;
+          const res = await fetch(fetchUrl);
+          nextStep();
+          if (!res.ok) return;
 
-        const blob = await res.blob();
-        const buffer = new Uint8Array(await blob.arrayBuffer());
+          const blob = await res.blob();
+          const buffer = new Uint8Array(await blob.arrayBuffer());
 
-        const fileName = sanitizeFileName(
-          resourcePath.split('/').pop()?.split('?')[0] || `file${i + 1}`
-        );
+          const fileName = sanitizeFileName(
+            resourcePath.split('/').pop()?.split('?')[0] || `file${index + 1}`
+          );
 
-        files[fileName] = buffer;
+          files[fileName] = buffer;
 
-        // Update progress after each file
-        setProgress((i + 1) * progressStep);
-      }
+          
+        })
+      );
 
       // Create ZIP archive
       const zipped = zipSync(files);
@@ -73,12 +78,11 @@ const DownloadPlaylist = ({
       console.error('Download failed: ', error);
     } finally {
       setIsLoading(false);
-      setTimeout(() => setProgress(undefined), 1000); // Hide progress after 1s
     }
   };
 
   return (
-    <div>
+    <div className="u-spacing--half">
       <Button
         onClick={() => void handleDownload()}
         disabled={isLoading}
@@ -86,11 +90,7 @@ const DownloadPlaylist = ({
         faIcon={isLoading ? 'spinner fa-pulse' : 'download'}
         small
       />
-      {progress !== undefined && (
-        <div className="u-space--half--top">
-          <Progress percentage={progress} size="small" />
-        </div>
-      )}
+      <Progress percentage={progress} size="small" visible={isLoading} />
     </div>
   );
 };

@@ -12,9 +12,9 @@ interface DownloadPlaylistProps {
 // Remove forbidden characters and normalize file names
 const sanitizeFileName = (name: string): string =>
   name
-    .replace(/[<>:"/\\|?*\s]+/g, '_')
-    .replace(/_+/g, '_')
-    .replace(/^_|_$/g, '');
+    .replace(/[<>:"/\\|?*]+/g, '_') // Remove only forbidden chars, keep spaces
+    .replace(/_+/g, '_') // Replace multiple underscores with single underscore
+    .replace(/^_|_$/g, ''); // Trim leading/trailing underscores
 
 const DownloadPlaylist = ({
   itemUrls,
@@ -28,7 +28,7 @@ const DownloadPlaylist = ({
 
   const nextStep = () => {
     setProgress((prev) => (prev !== undefined ? prev + progressStep : 0));
-  }
+  };
 
   const handleDownload = async (): Promise<void> => {
     if (!itemUrls.length) return;
@@ -60,8 +60,6 @@ const DownloadPlaylist = ({
           );
 
           files[fileName] = buffer;
-
-          
         })
       );
 

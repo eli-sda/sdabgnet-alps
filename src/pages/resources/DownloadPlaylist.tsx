@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { saveAs } from 'file-saver';
 import { zipSync } from 'fflate';
 import { Button } from 'src/alps/atoms/Button';
+import { Progress } from 'alps-library/molecules/components/progress/Progress.tsx';
 
 interface DownloadPlaylistProps {
   itemUrls: string[];
@@ -11,18 +12,27 @@ interface DownloadPlaylistProps {
 // Remove forbidden characters and normalize file names
 const sanitizeFileName = (name: string): string =>
   name
-    .replace(/[<>:"/\\|?*\s]+/g, '_')
-    .replace(/_+/g, '_')
-    .replace(/^_|_$/g, '');
+    .replace(/[<>:"/\\|?*]+/g, '_') // Remove only forbidden chars, keep spaces
+    .replace(/_+/g, '_') // Replace multiple underscores with single underscore
+    .replace(/^_|_$/g, ''); // Trim leading/trailing underscores
 
 const DownloadPlaylist = ({
   itemUrls,
   playlistName
 }: DownloadPlaylistProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [progress, setProgress] = useState<number | undefined>(undefined);
+
+  // Calculate progress step (n files + 1 for zip operation)
+  const progressStep = 100 / (itemUrls.length + 1);
+
+  const nextStep = () => {
+    setProgress((prev) => (prev !== undefined ? prev + progressStep : 0));
+  };
 
   const handleDownload = async (): Promise<void> => {
     if (!itemUrls.length) return;
+    setProgress(0);
     setIsLoading(true);
 
     try {
@@ -39,6 +49,7 @@ const DownloadPlaylist = ({
               )}`;
 
           const res = await fetch(fetchUrl);
+          nextStep();
           if (!res.ok) return;
 
           const blob = await res.blob();
@@ -58,8 +69,9 @@ const DownloadPlaylist = ({
         type: 'application/zip'
       });
 
-      // Save ZIP file
+      // Save ZIP file and set final progress
       saveAs(zipBlob, `${sanitizeFileName(playlistName)}.zip`);
+      setProgress(100);
     } catch (error) {
       console.error('Download failed: ', error);
     } finally {
@@ -68,13 +80,16 @@ const DownloadPlaylist = ({
   };
 
   return (
-    <Button
-      onClick={() => void handleDownload()}
-      disabled={isLoading}
-      label="Изтегли всички"
-      faIcon={isLoading ? 'spinner fa-pulse' : 'download'}
-      small
-    />
+    <div className="u-spacing--half">
+      <Button
+        onClick={() => void handleDownload()}
+        disabled={isLoading}
+        label="Изтегли всички"
+        faIcon={isLoading ? 'spinner fa-pulse' : 'download'}
+        small
+      />
+      <Progress percentage={progress} size="small" visible={isLoading} />
+    </div>
   );
 };
 

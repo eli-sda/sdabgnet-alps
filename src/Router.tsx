@@ -39,7 +39,7 @@ const PresentationResources = lazy(
   () => import('./pages/resources/PresentationResources')
 );
 const ImageResources = lazy(() => import('./pages/resources/ImageResources'));
-// const AudioResources = lazy(() => import('./pages/resources/AudioResources'));
+const AudioResources = lazy(() => import('./pages/resources/AudioResources'));
 const Donations = lazy(() => import('./pages/Donations'));
 
 // const theme = createTheme();
@@ -168,10 +168,10 @@ const Router = () => (
             element={<ImageResources />}
           />
 
-          {/* <Route
+          <Route
             path={routes.resources('audio')}
             element={<AudioResources />}
-          /> */}
+          />
 
           <Route
             path={routes.churchLife('donations')}

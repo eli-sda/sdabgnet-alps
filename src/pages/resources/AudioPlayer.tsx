@@ -9,9 +9,15 @@ import { PlaylistType } from 'src/contexts/PlaylistsContext';
 
 interface AudioPlayerProps {
   playlist: PlaylistType;
+  playIndex?: number;
+  onPlayIndexChange?: (index: number) => void;
 }
 
-const AudioPlayer: React.FC<AudioPlayerProps> = ({ playlist }) => {
+const AudioPlayer: React.FC<AudioPlayerProps> = ({
+  playlist,
+  playIndex = 0,
+  onPlayIndexChange
+}) => {
   useEffect(() => {
     suppressMusicPlayerWarnings();
   }, []);
@@ -27,6 +33,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ playlist }) => {
 
   return (
     <ReactJkMusicPlayer
+      playIndex={playIndex}
       audioLists={audioLists}
       mode="full"
       defaultPosition={{ right: 100, bottom: 120 }}
@@ -45,7 +52,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ playlist }) => {
       remove={false}
       clearPriorAudioLists
       defaultPlayMode="order"
-      // getContainer={getContainer}
+      onPlayIndexChange={onPlayIndexChange}
     />
   );
 };

@@ -18,7 +18,7 @@ const AudioPalylist = ({ playlist, onPlay }: AudioPalylistProps) => {
   );
 
   return (
-    <div className="playlist-card">
+    <div className="playlist-card" id={playlist._id}>
       <div>
         <MediaBlock
           image={img}

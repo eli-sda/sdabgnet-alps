@@ -3,13 +3,29 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    & > * {
+      max-width: 47%;
+    }
   }
+
+  .share-link {
+    display: flex;
+    .text-field {
+      flex: 1;
+    }
+
+    .copy-button {
+      flex-shrink: 0;
+    }
+  }
+
   .share-field {
     position: relative;
+    padding-top: 16px;
 
     .close-button {
       position: absolute;
-      top: 0.5rem;
+      top: 0;
       right: 0;
       padding: 0;
     }

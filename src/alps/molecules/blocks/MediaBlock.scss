@@ -24,24 +24,24 @@
     background-position: center;
     background-repeat: no-repeat;
     &.icon--audio {
-      background-image: url(../images/icons/o-icon__audio.svg);
+      background-image: url(/images/icons/o-icon__audio.svg);
 
       &:hover {
-        background-image: url(../images/icons/o-icon__audio_darkest.svg);
+        background-image: url(/images/icons/o-icon__audio_darkest.svg);
       }
     }
     &.icon--video {
-      background-image: url(../images/icons/o-icon__video.svg);
+      background-image: url(/images/icons/o-icon__video.svg);
 
       &:hover {
-        background-image: url(../images/icons/o-icon__video_darkest.svg);
+        background-image: url(/images/icons/o-icon__video_darkest.svg);
       }
     }
     &.icon--gallery {
-      background-image: url(../images/icons/o-icon__gallery.svg);
+      background-image: url(/images/icons/o-icon__gallery.svg);
 
       &:hover {
-        background-image: url(../images/icons/o-icon__gallery_darkest.svg);
+        background-image: url(/images/icons/o-icon__gallery_darkest.svg);
       }
     }
   }

@@ -1,3 +1,5 @@
+import { PlaylistType } from './contexts/PlaylistsContext';
+
 export const SITE = 'https://new.sdabg.net';
 export const OLD_SITE = 'https://sdabg.net';
 
@@ -12,7 +14,7 @@ export const AD_TYPES: AdType[] = ['services', 'buySell', 'other'];
 export const ERROR_SENDING_MESSAGE =
   'Възникна грешка при изпращането. Моля, използвайте имейла долу в страницата.';
 
-export const demoAudioPlaylist = {
+export const demoAudioPlaylist: PlaylistType = {
   _id: 'f2c8d1a9-8b4e-4b27-9e2b-1a2d3f4c5e6q',
   type: 'audio-book',
   author: 'Елън Уайт',
@@ -43,7 +45,7 @@ export const demoAudioPlaylist = {
     }
   ]
 };
-export const demoAudioPlaylist2 = {
+export const demoAudioPlaylist2: PlaylistType = {
   _id: 'f2c8d1a9-8b4e-4b27-9e2b-1a2d3f4c5e6f',
   type: 'audio-book',
   author: 'Елън Уайт',

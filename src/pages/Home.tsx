@@ -23,6 +23,7 @@ import DownloadPlaylist from './resources/DownloadPlaylist';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import AudioPalylist from './resources/AudioPalylist';
 import AudioPlayer from './resources/AudioPlayer';
+// import { fixSlugs } from 'src/utils/Sanity/fix-slug';
 
 const Home = () => {
   useScrollToHash();
@@ -122,6 +123,7 @@ const Home = () => {
     <PageSection
       aside={
         <>
+          {/* <Button onClick={() => fixSlugs()}>Fix Playlist Slugs</Button> */}
           {/* <Button onClick={() => deleteAllLinks()}>Delete all links in Sanity</Button> */}
           {/* verse for today */}
           <DailyVerse date={currentDate}></DailyVerse>

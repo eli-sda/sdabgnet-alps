@@ -1,18 +1,4 @@
-import { createClient } from '@sanity/client';
-
-//for https://sdabgnet.sanity.studio/
-const client = createClient({
-  projectId: import.meta.env.VITE_SANITY_SDABGNET_PROJECT_ID as string,
-  dataset: import.meta.env.VITE_SANITY_DATASET as string,
-  //token: import.meta.env.VITE_SANITY_SDABGNET_EDIT_TOKEN as string,//uncomment to use
-  apiVersion: '2022-03-07',
-  useCdn: import.meta.env.VITE_SANITY_DATASET === 'production' // `true` for fast, cached responses
-});
-// Define the type of the documents you'll fetch
-interface SanityDocument {
-  _id: string;
-  _type: string;
-}
+import { client, SanityDocument } from './constants';
 
 async function deleteAllDraftDocumentsOfType(docType: string): Promise<void> {
   try {

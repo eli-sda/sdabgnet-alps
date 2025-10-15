@@ -61,7 +61,9 @@ const AudioPlaylistList = ({ type }: AudioPlaylistListProps) => {
     <>
       {!playlists ||
         (playlists.length === 0 && (
-          <Caption>Няма налични аудио ресурси.</Caption>
+          <div className="u-space--left">
+            <Caption>Няма налични аудио ресурси.</Caption>
+          </div>
         ))}
 
       <Grid

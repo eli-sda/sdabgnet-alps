@@ -11,6 +11,11 @@ function getTodayString() {
   return today.toISOString().slice(0, 10); // YYYY-MM-DD
 }
 
+// removes prefixes like "п-р", "П-р", "д-р", "Д-р", with optional dots/spaces
+function normalizeAuthor(author?: string) {
+  return (author || '').replace(/^(п|д)[.\- ]?р\.?\s*/i, '').trim();
+}
+
 export function usePlaylists() {
   const {
     playlists,
@@ -41,12 +46,36 @@ export function usePlaylists() {
       // Otherwise, fetch from backend and update cache
       return await loadPlaylists(type)
         .then((loadedPlaylists) => {
+          const sortedPlaylists = loadedPlaylists
+            ?.slice() // make a copy so the original array is not modified
+            .filter((p) => p.items?.length) // keep only playlists that have items
+            .sort((a, b) => {
+              const special = ['чуждоговорящи', 'други'];
+
+              const aTitle = (a.title || '').toLowerCase();
+              const bTitle = (b.title || '').toLowerCase();
+
+              const aIsSpecial = special.some((s) => aTitle.includes(s));
+              const bIsSpecial = special.some((s) => bTitle.includes(s));
+
+              // Push "Чуждоговорящи" or "Други" playlists to the end
+              if (aIsSpecial && !bIsSpecial) return 1;
+              if (!aIsSpecial && bIsSpecial) return -1;
+
+              // Otherwise, sort by normalized author name
+              return normalizeAuthor(a.author).localeCompare(
+                normalizeAuthor(b.author),
+                'bg',
+                { sensitivity: 'base' }
+              );
+            }); // sort by author name
+
           setPlaylists({
             ...playlists,
-            [type]: loadedPlaylists
+            [type]: sortedPlaylists
           });
           setLastLoaded(`playlist_${type}`, today);
-          return Promise.resolve(loadedPlaylists);
+          return Promise.resolve(sortedPlaylists);
         })
         .catch((err) => {
           console.error(`Failed to fetch ${type} playlists: ${err}`);

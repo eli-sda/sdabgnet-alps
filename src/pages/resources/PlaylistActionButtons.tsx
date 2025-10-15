@@ -23,8 +23,7 @@ const PlaylistActionButtons = ({
   const [withIndex, setWithIndex] = useState(false);
   const [showCopyLabel, setShowCopyLabel] = useState(false);
 
-  // const hasDownload = itemUrls && itemUrls.length > 0;
-  const hasDownload = true;
+  const hasDownload = itemUrls && itemUrls.length > 0;
   const playlistID = shareUrl?.split('#')[1];
 
   // Construct share URL with playIndex as query parameter before the hash

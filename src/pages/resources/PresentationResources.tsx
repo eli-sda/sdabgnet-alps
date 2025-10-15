@@ -12,7 +12,7 @@ import { Text } from 'alps-library/atoms/text/Text';
 
 const PresentationResources = () => {
   useScrollToHash();
-  
+
   const breadcrumbsUrls = [
     routes.resources(),
     routes.resources('presentation')
@@ -35,30 +35,28 @@ const PresentationResources = () => {
     >
       {/* Show message if no playlists */}
       {(!playlists || playlists.length === 0) && (
-        <Caption>Няма налични ресурси презентации</Caption>
+        <div className="u-space--left">
+          <Caption>Няма налични ресурси презентации</Caption>
+        </div>
       )}
 
       <Text as="article" hasDropcap={false} spacing="double">
         <Accordion>
-          {playlists
-            ?.filter((p) => p.items?.length)
-            .map(({ _id, title, author, items }, i) => (
-              <DownloadList
-                key={i}
-                id={_id}
-                title={title}
-                author={author}
-                items={items?.map(
-                  ({ _id, title, description, size, path }) => ({
-                    _id,
-                    title,
-                    description,
-                    size,
-                    path // for download
-                  })
-                )}
-              />
-            ))}
+          {playlists.map(({ _id, title, author, items }, i) => (
+            <DownloadList
+              key={i}
+              id={_id}
+              title={title}
+              author={author}
+              items={items?.map(({ _id, title, description, size, path }) => ({
+                _id,
+                title,
+                description,
+                size,
+                path // for download
+              }))}
+            />
+          ))}
         </Accordion>
       </Text>
     </Page>

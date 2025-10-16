@@ -2,8 +2,8 @@ import { useMemo, useState } from 'react';
 import { TextField } from 'alps-library/molecules/forms/elements/TextField';
 import { Checkbox } from 'alps-library/molecules/forms/elements/Checkbox';
 import { Button } from 'src/alps/atoms/Button';
-import DownloadPlaylist from './DownloadPlaylist';
 import { RESOURCES_FOLDER } from 'src/constants';
+import DownloadPlaylist from './DownloadPlaylist';
 import './PlaylistActionButtons.scss';
 
 type PlaylistActionButtonsProps = {
@@ -58,7 +58,7 @@ const PlaylistActionButtons = ({
               small
               label="Вземи линк"
               icon="share"
-              iconSize="m"
+              iconSize="xs"
             />
           )}
 
@@ -74,10 +74,9 @@ const PlaylistActionButtons = ({
       )}
 
       {toShow && (
-        <div className="share-field">
-          <div className="share-link">
+        <div className={`share-fields${showCopyLabel ? ' withLabel' : ''}`}>
+          <div className="share-link u-space--half--bottom">
             <TextField
-              labelClass="u-space--half--bottom"
               name="share-link"
               label={showCopyLabel ? 'Линкът е копиран' : ''}
               value={url}
@@ -114,7 +113,10 @@ const PlaylistActionButtons = ({
             className="close-button"
             faIcon="times"
             iconPosition="right"
-            onClick={() => setToShow(false)}
+            onClick={() => {
+              setToShow(false);
+              setShowCopyLabel(false);
+            }}
             simple
           />
         </div>

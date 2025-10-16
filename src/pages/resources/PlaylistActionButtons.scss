@@ -8,20 +8,25 @@
     }
   }
 
-  .share-link {
-    display: flex;
-    .text-field {
-      flex: 1;
-    }
-
-    .copy-button {
-      flex-shrink: 0;
-    }
-  }
-
-  .share-field {
+  .share-fields {
     position: relative;
     padding-top: 16px;
+
+    &.withLabel {
+      .copy-button {
+        margin-top: 20px;
+      }
+    }
+
+    .share-link {
+      display: flex;
+      & > :first-child {
+        flex-grow: 1;
+      }
+      .copy-button {
+        flex-shrink: 0;
+      }
+    }
 
     .close-button {
       position: absolute;

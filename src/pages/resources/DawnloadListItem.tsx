@@ -42,7 +42,11 @@ const DawnloadListItem = ({
       </h3>
       <div>
         <h3 className="u-space--quarter--bottom">{title}</h3>
-        <p>{description}</p>
+        <p
+          dangerouslySetInnerHTML={{
+            __html: description || ''
+          }}
+        ></p>
         <Button
           key={_id}
           as="a"

@@ -11,13 +11,15 @@ type PlaylistActionButtonsProps = {
   fromIndex?: number;
   itemUrls?: string[];
   playlistName?: string;
+  setRefreshCounter?: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const PlaylistActionButtons = ({
   shareUrl,
   fromIndex,
   itemUrls = [],
-  playlistName = 'playlist'
+  playlistName = 'playlist',
+  setRefreshCounter
 }: PlaylistActionButtonsProps) => {
   const [toShow, setToShow] = useState(false);
   const [withIndex, setWithIndex] = useState(false);
@@ -38,12 +40,18 @@ const PlaylistActionButtons = ({
   const handleShare = () => {
     if (!url) return;
     setToShow(true);
+    if (setRefreshCounter) {
+      setRefreshCounter((prev: number) => prev + 1);
+    }
   };
 
   const handleCopy = () => {
     if (!url) return;
     void navigator.clipboard.writeText(url).then(() => {
       setShowCopyLabel(true);
+      if (setRefreshCounter) {
+        setRefreshCounter((prev: number) => prev + 1);
+      }
       setTimeout(() => setShowCopyLabel(false), 3000);
     });
   };

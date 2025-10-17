@@ -1,23 +1,19 @@
-import { PageLinkItem } from './PageLinkItem';
-import { Grid } from 'alps-library/atoms/grids/Grid';
-import {
-  getTitle,
-  // primaryNavigationItems,
-  getBreadcrumbs,
-  findMenuItemByUrl
-} from 'src/utils/Navigation';
-import { usePagesMeta } from 'src/hooks/usePagesMeta';
 import { useLocation } from 'react-router-dom';
-import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
 import { PageMetaType } from 'src/utils/PageMeta';
-import { PageContent } from 'src/alps/organisms/content/PageContent';
+import { getTitle, findMenuItemByUrl } from 'src/utils/Navigation';
+import { usePagesMeta } from 'src/hooks/usePagesMeta';
+import { Page } from './Page';
+import { PageLinkItem } from './PageLinkItem';
 
-export const PageWithSubpages = ({breadcrumbsUrls}:{breadcrumbsUrls: string[]}) => {
+export const PageWithSubpages = ({
+  breadcrumbsUrls
+}: {
+  breadcrumbsUrls: string[];
+}) => {
   const { getMetaMap } = usePagesMeta();
   const location = useLocation();
   const path = location.pathname;
 
-  const breadcrumbs = getBreadcrumbs(breadcrumbsUrls);
   const title = getTitle(path);
 
   const mainNavItem = findMenuItemByUrl(path);
@@ -30,26 +26,17 @@ export const PageWithSubpages = ({breadcrumbsUrls}:{breadcrumbsUrls: string[]}) 
   const metaMap = getMetaMap(subnavPaths);
 
   return (
-    <>
-      <PageHeaderLong title={title} />
-      <PageContent breadcrumbs={breadcrumbs}></PageContent>
-      <Grid
-        className={'l-grid l-grid--7-col l-grid-wrap l-grid-wrap--6-of-7'}
-        seven={true}
-        as="section"
-        wrap={'6'}
-      >
-        {Object.values(metaMap).map(
-          ({ path, title, description }: PageMetaType, idx) => (
-            <PageLinkItem
-              key={idx}
-              url={path}
-              title={title}
-              description={description}
-            />
-          )
-        )}
-      </Grid>
-    </>
+    <Page title={title} breadcrumbsUrls={breadcrumbsUrls} blockType="wrap6">
+      {Object.values(metaMap).map(
+        ({ path, title, description }: PageMetaType, idx) => (
+          <PageLinkItem
+            key={idx}
+            url={path}
+            title={title}
+            description={description}
+          />
+        )
+      )}
+    </Page>
   );
 };

@@ -72,3 +72,9 @@ export const bgMusicPlayerLocale = {
 
   //   audioArtist: 'Artist'
 };
+
+// Function to create dynamic locale with playlist title
+export const createDynamicMusicPlayerLocale = (playlistTitle?: string) => ({
+  ...bgMusicPlayerLocale,
+  playListsText: playlistTitle || 'Плейлист'
+});

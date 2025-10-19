@@ -2,8 +2,23 @@
 
 .playlist-card {
   position: relative;
-
+  &.is-current {
+    .media-icon-button-container {
+      .media-icon-button.icon--audio {
+        animation: spin 4s linear infinite;
+      }
+    }
+  }
   .media-icon-button-container {
-    background-color: $mingColor;
+    background-color: rgba($mingColor, 0.4);
+  }
+}
+/* Keyframes for rotating animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }

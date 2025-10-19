@@ -85,6 +85,7 @@ const AudioPlaylistList = ({ type }: AudioPlaylistListProps) => {
             <AudioPalylist
               playlist={playlist}
               onPlay={() => handlePlaylistSelect(playlist)}
+              isCurrent={selectedPlaylist?._id === playlist._id}
             />
             <div className="u-space--half--top">
               <PlaylistActionButtons

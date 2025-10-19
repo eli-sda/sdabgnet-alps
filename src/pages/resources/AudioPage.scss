@@ -1,4 +1,16 @@
-.audio-page-caption .audio-icon {
+@use '../../styles/colors.scss' as *;
+
+.audio-page-caption .audio-page-caption__icon-wrapper {
+  background: $mingColor;
+  border-radius: 50%;
+  padding: 3px;
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  text-align: center;
   vertical-align: middle;
-  height: 1em;
+  .audio-icon {
+    vertical-align: middle;
+    height: 1em;
+  }
 }

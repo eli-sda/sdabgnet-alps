@@ -7,9 +7,10 @@ import './AudioPalylist.scss';
 type AudioPalylistProps = {
   playlist: PlaylistType;
   onPlay: () => void;
+  isCurrent?: boolean;
 };
 
-const AudioPalylist = ({ playlist, onPlay }: AudioPalylistProps) => {
+const AudioPalylist = ({ playlist, onPlay, isCurrent }: AudioPalylistProps) => {
   const { author, title = '', image } = playlist;
   const img = getImage(
     image && typeof image === 'object'
@@ -18,7 +19,10 @@ const AudioPalylist = ({ playlist, onPlay }: AudioPalylistProps) => {
   );
 
   return (
-    <div className="playlist-card" id={playlist._id}>
+    <div
+      className={`playlist-card ${isCurrent ? 'is-current' : ''}`}
+      id={playlist._id}
+    >
       <div>
         <MediaBlock
           image={img}

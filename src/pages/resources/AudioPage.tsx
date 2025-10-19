@@ -31,11 +31,13 @@ const AudioPage = ({ type }: AudioPageProps) => {
       <div className="u-space--left audio-page-caption">
         <Caption>
           Използвайте бутона{' '}
-          <img
-            className="audio-icon"
-            src="/images/icons/o-icon__audio_darkest.svg"
-            alt="Аудио икона"
-          />
+          <span className="audio-page-caption__icon-wrapper">
+            <img
+              className="audio-icon"
+              src="/images/icons/o-icon__audio.svg"
+              alt="Аудио икона"
+            />
+          </span>
           , за да слушате избрана поредица.
         </Caption>
       </div>

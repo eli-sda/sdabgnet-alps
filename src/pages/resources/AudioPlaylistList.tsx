@@ -25,6 +25,9 @@ const AudioPlaylistList = ({ type }: AudioPlaylistListProps) => {
   );
   const [currentPlayIndex, setCurrentPlayIndex] = useState<number>(0);
   const handlePlaylistSelect = (playlist: PlaylistType) => {
+    if (selectedPlaylist?._id === playlist._id) {
+      return; // Do nothing if the same playlist is selected
+    }
     setCurrentPlayIndex(0);
     setSelectedPlaylist(playlist);
   };

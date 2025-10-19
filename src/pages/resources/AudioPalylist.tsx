@@ -31,7 +31,7 @@ const AudioPalylist = ({ playlist, onPlay, isCurrent }: AudioPalylistProps) => {
           kicker={author}
           mediaIcon="audio"
           mediaIconAction={onPlay}
-          mediaIconTitle="Пусни плейлиста"
+          mediaIconTitle={isCurrent ? undefined : 'Пусни плейлиста'}
         />
       </div>
     </div>

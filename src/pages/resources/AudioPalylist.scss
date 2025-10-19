@@ -5,7 +5,11 @@
   &.is-current {
     .media-icon-button-container {
       .media-icon-button.icon--audio {
-        animation: spin 4s linear infinite;
+        background-image: url(/images/icon__audio-current.svg);
+        &:hover {
+          background-color: $mingColor;
+          border-color: $mingColor;
+        }
       }
     }
   }

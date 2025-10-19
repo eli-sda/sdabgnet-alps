@@ -57,9 +57,9 @@ const PlaylistActionButtons = ({
   };
 
   return (
-    <div className="playlist-action-buttons">
+    <div className="playlist-action-buttons u-spacing--half">
       {(shareUrl || hasDownload) && (
-        <div className="buttons u-space--half--bottom">
+        <div className="buttons">
           {shareUrl && (
             <Button
               onClick={handleShare}

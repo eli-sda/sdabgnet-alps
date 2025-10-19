@@ -8,9 +8,15 @@ type AudioPalylistProps = {
   playlist: PlaylistType;
   onPlay: () => void;
   isCurrent?: boolean;
+  actionButtons?: JSX.Element;
 };
 
-const AudioPalylist = ({ playlist, onPlay, isCurrent }: AudioPalylistProps) => {
+const AudioPalylist = ({
+  playlist,
+  onPlay,
+  isCurrent,
+  actionButtons
+}: AudioPalylistProps) => {
   const { author, title = '', image } = playlist;
   const img = getImage(
     image && typeof image === 'object'
@@ -23,17 +29,16 @@ const AudioPalylist = ({ playlist, onPlay, isCurrent }: AudioPalylistProps) => {
       className={`playlist-card ${isCurrent ? 'is-current' : ''}`}
       id={playlist._id}
     >
-      <div>
-        <MediaBlock
-          image={img}
-          type="stacked"
-          title={title}
-          kicker={author}
-          mediaIcon="audio"
-          mediaIconAction={onPlay}
-          mediaIconTitle={isCurrent ? undefined : 'Пусни плейлиста'}
-        />
-      </div>
+      <MediaBlock
+        image={img}
+        type="stacked"
+        title={title}
+        kicker={author}
+        mediaIcon="audio"
+        mediaIconAction={onPlay}
+        mediaIconTitle={isCurrent ? undefined : 'Пусни плейлиста'}
+        additionalContent={actionButtons}
+      />
     </div>
   );
 };

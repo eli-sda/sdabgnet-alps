@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Grid } from 'alps-library/atoms/grids/Grid';
 import { GridItem } from 'alps-library/atoms/grids/GridItem';
@@ -60,6 +60,29 @@ const AudioPlaylistList = ({ type }: AudioPlaylistListProps) => {
 
   // Initial index is now handled in the useEffect
 
+  const getActionButtons = useCallback(
+    (playlist: PlaylistType): JSX.Element => {
+      return (
+        <div className="u-space--half--top">
+          <PlaylistActionButtons
+            shareUrl={`${window.location.origin}${window.location.pathname}#${playlist._id}`}
+            fromIndex={
+              selectedPlaylist?._id === playlist._id
+                ? currentPlayIndex
+                : undefined
+            }
+            itemUrls={
+              playlist.items
+                ?.map((item) => item.path)
+                .filter((path): path is string => !!path) || []
+            }
+            playlistName={playlist.title}
+          />
+        </div>
+      );
+    },
+    [currentPlayIndex, selectedPlaylist]
+  );
   return (
     <>
       {!playlists ||
@@ -89,23 +112,8 @@ const AudioPlaylistList = ({ type }: AudioPlaylistListProps) => {
               playlist={playlist}
               onPlay={() => handlePlaylistSelect(playlist)}
               isCurrent={selectedPlaylist?._id === playlist._id}
+              actionButtons={getActionButtons(playlist)}
             />
-            <div className="u-space--half--top">
-              <PlaylistActionButtons
-                shareUrl={`${window.location.origin}${window.location.pathname}#${playlist._id}`}
-                fromIndex={
-                  selectedPlaylist?._id === playlist._id
-                    ? currentPlayIndex
-                    : undefined
-                }
-                itemUrls={
-                  playlist.items
-                    ?.map((item) => item.path)
-                    .filter((path): path is string => !!path) || []
-                }
-                playlistName={playlist.title}
-              />
-            </div>
           </GridItem>
         ))}
       </Grid>

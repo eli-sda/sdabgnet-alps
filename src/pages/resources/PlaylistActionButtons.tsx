@@ -113,7 +113,7 @@ const PlaylistActionButtons = ({
               onChange={(
                 e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
               ) => setWithIndex((e.target as HTMLInputElement).checked)}
-              label="Линк към текущото аудио"
+              label="Към текущото аудио"
             />
           )}
 

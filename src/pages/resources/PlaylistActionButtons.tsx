@@ -97,7 +97,6 @@ const PlaylistActionButtons = ({
               onClick={handleCopy}
               simple
               faIcon="copy"
-              iconSize="s"
               title="Копирай линка"
             />
           </div>

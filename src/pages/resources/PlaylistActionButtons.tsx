@@ -97,7 +97,6 @@ const PlaylistActionButtons = ({
               onClick={handleCopy}
               simple
               faIcon="copy"
-              iconSize="s"
               title="Копирай линка"
             />
           </div>
@@ -114,7 +113,7 @@ const PlaylistActionButtons = ({
               onChange={(
                 e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
               ) => setWithIndex((e.target as HTMLInputElement).checked)}
-              label="Линк към текущото аудио"
+              label="Към текущото аудио"
             />
           )}
 

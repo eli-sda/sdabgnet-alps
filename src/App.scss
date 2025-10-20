@@ -266,3 +266,8 @@ samp {
     flex-direction: column-reverse;
   }
 }
+
+input[type='checkbox'] + label,
+input[type='radio'] + label {
+  top: -0.25rem;
+}

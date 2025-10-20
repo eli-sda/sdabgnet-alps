@@ -13,6 +13,9 @@ import { demoAudioPlaylist, demoAudioPlaylist2, OLD_SITE } from 'src/constants';
 
 // import { Button } from '@mui/material';
 // import { deleteAllLinks } from 'src/utils/DelteSanityDocuments';
+// import { fixSlugs } from 'src/utils/Sanity/fix-slug';
+// import { linkPlaylistsToItems } from 'src/utils/Sanity/link-playlists';
+// import { deleteAllAudioLinks } from 'src/utils/Sanity/delete-audio-links';
 // import { VideoFull } from 'alps-library/organisms/sections/videoFull/VideoFull';
 
 import playlistData from './resources/playlist.json';
@@ -122,8 +125,24 @@ const Home = () => {
     <PageSection
       aside={
         <>
+          {/* <Button onClick={() => fixSlugs()}>Fix Playlist Slugs</Button> */}
           {/* <Button onClick={() => deleteAllLinks()}>Delete all links in Sanity</Button> */}
-          {/* verse for today */}
+
+          {/* Playlist Linking Test Buttons */}
+          {/*<div className="u-spacing--double">
+            <Button onClick={() => void linkPlaylistsToItems()}>
+              Fill Audio Playlist
+            </Button>
+            <Button
+              onClick={() => {
+                deleteAllAudioLinks();
+              }}
+            >
+              Delete All audio Links
+            </Button>
+          </div>*/}
+
+          {/* verse for today
           <DailyVerse date={currentDate}></DailyVerse>
 
           {/* verse for current date but previous year */}

@@ -3,13 +3,35 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    & > * {
+      max-width: 47%;
+    }
   }
-  .share-field {
+
+  .share-fields {
     position: relative;
+    padding-top: 16px;
+
+    &.withLabel {
+      .copy-button {
+        margin-top: 20px;
+      }
+    }
+
+    .share-link {
+      display: flex;
+      & > :first-child {
+        flex-grow: 1;
+      }
+      .copy-button {
+        flex-shrink: 0;
+        padding-right: 0;
+      }
+    }
 
     .close-button {
       position: absolute;
-      top: 0.5rem;
+      top: 0;
       right: 0;
       padding: 0;
     }

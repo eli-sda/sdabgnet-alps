@@ -2,8 +2,27 @@
 
 .playlist-card {
   position: relative;
-
+  &.is-current {
+    .media-icon-button-container {
+      .media-icon-button.icon--audio {
+        background-image: url(/images/icon__audio-current.svg);
+        &:hover {
+          background-color: $mingColor;
+          border-color: $mingColor;
+        }
+      }
+    }
+  }
   .media-icon-button-container {
-    background-color: $mingColor;
+    background-color: rgba($mingColor, 0.4);
+  }
+}
+/* Keyframes for rotating animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }

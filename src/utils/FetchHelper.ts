@@ -85,7 +85,8 @@ export const loadPlaylists = async (type: string): Promise<PlaylistType[]> => {
     author,
     title,
     // keyWords,
-    // image,
+    image,
+    "imageUrl": image.asset -> url,
     "items": items[_type == "reference"]->{
       _id,
       // isResource,

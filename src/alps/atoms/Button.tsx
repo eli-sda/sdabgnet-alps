@@ -4,11 +4,12 @@ import { buttonConfig } from 'alps-library/atoms/button/_config';
 import { IconWrap } from 'alps-library/atoms/icons/IconWrap';
 import { iconConfig } from 'alps-library/atoms/icons/_config';
 import useToggle from 'alps-library/helpers/useToggle';
+import "./Button.scss";
 
-// import "../../styles/main/main.css";
 import { NavLink } from 'react-router-dom';
 
 export interface ButtonProps {
+  title?: string;
   /**
    * Specify whether the Button should be disabled, or not
    */
@@ -125,7 +126,7 @@ export const Button = ({
   } else if (props.faIcon) {
     icon = (
       <i
-        className={`fa fa-${props.faIcon} u-space--quarter--${
+        className={`fa fa-${props.faIcon} fa-lg u-space--quarter--${
           iconPosition === 'left' ? 'right' : 'left'
         }`}
       ></i>
@@ -181,7 +182,7 @@ export const Button = ({
 
       elementByType =
         isExternal || !url || download ? (
-          <a {...linkAttr} onClick={handleClick}>
+          <a {...linkAttr} onClick={handleClick} title={props.title}>
             {labelWithIcon}
           </a>
         ) : (
@@ -192,7 +193,11 @@ export const Button = ({
     }
     case buttonConfig.asOptions[2]:
       elementByType = (
-        <span className={buttonClass + classes} onClick={handleClick}>
+        <span
+          className={buttonClass + classes}
+          onClick={handleClick}
+          title={props.title}
+        >
           {labelWithIcon}
         </span>
       );
@@ -203,6 +208,7 @@ export const Button = ({
           className={buttonClass + classes}
           onClick={handleClick}
           disabled={disabled}
+          title={props.title}
         >
           {labelWithIcon}
         </button>

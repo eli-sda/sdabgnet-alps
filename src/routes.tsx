@@ -39,8 +39,14 @@ const routes = {
   ) => `/info${item ? `/${item}` : ''}`, //https://sdabg.net/page.php?id=bible_reference | sunset | teritory
 
   resources: (
-    item?: 'books' | 'audio' | 'video' | 'music' | 'presentation' | 'image' //old: ... present
-  ) => `/resources${item ? `/${item}` : ''}`,
+    item?: 'books' | 'audio' | 'video' | 'music' | 'presentation' | 'image',
+    audioType?: 'bible' | 'audio-book' | 'seminars' | 'sermons'
+  ) => {
+    if (item === 'audio' && audioType) {
+      return `/resources/audio/${audioType}`;
+    }
+    return `/resources${item ? `/${item}` : ''}`;
+  },
   health: (
     item?:
       | 'new-start'

@@ -232,7 +232,29 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Аудио',
-        url: routes.resources('audio')
+        url: routes.resources('audio'),
+        subnav: [
+          {
+            type: 'primary',
+            text: 'Библии',
+            url: routes.resources('audio', 'bible')
+          },
+          {
+            type: 'primary',
+            text: 'Аудио книги',
+            url: routes.resources('audio', 'audio-book')
+          },
+          {
+            type: 'primary',
+            text: 'Семинари',
+            url: routes.resources('audio', 'seminars')
+          },
+          {
+            type: 'primary',
+            text: 'Проповеди',
+            url: routes.resources('audio', 'sermons')
+          }
+        ]
       },
       {
         type: 'primary',

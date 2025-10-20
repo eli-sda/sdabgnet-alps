@@ -12,7 +12,7 @@ import { Text } from 'alps-library/atoms/text/Text';
 
 const VideoResources = () => {
   useScrollToHash();
-  
+
   const breadcrumbsUrls = [routes.resources(), routes.resources('video')];
   const { getPlaylists } = usePlaylists();
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
@@ -32,33 +32,29 @@ const VideoResources = () => {
     >
       {/* Show message if no playlists */}
       {(!playlists || playlists.length === 0) && (
-        <Caption>Няма налични видео ресурси</Caption>
+        <div className="u-space--left">
+          <Caption>Няма налични видео ресурси</Caption>
+        </div>
       )}
 
       <Text as="article" hasDropcap={false} spacing="double">
         <Accordion>
           {/* Map playlists to DownloadList */}
-          {playlists
-            ?.slice() // make a copy so the original array is not modified
-            .filter((p) => p.items?.length) // keep only playlists that have items
-            .sort((a, b) => (a.author || '').localeCompare(b.author || '')) // sort by author name (fallback to empty string)
-            .map(({ _id, title, author, items }, i) => (
-              <DownloadList
-                key={i}
-                id={_id}
-                title={title}
-                author={author}
-                items={items?.map(
-                  ({ _id, title, description, size, path }) => ({
-                    _id,
-                    title,
-                    description,
-                    size,
-                    path // for download
-                  })
-                )}
-              />
-            ))}
+          {playlists.map(({ _id, title, author, items }, i) => (
+            <DownloadList
+              key={i}
+              id={_id}
+              title={title}
+              author={author}
+              items={items?.map(({ _id, title, description, size, path }) => ({
+                _id,
+                title,
+                description,
+                size,
+                path // for download
+              }))}
+            />
+          ))}
         </Accordion>
       </Text>
     </Page>

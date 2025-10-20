@@ -80,7 +80,7 @@ const DownloadPlaylist = ({
   };
 
   return (
-    <div className="u-spacing--half">
+    <div className="u-spacing--quarter">
       <Button
         onClick={() => void handleDownload()}
         disabled={isLoading}

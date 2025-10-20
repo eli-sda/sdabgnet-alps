@@ -21,6 +21,7 @@ export interface AccordionItemProps {
   content?: React.ReactNode;
   heading: React.ReactNode;
   onChange?: (open: boolean) => void;
+  refreshCounter?: number; // to trigger re-render from parent
 }
 
 export const AccordionItem = ({
@@ -32,7 +33,8 @@ export const AccordionItem = ({
   faIconOpen,
   heading,
   open: initialOpen,
-  onChange
+  onChange,
+  refreshCounter
 }: AccordionItemProps): JSX.Element => {
   const { onToggle, openClass, open } = useToggle(initialOpen);
 
@@ -61,7 +63,7 @@ export const AccordionItem = ({
     // also update on resize
     window.addEventListener('resize', setAccordionHeight);
     return () => window.removeEventListener('resize', setAccordionHeight);
-  }, [open, content, children]);
+  }, [open, content, children, refreshCounter]);
 
   // Render leading icon
   const renderLeadingIcon = () => {

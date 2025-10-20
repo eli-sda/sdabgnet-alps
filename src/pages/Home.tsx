@@ -200,22 +200,54 @@ const Home = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to={routes.churchLife()}>Църковен живот</NavLink>
+              <NavLink to={routes.churchLife()}>
+                {' '}
+                <i
+                  className="fa fa-caret-square-o-down"
+                  aria-hidden="true"
+                ></i>{' '}
+                Църковен живот
+              </NavLink>
             </li>
             <li>
-              <NavLink to={routes.info()}>БГ Справочник</NavLink>
+              <NavLink to={routes.info()}>
+                {' '}
+                <i
+                  className="fa fa-caret-square-o-down"
+                  aria-hidden="true"
+                ></i>{' '}
+                БГ Справочник
+              </NavLink>
             </li>
             <li>
-              <NavLink to={routes.media()}>Медии</NavLink>
+              <NavLink to={routes.media()}>
+                {' '}
+                <i
+                  className="fa fa-caret-square-o-down"
+                  aria-hidden="true"
+                ></i>{' '}
+                Медии
+              </NavLink>
             </li>
             <li>
-              <NavLink to={routes.resources()}>Ресурси</NavLink>
+              <NavLink to={routes.health()}>
+                {' '}
+                <i
+                  className="fa fa-caret-square-o-down"
+                  aria-hidden="true"
+                ></i>{' '}
+                Здраве
+              </NavLink>
             </li>
             <li>
-              <NavLink to={routes.health()}>Здраве</NavLink>
-            </li>
-            <li>
-              <NavLink to={routes.commune()}>Общуване</NavLink>
+              <NavLink to={routes.commune()}>
+                {' '}
+                <i
+                  className="fa fa-caret-square-o-down"
+                  aria-hidden="true"
+                ></i>{' '}
+                Общуване
+              </NavLink>
             </li>
             <li>
               <NavLink to={routes.commune('pastor-online')}>
@@ -223,7 +255,14 @@ const Home = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to={routes.advertisement()}>Обяви</NavLink>
+              <NavLink to={routes.advertisement()}>
+                {' '}
+                <i
+                  className="fa fa-caret-square-o-down"
+                  aria-hidden="true"
+                ></i>{' '}
+                Обяви
+              </NavLink>
             </li>
             <li>
               <NavLink to={routes.advertisement('services')}>
@@ -252,6 +291,16 @@ const Home = () => {
               </NavLink>
             </li>
             <li>
+              <NavLink to={routes.resources()}>
+                {' '}
+                <i
+                  className="fa fa-caret-square-o-down"
+                  aria-hidden="true"
+                ></i>{' '}
+                Ресурси
+              </NavLink>
+            </li>
+            <li>
               <NavLink to={routes.resources('video')}>Видео ресурси</NavLink>
             </li>
             <li>
@@ -264,6 +313,35 @@ const Home = () => {
                 Ресурси изображения
               </NavLink>
             </li>
+            <li>
+              <NavLink to={routes.resources('audio')}>
+                {' '}
+                <i
+                  className="fa fa-caret-square-o-down"
+                  aria-hidden="true"
+                ></i>{' '}
+                Аудио ресурси
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.resources('audio', 'bible')}>Библии</NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.resources('audio', 'audio-book')}>
+                Аудио книги
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.resources('audio', 'seminars')}>
+                Семинари
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.resources('audio', 'sermons')}>
+                Проповеди
+              </NavLink>
+            </li>
+
             <li>
               <NavLink to={routes.churchLife('donations')}>
                 Дарения за каузи

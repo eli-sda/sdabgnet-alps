@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { LinkType } from 'src/contexts/PlaylistsContext';
 import DawnloadListItem from './DawnloadListItem';
@@ -15,6 +15,7 @@ type DownloadListProps = {
 
 const DownloadList = ({ id, author, title, items }: DownloadListProps) => {
   const { hash } = useLocation();
+  const [refreshCounter, setRefreshCounter] = useState(0);
 
   // derived state for open accordion
   const isInitiallyOpened = !!id && hash === `#${id}`;
@@ -22,7 +23,7 @@ const DownloadList = ({ id, author, title, items }: DownloadListProps) => {
   // Render playlist items
   const content = useMemo(
     () => (
-      <div className="u-spacing--double">
+      <div className="u-spacing--double u-space--half--bottom">
         {items?.map((item, i) => (
           <DawnloadListItem key={i} {...item} />
         ))}
@@ -43,6 +44,7 @@ const DownloadList = ({ id, author, title, items }: DownloadListProps) => {
           <h4 className="author">{author}</h4>
         </div>
       }
+      refreshCounter={refreshCounter}
     >
       <PlaylistActionButtons
         shareUrl={`${window.location.origin}${window.location.pathname}#${id}`}
@@ -52,6 +54,7 @@ const DownloadList = ({ id, author, title, items }: DownloadListProps) => {
             .filter((path): path is string => !!path) || []
         }
         playlistName={title}
+        setRefreshCounter={setRefreshCounter}
       />
       {content}
     </AccordionItem>

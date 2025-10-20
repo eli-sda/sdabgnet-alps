@@ -66,7 +66,7 @@ const PlaylistActionButtons = ({
               small
               label="Вземи линк"
               icon="share"
-              iconSize="xs"
+              iconSize="s"
             />
           )}
 
@@ -97,6 +97,7 @@ const PlaylistActionButtons = ({
               onClick={handleCopy}
               simple
               faIcon="copy"
+              iconSize="s"
               title="Копирай линка"
             />
           </div>

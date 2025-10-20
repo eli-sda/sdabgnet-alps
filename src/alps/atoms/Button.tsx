@@ -4,8 +4,8 @@ import { buttonConfig } from 'alps-library/atoms/button/_config';
 import { IconWrap } from 'alps-library/atoms/icons/IconWrap';
 import { iconConfig } from 'alps-library/atoms/icons/_config';
 import useToggle from 'alps-library/helpers/useToggle';
+import "./Button.scss";
 
-// import "../../styles/main/main.css";
 import { NavLink } from 'react-router-dom';
 
 export interface ButtonProps {

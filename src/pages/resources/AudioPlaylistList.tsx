@@ -47,7 +47,7 @@ const AudioPlaylistList = ({ type }: AudioPlaylistListProps) => {
             playIndex
           ) {
             const i = parseInt(playIndex);
-            if (!isNaN(i) && i < matchedPlaylist?.items?.length) {
+            if (!isNaN(i) && i < matchedPlaylist.items.length) {
               setCurrentPlayIndex(i);
             }
           }
@@ -102,7 +102,7 @@ const AudioPlaylistList = ({ type }: AudioPlaylistListProps) => {
       >
         {playlists.map((playlist) => (
           <GridItem
-            className="u-padding--sides u-space--triple--bottom l-grid-item"
+            className="u-padding--sides u-space--double--bottom l-grid-item"
             key={playlist._id}
             sizeAtS="3"
             sizeAtL="2"

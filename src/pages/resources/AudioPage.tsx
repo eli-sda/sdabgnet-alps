@@ -38,7 +38,9 @@ const AudioPage = ({ type }: AudioPageProps) => {
               alt="Аудио икона"
             />
           </span>
-          , за да слушате избрана поредица.
+          , за да слушате избрана {type === 'audio-book' && 'аудио-книга'}
+          {type === 'seminars' && 'поредица семинари'}
+          {type === 'sermons' && 'поредица проповеди'}.
         </Caption>
       </div>
       <AudioPlaylistList type={type} />

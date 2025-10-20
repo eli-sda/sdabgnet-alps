@@ -48,15 +48,14 @@ export function usePlaylists() {
         .then((loadedPlaylists) => {
           const sortedPlaylists = loadedPlaylists
             ?.slice() // make a copy so the original array is not modified
-            .filter((p) => p.items?.length) // keep only playlists that have items
             .sort((a, b) => {
               const special = ['чуждоговорящи', 'други'];
 
               const aTitle = (a.title || '').toLowerCase();
               const bTitle = (b.title || '').toLowerCase();
 
-              const aIsSpecial = special.some((s) => aTitle.includes(s));
-              const bIsSpecial = special.some((s) => bTitle.includes(s));
+              const aIsSpecial = special.some((s) => aTitle === s);
+              const bIsSpecial = special.some((s) => bTitle === s);
 
               // Push "Чуждоговорящи" or "Други" playlists to the end
               if (aIsSpecial && !bIsSpecial) return 1;

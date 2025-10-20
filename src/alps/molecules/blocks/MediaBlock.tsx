@@ -181,11 +181,10 @@ export const MediaBlock = ({
           />
           {mediaIconAction && (
             <button
-              className={`media-icon-button icon--${icon} o-button o-button--simple u-space--half--left u-space--half--bottom`}
+              className={`media-icon-button icon--${icon} o-button u-space--half--left u-space--half--bottom`}
               onClick={mediaIconAction}
               title={mediaIconTitle}
-            >
-            </button>
+            ></button>
           )}
         </div>
       )}

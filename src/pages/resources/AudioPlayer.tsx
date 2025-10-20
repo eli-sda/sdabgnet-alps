@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import ReactJkMusicPlayer, {
   ReactJkMusicPlayerLocale
 } from 'react-jinke-music-player';
-import { bgMusicPlayerLocale } from '../../utils/bgMusicPlayerLocale';
+import { createDynamicMusicPlayerLocale } from '../../utils/bgMusicPlayerLocale';
 import { suppressMusicPlayerWarnings } from '../../utils/suppressMusicPlayerWarnings';
 import { PLAYER_RESOURCES_FOLDER } from 'src/constants';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
@@ -24,11 +24,14 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
 
   const { title, author, imageUrl, items = [] } = playlist;
 
+  // Create dynamic locale with playlist title
+  const dynamicLocale = createDynamicMusicPlayerLocale(title);
+
   const audioLists = items.map((item) => ({
     name: item.title || title || '',
     singer: item.author || author || '',
     musicSrc: `${PLAYER_RESOURCES_FOLDER}${item.path.replace(/^\/+/, '')}`,
-    cover: imageUrl ? `${imageUrl}?w=300` : 'images/audio-cover.svg'
+    cover: imageUrl ? `${imageUrl}?w=300` : '/images/audio-cover.svg'
   }));
 
   return (
@@ -38,7 +41,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
       mode="full"
       defaultPosition={{ right: 100, bottom: 120 }}
       autoPlay
-      locale={bgMusicPlayerLocale as ReactJkMusicPlayerLocale}
+      locale={dynamicLocale as ReactJkMusicPlayerLocale}
       showDownload
       showThemeSwitch={false}
       showReload={false}

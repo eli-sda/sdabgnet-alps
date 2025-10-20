@@ -57,16 +57,16 @@ const PlaylistActionButtons = ({
   };
 
   return (
-    <div className="playlist-action-buttons">
+    <div className="playlist-action-buttons u-spacing--half">
       {(shareUrl || hasDownload) && (
-        <div className="buttons u-space--half--bottom">
+        <div className="buttons">
           {shareUrl && (
             <Button
               onClick={handleShare}
               small
               label="Вземи линк"
               icon="share"
-              iconSize="xs"
+              iconSize="s"
             />
           )}
 
@@ -97,6 +97,7 @@ const PlaylistActionButtons = ({
               onClick={handleCopy}
               simple
               faIcon="copy"
+              iconSize="s"
               title="Копирай линка"
             />
           </div>

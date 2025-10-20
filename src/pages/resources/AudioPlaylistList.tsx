@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Grid } from 'alps-library/atoms/grids/Grid';
 import { GridItem } from 'alps-library/atoms/grids/GridItem';
@@ -25,6 +25,9 @@ const AudioPlaylistList = ({ type }: AudioPlaylistListProps) => {
   );
   const [currentPlayIndex, setCurrentPlayIndex] = useState<number>(0);
   const handlePlaylistSelect = (playlist: PlaylistType) => {
+    if (selectedPlaylist?._id === playlist._id) {
+      return; // Do nothing if the same playlist is selected
+    }
     setCurrentPlayIndex(0);
     setSelectedPlaylist(playlist);
   };
@@ -44,7 +47,7 @@ const AudioPlaylistList = ({ type }: AudioPlaylistListProps) => {
             playIndex
           ) {
             const i = parseInt(playIndex);
-            if (!isNaN(i) && i < matchedPlaylist?.items?.length) {
+            if (!isNaN(i) && i < matchedPlaylist.items.length) {
               setCurrentPlayIndex(i);
             }
           }
@@ -57,6 +60,29 @@ const AudioPlaylistList = ({ type }: AudioPlaylistListProps) => {
 
   // Initial index is now handled in the useEffect
 
+  const getActionButtons = useCallback(
+    (playlist: PlaylistType): JSX.Element => {
+      return (
+        <div className="u-space--half--top">
+          <PlaylistActionButtons
+            shareUrl={`${window.location.origin}${window.location.pathname}#${playlist._id}`}
+            fromIndex={
+              selectedPlaylist?._id === playlist._id
+                ? currentPlayIndex
+                : undefined
+            }
+            itemUrls={
+              playlist.items
+                ?.map((item) => item.path)
+                .filter((path): path is string => !!path) || []
+            }
+            playlistName={playlist.title}
+          />
+        </div>
+      );
+    },
+    [currentPlayIndex, selectedPlaylist]
+  );
   return (
     <>
       {!playlists ||
@@ -76,7 +102,7 @@ const AudioPlaylistList = ({ type }: AudioPlaylistListProps) => {
       >
         {playlists.map((playlist) => (
           <GridItem
-            className="u-padding--sides u-space--triple--bottom l-grid-item"
+            className="u-padding--sides u-space--double--bottom l-grid-item"
             key={playlist._id}
             sizeAtS="3"
             sizeAtL="2"
@@ -85,23 +111,9 @@ const AudioPlaylistList = ({ type }: AudioPlaylistListProps) => {
             <AudioPalylist
               playlist={playlist}
               onPlay={() => handlePlaylistSelect(playlist)}
+              isCurrent={selectedPlaylist?._id === playlist._id}
+              actionButtons={getActionButtons(playlist)}
             />
-            <div className="u-space--half--top">
-              <PlaylistActionButtons
-                shareUrl={`${window.location.origin}${window.location.pathname}#${playlist._id}`}
-                fromIndex={
-                  selectedPlaylist?._id === playlist._id
-                    ? currentPlayIndex
-                    : undefined
-                }
-                itemUrls={
-                  playlist.items
-                    ?.map((item) => item.path)
-                    .filter((path): path is string => !!path) || []
-                }
-                playlistName={playlist.title}
-              />
-            </div>
           </GridItem>
         ))}
       </Grid>

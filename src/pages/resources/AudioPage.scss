@@ -1,4 +1,10 @@
-.audio-page-caption .audio-icon {
+.audio-page-caption .icon {
   vertical-align: middle;
-  height: 1em;
+  height: 20px;
+}
+
+@media (max-width: 1300px) {
+  .audio-page-instructions {
+    margin-top: 2.5rem;
+  }
 }

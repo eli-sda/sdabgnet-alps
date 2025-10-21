@@ -11,14 +11,21 @@ type DownloadListProps = {
   author?: string;
   title?: string;
   items?: LinkType[];
+  initiallyOpen?: boolean;
 };
 
-const DownloadList = ({ id, author, title, items }: DownloadListProps) => {
+const DownloadList = ({
+  id,
+  author,
+  title,
+  items,
+  initiallyOpen
+}: DownloadListProps) => {
   const { hash } = useLocation();
   const [refreshCounter, setRefreshCounter] = useState(0);
 
   // derived state for open accordion
-  const isInitiallyOpened = !!id && hash === `#${id}`;
+  const isInitiallyOpened = initiallyOpen || (!!id && hash === `#${id}`);
 
   // Render playlist items
   const content = useMemo(

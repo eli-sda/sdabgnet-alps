@@ -8,7 +8,7 @@
         "title": "Свали в mp3 формат \"Говореща Библия\" - Аудио версия на Новият завет (2023)",
         "description": "Радваме се да споделим с Вас, че проектът <b>\"Говореща Библия\"</b>, плод на двугодишния, вдъхновен и благословен от Бога, труд на екип от доброволци, е завършен. Споделяме с Вас, аудио версия на Новия Завет, която без претенции за уникалност, се отличава от съществуващите до момента версии, с: <br> – използвания съвременен превод на НЗ-2004г., в който езикът е по-близък до разговорния; <br> – въведенията към всяка книга, обогатяващи с първоначална информация за автора, съдържанието и идеята на посланието; <br> – гласовото многообразие на екип – четци, с художествен прочит, обогатен с музикални фрагменти; <br> – прецизната висококачествена звукообработка; <br> Предлагаме Ви възможност, чрез скромния, но вдъхновен човешки прочит, да преживеете скъпоценно време с Божиите думи! <br> Copyright by Bible League International SPB 2004 <br> Участвали в проекта: <br> Четци: Красимир Лазаров, Младен Младенов, Антоанета Лазарова и Мира Василева. <br> Техника и звуково оформление: Александър Милев. <br> Текст на въведенията: пастор Митко Димитров. <br><iframe width=\"560\" height=\"315\" style=\"height:315px;\" src=\"https://www.youtube.com/embed/videoseries?list=PLrVm-HsS1p4nHkZlvitk2yX2ea7HgJCyH\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen=\"\"></iframe>",
         "size": 1694,
-        "path": "GovoreshtaBiblia.zip"
+        "path": "audio/GovoreshtaBiblia.zip"
       }
     ]
   },
@@ -19,23 +19,23 @@
       {
         "_id": "b1f0a3b9-cc42-4c8e-9f2d-9c2f4e8a12cd-cd1",
         "title": "CD1.iso",
-        "path": "//dataup.sdasofia.org/BIBLE/Biblia-bg.audio/bib1.iso",
+        "path": "https://dataup.sdasofia.org/BIBLE/Biblia-bg.audio/bib1.iso",
         "description": "Аудиo Библия 3.75 | audio.bibliata.com. <br> Текст РИ 1924, 1940 Bibliata.com © 2005-2017. <br> 3апис Зл. ПЕТKОВА и Б. БОЯНОВ"
       },
       {
         "_id": "b1f0a3b9-cc42-4c8e-9f2d-9c2f4e8a12cd-cd2",
         "title": "CD2.iso",
-        "path": "//dataup.sdasofia.org/BIBLE/Biblia-bg.audio/bib2.iso"
+        "path": "https://dataup.sdasofia.org/BIBLE/Biblia-bg.audio/bib2.iso"
       },
       {
         "_id": "b1f0a3b9-cc42-4c8e-9f2d-9c2f4e8a12cd-cd3",
         "title": "CD3.iso",
-        "path": "//dataup.sdasofia.org/BIBLE/Biblia-bg.audio/bib3.iso"
+        "path": "https://dataup.sdasofia.org/BIBLE/Biblia-bg.audio/bib3.iso"
       },
       {
         "_id": "b1f0a3b9-cc42-4c8e-9f2d-9c2f4e8a12cd-cd4",
         "title": "CD4.iso",
-        "path": "//dataup.sdasofia.org/BIBLE/Biblia-bg.audio/bib4.iso"
+        "path": "https://dataup.sdasofia.org/BIBLE/Biblia-bg.audio/bib4.iso"
       }
     ]
   },

@@ -1,6 +1,7 @@
-$transformation_hover: translateY(-98%) rotate(-45deg);
+$transformation_hover: translateY(-5px) rotate(-45deg);
 $transformation_icon: translateY(0) rotate(45deg);
 $buttonW: 42px;
+$offset-bottom: 82px; //space for audio player when visible
 
 /* Colors */
 // :root {
@@ -38,9 +39,10 @@ $buttonW: 42px;
     transition: all 0.5s;
   }
   &.is-active {
-    top: 98%;
-    -webkit-transform: translateY(-98%);
-    transform: translateY(-98%);
+    top: calc(100vh - #{$buttonW} - $offset-bottom);
+    margin-bottom: 0;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
     opacity: 1;
     visibility: visible;
     &:hover,

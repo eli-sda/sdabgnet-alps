@@ -27,15 +27,19 @@ const AudioPage = ({ type, aside }: AudioPageProps) => {
         kicker={getTitle(routes.resources())}
       />
       <PageSection breadcrumbsUrls={breadcrumbsUrls} aside={aside}>
-        <div className='audio-page-instructions'>
+        <div className="audio-page-instructions">
           <h4 className="audio-page-caption">
             Използвайте бутона{' '}
-            <img
-              className="icon"
-              src="/images/icons/o-icon__audio_darkest.svg"
-              alt="Аудио икона"
-            />
-            , за да слушате избрана поредица.
+            <span className="audio-page-caption__icon-wrapper">
+              <img
+                className="icon"
+                src="/images/icons/o-icon__audio.svg"
+                alt="Аудио икона"
+              />
+            </span>
+            , за да слушате {type === 'audio-book' && 'избрана аудио-книга'}
+            {type === 'seminars' && 'избран семинар'}
+            {type === 'sermons' && 'избран списък от проповеди'}.
           </h4>
           <h4 className="audio-page-caption">
             В отворения аудио плеър чрез бутона{' '}
@@ -47,8 +51,9 @@ const AudioPage = ({ type, aside }: AudioPageProps) => {
             можете да видите списъка с всички заглавия.
           </h4>
           <h4 className="audio-page-caption">
+            {' '}
             За да изтеглите всички аудио файлове от поредицата в архив
-            (zip-формат), използвайте бутона &quot;Изтегли всички&quot;, за да
+            (zip-формат), използвайте бутона &quot;Изтегли всички&quot;, а за да
             изтеглите текущия файл - използвайте иконата{' '}
             <img
               className="icon"
@@ -57,9 +62,16 @@ const AudioPage = ({ type, aside }: AudioPageProps) => {
             />{' '}
             от плеъра.
           </h4>
+          <h4 className="audio-page-caption">
+            Можете да споделите линк към{' '}
+            {type === 'audio-book' && 'аудио-книга или конкретно аудио от нея'}
+            {type === 'seminars' && 'семинар или конкретно аудио от него'}
+            {type === 'sermons' &&
+              'списък от проповеди или конкретно аудио от него'}
+            .
+          </h4>
         </div>
       </PageSection>
-
       <AudioPlaylistList type={type} />
     </>
   );

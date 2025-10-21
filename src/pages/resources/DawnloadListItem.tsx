@@ -24,6 +24,9 @@ const DawnloadListItem = ({
   }, [path]);
 
   const url = useMemo(() => {
+    if (path.startsWith('http://') || path.startsWith('https://')) {
+      return path;
+    }
     const resourcePath = `${RESOURCES_FOLDER}${path.replace(/^\/+/, '')}`;
     const url = import.meta.env.DEV
       ? resourcePath // Use Vite proxy in development

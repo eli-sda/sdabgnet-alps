@@ -118,22 +118,29 @@ export const ContentBlock = ({
         >
           {url ? (
             isExternal ? (
-            <a {...linkAttr}>
+              <a {...linkAttr}>
                 <strong>{title}</strong>
-            </a>
-          ) : (
-            <NavLink
-                {...linkAttr}
-              >
+              </a>
+            ) : (
+              <NavLink {...linkAttr}>
                 <strong>{title}</strong>
               </NavLink>
-          )
+            )
           ) : (
             <strong>{title}</strong>
           )}
         </h3>
 
-        {description && <p className={'c-block__body'}>{description}</p>}
+        {description && (
+          <p className={'c-block__body'}>
+            {description.split('\n').map((line, i, arr) => (
+              <React.Fragment key={i}>
+                {line}
+                {i < arr.length - 1 && <br />}
+              </React.Fragment>
+            ))}
+          </p>
+        )}
 
         {(category || date) && (
           <span className="c-block__meta u-font--secondary--xs u-theme--color--dark">
@@ -159,35 +166,35 @@ export const ContentBlock = ({
           </span>
         )}
 
-      {more ? (
-        <>
-          <div className="c-block__content">
-            <p>{more}</p>
-          </div>
-          <Button
-            as={'a'}
-            className={openClass}
-            expand={true}
-            onClick={onToggle}
-            outline={true}
-            toggle={true}
-          />
-        </>
-      ) : (
-        cta &&
-        url && (
-          <Button
-            as="a"
-            className="c-block__button"
-            // icon="arrow-long-right"
-            // iconPosition="right"
-            outline={true}
-            label={cta}
-            url={url}
-            isExternal={isExternal}
-          />
-        )
-      )}
+        {more ? (
+          <>
+            <div className="c-block__content">
+              <p>{more}</p>
+            </div>
+            <Button
+              as={'a'}
+              className={openClass}
+              expand={true}
+              onClick={onToggle}
+              outline={true}
+              toggle={true}
+            />
+          </>
+        ) : (
+          cta &&
+          url && (
+            <Button
+              as="a"
+              className="c-block__button"
+              // icon="arrow-long-right"
+              // iconPosition="right"
+              outline={true}
+              label={cta}
+              url={url}
+              isExternal={isExternal}
+            />
+          )
+        )}
       </div>
     </div>
   );

@@ -2,9 +2,14 @@ import { useCallback } from 'react';
 import {
   LinkType,
   PlaylistType,
+  SeminarRelatedPresentationsType,
   usePlaylistsContext
 } from 'src/contexts/PlaylistsContext';
-import { loadLinks, loadPlaylists } from 'src/utils/FetchHelper';
+import {
+  loadLinks,
+  loadPlaylists,
+  loadSeminarRelatedPresentations
+} from 'src/utils/FetchHelper';
 
 function getTodayString() {
   const today = new Date();
@@ -22,6 +27,8 @@ export function usePlaylists() {
     setPlaylists,
     links,
     setLinks,
+    seminarRelatedPresentations,
+    setSeminarRelatedPresentations,
     lastLoaded,
     setLastLoaded
   } = usePlaylistsContext();
@@ -119,5 +126,43 @@ export function usePlaylists() {
     [links, lastLoaded, setLinks, setLastLoaded]
   );
 
-  return { getPlaylists, getLinks };
+  /**
+   * Retrieves presentations that are related to seminars.
+   * - If seminar-related presentations are cached and have been loaded today, returns the cached data.
+   * - Otherwise, fetches them from the backend, updates the cache, and returns the newly loaded data.
+   *
+   * @returns A promise resolving to an array of seminar-related presentations.
+   */
+  const getSeminarRelatedPresentations = useCallback(async (): Promise<
+    SeminarRelatedPresentationsType[]
+  > => {
+    const today = getTodayString();
+
+    // Return cached links if available and not stale
+    if (
+      seminarRelatedPresentations &&
+      lastLoaded['seminarRelatedPresentations'] === today
+    ) {
+      return Promise.resolve(seminarRelatedPresentations);
+    }
+
+    // Otherwise, fetch from backend and update cache
+    return await loadSeminarRelatedPresentations()
+      .then((loadedPresentations) => {
+        setSeminarRelatedPresentations(loadedPresentations);
+        setLastLoaded('seminarRelatedPresentations', today);
+        return Promise.resolve(loadedPresentations);
+      })
+      .catch((err) => {
+        console.error(`Failed to fetch seminar related presentations: ${err}`);
+        return Promise.resolve([]);
+      });
+  }, [
+    seminarRelatedPresentations,
+    lastLoaded,
+    setSeminarRelatedPresentations,
+    setLastLoaded
+  ]);
+
+  return { getPlaylists, getLinks, getSeminarRelatedPresentations };
 }

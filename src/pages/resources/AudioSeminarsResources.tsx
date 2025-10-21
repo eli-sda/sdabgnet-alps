@@ -58,6 +58,10 @@ const AudioSeminarsResources = () => {
                       className="c-block__title-link u-theme--link-hover--dark active"
                       to={`${window.location.origin}/resources/presentation#${presentation._id}`}
                     >
+                      <i
+                        className={`fa fa-file-powerpoint-o u-space--half--right`}
+                        aria-hidden="true"
+                      ></i>
                       {presentation.title}
                     </NavLink>
                   </h3>

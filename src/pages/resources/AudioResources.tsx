@@ -3,7 +3,7 @@ import { PageWithSubpages } from 'src/organisms/PageWithSubpages';
 import routes from 'src/routes';
 
 const AudioResources = () => {
-  const breadcrumbsUrls = [routes.resources('audio')];
+  const breadcrumbsUrls = [routes.resources(), routes.resources('audio')];
 
   return <PageWithSubpages breadcrumbsUrls={breadcrumbsUrls} />;
 };

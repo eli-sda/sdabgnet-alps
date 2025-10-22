@@ -94,7 +94,7 @@ const AudioPlaylistList = ({ type }: AudioPlaylistListProps) => {
 
       <Grid
         className={
-          'audio-playlist-list l-grid l-grid--7-col l-grid-wrap l-grid-wrap--6-of-7'
+          'audio-playlist-list l-grid l-grid--7-col u-space--top'
         }
         seven
         as="section"

@@ -5,7 +5,11 @@ import {
   AdvertisementType
 } from 'src/contexts/AdvertisementsContext';
 import { QuestionType } from 'src/contexts/QuestionsContext';
-import { LinkType, PlaylistType } from 'src/contexts/PlaylistsContext';
+import {
+  LinkType,
+  PlaylistType,
+  SeminarRelatedPresentationsType
+} from 'src/contexts/PlaylistsContext';
 import { DailyVerseType } from 'src/contexts/DailyVerseContext';
 
 export const loadPagesMeta = async (): Promise<PageMetaMap> => {
@@ -128,6 +132,21 @@ export const loadLinks = async (type: string): Promise<LinkType[]> => {
   }`;
 
   return await client.fetch(linkQuery);
+};
+
+export const loadSeminarRelatedPresentations = async (): Promise<
+  SeminarRelatedPresentationsType[]
+> => {
+  const presentationsQuery = `*[
+      _type == "playlist" 
+      && type == "presentations" 
+      && title in *[_type == "playlist" && type == "seminars"].title
+    ]{
+      _id,
+      title
+    }`;
+
+  return await client.fetch(presentationsQuery);
 };
 
 export const loadDailyVerse = async (date: string): Promise<DailyVerseType> => {

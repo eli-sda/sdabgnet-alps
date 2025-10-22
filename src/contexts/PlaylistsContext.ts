@@ -25,6 +25,11 @@ export type PlaylistType = {
   items?: LinkType[];
 };
 
+export type SeminarRelatedPresentationsType = {
+  _id: string;
+  title: string;
+};
+
 export type PlaylistsMap = { [type: string]: PlaylistType[] };
 export type LinksMap = { [type: string]: LinkType[] };
 
@@ -33,6 +38,10 @@ export type PlaylistsContextType = {
   setPlaylists: (playlists: PlaylistsMap) => void;
   links: LinksMap;
   setLinks: (links: LinksMap) => void;
+  seminarRelatedPresentations: SeminarRelatedPresentationsType[];
+  setSeminarRelatedPresentations: (
+    presentations: SeminarRelatedPresentationsType[]
+  ) => void;
   lastLoaded: { [type: string]: string };
   setLastLoaded: (type: string, date: string) => void;
 };
@@ -42,6 +51,8 @@ export const PlaylistsContext = createContext<PlaylistsContextType>({
   setPlaylists: () => {},
   links: {},
   setLinks: () => {},
+  seminarRelatedPresentations: [],
+  setSeminarRelatedPresentations: () => {},
   lastLoaded: {},
   setLastLoaded: () => {}
 });

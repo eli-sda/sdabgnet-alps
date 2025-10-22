@@ -1,3 +1,7 @@
-.audio-playlist-list .l-grid-item {
-  min-width: 274px;
+.audio-playlist-list {
+  justify-content: center;
+
+  .l-grid-item {
+    min-width: 274px;
+  }
 }

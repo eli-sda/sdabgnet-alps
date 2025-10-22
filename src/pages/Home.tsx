@@ -26,6 +26,7 @@ import DownloadPlaylist from './resources/DownloadPlaylist';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import AudioPalylist from './resources/AudioPalylist';
 import AudioPlayer from './resources/AudioPlayer';
+import UpcomingEvents from './events/UpcomingEvents';
 
 const Home = () => {
   useScrollToHash();
@@ -150,6 +151,8 @@ const Home = () => {
 
           {/* verse for 2.01.2025  with links*/}
           <DailyVerse date={moment('2025-01-02')}></DailyVerse>
+
+          <UpcomingEvents />
         </>
       }
     >

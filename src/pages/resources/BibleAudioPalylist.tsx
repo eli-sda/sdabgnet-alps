@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback } from 'react';
-import { Caption } from 'alps-library/atoms/text/Caption';
 import { Grid } from 'alps-library/atoms/grids/Grid';
 import { GridItem } from 'alps-library/atoms/grids/GridItem';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';

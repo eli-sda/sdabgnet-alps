@@ -38,7 +38,7 @@ const AudioPalylist = ({
       }
     : undefined;
 
-  const imgToUse = sanityImg || localImg;
+  const imgToUse = localImg || sanityImg;
 
   return (
     <div

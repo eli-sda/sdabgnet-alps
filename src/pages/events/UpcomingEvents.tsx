@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import moment from 'moment';
+import { Button } from 'src/alps/atoms/Button';
 
 type SimpleEvent = {
   title: string;
@@ -50,18 +50,23 @@ const UpcomingEvents = () => {
           key={i}
           className="c-block__title hyphens-auto u-font--primary--s u-space--half u-theme--color--dark"
         >
-          <NavLink
-            className="c-block__title-link u-theme--link-hover--dark active"
-            to="/church_life/events"
-          >
-            <i
-              className="fa fa-calendar-o u-space--half--right"
-              aria-hidden="true"
-            />
-            {event.title} – {moment(event.start).format('DD.MM.YYYY')}
-          </NavLink>
+          <i
+            className="fa fa-calendar-o u-space--half--right"
+            aria-hidden="true"
+          />
+          {moment(event.start).format('DD.MM.YYYY')}
+          <br />
+          {event.title}
         </h3>
       ))}
+
+      <Button
+        as="a"
+        url="/church_life/events"
+        label="Виж календара"
+        icon="arrow-long-right"
+        outline
+      />
     </div>
   );
 };

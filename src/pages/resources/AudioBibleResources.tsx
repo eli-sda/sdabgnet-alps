@@ -7,6 +7,7 @@ import { getTitle } from 'src/utils/Navigation';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import DownloadList from './DownloadList';
+import AudioBiblePlaylist from './BibleAudioPalylist';
 import bibles_data from './audio_bible.json';
 
 const AudioBibleResources = () => {
@@ -48,7 +49,6 @@ const AudioBibleResources = () => {
                 id={_id}
                 title={title}
                 author={author}
-                initiallyOpen={true}
                 items={items.map(({ _id, title, description, size, path }) => ({
                   _id,
                   title,
@@ -61,6 +61,8 @@ const AudioBibleResources = () => {
           })}
         </Accordion>
       </Text>
+
+      <AudioBiblePlaylist />
     </Page>
   );
 };

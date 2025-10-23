@@ -1,0 +1,266 @@
+[
+  {
+    "bookPath": "01 Битие",
+    "count": 50
+  },
+  {
+    "bookPath": "02 Изход",
+    "count": 40
+  },
+  {
+    "bookPath": "03 Левит",
+    "count": 27
+  },
+  {
+    "bookPath": "04 Числа",
+    "count": 36
+  },
+  {
+    "bookPath": "05 Второзаконие",
+    "count": 34
+  },
+  {
+    "bookPath": "06 Исус Навин",
+    "count": 24
+  },
+  {
+    "bookPath": "07 Съдии",
+    "count": 21
+  },
+  {
+    "bookPath": "08 Рут",
+    "count": 4
+  },
+  {
+    "bookPath": "09 1 Царе",
+    "count": 31
+  },
+  {
+    "bookPath": "10 2 Царе",
+    "count": 24
+  },
+  {
+    "bookPath": "11 3 Царе",
+    "count": 22
+  },
+  {
+    "bookPath": "12 4 Царе",
+    "count": 25
+  },
+  {
+    "bookPath": "13 1 Летописи",
+    "count": 29
+  },
+  {
+    "bookPath": "14 2 Летописи",
+    "count": 36
+  },
+  {
+    "bookPath": "15 Ездра",
+    "count": 10
+  },
+  {
+    "bookPath": "16 Неемия",
+    "count": 13
+  },
+  {
+    "bookPath": "17 Естир",
+    "count": 10
+  },
+  {
+    "bookPath": "18 Йов",
+    "count": 42
+  },
+  {
+    "bookPath": "19 Псалми",
+    "count": 150
+  },
+  {
+    "bookPath": "20 Притчи",
+    "count": 31
+  },
+  {
+    "bookPath": "21 Еклисиаст",
+    "count": 12
+  },
+  {
+    "bookPath": "22 Песен на песните",
+    "count": 8
+  },
+  {
+    "bookPath": "23 Исая",
+    "count": 66
+  },
+  {
+    "bookPath": "24 Еремия",
+    "count": 52
+  },
+  {
+    "bookPath": "25 Плач Еремиев",
+    "count": 5
+  },
+  {
+    "bookPath": "26 Езекиил",
+    "count": 48
+  },
+  {
+    "bookPath": "27 Даниил",
+    "count": 12
+  },
+  {
+    "bookPath": "28 Осия",
+    "count": 14
+  },
+  {
+    "bookPath": "29 Йоил",
+    "count": 3
+  },
+  {
+    "bookPath": "30 Амос",
+    "count": 9
+  },
+  {
+    "bookPath": "31 Авдий",
+    "count": 1
+  },
+  {
+    "bookPath": "32 Йона",
+    "count": 4
+  },
+  {
+    "bookPath": "33 Михей",
+    "count": 7
+  },
+  {
+    "bookPath": "34 Наум",
+    "count": 3
+  },
+  {
+    "bookPath": "35 Авакум",
+    "count": 3
+  },
+  {
+    "bookPath": "36 Софония",
+    "count": 3
+  },
+  {
+    "bookPath": "37 Агей",
+    "count": 2
+  },
+  {
+    "bookPath": "38 Захария",
+    "count": 14
+  },
+  {
+    "bookPath": "39 Малахия",
+    "count": 4
+  },
+  {
+    "bookPath": "40 Матей",
+    "count": 28
+  },
+  {
+    "bookPath": "41 Марко",
+    "count": 16
+  },
+  {
+    "bookPath": "42 Лука",
+    "count": 24
+  },
+  {
+    "bookPath": "43 Йоан",
+    "count": 21
+  },
+  {
+    "bookPath": "44 Деяния",
+    "count": 28
+  },
+  {
+    "bookPath": "45 Яков",
+    "count": 5
+  },
+  {
+    "bookPath": "46 1 Петър",
+    "count": 5
+  },
+  {
+    "bookPath": "47 2 Петър",
+    "count": 3
+  },
+  {
+    "bookPath": "48 1 Йоан",
+    "count": 5
+  },
+  {
+    "bookPath": "49 2 Йоан",
+    "count": 1
+  },
+  {
+    "bookPath": "50 3 Йоан",
+    "count": 1
+  },
+  {
+    "bookPath": "51 Юда",
+    "count": 1
+  },
+  {
+    "bookPath": "52 Римляни",
+    "count": 16
+  },
+  {
+    "bookPath": "53 1 Коринтяни",
+    "count": 16
+  },
+  {
+    "bookPath": "54 2 Коринтяни",
+    "count": 13
+  },
+  {
+    "bookPath": "55 Галатяни",
+    "count": 6
+  },
+  {
+    "bookPath": "56 Ефесяни",
+    "count": 6
+  },
+  {
+    "bookPath": "57 Филипяни",
+    "count": 4
+  },
+  {
+    "bookPath": "58 Колосяни",
+    "count": 4
+  },
+  {
+    "bookPath": "59 1 Солунци",
+    "count": 5
+  },
+  {
+    "bookPath": "60 2 Солунци",
+    "count": 3
+  },
+  {
+    "bookPath": "61 1 Тимотей",
+    "count": 6
+  },
+  {
+    "bookPath": "62 2 Тимотей",
+    "count": 4
+  },
+  {
+    "bookPath": "63 Тит",
+    "count": 3
+  },
+  {
+    "bookPath": "64 Филимон",
+    "count": 1
+  },
+  {
+    "bookPath": "65 Евреи",
+    "count": 13
+  },
+  {
+    "bookPath": "66 Откровение",
+    "count": 22
+  }
+]

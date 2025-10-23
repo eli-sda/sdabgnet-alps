@@ -1,4 +1,5 @@
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import { ImageType } from 'alps-library/atoms/images/ImageType.tsx';
 import { MediaBlock } from 'src/alps/molecules/blocks/MediaBlock';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { getImage } from 'src/utils/ImageHelper';
@@ -17,12 +18,27 @@ const AudioPalylist = ({
   isCurrent,
   actionButtons
 }: AudioPalylistProps) => {
-  const { author, title = '', image } = playlist;
-  const img = getImage(
+  const { author, title = '', image, imageUrl } = playlist;
+
+  const sanityImg = getImage(
     image && typeof image === 'object'
       ? (image as SanityImageSource)
       : undefined
   );
+
+  const localImg: ImageType | undefined = imageUrl
+    ? {
+        alt: '',
+        srcSet: {
+          default: imageUrl,
+          500: imageUrl,
+          750: imageUrl,
+          1200: imageUrl
+        }
+      }
+    : undefined;
+
+  const imgToUse = sanityImg || localImg;
 
   return (
     <div
@@ -30,7 +46,7 @@ const AudioPalylist = ({
       id={playlist._id}
     >
       <MediaBlock
-        image={img}
+        image={imgToUse}
         type="stacked"
         title={title}
         kicker={author}

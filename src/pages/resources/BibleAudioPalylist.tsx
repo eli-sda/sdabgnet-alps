@@ -26,42 +26,58 @@ const BibleAudioPalylist = () => {
     const items = bibleBooksCounts.flatMap((book: BibleBook) => {
       const { bookPath, count } = book;
 
-      const nameWithoutNumber = bookPath.replace(/^\d+\s*/, '').trim();
-
-      const slugBase = nameWithoutNumber.toLowerCase().replace(/\s+/g, '_');
+      const nameWithoutFolder = bookPath.replace(/^\d+\s*/, '').trim();
+      const slug = nameWithoutFolder.toLowerCase().replace(/\s+/g, '_');
 
       return Array.from({ length: count }, (_, i) => {
         const chapterNumber = i + 1;
-        const chapterStr =
-          count > 1 ? chapterNumber.toString().padStart(2, '0') : '';
-        const _id = `${slugBase}_${chapterNumber}`;
-        const title = `${nameWithoutNumber} глава ${chapterNumber}`;
+        let chapterStr = '';
+
+        if (count > 100) chapterStr = chapterNumber.toString().padStart(3, '0');
+        else if (count >= 10)
+          chapterStr = chapterNumber.toString().padStart(2, '0');
+        else chapterStr = chapterNumber.toString();
+
+        const _id = `${slug}_${chapterNumber}`;
+        const title = `${nameWithoutFolder} глава ${chapterNumber}`;
         const path =
           count === 1
-            ? encodeURI(`audio/bible/${bookPath}/${nameWithoutNumber}.mp3`)
+            ? encodeURI(`audio/bible/${bookPath}/${nameWithoutFolder}.mp3`)
             : encodeURI(
-                `audio/bible/${bookPath}/${nameWithoutNumber} (${chapterStr}).mp3`
+                `audio/bible/${bookPath}/${nameWithoutFolder} (${chapterStr}).mp3`
               );
 
         return { _id, title, path };
       });
     });
 
-    const playlistData: PlaylistType = {
+    setPlaylist({
       _id: 'audioBible',
       title: 'Аудио Библия',
       imageUrl: '/img/bible.webp',
       items
-    };
-
-    setPlaylist(playlistData);
+    });
   }, []);
+
+  useEffect(() => {
+    if (!playlist) return;
+
+    const hashId = window.location.hash.replace('#', '');
+    const params = new URLSearchParams(window.location.search);
+    const playIndexParam = params.get('playIndex');
+    const index = playIndexParam ? parseInt(playIndexParam) : 0;
+
+    if (hashId === playlist._id && playlist.items && playlist.items[index]) {
+      setSelectedPlaylist(playlist);
+      setCurrentPlayIndex(index);
+    }
+  }, [playlist]);
 
   const getActionButtons = useCallback((): JSX.Element | undefined => {
     if (!playlist) return undefined;
     return (
       <PlaylistActionButtons
-        shareUrl={`${window.location.origin}${window.location.pathname}#${playlist._id}`}
+        shareUrl={`${window.location.origin}${window.location.pathname}?id=${playlist.items?.[currentPlayIndex]._id}#${playlist._id}`}
         fromIndex={
           selectedPlaylist?._id === playlist._id ? currentPlayIndex : undefined
         }

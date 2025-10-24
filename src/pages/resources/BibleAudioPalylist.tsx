@@ -28,16 +28,20 @@ const BibleAudioPalylist = () => {
 
       const nameWithoutNumber = bookPath.replace(/^\d+\s*/, '').trim();
 
+      const slugBase = nameWithoutNumber.toLowerCase().replace(/\s+/g, '_');
+
       return Array.from({ length: count }, (_, i) => {
         const chapterNumber = i + 1;
-        const chapterStr = chapterNumber.toString().padStart(2, '0'); // 01, 02, ...
-        const _id = `${nameWithoutNumber
-          .toLowerCase()
-          .replace(/\s+/g, '_')}_${chapterNumber}`;
+        const chapterStr =
+          count > 1 ? chapterNumber.toString().padStart(2, '0') : '';
+        const _id = `${slugBase}_${chapterNumber}`;
         const title = `${nameWithoutNumber} глава ${chapterNumber}`;
-        const path = encodeURI(
-          `audio/bible/${bookPath}/${nameWithoutNumber} (${chapterStr}).mp3`
-        );
+        const path =
+          count === 1
+            ? encodeURI(`audio/bible/${bookPath}/${nameWithoutNumber}.mp3`)
+            : encodeURI(
+                `audio/bible/${bookPath}/${nameWithoutNumber} (${chapterStr}).mp3`
+              );
 
         return { _id, title, path };
       });

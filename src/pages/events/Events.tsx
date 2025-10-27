@@ -2,15 +2,15 @@ import { useEffect, useState } from 'react';
 import moment from 'moment';
 import 'moment/dist/locale/bg';
 moment.locale('bg');
-import routes from 'src/routes';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
-import './reactBigCalendarStyles.scss';
-import './customCalendar.scss';
-import { getTitle, getBreadcrumbs } from 'src/utils/Navigation';
-import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
-import { PageContent } from 'src/alps/organisms/content/PageContent';
 import { Grid } from 'alps-library/atoms/grids/Grid';
 import { GridItem } from 'alps-library/atoms/grids/GridItem';
+import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
+import { PageContent } from 'src/alps/organisms/content/PageContent';
+import routes from 'src/routes';
+import { getTitle, getBreadcrumbs } from 'src/utils/Navigation';
+import './reactBigCalendarStyles.scss';
+import './customCalendar.scss';
 
 // Ensure the week starts on Monday using Bulgarian locale
 const localizer = momentLocalizer(moment);
@@ -72,6 +72,7 @@ const Events = () => {
       };
     }
   }, []);
+
   const breadcrumbsUrls = [routes.churchLife(), routes.churchLife('events')];
   const [parsedEvents, setParsedEvents] = useState<CalendarEvent[]>([]);
 

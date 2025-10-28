@@ -20,22 +20,26 @@
         "_id": "b1f0a3b9-cc42-4c8e-9f2d-9c2f4e8a12cd-cd1",
         "title": "CD1.iso",
         "path": "https://dataup.sdasofia.org/BIBLE/Biblia-bg.audio/bib1.iso",
+        "size": 605,
         "description": "Аудиo Библия 3.75 | audio.bibliata.com. <br> Текст РИ 1924, 1940 Bibliata.com © 2005-2017. <br> 3апис Зл. ПЕТKОВА и Б. БОЯНОВ"
       },
       {
         "_id": "b1f0a3b9-cc42-4c8e-9f2d-9c2f4e8a12cd-cd2",
         "title": "CD2.iso",
-        "path": "https://dataup.sdasofia.org/BIBLE/Biblia-bg.audio/bib2.iso"
+        "path": "https://dataup.sdasofia.org/BIBLE/Biblia-bg.audio/bib2.iso",
+        "size": 563
       },
       {
         "_id": "b1f0a3b9-cc42-4c8e-9f2d-9c2f4e8a12cd-cd3",
         "title": "CD3.iso",
-        "path": "https://dataup.sdasofia.org/BIBLE/Biblia-bg.audio/bib3.iso"
+        "path": "https://dataup.sdasofia.org/BIBLE/Biblia-bg.audio/bib3.iso",
+        "size": 419
       },
       {
         "_id": "b1f0a3b9-cc42-4c8e-9f2d-9c2f4e8a12cd-cd4",
         "title": "CD4.iso",
-        "path": "https://dataup.sdasofia.org/BIBLE/Biblia-bg.audio/bib4.iso"
+        "path": "https://dataup.sdasofia.org/BIBLE/Biblia-bg.audio/bib4.iso",
+        "size": 469
       }
     ]
   },

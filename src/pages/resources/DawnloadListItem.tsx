@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
-import { RESOURCES_FOLDER } from 'src/constants';
+import { useMemo, useState } from 'react';
+import { RESOURCES_SITE, RESOURCES_FOLDER } from 'src/constants';
 import { LinkType } from 'src/contexts/PlaylistsContext';
 import { Button } from 'src/alps/atoms/Button';
 
@@ -23,17 +23,37 @@ const DawnloadListItem = ({
     return 'file-o';
   }, [path]);
 
+  const [downloading, setDownloading] = useState(false);
+
   const url = useMemo(() => {
     if (path.startsWith('http://') || path.startsWith('https://')) {
       return path;
     }
     const resourcePath = `${RESOURCES_FOLDER}${path.replace(/^\/+/, '')}`;
     const url = import.meta.env.DEV
-      ? resourcePath // Use Vite proxy in development
-      : `/download-proxy.php?resourcePath=${encodeURIComponent(resourcePath)}`;
-
+      ? resourcePath // Use Vite proxy in development to bypass CORS
+      : `${RESOURCES_SITE}${resourcePath}`;
     return url;
   }, [path]);
+
+  const handleDownload = async (fileUrl: string) => {
+    setDownloading(true);
+    try {
+      const response = await fetch(fileUrl);
+      const blob = await response.blob();
+
+      // Create URL and trigger browser download
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileUrl?.split('/').pop() || 'download';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Download error:', error);
+    }
+    setDownloading(false);
+  };
 
   return (
     <div className="download-item">
@@ -52,12 +72,13 @@ const DawnloadListItem = ({
         ></p>
         <Button
           key={_id}
-          as="a"
+          as="button"
+          onClick={() => void handleDownload(url)}
+          disabled={downloading}
           small
           className="u-space--half--top"
-          faIcon="download"
+          faIcon={downloading ? 'spinner fa-pulse' : 'download'}
           label={`Изтегли ${size ? `(${size} MB)` : ''}`}
-          url={url}
           isExternal
           download
         />

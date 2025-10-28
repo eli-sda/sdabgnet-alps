@@ -51,8 +51,9 @@ const DownloadListItem = ({
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Download error:', error);
+    } finally {
+      setDownloading(false);
     }
-    setDownloading(false);
   };
 
   return (

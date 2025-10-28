@@ -3,7 +3,7 @@ import { RESOURCES_SITE, RESOURCES_FOLDER } from 'src/constants';
 import { LinkType } from 'src/contexts/PlaylistsContext';
 import { Button } from 'src/alps/atoms/Button';
 
-const DawnloadListItem = ({
+const DownloadListItem = ({
   title,
   description,
   _id,
@@ -87,4 +87,4 @@ const DawnloadListItem = ({
   );
 };
 
-export default DawnloadListItem;
+export default DownloadListItem;

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { LinkType } from 'src/contexts/PlaylistsContext';
-import DawnloadListItem from './DawnloadListItem';
+import DownloadListItem from './DownloadListItem';
 import './DownloadList.scss';
 import { AccordionItem } from 'src/alps/molecules/components/accordion/AccordionItem';
 import PlaylistActionButtons from './PlaylistActionButtons';
@@ -32,7 +32,7 @@ const DownloadList = ({
     () => (
       <div className="u-spacing--double u-space--half--bottom">
         {items?.map((item, i) => (
-          <DawnloadListItem key={i} {...item} />
+          <DownloadListItem key={i} {...item} />
         ))}
       </div>
     ),

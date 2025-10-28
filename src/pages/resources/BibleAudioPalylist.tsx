@@ -26,25 +26,28 @@ const BibleAudioPalylist = () => {
     const items = bibleBooksCounts.flatMap((book: BibleBook) => {
       const { bookPath, count } = book;
 
-      const nameWithoutFolder = bookPath.replace(/^\d+\s*/, '').trim();
-      const slug = nameWithoutFolder.toLowerCase().replace(/\s+/g, '_');
+      const nameWithoutPrefixNumber = bookPath.replace(/^\d+\s*/, '').trim();
+      const slug = nameWithoutPrefixNumber.toLowerCase().replace(/\s+/g, '_');
 
       return Array.from({ length: count }, (_, i) => {
         const chapterNumber = i + 1;
-        let chapterStr = '';
+        let chapterStr = chapterNumber.toString();
 
-        if (count > 100) chapterStr = chapterNumber.toString().padStart(3, '0');
-        else if (count >= 10)
-          chapterStr = chapterNumber.toString().padStart(2, '0');
-        else chapterStr = chapterNumber.toString();
+        if (count > 100) {
+          chapterStr = chapterStr.padStart(3, '0');
+        } else if (count >= 10) {
+          chapterStr = chapterStr.padStart(2, '0');
+        }
 
         const _id = `${slug}_${chapterNumber}`;
-        const title = `${nameWithoutFolder} глава ${chapterNumber}`;
+        const title = `${nameWithoutPrefixNumber} глава ${chapterNumber}`;
         const path =
           count === 1
-            ? encodeURI(`audio/bible/${bookPath}/${nameWithoutFolder}.mp3`)
+            ? encodeURI(
+                `audio/bible/${bookPath}/${nameWithoutPrefixNumber}.mp3`
+              )
             : encodeURI(
-                `audio/bible/${bookPath}/${nameWithoutFolder} (${chapterStr}).mp3`
+                `audio/bible/${bookPath}/${nameWithoutPrefixNumber} (${chapterStr}).mp3`
               );
 
         return { _id, title, path };
@@ -54,7 +57,15 @@ const BibleAudioPalylist = () => {
     setPlaylist({
       _id: 'audioBible',
       title: 'Аудио Библия',
-      imageUrl: '/img/bible.webp',
+      image: {
+        _type: 'image',
+        asset: {
+          _ref: 'image-a128b00a4deb52a7fef7ee2960f3fa329beb9bff-625x625-webp',
+          _type: 'reference'
+        }
+      },
+      imageUrl:
+        'https://cdn.sanity.io/images/tw3a1q78/production/a128b00a4deb52a7fef7ee2960f3fa329beb9bff-625x625.webp',
       items
     });
   }, []);
@@ -77,7 +88,7 @@ const BibleAudioPalylist = () => {
     if (!playlist) return undefined;
     return (
       <PlaylistActionButtons
-        shareUrl={`${window.location.origin}${window.location.pathname}?id=${playlist.items?.[currentPlayIndex]._id}#${playlist._id}`}
+        shareUrl={`${window.location.origin}${window.location.pathname}#${playlist._id}`}
         fromIndex={
           selectedPlaylist?._id === playlist._id ? currentPlayIndex : undefined
         }

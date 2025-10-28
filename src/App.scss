@@ -232,6 +232,14 @@ samp {
   max-height: unset;
 }
 
+.react-jinke-music-player-main
+  .music-player-panel
+  .panel-content
+  .player-content
+  .audio-lists-btn {
+  min-width: auto;
+}
+
 //Accordion
 .c-accordion__heading {
   display: flex;

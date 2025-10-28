@@ -71,8 +71,12 @@ const AudioPage = ({ type, aside }: AudioPageProps) => {
             .
           </h4>
         </div>
+        {type === 'audiobook' && <AudioPlaylistList type={type} />}
       </PageSection>
-      <AudioPlaylistList type={type} />
+
+      {(type === 'seminars' || type === 'sermons') && (
+        <AudioPlaylistList type={type} />
+      )}
     </>
   );
 };

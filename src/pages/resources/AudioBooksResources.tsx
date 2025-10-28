@@ -1,3 +1,4 @@
+import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import AudioPage from './AudioPage';
 import audiobooksForChildrenData from './audiobooksForChildren.json';
 
@@ -22,22 +23,13 @@ const AudiobooksResources = () => {
 
         {audiobooksForChildren.map((audiobook, i) => {
           return (
-            <div key={i} id={`audiobooksForChildren-${i}`}>
-              <h3 className="c-block__title hyphens-auto u-font--primary--s u-space--half u-theme--color--dark">
-                <a
-                  href={audiobook.url}
-                  className="c-block__title hyphens-auto u-font--primary--s u-space--half u-theme--color--dark"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <i
-                    className={`fa fa-youtube u-space--half--right`}
-                    aria-hidden="true"
-                  ></i>
-                  {audiobook.title}
-                </a>
-              </h3>
-            </div>
+            <Figure
+              key={i}
+              align="left"
+              caption={audiobook.title}
+              size="large"
+              videoSrc={audiobook.url}
+            />
           );
         })}
       </div>

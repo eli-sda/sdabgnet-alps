@@ -68,13 +68,20 @@ export function usePlaylists() {
               if (aIsSpecial && !bIsSpecial) return 1;
               if (!aIsSpecial && bIsSpecial) return -1;
 
-              // Otherwise, sort by normalized author name
-              return normalizeAuthor(a.author).localeCompare(
+              // Sort first by normalized author
+              const authorComparison = normalizeAuthor(a.author).localeCompare(
                 normalizeAuthor(b.author),
                 'bg',
                 { sensitivity: 'base' }
               );
-            }); // sort by author name
+
+              if (authorComparison !== 0) return authorComparison;
+
+              // Then, if same author, sort alphabetically by title
+              return (a.title ?? '').localeCompare(b.title ?? '', 'bg', {
+                sensitivity: 'base'
+              });
+            });
 
           setPlaylists({
             ...playlists,

@@ -55,8 +55,7 @@ const AudioBibleResources = () => {
           можете да видите списъка с всички заглавия.
         </h4>
         <h4 className="audio-page-caption">
-          {' '}
-          За да изтеглите текущия файл - използвайте иконата{' '}
+          За да изтеглите текущия файл, използвайте иконата{' '}
           <img
             className="icon"
             src="/img/icons/download-icon.svg"

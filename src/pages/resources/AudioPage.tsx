@@ -7,7 +7,7 @@ import AudioPlaylistList from './AudioPlaylistList';
 import './AudioPage.scss';
 
 type AudioPageProps = {
-  type: 'audio-book' | 'seminars' | 'sermons';
+  type: 'audiobook' | 'seminars' | 'sermons';
   aside?: React.ReactNode;
 };
 
@@ -37,7 +37,7 @@ const AudioPage = ({ type, aside }: AudioPageProps) => {
                 alt="Аудио икона"
               />
             </span>
-            , за да слушате {type === 'audio-book' && 'избрана аудио-книга'}
+            , за да слушате {type === 'audiobook' && 'избрана аудио-книга'}
             {type === 'seminars' && 'избран семинар'}
             {type === 'sermons' && 'избран списък от проповеди'}.
           </h4>
@@ -64,7 +64,7 @@ const AudioPage = ({ type, aside }: AudioPageProps) => {
           </h4>
           <h4 className="audio-page-caption">
             Можете да споделите линк към{' '}
-            {type === 'audio-book' && 'аудио-книга или конкретно аудио от нея'}
+            {type === 'audiobook' && 'аудио-книга или конкретно аудио от нея'}
             {type === 'seminars' && 'семинар или конкретно аудио от него'}
             {type === 'sermons' &&
               'списък от проповеди или конкретно аудио от него'}

@@ -43,6 +43,6 @@ const AudiobooksResources = () => {
       </div>
     ) : null;
 
-  return <AudioPage type="audio-book" aside={asideContent ?? undefined} />;
+  return <AudioPage type="audiobook" aside={asideContent ?? undefined} />;
 };
 export default AudiobooksResources;

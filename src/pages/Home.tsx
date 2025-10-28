@@ -330,8 +330,8 @@ const Home = () => {
               <NavLink to={routes.resources('audio', 'bible')}>Библии</NavLink>
             </li>
             <li>
-              <NavLink to={routes.resources('audio', 'audio-book')}>
-                Аудио книги
+              <NavLink to={routes.resources('audio', 'audiobook')}>
+                Аудиокниги
               </NavLink>
             </li>
             <li>

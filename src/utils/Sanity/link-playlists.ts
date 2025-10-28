@@ -33,7 +33,7 @@ async function linkAudioPlaylistsToItems() {
   console.log('Starting to link audio playlists to their items...');
   let totalUpdated = 0;
   try {
-    // Fetch all audio playlists (sermons, audio-book, seminars)
+    // Fetch all audio playlists (sermons, audiobook, seminars)
     const playlists: PlaylistDocument[] = await client.fetch(`
       *[_type == "playlist" && type in ["sermons", "audio-book", "seminars"] && isResource == true]{
         _id,

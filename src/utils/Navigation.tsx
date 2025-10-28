@@ -241,8 +241,8 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
           },
           {
             type: 'primary',
-            text: 'Аудио книги',
-            url: routes.resources('audio', 'audio-book')
+            text: 'Аудиокниги',
+            url: routes.resources('audio', 'audiobook')
           },
           {
             type: 'primary',

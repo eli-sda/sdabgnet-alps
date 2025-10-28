@@ -47,7 +47,7 @@ export const demoAudioPlaylist: PlaylistType = {
 };
 export const demoAudioPlaylist2: PlaylistType = {
   _id: 'f2c8d1a9-8b4e-4b27-9e2b-1a2d3f4c5e6f',
-  type: 'audio-book',
+  type: 'audiobook',
   author: 'Елън Уайт',
   title: 'Великата борба - 2',
   imageUrl: null,

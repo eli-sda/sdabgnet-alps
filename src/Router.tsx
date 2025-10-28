@@ -184,7 +184,7 @@ const Router = () => (
           />
 
           <Route
-            path={routes.resources('audio', 'audio-book')}
+            path={routes.resources('audio', 'audiobook')}
             element={<AudioBooksResources />}
           />
 

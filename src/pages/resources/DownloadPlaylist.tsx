@@ -3,6 +3,7 @@ import { saveAs } from 'file-saver';
 import { zipSync } from 'fflate';
 import { Button } from 'src/alps/atoms/Button';
 import { Progress } from 'alps-library/molecules/components/progress/Progress.tsx';
+import { RESOURCES_SITE } from 'src/constants';
 
 interface DownloadPlaylistProps {
   itemUrls: string[];
@@ -41,12 +42,9 @@ const DownloadPlaylist = ({
       // Fetch all files in parallel
       await Promise.all(
         itemUrls.map(async (resourcePath, index) => {
-          // Use proxy for local development to bypass CORS, PHP proxy for production
           const fetchUrl = import.meta.env.DEV
-            ? resourcePath // Use Vite proxy in development
-            : `/download-proxy.php?resourcePath=${encodeURIComponent(
-                resourcePath
-              )}`;
+            ? resourcePath // Use Vite proxy in development to bypass CORS
+            : `${RESOURCES_SITE}${resourcePath}`;
 
           const res = await fetch(fetchUrl);
           nextStep();

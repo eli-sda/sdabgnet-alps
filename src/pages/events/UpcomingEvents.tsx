@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import { Button } from 'src/alps/atoms/Button';
+import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 
 type SimpleEvent = {
   title: string;
@@ -39,11 +40,7 @@ const UpcomingEvents = () => {
 
   return (
     <div>
-      <div className="c-block__heading u-theme--border-color--darker">
-        <h3 className="c-block__heading-title u-theme--color--darker">
-          Предстоящи събития
-        </h3>
-      </div>
+      <HeadingBlock title="Предстоящи събития" />
 
       {events.map((event, i) => (
         <h3

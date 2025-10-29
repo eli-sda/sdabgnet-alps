@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import { SeminarRelatedPresentationsType } from 'src/contexts/PlaylistsContext';
 import AudioPage from './AudioPage';
+import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 
 const AudioSeminarsResources = () => {
   const { getSeminarRelatedPresentations } = usePlaylists();
@@ -20,11 +21,7 @@ const AudioSeminarsResources = () => {
   const asideContent =
     presentations.length > 0 ? (
       <div>
-        <div className="c-block__heading u-theme--border-color--darker">
-          <h3 className="c-block__heading-title u-theme--color--darker">
-            Презентации към семинари
-          </h3>
-        </div>
+        <HeadingBlock title="Презентации към семинари" />
 
         {presentations.map((presentation) => {
           return (

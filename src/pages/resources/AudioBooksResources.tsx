@@ -1,6 +1,7 @@
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import AudioPage from './AudioPage';
 import audiobooksForChildrenData from './audiobooksForChildren.json';
+import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 
 type audiobooksForChildrenType = {
   title: string;
@@ -15,10 +16,8 @@ const AudiobooksResources = () => {
   const asideContent =
     audiobooksForChildren.length > 0 ? (
       <div>
-        <div className="c-block__heading u-theme--border-color--darker">
-          <h3 className="c-block__heading-title u-theme--color--darker">
-            Детски аудиокниги
-          </h3>
+        <div className="u-space--bottom">
+          <HeadingBlock title="Детски аудиокниги" />
         </div>
 
         {audiobooksForChildren.map((audiobook, i) => {

@@ -21,11 +21,11 @@ export const demoAudioPlaylist: PlaylistType = {
   author: 'Елън Уайт',
   title: 'Великата борба',
   imageUrl:
-    'https://cdn.sanity.io/images/tw3a1q78/production/c3afb9f62487f9bfbe3d363d3fb188116953c70a-1799x1799.webp',
+    'https://cdn.sanity.io/images/tw3a1q78/production/1aaa37bd0a127c96e36d5999be4e456723b0f56f-350x350.png',
   image: {
     _type: 'image',
     asset: {
-      _ref: 'image-c3afb9f62487f9bfbe3d363d3fb188116953c70a-1799x1799-webp',
+      _ref: 'image-1aaa37bd0a127c96e36d5999be4e456723b0f56f-350x350-png',
       _type: 'reference'
     }
   },

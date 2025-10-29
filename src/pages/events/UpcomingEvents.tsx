@@ -39,31 +39,32 @@ const UpcomingEvents = () => {
   if (!events.length) return null;
 
   return (
-    <div>
+    <div className="u-spacing--half">
       <HeadingBlock title="Предстоящи събития" />
+      <div>
+        {events.map((event, i) => (
+          <h3
+            key={i}
+            className="c-block__title hyphens-auto u-font--primary--s u-space--half u-theme--color--dark"
+          >
+            <i
+              className="fa fa-calendar-o u-space--half--right"
+              aria-hidden="true"
+            />
+            {moment(event.start).format('DD.MM.YYYY')}
+            <br />
+            {event.title}
+          </h3>
+        ))}
 
-      {events.map((event, i) => (
-        <h3
-          key={i}
-          className="c-block__title hyphens-auto u-font--primary--s u-space--half u-theme--color--dark"
-        >
-          <i
-            className="fa fa-calendar-o u-space--half--right"
-            aria-hidden="true"
-          />
-          {moment(event.start).format('DD.MM.YYYY')}
-          <br />
-          {event.title}
-        </h3>
-      ))}
-
-      <Button
-        as="a"
-        url="/church_life/events"
-        label="Виж календара"
-        icon="arrow-long-right"
-        outline
-      />
+        <Button
+          as="a"
+          url="/church_life/events"
+          label="Виж календара"
+          icon="arrow-long-right"
+          outline
+        />
+      </div>
     </div>
   );
 };

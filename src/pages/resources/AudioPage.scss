@@ -1,23 +1,23 @@
 @use '../../styles/colors.scss' as *;
 
-.audio-page-caption .audio-page-caption__icon-wrapper {
-  background: $mingColor;
-  border-radius: 50%;
-  padding: 3px;
-  display: inline-block;
-  width: 28px;
-  height: 28px;
-  text-align: center;
-  vertical-align: middle;
-}
+.audio-page-instructions {
+  .audio-page-caption .audio-page-caption__icon-wrapper {
+    background: $mingColor;
+    border-radius: 50%;
+    padding: 3px;
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    text-align: center;
+    vertical-align: middle;
+  }
 
-.icon {
-  vertical-align: middle;
-  height: 20px;
-}
+  .icon {
+    vertical-align: middle;
+    height: 20px;
+  }
 
-@media (max-width: 1300px) {
-  .audio-page-instructions {
+  @media (max-width: 1300px) {
     margin-top: 2.5rem;
   }
 }

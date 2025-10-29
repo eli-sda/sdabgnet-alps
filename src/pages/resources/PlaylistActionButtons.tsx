@@ -39,17 +39,17 @@ const PlaylistActionButtons = ({
     const hash = shareUrl.includes('#') ? '#' + playlistID : '';
 
     const params = new URLSearchParams();
-
-    if (playlistName) {
-      params.set('playlistTitle', encodeURI(playlistName));
-    }
-
+    
     if (withIndex && typeof fromIndex === 'number') {
       params.set('playIndex', fromIndex.toString());
     }
 
+    if (playlistName) {
+      params.set('playlistTitle', playlistName);
+    }
+
     if (withIndex && fromTitle) {
-      params.set('title', encodeURI(fromTitle));
+      params.set('title', fromTitle);
     }
 
     const query = params.toString();

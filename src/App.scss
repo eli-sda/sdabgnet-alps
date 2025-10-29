@@ -1,4 +1,5 @@
 @use './styles/colors.scss' as *;
+@use './Alps-font-overwrite.scss' as *;
 
 .u-theme--ming .u-theme--path-fill--base {
   text > * {
@@ -154,7 +155,7 @@ h6 {
 
 //like p
 .l-main__content li {
-  font-family: 'Noto Serif', Georgia, Times, 'Times New Roman', serif;
+  font-family: 'Advent Sans';
   font-size: 0.875rem;
   line-height: 1.6;
 }

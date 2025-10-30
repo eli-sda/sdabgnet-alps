@@ -1,4 +1,5 @@
 @use './styles/colors.scss' as *;
+@use './Alps-font-overwrite.scss' as *;
 
 .u-theme--ming .u-theme--path-fill--base {
   text > * {
@@ -12,6 +13,22 @@ h4 {
 h5,
 h6 {
   font-weight: 400;
+}
+
+p {
+  font-size: 1rem;
+}
+
+//like p
+.l-main__content li {
+  font-family: 'Advent Sans';
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+//like p
+.u-font--secondary--s {
+  font-size: 1rem;
 }
 
 .l-sabbath__logo {
@@ -150,18 +167,6 @@ h6 {
 
 .c-media-block .c-block__group {
   justify-content: space-between;
-}
-
-//like p
-.l-main__content li {
-  font-family: 'Noto Serif', Georgia, Times, 'Times New Roman', serif;
-  font-size: 0.875rem;
-  line-height: 1.6;
-}
-@media (min-width: 901px) {
-  .l-main__content li {
-    font-size: 1rem;
-  }
 }
 
 hr.w70 {

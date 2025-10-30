@@ -1,7 +1,21 @@
-.page-pastor-online{
-    .c-related-posts__content {
-        .hyphens-auto {
-            word-break: break-all;
-        }
+.page-pastor-online {
+  .c-related-posts__content {
+    .hyphens-auto {
+      word-break: break-all;
     }
+  }
+}
+
+@media (max-width: 1300px) {
+  .pastor-online-caption {
+    padding-left: 0.9375rem;
+  }
+}
+
+@media (min-width: 701px) and (max-width: 900px) {
+  .pastor-online-caption {
+    width: calc(100vw / 7 * 4 - 0.01px);
+    margin-left: calc(100vw / 7 * 1 - 0.01px);
+    padding-left: 0;
+  }
 }

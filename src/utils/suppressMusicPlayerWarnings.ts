@@ -34,6 +34,11 @@ export const suppressMusicPlayerWarnings = (): void => {
       if (args[0].includes('defaultProps will be removed')) {
         return;
       }
+
+      // Suppress findDOMNode deprecation warnings from music player
+      if (args[0].includes('findDOMNode is deprecated')) {
+        return;
+      }
     }
     originalError.apply(console, args);
   };

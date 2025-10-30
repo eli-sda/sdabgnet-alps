@@ -5,6 +5,11 @@
     .lesson_to_remember {
       h3 {
         padding: 1.25rem 0 0 3.75rem;
+        @media (max-width: 899px) {
+          // like blockquote p
+          padding: 1.25rem 0 0.625rem 0;
+          left: 0;
+        }
       }
       p {
         margin-top: 0;

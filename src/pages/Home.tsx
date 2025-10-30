@@ -125,7 +125,7 @@ const Home = () => {
   return (
     <PageSection
       aside={
-        <>
+        <section className="u-spacing--double">
           {/* <Button onClick={() => fixSlugs()}>Fix Playlist Slugs</Button> */}
           {/* <Button onClick={() => deleteAllLinks()}>Delete all links in Sanity</Button> */}
 
@@ -153,7 +153,7 @@ const Home = () => {
           {/* <DailyVerse date={moment('2025-01-02')}></DailyVerse> */}
 
           <UpcomingEvents />
-        </>
+        </section>
       }
     >
       {pageMeta && <PageMeta meta={pageMeta} breadcrumbs={[]}></PageMeta>}
@@ -330,8 +330,8 @@ const Home = () => {
               <NavLink to={routes.resources('audio', 'bible')}>Библии</NavLink>
             </li>
             <li>
-              <NavLink to={routes.resources('audio', 'audio-book')}>
-                Аудио книги
+              <NavLink to={routes.resources('audio', 'audiobook')}>
+                Аудиокниги
               </NavLink>
             </li>
             <li>

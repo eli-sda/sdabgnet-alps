@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import { Button } from 'src/alps/atoms/Button';
+import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 
 type SimpleEvent = {
   title: string;
@@ -38,35 +39,32 @@ const UpcomingEvents = () => {
   if (!events.length) return null;
 
   return (
-    <div>
-      <div className="c-block__heading u-theme--border-color--darker">
-        <h3 className="c-block__heading-title u-theme--color--darker">
-          Предстоящи събития
-        </h3>
+    <div className="u-spacing--half">
+      <HeadingBlock title="Предстоящи събития" />
+      <div>
+        {events.map((event, i) => (
+          <h3
+            key={i}
+            className="c-block__title hyphens-auto u-font--primary--s u-space--half u-theme--color--dark"
+          >
+            <i
+              className="fa fa-calendar-o u-space--half--right"
+              aria-hidden="true"
+            />
+            {moment(event.start).format('DD.MM.YYYY')}
+            <br />
+            {event.title}
+          </h3>
+        ))}
+
+        <Button
+          as="a"
+          url="/church_life/events"
+          label="Виж календара"
+          icon="arrow-long-right"
+          outline
+        />
       </div>
-
-      {events.map((event, i) => (
-        <h3
-          key={i}
-          className="c-block__title hyphens-auto u-font--primary--s u-space--half u-theme--color--dark"
-        >
-          <i
-            className="fa fa-calendar-o u-space--half--right"
-            aria-hidden="true"
-          />
-          {moment(event.start).format('DD.MM.YYYY')}
-          <br />
-          {event.title}
-        </h3>
-      ))}
-
-      <Button
-        as="a"
-        url="/church_life/events"
-        label="Виж календара"
-        icon="arrow-long-right"
-        outline
-      />
     </div>
   );
 };

@@ -7,7 +7,7 @@ import AudioPlaylistList from './AudioPlaylistList';
 import './AudioPage.scss';
 
 type AudioPageProps = {
-  type: 'audio-book' | 'seminars' | 'sermons';
+  type: 'audiobook' | 'seminars' | 'sermons';
   aside?: React.ReactNode;
 };
 
@@ -37,7 +37,7 @@ const AudioPage = ({ type, aside }: AudioPageProps) => {
                 alt="Аудио икона"
               />
             </span>
-            , за да слушате {type === 'audio-book' && 'избрана аудио-книга'}
+            , за да слушате {type === 'audiobook' && 'избрана аудиокнига'}
             {type === 'seminars' && 'избран семинар'}
             {type === 'sermons' && 'избран списък от проповеди'}.<br />В
             отворения аудио плеър чрез бутона{' '}
@@ -59,15 +59,19 @@ const AudioPage = ({ type, aside }: AudioPageProps) => {
             от плеъра.
             <br />
             Можете да споделите линк към{' '}
-            {type === 'audio-book' && 'аудио-книга или конкретно аудио от нея'}
+            {type === 'audiobook' && 'аудиокнига или конкретно аудио от нея'}
             {type === 'seminars' && 'семинар или конкретно аудио от него'}
             {type === 'sermons' &&
               'списък от проповеди или конкретно аудио от него'}
             .
           </h4>
         </div>
+        {type === 'audiobook' && <AudioPlaylistList type={type} />}
       </PageSection>
-      <AudioPlaylistList type={type} />
+
+      {(type === 'seminars' || type === 'sermons') && (
+        <AudioPlaylistList type={type} />
+      )}
     </>
   );
 };

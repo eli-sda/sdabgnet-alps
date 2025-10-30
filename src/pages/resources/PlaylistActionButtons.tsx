@@ -9,6 +9,7 @@ import './PlaylistActionButtons.scss';
 type PlaylistActionButtonsProps = {
   shareUrl?: string;
   fromIndex?: number;
+  fromTitle?: string;
   itemUrls?: string[];
   playlistName?: string;
   setRefreshCounter?: React.Dispatch<React.SetStateAction<number>>;
@@ -17,6 +18,7 @@ type PlaylistActionButtonsProps = {
 const PlaylistActionButtons = ({
   shareUrl,
   fromIndex,
+  fromTitle,
   itemUrls = [],
   playlistName = 'playlist',
   setRefreshCounter
@@ -28,30 +30,43 @@ const PlaylistActionButtons = ({
   const hasDownload = itemUrls && itemUrls.length > 0;
   const playlistID = shareUrl?.split('#')[1];
 
-  // Construct share URL with playIndex as query parameter before the hash
+  // Generate the final share URL with all query parameters
+
   const url = useMemo(() => {
-    return withIndex && shareUrl && fromIndex
-      ? shareUrl.includes('?')
-        ? shareUrl.replace('#', `&playIndex=${fromIndex}#`) // URL already has query params
-        : shareUrl.replace('#', `?playIndex=${fromIndex}#`) // Add first query param
-      : shareUrl;
-  }, [shareUrl, fromIndex, withIndex]);
+    if (!shareUrl) return '';
+
+    const baseUrl = shareUrl.split('#')[0];
+    const hash = shareUrl.includes('#') ? '#' + playlistID : '';
+
+    const params = new URLSearchParams();
+    
+    if (withIndex && typeof fromIndex === 'number') {
+      params.set('playIndex', fromIndex.toString());
+    }
+
+    if (playlistName) {
+      params.set('playlistTitle', playlistName);
+    }
+
+    if (withIndex && fromTitle) {
+      params.set('title', fromTitle);
+    }
+
+    const query = params.toString();
+    return query ? `${baseUrl}?${query}${hash}` : shareUrl;
+  }, [shareUrl, playlistName, fromIndex, fromTitle, withIndex, playlistID]);
 
   const handleShare = () => {
     if (!url) return;
     setToShow(true);
-    if (setRefreshCounter) {
-      setRefreshCounter((prev: number) => prev + 1);
-    }
+    setRefreshCounter?.((prev) => prev + 1);
   };
 
   const handleCopy = () => {
     if (!url) return;
     void navigator.clipboard.writeText(url).then(() => {
       setShowCopyLabel(true);
-      if (setRefreshCounter) {
-        setRefreshCounter((prev: number) => prev + 1);
-      }
+      setRefreshCounter?.((prev) => prev + 1);
       setTimeout(() => setShowCopyLabel(false), 3000);
     });
   };

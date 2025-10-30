@@ -65,28 +65,36 @@ const AudioPlaylistList = ({ type }: AudioPlaylistListProps) => {
   // Initial index is now handled in the useEffect
 
   const getActionButtons = useCallback(
-    (playlist: PlaylistType): JSX.Element => {
-      return (
-        <div className="u-space--half--top">
-          <PlaylistActionButtons
-            shareUrl={`${window.location.origin}${window.location.pathname}#${playlist._id}`}
-            fromIndex={
-              selectedPlaylist?._id === playlist._id
-                ? currentPlayIndex
-                : undefined
-            }
-            itemUrls={
-              playlist.items
-                ?.map((item) => item.path)
-                .filter((path): path is string => !!path) || []
-            }
-            playlistName={playlist.title}
-          />
-        </div>
-      );
-    },
-    [currentPlayIndex, selectedPlaylist]
-  );
+  (playlist: PlaylistType): JSX.Element => {
+    //Get the current title if this playlist is selected
+    const currentItemTitle =
+      selectedPlaylist?._id === playlist._id && playlist.items?.[currentPlayIndex]?.title
+        ? playlist.items[currentPlayIndex].title
+        : undefined;
+
+    return (
+      <div className="u-space--half--top">
+        <PlaylistActionButtons
+          shareUrl={`${window.location.origin}${window.location.pathname}#${playlist._id}`}
+          fromIndex={
+            selectedPlaylist?._id === playlist._id
+              ? currentPlayIndex
+              : undefined
+          }
+          fromTitle={currentItemTitle}
+          itemUrls={
+            playlist.items
+              ?.map((item) => item.path)
+              .filter((path): path is string => !!path) || []
+          }
+          playlistName={playlist.title}
+        />
+      </div>
+    );
+  },
+  [currentPlayIndex, selectedPlaylist]
+);
+
   return (
     <>
       {!playlists ||

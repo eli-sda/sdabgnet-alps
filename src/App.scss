@@ -160,13 +160,8 @@ p {
 //like p
 .l-main__content li {
   font-family: 'Advent Sans';
-  font-size: 0.875rem;
+  font-size: 1rem;
   line-height: 1.6;
-}
-@media (min-width: 901px) {
-  .l-main__content li {
-    font-size: 1rem;
-  }
 }
 
 hr.w70 {
@@ -283,4 +278,8 @@ samp {
 input[type='checkbox'] + label,
 input[type='radio'] + label {
   top: -0.25rem;
+}
+
+.u-font--secondary--s {
+  font-size: 1rem;
 }

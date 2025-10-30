@@ -1,129 +1,48 @@
-// it was font-family: 'Noto Serif', Georgia, Times, 'Times New Roman', serif;
+// Overwirte alps font-family: 'Noto Serif', Georgia, Times, 'Times New Roman', serif;
 
 $primary-font: 'Advent Sans';
 
-p {
-  font-family: $primary-font;
-}
-
-blockquote p {
-  font-family: $primary-font;
-}
-
+p,
+blockquote p,
 .u-font--primary,
-.u-font--primary p {
-  font-family: $primary-font;
-}
-
-.u-font--primary-nav {
-  font-family: $primary-font;
-}
-
-.u-font--primary--xxl {
-  font-family: $primary-font;
-}
-
-.u-font--primary--xl {
-  font-family: $primary-font;
-}
-
-.u-font--primary--l {
-  font-family: $primary-font;
-}
-
-.u-font--primary--m {
-  font-family: $primary-font;
-}
-
-.u-font--primary--s {
-  font-family: $primary-font;
-}
-
-.u-font--primary--xs {
-  font-family: $primary-font;
-}
-
-.text > dl dd,
-.text > dl dt,
-.text > ol li,
-.text > ul li,
-.text > p {
-  font-family: $primary-font;
-}
-
-.text > h4,
-.text > h5,
-.text > h6 {
-  font-family: $primary-font;
-}
-
-.o-citation {
-  font-family: $primary-font;
-}
-
-.c-block__heading-link {
-  font-family: $primary-font;
-}
-
-.c-block__title {
-  font-family: $primary-font;
-}
-
-.c-inline-sidebar-block__title {
-  font-family: $primary-font;
-}
-.c-church-info.c-church-info--basic .c-church-info__title {
-  font-family: $primary-font;
-}
-
-.c-church-info.c-church-info--large .c-church-info__header__title {
-  font-family: $primary-font;
-}
-
-.c-search-results__item__title {
-  font-family: $primary-font;
-}
-
-.c-store-product-detail__title {
-  font-family: $primary-font;
-}
-
-.c-store-product-detail__long-desc {
-  font-family: $primary-font;
-}
-
-.c-store-cart-add__options__title {
-  font-family: $primary-font;
-}
-
-.c-store-cart-add__custom-amount__text {
-  font-family: $primary-font;
-}
-
-.c-store-cart-item {
-  font-family: $primary-font;
-}
-
-.c-store-cart-item__col--quantity input {
-  font-family: $primary-font;
-}
-
-.c-store-checkout-info__text {
-  font-family: $primary-font;
-}
-
-.c-store-checkout-products__item {
-  font-family: $primary-font;
-}
-
-.c-store-checkout-place__text {
-  font-family: $primary-font;
-}
-
-.c-store-products--list .c-store-products__item__content-title {
-  font-family: $primary-font;
-}
-
+.u-font--primary p,
+.u-font--primary-nav,
+.u-font--primary--xxl,
+.u-font--primary--xl,
+.u-font--primary--l,
+.u-font--primary--m,
+.u-font--primary--s,
+.u-font--primary--xs,
+.o-citation,
+.c-block__heading-link,
+.c-block__title,
+.c-inline-sidebar-block__title,
+.c-church-info.c-church-info--basic .c-church-info__title,
+.c-church-info.c-church-info--large .c-church-info__header__title,
+.c-search-results__item__title,
+.c-store-product-detail__title,
+.c-store-product-detail__long-desc,
+.c-store-cart-add__options__title,
+.c-store-cart-add__custom-amount__text,
+.c-store-cart-item,
+.c-store-cart-item__col--quantity input,
+.c-store-checkout-info__text,
+.c-store-checkout-products__item,
+.c-store-checkout-place__text,
+.c-store-products--list .c-store-products__item__content-title,
 .c-store-totals__price {
   font-family: $primary-font;
+}
+
+.text {
+  > dl dd,
+  > dl dt,
+  > ol li,
+  > ul li,
+  > p,
+  > h4,
+  > h5,
+  > h6 {
+    font-family: $primary-font;
+  }
 }

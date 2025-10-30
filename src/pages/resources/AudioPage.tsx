@@ -39,18 +39,15 @@ const AudioPage = ({ type, aside }: AudioPageProps) => {
             </span>
             , за да слушате {type === 'audio-book' && 'избрана аудио-книга'}
             {type === 'seminars' && 'избран семинар'}
-            {type === 'sermons' && 'избран списък от проповеди'}.
-          </h4>
-          <h4 className="audio-page-caption">
-            В отворения аудио плеър чрез бутона{' '}
+            {type === 'sermons' && 'избран списък от проповеди'}.<br />В
+            отворения аудио плеър чрез бутона{' '}
             <img
               className="icon"
               src="/img/icons/playlist-icon.svg"
               alt="Плейлист икона"
             />{' '}
             можете да видите списъка с всички заглавия.
-          </h4>
-          <h4 className="audio-page-caption">
+            <br />
             За да изтеглите всички аудио файлове от поредицата в архив
             (zip-формат), използвайте бутона &quot;Изтегли всички&quot;, а за да
             изтеглите текущия файл - използвайте иконата{' '}
@@ -60,8 +57,7 @@ const AudioPage = ({ type, aside }: AudioPageProps) => {
               alt="Изтегли икона"
             />{' '}
             от плеъра.
-          </h4>
-          <h4 className="audio-page-caption">
+            <br />
             Можете да споделите линк към{' '}
             {type === 'audio-book' && 'аудио-книга или конкретно аудио от нея'}
             {type === 'seminars' && 'семинар или конкретно аудио от него'}

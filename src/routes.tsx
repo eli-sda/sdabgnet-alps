@@ -40,7 +40,7 @@ const routes = {
 
   resources: (
     item?: 'books' | 'audio' | 'video' | 'music' | 'presentation' | 'image',
-    audioType?: 'bible' | 'audio-book' | 'seminars' | 'sermons'
+    audioType?: 'bible' | 'audiobook' | 'seminars' | 'sermons'
   ) => {
     if (item === 'audio' && audioType) {
       return `/resources/audio/${audioType}`;

@@ -179,6 +179,14 @@ hr.w70 {
       margin-top: 0;
       margin-bottom: 2.5rem;
     }
+    // the first child is not visible as first after reversing - add space after it
+    & > * {
+      margin-top: 2.5rem;
+    }
+    // the last child became first after reversing - remove top margin
+    & > *:last-child {
+      margin-top: 0;
+    }
   }
 }
 

@@ -83,7 +83,7 @@ export const PageSection = ({
       )}
       {blockType == undefined && (
         <section
-          className={`l-main__content u-padding--zero--sides u-spacing--double--until-xxlarge l-grid l-grid--7-col l-grid-wrap l-grid-wrap--6-of-7 u-shift--left--1-col--at-${
+          className={`l-main__content u-padding--zero--sides u-spacing--double--until-large l-grid l-grid--7-col l-grid-wrap l-grid-wrap--6-of-7 u-shift--left--1-col--at-${
             hasSidebar ? 'xxlarge' : 'large'
           } ${pageClassName}`}
         >
@@ -97,7 +97,7 @@ export const PageSection = ({
           {hasSidebar && (
             <div
               className={
-                'c-sidebar u-padding--zero--sides u-spacing l-grid-item l-grid-item--l--2-col l-grid-item--xl--2-col'
+                'c-sidebar u-padding--zero--sides u-spacing--double l-grid-item l-grid-item--l--2-col l-grid-item--xl--2-col'
               }
             >
               {sidebar}

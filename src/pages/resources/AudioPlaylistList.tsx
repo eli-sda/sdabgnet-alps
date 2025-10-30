@@ -32,6 +32,10 @@ const AudioPlaylistList = ({ type }: AudioPlaylistListProps) => {
     setSelectedPlaylist(playlist);
   };
 
+  if (type === 'audiobook') {
+    type = 'audio-book';
+  }
+
   useEffect(() => {
     getPlaylists(type)
       .then((playlists) => {
@@ -93,9 +97,7 @@ const AudioPlaylistList = ({ type }: AudioPlaylistListProps) => {
         ))}
 
       <Grid
-        className={
-          'audio-playlist-list l-grid l-grid--7-col u-space--top'
-        }
+        className={'audio-playlist-list l-grid l-grid--7-col u-space--top'}
         seven
         as="section"
         wrap={'6'}

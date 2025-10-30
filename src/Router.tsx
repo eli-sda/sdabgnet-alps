@@ -47,6 +47,9 @@ const AudioBibleResources = lazy(
 const AudioSeminarsResources = lazy(
   () => import('./pages/resources/AudioSeminarsResources')
 );
+const AudioBooksResources = lazy(
+  () => import('./pages/resources/AudioBooksResources')
+);
 const Donations = lazy(() => import('./pages/Donations'));
 
 // const theme = createTheme();
@@ -181,8 +184,8 @@ const Router = () => (
           />
 
           <Route
-            path={routes.resources('audio', 'audio-book')}
-            element={<AudioPage type="audio-book" />}
+            path={routes.resources('audio', 'audiobook')}
+            element={<AudioBooksResources />}
           />
 
           <Route
@@ -192,7 +195,6 @@ const Router = () => (
 
           <Route
             path={routes.resources('audio', 'seminars')}
-            // element={<AudioPage type="seminars" />}
             element={<AudioSeminarsResources />}
           />
 

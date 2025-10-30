@@ -19,6 +19,18 @@ p {
   font-size: 1rem;
 }
 
+//like p
+.l-main__content li {
+  font-family: 'Advent Sans';
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+//like p
+.u-font--secondary--s {
+  font-size: 1rem;
+}
+
 .l-sabbath__logo {
   padding-left: 0.625rem;
   padding-right: 0.625rem;
@@ -157,13 +169,6 @@ p {
   justify-content: space-between;
 }
 
-//like p
-.l-main__content li {
-  font-family: 'Advent Sans';
-  font-size: 1rem;
-  line-height: 1.6;
-}
-
 hr.w70 {
   width: 70%;
   margin-left: auto;
@@ -278,8 +283,4 @@ samp {
 input[type='checkbox'] + label,
 input[type='radio'] + label {
   top: -0.25rem;
-}
-
-.u-font--secondary--s {
-  font-size: 1rem;
 }

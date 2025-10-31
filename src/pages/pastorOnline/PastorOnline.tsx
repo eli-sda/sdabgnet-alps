@@ -2,9 +2,8 @@ import { useEffect, useState } from 'react';
 import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import { Caption } from 'alps-library/atoms/text/Caption';
-import { Text } from 'alps-library/atoms/text/Text';
-import { Breadcrumbs } from 'src/alps/molecules/navigation/Breadcrumbs';
 import { MediaBlockProps } from 'src/alps/molecules/blocks/MediaBlock';
+import { PageContent } from 'src/alps/organisms/content/PageContent';
 import { PageSection } from 'src/organisms/PageSection';
 import routes from 'src/routes';
 import { getBreadcrumbs, getTitle } from 'src/utils/Navigation';
@@ -64,18 +63,17 @@ const PastorOnline = () => {
   return (
     <>
       <PageHeaderLong title={title} />
-      <Text className="l-grid-wrap l-grid-wrap--5-of-7 u-shift--left--1-col--at-xxlarge">
-        <Breadcrumbs items={breadcrumbs} />
-      </Text>
 
-      <div className="pastor-online-caption u-shift--left--1-col--at-xxlarge u-space--half--right">
-        <Caption>
-          Тук са публикувани някои от зададените въпроси с отговори от{' '}
-          <strong>п-р Венцислав Панайотов</strong>. <br /> Ако имате въпрос,
-          който не откривате тук, свързан с християнския живот, можете да
-          използвате формуляра и ще получите отговор по имейл.
-        </Caption>
-      </div>
+      <PageContent breadcrumbs={breadcrumbs}>
+        <div className="pastor-online-caption u-shift--left--1-col--at-xxlarge u-space--half--right">
+          <Caption>
+            Тук са публикувани някои от зададените въпроси с отговори от{' '}
+            <strong>п-р Венцислав Панайотов</strong>. <br /> Ако имате въпрос,
+            който не откривате тук, свързан с християнския живот, можете да
+            използвате формуляра и ще получите отговор по имейл.
+          </Caption>
+        </div>
+      </PageContent>
 
       <PageSection
         aside={<PastorOnlineForm />}

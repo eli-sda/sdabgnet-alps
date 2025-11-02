@@ -5,15 +5,17 @@
     }
   }
 }
+.pastor-online-caption {
+  @media (min-width: 1101px) and (max-width: 1300px) {
+    margin-right: calc(100vw / 7 * 1 - 0.01px);
+    padding-right: 1.25rem;
+  }
 
-@media (max-width: 1300px) {
-  .pastor-online-caption {
+  @media (max-width: 1300px) {
     padding-left: 0.9375rem;
   }
-}
 
-@media (min-width: 701px) and (max-width: 900px) {
-  .pastor-online-caption {
+  @media (min-width: 701px) and (max-width: 900px) {
     width: calc(100vw / 7 * 4 - 0.01px);
     margin-left: calc(100vw / 7 * 1 - 0.01px);
     padding-left: 0;

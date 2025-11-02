@@ -65,7 +65,7 @@ const PastorOnline = () => {
       <PageHeaderLong title={title} />
 
       <PageContent breadcrumbs={breadcrumbs}>
-        <div className="pastor-online-caption u-shift--left--1-col--at-xxlarge u-space--half--right">
+        <div className="pastor-online-caption u-shift--left--1-col--at-xxlarge u-space--right">
           <Caption>
             Тук са публикувани някои от зададените въпроси с отговори от{' '}
             <strong>п-р Венцислав Панайотов</strong>. <br /> Ако имате въпрос,

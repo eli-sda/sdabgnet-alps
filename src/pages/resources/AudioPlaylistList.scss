@@ -1,7 +1,9 @@
 .audio-playlist-list {
+  display: inline-flex;
+  flex-flow: row wrap;
   justify-content: center;
 
-  .l-grid-item {
-    min-width: 274px;
+  .playlist-item {
+    width: 274px;
   }
 }

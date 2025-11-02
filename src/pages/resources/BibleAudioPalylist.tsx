@@ -1,12 +1,12 @@
 import { useEffect, useState, useCallback } from 'react';
-import { Grid } from 'alps-library/atoms/grids/Grid';
-import { GridItem } from 'alps-library/atoms/grids/GridItem';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import AudioPalylist from './AudioPalylist';
 import AudioPlayer from './AudioPlayer';
 import PlaylistActionButtons from './PlaylistActionButtons';
 import bibleBooksCounts from './bible_books_counts.json';
+import './BibleAudioPalylist.scss';
 import './AudioPlaylistList.scss';
+import './AudioPage.scss';
 
 type BibleBook = {
   bookPath: string;
@@ -86,12 +86,21 @@ const BibleAudioPalylist = () => {
 
   const getActionButtons = useCallback((): JSX.Element | undefined => {
     if (!playlist) return undefined;
+
+    //Get the current title if this playlist is selected
+    const currentItemTitle =
+      selectedPlaylist?._id === playlist._id &&
+      playlist.items?.[currentPlayIndex]?.title
+        ? playlist.items[currentPlayIndex].title
+        : undefined;
+
     return (
       <PlaylistActionButtons
         shareUrl={`${window.location.origin}${window.location.pathname}#${playlist._id}`}
         fromIndex={
           selectedPlaylist?._id === playlist._id ? currentPlayIndex : undefined
         }
+        fromTitle={currentItemTitle}
         playlistName={playlist.title}
       />
     );
@@ -107,27 +116,48 @@ const BibleAudioPalylist = () => {
 
   return (
     <>
-      <Grid
-        className="audio-playlist-list l-grid l-grid--7-col u-space--top"
-        seven
-        as="section"
-        wrap="6"
-      >
-        <GridItem
-          className="u-padding--sides u-space--double--bottom l-grid-item"
-          key={playlist._id}
-          sizeAtS="3"
-          sizeAtL="2"
-          sizeAtXL="1"
-        >
+      <div className="audio-page-instructions u-space--double--top">
+        <h4 className="audio-page-caption">
+          Използвайте бутона{' '}
+          <span className="audio-page-caption__icon-wrapper">
+            <img
+              className="icon"
+              src="/images/icons/o-icon__audio.svg"
+              alt="Аудио икона"
+            />
+          </span>
+          , за да слушате аудио Библията.
+          <br />В отворения аудио плеър чрез бутона{' '}
+          <img
+            className="icon"
+            src="/img/icons/playlist-icon.svg"
+            alt="Плейлист икона"
+          />{' '}
+          можете да видите списъка с всички глави на Библията.
+          <br />
+          За да изтеглите текущия файл, използвайте иконата{' '}
+          <img
+            className="icon"
+            src="/img/icons/download-icon.svg"
+            alt="Изтегли икона"
+          />{' '}
+          от плеъра.
+          <br />
+          Можете да споделите линк към аудио Библията или конкретно аудио от
+          нея.
+        </h4>
+      </div>
+
+      <section className="audio-playlist-list bible-audio-playlist u-space--top">
+        <div className="playlist-item u-padding--sides">
           <AudioPalylist
             playlist={playlist}
             onPlay={handlePlay}
             isCurrent={selectedPlaylist?._id === playlist._id}
             actionButtons={getActionButtons()}
           />
-        </GridItem>
-      </Grid>
+        </div>
+      </section>
 
       {selectedPlaylist && selectedPlaylist.items && (
         <AudioPlayer

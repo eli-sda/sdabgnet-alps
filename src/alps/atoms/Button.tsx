@@ -4,7 +4,7 @@ import { buttonConfig } from 'alps-library/atoms/button/_config';
 import { IconWrap } from 'alps-library/atoms/icons/IconWrap';
 import { iconConfig } from 'alps-library/atoms/icons/_config';
 import useToggle from 'alps-library/helpers/useToggle';
-import "./Button.scss";
+import './Button.scss';
 
 import { NavLink } from 'react-router-dom';
 
@@ -74,6 +74,7 @@ export interface ButtonProps {
   ) => void;
   className?: string;
   isExternal?: boolean;
+  hideExternalIcon?: boolean;
 }
 
 /**
@@ -95,6 +96,7 @@ export const Button = ({
   iconSize = 'xs',
   onClick,
   isExternal = false,
+  hideExternalIcon = false,
   ...props
 }: ButtonProps): JSX.Element => {
   const { openClass, onToggle } = useToggle(false);
@@ -114,7 +116,17 @@ export const Button = ({
   );
 
   let icon: JSX.Element | null = null;
-  if (!isExternal && props.icon) {
+  if (props.faIcon) {
+    icon = (
+      <i
+        className={`fa fa-${props.faIcon} fa-lg ${
+          label
+            ? `u-space--quarter--${iconPosition === 'left' ? 'right' : 'left'}`
+            : ''
+        }`}
+      ></i>
+    );
+  } else if (props.icon) {
     icon = (
       <IconWrap
         color={'white'}
@@ -123,14 +135,6 @@ export const Button = ({
         iconPosition={iconPosition}
       />
     );
-  } else if (props.faIcon) {
-    icon = (
-      <i
-        className={`fa fa-${props.faIcon} fa-lg u-space--quarter--${
-          iconPosition === 'left' ? 'right' : 'left'
-        }`}
-      ></i>
-    );
   }
 
   const labelWithIcon = (
@@ -138,7 +142,7 @@ export const Button = ({
       {iconPosition === 'left' && icon}
       {label}
       {iconPosition === 'right' && icon}
-      {isExternal && !download && (
+      {isExternal && !hideExternalIcon && !download && (
         <i className="fa fa-external-link u-space--quarter--left"></i>
       )}
     </>

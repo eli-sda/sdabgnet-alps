@@ -51,6 +51,7 @@ const AudioBooksResources = lazy(
   () => import('./pages/resources/AudioBooksResources')
 );
 const Donations = lazy(() => import('./pages/Donations'));
+const AdventistsOnline = lazy(() => import('./pages/links/AdventistsOnline'));
 
 // const theme = createTheme();
 
@@ -206,6 +207,11 @@ const Router = () => (
           <Route
             path={routes.churchLife('donations')}
             element={<Donations />}
+          />
+
+          <Route
+            path={routes.media('bg-links')}
+            element={<AdventistsOnline />}
           />
 
           {/* <Route path="teams" element={<Teams />}>

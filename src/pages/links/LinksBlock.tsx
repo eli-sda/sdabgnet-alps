@@ -1,9 +1,6 @@
-// Copy CtaBlock.tsx from alps-library to use our Button and set u-spacing-half class
+// Copy CtaBlock.tsx from alps-library
 
-import { SourceSet } from 'alps-library/atoms/images/SourceSet';
 import { canBeClass, themeBorderColorClass } from 'alps-library/global/colors';
-import useResponsiveStyles from 'alps-library/helpers/useResponsiveStyles';
-import { InlineStyles } from 'alps-library/helpers/InlineStyles';
 import { Button, ButtonProps } from 'src/alps/atoms/Button';
 
 export interface LinksBlockProps {
@@ -15,43 +12,21 @@ export interface LinksBlockProps {
    * Specify the description of your LinksBlock
    */
   description?: string;
-  picture?: SourceSet;
-  /**
-   * Specify whether the LinksBlock should be a asBackgroundImage variant
-   */
-  asBackgroundImage?: boolean;
   /**
    * Array of buttons (label, url, icon, etc.)
    */
   buttons?: ButtonProps[];
 }
 
-const getBackgroundRule = (url: string) => `.o-background-image {
-  background-image: url('${url}');
-}`;
-
 export const LinksBlock = ({
   title,
   description = '',
-  asBackgroundImage = false,
-  buttons = [],
-  picture
+  buttons = []
 }: LinksBlockProps): JSX.Element => {
-  const bgInlineStyles = useResponsiveStyles(getBackgroundRule, picture);
-
-  const backgroundClass =
-    picture && asBackgroundImage
-      ? 'has-background-image o-background-image u-background--cover u-theme--gradient--bottom'
-      : picture
-      ? 'has-image'
-      : '';
-
   return (
     <div
-      className={`c-cta-block c-block ${canBeClass}--dark-dark u-border--left ${themeBorderColorClass}--darker--left ${backgroundClass}`}
+      className={`c-cta-block c-block ${canBeClass}--dark-dark u-border--left ${themeBorderColorClass}--darker--left`}
     >
-      {bgInlineStyles && <InlineStyles styles={bgInlineStyles} />}
-
       <div
         className={
           'c-cta-block__content c-block__content u-spacing--half u-padding--half'
@@ -114,10 +89,6 @@ export const LinksBlock = ({
           </div>
         )}
       </div>
-
-      {picture && !asBackgroundImage && (
-        <div className="c-cta-block__image c-block__image o-background-image u-background--cover" />
-      )}
     </div>
   );
 };

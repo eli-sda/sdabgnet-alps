@@ -53,6 +53,7 @@ const AudioBooksResources = lazy(
 const Donations = lazy(() => import('./pages/Donations'));
 const AdventistsOnline = lazy(() => import('./pages/links/AdventistsOnline'));
 const Television = lazy(() => import('./pages/links/Television'));
+const Radio = lazy(() => import('./pages/links/Radio'));
 
 // const theme = createTheme();
 
@@ -218,6 +219,11 @@ const Router = () => (
           <Route
             path={routes.media('tv')}
             element={<Television />}
+          />
+
+          <Route
+            path={routes.media('radio')}
+            element={<Radio />}
           />
 
           {/* <Route path="teams" element={<Teams />}>

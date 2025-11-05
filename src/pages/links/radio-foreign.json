@@ -1,0 +1,48 @@
+[
+  {
+    "title": "Adventist World Radio",
+    "description": "Adventist World Radio е институция на Генералната конференция на Църквата на адвентистите от седмия ден, създадена да разнася вечното евангелие по целия свят в хармония с духовните принципи. AWR изпълнява своята мисия с помощта на собствена и/или наета техника.",
+    "image": "/img/logos/awr-logo.png",
+    "links": [
+      {
+        "url": "http://www.awr.org",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.facebook.com/AWR360",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/@awrweb",
+        "type": "youtube"
+      },
+      {
+        "url": "https://www.instagram.com/awr.360",
+        "type": "instagram"
+      }
+    ]
+  },
+  {
+    "title": "Радио 3ABN",
+    "description": "Радио 3ABN е 24-часово християнско онлайн радио, което предлага разговори, информация, музика и духовни теми. Програмата му е насочена към нуждите и ежедневието на слушателите и е напълно безплатна.",
+    "image": "/img/logos/3abn-logo.png",
+    "links": [
+      {
+        "url": "http://www.3abn.org/networks-radio.html",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.facebook.com/3abn.org",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/@3ABN",
+        "type": "youtube"
+      },
+      {
+        "url": "https://www.instagram.com/3abn_official",
+        "type": "instagram"
+      }
+    ]
+  }
+]

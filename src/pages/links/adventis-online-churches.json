@@ -1,7 +1,6 @@
 [
   {
     "title": "Айдемир",
-    "description": "",
     "links": [
       {
         "url": "http://aydemir.sdabg.net",
@@ -15,7 +14,6 @@
   },
   {
     "title": "Буковлък",
-    "description": "",
     "links": [
       {
         "url": "https://bukovlak.weebly.com/",
@@ -29,7 +27,6 @@
   },
   {
     "title": "Бургас",
-    "description": "",
     "links": [
       {
         "url": "https://www.facebook.com/sda.burgas",
@@ -39,7 +36,6 @@
   },
   {
     "title": "Варна-Орбита",
-    "description": "",
     "links": [
       {
         "url": "https://www.facebook.com/SDAOrbitaVarna/",
@@ -57,7 +53,6 @@
   },
   {
     "title": "Варна-Център",
-    "description": "",
     "links": [
       {
         "url": "https://sdavarna.com/",
@@ -68,7 +63,7 @@
         "type": "facebook"
       },
       {
-        "url": "https://www.youtube.com/user/sdavarna",
+        "url": "https://www.youtube.com/@sdavarna",
         "type": "youtube"
       },
       {
@@ -79,7 +74,6 @@
   },
   {
     "title": "Велико Търново",
-    "description": "",
     "links": [
       {
         "url": "http://vtarnovo.sdabg.net",
@@ -101,7 +95,6 @@
   },
   {
     "title": "Велинград",
-    "description": "",
     "links": [
       {
         "url": "http://velingrad.sdabg.net",
@@ -115,7 +108,6 @@
   },
   {
     "title": "Враца",
-    "description": "",
     "links": [
       {
         "url": "http://vraca.sdabg.net",
@@ -129,7 +121,6 @@
   },
   {
     "title": "Габрово",
-    "description": "",
     "links": [
       {
         "url": "http://gabrovo.sdabg.net",
@@ -143,7 +134,6 @@
   },
   {
     "title": "Димитровград",
-    "description": "",
     "links": [
       {
         "url": "http://dimitrovgrad.sdabg.net",
@@ -153,7 +143,6 @@
   },
   {
     "title": "Добрич",
-    "description": "",
     "links": [
       {
         "url": "http://dobrich.sdabg.net",
@@ -163,7 +152,6 @@
   },
   {
     "title": "Кюстендил-Б",
-    "description": "",
     "links": [
       {
         "url": "https://www.facebook.com/bKIUSTENDIL",
@@ -173,7 +161,6 @@
   },
   {
     "title": "Кюстендил-Свобода",
-    "description": "",
     "links": [
       {
         "url": "http://kyustendil-v.sdabg.net",
@@ -187,7 +174,6 @@
   },
   {
     "title": "Ловеч",
-    "description": "",
     "links": [
       {
         "url": "http://lovech.sdabg.net",
@@ -197,7 +183,6 @@
   },
   {
     "title": "Ново Село",
-    "description": "",
     "links": [
       {
         "url": "http://nselo.sdabg.net",
@@ -207,21 +192,15 @@
   },
   {
     "title": "Плевен",
-    "description": "",
     "links": [
       {
         "url": "http://pleven.sdabg.net",
         "type": "сайт"
-      },
-      {
-        "url": "https://www.facebook.com/AmazingBibleProphecies",
-        "type": "facebook"
       }
     ]
   },
   {
     "title": "Пловдив-Запад",
-    "description": "",
     "links": [
       {
         "url": "http://pld-zapad.sdabg.net",
@@ -231,7 +210,6 @@
   },
   {
     "title": "Пловдив-Център",
-    "description": "",
     "links": [
       {
         "url": "https://plovdiv-center.adventist.bg",
@@ -249,7 +227,6 @@
   },
   {
     "title": "Русе",
-    "description": "",
     "links": [
       {
         "url": "http://ruse.sdabg.net",
@@ -267,17 +244,15 @@
   },
   {
     "title": "Силистра",
-    "description": "",
     "links": [
       {
-        "url": "http://www.sdasilistra.com/#/tv/",
+        "url": "http://www.sdasilistra.com/",
         "type": "сайт"
       }
     ]
   },
   {
     "title": "София-Благодат",
-    "description": "",
     "links": [
       {
         "url": "https://www.blagodat.bg",
@@ -299,7 +274,6 @@
   },
   {
     "title": "София-В",
-    "description": "",
     "links": [
       {
         "url": "http://sofia-v.sdabg.net",
@@ -317,7 +291,6 @@
   },
   {
     "title": "София-Екзарх Йосиф",
-    "description": "",
     "links": [
       {
         "url": "http://sofia-b.sdabg.net",
@@ -327,7 +300,6 @@
   },
   {
     "title": "София-Запад",
-    "description": "",
     "links": [
       {
         "url": "https://sofiawest.sdabg.net",
@@ -338,14 +310,13 @@
         "type": "facebook"
       },
       {
-        "url": "https://www.youtube.com/@SDAsofiawest/featured",
+        "url": "https://www.youtube.com/@SDAsofiawest",
         "type": "youtube"
       }
     ]
   },
   {
     "title": "София-Красно село",
-    "description": "",
     "links": [
       {
         "url": "https://www.facebook.com/hristiani.krasno.selo",
@@ -358,8 +329,41 @@
     ]
   },
   {
+    "title": "София-Солунска",
+    "links": [
+      {
+        "url": "http://vvv.bg/",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.facebook.com/solunska10",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/@solunska10",
+        "type": "youtube"
+      },
+      {
+        "url": "https://www.instagram.com/solunska10",
+        "type": "instagram"
+      },
+      {
+        "url": "https://www.tiktok.com/@solunska10",
+        "type": "tik tok"
+      }
+    ]
+  },
+  {
+    "title": "Стара Загора",
+    "links": [
+      {
+        "url": "https://www.facebook.com/CASD.STZ",
+        "type": "facebook"
+      }
+    ]
+  },
+  {
     "title": "Стара Загора - ВИВО",
-    "description": "",
     "links": [
       {
         "url": "https://www.facebook.com/VIVOstarazagora",
@@ -369,7 +373,6 @@
   },
   {
     "title": "Стражица",
-    "description": "",
     "links": [
       {
         "url": "https://www.youtube.com/@sda.strajica",
@@ -379,14 +382,13 @@
   },
   {
     "title": "Лондон (Българска ЦАСД)",
-    "description": "Добре дошли на канала на Църквата на Адвентистите от седмия ден - гр. Лондон. Тук ще можете да следите най-новите събития от нашата църква, както и на страницата ни във Facebook и на уебсайта ни.",
     "links": [
       {
         "url": "http://bg4christ.com",
         "type": "сайт"
       },
       {
-        "url": "https://www.facebook.com/bg4christ#",
+        "url": "https://www.facebook.com/bg4christ",
         "type": "facebook"
       },
       {
@@ -397,7 +399,6 @@
   },
   {
     "title": "Виена",
-    "description": "",
     "links": [
       {
         "url": "http://sdabg.at",

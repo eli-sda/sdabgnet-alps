@@ -9,7 +9,7 @@ import bgChurchesLinks from './adventis-online-churches.json';
 
 type LinkItem = {
   url: string;
-  type: 'site' | 'facebook' | 'youtube' | 'instagram' | 'tiktok';
+  type: 'сайт' | 'facebook' | 'youtube' | 'instagram' | 'tik tok';
 };
 
 type LinkGroup = {
@@ -52,7 +52,7 @@ const AdventistsOnline = () => {
       const buttons = links.map(({ url, type }) => ({
         label: type,
         url,
-        className: `u-space--half--right ${
+        className: `link-button u-space--half--right ${
           links.length > 1 ? 'u-space--half--bottom' : ''
         }`,
         faIcon: getFaIcon(type),

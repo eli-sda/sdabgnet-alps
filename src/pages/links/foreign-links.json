@@ -1,0 +1,223 @@
+[
+  {
+    "title": "It Is Written",
+    "description": "\"It is Written\" (Писано е) е дълбоко духовно служение за разпространение на Евангелието по света. Има за цел да отрази живота на Христос по четири начина - чрез седмичната телевизията, в интернет, евангелизаторско служене в световен мащаб, християнски живот и вяра за споделяне на ресурси.",
+    "image": "/img/logos/itiswritten-logo.png",
+    "links": [
+      { "url": "http://www.itiswritten.com", "type": "сайт" },
+      { "url": "https://www.facebook.com/itiswritten", "type": "facebook" },
+      { "url": "https://www.youtube.com/@itiswritten", "type": "youtube" }
+    ]
+  },
+  {
+    "title": "Adventist Mission",
+    "description": "Сайтът Adventist Mission дава информация за мисията на адвентната църквата по света. Работата на мисионерите в различните краища на земята. Евангелизирането на трудните региони и мисионските проекти. Предоставена е и възможност за участие на доброволци, а също така и възможност за финансова подкрепа на различните мисии.",
+    "image": "/img/logos/adventistmission-logo.svg",
+    "links": [
+      { "url": "http://www.adventistmission.org/", "type": "сайт" },
+      {
+        "url": "https://www.facebook.com/AdventistMission",
+        "type": "facebook"
+      },
+      { "url": "https://www.youtube.com/@adventistmission", "type": "youtube" },
+      {
+        "url": "https://www.instagram.com/advmission",
+        "type": "instagram"
+      }
+    ]
+  },
+  {
+    "title": "Geoscience Research Institute",
+    "description": "Geoscience Research Institute Inegrating Science and Faith е сайта на Гео-научния изследователски институт към Генералната конференция на Църквата на адвентистите от седмия ден. В него може да намерите новини с новите открития в областта на геологията и произхода на живота на земята. Трудовете на известни учени в тази област ще ви предложат своите невероятни открития, които потвърждават записаното в Библията за произхода на Земята и живота на нея. Предоставена е информация на четири езика - английски, испански, френски и португалски.",
+    "image": "/img/logos/grisda-logo.png",
+    "links": [
+      { "url": "http://www.grisda.org/", "type": "сайт" },
+      {
+        "url": "https://www.facebook.com/Geoscienceresearchinstitute",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.instagram.com/geoscienceresearchinstitute",
+        "type": "instagram"
+      }
+    ]
+  },
+  {
+    "title": "Ellen G. White Estate",
+    "description": "Настоятелството на книгите на Елън Уайт е организация, създадена по волята и завета на Елън Уайт, за да пази нейните писания, да ръководи нейната собственост, \"като върши делови дейности с нея\" и \"осигурява отпечтаването на нови преводи\", както и \"издаване на компилации от моите ръкописи\".",
+    "image": "/img/logos/whiteestate-logo.png",
+    "links": [
+      { "url": "http://www.whiteestate.org", "type": "сайт" },
+      { "url": "https://www.facebook.com/ellenwhiteestate", "type": "facebook" }
+    ]
+  },
+  {
+    "title": "Encyclopedia of Seventh-day Adventists (ESDA)",
+    "description": "Проектът \"Encyclopedia of Seventh-day Adventists (ESDA)\" се управлява от офиса на Генералната конференция за архиви, статистика и изследвания (ASTR) в Силвър Спринг, САЩ. Това е глобален църковен проект с над 8 000 статии, снимки и документи, насочен към по-добро разбиране и споделяне на историята на адвентната църква. Онлайн енциклопедията, стартирала през 2020 г., е безплатен ресурс, който постоянно се обновява и разширява.",
+    "image": "/img/logos/ESDA-logo.jpg",
+    "links": [
+      { "url": "https://encyclopedia.adventist.org/about-esda", "type": "сайт" }
+    ]
+  },
+  {
+    "title": "Adventist World Radio",
+    "description": "Adventist World Radio е институция на Генералната конференция на Църквата на адвентистите от седмия ден, създадена да разнася вечното евангелие по целия свят в хармония с духовните принципи. AWR изпълнява своята мисия с помощта на собствена и/или наета техника.",
+    "image": "/img/logos/awr-logo.png",
+    "links": [
+      {
+        "url": "http://www.awr.org",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.facebook.com/AWR360",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/@awrweb",
+        "type": "youtube"
+      },
+      {
+        "url": "https://www.instagram.com/awr.360",
+        "type": "instagram"
+      }
+    ]
+  },
+  {
+    "title": "Радио 3ABN",
+    "description": "Радио 3ABN е 24-часово християнско онлайн радио, което предлага разговори, информация, музика и духовни теми. Програмата му е насочена към нуждите и ежедневието на слушателите и е напълно безплатна.",
+    "image": "/img/logos/3abn-logo.png",
+    "links": [
+      {
+        "url": "http://www.3abn.org/networks-radio.html",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.facebook.com/3abn.org",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/@3ABN",
+        "type": "youtube"
+      },
+      {
+        "url": "https://www.instagram.com/3abn_official",
+        "type": "instagram"
+      }
+    ]
+  },
+  {
+    "title": "Adventist Today",
+    "description": "Adventist Today обединяват вярващи от цял свят, които ценят свободата да изследват нови разбирания за Бога чрез независима журналистика. Те насърчават открит и градивен диалог, обективно отразяване на фактите и уважение към науката и Писанието, като се стремят да бъдат иновативен и градивен глас в полза на духовното и общностното израстване.",
+    "image": "/img/logos/atoday-logo.jpg",
+    "links": [
+      { "url": "https://atoday.org/", "type": "сайт" },
+      { "url": "https://www.facebook.com/AToday.org", "type": "facebook" }
+    ]
+  },
+  {
+    "title": "LLBN Christian TV",
+    "description": "LLBN е християнска телевизионна мрежа, посветена на споделянето на Христос и промяната на човешки животи от 1996 г. Управлявана основно от доброволци и финансирана от зрителите, тя излъчва вдъхновяващи и образователни програми на различни езици чрез своите осем канала, достигайки зрители по целия свят чрез сателит, интернет и телевизия.",
+    "image": "/img/logos/llbn-logo.jpg",
+    "links": [
+      { "url": "https://llbn.tv/", "type": "сайт" },
+      { "url": "https://www.facebook.com/LLBNtv", "type": "facebook" },
+      { "url": "https://www.youtube.com/@LLBNChristianTV", "type": "youtube" },
+      {
+        "url": "https://www.instagram.com/llbnceo",
+        "type": "instagram"
+      }
+    ]
+  },
+  {
+    "title": "Got Questions - Българска версия",
+    "description": "Българската версия на сайта с отговорени библейски въпроси.",
+    "image": "/img/pastorOnline/logo_gotQuestions.svg",
+    "links": [
+      { "url": "https://www.gotquestions.org/Bulgarian/", "type": "сайт" }
+    ]
+  },
+  {
+    "title": "Adventist.org Church Channel",
+    "image": "/img/logos/adventist-logo.png",
+    "links": [
+      {
+        "url": "https://adventist.org/",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.facebook.com/TheAdventistChurch",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/@AdventistOrgChurch",
+        "type": "youtube"
+      },
+      {
+        "url": "https://www.instagram.com/adventistchurch",
+        "type": "instagram"
+      }
+    ]
+  },
+  {
+    "title": "Greg Sereda",
+    "description": "Видеата обхващат теми като библейски факти, религиозни новини, въпроси и отговори, свързани с Библията, както и библейски пророчества. Целта на неговото служение е да помогне на хората по-добре да разбират Библията и да се подготвят за Второто пришествие на Исус.",
+    "image": "/img/logos/greg-sereda-logo.jpg",
+    "links": [
+      { "url": "https://www.youtube.com/@GregSereda", "type": "youtube" },
+      {
+        "url": "https://www.facebook.com/BibleFlockBox",
+        "type": "facebook"
+      }
+    ]
+  },
+  {
+    "title": "The Bible Lab",
+    "description": "Бог иска да Го познаваш — не така, както си Го представяш, а такъв, какъвто наистина е – в Неговия истински и прекрасен характер. За съжаление, с времето хората са изопачили образа на Бога, придавайки Му свои черти. Тяхната мисия е да изследват Библията, за да открият Неговия автентичен характер и да се влюбят още повече в Него чрез този процес на откриване.",
+    "image": "/img/logos/the-bible-lab-logo.gif",
+    "links": [
+      { "url": "https://www.thebiblelab.com/", "type": "сайт" },
+      {
+        "url": "https://www.facebook.com/profile.php?id=100064511420418",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/playlist?list=PLYQDk7sLI5aEehVHgckPOsKxzkY6KbZNM",
+        "type": "youtube"
+      },
+      {
+        "url": "https://www.instagram.com/thebiblelab",
+        "type": "instagram"
+      }
+    ]
+  },
+  {
+    "title": "Go Bible",
+    "description": "Брус и Блейк Камерън са основателите на библейските уроци GoBible. От 1975 г. Брус води малки библейски групи, а през 80-те започва да използва компютър, за да оформя своите уроци. Когато се появяват преносимите компютри, той започва да ги използва като своеобразен „суфльор“ по време на занятията.",
+    "image": "/img/logos/go-bible-logo.png",
+    "links": [
+      { "url": "http://www.gobible.org/", "type": "сайт" },
+      { "url": "https://www.facebook.com/gobible.org", "type": "facebook" }
+    ]
+  },
+  {
+    "title": "Will Plan",
+    "description": "Християнски проект, подпомагащ хората да планират дарения и завещания в подкрепа на мисионски дейности.",
+    "image": "/img/logos/PGTS-logo.svg",
+    "links": [
+      { "url": "https://www.willplan.org", "type": "сайт" },
+      {
+        "url": "https://www.youtube.com/@plannedgivingtrustservices6942",
+        "type": "youtube"
+      }
+    ]
+  },
+  {
+    "title": "Adventism.pro",
+    "description": "Общността «Прогрессивные Адвентисты» (ПА) е събрание от активни членове на Църквата на адвентистите от седмия ден, които обичат Бога и хората, ценят своята църква и не спират да се развиват духовно и лично.",
+    "image": "/img/logos/adventism-pro-logo.png",
+    "links": [
+      { "url": "http://adventism.pro/", "type": "сайт" },
+      { "url": "https://www.facebook.com/progressda", "type": "facebook" }
+    ]
+  }
+]

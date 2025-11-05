@@ -54,6 +54,7 @@ const Donations = lazy(() => import('./pages/Donations'));
 const AdventistsOnline = lazy(() => import('./pages/links/AdventistsOnline'));
 const Television = lazy(() => import('./pages/links/Television'));
 const Radio = lazy(() => import('./pages/links/Radio'));
+const ForeignLinks = lazy(() => import('./pages/links/ForeignLinks'));
 
 // const theme = createTheme();
 
@@ -224,6 +225,11 @@ const Router = () => (
           <Route
             path={routes.media('radio')}
             element={<Radio />}
+          />
+
+          <Route
+            path={routes.media('links')}
+            element={<ForeignLinks />}
           />
 
           {/* <Route path="teams" element={<Teams />}>

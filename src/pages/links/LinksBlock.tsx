@@ -1,0 +1,94 @@
+// Copy CtaBlock.tsx from alps-library
+
+import { canBeClass, themeBorderColorClass } from 'alps-library/global/colors';
+import { Button, ButtonProps } from 'src/alps/atoms/Button';
+
+export interface LinksBlockProps {
+  /**
+   * Specify the title of your LinksBlock
+   */
+  title: string;
+  /**
+   * Specify the description of your LinksBlock
+   */
+  description?: string;
+  /**
+   * Array of buttons (label, url, icon, etc.)
+   */
+  buttons?: ButtonProps[];
+}
+
+export const LinksBlock = ({
+  title,
+  description = '',
+  buttons = []
+}: LinksBlockProps): JSX.Element => {
+  return (
+    <div
+      className={`c-cta-block c-block ${canBeClass}--dark-dark u-border--left ${themeBorderColorClass}--darker--left`}
+    >
+      <div
+        className={
+          'c-cta-block__content c-block__content u-spacing--half u-padding--half'
+        }
+      >
+        <div className={'c-cta-block__group c-block__group u-spacing--half'}>
+          {title && (
+            <h3
+              className="c-block__title u-font--primary--m" //{`c-block__title u-font--primary--${title && description ? 'l' : 'xl'}`}
+            >
+              {title}
+            </h3>
+          )}
+          {description && (
+            <p
+              className={`c-block__body ${
+                title ? 'u-font--secondary' : 'u-font--secondary--m'
+              }`}
+            >
+              {description}
+            </p>
+          )}
+        </div>
+        {Array.isArray(buttons) && buttons.length > 0 && (
+          <div className="c-cta-block__buttons c-block__buttons">
+            {buttons.map(
+              (
+                {
+                  label,
+                  url,
+                  outline,
+                  simple,
+                  icon,
+                  faIcon,
+                  iconPosition = 'left',
+                  iconSize = 'm',
+                  isExternal = true,
+                  className,
+                  ...btnProps
+                },
+                key
+              ) => (
+                <Button
+                  as="a"
+                  className={`c-block__button ${className || ''}`}
+                  key={`cta-btn-${key}`}
+                  label={label}
+                  url={url}
+                  outline={outline}
+                  simple={simple}
+                  icon={icon}
+                  faIcon={faIcon}
+                  iconPosition={iconPosition}
+                  iconSize={iconSize}
+                  isExternal={isExternal}
+                  {...btnProps}
+                />
+              )
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};

@@ -292,3 +292,7 @@ input[type='checkbox'] + label,
 input[type='radio'] + label {
   top: -0.25rem;
 }
+
+.u-theme--ming .o-button--outline.o-button--simple:focus {
+  border-color: $mingDarkestColor;
+}

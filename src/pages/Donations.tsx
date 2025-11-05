@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import routes from 'src/routes';
-import { ExternalPageLink } from 'src/types/externalPageLink';
-import { getTitle } from 'src/utils/Navigation';
-import { Page } from 'src/organisms/Page';
-import { PageLinkItem } from 'src/organisms/PageLinkItem';
 import { ImageType } from 'alps-library/atoms/images/ImageType';
 import { Pullquote } from 'alps-library/molecules/text/pullquote/Pullquote.tsx';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
+import routes from 'src/routes';
+import { ExternalPageLink } from 'src/types/externalPageLink';
+import { Page } from 'src/organisms/Page';
+import { PageLinkItem } from 'src/organisms/PageLinkItem';
+import { getTitle } from 'src/utils/Navigation';
 
 const breadcrumbsUrls = [routes.churchLife(), routes.churchLife('donations')];
 

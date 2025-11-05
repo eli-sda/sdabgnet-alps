@@ -1,0 +1,421 @@
+[
+  {
+    "title": "Айдемир",
+    "links": [
+      {
+        "url": "http://aydemir.sdabg.net",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.facebook.com/sda.aydemir",
+        "type": "facebook"
+      }
+    ]
+  },
+  {
+    "title": "Буковлък",
+    "links": [
+      {
+        "url": "https://bukovlak.weebly.com/",
+        "type": "сайт"
+      },
+      {
+        "url": "www.youtube.com/@casdbukovlak4075",
+        "type": "youtube"
+      }
+    ]
+  },
+  {
+    "title": "Бургас",
+    "links": [
+      {
+        "url": "https://www.facebook.com/sda.burgas",
+        "type": "facebook"
+      }
+    ]
+  },
+  {
+    "title": "Варна-Орбита",
+    "links": [
+      {
+        "url": "https://www.facebook.com/SDAOrbitaVarna/",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/@sdaorbitavarna",
+        "type": "youtube"
+      },
+      {
+        "url": "https://www.instagram.com/sdaorbitavarna/",
+        "type": "instagram"
+      }
+    ]
+  },
+  {
+    "title": "Варна-Център",
+    "links": [
+      {
+        "url": "https://sdavarna.com/",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.facebook.com/sdavarna?locale=bg_BG",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/@sdavarna",
+        "type": "youtube"
+      },
+      {
+        "url": "https://instagram.com/sda.varna",
+        "type": "instagram"
+      }
+    ]
+  },
+  {
+    "title": "Велико Търново",
+    "links": [
+      {
+        "url": "http://vtarnovo.sdabg.net",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.facebook.com/casd.vt",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/@SDAVelikoTarnovo",
+        "type": "youtube"
+      },
+      {
+        "url": "https://www.instagram.com/advent_vt/",
+        "type": "instagram"
+      }
+    ]
+  },
+  {
+    "title": "Велинград",
+    "links": [
+      {
+        "url": "http://velingrad.sdabg.net",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.youtube.com/@ПасторСтоянПетров",
+        "type": "youtube"
+      }
+    ]
+  },
+  {
+    "title": "Враца",
+    "links": [
+      {
+        "url": "http://vraca.sdabg.net",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.facebook.com/sdavratsa",
+        "type": "facebook"
+      }
+    ]
+  },
+  {
+    "title": "Габрово",
+    "links": [
+      {
+        "url": "http://gabrovo.sdabg.net",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.youtube.com/@SDA-Gabrovo",
+        "type": "youtube"
+      }
+    ]
+  },
+  {
+    "title": "Димитровград",
+    "links": [
+      {
+        "url": "http://dimitrovgrad.sdabg.net",
+        "type": "сайт"
+      }
+    ]
+  },
+  {
+    "title": "Добрич",
+    "links": [
+      {
+        "url": "http://dobrich.sdabg.net",
+        "type": "сайт"
+      }
+    ]
+  },
+  {
+    "title": "Кюстендил-Б",
+    "links": [
+      {
+        "url": "https://www.facebook.com/bKIUSTENDIL",
+        "type": "facebook"
+      }
+    ]
+  },
+  {
+    "title": "Кюстендил-Свобода",
+    "links": [
+      {
+        "url": "http://kyustendil-v.sdabg.net",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.youtube.com/@kyustendilv",
+        "type": "youtube"
+      }
+    ]
+  },
+  {
+    "title": "Ловеч",
+    "links": [
+      {
+        "url": "http://lovech.sdabg.net",
+        "type": "сайт"
+      }
+    ]
+  },
+  {
+    "title": "Ново Село",
+    "links": [
+      {
+        "url": "http://nselo.sdabg.net",
+        "type": "сайт"
+      }
+    ]
+  },
+  {
+    "title": "Плевен",
+    "links": [
+      {
+        "url": "http://pleven.sdabg.net",
+        "type": "сайт"
+      }
+    ]
+  },
+  {
+    "title": "Пловдив-Запад",
+    "links": [
+      {
+        "url": "http://pld-zapad.sdabg.net",
+        "type": "сайт"
+      }
+    ]
+  },
+  {
+    "title": "Пловдив-Център",
+    "links": [
+      {
+        "url": "https://plovdiv-center.adventist.bg",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.facebook.com/Plovdiv.Center",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/@plovdivcenter",
+        "type": "youtube"
+      }
+    ]
+  },
+  {
+    "title": "Русе",
+    "links": [
+      {
+        "url": "http://ruse.sdabg.net",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.facebook.com/casdruse",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/@ЦъркванаАдвентиститеотСедмияДе",
+        "type": "youtube"
+      }
+    ]
+  },
+  {
+    "title": "Силистра",
+    "links": [
+      {
+        "url": "http://www.sdasilistra.com/",
+        "type": "сайт"
+      }
+    ]
+  },
+  {
+    "title": "София-Благодат",
+    "links": [
+      {
+        "url": "https://www.blagodat.bg",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.facebook.com/blagodatbg",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/@blagodatbg",
+        "type": "youtube"
+      },
+      {
+        "url": "https://www.instagram.com/blagodatbg/",
+        "type": "instagram"
+      }
+    ]
+  },
+  {
+    "title": "София-В",
+    "links": [
+      {
+        "url": "http://sofia-v.sdabg.net",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.facebook.com/AdventistChurchSlatina",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/@slatinasda",
+        "type": "youtube"
+      }
+    ]
+  },
+  {
+    "title": "София-Екзарх Йосиф",
+    "links": [
+      {
+        "url": "http://sofia-b.sdabg.net",
+        "type": "сайт"
+      }
+    ]
+  },
+  {
+    "title": "София-Запад",
+    "links": [
+      {
+        "url": "https://sofiawest.sdabg.net",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.facebook.com/SDAsofiawest",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/@SDAsofiawest",
+        "type": "youtube"
+      }
+    ]
+  },
+  {
+    "title": "София-Красно село",
+    "links": [
+      {
+        "url": "https://www.facebook.com/hristiani.krasno.selo",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/@hristianiKrasnoSelo",
+        "type": "youtube"
+      }
+    ]
+  },
+  {
+    "title": "София-Солунска",
+    "links": [
+      {
+        "url": "http://vvv.bg/",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.facebook.com/solunska10",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/@solunska10",
+        "type": "youtube"
+      },
+      {
+        "url": "https://www.instagram.com/solunska10",
+        "type": "instagram"
+      },
+      {
+        "url": "https://www.tiktok.com/@solunska10",
+        "type": "tik tok"
+      }
+    ]
+  },
+  {
+    "title": "Стара Загора",
+    "links": [
+      {
+        "url": "https://www.facebook.com/CASD.STZ",
+        "type": "facebook"
+      }
+    ]
+  },
+  {
+    "title": "Стара Загора - ВИВО",
+    "links": [
+      {
+        "url": "https://www.facebook.com/VIVOstarazagora",
+        "type": "facebook"
+      }
+    ]
+  },
+  {
+    "title": "Стражица",
+    "links": [
+      {
+        "url": "https://www.youtube.com/@sda.strajica",
+        "type": "youtube"
+      }
+    ]
+  },
+  {
+    "title": "Лондон (Българска ЦАСД)",
+    "links": [
+      {
+        "url": "http://bg4christ.com",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.facebook.com/bg4christ",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/@bg4christ",
+        "type": "youtube"
+      }
+    ]
+  },
+  {
+    "title": "Виена",
+    "links": [
+      {
+        "url": "http://sdabg.at",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.facebook.com/SDAViennaBG",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/@SdaViennaBg",
+        "type": "youtube"
+      },
+      {
+        "url": "https://www.instagram.com/adventvienna/",
+        "type": "instagram"
+      }
+    ]
+  }
+]

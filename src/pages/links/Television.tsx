@@ -1,17 +1,15 @@
-import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
 import { getAlpsIcon, getFaIcon, LinkGroup } from 'src/utils/MediaUtils';
 import { LinksBlock } from './LinksBlock';
-import bgLinks from './adventists-online.json';
-import bgChurchesLinks from './adventis-online-churches.json';
+import tvLinks from './television.json';
 
-const AdventistsOnline = () => {
-  const breadcrumbsUrls = [routes.media(), routes.media('bg-links')];
+const Television = () => {
+  const breadcrumbsUrls = [routes.media(), routes.media('tv')];
 
   const renderLinksBlocks = (data: LinkGroup[]) =>
-    data.map(({ title, description, links }, i) => {
+    data.map(({ title, description, image, links }, i) => {
       const buttons = links.map(({ url, type }) => ({
         label: type,
         url,
@@ -31,30 +29,23 @@ const AdventistsOnline = () => {
           <LinksBlock
             title={title}
             description={description}
+            picture={image}
             buttons={buttons}
           />
         </div>
       );
     });
 
-  const asideChurches = (
-    <>
-      <HeadingBlock title="Български адвентни църкви" />
-      {renderLinksBlocks(bgChurchesLinks as LinkGroup[])}
-    </>
-  );
-
   return (
     <Page
-      title={getTitle(routes.media('bg-links'))}
+      title={getTitle(routes.media('tv'))}
       breadcrumbsUrls={breadcrumbsUrls}
-      aside={asideChurches}
     >
       <section className="u-space--top">
-        {renderLinksBlocks(bgLinks as LinkGroup[])}
+        {renderLinksBlocks(tvLinks as LinkGroup[])}
       </section>
     </Page>
   );
 };
 
-export default AdventistsOnline;
+export default Television;

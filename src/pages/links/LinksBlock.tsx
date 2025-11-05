@@ -12,6 +12,7 @@ export interface LinksBlockProps {
    * Specify the description of your LinksBlock
    */
   description?: string;
+  picture?: string;
   /**
    * Array of buttons (label, url, icon, etc.)
    */
@@ -21,11 +22,14 @@ export interface LinksBlockProps {
 export const LinksBlock = ({
   title,
   description = '',
-  buttons = []
+  buttons = [],
+  picture
 }: LinksBlockProps): JSX.Element => {
+  const backgroundClass = picture ? 'has-image' : '';
+
   return (
     <div
-      className={`c-cta-block c-block ${canBeClass}--dark-dark u-border--left ${themeBorderColorClass}--darker--left`}
+      className={`c-cta-block c-block ${canBeClass}--dark-dark u-border--left ${themeBorderColorClass}--darker--left ${backgroundClass}`}
     >
       <div
         className={
@@ -89,6 +93,12 @@ export const LinksBlock = ({
           </div>
         )}
       </div>
+
+      {picture && (
+        <div className="u-padding--half">
+          <img src={picture} alt={picture} />
+        </div>
+      )}
     </div>
   );
 };

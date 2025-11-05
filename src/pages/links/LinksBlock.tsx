@@ -31,6 +31,11 @@ export const LinksBlock = ({
     <div
       className={`c-cta-block c-block ${canBeClass}--dark-dark u-border--left ${themeBorderColorClass}--darker--left ${backgroundClass}`}
     >
+      {picture && (
+        <div className="u-padding--half">
+          <img src={picture} alt={picture} />
+        </div>
+      )}
       <div
         className={
           'c-cta-block__content c-block__content u-spacing--half u-padding--half'
@@ -93,12 +98,6 @@ export const LinksBlock = ({
           </div>
         )}
       </div>
-
-      {picture && (
-        <div className="u-padding--half">
-          <img src={picture} alt={picture} />
-        </div>
-      )}
     </div>
   );
 };

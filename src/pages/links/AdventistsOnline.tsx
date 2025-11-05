@@ -2,40 +2,12 @@ import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/Heading
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
-import { getAlpsIcon, getFaIcon, LinkGroup } from 'src/utils/MediaUtils';
-import { LinksBlock } from './LinksBlock';
+import { LinkGroup, renderLinksBlocks } from 'src/utils/MediaUtils';
 import bgLinks from './adventists-online.json';
 import bgChurchesLinks from './adventis-online-churches.json';
 
 const AdventistsOnline = () => {
   const breadcrumbsUrls = [routes.media(), routes.media('bg-links')];
-
-  const renderLinksBlocks = (data: LinkGroup[]) =>
-    data.map(({ title, description, links }, i) => {
-      const buttons = links.map(({ url, type }) => ({
-        label: type,
-        url,
-        className: `link-button u-space--half--right ${
-          links.length > 1 ? 'u-space--half--bottom' : ''
-        }`,
-        faIcon: getFaIcon(type),
-        icon: getAlpsIcon(type),
-        hideExternalIcon: true,
-        simple: true,
-        outline: true,
-        isExternal: true
-      }));
-
-      return (
-        <div key={i} className="u-space--bottom">
-          <LinksBlock
-            title={title}
-            description={description}
-            buttons={buttons}
-          />
-        </div>
-      );
-    });
 
   const asideChurches = (
     <>

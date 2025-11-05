@@ -22,7 +22,7 @@ const AdventistsOnline = () => {
       breadcrumbsUrls={breadcrumbsUrls}
       aside={asideChurches}
     >
-      <section className="u-space--top">
+      <section className="u-spacing">
         {renderLinksBlocks(bgLinks as LinkGroup[])}
       </section>
     </Page>

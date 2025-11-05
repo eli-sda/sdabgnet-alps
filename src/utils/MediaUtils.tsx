@@ -56,13 +56,12 @@ export const renderLinksBlocks = (data: LinkGroup[]) =>
     }));
 
     return (
-      <div key={i} className="u-space--bottom">
-        <LinksBlock
-          title={title}
-          description={description}
-          picture={image}
-          buttons={buttons}
-        />
-      </div>
+      <LinksBlock
+        key={i}
+        title={title}
+        description={description}
+        picture={image}
+        buttons={buttons}
+      />
     );
   });

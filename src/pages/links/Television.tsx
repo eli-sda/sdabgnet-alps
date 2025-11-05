@@ -12,7 +12,7 @@ const Television = () => {
       title={getTitle(routes.media('tv'))}
       breadcrumbsUrls={breadcrumbsUrls}
     >
-      <section className="u-space--top">
+      <section className="u-spacing--double">
         {renderLinksBlocks(tvLinks as LinkGroup[])}
       </section>
     </Page>

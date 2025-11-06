@@ -4,7 +4,7 @@ import tvLinks from './television.json';
 const Television = (): JSX.Element => {
   return (
     <MediaLinksPage
-      mediaType="bg-links"
+      mediaType="tv"
       linksJson={tvLinks as LinkGroup[]}
       isDoubleSpacing
     />

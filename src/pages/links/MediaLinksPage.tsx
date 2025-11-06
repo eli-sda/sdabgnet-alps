@@ -91,8 +91,14 @@ const MediaLinksPage = ({
 
   const asideContent = asideJson.length > 0 && (
     <>
-      {asideTitle && <HeadingBlock title={asideTitle} />}
-      {renderLinksBlocks(asideJson)}
+      {asideTitle && (
+        <div className="u-space--bottom">
+          <HeadingBlock title={asideTitle} />
+        </div>
+      )}
+      <div className={`u-spacing${isDoubleSpacing ? '--double' : ''}`}>
+        {renderLinksBlocks(asideJson)}
+      </div>
     </>
   );
 
@@ -102,10 +108,16 @@ const MediaLinksPage = ({
       breadcrumbsUrls={breadcrumbsUrls}
       aside={asideContent}
     >
-      <section className={`u-spacing${isDoubleSpacing ? '--double' : ''}`}>
-        {linksTitle && <HeadingBlock title={linksTitle} />}
-        {renderLinksBlocks(linksJson)}
-      </section>
+      <>
+        {linksTitle && (
+          <div className="u-space--bottom">
+            <HeadingBlock title={linksTitle} />
+          </div>
+        )}
+        <div className={`u-spacing${isDoubleSpacing ? '--double' : ''}`}>
+          {renderLinksBlocks(linksJson)}
+        </div>
+      </>
     </Page>
   );
 };

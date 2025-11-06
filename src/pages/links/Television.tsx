@@ -1,21 +1,13 @@
-import routes from 'src/routes';
-import { Page } from 'src/organisms/Page';
-import { getTitle } from 'src/utils/Navigation';
-import { LinkGroup, renderLinksBlocks } from 'src/utils/MediaUtils';
+import MediaLinksPage, { LinkGroup } from './MediaLinksPage';
 import tvLinks from './television.json';
 
-const Television = () => {
-  const breadcrumbsUrls = [routes.media(), routes.media('tv')];
-
+const Television = (): JSX.Element => {
   return (
-    <Page
-      title={getTitle(routes.media('tv'))}
-      breadcrumbsUrls={breadcrumbsUrls}
-    >
-      <section className="u-spacing--double">
-        {renderLinksBlocks(tvLinks as LinkGroup[])}
-      </section>
-    </Page>
+    <MediaLinksPage
+      mediaType="bg-links"
+      linksJson={tvLinks as LinkGroup[]}
+      isDoubleSpacing
+    />
   );
 };
 

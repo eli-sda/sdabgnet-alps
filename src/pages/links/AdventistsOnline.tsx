@@ -1,31 +1,15 @@
-import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
-import routes from 'src/routes';
-import { Page } from 'src/organisms/Page';
-import { getTitle } from 'src/utils/Navigation';
-import { LinkGroup, renderLinksBlocks } from 'src/utils/MediaUtils';
+import MediaLinksPage, { LinkGroup } from './MediaLinksPage';
 import bgLinks from './adventists-online.json';
 import bgChurchesLinks from './adventis-online-churches.json';
 
-const AdventistsOnline = () => {
-  const breadcrumbsUrls = [routes.media(), routes.media('bg-links')];
-
-  const asideChurches = (
-    <>
-      <HeadingBlock title="Български адвентни църкви" />
-      {renderLinksBlocks(bgChurchesLinks as LinkGroup[])}
-    </>
-  );
-
+const AdventistsOnline = (): JSX.Element => {
   return (
-    <Page
-      title={getTitle(routes.media('bg-links'))}
-      breadcrumbsUrls={breadcrumbsUrls}
-      aside={asideChurches}
-    >
-      <section className="u-spacing">
-        {renderLinksBlocks(bgLinks as LinkGroup[])}
-      </section>
-    </Page>
+    <MediaLinksPage
+      mediaType="bg-links"
+      linksJson={bgLinks as LinkGroup[]}
+      asideJson={bgChurchesLinks as LinkGroup[]}
+      asideTitle="Български адвентни църкви"
+    />
   );
 };
 

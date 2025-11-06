@@ -472,32 +472,6 @@
     ]
   },
   {
-    "title": "LTV България",
-    "description": "LTV България е мултимедиен проект, който носи позитивно настроение и вдъхновение чрез музика, здравни предавания и теми върху Библията и християнските принципи.",
-    "links": [
-      {
-        "url": "https://ltv.bg",
-        "type": "сайт"
-      },
-      {
-        "url": "https://www.facebook.com/LTVBulgaria/",
-        "type": "facebook"
-      },
-      {
-        "url": "https://www.youtube.com/c/ltvbulgaria",
-        "type": "youtube"
-      },
-      {
-        "url": "https://instagram.com/ltvbg",
-        "type": "instagram"
-      },
-      {
-        "url": "https://tiktok.com/@ltv_bulgaria",
-        "type": "tik tok"
-      }
-    ]
-  },
-  {
     "title": "Телевизия Библейска Светлина и радио Светлина",
     "description": "Българска християнска медия, посветена на споделянето на Божието слово чрез радио и телевизионни предавания.",
     "links": [

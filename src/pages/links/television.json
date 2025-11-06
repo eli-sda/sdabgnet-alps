@@ -1,0 +1,75 @@
+[
+  {
+    "title": "Hope Channel Bulgaria",
+    "description": "Hope Channel е глобална телевизионна мрежа, състояща се от 80 канала по целия свят и излъчвания на над 100 езика. Hope Channel Bulgaria стартира през 2005 година и предлага програми за цялостен християнски живот. С нейна помощ можете да участвате дистанционно в духовни семинари, богослужения, здравни форуми и други събития на живо, както и да гледате архивни материали.",
+    "image": "/img/logos/hope-channel-logo.png",
+    "links": [
+      {
+        "url": "https://hopetv.bg/",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.facebook.com/HopetvBG",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/user/hopetvbg",
+        "type": "youtube"
+      },
+      {
+        "url": "https://www.instagram.com/hopechannelbulgaria/",
+        "type": "instagram"
+      }
+    ]
+  },
+  {
+    "title": "LTV България",
+    "description": "Мултимедиен проект, чиято цел е да внесе позитивно настроение в дома на всеки човек чрез красива музика, здравни предавания и теми върху Библията и християнските принципи.",
+    "image": "/img/logos/ltv-logo.png",
+    "links": [
+      {
+        "url": "https://ltv.bg",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.facebook.com/LTVBulgaria",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/c/ltvbulgaria",
+        "type": "youtube"
+      },
+      {
+        "url": "https://instagram.com/ltvbg",
+        "type": "instagram"
+      },
+      {
+        "url": "https://tiktok.com/@ltv_bulgaria",
+        "type": "tik tok"
+      }
+    ]
+  },
+  {
+    "title": "Телевизия и Радио „Светлина“",
+    "description": "Радио Светлина започва дейността си на 1 март 2008 г. Екипът му се състои от ентусиазирани доброволци, живеещи в Калгари, Канада. Целта на радиото е да утвърждава и популяризира християнските добродетели сред българите по целия свят. С времето се развива като християнска медия, включваща и телевизия, с мисия да изпълнява Божието слово според Деяния 13:47.",
+    "image": "/img/logos/radiosvetlina-logo.png",
+    "links": [
+      {
+        "url": "http://www.radiosvetlina.com",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.facebook.com/hristianskoradio",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/@TeleviziaSvetlina",
+        "type": "youtube"
+      },
+      {
+        "url": "https://www.instagram.com/radiosvetlina",
+        "type": "instagram"
+      }
+    ]
+  }
+]

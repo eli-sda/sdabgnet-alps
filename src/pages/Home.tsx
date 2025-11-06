@@ -223,16 +223,6 @@ const Home = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to={routes.media()}>
-                {' '}
-                <i
-                  className="fa fa-caret-square-o-down"
-                  aria-hidden="true"
-                ></i>{' '}
-                Медии
-              </NavLink>
-            </li>
-            <li>
               <NavLink to={routes.health()}>
                 {' '}
                 <i
@@ -349,6 +339,28 @@ const Home = () => {
               <NavLink to={routes.churchLife('donations')}>
                 Дарения за каузи
               </NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.media()}>
+                {' '}
+                <i
+                  className="fa fa-caret-square-o-down"
+                  aria-hidden="true"
+                ></i>{' '}
+                Медии
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.media('bg-links')}>Адвентисти онлайн</NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.media('tv')}>Телевизии</NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.media('radio')}>Радиа</NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.media('links')}>Чужди сайтове</NavLink>
             </li>
           </ul>
         </div>

@@ -36,6 +36,10 @@ const getFaIcon = (type: string): string | undefined => {
       return 'youtube';
     case 'instagram':
       return 'instagram';
+    case 'google play':
+      return 'android';
+    case 'apple store':
+      return 'apple';
     default:
       return undefined;
   }

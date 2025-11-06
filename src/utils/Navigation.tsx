@@ -177,12 +177,12 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
     subnav: [
       {
         type: 'primary',
-        text: 'Радио',
+        text: 'Радиа',
         url: routes.media('radio')
       },
       {
         type: 'primary',
-        text: 'Телевизия',
+        text: 'Телевизии',
         url: routes.media('tv')
       },
       {

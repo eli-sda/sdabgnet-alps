@@ -16,7 +16,7 @@ export const PageContent = ({
   content,
   breadcrumbs = []
 }: PageContentProps): JSX.Element => (
-  <div className={'u-spacing'}>
+  <div className={'u-spacing--double'}>
     {breadcrumbs.length > 0 && (
       <Text className="l-grid-wrap l-grid-wrap--5-of-7 u-shift--left--1-col--at-xxlarge">
         <Breadcrumbs items={breadcrumbs} />

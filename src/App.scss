@@ -293,6 +293,6 @@ input[type='radio'] + label {
   top: -0.25rem;
 }
 
-.o-button.o-button--outline.o-button--simple:focus {
-  border-color: #002928;
+.u-theme--ming .o-button--outline.o-button--simple:focus {
+  border-color: $mingDarkestColor;
 }

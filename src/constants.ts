@@ -12,6 +12,8 @@ export const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 export type AdType = 'services' | 'buySell' | 'other';
 export const AD_TYPES: AdType[] = ['services', 'buySell', 'other'];
 
+export type MediaType = 'radio' | 'tv' | 'links' | 'courses' | 'bg-links' | 'app';
+
 export const ERROR_SENDING_MESSAGE =
   'Възникна грешка при изпращането. Моля, използвайте имейла долу в страницата.';
 

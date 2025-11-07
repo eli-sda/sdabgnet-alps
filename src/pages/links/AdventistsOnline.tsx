@@ -1,31 +1,37 @@
-import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
-import routes from 'src/routes';
-import { Page } from 'src/organisms/Page';
-import { getTitle } from 'src/utils/Navigation';
-import { LinkGroup, renderLinksBlocks } from 'src/utils/MediaUtils';
-import bgLinks from './adventists-online.json';
-import bgChurchesLinks from './adventis-online-churches.json';
+import { useEffect, useState } from 'react';
+import MediaLinksPage, { LinkGroup } from './MediaLinksPage';
 
-const AdventistsOnline = () => {
-  const breadcrumbsUrls = [routes.media(), routes.media('bg-links')];
+const AdventistsOnline = (): JSX.Element => {
+  const [bgLinks, setBgLinks] = useState<LinkGroup[]>([]);
+  const [bgChurchesLinks, setBgChurchesLinks] = useState<LinkGroup[]>([]);
 
-  const asideChurches = (
-    <>
-      <HeadingBlock title="Български адвентни църкви" />
-      {renderLinksBlocks(bgChurchesLinks as LinkGroup[])}
-    </>
-  );
+  useEffect(() => {
+    fetch('/adventists-online.json')
+      .then((res) => res.json())
+      .then((data: LinkGroup[]) => setBgLinks(data))
+      .catch((err) => {
+        console.error('Failed to load adventists-online.json', err);
+        setBgLinks([]);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch('/adventis-online-churches.json')
+      .then((res) => res.json())
+      .then((data: LinkGroup[]) => setBgChurchesLinks(data))
+      .catch((err) => {
+        console.error('Failed to load adventis-online-churches.json', err);
+        setBgChurchesLinks([]);
+      });
+  }, []);
 
   return (
-    <Page
-      title={getTitle(routes.media('bg-links'))}
-      breadcrumbsUrls={breadcrumbsUrls}
-      aside={asideChurches}
-    >
-      <section className="u-spacing">
-        {renderLinksBlocks(bgLinks as LinkGroup[])}
-      </section>
-    </Page>
+    <MediaLinksPage
+      mediaType="bg-links"
+      linksJson={bgLinks}
+      asideJson={bgChurchesLinks}
+      asideTitle="Български адвентни църкви"
+    />
   );
 };
 

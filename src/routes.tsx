@@ -1,4 +1,4 @@
-import { OLD_SITE, AdType } from './constants';
+import { OLD_SITE, AdType, MediaType } from './constants';
 
 const routes = {
   home: '/',
@@ -25,8 +25,7 @@ const routes = {
   commune: (item?: 'pastor-online') => `/commune${item ? `/${item}` : ''}`,
   advertisement: (item?: AdType) => `/adver${item ? `/${item}` : ''}`,
 
-  media: (item?: 'radio' | 'tv' | 'links' | 'courses' | 'bg-links' | 'app') =>
-    `/media${item ? `/${item}` : ''}`, //use radios info in media/
+  media: (item?: MediaType) => `/media${item ? `/${item}` : ''}`, //use radios info in media/
 
   info: (
     item?:

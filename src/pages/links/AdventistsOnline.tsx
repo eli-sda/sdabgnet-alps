@@ -6,17 +6,21 @@ const AdventistsOnline = (): JSX.Element => {
   const [bgChurchesLinks, setBgChurchesLinks] = useState<LinkGroup[]>([]);
 
   useEffect(() => {
-    Promise.all([
-      fetch('/adventists-online.json').then((res) => res.json()),
-      fetch('/adventis-online-churches.json').then((res) => res.json())
-    ])
-      .then(([linksData, churchesData]: [LinkGroup[], LinkGroup[]]) => {
-        setBgLinks(linksData);
-        setBgChurchesLinks(churchesData);
-      })
+    fetch('/adventists-online.json')
+      .then((res) => res.json())
+      .then((data: LinkGroup[]) => setBgLinks(data))
       .catch((err) => {
-        console.error('Failed to load adventists-online JSON files', err);
+        console.error('Failed to load adventists-online.json', err);
         setBgLinks([]);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch('/adventis-online-churches.json')
+      .then((res) => res.json())
+      .then((data: LinkGroup[]) => setBgChurchesLinks(data))
+      .catch((err) => {
+        console.error('Failed to load adventis-online-churches.json', err);
         setBgChurchesLinks([]);
       });
   }, []);

@@ -30,7 +30,7 @@ export const LinksBlock = ({
 
   return (
     <div
-      className={`c-cta-block c-block ${canBeClass}--dark-dark u-border--left ${themeBorderColorClass}--darker--left ${backgroundClass}`}
+      className={`links-block c-cta-block c-block ${canBeClass}--dark-dark u-border--left ${themeBorderColorClass}--darker--left ${backgroundClass}`}
     >
       {picture && (
         <div className="u-padding--half">

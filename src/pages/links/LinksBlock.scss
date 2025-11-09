@@ -1,9 +1,16 @@
-@media (min-width: 701px) {
-  .c-cta-block.has-image > *:first-child {
-    width: 25%;
+.links-block.c-cta-block.has-image {
+  @media (max-width: 700px) {
+    & > *:first-child {
+      max-width: 300px;
+    }
   }
+  @media (min-width: 701px) {
+    & > *:first-child {
+      width: 25%;
+    }
 
-  .c-cta-block.has-image > *:nth-child(2) {
-    width: 75%;
+    & > *:nth-child(2) {
+      width: 75%;
+    }
   }
 }

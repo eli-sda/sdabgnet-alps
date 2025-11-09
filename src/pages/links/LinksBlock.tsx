@@ -2,6 +2,7 @@
 
 import { canBeClass, themeBorderColorClass } from 'alps-library/global/colors';
 import { Button, ButtonProps } from 'src/alps/atoms/Button';
+import './LinksBlock.scss';
 
 export interface LinksBlockProps {
   /**

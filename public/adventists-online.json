@@ -505,6 +505,14 @@
       {
         "url": "https://www.youtube.com/@BibleTruthMattersOriginal",
         "type": "youtube"
+      },
+      {
+        "url": "https://www.facebook.com/BibleTruthMatters",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.tiktok.com/@bible_truth_matters",
+        "type": "tik tok"
       }
     ]
   },

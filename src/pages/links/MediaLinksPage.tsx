@@ -1,12 +1,13 @@
+import { iconConfig } from 'alps-library/atoms/icons/_config';
+import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import routes from 'src/routes';
+import { MediaType } from 'src/constants';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
-import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
-import { iconConfig } from 'alps-library/atoms/icons/_config';
 import { LinksBlock } from './LinksBlock';
 
 interface MediaLinksPageProps {
-  mediaType: 'tv' | 'radio' | 'links' | 'courses' | 'bg-links' | 'app';
+  mediaType: MediaType;
   linksJson: LinkGroup[];
   linksTitle?: string;
   asideJson?: LinkGroup[];
@@ -95,14 +96,8 @@ const MediaLinksPage = ({
 
   const asideContent = asideJson.length > 0 && (
     <>
-      {asideTitle && (
-        <div className="u-space--bottom">
-          <HeadingBlock title={asideTitle} />
-        </div>
-      )}
-      <div className={`u-spacing${isDoubleSpacing ? '--double' : ''}`}>
-        {renderLinksBlocks(asideJson)}
-      </div>
+      {asideTitle && <HeadingBlock title={asideTitle} />}
+      {renderLinksBlocks(asideJson)}
     </>
   );
 
@@ -112,16 +107,10 @@ const MediaLinksPage = ({
       breadcrumbsUrls={breadcrumbsUrls}
       aside={asideContent}
     >
-      <>
-        {linksTitle && (
-          <div className="u-space--bottom">
-            <HeadingBlock title={linksTitle} />
-          </div>
-        )}
-        <div className={`u-spacing${isDoubleSpacing ? '--double' : ''}`}>
-          {renderLinksBlocks(linksJson)}
-        </div>
-      </>
+      <section className={`u-spacing${isDoubleSpacing ? '--double' : ''}`}>
+        {linksTitle && <HeadingBlock title={linksTitle} />}
+        {renderLinksBlocks(linksJson)}
+      </section>
     </Page>
   );
 };

@@ -12,7 +12,7 @@
   {
     "title": "Adventist Mission",
     "description": "Сайтът Adventist Mission дава информация за мисията на адвентната църквата по света. Работата на мисионерите в различните краища на земята. Евангелизирането на трудните региони и мисионските проекти. Предоставена е и възможност за участие на доброволци, а също така и възможност за финансова подкрепа на различните мисии.",
-    "image": "/img/logos/adventistmission-logo.svg",
+    "image": "/img/logos/adventistmission-logo.png",
     "links": [
       { "url": "http://www.adventistmission.org/", "type": "сайт" },
       {
@@ -54,7 +54,7 @@
   {
     "title": "Encyclopedia of Seventh-day Adventists (ESDA)",
     "description": "Проектът \"Encyclopedia of Seventh-day Adventists (ESDA)\" се управлява от офиса на Генералната конференция за архиви, статистика и изследвания (ASTR) в Силвър Спринг, САЩ. Това е глобален църковен проект с над 8 000 статии, снимки и документи, насочен към по-добро разбиране и споделяне на историята на адвентната църква. Онлайн енциклопедията, стартирала през 2020 г., е безплатен ресурс, който постоянно се обновява и разширява.",
-    "image": "/img/logos/ESDA-logo.jpg",
+    "image": "/img/logos/ESDA-logo.png",
     "links": [
       { "url": "https://encyclopedia.adventist.org/about-esda", "type": "сайт" }
     ]
@@ -129,15 +129,7 @@
     ]
   },
   {
-    "title": "Got Questions - Българска версия",
-    "description": "Българската версия на сайта с отговорени библейски въпроси.",
-    "image": "/img/pastorOnline/logo_gotQuestions.svg",
-    "links": [
-      { "url": "https://www.gotquestions.org/Bulgarian/", "type": "сайт" }
-    ]
-  },
-  {
-    "title": "Adventist.org Church Channel",
+    "title": "Seventh-day Adventist Church",
     "image": "/img/logos/adventist-logo.png",
     "links": [
       {
@@ -161,7 +153,7 @@
   {
     "title": "Greg Sereda",
     "description": "Видеата обхващат теми като библейски факти, религиозни новини, въпроси и отговори, свързани с Библията, както и библейски пророчества. Целта на неговото служение е да помогне на хората по-добре да разбират Библията и да се подготвят за Второто пришествие на Исус.",
-    "image": "/img/logos/greg-sereda-logo.jpg",
+    "image": "/img/logos/greg-sereda-logo.png",
     "links": [
       { "url": "https://www.youtube.com/@GregSereda", "type": "youtube" },
       {

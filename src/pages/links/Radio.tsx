@@ -1,15 +1,11 @@
 import MediaLinksPage, { LinkGroup } from './MediaLinksPage';
-import radioBgLinks from './radio-bg.json';
-import radioForeignLinks from './radio-foreign.json';
+import radioBgLinks from './radio.json';
 
 const Radio = (): JSX.Element => {
   return (
     <MediaLinksPage
       mediaType="radio"
       linksJson={radioBgLinks as LinkGroup[]}
-      linksTitle="Български"
-      asideJson={radioForeignLinks as LinkGroup[]}
-      asideTitle="Чужди"
       isDoubleSpacing
     />
   );

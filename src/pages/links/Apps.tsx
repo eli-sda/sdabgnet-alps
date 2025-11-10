@@ -1,14 +1,14 @@
 import MediaLinksPage, { LinkGroup } from './MediaLinksPage';
-import tvLinks from './app.json';
+import tvLinks from './apps.json';
 
-const App = (): JSX.Element => {
+const Apps = (): JSX.Element => {
   return (
     <MediaLinksPage
-      mediaType="app"
+      mediaType="apps"
       linksJson={tvLinks as LinkGroup[]}
       isDoubleSpacing
     />
   );
 };
 
-export default App;
+export default Apps;

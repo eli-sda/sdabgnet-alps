@@ -210,7 +210,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Приложения',
-        url: routes.media('app')
+        url: routes.media('apps')
       },
       {
         type: 'primary',

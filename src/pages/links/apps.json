@@ -1,7 +1,7 @@
 [
   {
     "title": "Съботно училищен урок",
-    "description": "",
+    "description": "„Съботно училищен урок“ е приложение, позволяващо ви да четете уроците през вашия мобилен телефон. То предлага функционалност за избиране и показване на всички уроци след 2006 г. до днес. Програмата използва минимално количество пакет от данни, за да изтегли избрания урок. След като сте посетили даден урок, ще имате възможност да го преглеждате, дори и без наличието на интернет връзка.",
     "image": "/img/logos/sabbath-school-logo.webp",
     "links": [
       {
@@ -57,7 +57,7 @@
   {
     "title": "Пътят към Христос",
     "description": "Приложението предлага възможност за прослушване на главите от книгата „Пътят към Христос“ в аудио формат.",
-    "image": "/img/logos/steps-to-christ-logo.webp",
+    "image": "/img/logos/steps-to-christ-logo.gif",
     "links": [
       {
         "url": "https://play.google.com/store/apps/details?id=com.dodosteam.stepsToChrist",
@@ -101,8 +101,12 @@
     "image": "/img/logos/bible-app-logo.png",
     "links": [
       {
-        "url": "https://www.bible.com/bg/app",
+        "url": "https://play.google.com/store/apps/details?id=com.sirma.mobile.bible.android",
         "type": "google play"
+      },
+      {
+        "url": "https://apps.apple.com/us/app/bible/id282935706",
+        "type": "apple store"
       }
     ]
   }

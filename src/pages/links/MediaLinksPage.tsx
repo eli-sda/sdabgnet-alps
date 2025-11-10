@@ -24,6 +24,7 @@ export type LinkGroup = {
   title: string;
   description?: string;
   image?: string;
+  image40?: string;
   links: LinkItem[];
 };
 
@@ -64,7 +65,7 @@ const MediaLinksPage = ({
   const breadcrumbsUrls = [routes.media(), routes.media(mediaType)];
 
   const renderLinksBlocks = (data: LinkGroup[]) =>
-    data.map(({ title, description, image, links }, i) => {
+    data.map(({ title, description, image, image40, links }, i) => {
       const buttons = links.map(({ url, type }) => ({
         label: type,
         url,
@@ -85,6 +86,7 @@ const MediaLinksPage = ({
           title={title}
           description={description}
           picture={image}
+          smallImage={image40}
           buttons={buttons}
         />
       );

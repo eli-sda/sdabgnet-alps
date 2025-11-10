@@ -2,6 +2,7 @@
   {
     "title": "Съюз на ЦАСД в България",
     "description": "Съюз на църквите на адвентистите от Седмия ден в България",
+    "image40": "/img/logos/40/adventistbg.png",
     "links": [
       {
         "url": "https://www.adventist.bg/",
@@ -19,6 +20,7 @@
   },
   {
     "title": "Съботно Училище - ЦАСД България",
+    "image40": "/img/logos/40/Sabbath.School.Bulgaria.jpg",
     "links": [
       {
         "url": "https://www.facebook.com/Sabbath.School.Bulgaria",
@@ -28,6 +30,7 @@
   },
   {
     "title": "Отдел \"Лично служене\"",
+    "image40": "/img/logos/40/sabathshcool.png",
     "links": [
       {
         "url": "http://ss.adventist.bg",
@@ -45,6 +48,7 @@
   },
   {
     "title": "Семейно служене",
+    "image40": "/img/logos/40/family-ministry.jpg",
     "links": [
       {
         "url": "https://www.facebook.com/profile.php?id=100089804343556",
@@ -54,6 +58,7 @@
   },
   {
     "title": "Служба на жените",
+    "image40": "/img/logos/40/women's-service.jpg",
     "links": [
       {
         "url": "https://www.facebook.com/profile.php?id=100064877040330",
@@ -63,6 +68,7 @@
   },
   {
     "title": "Младежки отдел - ЦАСД България",
+    "image40": "/img/logos/40/sdayouthbulgaria.jpg",
     "links": [
       {
         "url": "https://www.facebook.com/Младежки-отдел-ЦАСД-България-1190152124348326",
@@ -76,6 +82,7 @@
   },
   {
     "title": "Клуб Изследовател - България",
+    "image40": "/img/logos/40/IzsledovatelBG.jpg",
     "links": [
       {
         "url": "https://www.facebook.com/IzsledovatelBG",
@@ -89,6 +96,7 @@
   },
   {
     "title": "Детско служене - ЦАСД",
+    "image40": "/img/logos/40/children's-ministry-CASD.jpg",
     "links": [
       {
         "url": "https://www.facebook.com/Детско-служене-ЦАСД-873514049431759/",
@@ -99,6 +107,7 @@
   {
     "title": "AДРА България",
     "description": "Сайт на АДРА България - адвентна хуманитарна организация",
+    "image40": "/img/logos/40/BulgariaADRA.jpg",
     "links": [
       {
         "url": "https://adra.bg/bg/",
@@ -116,6 +125,7 @@
   },
   {
     "title": "Фондация \"Грижа за Здравето\"",
+    "image40": "/img/logos/40/grizha.za.zdraveto.jpg",
     "links": [
       {
         "url": "https://healthcare-bg.com/",
@@ -133,6 +143,7 @@
   },
   {
     "title": "Адвентно-мюсюлмански връзки ЦАСД България",
+    "image40": "/img/logos/40/Adventist-Muslim-Relations-CASD-Bulgaria.jpg",
     "links": [
       {
         "url": "https://www.facebook.com/profile.php?id=100089575059618",
@@ -142,6 +153,7 @@
   },
   {
     "title": "АСИ-България",
+    "image40": "/img/logos/40/ASi-Bulgaria.jpg",
     "links": [
       {
         "url": "https://www.asi-bg.org/",
@@ -156,6 +168,7 @@
   {
     "title": "Център за Здраве",
     "description": "Християнски център за профилактика и здраве",
+    "image40": "/img/logos/40/novstart.info.jpg",
     "links": [
       {
         "url": "http://lifeinhope.com",
@@ -169,6 +182,7 @@
   },
   {
     "title": "Цветна надежда",
+    "image40": "/img/logos/40/cvetnanadejda.jpg",
     "links": [
       {
         "url": "https://www.facebook.com/cvetnanadejda",
@@ -179,6 +193,7 @@
   {
     "title": "Петте камъка",
     "description": "Образователен проект - Петте Камъка",
+    "image40": "/img/logos/40/OPThefivestones.jpg",
     "links": [
       {
         "url": "https://thefivestones.bg/",
@@ -193,6 +208,7 @@
   {
     "title": "Детски център \"Авигея\"",
     "description": "Образователен детски център \"Авигея\" - гр. Пловдив",
+    "image40": "/img/logos/40/avigeaplovdiv.png",
     "links": [
       {
         "url": "http://www.avigea.net",
@@ -214,6 +230,7 @@
   },
   {
     "title": "FaceBIBLE",
+    "image40": "/img/logos/40/facebible.png",
     "links": [
       {
         "url": "https://facebible.bg",
@@ -223,6 +240,7 @@
   },
   {
     "title": "Електронна библиотека",
+    "image40": "/img/logos/40/bibliotekabg.com.png",
     "description": "BIBLIOTEKABG.COM е онлайн библиотека, която предлага богата колекция от електронни християнски книги. Търсачите на духовна литуратура, ще могат да се докоснат до публикациите и книгите на избрани автори, които претендират за духовно водителство, насочващо читателите към възвишеното.",
     "links": [
       {
@@ -233,6 +251,7 @@
   },
   {
     "title": "Национален хор \"Гласът на надеждата\"",
+    "image40": "/img/logos/40/the-voice-of-hope.jpg",
     "links": [
       {
         "url": "https://nazionalenhor.adventist.bg/",
@@ -255,6 +274,7 @@
   {
     "title": "Day By Day Блог",
     "description": "Личен блог на Катя Купенова",
+    "image40": "/img/logos/40/DayByDayBlog.jpg",
     "links": [
       {
         "url": "https://katekupenova.wordpress.com",
@@ -276,6 +296,7 @@
   },
   {
     "title": "4Bible (За Библията)",
+    "image40": "/img/logos/40/AmazingBibleProphecies.jpg",
     "links": [
       {
         "url": "https://4bible.org/",
@@ -293,6 +314,7 @@
   },
   {
     "title": "Да се учим заедно от Библията",
+    "image40": "/img/logos/40/bgbible.jpg",
     "links": [
       {
         "url": "http://bgbible.sdabg.net",
@@ -343,6 +365,7 @@
   {
     "title": "Библейско изучаване",
     "description": "Сайт на Боян Бонев",
+    "image40": "/img/logos/40/biblestudybonev2.png",
     "links": [
       {
         "url": "https://sites.google.com/view/biblestudybonev/",
@@ -363,6 +386,7 @@
   {
     "title": "Моментът на истината",
     "description": "Моментът на истината - курс от 41 урока",
+    "image40": "/img/logos/40/cyberspaceministry.jpg",
     "links": [
       {
         "url": "http://www.cyberspaceministry.org/Lessons/bul-les1.html",
@@ -382,6 +406,7 @@
   {
     "title": "Сайт на пастор Митко Димитров",
     "description": "Всичко от пастор Митко Димитров",
+    "image40": "/img/logos/40/kyustendilv.jpg",
     "links": [
       {
         "url": "http://mitko-dimitrov.sdabg.net/",
@@ -395,6 +420,7 @@
   },
   {
     "title": "Адвентисимо - Адвентна Апологетика",
+    "image40": "/img/logos/40/adventisimo.com.png",
     "links": [
       {
         "url": "https://www.adventisimo.com",
@@ -422,6 +448,7 @@
   },
   {
     "title": "Pin2all",
+    "image40": "/img/logos/40/pin2all.png",
     "description": "PIN media — за всеки готов да експериментира в света на мултимедийните хрумвания. Малки проекти, които показват красивото и доброто.",
     "links": [
       {
@@ -433,6 +460,7 @@
   {
     "title": "Молитва в действие",
     "description": "Страница на молитвеното служене на ЦАСД в България.",
+    "image40": "/img/logos/40/prayer-in-action.jpg",
     "links": [
       {
         "url": "https://www.facebook.com/profile.php?id=100064660600676",
@@ -442,6 +470,7 @@
   },
   {
     "title": "Вдъхновяващ опит от Църквата на адвентистите от седмия ден",
+    "image40": "/img/logos/40/inspiring-experience.jpg",
     "links": [
       {
         "url": "https://www.facebook.com/profile.php?id=100069937908704",
@@ -452,6 +481,7 @@
   {
     "title": "Hope Channel Bulgaria",
     "description": "Hope Channel Bulgaria е част от глобална християнска телевизионна мрежа с програми за вяра, здраве и взаимоотношения. Мисията ѝ е да споделя Божията блага вест и да вдъхновява за по-добър живот днес и през вечността.",
+    "image40": "/img/logos/40/HopetvBG.png",
     "links": [
       {
         "url": "https://hopetv.bg",
@@ -474,6 +504,7 @@
   {
     "title": "Телевизия Библейска Светлина и радио Светлина",
     "description": "Българска християнска медия, посветена на споделянето на Божието слово чрез радио и телевизионни предавания.",
+    "image40": "/img/logos/40/hristianskoradio.jpg",
     "links": [
       {
         "url": "https://radiosvetlina.org",
@@ -492,6 +523,7 @@
   {
     "title": "In Time & Space — Във времето и пространството",
     "description": "Канал, посветен на историята, археологията, географията и библейските принципи в света на бизнеса.",
+    "image40": "/img/logos/40/intimeandspace.jpg",
     "links": [
       {
         "url": "https://www.youtube.com/@intimeandspace",
@@ -501,6 +533,7 @@
   },
   {
     "title": "Bible Truth Matters",
+    "image40": "/img/logos/40/BibleTruthMatters.png",
     "links": [
       {
         "url": "https://www.youtube.com/@BibleTruthMattersOriginal",
@@ -519,6 +552,7 @@
   {
     "title": "Ако ВЯРВАШ...",
     "description": "Ако имаш нужда от насърчение, малко духовност и много надежда — тук ще ги намериш.",
+    "image40": "/img/logos/40/ifubelieve.jpg",
     "links": [
       {
         "url": "https://bg.faithmorefaith.com",

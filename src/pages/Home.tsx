@@ -362,6 +362,9 @@ const Home = () => {
             <li>
               <NavLink to={routes.media('links')}>Чужди сайтове</NavLink>
             </li>
+            <li>
+              <NavLink to={routes.media('apps')}>Приложения</NavLink>
+            </li>
           </ul>
         </div>
         <h5>DEMO: Плейлисти с ресурси за сваляне:</h5>

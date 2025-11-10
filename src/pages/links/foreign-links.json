@@ -54,7 +54,7 @@
   {
     "title": "Encyclopedia of Seventh-day Adventists (ESDA)",
     "description": "Проектът \"Encyclopedia of Seventh-day Adventists (ESDA)\" се управлява от офиса на Генералната конференция за архиви, статистика и изследвания (ASTR) в Силвър Спринг, САЩ. Това е глобален църковен проект с над 8 000 статии, снимки и документи, насочен към по-добро разбиране и споделяне на историята на адвентната църква. Онлайн енциклопедията, стартирала през 2020 г., е безплатен ресурс, който постоянно се обновява и разширява.",
-    "image": "/img/logos/ESDA-logo.jpg",
+    "image": "/img/logos/ESDA-logo.png",
     "links": [
       { "url": "https://encyclopedia.adventist.org/about-esda", "type": "сайт" }
     ]

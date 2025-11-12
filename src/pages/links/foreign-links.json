@@ -163,6 +163,34 @@
     ]
   },
   {
+    "title": "Александр Болотников",
+    "image": "/img/logos/alexanderbolotnikov.jpg",
+    "links": [
+      {
+        "url": "https://www.youtube.com/@alexanderbolotnikov",
+        "type": "youtube"
+      },
+      {
+        "url": "https://www.facebook.com/bolotnikov77",
+        "type": "facebook"
+      }
+    ]
+  },
+  {
+    "title": "Пилипенко Виталий Pilipenko Vitalii",
+    "image": "/img/logos/vitaliy.pilipenko.jpg",
+    "links": [
+      {
+        "url": "https://www.facebook.com/vitaliy.pilipenko.3",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/@PilipenkoVitalii",
+        "type": "youtube"
+      }
+    ]
+  },
+  {
     "title": "The Bible Lab",
     "description": "Бог иска да Го познаваш — не така, както си Го представяш, а такъв, какъвто наистина е – в Неговия истински и прекрасен характер. За съжаление, с времето хората са изопачили образа на Бога, придавайки Му свои черти. Тяхната мисия е да изследват Библията, за да открият Неговия автентичен характер и да се влюбят още повече в Него чрез този процес на откриване.",
     "image": "/img/logos/the-bible-lab-logo.gif",

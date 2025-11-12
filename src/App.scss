@@ -1,6 +1,11 @@
 @use './styles/colors.scss' as *;
 @use './Alps-font-overwrite.scss' as *;
 
+/* Enable native smooth scrolling for in-page anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
 .u-theme--ming .u-theme--path-fill--base {
   text > * {
     fill: $mingColor;

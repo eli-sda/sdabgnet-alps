@@ -1,0 +1,9 @@
+.links-sections-nav {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .links-sections-nav {
+    display: block;
+  }
+}

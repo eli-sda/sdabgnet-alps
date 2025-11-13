@@ -9,7 +9,6 @@ import { PageSection } from 'src/organisms/PageSection';
 import { getTitle } from 'src/utils/Navigation';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { LinksBlock } from './LinksBlock';
-import './MediaLinksPage.scss';
 
 interface MediaLinksPageProps {
   mediaType: MediaType;
@@ -53,35 +52,27 @@ const alpsIcons: Record<string, keyof typeof iconConfig.iconNamesMap> = {
 const getFaIcon = (type: string) => faIcons[type];
 const getAlpsIcon = (type: string) => alpsIcons[type];
 
-const slugify = (s: string) =>
-  s
-    .toLowerCase()
-    .trim()
-    .replace(/['"“”‘’]/g, '')
-    .replace(/[^a-z0-9а-яёєїіїүґ]+/gi, '-')
-    .replace(/^-+|-+$/g, '');
-
 const ensureSections = (
   data: unknown,
   defaultTitle = 'Линкове'
 ): LinksData[] => {
   if (!data) return [];
 
-  if (Array.isArray(data) && data.length && 'section' in data[0]) {
-    return (data as LinksData[]).map((section, i) => ({
-      ...section,
-      id: section.id || slugify(section.section || `section-${i}`)
-    }));
-  }
-
   if (Array.isArray(data) && data.length) {
-    return [
-      {
-        section: defaultTitle,
-        id: slugify(defaultTitle),
-        items: data as LinkGroup[]
-      }
-    ];
+    if ('section' in data[0]) {
+      return (data as LinksData[]).map((section, i) => ({
+        ...section,
+        id: section.id || `section-${i}`
+      }));
+    } else {
+      return [
+        {
+          section: defaultTitle,
+          id: 'links',
+          items: data as LinkGroup[]
+        }
+      ];
+    }
   }
 
   return [];
@@ -129,7 +120,7 @@ const SectionList = ({
         id={id}
         className={`u-spacing${doubleSpace ? '--double' : ''}`}
       >
-        <HeadingBlock title={section} />
+        {section && <HeadingBlock title={section} />}
         {renderLinksBlocks(items)}
       </div>
     ))}

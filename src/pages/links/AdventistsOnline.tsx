@@ -30,7 +30,6 @@ const AdventistsOnline = (): JSX.Element => {
       mediaType="bg-links"
       linksJson={bgLinks}
       asideJson={bgChurchesLinks}
-      asideTitle="Български адвентни църкви"
     />
   );
 };

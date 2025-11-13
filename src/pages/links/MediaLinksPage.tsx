@@ -44,7 +44,7 @@ const faIcons: Record<string, string> = {
   'youtube': 'youtube',
   'instagram': 'instagram',
   'google play': 'android',
-  'app store': 'apple'
+  'apple store': 'apple'
 };
 
 const alpsIcons: Record<string, keyof typeof iconConfig.iconNamesMap> = {

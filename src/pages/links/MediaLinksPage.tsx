@@ -39,10 +39,12 @@ type LinksData = {
 };
 
 const faIcons: Record<string, string> = {
-  сайт: 'globe',
-  facebook: 'facebook',
-  youtube: 'youtube',
-  instagram: 'instagram'
+  'сайт': 'globe',
+  'facebook': 'facebook',
+  'youtube': 'youtube',
+  'instagram': 'instagram',
+  'google play': 'android',
+  'app store': 'apple'
 };
 
 const alpsIcons: Record<string, keyof typeof iconConfig.iconNamesMap> = {

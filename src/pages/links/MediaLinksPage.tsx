@@ -32,7 +32,7 @@ export type LinkGroup = {
   links: LinkItem[];
 };
 
-type LinksData = {
+export type LinksData = {
   section: string;
   id: string;
   items: LinkGroup[];
@@ -108,7 +108,7 @@ const renderLinksBlocks = (groups: LinkGroup[]) =>
     );
   });
 
-const SectionList = ({
+export const SectionList = ({
   sections,
   doubleSpace
 }: {

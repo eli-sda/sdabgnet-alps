@@ -3,6 +3,7 @@ import { iconConfig } from 'alps-library/atoms/icons/_config';
 import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import routes from 'src/routes';
+import { Button } from 'src/alps/atoms/Button';
 import { MediaType } from 'src/constants';
 import { PageSection } from 'src/organisms/PageSection';
 import { getTitle } from 'src/utils/Navigation';
@@ -141,18 +142,18 @@ const MediaLinksPage = ({
     if (arr.length > 1) {
       return (
         <div className="links-sections-nav u-spacing--half">
-          {arr.map(({ id, section }) => (
-            <a
-              key={id}
-              href={`#${id}`}
-              className="o-button o-button--lighter u-space--half--right"
-            >
-              {section}
-              <i
-                className="fa fa-level-down u-space--half--left"
-                aria-hidden="true"
-              ></i>
-            </a>
+          {arr.map(({ id, section }, i) => (
+            <Button
+              key={i}
+              as="a"
+              url={`#${id}`}
+              label={section}
+              className="u-space--half--right"
+              faIcon="level-down"
+              iconPosition="right"
+              isExternal={false}
+              lighter={true}
+            />
           ))}
         </div>
       );

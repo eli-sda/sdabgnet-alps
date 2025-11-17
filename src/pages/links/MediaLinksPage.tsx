@@ -158,7 +158,6 @@ const MediaLinksPage = ({
         </div>
       );
     }
-    return <></>;
   }, [mainSections, asideSections]);
 
   return (

@@ -417,20 +417,17 @@
       {
         "title": "Сайт на пастор Митко Димитров",
         "description": "Всичко от пастор Митко Димитров",
-        "image40": "/img/logos/40/kyustendilv.jpg",
+        "image40": "/img/logos/40/mitko-dimitrov.png",
         "links": [
           {
             "url": "http://mitko-dimitrov.sdabg.net/",
             "type": "сайт"
-          },
-          {
-            "url": "https://www.youtube.com/user/kyustendilv",
-            "type": "youtube"
           }
         ]
       },
       {
         "title": "Адвентисимо - Адвентна Апологетика",
+        "description": "Чувствали ли сте се объркани, в какво точно вярвате? Предизвикателство ли е за вас да аргументирате добре вярата си? Ако да, този сайт е за вас. Тук ще намерите отговори на критиките срещу адвентните доктрини, както и статии за духовния ви растеж.",
         "image40": "/img/logos/40/adventisimo.com.png",
         "links": [
           {
@@ -549,7 +546,8 @@
         ]
       },
       {
-        "title": "Dimi Filyova",
+        "title": "Дими Фильова",
+        "description": "Тук ще намерите актуални адвентни материали преведени от аглийски език, аудио книги, християнски песни.",
         "image40": "/img/logos/40/dimi-filyova.jpg",
         "links": [
           {

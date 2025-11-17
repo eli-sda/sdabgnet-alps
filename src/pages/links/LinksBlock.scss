@@ -3,8 +3,7 @@
     display: flex;
     align-items: center;
 
-    .small-circular-image {
-      border-radius: 50%;
+    .small-image {
       object-fit: cover;
       flex-shrink: 0;
     }

@@ -58,12 +58,12 @@ const isSectionsArray = (
   return data.length > 0 && 'section' in data[0];
 };
 
-const ensureSections = (data: LinkGroup[], defaultTitle = ''): LinksData[] => {
+const ensureSections = (data: LinkGroup[]): LinksData[] => {
   if (!data || data.length === 0) return [];
 
   return [
     {
-      section: defaultTitle,
+      section: '',
       id: 'links',
       items: data
     }

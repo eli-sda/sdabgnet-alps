@@ -30,7 +30,7 @@ export type LinkGroup = {
 const getFaIcon = (type: string): string | undefined => {
   switch (type) {
     case 'сайт':
-      return 'globe';
+      return 'fas fa-globe-americas';
     case 'facebook':
       return 'facebook';
     case 'youtube':
@@ -38,9 +38,9 @@ const getFaIcon = (type: string): string | undefined => {
     case 'instagram':
       return 'instagram';
     case 'google play':
-      return 'android';
+      return 'fab fa-google-play';
     case 'apple store':
-      return 'apple';
+      return 'fab fa-app-store';
     default:
       return undefined;
   }

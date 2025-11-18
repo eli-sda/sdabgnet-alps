@@ -19,19 +19,23 @@ const Churches = () => {
         setBgChurchesLinks([]);
       });
   }, []);
+
   return (
     <Page
       title="Адвентни църкви в България"
       kicker={getTitle(routes.info())}
       breadcrumbsUrls={breadcrumbsUrls}
-      aside={<SectionList sections={bgChurchesLinks} doubleSpace={false} />}
     >
-      <Button
-        as="a"
-        label="Намери църква"
-        url="https://www.adventist.bg/nameri-carkva"
-        isExternal
-      />
+      <div className='u-spacing'>
+        <Button
+          as="a"
+          label="Намери църква"
+          url="https://www.adventist.bg/nameri-carkva"
+          isExternal
+        />
+
+        <SectionList sections={bgChurchesLinks} doubleSpace={false} />
+      </div>
     </Page>
   );
 };

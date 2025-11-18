@@ -1,15 +1,15 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import moment from 'moment';
 // import IconsColorsSizes from '../atoms/IconsColorsSizes';
 import routes from '../routes';
+import { OLD_SITE } from 'src/constants';
 import DailyVerse from 'src/organisms/DailyVerse';
-import moment from 'moment';
 import { PageSection } from 'src/organisms/PageSection';
 // import { Carousel } from 'alps-library/molecules/components/carousel/Carousel';
 import PageMeta from 'src/utils/PageMeta';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
 // import { FetchedPageDescription } from 'src/organisms/FetchedPageDescription';
-import { demoAudioPlaylist, demoAudioPlaylist2, OLD_SITE } from 'src/constants';
 
 // import { Button } from '@mui/material';
 // import { deleteAllLinks } from 'src/utils/DelteSanityDocuments';
@@ -18,22 +18,10 @@ import { demoAudioPlaylist, demoAudioPlaylist2, OLD_SITE } from 'src/constants';
 // import { deleteAllAudioLinks } from 'src/utils/Sanity/delete-audio-links';
 // import { VideoFull } from 'alps-library/organisms/sections/videoFull/VideoFull';
 
-import playlistData from './resources/playlist.json';
-import DownloadList from './resources/DownloadList';
-import { PlaylistType } from 'src/contexts/PlaylistsContext';
-import DownloadPlaylist from './resources/DownloadPlaylist';
-
-import { useScrollToHash } from 'src/hooks/useScrollToHash';
-import AudioPalylist from './resources/AudioPalylist';
-import AudioPlayer from './resources/AudioPlayer';
 import UpcomingEvents from './events/UpcomingEvents';
 
 const Home = () => {
-  useScrollToHash();
-  const playlists: PlaylistType[] = playlistData;
-
   const [currentDate, setCurrentDate] = useState(() => moment());
-  const [playlist, setPlaylists] = useState<PlaylistType>({ _id: '1' }); // for demo audio playlist
   const { pageMeta } = usePagesMeta();
 
   useEffect(() => {
@@ -367,48 +355,6 @@ const Home = () => {
             </li>
           </ul>
         </div>
-        <h5>DEMO: Плейлисти с ресурси за сваляне:</h5>
-        {playlists.map((pl, i) => (
-          <div key={pl._id || i}>
-            <DownloadList
-              id={pl._id}
-              author={pl.author}
-              title={pl.title}
-              items={pl.items}
-            />
-            <hr />
-          </div>
-        ))}
-
-        <h5>
-          DEMO: Презентации &quot;Оправдание чрез вяра&quot; за изтегляне (201,
-          202, 203):
-        </h5>
-        <DownloadPlaylist
-          itemUrls={[
-            '/sdabg/presentations/AWR Plovdiv - Opravdanie chrez vyara//201 - Izkupitelnata Bojia Lyubov.zip',
-            '/sdabg/presentations/AWR Plovdiv - Opravdanie chrez vyara//202 - Problemyt s greha.zip',
-            '/sdabg/presentations/AWR Plovdiv - Opravdanie chrez vyara//203 - Kakvo e tova Evangelie.zip'
-          ]}
-          playlistName="Оправдание чрез вяра"
-        />
-
-        <section className="u-spacing--double">
-          <h5>Аудио плeйлист демо</h5>
-          <AudioPalylist
-            playlist={demoAudioPlaylist}
-            onPlay={() => {
-              setPlaylists(demoAudioPlaylist);
-            }}
-          />
-          <AudioPalylist
-            playlist={demoAudioPlaylist2}
-            onPlay={() => {
-              setPlaylists(demoAudioPlaylist2);
-            }}
-          />
-          {playlist.items && <AudioPlayer playlist={playlist}></AudioPlayer>}
-        </section>
 
         <p className="text">
           <a

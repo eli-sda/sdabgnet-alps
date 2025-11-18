@@ -1,16 +1,28 @@
-.links-block.c-cta-block.has-image {
-  @media (max-width: 700px) {
-    & > *:first-child {
-      max-width: 300px;
+.links-block.c-cta-block {
+  .title-with-image {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    .small-image {
+      max-width: 40px;
     }
   }
-  @media (min-width: 701px) {
-    & > *:first-child {
-      width: 25%;
-    }
 
-    & > *:nth-child(2) {
-      width: 75%;
+  &.has-image {
+    @media (max-width: 700px) {
+      & > *:first-child {
+        max-width: 300px;
+      }
+    }
+    @media (min-width: 701px) {
+      & > *:first-child {
+        width: 25%;
+      }
+
+      & > *:nth-child(2) {
+        width: 75%;
+      }
     }
   }
 }

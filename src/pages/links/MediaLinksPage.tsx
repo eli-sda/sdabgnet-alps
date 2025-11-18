@@ -1,17 +1,19 @@
+import { useMemo } from 'react';
 import { iconConfig } from 'alps-library/atoms/icons/_config';
+import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import routes from 'src/routes';
+import { Button } from 'src/alps/atoms/Button';
 import { MediaType } from 'src/constants';
-import { Page } from 'src/organisms/Page';
+import { PageSection } from 'src/organisms/PageSection';
 import { getTitle } from 'src/utils/Navigation';
+import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { LinksBlock } from './LinksBlock';
 
 interface MediaLinksPageProps {
   mediaType: MediaType;
-  linksJson: LinkGroup[];
-  linksTitle?: string;
-  asideJson?: LinkGroup[];
-  asideTitle?: string;
+  linksJson: LinkGroup[] | LinksData[];
+  asideJson?: LinkGroup[] | LinksData[];
   isDoubleSpacing?: boolean;
 }
 
@@ -24,94 +26,161 @@ export type LinkGroup = {
   title: string;
   description?: string;
   image?: string;
+  image40?: string;
   links: LinkItem[];
 };
 
-const getFaIcon = (type: string): string | undefined => {
-  switch (type) {
-    case 'сайт':
-      return 'globe';
-    case 'facebook':
-      return 'facebook';
-    case 'youtube':
-      return 'youtube';
-    case 'instagram':
-      return 'instagram';
-    case 'google play':
-      return 'android';
-    case 'apple store':
-      return 'apple';
-    default:
-      return undefined;
-  }
+export type LinksData = {
+  section: string;
+  id: string;
+  items: LinkGroup[];
 };
 
-const getAlpsIcon = (
-  type: string
-): keyof typeof iconConfig.iconNamesMap | undefined => {
-  switch (type) {
-    case 'tik tok':
-      return 'tiktok';
-    default:
-      return undefined;
-  }
+const faIcons: Record<string, string> = {
+  сайт: 'globe',
+  facebook: 'facebook',
+  youtube: 'youtube',
+  instagram: 'instagram',
+  'google play': 'android',
+  'app store': 'apple'
 };
+
+const alpsIcons: Record<string, keyof typeof iconConfig.iconNamesMap> = {
+  'tik tok': 'tiktok'
+};
+
+const getFaIcon = (type: string) => faIcons[type];
+const getAlpsIcon = (type: string) => alpsIcons[type];
+
+const isSectionsArray = (
+  data: LinkGroup[] | LinksData[]
+): data is LinksData[] => {
+  return data.length > 0 && 'section' in data[0];
+};
+
+const ensureSections = (data: LinkGroup[]): LinksData[] => {
+  if (!data || data.length === 0) return [];
+
+  return [
+    {
+      section: '',
+      id: 'links',
+      items: data
+    }
+  ];
+};
+
+const renderLinksBlocks = (groups: LinkGroup[]) =>
+  groups.map(({ title, description, image, image40, links }, i) => {
+    const buttons = links.map(({ url, type }) => ({
+      label: type,
+      url,
+      className: `link-button u-space--half--right ${
+        links.length > 1 ? 'u-space--half--bottom' : ''
+      }`,
+      faIcon: getFaIcon(type),
+      icon: getAlpsIcon(type),
+      hideExternalIcon: true,
+      simple: true,
+      outline: true,
+      isExternal: true
+    }));
+
+    return (
+      <LinksBlock
+        key={i}
+        title={title}
+        description={description}
+        picture={image}
+        smallImage={image40}
+        buttons={buttons}
+      />
+    );
+  });
+
+const SectionList = ({
+  sections,
+  doubleSpace
+}: {
+  sections: LinksData[];
+  doubleSpace: boolean;
+}) => (
+  <>
+    {sections.map(({ id, section, items }) => (
+      <div
+        key={id}
+        id={id}
+        className={`u-spacing${doubleSpace ? '--double' : ''}`}
+      >
+        {section && <HeadingBlock title={section} />}
+        {renderLinksBlocks(items)}
+      </div>
+    ))}
+  </>
+);
 
 const MediaLinksPage = ({
   mediaType,
   linksJson,
-  linksTitle = '',
   asideJson = [],
-  asideTitle = '',
   isDoubleSpacing = false
 }: MediaLinksPageProps): JSX.Element => {
+  useScrollToHash();
+
   const breadcrumbsUrls = [routes.media(), routes.media(mediaType)];
 
-  const renderLinksBlocks = (data: LinkGroup[]) =>
-    data.map(({ title, description, image, links }, i) => {
-      const buttons = links.map(({ url, type }) => ({
-        label: type,
-        url,
-        className: `link-button u-space--half--right ${
-          links.length > 1 ? 'u-space--half--bottom' : ''
-        }`,
-        faIcon: getFaIcon(type),
-        icon: getAlpsIcon(type),
-        hideExternalIcon: true,
-        simple: true,
-        outline: true,
-        isExternal: true
-      }));
-
-      return (
-        <LinksBlock
-          key={i}
-          title={title}
-          description={description}
-          picture={image}
-          buttons={buttons}
-        />
-      );
-    });
-
-  const asideContent = asideJson.length > 0 && (
-    <>
-      {asideTitle && <HeadingBlock title={asideTitle} />}
-      {renderLinksBlocks(asideJson)}
-    </>
+  const mainSections = useMemo(
+    () => (isSectionsArray(linksJson) ? linksJson : ensureSections(linksJson)),
+    [linksJson]
   );
+  const asideSections = useMemo(
+    () => (isSectionsArray(asideJson) ? asideJson : ensureSections(asideJson)),
+    [asideJson]
+  );
+  const topNavSections = useMemo(() => {
+    const arr = [...mainSections, ...asideSections];
+    if (arr.length > 1) {
+      return (
+        <div className="links-sections-nav u-spacing--half">
+          {arr.map(({ id, section }, i) => (
+            <Button
+              key={i}
+              as="a"
+              url={`#${id}`}
+              label={section}
+              className="u-space--half--right"
+              faIcon="level-down"
+              iconPosition="right"
+              isExternal={false}
+              lighter={true}
+            />
+          ))}
+        </div>
+      );
+    }
+  }, [mainSections, asideSections]);
 
   return (
-    <Page
-      title={getTitle(routes.media(mediaType))}
-      breadcrumbsUrls={breadcrumbsUrls}
-      aside={asideContent}
-    >
-      <section className={`u-spacing${isDoubleSpacing ? '--double' : ''}`}>
-        {linksTitle && <HeadingBlock title={linksTitle} />}
-        {renderLinksBlocks(linksJson)}
-      </section>
-    </Page>
+    <>
+      <PageHeaderLong title={getTitle(routes.media(mediaType))} />
+      <PageSection breadcrumbsUrls={breadcrumbsUrls}>
+        {topNavSections}
+      </PageSection>
+      <PageSection
+        aside={
+          asideSections.length > 0 && (
+            <SectionList
+              sections={asideSections}
+              doubleSpace={isDoubleSpacing}
+            />
+          )
+        }
+      >
+        <section className="u-spacing--double">
+          <SectionList sections={mainSections} doubleSpace={isDoubleSpacing} />
+        </section>
+      </PageSection>
+    </>
   );
 };
 

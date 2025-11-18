@@ -143,7 +143,7 @@ export const Button = ({
       {label}
       {iconPosition === 'right' && icon}
       {isExternal && !hideExternalIcon && !download && (
-        <i className="fa fa-external-link u-space--quarter--left"></i>
+        <i className="fas fa-external-link-alt u-space--quarter--left"></i>
       )}
     </>
   );

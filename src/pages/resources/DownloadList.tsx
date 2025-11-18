@@ -43,8 +43,8 @@ const DownloadList = ({
     <AccordionItem
       id={id}
       open={isInitiallyOpened}
-      faIcon="folder-o"
-      faIconOpen="folder-open-o"
+      faIcon="far fa-folder"
+      faIconOpen="far fa-folder-open"
       heading={
         <div className="title flex-1">
           <h3>{title && author !== title ? title : ''}</h3>

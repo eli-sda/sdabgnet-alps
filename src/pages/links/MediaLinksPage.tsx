@@ -38,9 +38,9 @@ export type LinksData = {
 
 const faIcons: Record<string, string> = {
   сайт: 'fas fa-globe-americas',
-  facebook: 'facebook',
-  youtube: 'youtube',
-  instagram: 'instagram',
+  facebook: 'fab fa-facebook-f',
+  youtube: 'fab fa-youtube',
+  instagram: 'fab fa-instagram',
   'google play': 'fab fa-google-play',
   'app store': 'fab fa-app-store'
 };
@@ -149,7 +149,7 @@ const MediaLinksPage = ({
               url={`#${id}`}
               label={section}
               className="u-space--half--right"
-              faIcon="level-down"
+              faIcon="fas fa-level-down-alt"
               iconPosition="right"
               isExternal={false}
               lighter={true}

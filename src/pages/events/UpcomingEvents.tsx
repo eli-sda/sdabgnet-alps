@@ -48,7 +48,7 @@ const UpcomingEvents = () => {
             className="c-block__title hyphens-auto u-font--primary--s u-space--half u-theme--color--dark"
           >
             <i
-              className="fa fa-calendar-o u-space--half--right"
+              className="far fa-calendar u-space--half--right"
               aria-hidden="true"
             />
             {moment(event.start).format('DD.MM.YYYY')}

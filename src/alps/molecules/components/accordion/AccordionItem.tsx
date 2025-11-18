@@ -73,7 +73,7 @@ export const AccordionItem = ({
       if (iconName) {
         return (
           <i
-            className={`fa fa-${iconName} u-space--quarter--left u-space--half--right`}
+            className={`${iconName} u-space--quarter--left u-space--half--right`}
             aria-hidden="true"
           ></i>
         );

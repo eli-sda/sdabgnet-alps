@@ -103,7 +103,7 @@ export const PrimaryNavItem = ({
     >
       {isExternal ? (
         <a {...linkAttr} onClick={onClick}>
-          {text} <i className="fa fa-external-link u-space--quarter--left"></i>
+          {text} <i className="fas fa-external-link-alt u-space--quarter--left"></i>
         </a>
       ) : useNavLink ? (
         <NavLink {...linkAttr}>{text}</NavLink>

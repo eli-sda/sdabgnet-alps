@@ -60,7 +60,7 @@ export const SubNavItem = ({
   };
 
   const linkIcon = isExternal && (
-    <i className="fa fa-external-link u-space--quarter--left"></i>
+    <i className="fas fa-external-link-alt u-space--quarter--left"></i>
   );
   return (
     <li

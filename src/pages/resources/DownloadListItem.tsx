@@ -11,16 +11,16 @@ const DownloadListItem = ({
   size
 }: LinkType) => {
   const icon = useMemo(() => {
-    if (path.endsWith('.pdf')) return 'file-pdf-o';
-    if (path.endsWith('.doc') || path.endsWith('.docx')) return 'file-word-o';
-    if (path.endsWith('.xls') || path.endsWith('.xlsx')) return 'file-excel-o';
+    if (path.endsWith('.pdf')) return 'file-pdf';
+    if (path.endsWith('.doc') || path.endsWith('.docx')) return 'file-word';
+    if (path.endsWith('.xls') || path.endsWith('.xlsx')) return 'file-excel';
     if (path.endsWith('.ppt') || path.endsWith('.pptx'))
-      return 'file-powerpoint-o';
-    if (path.endsWith('.zip') || path.endsWith('.rar')) return 'file-archive-o';
-    if (path.endsWith('.mp3') || path.endsWith('.wav')) return 'file-audio-o';
+      return 'file-powerpoint';
+    if (path.endsWith('.zip') || path.endsWith('.rar')) return 'file-archive';
+    if (path.endsWith('.mp3') || path.endsWith('.wav')) return 'file-audio';
     if (path.endsWith('.mp4') || path.endsWith('.mov') || path.endsWith('.avi'))
-      return 'file-video-o';
-    return 'file-o';
+      return 'file-video';
+    return 'file';
   }, [path]);
 
   const [downloading, setDownloading] = useState(false);
@@ -60,7 +60,7 @@ const DownloadListItem = ({
     <div className="download-item">
       <h3>
         <i
-          className={`fa fa-${icon} u-space--half--right`}
+          className={`far fa-${icon} u-space--half--right`}
           aria-hidden="true"
         ></i>
       </h3>
@@ -78,7 +78,7 @@ const DownloadListItem = ({
           disabled={downloading}
           small
           className="u-space--half--top"
-          faIcon={downloading ? 'spinner fa-pulse' : 'download'}
+          faIcon={downloading ? 'fas fa-spinner fa-pulse' : 'fas fa-download'}
           label={`Изтегли ${size ? `(${size} MB)` : ''}`}
           isExternal
           download

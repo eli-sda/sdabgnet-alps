@@ -52,7 +52,7 @@ const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
   }, [formattedDate, getDailyVerse]);
 
   if (loading) {
-    return <i className="fa fa-spinner u-space--quarter"></i>;
+    return <i className="fas fa-spinner fa-pulse u-space--quarter"></i>;
   }
 
   return data ? (

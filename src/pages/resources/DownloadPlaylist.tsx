@@ -83,7 +83,7 @@ const DownloadPlaylist = ({
         onClick={() => void handleDownload()}
         disabled={isLoading}
         label="Изтегли всички"
-        faIcon={isLoading ? 'spinner fa-pulse' : 'download'}
+        faIcon={isLoading ? 'fas fa-spinner fa-pulse' : 'fas fa-download'}
         small
       />
       <Progress percentage={progress} size="small" visible={isLoading} />

@@ -1,5 +1,28 @@
 [
   {
+    "title": "Seventh-day Adventist Church",
+    "description": "Official online home of the Seventh-day Adventist Church, a Christian denomination devoted to helping people understand the Bible & find freedom, healing & hope in Jesus.",
+    "image": "/img/logos/adventist-logo.png",
+    "links": [
+      {
+        "url": "https://adventist.org/",
+        "type": "сайт"
+      },
+      {
+        "url": "https://www.facebook.com/TheAdventistChurch",
+        "type": "facebook"
+      },
+      {
+        "url": "https://www.youtube.com/@AdventistOrgChurch",
+        "type": "youtube"
+      },
+      {
+        "url": "https://www.instagram.com/adventistchurch",
+        "type": "instagram"
+      }
+    ]
+  },
+  {
     "title": "It Is Written",
     "description": "\"It is Written\" (Писано е) е дълбоко духовно служение за разпространение на Евангелието по света. Има за цел да отрази живота на Христос по четири начина - чрез седмичната телевизията, в интернет, евангелизаторско служене в световен мащаб, християнски живот и вяра за споделяне на ресурси.",
     "image": "/img/logos/itiswritten-logo.png",
@@ -129,68 +152,6 @@
     ]
   },
   {
-    "title": "Seventh-day Adventist Church",
-    "image": "/img/logos/adventist-logo.png",
-    "links": [
-      {
-        "url": "https://adventist.org/",
-        "type": "сайт"
-      },
-      {
-        "url": "https://www.facebook.com/TheAdventistChurch",
-        "type": "facebook"
-      },
-      {
-        "url": "https://www.youtube.com/@AdventistOrgChurch",
-        "type": "youtube"
-      },
-      {
-        "url": "https://www.instagram.com/adventistchurch",
-        "type": "instagram"
-      }
-    ]
-  },
-  {
-    "title": "Greg Sereda",
-    "description": "Видеата обхващат теми като библейски факти, религиозни новини, въпроси и отговори, свързани с Библията, както и библейски пророчества. Целта на неговото служение е да помогне на хората по-добре да разбират Библията и да се подготвят за Второто пришествие на Исус.",
-    "image": "/img/logos/greg-sereda-logo.png",
-    "links": [
-      { "url": "https://www.youtube.com/@GregSereda", "type": "youtube" },
-      {
-        "url": "https://www.facebook.com/BibleFlockBox",
-        "type": "facebook"
-      }
-    ]
-  },
-  {
-    "title": "Александр Болотников",
-    "image": "/img/logos/alexanderbolotnikov.jpg",
-    "links": [
-      {
-        "url": "https://www.youtube.com/@alexanderbolotnikov",
-        "type": "youtube"
-      },
-      {
-        "url": "https://www.facebook.com/bolotnikov77",
-        "type": "facebook"
-      }
-    ]
-  },
-  {
-    "title": "Пилипенко Виталий Pilipenko Vitalii",
-    "image": "/img/logos/vitaliy.pilipenko.jpg",
-    "links": [
-      {
-        "url": "https://www.facebook.com/vitaliy.pilipenko.3",
-        "type": "facebook"
-      },
-      {
-        "url": "https://www.youtube.com/@PilipenkoVitalii",
-        "type": "youtube"
-      }
-    ]
-  },
-  {
     "title": "The Bible Lab",
     "description": "Бог иска да Го познаваш — не така, както си Го представяш, а такъв, какъвто наистина е – в Неговия истински и прекрасен характер. За съжаление, с времето хората са изопачили образа на Бога, придавайки Му свои черти. Тяхната мисия е да изследват Библията, за да открият Неговия автентичен характер и да се влюбят още повече в Него чрез този процес на откриване.",
     "image": "/img/logos/the-bible-lab-logo.gif",
@@ -227,6 +188,40 @@
       { "url": "https://www.willplan.org", "type": "сайт" },
       {
         "url": "https://www.youtube.com/@plannedgivingtrustservices6942",
+        "type": "youtube"
+      }
+    ]
+  },
+  {
+    "title": "Greg Sereda",
+    "description": "Видеата обхващат теми като библейски факти, религиозни новини, въпроси и отговори, свързани с Библията, както и библейски пророчества. Целта на неговото служение е да помогне на хората по-добре да разбират Библията и да се подготвят за Второто пришествие на Исус. (на английки език)",
+    "image": "/img/logos/greg-sereda-logo.png",
+    "links": [
+      { "url": "https://www.youtube.com/@GregSereda", "type": "youtube" },
+      {
+        "url": "https://www.facebook.com/BibleFlockBox",
+        "type": "facebook"
+      }
+    ]
+  },
+  {
+    "title": "Александр Болотников",
+    "description": "Александр Болотников - учёный библеист, специалист по библейской экзегетике, эксперт в области иудаизма и христианства. Преподаёт в Заокской Духовной Академии, Университете Андрюса, директор научно-просветительского центра \"Шалом\". Главный редактор журнала \"Борух\", автор многих богословских статей, док. фильмов.",
+    "image": "/img/logos/alexanderbolotnikov.jpg",
+    "links": [
+      {
+        "url": "https://www.youtube.com/@alexanderbolotnikov",
+        "type": "youtube"
+      }
+    ]
+  },
+  {
+    "title": "Пилипенко Виталий Pilipenko Vitalii",
+    "description": "Цель этого канала помочь людям понимать волю Творца, Его замысел как о всех людях так и самое главное о каждом лично. Здесь выкладываются опыты с Богом и откровение Его слова.",
+    "image": "/img/logos/vitaliy.pilipenko.jpg",
+    "links": [
+      {
+        "url": "https://www.youtube.com/@PilipenkoVitalii",
         "type": "youtube"
       }
     ]

@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { iconConfig } from 'alps-library/atoms/icons/_config';
-import { IconWrap } from 'alps-library/atoms/icons/IconWrap';
 import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import routes from 'src/routes';
+import { Button } from 'src/alps/atoms/Button';
 import { MediaType } from 'src/constants';
 import { PageSection } from 'src/organisms/PageSection';
 import { getTitle } from 'src/utils/Navigation';
@@ -12,10 +12,8 @@ import { LinksBlock } from './LinksBlock';
 
 interface MediaLinksPageProps {
   mediaType: MediaType;
-  linksJson: LinkGroup[];
-  linksTitle?: string;
-  asideJson?: LinkGroup[];
-  asideTitle?: string;
+  linksJson: LinkGroup[] | LinksData[];
+  asideJson?: LinkGroup[] | LinksData[];
   isDoubleSpacing?: boolean;
 }
 
@@ -39,12 +37,12 @@ export type LinksData = {
 };
 
 const faIcons: Record<string, string> = {
-  'сайт': 'globe',
-  'facebook': 'facebook',
-  'youtube': 'youtube',
-  'instagram': 'instagram',
+  сайт: 'globe',
+  facebook: 'facebook',
+  youtube: 'youtube',
+  instagram: 'instagram',
   'google play': 'android',
-  'apple store': 'apple'
+  'app store': 'apple'
 };
 
 const alpsIcons: Record<string, keyof typeof iconConfig.iconNamesMap> = {
@@ -54,30 +52,22 @@ const alpsIcons: Record<string, keyof typeof iconConfig.iconNamesMap> = {
 const getFaIcon = (type: string) => faIcons[type];
 const getAlpsIcon = (type: string) => alpsIcons[type];
 
-const ensureSections = (
-  data: unknown,
-  defaultTitle = 'Линкове'
-): LinksData[] => {
-  if (!data) return [];
+const isSectionsArray = (
+  data: LinkGroup[] | LinksData[]
+): data is LinksData[] => {
+  return data.length > 0 && 'section' in data[0];
+};
 
-  if (Array.isArray(data) && data.length) {
-    if ('section' in data[0]) {
-      return (data as LinksData[]).map((section, i) => ({
-        ...section,
-        id: section.id || `section-${i}`
-      }));
-    } else {
-      return [
-        {
-          section: defaultTitle,
-          id: 'links',
-          items: data as LinkGroup[]
-        }
-      ];
+const ensureSections = (data: LinkGroup[]): LinksData[] => {
+  if (!data || data.length === 0) return [];
+
+  return [
+    {
+      section: '',
+      id: 'links',
+      items: data
     }
-  }
-
-  return [];
+  ];
 };
 
 const renderLinksBlocks = (groups: LinkGroup[]) =>
@@ -132,9 +122,7 @@ export const SectionList = ({
 const MediaLinksPage = ({
   mediaType,
   linksJson,
-  linksTitle = '',
   asideJson = [],
-  asideTitle = '',
   isDoubleSpacing = false
 }: MediaLinksPageProps): JSX.Element => {
   useScrollToHash();
@@ -142,55 +130,49 @@ const MediaLinksPage = ({
   const breadcrumbsUrls = [routes.media(), routes.media(mediaType)];
 
   const mainSections = useMemo(
-    () => ensureSections(linksJson, linksTitle),
-    [linksJson, linksTitle]
+    () => (isSectionsArray(linksJson) ? linksJson : ensureSections(linksJson)),
+    [linksJson]
   );
   const asideSections = useMemo(
-    () => ensureSections(asideJson, asideTitle),
-    [asideJson, asideTitle]
+    () => (isSectionsArray(asideJson) ? asideJson : ensureSections(asideJson)),
+    [asideJson]
   );
-  const topNavSections = useMemo(
-    () => [...mainSections, ...asideSections],
-    [mainSections, asideSections]
-  );
-
-  const showAsideTitle = Boolean(
-    asideTitle &&
-      !(asideSections.length === 1 && asideSections[0].section === asideTitle)
-  );
+  const topNavSections = useMemo(() => {
+    const arr = [...mainSections, ...asideSections];
+    if (arr.length > 1) {
+      return (
+        <div className="links-sections-nav u-spacing--half">
+          {arr.map(({ id, section }, i) => (
+            <Button
+              key={i}
+              as="a"
+              url={`#${id}`}
+              label={section}
+              className="u-space--half--right"
+              faIcon="level-down"
+              iconPosition="right"
+              isExternal={false}
+              lighter={true}
+            />
+          ))}
+        </div>
+      );
+    }
+  }, [mainSections, asideSections]);
 
   return (
     <>
       <PageHeaderLong title={getTitle(routes.media(mediaType))} />
       <PageSection breadcrumbsUrls={breadcrumbsUrls}>
-        {topNavSections.length > 1 && (
-          <div className="links-sections-nav u-spacing--half">
-            {topNavSections.map(({ id, section }) => (
-              <a
-                key={id}
-                href={`#${id}`}
-                className="o-button o-button--lighter u-space--half--right"
-              >
-                {section}
-                <IconWrap
-                  name="arrow-long-right"
-                  className="u-space--half--left"
-                />
-              </a>
-            ))}
-          </div>
-        )}
+        {topNavSections}
       </PageSection>
       <PageSection
         aside={
           asideSections.length > 0 && (
-            <>
-              {showAsideTitle && <HeadingBlock title={asideTitle} />}
-              <SectionList
-                sections={asideSections}
-                doubleSpace={isDoubleSpacing}
-              />
-            </>
+            <SectionList
+              sections={asideSections}
+              doubleSpace={isDoubleSpacing}
+            />
           )
         }
       >

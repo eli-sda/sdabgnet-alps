@@ -2,11 +2,10 @@
   .title-with-image {
     display: flex;
     align-items: center;
+    width: 100%;
 
-    .small-circular-image {
-      border-radius: 50%;
-      object-fit: cover;
-      flex-shrink: 0;
+    .small-image {
+      max-width: 40px;
     }
   }
 

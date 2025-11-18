@@ -54,7 +54,7 @@ export const LinksBlock = ({
                 <img 
                   src={smallImage} 
                   alt="" 
-                  className="small-circular-image u-space--half--right"
+                  className="small-image u-space--half--right"
                 />
               )}
               <h3 className="c-block__title u-font--primary--m">

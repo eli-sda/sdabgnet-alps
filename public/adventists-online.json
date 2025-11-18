@@ -24,7 +24,7 @@
       },
       {
         "title": "Съботно Училище - ЦАСД България",
-        "image40": "/img/logos/40/Sabbath.School.Bulgaria.jpg",
+        "image40": "/img/logos/40/Sabbath.School.Bulgaria.png",
         "links": [
           {
             "url": "https://www.facebook.com/Sabbath.School.Bulgaria",
@@ -52,7 +52,7 @@
       },
       {
         "title": "Семейно служене",
-        "image40": "/img/logos/40/family-ministry.jpg",
+        "image40": "/img/logos/40/family-ministry.png",
         "links": [
           {
             "url": "https://www.facebook.com/profile.php?id=100089804343556",
@@ -62,7 +62,7 @@
       },
       {
         "title": "Служба на жените",
-        "image40": "/img/logos/40/women's-service.jpg",
+        "image40": "/img/logos/40/women's-service.png",
         "links": [
           {
             "url": "https://www.facebook.com/profile.php?id=100064877040330",
@@ -72,7 +72,7 @@
       },
       {
         "title": "Младежки отдел - ЦАСД България",
-        "image40": "/img/logos/40/sdayouthbulgaria.jpg",
+        "image40": "/img/logos/40/sdayouthbulgaria.png",
         "links": [
           {
             "url": "https://www.facebook.com/Младежки-отдел-ЦАСД-България-1190152124348326",
@@ -86,7 +86,7 @@
       },
       {
         "title": "Клуб Изследовател - България",
-        "image40": "/img/logos/40/IzsledovatelBG.jpg",
+        "image40": "/img/logos/40/IzsledovatelBG.png",
         "links": [
           {
             "url": "https://www.facebook.com/IzsledovatelBG",
@@ -100,7 +100,7 @@
       },
       {
         "title": "Детско служене - ЦАСД",
-        "image40": "/img/logos/40/children's-ministry-CASD.jpg",
+        "image40": "/img/logos/40/children's-ministry-CASD.png",
         "links": [
           {
             "url": "https://www.facebook.com/Детско-служене-ЦАСД-873514049431759/",
@@ -110,8 +110,8 @@
       },
       {
         "title": "AДРА България",
-        "description": "Сайт на АДРА България - адвентна хуманитарна организация",
-        "image40": "/img/logos/40/BulgariaADRA.jpg",
+        "description": "АДРА България - адвентна хуманитарна организация",
+        "image40": "/img/logos/40/ADRA.png",
         "links": [
           {
             "url": "https://adra.bg/bg/",
@@ -129,7 +129,8 @@
       },
       {
         "title": "Фондация \"Грижа за Здравето\"",
-        "image40": "/img/logos/40/grizha.za.zdraveto.jpg",
+        "description": "Мисията на фондацията е да подобрява физическото и психично здраве на българското общество.",
+        "image40": "/img/logos/40/grizha.za.zdraveto.png",
         "links": [
           {
             "url": "https://healthcare-bg.com/",
@@ -147,7 +148,8 @@
       },
       {
         "title": "Адвентно-мюсюлмански връзки ЦАСД България",
-        "image40": "/img/logos/40/Adventist-Muslim-Relations-CASD-Bulgaria.jpg",
+        "description": "Отдел АМВ е в помощ на членовете на Църквата на адвентистите от седмия ден, които желаят да споделят евангелието със своите приятели мюсюлмани.",
+        "image40": "/img/logos/40/Adventist-Muslim-Relations-CASD-Bulgaria.png",
         "links": [
           {
             "url": "https://www.facebook.com/profile.php?id=100089575059618",
@@ -157,7 +159,7 @@
       },
       {
         "title": "АСИ-България",
-        "image40": "/img/logos/40/ASi-Bulgaria.jpg",
+        "image40": "/img/logos/40/ASi-Bulgaria.png",
         "links": [
           {
             "url": "https://www.asi-bg.org/",
@@ -178,7 +180,7 @@
       {
         "title": "Център за Здраве",
         "description": "Християнски център за профилактика и здраве",
-        "image40": "/img/logos/40/novstart.info.jpg",
+        "image40": "/img/logos/40/novstart.info.png",
         "links": [
           {
             "url": "http://lifeinhope.com",
@@ -193,7 +195,7 @@
       {
         "title": "Детска градина „Цветна надежда“",
         "description": "„Цветна надежда“ е адвентен образователен проект, развиващ се в София, и открито преподаващ библейските принципи на деца на възраст от 2 до 6 години. Там всеки ден са свидетели на това как Бог оформя сърцата и умовете на децата, като им представя любяща грижа и библейски уроци в близка до домашната среда.",
-        "image40": "/img/logos/40/cvetnanadejda.jpg",
+        "image40": "/img/logos/40/cvetnanadejda.png",
         "links": [
           {
             "url": "https://www.facebook.com/cvetnanadejda",
@@ -204,7 +206,7 @@
       {
         "title": "Петте камъка",
         "description": "Образователен проект - Петте Камъка",
-        "image40": "/img/logos/40/OPThefivestones.jpg",
+        "image40": "/img/logos/40/5stones.png",
         "links": [
           {
             "url": "https://thefivestones.bg/",
@@ -262,7 +264,7 @@
       },
       {
         "title": "Национален хор \"Гласът на надеждата\"",
-        "image40": "/img/logos/40/the-voice-of-hope.jpg",
+        "image40": "/img/logos/40/the-voice-of-hope.png",
         "links": [
           {
             "url": "https://nazionalenhor.adventist.bg/",
@@ -283,9 +285,20 @@
         ]
       },
       {
+        "title": "Адвентисимо - Адвентна Апологетика",
+        "description": "Чувствали ли сте се объркани, в какво точно вярвате? Предизвикателство ли е за вас да аргументирате добре вярата си? Ако да, този сайт е за вас. Тук ще намерите отговори на критиките срещу адвентните доктрини, както и статии за духовния ви растеж.",
+        "image40": "/img/logos/40/adventisimo.com.png",
+        "links": [
+          {
+            "url": "https://www.adventisimo.com",
+            "type": "сайт"
+          }
+        ]
+      },
+      {
         "title": "Day By Day Блог",
         "description": "Личен блог на Катя Купенова",
-        "image40": "/img/logos/40/DayByDayBlog.jpg",
+        "image40": "/img/logos/40/DayByDay.png",
         "links": [
           {
             "url": "https://katekupenova.wordpress.com",
@@ -307,7 +320,7 @@
       },
       {
         "title": "4Bible (За Библията)",
-        "image40": "/img/logos/40/AmazingBibleProphecies.jpg",
+        "image40": "/img/logos/40/4Bible.png",
         "links": [
           {
             "url": "https://4bible.org/",
@@ -316,59 +329,15 @@
           {
             "url": "https://www.facebook.com/AmazingBibleProphecies",
             "type": "facebook"
-          },
-          {
-            "url": "https://www.youtube.com/@vremezabibliq",
-            "type": "youtube"
           }
         ]
       },
       {
         "title": "Да се учим заедно от Библията",
-        "image40": "/img/logos/40/bgbible.jpg",
+        "image40": "/img/logos/40/bgbible.png",
         "links": [
           {
             "url": "http://bgbible.sdabg.net",
-            "type": "сайт"
-          }
-        ]
-      },
-      {
-        "title": "Основни учения на Исус Христос",
-        "description": "Блог на Боян Бонев",
-        "links": [
-          {
-            "url": "http://ucheniya-na-isus.blogspot.com/",
-            "type": "сайт"
-          }
-        ]
-      },
-      {
-        "title": "Истински мъж",
-        "description": "Блог на Боян Бонев",
-        "links": [
-          {
-            "url": "http://istinski-maj.blogspot.com/",
-            "type": "сайт"
-          }
-        ]
-      },
-      {
-        "title": "NEW START - 8 стъпки към здравето",
-        "description": "Сайт на Боян Бонев",
-        "links": [
-          {
-            "url": "http://novo-nachalo-bg.blogspot.bg",
-            "type": "сайт"
-          }
-        ]
-      },
-      {
-        "title": "Истината за края на света",
-        "description": "Сайт на Боян Бонев",
-        "links": [
-          {
-            "url": "http://kraya-na-sveta.blogspot.com",
             "type": "сайт"
           }
         ]
@@ -385,74 +354,56 @@
         ]
       },
       {
+        "title": "Основни учения на Исус Христос",
+        "description": "Блог на Боян Бонев",
+        "image40": "/img/logos/Blogger.svg",
+        "links": [
+          {
+            "url": "http://ucheniya-na-isus.blogspot.com/",
+            "type": "сайт"
+          }
+        ]
+      },
+      {
+        "title": "Истински мъж",
+        "description": "Блог на Боян Бонев",
+        "image40": "/img/logos/Blogger.svg",
+        "links": [
+          {
+            "url": "http://istinski-maj.blogspot.com/",
+            "type": "сайт"
+          }
+        ]
+      },
+      {
+        "title": "NEW START - 8 стъпки към здравето",
+        "description": "Сайт на Боян Бонев",
+        "image40": "/img/logos/Blogger.svg",
+        "links": [
+          {
+            "url": "http://novo-nachalo-bg.blogspot.bg",
+            "type": "сайт"
+          }
+        ]
+      },
+      {
+        "title": "Истината за края на света",
+        "description": "Сайт на Боян Бонев",
+        "image40": "/img/logos/Blogger.svg",
+        "links": [
+          {
+            "url": "http://kraya-na-sveta.blogspot.com",
+            "type": "сайт"
+          }
+        ]
+      },
+      {
         "title": "Бог създаде човека",
         "description": "Блог на Боян Бонев",
+        "image40": "/img/logos/Blogger.svg",
         "links": [
           {
             "url": "http://god-created-man.blogspot.com/",
-            "type": "сайт"
-          }
-        ]
-      },
-      {
-        "title": "Моментът на истината",
-        "description": "Моментът на истината - курс от 41 урока",
-        "image40": "/img/logos/40/cyberspaceministry.jpg",
-        "links": [
-          {
-            "url": "http://www.cyberspaceministry.org/Lessons/bul-les1.html",
-            "type": "сайт"
-          }
-        ]
-      },
-      {
-        "title": "Личен сайт на Пейчо Харбов",
-        "links": [
-          {
-            "url": "http://harbov.weebly.com/",
-            "type": "сайт"
-          }
-        ]
-      },
-      {
-        "title": "Сайт на пастор Митко Димитров",
-        "description": "Всичко от пастор Митко Димитров",
-        "image40": "/img/logos/40/kyustendilv.jpg",
-        "links": [
-          {
-            "url": "http://mitko-dimitrov.sdabg.net/",
-            "type": "сайт"
-          },
-          {
-            "url": "https://www.youtube.com/user/kyustendilv",
-            "type": "youtube"
-          }
-        ]
-      },
-      {
-        "title": "Адвентисимо - Адвентна Апологетика",
-        "image40": "/img/logos/40/adventisimo.com.png",
-        "links": [
-          {
-            "url": "https://www.adventisimo.com",
-            "type": "сайт"
-          }
-        ]
-      },
-      {
-        "title": "Приятели на Библията",
-        "links": [
-          {
-            "url": "http://biblefriends.net/",
-            "type": "сайт"
-          }
-        ]
-      },
-      {
-        "title": "Roma Adventist",
-        "links": [
-          {
-            "url": "http://romaadventist.sdabg.org/",
             "type": "сайт"
           }
         ]
@@ -471,7 +422,7 @@
       {
         "title": "Молитва в действие",
         "description": "Страница на молитвеното служене на ЦАСД в България.",
-        "image40": "/img/logos/40/prayer-in-action.jpg",
+        "image40": "/img/logos/40/prayer-in-action.png",
         "links": [
           {
             "url": "https://www.facebook.com/profile.php?id=100064660600676",
@@ -481,7 +432,7 @@
       },
       {
         "title": "Вдъхновяващ опит от Църквата на адвентистите от седмия ден",
-        "image40": "/img/logos/40/inspiring-experience.jpg",
+        "image40": "/img/logos/40/inspiring-experience.png",
         "links": [
           {
             "url": "https://www.facebook.com/profile.php?id=100069937908704",
@@ -492,7 +443,7 @@
       {
         "title": "In Time & Space — Във времето и пространството",
         "description": "Канал, посветен на историята, археологията, географията и библейските принципи в света на бизнеса.",
-        "image40": "/img/logos/40/intimeandspace.jpg",
+        "image40": "/img/logos/40/intimeandspace.png",
         "links": [
           {
             "url": "https://www.youtube.com/@intimeandspace",
@@ -519,9 +470,28 @@
         ]
       },
       {
+        "title": "VerseVenturer",
+        "description": "🙏📖✝️Животопроменяща мъдрост от Библията за приключенци 🧭🌍💡",
+        "image40": "/img/logos/40/verse.venturer.png",
+        "links": [
+          {
+            "url": "https://www.facebook.com/verse.venturer",
+            "type": "facebook"
+          },
+          {
+            "url": "https://www.instagram.com/verse.venturer/",
+            "type": "instagram"
+          },
+          {
+            "url": "https://www.tiktok.com/@verse.venturer",
+            "type": "tik tok"
+          }
+        ]
+      },
+      {
         "title": "Ако ВЯРВАШ...",
         "description": "Ако имаш нужда от насърчение, малко духовност и много надежда — тук ще ги намериш.",
-        "image40": "/img/logos/40/ifubelieve.jpg",
+        "image40": "/img/logos/40/ifubelieve.png",
         "links": [
           {
             "url": "https://bg.faithmorefaith.com",
@@ -540,7 +510,7 @@
       {
         "title": "Елън Г. Уайт - свидетелства",
         "description": "Фейсбук страница за споделяне  кратки цитати от книгите на Елън Уайт.",
-        "image40": "/img/logos/40/Ellen-White-testimonies.jpg",
+        "image40": "/img/logos/40/Ellen-White-testimonies.png",
         "links": [
           {
             "url": "https://www.facebook.com/profile.php?id=100063769597686",
@@ -549,12 +519,62 @@
         ]
       },
       {
-        "title": "Dimi Filyova",
+        "title": "Дими Фильова",
+        "description": "Тук ще намерите актуални адвентни материали преведени от аглийски език, аудио книги, християнски песни.",
         "image40": "/img/logos/40/dimi-filyova.jpg",
         "links": [
           {
             "url": "https://www.youtube.com/@dimifilyova5103",
             "type": "youtube"
+          }
+        ]
+      },
+      {
+        "title": "Моментът на истината",
+        "description": "Моментът на истината - курс от 41 урока",
+        "image40": "/img/logos/40/cyberspaceministry.jpg",
+        "links": [
+          {
+            "url": "http://www.cyberspaceministry.org/Lessons/bul-les1.html",
+            "type": "сайт"
+          }
+        ]
+      },
+      {
+        "title": "Приятели на Библията",
+        "links": [
+          {
+            "url": "http://biblefriends.net/",
+            "type": "сайт"
+          }
+        ]
+      },
+      {
+        "title": "Личен сайт на Пейчо Харбов",
+        "links": [
+          {
+            "url": "http://harbov.weebly.com/",
+            "type": "сайт"
+          }
+        ]
+      },
+      {
+        "title": "Сайт на пастор Митко Димитров",
+        "description": "Всичко от пастор Митко Димитров",
+        "image40": "/img/logos/40/mitko-dimitrov.png",
+        "links": [
+          {
+            "url": "http://mitko-dimitrov.sdabg.net/",
+            "type": "сайт"
+          }
+        ]
+      },
+      {
+        "title": "Roma Adventist",
+        "links": [
+          {
+            "url": "http://romaadventist.sdabg.org/",
+            "type": "сайт"
           }
         ]
       }

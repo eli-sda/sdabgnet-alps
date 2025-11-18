@@ -185,7 +185,7 @@ export const Button = ({
       };
 
       elementByType =
-        isExternal || !url || download ? (
+        isExternal || !url || download || url.startsWith('#') ? (
           <a {...linkAttr} onClick={handleClick} title={props.title}>
             {labelWithIcon}
           </a>

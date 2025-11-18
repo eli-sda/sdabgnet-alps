@@ -15,6 +15,10 @@ export interface LinksBlockProps {
   description?: string;
   picture?: string;
   /**
+   * Small circular image to display next to the title
+   */
+  smallImage?: string;
+  /**
    * Array of buttons (label, url, icon, etc.)
    */
   buttons?: ButtonProps[];
@@ -24,7 +28,8 @@ export const LinksBlock = ({
   title,
   description = '',
   buttons = [],
-  picture
+  picture,
+  smallImage,
 }: LinksBlockProps): JSX.Element => {
   const backgroundClass = picture ? 'has-image' : '';
 
@@ -42,13 +47,20 @@ export const LinksBlock = ({
           'c-cta-block__content c-block__content u-spacing--half u-padding--half'
         }
       >
-        <div className={'c-cta-block__group c-block__group u-spacing--half'}>
+          <div className={'c-cta-block__group c-block__group u-spacing--half'}>
           {title && (
-            <h3
-              className="c-block__title u-font--primary--m" //{`c-block__title u-font--primary--${title && description ? 'l' : 'xl'}`}
-            >
-              {title}
-            </h3>
+            <div className="title-with-image">
+              {smallImage && (
+                <img 
+                  src={smallImage} 
+                  alt="" 
+                  className="small-image u-space--half--right"
+                />
+              )}
+              <h3 className="c-block__title u-font--primary--m">
+                {title}
+              </h3>
+            </div>
           )}
           {description && (
             <p

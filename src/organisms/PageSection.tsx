@@ -81,7 +81,7 @@ export const PageSection = ({
           {children}
         </Grid>
       )}
-      {blockType == undefined && (
+      {blockType == undefined && (!!children || !!aside) && (
         <section
           className={`l-main__content u-padding--zero--sides u-spacing--double--until-large l-grid l-grid--7-col l-grid-wrap l-grid-wrap--6-of-7 u-shift--left--1-col--at-${
             hasSidebar ? 'xxlarge' : 'large'

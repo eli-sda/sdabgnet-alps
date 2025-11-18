@@ -10,7 +10,7 @@ $offset-bottom: 82px; //space for audio player when visible
 .scrollup {
   position: fixed;
   top: 0;
-  right: max(0px, calc((100vw / 7 - var(--scrollbar-width) - $buttonW) / 2));
+  right: max(1px, calc((100vw / 7 - var(--scrollbar-width) - $buttonW) / 2));
   width: $buttonW;
   height: $buttonW;
   line-height: $buttonW;

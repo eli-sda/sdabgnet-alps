@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import MediaLinksPage, { LinksData } from './MediaLinksPage';
+import { getTitle } from 'src/utils/Navigation';
+import routes from 'src/routes';
 
 const AdventistsOnline = (): JSX.Element => {
   const [bgLinks, setBgLinks] = useState<LinksData[]>([]);
-  const [bgChurchesLinks, setBgChurchesLinks] = useState<LinksData[]>([]);
 
   useEffect(() => {
     fetch('/adventists-online.json')
@@ -15,21 +16,30 @@ const AdventistsOnline = (): JSX.Element => {
       });
   }, []);
 
-  useEffect(() => {
-    fetch('/adventis-online-churches.json')
-      .then((res) => res.json())
-      .then((data: LinksData[]) => setBgChurchesLinks(data))
-      .catch((err) => {
-        console.error('Failed to load adventis-online-churches.json', err);
-        setBgChurchesLinks([]);
-      });
-  }, []);
-
   return (
     <MediaLinksPage
       mediaType="bg-links"
       linksJson={bgLinks}
-      asideJson={bgChurchesLinks}
+      relatedPosts={{
+        heading: 'Други връзки',
+        blocks: [
+          {
+            title: 'Български адвентни църкви в мрежата',
+            url: '/info/churches',
+            category: getTitle(routes.info())
+          },
+          {
+            title: getTitle(routes.info('institutions')),
+            url: '/info/institutions',
+            category: getTitle(routes.info())
+          },
+          {
+            title: getTitle(routes.media('links')),
+            url: '/media/links',
+            category: getTitle(routes.media())
+          }
+        ]
+      }}
     />
   );
 };

@@ -6,6 +6,7 @@ import routes from 'src/routes';
 import { Button } from 'src/alps/atoms/Button';
 import { MediaType } from 'src/constants';
 import { PageSection } from 'src/organisms/PageSection';
+import { RelatedPostsProps } from 'src/alps/organisms/asides/RelatedPosts';
 import { getTitle } from 'src/utils/Navigation';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { LinksBlock } from './LinksBlock';
@@ -14,6 +15,7 @@ interface MediaLinksPageProps {
   mediaType: MediaType;
   linksJson: LinkGroup[] | LinksData[];
   asideJson?: LinkGroup[] | LinksData[];
+  relatedPosts?: RelatedPostsProps;
   isDoubleSpacing?: boolean;
 }
 
@@ -98,7 +100,7 @@ const renderLinksBlocks = (groups: LinkGroup[]) =>
     );
   });
 
-const SectionList = ({
+export const SectionList = ({
   sections,
   doubleSpace
 }: {
@@ -123,6 +125,7 @@ const MediaLinksPage = ({
   mediaType,
   linksJson,
   asideJson = [],
+  relatedPosts,
   isDoubleSpacing = false
 }: MediaLinksPageProps): JSX.Element => {
   useScrollToHash();
@@ -160,22 +163,22 @@ const MediaLinksPage = ({
     }
   }, [mainSections, asideSections]);
 
+  const asideContent =
+    asideSections.length > 0 ? (
+      <>
+        {asideSections.length > 0 && (
+          <SectionList sections={asideSections} doubleSpace={isDoubleSpacing} />
+        )}
+      </>
+    ) : undefined;
+
   return (
     <>
       <PageHeaderLong title={getTitle(routes.media(mediaType))} />
       <PageSection breadcrumbsUrls={breadcrumbsUrls}>
         {topNavSections}
       </PageSection>
-      <PageSection
-        aside={
-          asideSections.length > 0 && (
-            <SectionList
-              sections={asideSections}
-              doubleSpace={isDoubleSpacing}
-            />
-          )
-        }
-      >
+      <PageSection aside={asideContent} relatedPosts={relatedPosts}>
         <section className="u-spacing--double">
           <SectionList sections={mainSections} doubleSpace={isDoubleSpacing} />
         </section>

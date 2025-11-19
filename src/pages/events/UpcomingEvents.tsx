@@ -62,6 +62,8 @@ const UpcomingEvents = () => {
           url="/church_life/events"
           label="Виж календара"
           icon="arrow-long-right"
+          iconSize='s'
+          iconPosition='right'
           outline
         />
       </div>

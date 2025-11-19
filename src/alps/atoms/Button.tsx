@@ -119,7 +119,7 @@ export const Button = ({
   if (props.faIcon) {
     icon = (
       <i
-        className={`${props.faIcon} fa-lg ${
+        className={`${props.faIcon} ${
           label
             ? `u-space--quarter--${iconPosition === 'left' ? 'right' : 'left'}`
             : ''

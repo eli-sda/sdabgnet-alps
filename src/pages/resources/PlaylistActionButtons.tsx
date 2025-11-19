@@ -111,7 +111,7 @@ const PlaylistActionButtons = ({
               className="copy-button"
               onClick={handleCopy}
               simple
-              faIcon="far fa-copy"
+              faIcon="far fa-copy fa-lg"
               title="Копирай линка"
             />
           </div>
@@ -134,7 +134,7 @@ const PlaylistActionButtons = ({
 
           <Button
             className="close-button"
-            faIcon="fas fa-times"
+            faIcon="fas fa-times fa-lg"
             iconPosition="right"
             onClick={() => {
               setToShow(false);

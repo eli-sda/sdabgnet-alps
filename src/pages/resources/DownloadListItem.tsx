@@ -78,7 +78,7 @@ const DownloadListItem = ({
           disabled={downloading}
           small
           className="u-space--half--top"
-          faIcon={downloading ? 'fas fa-spinner fa-pulse' : 'fas fa-download'}
+          faIcon={downloading ? 'fas fa-spinner fa-pulse fa-lg' : 'fas fa-download fa-lg'}
           label={`Изтегли ${size ? `(${size} MB)` : ''}`}
           isExternal
           download

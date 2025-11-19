@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { iconConfig } from 'alps-library/atoms/icons/_config';
 import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import routes from 'src/routes';
@@ -42,15 +41,11 @@ const faIcons: Record<string, string> = {
   youtube: 'fab fa-youtube',
   instagram: 'fab fa-instagram',
   'google play': 'fab fa-google-play',
-  'app store': 'fab fa-app-store'
-};
-
-const alpsIcons: Record<string, keyof typeof iconConfig.iconNamesMap> = {
-  'tik tok': 'tiktok'
+  'app store': 'fab fa-app-store',
+  'tik tok': 'fab fa-tiktok'
 };
 
 const getFaIcon = (type: string) => faIcons[type];
-const getAlpsIcon = (type: string) => alpsIcons[type];
 
 const isSectionsArray = (
   data: LinkGroup[] | LinksData[]
@@ -78,8 +73,7 @@ const renderLinksBlocks = (groups: LinkGroup[]) =>
       className: `link-button u-space--half--right ${
         links.length > 1 ? 'u-space--half--bottom' : ''
       }`,
-      faIcon: getFaIcon(type),
-      icon: getAlpsIcon(type),
+      faIcon: `${getFaIcon(type)} fa-lg`,
       hideExternalIcon: true,
       simple: true,
       outline: true,

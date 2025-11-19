@@ -14,6 +14,7 @@ interface MediaLinksPageProps {
   mediaType: MediaType;
   linksJson: LinkGroup[] | LinksData[];
   asideJson?: LinkGroup[] | LinksData[];
+  aside?: JSX.Element;
   isDoubleSpacing?: boolean;
 }
 
@@ -123,6 +124,7 @@ const MediaLinksPage = ({
   mediaType,
   linksJson,
   asideJson = [],
+  aside,
   isDoubleSpacing = false
 }: MediaLinksPageProps): JSX.Element => {
   useScrollToHash();
@@ -160,22 +162,23 @@ const MediaLinksPage = ({
     }
   }, [mainSections, asideSections]);
 
+  const asideContent =
+    asideSections.length > 0 || aside ? (
+      <>
+        {asideSections.length > 0 && (
+          <SectionList sections={asideSections} doubleSpace={isDoubleSpacing} />
+        )}
+        {aside}
+      </>
+    ) : undefined;
+
   return (
     <>
       <PageHeaderLong title={getTitle(routes.media(mediaType))} />
       <PageSection breadcrumbsUrls={breadcrumbsUrls}>
         {topNavSections}
       </PageSection>
-      <PageSection
-        aside={
-          asideSections.length > 0 && (
-            <SectionList
-              sections={asideSections}
-              doubleSpace={isDoubleSpacing}
-            />
-          )
-        }
-      >
+      <PageSection pageClassName="page-aside-top" aside={asideContent}>
         <section className="u-spacing--double">
           <SectionList sections={mainSections} doubleSpace={isDoubleSpacing} />
         </section>

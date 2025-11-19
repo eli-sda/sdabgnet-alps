@@ -29,7 +29,7 @@ const Churches = () => {
       <div className='u-spacing'>
         <Button
           as="a"
-          label="Намери църква"
+          label="Намери църква в страницата на СЦАСД"
           url="https://www.adventist.bg/nameri-carkva"
           isExternal
         />

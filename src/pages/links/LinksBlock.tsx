@@ -82,7 +82,7 @@ export const LinksBlock = ({
                   outline,
                   simple,
                   icon,
-                  faIcon,
+                  faIconClass,
                   iconPosition = 'left',
                   iconSize = 'm',
                   isExternal = true,
@@ -100,7 +100,7 @@ export const LinksBlock = ({
                   outline={outline}
                   simple={simple}
                   icon={icon}
-                  faIcon={faIcon}
+                  faIconClass={faIconClass}
                   iconPosition={iconPosition}
                   iconSize={iconSize}
                   isExternal={isExternal}

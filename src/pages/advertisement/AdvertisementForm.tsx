@@ -224,7 +224,7 @@ const AdvertisementForm = ({ type }: { type: AdType }) => {
         <TextField
           label="Добави изображение"
           labelTagClass="o-button o-button--small"
-          faIcon="far fa-file-image"
+          faIconClass="far fa-file-image"
           name="image"
           type="file"
           accept="image/png, image/jpeg"

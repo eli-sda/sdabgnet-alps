@@ -35,7 +35,7 @@ export type LinksData = {
   items: LinkGroup[];
 };
 
-const faIcons: Record<string, string> = {
+const faIconClasses: Record<string, string> = {
   сайт: 'fas fa-globe-americas',
   facebook: 'fab fa-facebook-f',
   youtube: 'fab fa-youtube',
@@ -45,7 +45,7 @@ const faIcons: Record<string, string> = {
   'tik tok': 'fab fa-tiktok'
 };
 
-const getFaIcon = (type: string) => faIcons[type];
+const getFaIconClass = (type: string) => faIconClasses[type];
 
 const isSectionsArray = (
   data: LinkGroup[] | LinksData[]
@@ -73,7 +73,7 @@ const renderLinksBlocks = (groups: LinkGroup[]) =>
       className: `link-button u-space--half--right ${
         links.length > 1 ? 'u-space--half--bottom' : ''
       }`,
-      faIcon: `${getFaIcon(type)} fa-lg`,
+      faIconClass: `${getFaIconClass(type)} fa-lg`,
       hideExternalIcon: true,
       simple: true,
       outline: true,
@@ -143,7 +143,7 @@ const MediaLinksPage = ({
               url={`#${id}`}
               label={section}
               className="u-space--half--right"
-              faIcon="fas fa-level-down-alt"
+              faIconClass="fas fa-level-down-alt"
               iconPosition="right"
               isExternal={false}
               lighter={true}

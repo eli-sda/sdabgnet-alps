@@ -62,7 +62,7 @@ export interface ButtonProps {
   /**
    * FontAwesome icon name, for example 'download'
    */
-  faIcon?: string;
+  faIconClass?: string;
   /**
    * You can set position of icon into the button
    */
@@ -116,10 +116,10 @@ export const Button = ({
   );
 
   let icon: JSX.Element | null = null;
-  if (props.faIcon) {
+  if (props.faIconClass) {
     icon = (
       <i
-        className={`${props.faIcon} ${
+        className={`${props.faIconClass} ${
           label
             ? `u-space--quarter--${iconPosition === 'left' ? 'right' : 'left'}`
             : ''

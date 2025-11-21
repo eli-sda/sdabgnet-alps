@@ -55,6 +55,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
       remove={false}
       clearPriorAudioLists
       defaultPlayMode="order"
+      sortableOptions={{ disabled: true }}
       onPlayIndexChange={onPlayIndexChange}
     />
   );

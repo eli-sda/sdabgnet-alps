@@ -4,6 +4,7 @@ import { zipSync } from 'fflate';
 import { Button } from 'src/alps/atoms/Button';
 import { Progress } from 'alps-library/molecules/components/progress/Progress.tsx';
 import { RESOURCES_SITE } from 'src/constants';
+import './DownloadPlaylist.scss';
 
 interface DownloadPlaylistProps {
   itemUrls: string[];
@@ -78,8 +79,9 @@ const DownloadPlaylist = ({
   };
 
   return (
-    <div className="u-spacing--quarter">
+    <div className="u-spacing--quarter button-with-progress">
       <Button
+        className="download-button"
         onClick={() => void handleDownload()}
         disabled={isLoading}
         label="Изтегли всички"

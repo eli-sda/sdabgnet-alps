@@ -151,7 +151,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       },
       {
         type: 'primary',
-        text: 'Адвентни институции',
+        text: 'Адвентни отдели и институции',
         url: routes.info('institutions')
       },
       {

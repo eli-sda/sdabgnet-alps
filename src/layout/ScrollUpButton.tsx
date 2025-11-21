@@ -24,7 +24,7 @@ const ScrollUpButton = () => {
       onClick={scrollToTop}
       title="Върни се в началото на страницата"
     >
-      <i className="fa fa-arrow-up"></i>
+      <i className="fas fa-arrow-up"></i>
     </button>
   );
 };

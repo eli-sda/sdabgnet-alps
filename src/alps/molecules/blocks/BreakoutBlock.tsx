@@ -54,7 +54,7 @@ export const BreakoutBlock = ({
         url &&
         (isExternal ? (
           <a {...linkAttr}>
-            {cta} <i className="fa fa-external-link u-space--quarter--left"></i>
+            {cta} <i className="fas fa-external-link-alt u-space--quarter--left"></i>
           </a>
         ) : (
           <NavLink {...linkAttr}>{cta}</NavLink>

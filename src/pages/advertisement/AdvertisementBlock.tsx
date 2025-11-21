@@ -88,7 +88,7 @@ AdvertisementBlockProps): JSX.Element => {
                 </p>
 
                 <p>
-                  <i className="fa fa-envelope"></i>{' '}
+                  <i className="far fa-envelope"></i>{' '}
                   <a href={`mailto:${email}`}>{email}</a>
                 </p>
 
@@ -97,7 +97,7 @@ AdvertisementBlockProps): JSX.Element => {
                     const tel = p.replace(/\D/g, ''); // href numbers only
                     return (
                       <span key={i}>
-                        <i className="fa fa-phone"></i>{' '}
+                        <i className="fas fa-phone-alt"></i>{' '}
                         <a href={`tel:${tel}`}>{p}</a>
                         {i < phones.length - 1 ? ', ' : ''}
                       </span>
@@ -106,7 +106,7 @@ AdvertisementBlockProps): JSX.Element => {
                 </p>
                 {hasViber && (
                   <p>
-                    <i className="fa fa-whatsapp"></i> Viber:{' '}
+                    <i className="fab fa-viber"></i> Viber:{' '}
                     <a href={`viber://chat?number=${phone}`}>{phone}</a>
                   </p>
                 )}

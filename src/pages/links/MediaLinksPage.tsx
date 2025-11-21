@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { iconConfig } from 'alps-library/atoms/icons/_config';
 import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import routes from 'src/routes';
@@ -38,21 +37,17 @@ export type LinksData = {
   items: LinkGroup[];
 };
 
-const faIcons: Record<string, string> = {
-  сайт: 'globe',
-  facebook: 'facebook',
-  youtube: 'youtube',
-  instagram: 'instagram',
-  'google play': 'android',
-  'app store': 'apple'
+const faIconClasses: Record<string, string> = {
+  сайт: 'fas fa-globe-americas',
+  facebook: 'fab fa-facebook-f',
+  youtube: 'fab fa-youtube',
+  instagram: 'fab fa-instagram',
+  'google play': 'fab fa-google-play',
+  'app store': 'fab fa-app-store',
+  'tik tok': 'fab fa-tiktok'
 };
 
-const alpsIcons: Record<string, keyof typeof iconConfig.iconNamesMap> = {
-  'tik tok': 'tiktok'
-};
-
-const getFaIcon = (type: string) => faIcons[type];
-const getAlpsIcon = (type: string) => alpsIcons[type];
+const getFaIconClass = (type: string) => faIconClasses[type];
 
 const isSectionsArray = (
   data: LinkGroup[] | LinksData[]
@@ -80,8 +75,7 @@ const renderLinksBlocks = (groups: LinkGroup[]) =>
       className: `link-button u-space--half--right ${
         links.length > 1 ? 'u-space--half--bottom' : ''
       }`,
-      faIcon: getFaIcon(type),
-      icon: getAlpsIcon(type),
+      faIconClass: `${getFaIconClass(type)} fa-lg`,
       hideExternalIcon: true,
       simple: true,
       outline: true,
@@ -152,7 +146,7 @@ const MediaLinksPage = ({
               url={`#${id}`}
               label={section}
               className="u-space--half--right"
-              faIcon="level-down"
+              faIconClass="fas fa-level-down-alt"
               iconPosition="right"
               isExternal={false}
               lighter={true}

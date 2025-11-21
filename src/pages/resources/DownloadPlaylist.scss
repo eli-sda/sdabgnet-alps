@@ -1,0 +1,11 @@
+.button-with-progress {
+  @media (max-width: 325px) {
+    width: 100%;
+    max-width: 100% !important;
+
+    .download-button {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+}

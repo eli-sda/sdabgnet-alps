@@ -7,3 +7,16 @@
     width: 274px;
   }
 }
+
+// On very small screens make playlist items fluid (shrink with page)
+@media (max-width: 325px) {
+  .audio-playlist-list {
+    display: block;
+    .playlist-item {
+      width: 100%;
+      max-width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+}

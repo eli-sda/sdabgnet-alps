@@ -87,11 +87,7 @@
       },
       {
         "url": "https://apps.apple.com/us/app/sabbath-school-pm/id895272167",
-        "type": "apple store"
-      },
-      {
-        "url": "https://sabbath-school.adventech.io/bg",
-        "type": "сайт"
+        "type": "app store"
       }
     ]
   },
@@ -106,7 +102,7 @@
       },
       {
         "url": "https://apps.apple.com/us/app/bible/id282935706",
-        "type": "apple store"
+        "type": "app store"
       }
     ]
   }

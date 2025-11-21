@@ -6,6 +6,18 @@
     & > * {
       max-width: 47%;
     }
+
+    @media (max-width: 325px) {
+      flex-direction: column;
+      width: 100%;
+      max-width: 100%;
+
+      .share-button {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 5px;
+      }
+    }
   }
 
   .share-fields {
@@ -23,9 +35,22 @@
       & > :first-child {
         flex-grow: 1;
       }
+
+      @media (max-width: 325px) {
+        flex-direction: row;
+        & > :first-child {
+          flex: 1 1 auto;
+          width: 100%;
+        }
+      }
+
       .copy-button {
         flex-shrink: 0;
         padding-right: 0;
+
+        @media (max-width: 325px) {
+          padding-left: 0.5rem;
+        }
       }
     }
 

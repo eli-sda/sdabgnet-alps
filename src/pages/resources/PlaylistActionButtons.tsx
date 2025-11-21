@@ -77,6 +77,7 @@ const PlaylistActionButtons = ({
         <div className="buttons">
           {shareUrl && (
             <Button
+              className="share-button"
               onClick={handleShare}
               small
               label="Вземи линк"

@@ -11,11 +11,11 @@ export interface AccordionItemProps {
   /**
    * FontAwesome icon name, same for both states
    */
-  faIcon?: string;
+  faIconClass?: string;
   /**
    * FontAwesome icon for open state
    */
-  faIconOpen?: string;
+  faIconOpenClass?: string;
   open?: boolean;
   children?: React.ReactNode;
   content?: React.ReactNode;
@@ -29,8 +29,8 @@ export const AccordionItem = ({
   children,
   content,
   icon,
-  faIcon,
-  faIconOpen,
+  faIconClass,
+  faIconOpenClass,
   heading,
   open: initialOpen,
   onChange,
@@ -67,13 +67,13 @@ export const AccordionItem = ({
 
   // Render leading icon
   const renderLeadingIcon = () => {
-    if (faIconOpen || faIcon) {
+    if (faIconOpenClass || faIconClass) {
       // Case: use faIcons for open/closed states
-      const iconName = open && faIconOpen ? faIconOpen : faIcon;
-      if (iconName) {
+      const iconNameClass = open && faIconOpenClass ? faIconOpenClass : faIconClass;
+      if (iconNameClass) {
         return (
           <i
-            className={`fa fa-${iconName} u-space--quarter--left u-space--half--right`}
+            className={`${iconNameClass} u-space--quarter--left u-space--half--right`}
             aria-hidden="true"
           ></i>
         );

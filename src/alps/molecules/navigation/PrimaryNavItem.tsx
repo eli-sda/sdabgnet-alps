@@ -95,6 +95,14 @@ export const PrimaryNavItem = ({
     u-font--primary-nav u-theme--link-hover--base u-theme--border-color--base u-color--gray--dark`
   };
 
+  const linkIcon = isExternal && (
+    <i className="fas fa-external-link-alt u-space--quarter--left"></i>
+  );
+  const fbLink =
+    isExternal && url?.startsWith('https://www.facebook.com') ? (
+      <i className="fab fa-facebook-f u-space--quarter--right"></i>
+    ) : undefined;
+
   return (
     <li
       className={`c-primary-nav__list-item ${
@@ -103,7 +111,9 @@ export const PrimaryNavItem = ({
     >
       {isExternal ? (
         <a {...linkAttr} onClick={onClick}>
-          {text} <i className="fa fa-external-link u-space--quarter--left"></i>
+          {fbLink}
+          {text}
+          {linkIcon}
         </a>
       ) : useNavLink ? (
         <NavLink {...linkAttr}>{text}</NavLink>

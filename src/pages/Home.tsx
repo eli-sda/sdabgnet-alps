@@ -194,7 +194,7 @@ const Home = () => {
               <NavLink to={routes.churchLife()}>
                 {' '}
                 <i
-                  className="fa fa-caret-square-o-down"
+                  className="far fa-caret-square-down"
                   aria-hidden="true"
                 ></i>{' '}
                 Църковен живот
@@ -204,7 +204,7 @@ const Home = () => {
               <NavLink to={routes.info()}>
                 {' '}
                 <i
-                  className="fa fa-caret-square-o-down"
+                  className="far fa-caret-square-down"
                   aria-hidden="true"
                 ></i>{' '}
                 БГ Справочник
@@ -214,7 +214,7 @@ const Home = () => {
               <NavLink to={routes.health()}>
                 {' '}
                 <i
-                  className="fa fa-caret-square-o-down"
+                  className="far fa-caret-square-down"
                   aria-hidden="true"
                 ></i>{' '}
                 Здраве
@@ -224,7 +224,7 @@ const Home = () => {
               <NavLink to={routes.commune()}>
                 {' '}
                 <i
-                  className="fa fa-caret-square-o-down"
+                  className="far fa-caret-square-down"
                   aria-hidden="true"
                 ></i>{' '}
                 Общуване
@@ -239,7 +239,7 @@ const Home = () => {
               <NavLink to={routes.advertisement()}>
                 {' '}
                 <i
-                  className="fa fa-caret-square-o-down"
+                  className="far fa-caret-square-down"
                   aria-hidden="true"
                 ></i>{' '}
                 Обяви
@@ -275,7 +275,7 @@ const Home = () => {
               <NavLink to={routes.resources()}>
                 {' '}
                 <i
-                  className="fa fa-caret-square-o-down"
+                  className="far fa-caret-square-down"
                   aria-hidden="true"
                 ></i>{' '}
                 Ресурси
@@ -298,7 +298,7 @@ const Home = () => {
               <NavLink to={routes.resources('audio')}>
                 {' '}
                 <i
-                  className="fa fa-caret-square-o-down"
+                  className="far fa-caret-square-down"
                   aria-hidden="true"
                 ></i>{' '}
                 Аудио ресурси
@@ -332,7 +332,7 @@ const Home = () => {
               <NavLink to={routes.media()}>
                 {' '}
                 <i
-                  className="fa fa-caret-square-o-down"
+                  className="far fa-caret-square-down"
                   aria-hidden="true"
                 ></i>{' '}
                 Медии

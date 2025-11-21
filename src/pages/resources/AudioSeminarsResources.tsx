@@ -34,7 +34,7 @@ const AudioSeminarsResources = () => {
                   to={`/resources/presentation#${presentation._id}`}
                 >
                   <i
-                    className={`fa fa-file-powerpoint-o u-space--half--right`}
+                    className={`far fa-file-powerpoint u-space--half--right`}
                     aria-hidden="true"
                   ></i>
                   {presentation.title}

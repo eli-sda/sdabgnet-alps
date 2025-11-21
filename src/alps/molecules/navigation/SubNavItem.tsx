@@ -62,6 +62,10 @@ export const SubNavItem = ({
   const linkIcon = isExternal && (
     <i className="fas fa-external-link-alt u-space--quarter--left"></i>
   );
+  const fbLink =
+    isExternal && url?.startsWith('https://www.facebook.com') ? (
+      <i className="fab fa-facebook-f u-space--quarter--right"></i>
+    ) : undefined;
   return (
     <li
       className={`c-${type}-nav__${navLevel}__list-item c-subnav__list-item 
@@ -73,6 +77,7 @@ export const SubNavItem = ({
     >
       {isExternal ? (
         <a {...linkAttr} onClick={onClick}>
+          {fbLink}
           {text}
           {linkIcon}
         </a>

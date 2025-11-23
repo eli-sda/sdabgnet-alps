@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from 'react';
+import { useMemo, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   formatDateRange,
@@ -28,6 +28,7 @@ import LessonHead from './LessonHead';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { Aside } from 'alps-library/organisms/asides/aside/Aside';
 import LessonAudio from './LessonAudio';
+import { resolveBitlyViaBackend } from 'src/utils/resolveBitly';
 
 const Lesson = ({ type = '' }: { type?: LessonType }) => {
   const { year, quarter, week } = useParams();
@@ -97,6 +98,9 @@ const Lesson = ({ type = '' }: { type?: LessonType }) => {
   const LessonCont = () => {
     const { qLesson, lessonDateRange, quarterObject } =
       useLessonQuarterContext();
+    const [videoDiscussionUrl, setVideoDiscussionUrl] = useState<string | null>(
+      null
+    );
 
     const passedLessons = useMemo(() => {
       if (!quarterObject) return [];
@@ -196,19 +200,67 @@ const Lesson = ({ type = '' }: { type?: LessonType }) => {
       }
       return video;
     }, [qLesson, quarterObject]);
-    const sidebar = useMemo(() => {
-      const isAdultLesson = type === '';
-      let videoDiscussion;
-      if (isAdultLesson) {
-        videoDiscussion = (
+
+    // Resolve bit.ly URL to YouTube URL for video discussion
+    // when the lesson is from 2025 Q4 or later and not after the current lesson
+    useEffect(() => {
+      if (
+        qLesson &&
+        quarterObject &&
+        type === '' &&
+        (quarterObject.lessonYear > 2025 ||
+          (quarterObject.lessonYear === 2025 &&
+            quarterObject.lessonQuarter >= 4)) &&
+        (quarterObject.lessonYear < currentLessonParameters.lessonYear ||
+          (quarterObject.lessonYear === currentLessonParameters.lessonYear &&
+            quarterObject.lessonQuarter <
+              currentLessonParameters.lessonQuarter) ||
+          (quarterObject.lessonYear === currentLessonParameters.lessonYear &&
+            quarterObject.lessonQuarter ===
+              currentLessonParameters.lessonQuarter &&
+            qLesson.num <= currentLessonParameters.lessonNumber))
+      ) {
+        const lessonNum = qLesson.num.toString().padStart(2, '0');
+        const bitlyUrl = `https://bit.ly/${quarterObject.lessonYear}-T${quarterObject.lessonQuarter}-Urok${lessonNum}`;
+
+        // Use a flag to track if this effect is still active
+        let isActive = true;
+
+        resolveBitlyViaBackend(bitlyUrl)
+          .then((url) => {
+            // Only update state if this is still the current lesson
+            if (isActive) {
+              setVideoDiscussionUrl(url);
+            }
+          })
+          .catch(() => {
+            if (isActive) {
+              setVideoDiscussionUrl(null);
+            }
+          });
+
+        // Cleanup function: mark this effect as inactive when component unmounts or dependencies change
+        return () => {
+          isActive = false;
+        };
+      }
+    }, [qLesson, quarterObject]);
+
+    const videoDiscussion = useMemo(() => {
+      if (videoDiscussionUrl) {
+        return (
           <Figure
             align="left"
             caption="Видео дискусии на урока"
             size="large"
-            videoSrc="https://www.youtube.com/embed/videoseries?list=PLEBIl_U1qK5bntMyfyn8cBkKlADEi3tTs"
+            videoSrc={videoDiscussionUrl}
           />
         );
       }
+      return undefined;
+    }, [videoDiscussionUrl]);
+
+    const sidebar = useMemo(() => {
       return (
         <>
           {(video || videoDiscussion) && (
@@ -232,7 +284,7 @@ const Lesson = ({ type = '' }: { type?: LessonType }) => {
           )}
         </>
       );
-    }, [video, passedLessons]);
+    }, [video, videoDiscussion, passedLessons]);
 
     return (
       <>

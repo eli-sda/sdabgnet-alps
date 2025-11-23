@@ -39,6 +39,7 @@ export type LessonDetails = {
   startDate?: string;
   endDate?: string;
   full_path: string;
+  pdfOnly?: boolean;
 };
 
 export type QuarterObject = QuarterProps & {
@@ -167,7 +168,8 @@ export const loadQuarter = ({
             cover: lesson.pdfOnly ? undefined : lesson.cover, //as  the image of cc lesson is for adults
             startDate: lesson.start_date,
             endDate: lesson.end_date,
-            full_path: lesson.full_path
+            full_path: lesson.full_path,
+            pdfOnly: lesson.pdfOnly
           });
         });
 
@@ -205,6 +207,10 @@ type resLesson = {
     id: string;
     full_read_path: string;
   }>;
+  pdfs: Array<{
+    title: string;
+    src: string;
+  }>;
 };
 
 export type LessonDays = {
@@ -222,12 +228,15 @@ export type LessonDays = {
  * @param lessonFullPath - full_path form LessonDetails object, e.g. "https://sabbath-school-stage.adventech.io/api/v2/bg/quarterlies/2025-02-cc/lessons/09"
  * @returns
  */
-export const getLessonDays = async (
+export const getLessonDaysAndPdf = async (
   lessonFullPath: string
-): Promise<LessonDays[]> => {
+): Promise<{
+  days: LessonDays[];
+  pdfLink: string | undefined;
+}> => {
   // const lessonDays: LessonDays[] = [];
   const res = await fetch(`${lessonFullPath}/index.json`);
-  const { days } = (await res.json()) as resLesson;
+  const { days, pdfs } = (await res.json()) as resLesson;
 
   // Fetch details for each day in parallel
   const dayDetails = await Promise.all(
@@ -242,7 +251,11 @@ export const getLessonDays = async (
       };
     })
   );
-  return dayDetails;
+  let pdfLink: string | undefined = undefined;
+  if (days.length === 0 && pdfs.length > 0) {
+    pdfLink = pdfs[0].src;
+  }
+  return { days: dayDetails, pdfLink };
 };
 
 export const getHTMLLessonText = (rawString: string): string => {

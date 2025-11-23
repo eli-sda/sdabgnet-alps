@@ -112,15 +112,17 @@ const Lesson = ({ type = '' }: { type?: LessonType }) => {
         if (!lesson) continue;
         const lessonBlock = {
           title: `${lesson.num}. ${lesson.title}`,
-          image: {
-            alt: '',
-            srcSet: {
-              default: lesson.cover || '',
-              500: '',
-              750: '',
-              1200: ''
-            }
-          },
+          image: lesson.cover
+            ? {
+                alt: '',
+                srcSet: {
+                  default: lesson.cover,
+                  500: '',
+                  750: '',
+                  1200: ''
+                }
+              }
+            : undefined,
           url: `${lessonURL}/${lessonYear % 100}/${lessonQuarter}/${
             lesson.num
           }`,
@@ -195,16 +197,31 @@ const Lesson = ({ type = '' }: { type?: LessonType }) => {
       return video;
     }, [qLesson, quarterObject]);
     const sidebar = useMemo(() => {
+      const isAdultLesson = type === '';
+      let videoDiscussion;
+      if (isAdultLesson) {
+        videoDiscussion = (
+          <Figure
+            align="left"
+            caption="Видео дискусии на урока"
+            size="large"
+            videoSrc="https://www.youtube.com/embed/videoseries?list=PLEBIl_U1qK5bntMyfyn8cBkKlADEi3tTs"
+          />
+        );
+      }
       return (
         <>
-          {video && (
+          {(video || videoDiscussion) && (
             <Aside>
-              <Figure
-                align="left"
-                caption={video.caption}
-                size="large"
-                videoSrc={video.src}
-              />
+              {video && (
+                <Figure
+                  align="left"
+                  caption={video.caption}
+                  size="large"
+                  videoSrc={video.src}
+                />
+              )}
+              {videoDiscussion && videoDiscussion}
             </Aside>
           )}
           {passedLessons.length > 0 && (

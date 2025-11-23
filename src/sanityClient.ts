@@ -14,7 +14,7 @@ export const clientVreses = createClient({
 export const client = createClient({
   projectId: import.meta.env.VITE_SANITY_SDABGNET_PROJECT_ID as string,
   dataset: import.meta.env.VITE_SANITY_DATASET as string,
-  apiVersion: '2025-04-21',
+  apiVersion: '2025-11-21',
   useCdn: import.meta.env.VITE_SANITY_DATASET === 'production' // `true` for fast, cached responses
 });
 
@@ -22,4 +22,5 @@ const builder = imageUrlBuilder(client);
 const builderVreses = imageUrlBuilder(clientVreses);
 
 // Helper
-export const urlFor = (source: SanityImageSource, isVersesClient = false) => isVersesClient ? builderVreses.image(source) : builder.image(source);
+export const urlFor = (source: SanityImageSource, isVersesClient = false) =>
+  isVersesClient ? builderVreses.image(source) : builder.image(source);

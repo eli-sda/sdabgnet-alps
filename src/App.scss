@@ -6,6 +6,15 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Fix for empty images - ensure they have height 0 when no src */
+img:not([src]),
+img[src=''],
+picture img:not([src]),
+picture img[src=''] {
+  height: 0;
+  min-height: 0;
+}
+
 .u-theme--ming .u-theme--path-fill--base {
   text > * {
     fill: $mingColor;

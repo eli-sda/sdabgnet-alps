@@ -10,7 +10,7 @@ export const MissingLesson = (params: LessonProps) => {
       </h3>
       {params.type == '' && params.lessonYear < 2025 && (
         <p>
-          Опитайте да го заредите
+          Опитайте да го заредите{' '}
           <a
             href={`${OLD_SS_URL}&year=${params.lessonYear - 2000}&quarter=${
               params.lessonQuarter
@@ -18,8 +18,8 @@ export const MissingLesson = (params: LessonProps) => {
             target="_blank"
             rel="noreferrer"
           >
-            {' '}
             през стария сайт
+            <i className="fas fa-external-link-alt u-space--quarter--left"></i>
           </a>
           .
         </p>

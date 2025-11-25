@@ -100,6 +100,35 @@ $imageUrl = $page['imageUrl'] ?? $defImage;
 $imageWidth = $page['imageWidth'] ?? 1200;
 $imageHeight = $page['imageHeight'] ?? 630;
 $ogUrl = $site . $path;
+
+// Build the full URL with query parameters
+if (!empty($_SERVER['QUERY_STRING'])) {
+    $ogUrl .= '?' . $_SERVER['QUERY_STRING'];
+}
+
+// Check for playlistTitle and title query parameters for custom sharing descriptions
+$playlistTitle = $_GET['playlistTitle'] ?? null;
+$itemTitle = $_GET['title'] ?? null;
+
+// If playlistTitle is present, construct custom title for sharing
+if ($playlistTitle) {
+    // Decode the URL-encoded parameters
+    $playlistTitle = urldecode($playlistTitle);
+
+    // Build custom title: <pageTitle> - <playlistTitle> - <title>
+    $customTitleParts = [];
+    if ($title && trim($title) !== '') {
+        $customTitleParts[] = $title;
+    }
+    $customTitleParts[] = $playlistTitle;
+
+    if ($itemTitle) {
+        $itemTitle = urldecode($itemTitle);
+        $customTitleParts[] = $itemTitle;
+    }
+
+    $title = implode(' - ', $customTitleParts);
+}
 ?>
 
 <!DOCTYPE html>

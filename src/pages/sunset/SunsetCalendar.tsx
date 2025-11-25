@@ -1,167 +1,263 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import moment from 'moment';
 import 'moment/dist/locale/bg';
 moment.locale('bg');
+import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
+import { TbSunset2 } from 'react-icons/tb';
+import { Grid } from 'alps-library/atoms/grids/Grid';
+import { GridItem } from 'alps-library/atoms/grids/GridItem';
+import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
+import { PageContent } from 'src/alps/organisms/content/PageContent';
+import { Button } from 'src/alps/atoms/Button';
+import { InfoDialog } from 'src/organisms/sections/InfoDialog';
+import routes from 'src/routes';
+import { getTitle, getBreadcrumbs } from 'src/utils/Navigation';
+import { usePagesMeta } from 'src/hooks/usePagesMeta';
+import useSunset from 'src/hooks/useSunset';
+import '../events/reactBigCalendarStyles.scss';
+import '../events/customCalendar.scss';
+import './sunsetCalendar.scss';
+import { Pullquote } from 'alps-library/molecules/text/pullquote/Pullquote';
+
+const localizer = momentLocalizer(moment);
 
 interface NominatimResponse {
   lat: string;
   lon: string;
-  [key: string]: unknown;
 }
 
-interface SunsetApiResponse {
-  status: string;
-  results: {
-    sunset: string;
-    [key: string]: unknown;
-  };
+interface CustomToolbarProps {
+  label: string;
+  onNavigate: (action: 'PREV' | 'NEXT' | 'TODAY' | 'DATE') => void;
 }
 
-const SunsetCalendar = () => {
+type CalendarEvent = {
+  title: string;
+  start: Date;
+  end: Date;
+};
+
+const SunsetCalendar = (): JSX.Element => {
+  const breadcrumbs = getBreadcrumbs([routes.info(), routes.info('sunset')]);
+  const { pageBackground } = usePagesMeta();
+
+  const [infoMessage, setInfoMessage] = useState<string | null>(null);
+
   const [city, setCity] = useState('София');
-  const [month, setMonth] = useState(moment());
-  const [sunsetData, setSunsetData] = useState<Record<string, string>>({});
-  const [coords, setCoords] = useState({ lat: 42.6977, lng: 23.3219 }); // София по подразбиране
+  const [coords, setCoords] = useState({ lat: 42.6977, lng: 23.3219 });
+  const [events, setEvents] = useState<CalendarEvent[]>([]);
+  const [currentCalendarDate, setCurrentCalendarDate] = useState<Date>(
+    moment().date(1).toDate()
+  );
+  const [currentMonth, setCurrentMonth] = useState<number>(moment().month());
 
-  useEffect(() => {
-    void fetchSunsetData(coords, month);
-  }, [coords, month]);
+  const allowedMonths = useMemo(() => {
+    const now = moment();
+    return [currentMonth, now.clone().add(1, 'month').month()];
+  }, [currentMonth]);
 
-  const fetchCoords = async (cityName: string) => {
+  const isNextDisabled = useMemo(() => {
+    const now = moment();
+    const next = now.clone().add(1, 'month');
+    return moment(currentCalendarDate).isSame(next, 'month');
+  }, [currentCalendarDate]);
+
+  const { getSunsets } = useSunset();
+
+  const loadAndSetSunsets = useCallback(
+    async (monthDate: Date | string, lat: number, lng: number) => {
+      try {
+        const loaded = await getSunsets(monthDate, lat, lng);
+        const mapped = (loaded || []).map((e) => ({
+          title: e.title,
+          start: new Date(e.start),
+          end: new Date(e.end)
+        }));
+        setEvents(mapped);
+      } catch (err) {
+        console.error('loadAndSetSunsets error', err);
+        setEvents([]);
+      }
+    },
+    [getSunsets]
+  );
+
+  // Fetch coordinates for a city using Nominatim
+  const fetchCoords = useCallback(async (): Promise<void> => {
     try {
       const url = `https://nominatim.openstreetmap.org/search?city=${encodeURIComponent(
-        cityName
+        city
       )}&countrycodes=bg&format=json`;
-      const res = await fetch(url);
+      const res = await fetch(url, {
+        headers: { 'User-Agent': 'sdaBgNetwork' }
+      });
       const data = (await res.json()) as NominatimResponse[];
+
       if (data && data.length > 0) {
-        const { lat, lon } = data[0];
-        setCoords({ lat: parseFloat(lat), lng: parseFloat(lon) });
+        setCoords({
+          lat: parseFloat(data[0].lat),
+          lng: parseFloat(data[0].lon)
+        });
+
+        // Load sunsets for the found coords immediately and set events
+        await loadAndSetSunsets(
+          currentCalendarDate,
+          parseFloat(data[0].lat),
+          parseFloat(data[0].lon)
+        );
       } else {
-        alert('Не са намерени координати за това населено място.');
+        setInfoMessage('Населеното място не е намерено.');
       }
     } catch (err) {
-      console.error('Грешка при търсене на координати:', err);
-    }
-  };
-
-  const fetchSunsetData = async (
-    coords: { lat: number; lng: number },
-    date: moment.Moment
-  ) => {
-    const results: Record<string, string> = {};
-    const daysInMonth = date.daysInMonth();
-
-    for (let d = 1; d <= daysInMonth; d++) {
-      const day = date.clone().date(d);
-      const apiUrl = `https://api.sunrise-sunset.org/json?lat=${
-        coords.lat
-      }&lng=${coords.lng}&date=${day.format('YYYY-MM-DD')}&formatted=0`;
-
-      const response = await fetch(apiUrl);
-      const json = (await response.json()) as SunsetApiResponse;
-
-      if (json.status === 'OK') {
-        results[day.format('YYYY-MM-DD')] = moment(json.results.sunset)
-          .locale('bg')
-          .format('HH:mm');
-      }
-    }
-
-    setSunsetData(results);
-  };
-
-  const changeMonth = (offset: number) => {
-    setMonth((prev) => prev.clone().add(offset, 'month'));
-  };
-
-  const renderCalendar = () => {
-    const startOfMonth = month.clone().startOf('month');
-    const endOfMonth = month.clone().endOf('month');
-    const days: JSX.Element[] = [];
-
-    for (let d = startOfMonth.date(); d <= endOfMonth.date(); d++) {
-      const date = month.clone().date(d);
-      const key = date.format('YYYY-MM-DD');
-
-      days.push(
-        <div
-          key={key}
-          className="alps-card"
-          style={{
-            padding: '8px',
-            textAlign: 'center',
-            borderRadius: 8,
-            background: '#fafafa'
-          }}
-        >
-          <div>{d}</div>
-          <div style={{ fontSize: '0.9em', color: '#666' }}>
-            {sunsetData[key] || '-'}
-          </div>
-        </div>
+      console.error('fetchCoords error', err);
+      setInfoMessage(
+        'Грешка при търсене на населеното място. Моля опитайте отново.'
       );
     }
+  }, [city, currentCalendarDate, loadAndSetSunsets]);
 
+  const CustomToolbar = ({ label, onNavigate }: CustomToolbarProps) => {
     return (
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(7, 1fr)',
-          gap: 6,
-          marginTop: 12
-        }}
-      >
-        {days}
+      <div className="rbc-toolbar">
+        <span className="rbc-btn-group">
+          <Button
+            className="calendar-button"
+            label="Текущ"
+            onClick={() => onNavigate('TODAY')}
+            outline
+            disabled={!isNextDisabled}
+          />
+
+          <Button
+            className="calendar-button"
+            label="Следващ"
+            onClick={() => onNavigate('NEXT')}
+            outline
+            disabled={isNextDisabled}
+          />
+        </span>
+
+        <span className="rbc-toolbar-label">{label}</span>
       </div>
     );
   };
 
+  // Refresh events whenever coords or month change
+  useEffect(() => {
+    void (async () => {
+      await loadAndSetSunsets(currentCalendarDate, coords.lat, coords.lng);
+    })();
+  }, [loadAndSetSunsets, currentCalendarDate, coords.lat, coords.lng]);
+
+  const onNavigate = (date: Date) => {
+    const m = moment(date).month();
+    if (!allowedMonths.includes(m)) return; // block other months
+    setCurrentCalendarDate(date);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = moment();
+      console.log(`in sunset today: ${now.format('YYYY-MM-DD')}`);
+      if (!now.isSame(currentMonth, 'month')) {
+        setCurrentMonth(now.month());
+      }
+    }, 60 * 1000 * 60); // Check every hour
+
+    return () => clearInterval(interval);
+  }, [currentMonth]);
+
   return (
-    <div
-      className="alps-container"
-      style={{ maxWidth: 700, margin: '0 auto', padding: 20 }}
-    >
-      <h2>🌇 Залез на слънцето</h2>
+    <>
+      <PageHeaderLong
+        title={getTitle(routes.info('sunset'))}
+        background={pageBackground}
+      />
+      <PageContent breadcrumbs={breadcrumbs} />
 
-      <div
-        style={{
-          display: 'flex',
-          gap: 8,
-          alignItems: 'center',
-          marginBottom: 12
-        }}
+      <Grid
+        className={'l-grid l-grid--7-col l-grid-wrap l-grid-wrap--6-of-7'}
+        seven={true}
+        as="section"
+        wrap={'6'}
       >
-        <input
-          type="text"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          placeholder="Населено място"
-          className="alps-input"
-        />
-        <button className="alps-button" onClick={() => void fetchCoords(city)}>
-          Търси
-        </button>
-      </div>
+        <GridItem
+          className={
+            'u-padding--sides u-space--triple--bottom l-grid-item page-link-item'
+          }
+          sizeAtM={'6'}
+          sizeAtXL={'6'}
+        >
+          <div
+            className="sunset-calendar"
+            style={{ maxWidth: 1000, margin: '0px auto' }}
+          >
+            {infoMessage && (
+              <InfoDialog
+                message={infoMessage}
+                onClose={() => setInfoMessage(null)}
+              />
+            )}
 
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-        }}
-      >
-        <button className="alps-button" onClick={() => changeMonth(-1)}>
-          ◀ Предишен
-        </button>
-        <h3>{month.format('MMMM YYYY')}</h3>
-        <button className="alps-button" onClick={() => changeMonth(1)}>
-          Следващ ▶
-        </button>
-      </div>
+            <Pullquote
+              quote="„Помни съботния ден, за да го освещаваш. Шест дни да работиш и да вършиш всичките си дела;“"
+              author="Изх. 20:8,9"
+            />
+            <Pullquote
+              quote="„... от вечер до вечер, да пазите съботата си“"
+              author="Левит 23:32"
+            />
 
-      {renderCalendar()}
-    </div>
+            <div
+              className="city-input"
+              style={{
+                display: 'flex',
+                gap: 8,
+                marginBottom: 12
+              }}
+            >
+              <input
+                type="text"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                placeholder="Населено място"
+              />
+
+              <Button
+                label="Покажи"
+                onClick={(): void => {
+                  void fetchCoords();
+                }}
+              />
+            </div>
+          </div>
+
+          <Calendar
+            localizer={localizer}
+            events={events}
+            date={currentCalendarDate}
+            onNavigate={onNavigate}
+            views={[Views.MONTH]}
+            startAccessor="start"
+            endAccessor="end"
+            components={{
+              toolbar: CustomToolbar,
+              event: ({ event }: { event: CalendarEvent }) => (
+                <div className="rbc-event-content">
+                  <TbSunset2 />
+                  <br />
+                  <span>{event.title}</span>
+                </div>
+              )
+            }}
+            style={{ minHeight: 600, maxWidth: 1000, margin: '0 auto' }}
+            min={new Date(2020, 1, 1, 16, 0)}
+            max={new Date(2020, 1, 1, 22, 0)}
+            messages={{ next: 'Следващ', previous: 'Предишен', today: 'Текущ' }}
+          />
+        </GridItem>
+      </Grid>
+    </>
   );
 };
 

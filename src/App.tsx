@@ -8,6 +8,7 @@ import { AdvertisementsProvider } from './providers/AdvertisementsProvider';
 import { QuestionsProvider } from './providers/QuestionsProvider';
 import { PlaylistsProvider } from './providers/PlaylistsProvider';
 import { DailyVerseProvider } from './providers/DailyVerseProvider';
+import SunsetProvider from './providers/SunsetProvider';
 
 const App = () => {
   useEffect(() => {
@@ -34,11 +35,13 @@ const App = () => {
         <CurrentLessonProvider>
           <AdvertisementsProvider>
             <QuestionsProvider>
-              <PlaylistsProvider>
-                <DailyVerseProvider>
-                  <Router />
-                </DailyVerseProvider>
-              </PlaylistsProvider>
+              <SunsetProvider>
+                <PlaylistsProvider>
+                  <DailyVerseProvider>
+                    <Router />
+                  </DailyVerseProvider>
+                </PlaylistsProvider>
+              </SunsetProvider>
             </QuestionsProvider>
           </AdvertisementsProvider>
         </CurrentLessonProvider>

@@ -2,7 +2,7 @@
 
 .rbc-calendar {
   .rbc-date-cell *,
-  button {
+  button, .calendar-button {
     &:hover {
       background-color: transparent;
       border-color: transparent;

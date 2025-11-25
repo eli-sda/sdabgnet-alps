@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { client, clientVreses } from 'src/sanityClient';
 import { PageMetaMap, PageMetaType } from './PageMeta';
 import {
@@ -162,4 +163,70 @@ export const loadDailyVerse = async (date: string): Promise<DailyVerseType> => {
   }`;
 
   return await clientVreses.fetch(dailyVerseQuery, { date });
+};
+
+/**
+ * Load sunset times for all Fridays and Saturdays in the month of the provided date.
+ * @param monthDate ISO date string (e.g. '2025-11-01') or Date object representing a day in target month
+ * @param lat latitude
+ * @param lng longitude
+ */
+interface SunsetApiResponse {
+  results: { sunset: string };
+  status: string;
+}
+
+export const loadSunset = async (
+  monthDate: string | Date,
+  lat: number,
+  lng: number
+): Promise<
+  {
+    title: string;
+    start: string; // ISO
+    end: string; // ISO
+  }[]
+> => {
+  const m = moment(monthDate);
+  const daysInMonth = m.daysInMonth();
+
+  const fetchDates: moment.Moment[] = [];
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date = m.clone().date(d);
+    const dayOfWeek = date.isoWeekday(); // 5 = Fri, 6 = Sat
+    if (dayOfWeek === 5 || dayOfWeek === 6) fetchDates.push(date);
+  }
+
+  const results = await Promise.all(
+    fetchDates.map((date) => {
+      const apiUrl = `https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lng}&date=${date.format(
+        'YYYY-MM-DD'
+      )}&formatted=0`;
+      return fetch(apiUrl)
+        .then((res) => res.json())
+        .then((json: SunsetApiResponse) => ({ date, json }))
+        .catch(
+          () =>
+            ({ date, json: null } as {
+              date: moment.Moment;
+              json: SunsetApiResponse | null;
+            })
+        );
+    })
+  );
+
+  const evts: { title: string; start: string; end: string }[] = [];
+  for (const r of results) {
+    if (!r.json || r.json.status !== 'OK') continue;
+    const sunset = moment(r.json.results.sunset).format('HH:mm');
+    const parts = sunset.split(':').map(Number);
+    const start = r.date.clone().hour(parts[0]).minute(parts[1]);
+    evts.push({
+      title: `${sunset}ч.`,
+      start: start.toISOString(),
+      end: start.toISOString()
+    });
+  }
+
+  return evts;
 };

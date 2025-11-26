@@ -172,17 +172,24 @@
         ]
       },
       {
-        "title": "Център за Здраве",
-        "description": "Християнски център за профилактика и здраве",
-        "image40": "/img/logos/40/novstart.info.png",
+        "title": "Национален хор \"Гласът на надеждата\"",
+        "image40": "/img/logos/40/the-voice-of-hope.png",
         "links": [
           {
-            "url": "http://lifeinhope.com",
+            "url": "https://nazionalenhor.adventist.bg/",
             "type": "сайт"
           },
           {
-            "url": "https://www.facebook.com/novstart.info",
+            "url": "https://www.facebook.com/profile.php?id=100083183236443",
             "type": "facebook"
+          },
+          {
+            "url": "https://www.youtube.com/@Гласътнанадеждата",
+            "type": "youtube"
+          },
+          {
+            "url": "https://www.instagram.com/the_voice_of_hope_bg/",
+            "type": "instagram"
           }
         ]
       },
@@ -236,24 +243,17 @@
         ]
       },
       {
-        "title": "Национален хор \"Гласът на надеждата\"",
-        "image40": "/img/logos/40/the-voice-of-hope.png",
+        "title": "Център за Здраве",
+        "description": "Християнски център за профилактика и здраве",
+        "image40": "/img/logos/40/novstart.info.png",
         "links": [
           {
-            "url": "https://nazionalenhor.adventist.bg/",
+            "url": "http://lifeinhope.com",
             "type": "сайт"
           },
           {
-            "url": "https://www.facebook.com/profile.php?id=100083183236443",
+            "url": "https://www.facebook.com/novstart.info",
             "type": "facebook"
-          },
-          {
-            "url": "https://www.youtube.com/@Гласътнанадеждата",
-            "type": "youtube"
-          },
-          {
-            "url": "https://www.instagram.com/the_voice_of_hope_bg/",
-            "type": "instagram"
           }
         ]
       },
@@ -263,7 +263,7 @@
         "image40": "/img/logos/40/zdraven-centar-medovo.png",
         "links": [
           {
-            "url": "http://zdravencentarmedovo.com/#s5",
+            "url": "http://zdravencentarmedovo.com",
             "type": "сайт"
           }
         ]

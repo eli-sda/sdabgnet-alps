@@ -14,13 +14,13 @@ const Institutions = (): JSX.Element => {
         heading: 'Други връзки',
         blocks: [
           {
-            title:  getTitle(routes.media('radio')),
-            url: '/media/radio',
+            title: getTitle(routes.media('radio')),
+            url: routes.media('radio'),
             category: getTitle(routes.media())
           },
           {
             title: getTitle(routes.media('tv')),
-            url: '/media/tv',
+            url: routes.media('tv'),
             category: getTitle(routes.media())
           }
         ]

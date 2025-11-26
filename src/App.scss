@@ -44,6 +44,11 @@ p {
 .u-font--secondary--s {
   font-size: 1rem;
 }
+.c-primary-nav .c-subnav__link.disabled {
+  cursor: not-allowed;
+  color: $grayDarkColor;
+  opacity: 0.6;
+}
 
 .l-sabbath__logo {
   padding-left: 0.625rem;

@@ -83,12 +83,14 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Проповеди, Статии',
-        url: routes.churchLife('topics')
+        url: routes.churchLife('topics'),
+        isDisabled: true
       },
       {
         type: 'primary',
         text: 'Поезия',
-        url: routes.churchLife('poetry')
+        url: routes.churchLife('poetry'),
+        isDisabled: true
       },
       {
         type: 'primary',
@@ -117,12 +119,14 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Опитности от цял свят',
-        url: routes.churchLife('stories')
+        url: routes.churchLife('stories'),
+        isDisabled: true
       },
       {
         type: 'primary',
         text: 'Хумор',
-        url: routes.churchLife('humor')
+        url: routes.churchLife('humor'),
+        isDisabled: true
       },
       {
         type: 'primary',
@@ -141,7 +145,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
     subnav: [
       {
         type: 'primary',
-        text: 'Библейски учения',
+        text: 'Библейски учения и курсове',
         url: routes.info('biblical')
       },
       {
@@ -157,12 +161,14 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Речник',
-        url: routes.info('dictionary')
+        url: routes.info('dictionary'),
+        isDisabled: true
       },
       {
         type: 'primary',
         text: 'Коментари на библейски стихове',
-        url: routes.info('comment')
+        url: routes.info('comment'),
+        isDisabled: true
       },
       {
         type: 'primary',
@@ -196,11 +202,6 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
         text: 'Списание "Християнска мисъл"',
         isExternal: true,
         url: 'https://hm-aw.adventist.bg/'
-      },
-      {
-        type: 'primary',
-        text: 'Онлайн курсове',
-        url: routes.media('courses')
       },
       {
         type: 'primary',
@@ -264,7 +265,8 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Музика',
-        url: routes.resources('music')
+        url: routes.resources('music'),
+        isDisabled: true
       },
       {
         type: 'primary',
@@ -285,22 +287,26 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Програмата New start',
-        url: routes.health('new-start')
+        url: routes.health('new-start'),
+        isDisabled: true
       },
       {
         type: 'primary',
         text: 'Видео лекции, предавания',
-        url: routes.health('video')
+        url: routes.health('video'),
+        isDisabled: true
       },
       {
         type: 'primary',
         text: 'Книги',
-        url: routes.health('books')
+        url: routes.health('books'),
+        isDisabled: true
       },
       {
         type: 'primary',
         text: 'Рецепти',
-        url: routes.health('recipes')
+        url: routes.health('recipes'),
+        isDisabled: true
       },
       {
         type: 'primary',
@@ -310,7 +316,8 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Услуги',
-        url: routes.health('services')
+        url: routes.health('services'),
+        isDisabled: true
       }
     ]
   },
@@ -327,7 +334,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
 type MenuItem = {
   text: string;
   isExternal?: boolean;
-  // useNavLink?: boolean;
+  isDisabled?: boolean;
   url?: string;
   subnav?: MenuItem[];
   icon?: string;

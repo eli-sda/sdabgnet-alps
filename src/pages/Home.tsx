@@ -201,16 +201,6 @@ const Home = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to={routes.info()}>
-                {' '}
-                <i
-                  className="far fa-caret-square-down"
-                  aria-hidden="true"
-                ></i>{' '}
-                БГ Справочник
-              </NavLink>
-            </li>
-            <li>
               <NavLink to={routes.health()}>
                 {' '}
                 <i
@@ -352,6 +342,21 @@ const Home = () => {
             </li>
             <li>
               <NavLink to={routes.media('apps')}>Приложения</NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.info()}>
+                {' '}
+                <i
+                  className="far fa-caret-square-down"
+                  aria-hidden="true"
+                ></i>{' '}
+                БГ Справочник
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to={routes.info('institutions')}>
+                Адвентни отдели и институции
+              </NavLink>
             </li>
           </ul>
         </div>

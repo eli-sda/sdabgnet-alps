@@ -33,15 +33,35 @@ async function linkAudioPlaylistsToItems() {
   console.log('Starting to link audio playlists to their items...');
   let totalUpdated = 0;
   try {
-    // Fetch all audio playlists (sermons, audio-book, seminars)
-    const playlists: PlaylistDocument[] = await client.fetch(`
-      *[_type == "playlist" && type in ["sermons", "audio-book", "seminars"] && isResource == true]{
+    const playlists: PlaylistDocument[] = await client.fetch(
+      // Fetch all audio playlists (sermons, audio-book, seminars)
+      //   `
+      //   *[_type == "playlist" && type in ["sermons", "audio-book", "seminars"] && isResource == true]{
+      //     _id,
+      //     _type,
+      //     title,
+      //     items
+      //   }
+      // `
+      // Fetch all audio-book playlists without items
+      //   `
+      //    *[_type == "playlist" && type in ["audio-book"] && isResource == true && items==null]{
+      //     _id,
+      //     _type,
+      //     title,
+      //     items
+      //   }
+      // `
+      // Fetch all audio-book playlists with specific titles
+      `
+       *[_type == "playlist" && type in ["audio-book"] && isResource == true &&  title in ["Копнежът на вековете", "Избрани вести - том 1", "Невероятни отговори на молитви", "Още невероятни отговори на молитви", "Когато се нуждаеш от още невероятни отговори на молитви"]]{
         _id,
         _type,
         title,
         items
       }
-    `);
+    `
+    );
 
     // Fetch all audio links
     const links: LinkDocument[] = await client.fetch(`
@@ -152,7 +172,7 @@ async function linkAudioPlaylistsToItems() {
 
 /**
  * Sort links by fileName to maintain order
- * For series links (with number prefix), sort numerically
+ * For series links (with number prefix or suffix), sort numerically
  * For non-series links, sort alphabetically
  */
 function sortLinks(links: LinkDocument[]): LinkDocument[] {
@@ -162,22 +182,38 @@ function sortLinks(links: LinkDocument[]): LinkDocument[] {
       return 0;
     }
 
-    const aHasNumber = /^\d+\s*-/.test(a.fileName);
-    const bHasNumber = /^\d+\s*-/.test(b.fileName);
+    // Check for numbers at the beginning (e.g., "01 Title.mp3")
+    const aHasPrefix = /^\d+[\s-]/.test(a.fileName);
+    const bHasPrefix = /^\d+[\s-]/.test(b.fileName);
 
-    if (aHasNumber && bHasNumber) {
-      // Both have numbers, sort numerically
+    // Check for numbers before extension (e.g., "Title_31.mp3")
+    const aHasSuffix = /_(\d+)\.\w+$/.test(a.fileName);
+    const bHasSuffix = /_(\d+)\.\w+$/.test(b.fileName);
+
+    // If both have prefix numbers, sort by prefix
+    if (aHasPrefix && bHasPrefix) {
       const aMatch = a.fileName.match(/^(\d+)/);
       const bMatch = b.fileName.match(/^(\d+)/);
       const aNum = parseInt(aMatch?.[1] || '0');
       const bNum = parseInt(bMatch?.[1] || '0');
       return aNum - bNum;
-    } else if (aHasNumber) {
+    }
+    // If both have suffix numbers, sort by suffix
+    else if (aHasSuffix && bHasSuffix) {
+      const aMatch = a.fileName.match(/_(\d+)\.\w+$/);
+      const bMatch = b.fileName.match(/_(\d+)\.\w+$/);
+      const aNum = parseInt(aMatch?.[1] || '0');
+      const bNum = parseInt(bMatch?.[1] || '0');
+      return aNum - bNum;
+    }
+    // If one has a number pattern and the other doesn't
+    else if (aHasPrefix || aHasSuffix) {
       return -1; // a comes first
-    } else if (bHasNumber) {
+    } else if (bHasPrefix || bHasSuffix) {
       return 1; // b comes first
-    } else {
-      // Neither has numbers, sort alphabetically by author name
+    }
+    // Neither has numbers, sort alphabetically by author name
+    else {
       const normalizedAuthorA = normalizeAuthor(a?.author || '');
       const normalizedAuthorB = normalizeAuthor(b?.author || '');
       return normalizedAuthorA.localeCompare(normalizedAuthorB, 'bg');

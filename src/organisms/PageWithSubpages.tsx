@@ -19,7 +19,9 @@ export const PageWithSubpages = ({
   const mainNavItem = findMenuItemByUrl(path);
   const subnav = mainNavItem?.subnav || [];
 
+  // show only non-disabled subnav items
   const subnavPaths: string[] = subnav
+    .filter((item) => !item.isDisabled)
     .map((item) => item.url)
     .filter((url): url is string => Boolean(url));
 

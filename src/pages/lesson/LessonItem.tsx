@@ -7,7 +7,7 @@ import { LessonDay } from './LessonDay';
 import './LessonItem.scss';
 import {
   LessonDetails,
-  getLessonDays,
+  getLessonDaysAndPdf,
   LessonDays
 } from '../../utils/LessonUtils';
 type LessonItemType = {
@@ -16,10 +16,14 @@ type LessonItemType = {
 
 export const LessonItem = ({ qLesson }: LessonItemType) => {
   const [days, setDays] = useState<LessonDays[]>([]);
+  const [pdfLink, setPdfLink] = useState<string | undefined>();
 
   useEffect(() => {
     if (qLesson?.full_path) {
-      void getLessonDays(qLesson.full_path).then(setDays);
+      void getLessonDaysAndPdf(qLesson.full_path).then(({ days, pdfLink }) => {
+        setDays(days);
+        setPdfLink(pdfLink);
+      });
     }
   }, [qLesson?.full_path]);
 
@@ -32,25 +36,35 @@ export const LessonItem = ({ qLesson }: LessonItemType) => {
           hasDropcap={false}
           spacing="double"
         >
-          <Accordion>
-            {days.map((day, idx) => {
-              // Determine if this AccordionItem should be open
-              let isOpen = true;
-              if (day.date) {
-                // day.date is in format "dd/MM/yyyy"
-                const [d, m, y] = day.date.split('/');
-                const dayDate = new Date(`${y}-${m}-${d}`);
-                const now = new Date();
-                // Compare only date part (ignore time)
-                isOpen =
-                  dayDate.getFullYear() === now.getFullYear() &&
-                  dayDate.getMonth() === now.getMonth() &&
-                  dayDate.getDate() === now.getDate();
-              }
-              // Render LessonDay (AccordionItem) for each day
-              return <LessonDay key={idx} day={day} isOpen={isOpen} />;
-            })}
-          </Accordion>
+          {days.length === 0 && pdfLink && (
+            <h3 className="u-padding--bottom">
+              <a href={pdfLink} target="_blank" rel="noreferrer">
+                <i className="far fa-file-pdf u-space--half--right"></i>
+                {`Отвори урока в PDF формат`}
+              </a>
+            </h3>
+          )}
+          {days.length > 0 && (
+            <Accordion>
+              {days.map((day, idx) => {
+                // Determine if this AccordionItem should be open
+                let isOpen = true;
+                if (day.date) {
+                  // day.date is in format "dd/MM/yyyy"
+                  const [d, m, y] = day.date.split('/');
+                  const dayDate = new Date(`${y}-${m}-${d}`);
+                  const now = new Date();
+                  // Compare only date part (ignore time)
+                  isOpen =
+                    dayDate.getFullYear() === now.getFullYear() &&
+                    dayDate.getMonth() === now.getMonth() &&
+                    dayDate.getDate() === now.getDate();
+                }
+                // Render LessonDay (AccordionItem) for each day
+                return <LessonDay key={idx} day={day} isOpen={isOpen} />;
+              })}
+            </Accordion>
+          )}
         </Text>
       )}
     </>

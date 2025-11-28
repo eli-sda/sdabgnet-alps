@@ -56,6 +56,7 @@ const Television = lazy(() => import('./pages/links/Television'));
 const Radio = lazy(() => import('./pages/links/Radio'));
 const ForeignLinks = lazy(() => import('./pages/links/ForeignLinks'));
 const Apps = lazy(() => import('./pages/links/Apps'));
+const Institutions = lazy(() => import('./pages/Institutions'));
 
 // const theme = createTheme();
 
@@ -218,24 +219,17 @@ const Router = () => (
             element={<AdventistsOnline />}
           />
 
-          <Route
-            path={routes.media('tv')}
-            element={<Television />}
-          />
+          <Route path={routes.media('tv')} element={<Television />} />
+
+          <Route path={routes.media('radio')} element={<Radio />} />
+
+          <Route path={routes.media('links')} element={<ForeignLinks />} />
+
+          <Route path={routes.media('apps')} element={<Apps />} />
 
           <Route
-            path={routes.media('radio')}
-            element={<Radio />}
-          />
-
-          <Route
-            path={routes.media('links')}
-            element={<ForeignLinks />}
-          />
-
-          <Route
-            path={routes.media('apps')}
-            element={<Apps />}
+            path={routes.info('institutions')}
+            element={<Institutions />}
           />
 
           {/* <Route path="teams" element={<Teams />}>

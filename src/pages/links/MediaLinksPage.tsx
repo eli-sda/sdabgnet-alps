@@ -1,13 +1,10 @@
 import { useMemo } from 'react';
-import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
-import routes from 'src/routes';
-import { Button } from 'src/alps/atoms/Button';
-import { MediaType } from 'src/constants';
-import { PageSection } from 'src/organisms/PageSection';
 import { RelatedPostsProps } from 'src/alps/organisms/asides/RelatedPosts';
+import { Page } from 'src/organisms/Page';
+import routes from 'src/routes';
+import { MediaType } from 'src/constants';
 import { getTitle } from 'src/utils/Navigation';
-import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { LinksBlock } from './LinksBlock';
 
 interface MediaLinksPageProps {
@@ -122,8 +119,6 @@ const MediaLinksPage = ({
   relatedPosts,
   isDoubleSpacing = false
 }: MediaLinksPageProps): JSX.Element => {
-  useScrollToHash();
-
   const breadcrumbsUrls = [routes.media(), routes.media(mediaType)];
 
   const mainSections = useMemo(
@@ -134,28 +129,6 @@ const MediaLinksPage = ({
     () => (isSectionsArray(asideJson) ? asideJson : ensureSections(asideJson)),
     [asideJson]
   );
-  const topNavSections = useMemo(() => {
-    const arr = [...mainSections, ...asideSections];
-    if (arr.length > 1) {
-      return (
-        <div className="links-sections-nav u-spacing--half">
-          {arr.map(({ id, section }, i) => (
-            <Button
-              key={i}
-              as="a"
-              url={`#${id}`}
-              label={section}
-              className="u-space--half--right"
-              faIconClass="fas fa-level-down-alt"
-              iconPosition="right"
-              isExternal={false}
-              lighter={true}
-            />
-          ))}
-        </div>
-      );
-    }
-  }, [mainSections, asideSections]);
 
   const asideContent =
     asideSections.length > 0 ? (
@@ -167,17 +140,16 @@ const MediaLinksPage = ({
     ) : undefined;
 
   return (
-    <>
-      <PageHeaderLong title={getTitle(routes.media(mediaType))} />
-      <PageSection breadcrumbsUrls={breadcrumbsUrls}>
-        {topNavSections}
-      </PageSection>
-      <PageSection aside={asideContent} relatedPosts={relatedPosts}>
-        <section className="u-spacing--double">
-          <SectionList sections={mainSections} doubleSpace={isDoubleSpacing} />
-        </section>
-      </PageSection>
-    </>
+    <Page
+      title={getTitle(routes.media(mediaType))}
+      breadcrumbsUrls={breadcrumbsUrls}
+      aside={asideContent}
+      relatedPosts={relatedPosts}
+    >
+      <section className="u-spacing--double">
+        <SectionList sections={mainSections} doubleSpace={isDoubleSpacing} />
+      </section>
+    </Page>
   );
 };
 

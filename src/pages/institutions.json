@@ -1,0 +1,273 @@
+[
+  {
+    "section": "",
+    "id": "institutions",
+    "items": [
+      {
+        "title": "Съюз на ЦАСД в България",
+        "description": "Съюз на църквите на адвентистите от Седмия ден в България",
+        "image40": "/img/logos/40/adventistbg.png",
+        "links": [
+          {
+            "url": "https://www.adventist.bg/",
+            "type": "сайт"
+          },
+          {
+            "url": "https://www.facebook.com/adventistbg",
+            "type": "facebook"
+          },
+          {
+            "url": "https://www.youtube.com/@bulgariansdaunion",
+            "type": "youtube"
+          }
+        ]
+      },
+      {
+        "title": "Съботно Училище - ЦАСД България",
+        "image40": "/img/logos/40/Sabbath.School.Bulgaria.png",
+        "links": [
+          {
+            "url": "https://www.facebook.com/Sabbath.School.Bulgaria",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "Отдел \"Лично служене\"",
+        "image40": "/img/logos/40/sabathshcool.png",
+        "links": [
+          {
+            "url": "http://ss.adventist.bg",
+            "type": "сайт"
+          },
+          {
+            "url": "https://www.facebook.com/sabathshcool",
+            "type": "facebook"
+          },
+          {
+            "url": "https://www.youtube.com/@СъботноучилищеЛичнослужене",
+            "type": "youtube"
+          }
+        ]
+      },
+      {
+        "title": "Семейно служене",
+        "image40": "/img/logos/40/family-ministry.png",
+        "links": [
+          {
+            "url": "https://www.facebook.com/profile.php?id=100089804343556",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "Служба на жените",
+        "image40": "/img/logos/40/women's-service.png",
+        "links": [
+          {
+            "url": "https://www.facebook.com/profile.php?id=100064877040330",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "Младежки отдел - ЦАСД България",
+        "image40": "/img/logos/40/sdayouthbulgaria.png",
+        "links": [
+          {
+            "url": "https://www.facebook.com/Младежки-отдел-ЦАСД-България-1190152124348326",
+            "type": "facebook"
+          },
+          {
+            "url": "https://www.instagram.com/sdayouthbulgaria/",
+            "type": "instagram"
+          }
+        ]
+      },
+      {
+        "title": "Клуб Изследовател - България",
+        "image40": "/img/logos/40/IzsledovatelBG.png",
+        "links": [
+          {
+            "url": "https://www.facebook.com/IzsledovatelBG",
+            "type": "facebook"
+          },
+          {
+            "url": "https://www.instagram.com/izsledovatel/",
+            "type": "instagram"
+          }
+        ]
+      },
+      {
+        "title": "Детско служене - ЦАСД",
+        "image40": "/img/logos/40/children's-ministry-CASD.png",
+        "links": [
+          {
+            "url": "https://www.facebook.com/Детско-служене-ЦАСД-873514049431759/",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "AДРА България",
+        "description": "АДРА България - адвентна хуманитарна организация",
+        "image40": "/img/logos/40/ADRA.png",
+        "links": [
+          {
+            "url": "https://adra.bg/bg/",
+            "type": "сайт"
+          },
+          {
+            "url": "https://www.facebook.com/BulgariaADRA",
+            "type": "facebook"
+          },
+          {
+            "url": "https://www.instagram.com/adrabulgaria/",
+            "type": "instagram"
+          }
+        ]
+      },
+      {
+        "title": "Фондация \"Грижа за Здравето\"",
+        "description": "Мисията на фондацията е да подобрява физическото и психично здраве на българското общество.",
+        "image40": "/img/logos/40/grizha.za.zdraveto.png",
+        "links": [
+          {
+            "url": "https://healthcare-bg.com/",
+            "type": "сайт"
+          },
+          {
+            "url": "https://www.facebook.com/grizha.za.zdraveto",
+            "type": "facebook"
+          },
+          {
+            "url": "https://www.instagram.com/healthcare_bg",
+            "type": "instagram"
+          }
+        ]
+      },
+      {
+        "title": "Адвентно-мюсюлмански връзки ЦАСД България",
+        "description": "Отдел АМВ е в помощ на членовете на Църквата на адвентистите от седмия ден, които желаят да споделят евангелието със своите приятели мюсюлмани.",
+        "image40": "/img/logos/40/Adventist-Muslim-Relations-CASD-Bulgaria.png",
+        "links": [
+          {
+            "url": "https://www.facebook.com/profile.php?id=100089575059618",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "АСИ-България",
+        "image40": "/img/logos/40/ASi-Bulgaria.png",
+        "links": [
+          {
+            "url": "https://www.asi-bg.org/",
+            "type": "сайт"
+          },
+          {
+            "url": "https://www.facebook.com/profile.php?id=61556071839095",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "Национален хор \"Гласът на надеждата\"",
+        "image40": "/img/logos/40/the-voice-of-hope.png",
+        "links": [
+          {
+            "url": "https://nazionalenhor.adventist.bg/",
+            "type": "сайт"
+          },
+          {
+            "url": "https://www.facebook.com/profile.php?id=100083183236443",
+            "type": "facebook"
+          },
+          {
+            "url": "https://www.youtube.com/@Гласътнанадеждата",
+            "type": "youtube"
+          },
+          {
+            "url": "https://www.instagram.com/the_voice_of_hope_bg/",
+            "type": "instagram"
+          }
+        ]
+      },
+      {
+        "title": "Детска градина „Цветна надежда“",
+        "description": "„Цветна надежда“ е адвентен образователен проект, развиващ се в София, и открито преподаващ библейските принципи на деца на възраст от 2 до 6 години. Там всеки ден са свидетели на това как Бог оформя сърцата и умовете на децата, като им представя любяща грижа и библейски уроци в близка до домашната среда.",
+        "image40": "/img/logos/40/cvetnanadejda.png",
+        "links": [
+          {
+            "url": "https://www.facebook.com/cvetnanadejda",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "Петте камъка",
+        "description": "Образователен проект - Петте Камъка",
+        "image40": "/img/logos/40/5stones.png",
+        "links": [
+          {
+            "url": "https://thefivestones.bg/",
+            "type": "сайт"
+          },
+          {
+            "url": "https://www.facebook.com/OPThefivestones",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "Детски център \"Авигея\"",
+        "description": "Образователен детски център \"Авигея\" - гр. Пловдив",
+        "image40": "/img/logos/40/avigeaplovdiv.png",
+        "links": [
+          {
+            "url": "http://www.avigea.net",
+            "type": "сайт"
+          },
+          {
+            "url": "https://www.facebook.com/avigeaplovdiv",
+            "type": "facebook"
+          },
+          {
+            "url": "https://www.youtube.com/@ОбразователенцентърАвигея",
+            "type": "youtube"
+          },
+          {
+            "url": "https://www.instagram.com/avigeaplovdiv",
+            "type": "instagram"
+          }
+        ]
+      },
+      {
+        "title": "Център за Здраве",
+        "description": "Християнски център за профилактика и здраве",
+        "image40": "/img/logos/40/novstart.info.png",
+        "links": [
+          {
+            "url": "http://lifeinhope.com",
+            "type": "сайт"
+          },
+          {
+            "url": "https://www.facebook.com/novstart.info",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "Център за здраве в с. Медово",
+        "description": "Макар, че живеем в 21 век почти няма дом, в който да няма болест! Нашата цел е възстановяване на физическото и психическо здраве на посетителите на нашия център. Това постигаме чрез изучаване и прилагане на световноизвестната, здравновъзстановителната програма NEW START.",
+        "image40": "/img/logos/40/zdraven-centar-medovo.png",
+        "links": [
+          {
+            "url": "http://zdravencentarmedovo.com",
+            "type": "сайт"
+          }
+        ]
+      }
+    ]
+  }
+]

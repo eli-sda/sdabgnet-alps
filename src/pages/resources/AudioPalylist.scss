@@ -16,6 +16,17 @@
   .media-icon-button-container {
     background-color: rgba($mingColor, 0.4);
   }
+  &.is-playing {
+    .media-icon-button-container {
+      .media-icon-button.icon--audio {
+        background-image: url(/images/icon__audio-pause.svg);
+        &:hover {
+          background-color: $mingColor;
+          border-color: $mingColor;
+        }
+      }
+    }
+  }
 }
 /* Keyframes for rotating animation */
 @keyframes spin {

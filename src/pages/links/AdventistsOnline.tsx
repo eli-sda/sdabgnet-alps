@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import MediaLinksPage, { LinksData } from './MediaLinksPage';
+import MediaLinksPage, { LinkGroup } from './MediaLinksPage';
 import { getTitle } from 'src/utils/Navigation';
 import routes from 'src/routes';
 
 const AdventistsOnline = (): JSX.Element => {
-  const [bgLinks, setBgLinks] = useState<LinksData[]>([]);
+  const [bgLinks, setBgLinks] = useState<LinkGroup[]>([]);
 
   useEffect(() => {
     fetch('/adventists-online.json')
       .then((res) => res.json())
-      .then((data: LinksData[]) => setBgLinks(data))
+      .then((data: LinkGroup[]) => setBgLinks(data))
       .catch((err) => {
         console.error('Failed to load adventists-online.json', err);
         setBgLinks([]);
@@ -25,17 +25,17 @@ const AdventistsOnline = (): JSX.Element => {
         blocks: [
           {
             title: 'Български адвентни църкви в мрежата',
-            url: '/info/churches',
+            url: routes.info('churches'),
             category: getTitle(routes.info())
           },
           {
             title: getTitle(routes.info('institutions')),
-            url: '/info/institutions',
+            url: routes.info('institutions'),
             category: getTitle(routes.info())
           },
           {
             title: getTitle(routes.media('links')),
-            url: '/media/links',
+            url: routes.media('links'),
             category: getTitle(routes.media())
           }
         ]

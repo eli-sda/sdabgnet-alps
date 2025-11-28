@@ -19,6 +19,7 @@ export interface SubNavItemProps {
   url?: string;
   isExternal?: boolean; //Eli added
   useNavLink?: boolean;
+  isDisabled?: boolean; // Eli added
 }
 
 export const SubNavItem = ({
@@ -30,7 +31,8 @@ export const SubNavItem = ({
   type,
   onClick,
   isExternal = url?.indexOf('http') == 0,
-  useNavLink = true
+  useNavLink = true,
+  isDisabled = false
 }: SubNavItemProps): JSX.Element => {
   const { onToggle, openClass } = useToggle(false);
   const hasSubnav = Array.isArray(subnav) && subnav.length > 0;
@@ -81,14 +83,15 @@ export const SubNavItem = ({
           {text}
           {linkIcon}
         </a>
-      ) : useNavLink ? (
+      ) : useNavLink && !isDisabled ? (
         <NavLink {...linkAttr}>{text}</NavLink>
-      ) : (
+      ) : !isDisabled ? (
         <a {...linkAttr} onClick={onClick}>
           {text}
         </a>
+      ) : (
+        <span className="c-subnav__link disabled">{text}</span>
       )}
-
       {hasSubnav && (
         <SubNavArrow
           fill="gray"

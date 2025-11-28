@@ -1,0 +1,160 @@
+<?php
+
+/**
+ * URL Resolver API Endpoint
+ *
+ * This script resolves bit.ly short URLs to their final YouTube destinations.
+ * It follows redirects securely and returns the final URL in JSON format.
+ *
+ * Security Features:
+ * - Only accepts HTTPS URLs from whitelisted domains (bit.ly)
+ * - Validates URL format and structure
+ * - Limits redirect chains to prevent abuse
+ * - Only returns HTTPS URLs to whitelisted destinations (YouTube)
+ * - SSL certificate verification enabled
+ * - Request timeouts to prevent hanging
+ * - Output sanitization to prevent XSS
+ *
+ * Usage:
+ *   GET /resolve-url.php?url=https://bit.ly/xxx
+ *
+ * Response:
+ *   Success: {"url": "https://youtu.be/xxx"}
+ *   Error:   {"error": "Error message"}
+ */
+
+// Security headers
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET');
+header('Access-Control-Max-Age: 3600');
+header('Content-Type: application/json; charset=UTF-8');
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: DENY');
+
+// Only allow GET requests
+if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+    http_response_code(405);
+    echo json_encode(['error' => 'Method not allowed']);
+    exit;
+}
+
+// Get and validate URL parameter
+$url = $_GET['url'] ?? '';
+
+if (empty($url)) {
+    http_response_code(400);
+    echo json_encode(['error' => 'URL parameter required']);
+    exit;
+}
+
+// Validate URL format
+if (!filter_var($url, FILTER_VALIDATE_URL)) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Invalid URL format']);
+    exit;
+}
+
+// Parse URL and validate
+$parsedUrl = parse_url($url);
+if (!$parsedUrl || !isset($parsedUrl['scheme']) || !isset($parsedUrl['host'])) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Invalid URL structure']);
+    exit;
+}
+
+// Only allow HTTPS URLs
+if ($parsedUrl['scheme'] !== 'https') {
+    http_response_code(400);
+    echo json_encode(['error' => 'Only HTTPS URLs are allowed']);
+    exit;
+}
+
+// Whitelist allowed domains - only bit.ly
+$allowedDomains = ['bit.ly'];
+if (!in_array($parsedUrl['host'], $allowedDomains)) {
+    http_response_code(403);
+    echo json_encode(['error' => 'Domain not allowed']);
+    exit;
+}
+
+// Initialize cURL with secure settings
+$ch = curl_init($url);
+if ($ch === false) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Failed to initialize request']);
+    exit;
+}
+
+// Set secure cURL options
+curl_setopt_array($ch, [
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_MAXREDIRS => 5,              // Limit redirects
+    CURLOPT_NOBODY => true,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_TIMEOUT => 10,               // Overall timeout
+    CURLOPT_CONNECTTIMEOUT => 5,         // Connection timeout
+    CURLOPT_SSL_VERIFYPEER => true,      // Verify SSL certificates
+    CURLOPT_SSL_VERIFYHOST => 2,         // Verify hostname
+    CURLOPT_PROTOCOLS => CURLPROTO_HTTPS, // Only allow HTTPS
+    CURLOPT_REDIR_PROTOCOLS => CURLPROTO_HTTPS, // Only allow HTTPS redirects
+    CURLOPT_USERAGENT => 'Mozilla/5.0 (compatible; URLResolver/1.0)',
+]);
+
+// Execute request
+$result = curl_exec($ch);
+
+// Check for cURL errors
+if ($result === false) {
+    $error = curl_error($ch);
+    curl_close($ch);
+    http_response_code(500);
+    echo json_encode(['error' => 'Request failed: ' . htmlspecialchars($error, ENT_QUOTES, 'UTF-8')]);
+    exit;
+}
+
+// Get response information
+$finalUrl = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
+
+// Validate response
+if ($httpCode >= 400 || empty($finalUrl)) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Failed to resolve URL']);
+    exit;
+}
+
+// Validate final URL
+if (!filter_var($finalUrl, FILTER_VALIDATE_URL)) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Invalid resolved URL']);
+    exit;
+}
+
+// Parse and validate final URL
+$finalParsedUrl = parse_url($finalUrl);
+if (!$finalParsedUrl || !isset($finalParsedUrl['scheme']) || !isset($finalParsedUrl['host'])) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Invalid resolved URL structure']);
+    exit;
+}
+
+// Only return HTTPS URLs
+if ($finalParsedUrl['scheme'] !== 'https') {
+    http_response_code(500);
+    echo json_encode(['error' => 'Resolved URL is not HTTPS']);
+    exit;
+}
+
+// Optional: Whitelist allowed destination domains (YouTube only)
+$allowedDestinations = ['youtube.com', 'www.youtube.com', 'youtu.be', 'm.youtube.com'];
+if (!in_array($finalParsedUrl['host'], $allowedDestinations)) {
+    http_response_code(403);
+    echo json_encode(['error' => 'Destination domain not allowed']);
+    exit;
+}
+
+// Return sanitized URL
+echo json_encode([
+    'url' => htmlspecialchars($finalUrl, ENT_QUOTES, 'UTF-8')
+]);

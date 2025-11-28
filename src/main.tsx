@@ -2,6 +2,10 @@ import { createRoot } from 'react-dom/client';
 import 'react-jinke-music-player/lib/styles/index.less';
 import App from './App.tsx';
 import ErrorBoundary from './components/ErrorBoundary.tsx';
+import { suppressYouTubeErrors } from './utils/suppressYouTubeErrors.ts';
+
+// Filter out YouTube analytics errors from console
+suppressYouTubeErrors();
 
 type ServiceWorkerMessage = { type?: string };
 // Simple error handler for critical failures (fallback only)

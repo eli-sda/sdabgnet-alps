@@ -4,20 +4,20 @@ import 'moment/dist/locale/bg';
 moment.locale('bg');
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import { TbSunset2 } from 'react-icons/tb';
-import { Grid } from 'alps-library/atoms/grids/Grid';
 import { GridItem } from 'alps-library/atoms/grids/GridItem';
-import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
-import { PageContent } from 'src/alps/organisms/content/PageContent';
+import { Pullquote } from 'alps-library/molecules/text/pullquote/Pullquote';
 import { Button } from 'src/alps/atoms/Button';
+import { Page } from 'src/organisms/Page';
 import { InfoDialog } from 'src/organisms/sections/InfoDialog';
 import routes from 'src/routes';
-import { getTitle, getBreadcrumbs } from 'src/utils/Navigation';
+import { getTitle } from 'src/utils/Navigation';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
 import useSunset from 'src/hooks/useSunset';
+import { SunsetEvent } from 'src/contexts/SunsetContext';
+
 import '../events/reactBigCalendarStyles.scss';
 import '../events/customCalendar.scss';
 import './sunsetCalendar.scss';
-import { Pullquote } from 'alps-library/molecules/text/pullquote/Pullquote';
 
 const localizer = momentLocalizer(moment);
 
@@ -38,7 +38,7 @@ type CalendarEvent = {
 };
 
 const SunsetCalendar = (): JSX.Element => {
-  const breadcrumbs = getBreadcrumbs([routes.info(), routes.info('sunset')]);
+  const breadcrumbsUrls = [routes.info(), routes.info('sunset')];
   const { pageBackground } = usePagesMeta();
 
   const [infoMessage, setInfoMessage] = useState<string | null>(null);
@@ -67,7 +67,7 @@ const SunsetCalendar = (): JSX.Element => {
   const loadAndSetSunsets = useCallback(
     async (monthDate: Date | string, lat: number, lng: number) => {
       try {
-        const loaded = await getSunsets(monthDate, lat, lng);
+        const loaded = (await getSunsets(monthDate, lat, lng)) as SunsetEvent[];
         const mapped = (loaded || []).map((e) => ({
           title: e.title,
           start: new Date(e.start),
@@ -147,7 +147,7 @@ const SunsetCalendar = (): JSX.Element => {
     void (async () => {
       await loadAndSetSunsets(currentCalendarDate, coords.lat, coords.lng);
     })();
-  }, [loadAndSetSunsets, currentCalendarDate, coords.lat, coords.lng]);
+  }, [loadAndSetSunsets, currentCalendarDate, coords]);
 
   const onNavigate = (date: Date) => {
     const m = moment(date).month();
@@ -168,96 +168,74 @@ const SunsetCalendar = (): JSX.Element => {
   }, [currentMonth]);
 
   return (
-    <>
-      <PageHeaderLong
-        title={getTitle(routes.info('sunset'))}
-        background={pageBackground}
-      />
-      <PageContent breadcrumbs={breadcrumbs} />
-
-      <Grid
-        className={'l-grid l-grid--7-col l-grid-wrap l-grid-wrap--6-of-7'}
-        seven={true}
-        as="section"
-        wrap={'6'}
-      >
-        <GridItem
-          className={
-            'u-padding--sides u-space--triple--bottom l-grid-item page-link-item'
-          }
-          sizeAtM={'6'}
-          sizeAtXL={'6'}
-        >
-          <div
-            className="sunset-calendar"
-            style={{ maxWidth: 1000, margin: '0px auto' }}
-          >
-            {infoMessage && (
-              <InfoDialog
-                message={infoMessage}
-                onClose={() => setInfoMessage(null)}
-              />
-            )}
-
-            <Pullquote
-              quote="„Помни съботния ден, за да го освещаваш. Шест дни да работиш и да вършиш всичките си дела;“"
-              author="Изх. 20:8,9"
-            />
-            <Pullquote
-              quote="„... от вечер до вечер, да пазите съботата си“"
-              author="Левит 23:32"
-            />
-
-            <div
-              className="city-input"
-              style={{
-                display: 'flex',
-                gap: 8,
-                marginBottom: 12
-              }}
-            >
-              <input
-                type="text"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                placeholder="Населено място"
-              />
-
-              <Button
-                label="Покажи"
-                onClick={(): void => {
-                  void fetchCoords();
-                }}
-              />
-            </div>
-          </div>
-
-          <Calendar
-            localizer={localizer}
-            events={events}
-            date={currentCalendarDate}
-            onNavigate={onNavigate}
-            views={[Views.MONTH]}
-            startAccessor="start"
-            endAccessor="end"
-            components={{
-              toolbar: CustomToolbar,
-              event: ({ event }: { event: CalendarEvent }) => (
-                <div className="rbc-event-content">
-                  <TbSunset2 />
-                  <br />
-                  <span>{event.title}</span>
-                </div>
-              )
-            }}
-            style={{ minHeight: 600, maxWidth: 1000, margin: '0 auto' }}
-            min={new Date(2020, 1, 1, 16, 0)}
-            max={new Date(2020, 1, 1, 22, 0)}
-            messages={{ next: 'Следващ', previous: 'Предишен', today: 'Текущ' }}
+    <Page
+      title={getTitle(routes.info('sunset'))}
+      background={pageBackground}
+      breadcrumbsUrls={breadcrumbsUrls}
+      blockType="wrap6"
+      pageClassName="sunset-page"
+    >
+      {/* <section className="l-grid-item l-grid-item--7-col u-space--bottom"> */}
+      <GridItem className="c-article" sizeAtM="6">
+        {infoMessage && (
+          <InfoDialog
+            message={infoMessage}
+            onClose={() => setInfoMessage(null)}
           />
-        </GridItem>
-      </Grid>
-    </>
+        )}
+
+        <Pullquote
+          quote="„Помни съботния ден, за да го освещаваш. Шест дни да работиш и да вършиш всичките си дела;“"
+          author="Изх. 20:8,9"
+        />
+        <Pullquote
+          quote="„... от вечер до вечер, да пазите съботата си“"
+          author="Левит 23:32"
+        />
+
+        <div className="city-input">
+          <input
+            type="text"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            placeholder="Населено място"
+          />
+
+          <Button
+            label="Покажи"
+            onClick={(): void => {
+              void fetchCoords();
+            }}
+          />
+        </div>
+        {/* </section> */}
+      </GridItem>
+      <GridItem sizeAtM="6" sizeAtXL="6">
+        <Calendar
+          localizer={localizer}
+          events={events}
+          date={currentCalendarDate}
+          onNavigate={onNavigate}
+          views={[Views.MONTH]}
+          startAccessor="start"
+          endAccessor="end"
+          components={{
+            toolbar: CustomToolbar,
+            event: ({ event }: { event: CalendarEvent }) => (
+              <div className="rbc-event-content">
+                <TbSunset2 />
+                <br />
+                <span>{event.title}</span>
+              </div>
+            )
+          }}
+          style={{ minHeight: 600, maxWidth: 1000, margin: '0 auto' }}
+          min={new Date(2020, 1, 1, 16, 0)}
+          max={new Date(2020, 1, 1, 22, 0)}
+          messages={{ next: 'Следващ', previous: 'Предишен', today: 'Текущ' }}
+        />
+      </GridItem>
+    </Page>
   );
 };
 

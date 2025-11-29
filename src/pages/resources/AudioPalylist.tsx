@@ -27,7 +27,6 @@ const AudioPalylist = ({
       : undefined
   );
 
-  // prefer handlers passed from parent; fall back to PlayerContext if available
   const ctx = usePlayer();
   const pauseAction = ctx.pause ?? (() => {});
   const playAction = ctx.play ?? (() => {});

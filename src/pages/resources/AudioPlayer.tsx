@@ -11,8 +11,8 @@ interface AudioPlayerProps {
   playlist: PlaylistType;
   playIndex?: number;
   onPlayIndexChange?: (index: number) => void;
-  onAudioPlay?: () => void;
-  onAudioPause?: () => void;
+  onAudioPlay: () => void;
+  onAudioPause: () => void;
 }
 
 export interface AudioPlayerHandle {
@@ -79,8 +79,8 @@ const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
         defaultPlayMode="order"
         sortableOptions={{ disabled: true }}
         onPlayIndexChange={onPlayIndexChange}
-        onAudioPlay={() => onAudioPlay && onAudioPlay()}
-        onAudioPause={() => onAudioPause && onAudioPause()}
+        onAudioPlay={() => onAudioPlay()}
+        onAudioPause={() => onAudioPause()}
         getAudioInstance={(audio) => {
           audioElementRef.current = audio;
         }}

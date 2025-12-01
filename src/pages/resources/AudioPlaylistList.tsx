@@ -1,18 +1,29 @@
-import { useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
+import AudioPlayerProvider from 'src/providers/AudioPlayerProvider';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import AudioPalylist from './AudioPalylist';
-import AudioPlayer from './AudioPlayer';
+import AudioPlayer, { AudioPlayerHandle } from './AudioPlayer';
 import PlaylistActionButtons from './PlaylistActionButtons';
 import './AudioPlaylistList.scss';
 
+/**
+ * @playlist - a playlist to use, instead of to fetch it
+ * @type - type by which to get the playlists from BE
+ */
 interface AudioPlaylistListProps {
-  type: string;
+  type?: string;
+  playlist?: PlaylistType;
+  showDownloadAll?: boolean;
 }
 
-const AudioPlaylistList = ({ type }: AudioPlaylistListProps) => {
+const AudioPlaylistList = ({
+  type,
+  playlist,
+  showDownloadAll = true
+}: AudioPlaylistListProps) => {
   const { hash, search } = useLocation();
   const searchParams = new URLSearchParams(search);
   const playIndex = searchParams.get('playIndex');
@@ -22,6 +33,9 @@ const AudioPlaylistList = ({ type }: AudioPlaylistListProps) => {
     null
   );
   const [currentPlayIndex, setCurrentPlayIndex] = useState<number>(0);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const playerRef = useRef<AudioPlayerHandle | null>(null);
+
   const handlePlaylistSelect = (playlist: PlaylistType) => {
     if (selectedPlaylist?._id === playlist._id) {
       return; // Do nothing if the same playlist is selected
@@ -30,41 +44,52 @@ const AudioPlaylistList = ({ type }: AudioPlaylistListProps) => {
     setSelectedPlaylist(playlist);
   };
 
+  const setInitialPlaylists = useCallback(
+    (playlistArr: PlaylistType[]) => {
+      setPlaylists(playlistArr);
+      if (hash) {
+        const playlistId = hash.replace('#', '');
+        const matchedPlaylist = playlistArr.find((p) => p._id === playlistId);
+
+        if (
+          matchedPlaylist &&
+          matchedPlaylist.items &&
+          matchedPlaylist.items.length > 0 &&
+          playIndex
+        ) {
+          const i = parseInt(playIndex);
+          if (!isNaN(i) && i < matchedPlaylist.items.length) {
+            setCurrentPlayIndex(i);
+          }
+        }
+
+        setSelectedPlaylist(matchedPlaylist || null);
+      }
+    },
+    [hash, playIndex]
+  );
+
   if (type === 'audiobook') {
     type = 'audio-book';
   }
 
   useEffect(() => {
-    getPlaylists(type)
-      .then((playlists) => {
-        setPlaylists(playlists);
-        if (hash) {
-          const playlistId = hash.replace('#', '');
-          const matchedPlaylist = playlists.find((p) => p._id === playlistId);
-
-          if (
-            matchedPlaylist &&
-            matchedPlaylist.items &&
-            matchedPlaylist.items.length > 0 &&
-            playIndex
-          ) {
-            const i = parseInt(playIndex);
-            if (!isNaN(i) && i < matchedPlaylist.items.length) {
-              setCurrentPlayIndex(i);
-            }
-          }
-
-          setSelectedPlaylist(matchedPlaylist || null);
-        }
-      })
-      .catch((err) => console.error(err));
-  }, [getPlaylists, type, hash, playIndex]);
+    if (playlist && playlists.length === 0) {
+      const playlistArr = [playlist];
+      setInitialPlaylists(playlistArr);
+    } else if (type) {
+      getPlaylists(type)
+        .then((playlists) => {
+          setInitialPlaylists(playlists);
+        })
+        .catch((err) => console.error(err));
+    }
+  }, [getPlaylists, type, playlist, setInitialPlaylists, playlists.length]);
 
   // Initial index is now handled in the useEffect
-
   const getActionButtons = useCallback(
     (playlist: PlaylistType): JSX.Element => {
-      //Get the current title if this playlist is selected
+      // Get the current title if this playlist is selected
       const currentItemTitle =
         selectedPlaylist?._id === playlist._id &&
         playlist.items?.[currentPlayIndex]?.title
@@ -82,20 +107,22 @@ const AudioPlaylistList = ({ type }: AudioPlaylistListProps) => {
             }
             fromTitle={currentItemTitle}
             itemUrls={
-              playlist.items
-                ?.map((item) => item.path)
-                .filter((path): path is string => !!path) || []
+              showDownloadAll
+                ? playlist.items
+                    ?.map((item) => item.path)
+                    .filter((path): path is string => !!path) || []
+                : undefined
             }
             playlistName={playlist.title}
           />
         </div>
       );
     },
-    [currentPlayIndex, selectedPlaylist]
+    [currentPlayIndex, selectedPlaylist, showDownloadAll]
   );
 
   return (
-    <>
+    <AudioPlayerProvider playerRef={playerRef}>
       {!playlists ||
         (playlists.length === 0 && (
           <div className="u-space--left">
@@ -111,8 +138,9 @@ const AudioPlaylistList = ({ type }: AudioPlaylistListProps) => {
           >
             <AudioPalylist
               playlist={playlist}
-              onPlay={() => handlePlaylistSelect(playlist)}
+              onPlaylistSelect={() => handlePlaylistSelect(playlist)}
               isCurrent={selectedPlaylist?._id === playlist._id}
+              isPlaying={selectedPlaylist?._id === playlist._id && isPlaying}
               actionButtons={getActionButtons(playlist)}
             />
           </div>
@@ -121,13 +149,16 @@ const AudioPlaylistList = ({ type }: AudioPlaylistListProps) => {
 
       {selectedPlaylist?.items && (
         <AudioPlayer
+          ref={playerRef}
           playlist={selectedPlaylist}
           playIndex={currentPlayIndex}
           onPlayIndexChange={setCurrentPlayIndex}
+          onAudioPlay={() => setIsPlaying(true)}
+          onAudioPause={() => setIsPlaying(false)}
         />
       )}
-    </>
+    </AudioPlayerProvider>
   );
 };
 
-export default AudioPlaylistList;
+export default memo(AudioPlaylistList);

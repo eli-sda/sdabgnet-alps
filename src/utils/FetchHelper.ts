@@ -12,6 +12,7 @@ import {
   SeminarRelatedPresentationsType
 } from 'src/contexts/PlaylistsContext';
 import { DailyVerseType } from 'src/contexts/DailyVerseContext';
+import { SunsetEvent } from 'src/contexts/SunsetContext';
 
 export const loadPagesMeta = async (): Promise<PageMetaMap> => {
   const query = `*[_type == "page"] {
@@ -177,26 +178,10 @@ interface SunsetApiResponse {
 }
 
 export const loadSunset = async (
-  monthDate: string | Date,
+  fetchDates: moment.Moment[],
   lat: number,
   lng: number
-): Promise<
-  {
-    title: string;
-    start: string; // ISO
-    end: string; // ISO
-  }[]
-> => {
-  const m = moment(monthDate);
-  const daysInMonth = m.daysInMonth();
-
-  const fetchDates: moment.Moment[] = [];
-  for (let d = 1; d <= daysInMonth; d++) {
-    const date = m.clone().date(d);
-    const dayOfWeek = date.isoWeekday(); // 5 = Fri, 6 = Sat
-    if (dayOfWeek === 5 || dayOfWeek === 6) fetchDates.push(date);
-  }
-
+): Promise<SunsetEvent[]> => {
   const results = await Promise.all(
     fetchDates.map((date) => {
       const apiUrl = `https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lng}&date=${date.format(

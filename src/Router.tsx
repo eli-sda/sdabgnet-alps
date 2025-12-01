@@ -11,7 +11,6 @@ import {
 import Layout from './layout/Layout';
 // import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useLessonUtils } from './hooks/useLessonUtils';
-import SunsetCalendar from './pages/sunset/SunsetCalendar';
 
 const NotFound = lazy(() => import('./pages/NotFound'));
 const Home = lazy(() => import('./pages/Home'));

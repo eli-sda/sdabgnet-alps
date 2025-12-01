@@ -5,11 +5,14 @@ moment.locale('bg');
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import { TbSunset2 } from 'react-icons/tb';
 import { GridItem } from 'alps-library/atoms/grids/GridItem';
+import { BaseSearch } from 'alps-library/molecules/forms/elements/BaseSearch';
 import { Pullquote } from 'alps-library/molecules/text/pullquote/Pullquote';
+import { Caption } from 'alps-library/atoms/text/Caption';
 import { Button } from 'src/alps/atoms/Button';
 import { Page } from 'src/organisms/Page';
 import { InfoDialog } from 'src/organisms/sections/InfoDialog';
 import routes from 'src/routes';
+import { SITE } from 'src/constants';
 import { getTitle } from 'src/utils/Navigation';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
 import useSunset from 'src/hooks/useSunset';
@@ -20,10 +23,15 @@ import '../events/customCalendar.scss';
 import './sunsetCalendar.scss';
 
 const localizer = momentLocalizer(moment);
+const formats = {
+  dateFormat: 'D', // the day without leading zero
+  weekdayFormat: 'dd' // short names for the days (Пн, Вт, Ср...)
+};
 
 interface NominatimResponse {
   lat: string;
   lon: string;
+  display_name: string;
 }
 
 interface CustomToolbarProps {
@@ -43,8 +51,12 @@ const SunsetCalendar = (): JSX.Element => {
 
   const [infoMessage, setInfoMessage] = useState<string | null>(null);
 
-  const [city, setCity] = useState('София');
-  const [coords, setCoords] = useState({ lat: 42.6977, lng: 23.3219 });
+  // Load last searched city from localStorage
+  const [city, setCity] = useState<string>(() => {
+    return localStorage.getItem('sunset_last_city') || '';
+  });
+  const [name, setName] = useState<string>();
+  const [coords, setCoords] = useState<{ lat: number; lng: number }>();
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [currentCalendarDate, setCurrentCalendarDate] = useState<Date>(
     moment().date(1).toDate()
@@ -84,27 +96,34 @@ const SunsetCalendar = (): JSX.Element => {
 
   // Fetch coordinates for a city using Nominatim
   const fetchCoords = useCallback(async (): Promise<void> => {
+    if (city == null || city.trim() === '') {
+      setInfoMessage('Моля, въведете населено място.');
+      return;
+    }
     try {
-      const url = `https://nominatim.openstreetmap.org/search?city=${encodeURIComponent(
+      const url = `${SITE}/nominatim-proxy.php?city=${encodeURIComponent(
         city
-      )}&countrycodes=bg&format=json`;
-      const res = await fetch(url, {
-        headers: { 'User-Agent': 'sdaBgNetwork' }
-      });
-      const data = (await res.json()) as NominatimResponse[];
+      )}`;
+      const res = await fetch(url);
+      const data = (await res.json()) as
+        | NominatimResponse[]
+        | { error: string };
+
+      // Check if response is an error
+      if ('error' in data) {
+        setInfoMessage(data.error);
+        return;
+      }
 
       if (data && data.length > 0) {
         setCoords({
           lat: parseFloat(data[0].lat),
           lng: parseFloat(data[0].lon)
         });
+        setName(data[0].display_name);
 
-        // Load sunsets for the found coords immediately and set events
-        await loadAndSetSunsets(
-          currentCalendarDate,
-          parseFloat(data[0].lat),
-          parseFloat(data[0].lon)
-        );
+        // Save the city to localStorage
+        localStorage.setItem('sunset_last_city', city);
       } else {
         setInfoMessage('Населеното място не е намерено.');
       }
@@ -114,7 +133,7 @@ const SunsetCalendar = (): JSX.Element => {
         'Грешка при търсене на населеното място. Моля опитайте отново.'
       );
     }
-  }, [city, currentCalendarDate, loadAndSetSunsets]);
+  }, [city]);
 
   const CustomToolbar = ({ label, onNavigate }: CustomToolbarProps) => {
     return (
@@ -144,10 +163,19 @@ const SunsetCalendar = (): JSX.Element => {
 
   // Refresh events whenever coords or month change
   useEffect(() => {
+    if (coords == null) return;
     void (async () => {
       await loadAndSetSunsets(currentCalendarDate, coords.lat, coords.lng);
     })();
   }, [loadAndSetSunsets, currentCalendarDate, coords]);
+
+  // Load saved city coordinates on initial mount (only if there's a saved city)
+  useEffect(() => {
+    if (city) {
+      void fetchCoords();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run once on mount
 
   const onNavigate = (date: Date) => {
     const m = moment(date).month();
@@ -192,27 +220,24 @@ const SunsetCalendar = (): JSX.Element => {
           quote="„... от вечер до вечер, да пазите съботата си“"
           author="Левит 23:32"
         />
-
-        <div className="city-input">
-          <input
-            type="text"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
+        <section className="city-section u-spacing--half u-padding--bottom">
+          <BaseSearch
             placeholder="Населено място"
-          />
-
-          <Button
-            label="Покажи"
-            onClick={(): void => {
+            searchLabel="Покажи"
+            onSearch={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setCity(e.target.value)
+            }
+            onSubmit={() => {
               void fetchCoords();
             }}
-          />
-        </div>
-        {/* </section> */}
+          ></BaseSearch>
+          <Caption>{name}</Caption>
+        </section>
       </GridItem>
       <GridItem sizeAtM="6" sizeAtXL="6">
         <Calendar
           localizer={localizer}
+          formats={formats}
           events={events}
           date={currentCalendarDate}
           onNavigate={onNavigate}
@@ -225,7 +250,11 @@ const SunsetCalendar = (): JSX.Element => {
               <div className="rbc-event-content">
                 <TbSunset2 />
                 <br />
-                <span>{event.title}</span>
+                {event.title ? (
+                  <span>{event.title}</span>
+                ) : (
+                  <i className="fas fa-spinner fa-pulse u-space--quarter"></i>
+                )}
               </div>
             )
           }}

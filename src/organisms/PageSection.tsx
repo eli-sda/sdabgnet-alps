@@ -73,7 +73,7 @@ export const PageSection = ({
       )}
       {blockType == 'wrap6' && (
         <Grid
-          className={'l-grid l-grid--7-col l-grid-wrap l-grid-wrap--6-of-7'}
+          className={`l-grid l-grid--7-col l-grid-wrap l-grid-wrap--6-of-7 ${pageClassName}`}
           seven={true}
           as="section"
           wrap={'6'}

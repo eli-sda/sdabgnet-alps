@@ -34,8 +34,9 @@ const Event = ({ event }: { event: CalendarEvent }) =>
 
 const formats = {
   agendaDateFormat: 'D.MM',
-  dayHeaderFormat: 'dddd, D MMMM', // напр. "понеделник, 4 август"
+  dayHeaderFormat: 'dddd, D MMMM', // for example "понеделник, 4 август"
   dayFormat: 'dd', // Пн, Вт, Ср...
+  dateFormat: 'D', // the day without leading zero
   weekdayFormat: 'dddd', // Понеделник, Вторник...
   monthHeaderFormat: 'MMMM YYYY' // август 2025
 };

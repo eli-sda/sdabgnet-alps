@@ -1,8 +1,7 @@
 @use '/src/styles/colors.scss' as *;
 
 .rbc-calendar {
-  .rbc-date-cell *,
-  button {
+  .rbc-date-cell * {
     &:hover {
       background-color: transparent;
       border-color: transparent;

@@ -60,15 +60,5 @@ export function useSunset() {
     [sunsetsMap, setLoadingSunsets, setSunsets]
   );
 
-  const getCached = useCallback(
-    (monthDate: string | Date, lat: number, lng: number) => {
-      const key = makeKey(monthDate, lat, lng);
-      return sunsetsMap?.[key];
-    },
-    [sunsetsMap]
-  );
-
-  return { getSunsets, getCached };
+  return { getSunsets };
 }
-
-export default useSunset;

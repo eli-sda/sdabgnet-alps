@@ -15,7 +15,7 @@ import routes from 'src/routes';
 import { SITE } from 'src/constants';
 import { getTitle } from 'src/utils/Navigation';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
-import useSunset from 'src/hooks/useSunset';
+import { useSunset } from 'src/hooks/useSunset';
 import { SunsetEvent } from 'src/contexts/SunsetContext';
 
 import '../events/reactBigCalendarStyles.scss';

@@ -53,7 +53,7 @@ const SunsetCalendar = (): JSX.Element => {
 
   // Load last searched city from localStorage
   const [city, setCity] = useState<string>(() => {
-    return localStorage.getItem('sunset_last_city') || '';
+    return localStorage.getItem('sunset_last_city') || 'София';
   });
   const [name, setName] = useState<string>();
   const [coords, setCoords] = useState<{ lat: number; lng: number }>();

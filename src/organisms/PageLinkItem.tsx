@@ -26,7 +26,7 @@ export const PageLinkItem = ({ url, title, description, img, sizeAtM = '3', size
           title={title}
           description={description}
           url={url}
-          cta="Виж повече"
+          cta="Отвори страницата"
           image={img || undefined}
         ></ContentBlock>
       </GridItem>

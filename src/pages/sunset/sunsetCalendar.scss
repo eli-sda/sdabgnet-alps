@@ -2,6 +2,9 @@
   .city-section {
     max-width: 500px;
     margin: 0 auto;
+    input[type='search'] {
+      font-size: 0.9rem;
+    }
   }
 
   @media (max-width: 530px) {

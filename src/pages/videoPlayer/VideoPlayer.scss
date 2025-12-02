@@ -1,0 +1,24 @@
+@use '/src/styles/colors.scss' as *;
+
+.video-contsiner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.video-thumb {
+  width: 200px;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+
+  &.active {
+    outline: 4px solid $mingColor;
+  }
+
+  img {
+    width: 100%;
+    display: block;
+  }
+}

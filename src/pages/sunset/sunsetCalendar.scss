@@ -13,6 +13,7 @@
     .rbc-calendar {
       min-width: $minCalendarWidth;
       max-width: $maxCalendarWidth !important;
+      min-height: 400px !important;
     }
     .rbc-month-view {
       $small: 26px;

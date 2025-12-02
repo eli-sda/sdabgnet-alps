@@ -222,8 +222,8 @@ const SunsetCalendar = (): JSX.Element => {
         />
         <section className="city-section u-spacing--half u-padding--bottom">
           <BaseSearch
-            placeholder="Населено място"
-            searchLabel="Покажи"
+            placeholder="Гр./с. (напр. Баня, Сливен)"
+            searchLabel="Покажи залезите"
             onSearch={(e: React.ChangeEvent<HTMLInputElement>) =>
               setCity(e.target.value)
             }

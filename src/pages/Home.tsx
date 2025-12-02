@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
-// import IconsColorsSizes from '../atoms/IconsColorsSizes';
 import routes from '../routes';
 import { OLD_SITE } from 'src/constants';
 import DailyVerse from 'src/organisms/DailyVerse';
@@ -9,7 +8,6 @@ import { PageSection } from 'src/organisms/PageSection';
 // import { Carousel } from 'alps-library/molecules/components/carousel/Carousel';
 import PageMeta from 'src/utils/PageMeta';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
-// import { FetchedPageDescription } from 'src/organisms/FetchedPageDescription';
 
 // import { Button } from '@mui/material';
 // import { deleteAllLinks } from 'src/utils/DelteSanityDocuments';
@@ -202,13 +200,6 @@ const Home = () => {
             Визуална идентичност Базов дизайн (Adventist Identity Manual)
           </a>
         </p>
-        {/* <div>
-          <h3>Description от външни връзки:</h3>
-          <FetchedPageDescription pageURL="https://newlife-bg.com/" />
-          <FetchedPageDescription pageURL="https://hm-aw.adventist.bg/" />
-        </div> */}
-
-        {/* <IconsColorsSizes></IconsColorsSizes> */}
         {/* <VideoFull
       srcVideo={{
         allow:

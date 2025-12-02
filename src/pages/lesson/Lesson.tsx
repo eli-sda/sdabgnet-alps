@@ -39,8 +39,14 @@ const Lesson = ({ type = '' }: { type?: LessonType }) => {
     ) {
       const { lessonYear, lessonQuarter, lessonNumber } =
         currentLessonParameters;
+
+      // Validate parameters before using in URL to prevent open redirect
+      const sanitizedYear = Math.max(0, Math.min(99, lessonYear % 100));
+      const sanitizedQuarter = Math.max(1, Math.min(4, lessonQuarter));
+      const sanitizedNumber = Math.max(1, Math.min(13, lessonNumber));
+
       navigate(
-        `${lessonURL}/${lessonYear % 100}/${lessonQuarter}/${lessonNumber}`
+        `${lessonURL}/${sanitizedYear}/${sanitizedQuarter}/${sanitizedNumber}`
       );
     }
   }, [year, quarter, week, currentLessonParameters, lessonURL, navigate]);

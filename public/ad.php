@@ -52,14 +52,16 @@ if ($hasImage) {
 
 // Prepare email with or without attachment
 $to = 'webmaster@sdabg.net, gabi.ortova@gmail.com';
-$subject = "📝[$DOMAIN] Нова обява от $name ($type)";
+// Sanitize subject to prevent header injection
+$subject = sanitize_header("📝[$DOMAIN] Нова обява от $name ($type)");
+
 $bodyHtml = "<html><body>"
     . "<p><strong>Тип на обявата:</strong> " . nl2br($typeText) . "</p>"
     . "<p><strong>Име за контакт:</strong> " . nl2br($name) . "</p>"
     . "<p><strong>Населено място:</strong> " . nl2br($place) . "</p>"
     . "<p><strong>Телефонен номер:</strong> " . nl2br($phone) . "</p>"
     . "<p><strong>Имейл:</strong> " . nl2br($email) . "</p>"
-    . "<p><strong>Обява:</strong><br>" . $ad . "</p>"
+    . "<p><strong>Обява:</strong><br>" . nl2br($ad) . "</p>"
     . "</body></html>";
 
 $headers = "From: sdabg.net <no-reply@sdabg.net>\r\n";

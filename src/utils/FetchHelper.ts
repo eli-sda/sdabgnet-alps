@@ -215,3 +215,14 @@ export const loadSunset = async (
 
   return evts;
 };
+
+// Validate URL to prevent open redirect vulnerability
+export const isValidUrl = (url: string): boolean => {
+  try {
+    const parsedUrl = new URL(url, window.location.origin);
+    // Allow only http/https protocols
+    return parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:';
+  } catch {
+    return false;
+  }
+};

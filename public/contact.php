@@ -29,13 +29,15 @@ if ($email !== '' && !is_valid_email($email)) {
 
 // Prepare email
 $to = 'webmaster@sdabg.net, gabi.ortova@gmail.com';
-$subject = "💬 [$DOMAIN] Съобщение от контактната форма";
+// Sanitize subject to prevent header injection
+$subject = sanitize_header("💬 [$DOMAIN] Съобщение от контактната форма");
+
 $body = "<html><body>"
     . "<p><strong>Тема:</strong> " . nl2br($topic) . "</p>"
     . "<p><strong>Име:</strong> " . nl2br($name) . "</p>"
     . "<p><strong>Телефон:</strong> " . nl2br($phone) . "</p>"
     . "<p><strong>Имейл:</strong> " . nl2br($email) . "</p>"
-    . "<p><strong>Съобщение:</strong><br>" . $message . "</p>"
+    . "<p><strong>Съобщение:</strong><br>" . nl2br($message) . "</p>"
     . "</body></html>";
 $headers = "From: sdabg.net <no-reply@sdabg.net>\r\n";
 $headers .= "MIME-Version: 1.0\r\n";

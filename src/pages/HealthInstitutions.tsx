@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
 import routes from 'src/routes';
+import { isValidUrl } from 'src/utils/FetchHelper';
 import { PageLinkItem } from 'src/organisms/PageLinkItem';
 import { ImageType } from 'alps-library/atoms/images/ImageType';
 import { ExternalPageLink } from 'src/types/externalPageLink';
@@ -15,7 +16,11 @@ const HealthInstitutions = () => {
   useEffect(() => {
     fetch('/healthInstitutions.json')
       .then((res) => res.json())
-      .then((data: ExternalPageLink[]) => setLinks(data))
+      .then((data: ExternalPageLink[]) => {
+        // Filter out invalid URLs to prevent open redirect vulnerability
+        const validLinks = data.filter(item => isValidUrl(item.url));
+        setLinks(validLinks);
+      })
       .catch((err) => {
         console.error('Failed to load HealthInstitutions.json', err);
         setLinks([]);

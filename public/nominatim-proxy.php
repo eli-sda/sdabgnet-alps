@@ -35,8 +35,8 @@ if (empty($city)) {
     exit;
 }
 
-// Validate city parameter (allow only letters, spaces, and hyphens)
-if (!preg_match('/^[\p{L}\s\-]+$/u', $city)) {
+// Validate city parameter (allow only letters, spaces, hyphens, and commas)
+if (!preg_match('/^[\p{L}\s\-,]+$/u', $city)) {
     http_response_code(400);
     echo json_encode(['error' => 'Невалидно име на населено място'], JSON_UNESCAPED_UNICODE);
     exit;
@@ -48,6 +48,10 @@ if (mb_strlen($city) > 100) {
     echo json_encode(['error' => 'Името на населеното място е твърде дълго'], JSON_UNESCAPED_UNICODE);
     exit;
 }
+
+// Additional security: ensure no path traversal characters
+$city = str_replace(['..', '/', '\\', "\0"], '', $city);
+$city = trim($city);
 
 // Simple file-based cache to reduce API calls
 $cacheDir = __DIR__ . '/cache';
@@ -117,7 +121,9 @@ $translitMap = [
 ];
 
 $cityTranslit = strtr($city, $translitMap);
-$cityTranslit = preg_replace('/[^a-zA-Z0-9\-]/', '_', $cityTranslit);
+$cityTranslit = preg_replace('/,/', '', $cityTranslit); // Remove commas
+$cityTranslit = preg_replace('/\s+/', '_', $cityTranslit); // Replace multiple spaces with single underscore
+$cityTranslit = preg_replace('/[^a-zA-Z0-9\-_]/', '_', $cityTranslit); // Replace other special chars
 $cityTranslit = strtolower($cityTranslit);
 
 $cacheFile = $cacheDir . '/nominatim_' . $cityTranslit . '.json';
@@ -139,11 +145,12 @@ if (file_exists($cacheFile)) {
 }
 
 // Build Nominatim URL with hardcoded countrycodes and format
+// Use urlencode to safely encode the city parameter
 $nominatimUrl = 'https://nominatim.openstreetmap.org/search?' . http_build_query([
-    'city' => $city,
+    'q' => $city,
     'countrycodes' => 'bg',
     'format' => 'json'
-]);
+], '', '&', PHP_QUERY_RFC3986);
 
 // Make request to Nominatim with proper User-Agent and timeout
 $context = stream_context_create([

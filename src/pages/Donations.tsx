@@ -7,6 +7,7 @@ import { ExternalPageLink } from 'src/types/externalPageLink';
 import { Page } from 'src/organisms/Page';
 import { PageLinkItem } from 'src/organisms/PageLinkItem';
 import { getTitle } from 'src/utils/Navigation';
+import { isValidUrl } from 'src/utils/FetchHelper';
 
 const breadcrumbsUrls = [routes.churchLife(), routes.churchLife('donations')];
 
@@ -17,7 +18,11 @@ const Donations = () => {
   useEffect(() => {
     fetch('/donations.json')
       .then((res) => res.json())
-      .then((data: ExternalPageLink[]) => setDonations(data))
+      .then((data: ExternalPageLink[]) => {
+        // Filter out invalid URLs
+        const validDonations = data.filter(item => isValidUrl(item.url));
+        setDonations(validDonations);
+      })
       .catch((err) => {
         console.error('Failed to load donations.json', err);
         setDonations([]);

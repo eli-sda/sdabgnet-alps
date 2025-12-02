@@ -2,12 +2,12 @@
   .city-section {
     max-width: 500px;
     margin: 0 auto;
-    input[type='search'] {
-      font-size: 0.9rem;
-    }
   }
 
   @media (max-width: 530px) {
+    input[type='search'] {
+      font-size: 0.9rem;
+    }
     $minCalendarWidth: 200px;
     $maxCalendarWidth: calc(100vw * 6 / 7 - (2 * 15px - 0.01px));
     .rbc-calendar {

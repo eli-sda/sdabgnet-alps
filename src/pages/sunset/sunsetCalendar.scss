@@ -1,0 +1,62 @@
+.sunset-page {
+  .city-section {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 530px) {
+    input[type='search'] {
+      font-size: 0.9rem;
+    }
+    $minCalendarWidth: 200px;
+    $maxCalendarWidth: calc(100vw * 6 / 7 - (2 * 15px - 0.01px));
+    .rbc-calendar {
+      min-width: $minCalendarWidth;
+      max-width: $maxCalendarWidth !important;
+      min-height: 400px !important;
+    }
+    .rbc-month-view {
+      $small: 26px;
+      $full: max(#{$minCalendarWidth}, #{$maxCalendarWidth});
+      $fixedDaysWidth: calc(5 * #{$small});
+      $remaining: calc(#{$full} - #{$fixedDaysWidth});
+      $halfRemaining: calc(#{$remaining} / 2);
+
+      // other columns (not friday and sabbath)
+      .rbc-row-bg > .rbc-day-bg:not(:nth-child(5)):not(:nth-child(6)),
+      .rbc-header:not(:nth-child(5)):not(:nth-child(6)),
+      .rbc-row > .rbc-date-cell:not(:nth-child(5)):not(:nth-child(6)) {
+        max-width: $small;
+        min-width: $small;
+      }
+
+      .rbc-row {
+        .rbc-row-segment {
+          &:nth-child(1) {
+            // first segment – width of 4 small days
+            flex-basis: calc(#{$small} * 4) !important;
+            max-width: calc(#{$small} * 4) !important;
+          }
+          &:nth-child(2),
+          &:nth-child(3) {
+            // Friday and Saturday
+            flex-basis: $halfRemaining !important;
+            max-width: $halfRemaining !important;
+          }
+          .rbc-event {
+            font-size: 0.7rem;
+            padding: 1px 2px;
+            .rbc-event-content {
+              text-overflow: unset;
+            }
+          }
+        }
+      }
+
+      // header shrink
+      .rbc-header {
+        font-size: 0.78rem;
+      }
+    }
+  }
+}

@@ -27,7 +27,9 @@ if (!is_valid_email($email)) {
 
 // Prepare email
 $to = 'webmaster@sdabg.net';
-$subject = "❔ [$DOMAIN] Въпрос към ПАСТОР ОНЛАЙН";
+// Sanitize subject to prevent header injection
+$subject = sanitize_header("❔ [$DOMAIN] Въпрос към ПАСТОР ОНЛАЙН");
+
 $body = "<html><body>"
     . "<p><strong>Име:</strong> " . nl2br($name) . "</p>"
     . "<p><strong>Имейл:</strong> " . nl2br($email) . "</p>"

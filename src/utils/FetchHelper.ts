@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { client, clientVreses } from 'src/sanityClient';
 import { PageMetaMap, PageMetaType } from './PageMeta';
 import {
@@ -11,6 +12,7 @@ import {
   SeminarRelatedPresentationsType
 } from 'src/contexts/PlaylistsContext';
 import { DailyVerseType } from 'src/contexts/DailyVerseContext';
+import { SunsetEvent } from 'src/contexts/SunsetContext';
 
 export const loadPagesMeta = async (): Promise<PageMetaMap> => {
   const query = `*[_type == "page"] {
@@ -162,4 +164,65 @@ export const loadDailyVerse = async (date: string): Promise<DailyVerseType> => {
   }`;
 
   return await clientVreses.fetch(dailyVerseQuery, { date });
+};
+
+/**
+ * Load sunset times for all Fridays and Saturdays in the month of the provided date.
+ * @param monthDate ISO date string (e.g. '2025-11-01') or Date object representing a day in target month
+ * @param lat latitude
+ * @param lng longitude
+ */
+interface SunsetApiResponse {
+  results: { sunset: string };
+  status: string;
+}
+
+export const loadSunset = async (
+  fetchDates: moment.Moment[],
+  lat: number,
+  lng: number
+): Promise<SunsetEvent[]> => {
+  const results = await Promise.all(
+    fetchDates.map((date) => {
+      const apiUrl = `https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lng}&date=${date.format(
+        'YYYY-MM-DD'
+      )}&formatted=0`;
+      return fetch(apiUrl)
+        .then((res) => res.json())
+        .then((json: SunsetApiResponse) => ({ date, json }))
+        .catch(
+          () =>
+            ({ date, json: null } as {
+              date: moment.Moment;
+              json: SunsetApiResponse | null;
+            })
+        );
+    })
+  );
+
+  const evts: { title: string; start: string; end: string }[] = [];
+  for (const r of results) {
+    if (!r.json || r.json.status !== 'OK') continue;
+    const sunset = moment(r.json.results.sunset).format('HH:mm');
+    const parts = sunset.split(':').map(Number);
+    const start = r.date.clone().hour(parts[0]).minute(parts[1]);
+    evts.push({
+      title: `${sunset}ч.`,
+      start: start.toISOString(),
+      end: start.toISOString()
+    });
+  }
+
+  return evts;
+};
+
+// Validate URL to prevent open redirect vulnerability
+export const isValidUrl = (url: string): boolean => {
+  try {
+    const parsedUrl = new URL(url, window.location.origin);
+    // Allow only http/https protocols
+    return parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:';
+  } catch {
+    return false;
+  }
 };

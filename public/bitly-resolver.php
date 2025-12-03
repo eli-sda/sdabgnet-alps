@@ -23,8 +23,19 @@
  *   Error:   {"error": "Error message"}
  */
 
+include_once __DIR__ . '/constants.php';
+
+// CORS headers
+$allowed_origins = [
+    'http://localhost:5173',  // React dev server
+    $site
+];
+
 // Security headers
-header('Access-Control-Allow-Origin: *');
+if (isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], $allowed_origins)) {
+    header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
+    header('Vary: Origin');
+}
 header('Access-Control-Allow-Methods: GET');
 header('Access-Control-Max-Age: 3600');
 header('Content-Type: application/json; charset=UTF-8');
@@ -56,24 +67,16 @@ if (!filter_var($url, FILTER_VALIDATE_URL)) {
 
 // Parse URL and validate
 $parsedUrl = parse_url($url);
-if (!$parsedUrl || !isset($parsedUrl['scheme']) || !isset($parsedUrl['host'])) {
-    http_response_code(400);
-    echo json_encode(['error' => 'Invalid URL structure']);
-    exit;
-}
 
-// Only allow HTTPS URLs
-if ($parsedUrl['scheme'] !== 'https') {
+if (
+    !$parsedUrl ||
+    !isset($parsedUrl['scheme']) ||
+    $parsedUrl['scheme'] !== 'https' ||
+    !isset($parsedUrl['host']) ||
+    strtolower($parsedUrl['host']) !== 'bit.ly'
+) {
     http_response_code(400);
-    echo json_encode(['error' => 'Only HTTPS URLs are allowed']);
-    exit;
-}
-
-// Whitelist allowed domains - only bit.ly
-$allowedDomains = ['bit.ly'];
-if (!in_array($parsedUrl['host'], $allowedDomains)) {
-    http_response_code(403);
-    echo json_encode(['error' => 'Domain not allowed']);
+    echo json_encode(['error' => 'Only HTTPS bit.ly URLs are allowed.']);
     exit;
 }
 
@@ -89,7 +92,7 @@ if ($ch === false) {
 curl_setopt_array($ch, [
     CURLOPT_FOLLOWLOCATION => true,
     CURLOPT_MAXREDIRS => 5,              // Limit redirects
-    CURLOPT_NOBODY => true,
+    CURLOPT_NOBODY => true,              // We only care about the final destination URL after redirects, not the page content. 
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_TIMEOUT => 10,               // Overall timeout
     CURLOPT_CONNECTTIMEOUT => 5,         // Connection timeout
@@ -100,11 +103,12 @@ curl_setopt_array($ch, [
     CURLOPT_USERAGENT => 'Mozilla/5.0 (compatible; URLResolver/1.0)',
 ]);
 
-// Execute request
-$result = curl_exec($ch);
+// Execute request (fetching only headers, not body, due to CURLOPT_NOBODY)
+// curl_exec will return true on success, false on failure.
+$requestSucceeded = curl_exec($ch);
 
 // Check for cURL errors
-if ($result === false) {
+if ($requestSucceeded === false) {
     $error = curl_error($ch);
     curl_close($ch);
     http_response_code(500);

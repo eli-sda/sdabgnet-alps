@@ -57,7 +57,7 @@ const Radio = lazy(() => import('./pages/links/Radio'));
 const ForeignLinks = lazy(() => import('./pages/links/ForeignLinks'));
 const Apps = lazy(() => import('./pages/links/Apps'));
 const Institutions = lazy(() => import('./pages/Institutions'));
-
+const SunsetCalendarPage = lazy(() => import('./pages/sunset/SunsetCalendar'));
 // const theme = createTheme();
 
 const ScrollToTop = () => {
@@ -140,6 +140,10 @@ const Router = () => (
           <Route path={routes.churches} element={<Churches />} />
           <Route path={routes.info('churches')} element={<Churches />} />
           <Route path={routes.info()} element={<Info />} />
+          <Route
+            path={routes.info('sunset')}
+            element={<SunsetCalendarPage />}
+          />
 
           <Route path={routes.media()} element={<Media />} />
 

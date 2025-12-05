@@ -32,37 +32,40 @@ const VideoPlayer = ({ playlist }: VideoPlayerProps) => {
   };
 
   return (
-    <div className="u-spacing">
+    <div className="videoPlayer u-spacing">
       <HeadingBlock title={playlistTitle} />
 
       {playlistAuthor && <p>{playlistAuthor}</p>}
       {playlistDescription && <p>{playlistDescription}</p>}
 
-      <div>
-        <Video
-          src={`https://www.youtube.com/embed/${currentVideo.videoId}?autoplay=1`}
-          title={currentVideo.title || ''}
-        />
-      </div>
+      <div className="videoPlayer-layout">
+        <div className="videoPlayer-player">
+          <Video
+            src={`https://www.youtube.com/embed/${currentVideo.videoId}?autoplay=1`}
+            title={currentVideo.title || ''}
+          />
+        </div>
 
-      <div className="video-contsiner">
-        {videoItems.map((video, i) => {
-          const thumb = `https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`;
-          const isActive = currentIndex === i;
+        <div className="videoPlayer-sidebar">
+          {videoItems.map((video, i) => {
+            const thumb = `https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`;
+            const isActive = currentIndex === i;
 
-          return (
-            <div
-              key={i}
-              className={`video-thumb ${isActive ? 'active' : ''}`}
-              onClick={() => playVideo(i)}
-            >
-              <img src={thumb} />
-              {video.title && (
-                <p className="u-space--half--top">{video.title}</p>
-              )}
-            </div>
-          );
-        })}
+            return (
+              <div
+                key={i}
+                className={`videoItem ${isActive ? 'active' : ''}`}
+                onClick={() => playVideo(i)}
+              >
+                <img src={thumb} />
+                <div className="videoItem-text">
+                  <p>{video.title}</p>
+                  {video.description && <p>{video.description}</p>}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

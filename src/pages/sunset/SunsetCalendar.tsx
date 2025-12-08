@@ -79,7 +79,7 @@ const SunsetCalendar = (): JSX.Element => {
   const loadAndSetSunsets = useCallback(
     async (monthDate: Date | string, lat: number, lng: number) => {
       try {
-        const loaded = (await getSunsets(monthDate, lat, lng)) as SunsetEvent[];
+        const loaded = await getSunsets(monthDate, lat, lng);
         const mapped = (loaded || []).map((e) => ({
           title: e.title,
           start: new Date(e.start),

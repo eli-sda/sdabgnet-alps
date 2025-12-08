@@ -18,7 +18,8 @@ const HealthInstitutions = () => {
       .then((res) => res.json())
       .then((data: ExternalPageLink[]) => {
         // Filter out invalid URLs to prevent open redirect vulnerability
-        const validLinks = data.filter(item => isValidUrl(item.url));
+        // Only validated URLs are stored in state
+        const validLinks = data.filter((item) => isValidUrl(item.url));
         setLinks(validLinks);
       })
       .catch((err) => {

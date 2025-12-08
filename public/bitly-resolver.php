@@ -40,8 +40,9 @@ header('Access-Control-Allow-Methods: GET');
 header('Access-Control-Max-Age: 3600');
 header('Content-Type: application/json; charset=UTF-8');
 header('X-Content-Type-Options: nosniff');
-header('X-Frame-Options: DENY');
-header("Content-Security-Policy: frame-ancestors 'none'");
+// Clickjacking protection: explicitly deny framing
+header('X-Frame-Options: DENY', true);
+header("Content-Security-Policy: frame-ancestors 'none'; default-src 'none'", true);
 
 // Only allow GET requests
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
@@ -51,23 +52,23 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
 }
 
 // Get and validate URL parameter
-$url = $_GET['url'] ?? '';
+$urlInput = $_GET['url'] ?? '';
 
-if (empty($url)) {
+if (empty($urlInput)) {
     http_response_code(400);
     echo json_encode(['error' => 'URL parameter required']);
     exit;
 }
 
 // Validate URL format
-if (!filter_var($url, FILTER_VALIDATE_URL)) {
+if (!filter_var($urlInput, FILTER_VALIDATE_URL)) {
     http_response_code(400);
     echo json_encode(['error' => 'Invalid URL format']);
     exit;
 }
 
-// Parse URL and validate
-$parsedUrl = parse_url($url);
+// Parse URL and validate - SSRF prevention
+$parsedUrl = parse_url($urlInput);
 
 if (
     !$parsedUrl ||
@@ -81,8 +82,14 @@ if (
     exit;
 }
 
-// Initialize cURL with secure settings
-$ch = curl_init($url);
+// Reconstruct validated URL to prevent injection attacks
+$validatedUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . ($parsedUrl['path'] ?? '/');
+if (isset($parsedUrl['query'])) {
+    $validatedUrl .= '?' . $parsedUrl['query'];
+}
+
+// Initialize cURL with validated and sanitized URL
+$ch = curl_init($validatedUrl);
 if ($ch === false) {
     http_response_code(500);
     echo json_encode(['error' => 'Failed to initialize request']);

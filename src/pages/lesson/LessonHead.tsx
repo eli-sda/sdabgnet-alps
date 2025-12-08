@@ -56,6 +56,7 @@ const LessonHead = ({
             kicker={kicker}
             kickerAs="h4"
             title={lessonTitle}
+            titleAs="h2"
             url={lessonURL}
             category={lessonDateRange}
             image={image}

@@ -9,7 +9,6 @@ import { useLessonQuarterContext } from 'src/contexts/LessonQuarterContext';
 // Props for LessonDay
 interface LessonDayProps {
   day: LessonDays;
-  isOpen: boolean;
 }
 const lessonQuarterLetter = {
   1: 'a',
@@ -18,8 +17,23 @@ const lessonQuarterLetter = {
   4: 'd'
 };
 
-export const LessonDay = ({ day, isOpen }: LessonDayProps) => {
+export const LessonDay = ({ day }: LessonDayProps) => {
   const { qLesson, quarterObject } = useLessonQuarterContext();
+
+  // Determine if this AccordionItem should be open based on current date
+  const isOpen = useMemo(() => {
+    if (!day.date) return false;
+    // day.date is in format "dd/MM/yyyy"
+    const [d, m, y] = day.date.split('/');
+    const dayDate = new Date(`${y}-${m}-${d}`);
+    const now = new Date();
+    // Compare only date part (ignore time)
+    return (
+      dayDate.getFullYear() === now.getFullYear() &&
+      dayDate.getMonth() === now.getMonth() &&
+      dayDate.getDate() === now.getDate()
+    );
+  }, [day.date]);
 
   const shouldShowImg = useMemo(() => {
     return day.title === 'Разказ' && quarterObject?.type == '';
@@ -257,11 +271,26 @@ export const LessonDay = ({ day, isOpen }: LessonDayProps) => {
     }
     if (!doc) return html;
 
-    const walk = (node: ChildNode, key: string, parentTag?: string): React.ReactNode => {
+    const walk = (
+      node: ChildNode,
+      key: string,
+      parentTag?: string
+    ): React.ReactNode => {
       if (node.nodeType === Node.TEXT_NODE) {
         // Filter out whitespace-only text nodes in table-related elements
-        const tableElements = ['table', 'tbody', 'thead', 'tfoot', 'tr', 'colgroup'];
-        if (parentTag && tableElements.includes(parentTag) && !node.textContent?.trim()) {
+        const tableElements = [
+          'table',
+          'tbody',
+          'thead',
+          'tfoot',
+          'tr',
+          'colgroup'
+        ];
+        if (
+          parentTag &&
+          tableElements.includes(parentTag) &&
+          !node.textContent?.trim()
+        ) {
           return null;
         }
         return node.textContent;
@@ -348,7 +377,7 @@ export const LessonDay = ({ day, isOpen }: LessonDayProps) => {
       onChange={(open: boolean) => setOpend(open)}
       heading={
         <div className="title flex-1" title={opened ? 'Затвори' : 'Отвори'}>
-          <h3>{day.title}</h3>
+          <h3 className="hyphens-auto">{day.title}</h3>
           {day.date && (
             <h4>
               {(() => {

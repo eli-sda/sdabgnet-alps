@@ -46,23 +46,10 @@ export const LessonItem = ({ qLesson }: LessonItemType) => {
           )}
           {days.length > 0 && (
             <Accordion>
-              {days.map((day, idx) => {
-                // Determine if this AccordionItem should be open
-                let isOpen = true;
-                if (day.date) {
-                  // day.date is in format "dd/MM/yyyy"
-                  const [d, m, y] = day.date.split('/');
-                  const dayDate = new Date(`${y}-${m}-${d}`);
-                  const now = new Date();
-                  // Compare only date part (ignore time)
-                  isOpen =
-                    dayDate.getFullYear() === now.getFullYear() &&
-                    dayDate.getMonth() === now.getMonth() &&
-                    dayDate.getDate() === now.getDate();
-                }
+              {days.map((day) => (
                 // Render LessonDay (AccordionItem) for each day
-                return <LessonDay key={idx} day={day} isOpen={isOpen} />;
-              })}
+                <LessonDay key={`${day.index}`} day={day} />
+              ))}
             </Accordion>
           )}
         </Text>

@@ -30,7 +30,9 @@ $to = 'webmaster@sdabg.net';
 // Sanitize subject to prevent header injection
 $subject = sanitize_header("❔ [$DOMAIN] Въпрос към ПАСТОР ОНЛАЙН");
 
-// Additional HTML escaping for email body (already sanitized, but explicit for security scanners)
+// Additional HTML escaping for email body
+// All simple fields are sanitized with htmlspecialchars to prevent HTML injection
+// Question field preserves allowed HTML tags from strip_tags() whitelist
 $nameEscaped = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
 $emailEscaped = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
 // Question already has allowed HTML tags from strip_tags(), so don't escape it

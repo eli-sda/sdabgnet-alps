@@ -32,7 +32,9 @@ $to = 'webmaster@sdabg.net, gabi.ortova@gmail.com';
 // Sanitize subject to prevent header injection
 $subject = sanitize_header("💬 [$DOMAIN] Съобщение от контактната форма");
 
-// Additional HTML escaping for email body (already sanitized, but explicit for security scanners)
+// Additional HTML escaping for email body
+// All simple fields are sanitized with htmlspecialchars to prevent HTML injection
+// Message field preserves allowed HTML tags from strip_tags() whitelist
 $topicEscaped = htmlspecialchars($topic, ENT_QUOTES, 'UTF-8');
 $nameEscaped = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
 $phoneEscaped = htmlspecialchars($phone, ENT_QUOTES, 'UTF-8');

@@ -19,7 +19,8 @@ const Donations = () => {
     fetch('/donations.json')
       .then((res) => res.json())
       .then((data: ExternalPageLink[]) => {
-        // Filter out invalid URLs
+        // Filter out invalid URLs to prevent open redirect vulnerability
+        // Only validated URLs are stored in state
         const validDonations = data.filter(item => isValidUrl(item.url));
         setDonations(validDonations);
       })

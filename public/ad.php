@@ -52,8 +52,10 @@ if ($hasImage) {
 
 // Prepare email with or without attachment
 $to = 'webmaster@sdabg.net, gabi.ortova@gmail.com';
-// Sanitize subject to prevent header injection
-$subject = sanitize_header("📝[$DOMAIN] Нова обява от $name ($type)");
+// Sanitize subject to prevent header injection - explicitly sanitize all user input in subject
+$nameForSubject = sanitize_header($name);
+$typeForSubject = sanitize_header($type);
+$subject = sanitize_header("📝[$DOMAIN] Нова обява от $nameForSubject ($typeForSubject)");
 
 // Additional HTML escaping for email body (already sanitized, but explicit for security scanners)
 $typeTextEscaped = htmlspecialchars($typeText, ENT_QUOTES, 'UTF-8');

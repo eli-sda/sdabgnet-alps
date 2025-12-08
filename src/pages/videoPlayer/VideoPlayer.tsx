@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
-import { Video } from 'alps-library/atoms/video/Video';
+import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import './VideoPlayer.scss';
 
 export type VideoPlaylistType = {
@@ -19,8 +19,7 @@ interface VideoPlayerProps {
 }
 
 const VideoPlayer = ({ playlist }: VideoPlayerProps) => {
-  const { playlistTitle, playlistAuthor, playlistDescription, videoItems } =
-    playlist;
+  const { playlistTitle, playlistAuthor, videoItems } = playlist;
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentVideo = videoItems[currentIndex];
@@ -34,19 +33,17 @@ const VideoPlayer = ({ playlist }: VideoPlayerProps) => {
   return (
     <div className="videoPlayer u-spacing">
       <HeadingBlock title={playlistTitle} />
-
-      {playlistAuthor && <p>{playlistAuthor}</p>}
-      {playlistDescription && <p>{playlistDescription}</p>}
+      {playlistAuthor && <h3>{playlistAuthor}</h3>}
 
       <div className="videoPlayer-layout">
         <div className="videoPlayer-player">
-          <Video
-            src={`https://www.youtube.com/embed/${currentVideo.videoId}?autoplay=1`}
-            title={currentVideo.title || ''}
+          <Figure
+            caption={currentVideo.title}
+            size="large"
+            videoSrc={`https://www.youtube.com/embed/${currentVideo.videoId}?autoplay=1`}
           />
         </div>
-
-        <div className="videoPlayer-sidebar">
+        <div className="videoPlayer-sidebar u-border--left u-theme--border-color--darker">
           {videoItems.map((video, i) => {
             const thumb = `https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`;
             const isActive = currentIndex === i;
@@ -57,11 +54,13 @@ const VideoPlayer = ({ playlist }: VideoPlayerProps) => {
                 className={`videoItem ${isActive ? 'active' : ''}`}
                 onClick={() => playVideo(i)}
               >
-                <img src={thumb} />
-                <div className="videoItem-text">
-                  <p>{video.title}</p>
-                  {video.description && <p>{video.description}</p>}
+                <div className="video-index-container">
+                  <span className="u-font--secondary--xs">
+                    {isActive ? <i className="fas fa-play"></i> : i + 1}
+                  </span>
                 </div>
+                <img src={thumb} />
+                <h4 className="videoItem-text hyphens-auto">{video.title}</h4>
               </div>
             );
           })}

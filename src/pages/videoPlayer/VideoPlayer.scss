@@ -3,56 +3,70 @@
 .videoPlayer {
   width: 100%;
   container-type: inline-size;
-}
 
-.videoPlayer-layout {
-  display: flex;
-  gap: 24px;
-  margin-top: 16px;
-
-  @container (max-width: 635px) {
-    flex-direction: column;
-  }
-}
-
-.videoPlayer-player {
-  flex: 0 0 auto;
-  width: 400px;
-  max-width: 100%;
-}
-
-.videoPlayer-sidebar {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  max-height: 500px;
-  overflow-y: auto;
-}
-
-.videoItem {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  cursor: pointer;
-
-  &.active {
-    border-left: 4px solid $mingColor;
-    padding-left: 8px;
-  }
-
-  img {
-    width: 100px;
-    min-width: 100px;
-    height: 70px;
-    object-fit: cover;
-    flex-shrink: 0;
-  }
-
-  &-text {
+  .videoPlayer-layout {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    flex: 1;
+    gap: 24px;
+    margin-top: 16px;
+
+    @container (max-width: 670px) {
+      flex-direction: column;
+      .videoPlayer-player {
+        width: 100% !important;
+      }
+    }
+    .videoPlayer-player {
+      flex: 0 0 auto;
+      width: 400px;
+      max-width: 100%;
+    }
+
+    .videoPlayer-sidebar {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      max-height: 500px;
+      overflow-y: auto;
+
+      .videoItem {
+        display: flex;
+        gap: 8px;
+        padding: 4px 8px;
+        cursor: pointer;
+
+        &.active {
+          background-color: rgba($mingColor, 0.2);
+        }
+        &:hover:not(.active) {
+          background-color: $lightGrayColor;
+        }
+
+        .video-index-container {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+        }
+
+        img {
+          width: 100px;
+          height: 56px;
+          object-fit: cover;
+          flex-shrink: 0;
+          align-self: center;
+        }
+
+        &-text {
+          flex: 1 1 auto;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
   }
 }

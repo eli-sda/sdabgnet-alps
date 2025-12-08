@@ -55,13 +55,22 @@ $to = 'webmaster@sdabg.net, gabi.ortova@gmail.com';
 // Sanitize subject to prevent header injection
 $subject = sanitize_header("📝[$DOMAIN] Нова обява от $name ($type)");
 
+// Additional HTML escaping for email body (already sanitized, but explicit for security scanners)
+$typeTextEscaped = htmlspecialchars($typeText, ENT_QUOTES, 'UTF-8');
+$nameEscaped = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+$placeEscaped = htmlspecialchars($place, ENT_QUOTES, 'UTF-8');
+$phoneEscaped = htmlspecialchars($phone, ENT_QUOTES, 'UTF-8');
+$emailEscaped = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
+// Ad already has allowed HTML tags from strip_tags(), so don't escape it
+$adEscaped = $ad;
+
 $bodyHtml = "<html><body>"
-    . "<p><strong>Тип на обявата:</strong> " . nl2br($typeText) . "</p>"
-    . "<p><strong>Име за контакт:</strong> " . nl2br($name) . "</p>"
-    . "<p><strong>Населено място:</strong> " . nl2br($place) . "</p>"
-    . "<p><strong>Телефонен номер:</strong> " . nl2br($phone) . "</p>"
-    . "<p><strong>Имейл:</strong> " . nl2br($email) . "</p>"
-    . "<p><strong>Обява:</strong><br>" . nl2br($ad) . "</p>"
+    . "<p><strong>Тип на обявата:</strong> " . nl2br($typeTextEscaped) . "</p>"
+    . "<p><strong>Име за контакт:</strong> " . nl2br($nameEscaped) . "</p>"
+    . "<p><strong>Населено място:</strong> " . nl2br($placeEscaped) . "</p>"
+    . "<p><strong>Телефонен номер:</strong> " . nl2br($phoneEscaped) . "</p>"
+    . "<p><strong>Имейл:</strong> " . nl2br($emailEscaped) . "</p>"
+    . "<p><strong>Обява:</strong><br>" . nl2br($adEscaped) . "</p>"
     . "</body></html>";
 
 $headers = "From: sdabg.net <no-reply@sdabg.net>\r\n";
@@ -92,7 +101,7 @@ $success = mail($to, $subject, $body, $headers);
 if ($success) {
     send_json_response(['success' => true]);
 } else {
-    $logLine = date('Y-m-d H:i:s') . " - Error sending ad: " . json_encode($_POST) . "\n\n\n";
+    $logLine = date('Y-m-d H:i:s') . " - Error sending ad: " . json_encode($_POST, JSON_UNESCAPED_UNICODE) . "\n\n\n";
     file_put_contents(__DIR__ . '/send_mail.log', $logLine, FILE_APPEND);
     send_json_response(['error' => 'Грешка при изпращане на обявата.'], 500);
 }

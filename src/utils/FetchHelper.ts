@@ -221,8 +221,47 @@ export const isValidUrl = (url: string): boolean => {
   try {
     const parsedUrl = new URL(url, window.location.origin);
     // Allow only http/https protocols
-    return parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:';
+    if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
+      console.warn(
+        `URL blocked: Invalid protocol "${parsedUrl.protocol}" for URL: ${url}`
+      );
+      return false;
+    }
+
+    // Allow relative URLs (same origin)
+    if (parsedUrl.origin === window.location.origin) {
+      return true;
+    }
+
+    // Whitelist of allowed external domains for donations and related content
+    const allowedDomains = [
+      'sdabg.net',
+      'adra.bg',
+      'asi-bg.org',
+      'radiosvetlina.org',
+      'ltv.bg',
+      'lifeinhope.com',
+      'zdravencentarmedovo.com',
+      'healthcare-bg.com',
+      'yanikabg.com',
+      'facebook.com'
+    ];
+
+    const isAllowed = allowedDomains.some(
+      (domain) =>
+        parsedUrl.hostname === domain ||
+        parsedUrl.hostname.endsWith('.' + domain)
+    );
+
+    if (!isAllowed) {
+      console.warn(
+        `URL blocked: Domain "${parsedUrl.hostname}" is not in whitelist. URL: ${url}`
+      );
+    }
+
+    return isAllowed;
   } catch {
+    console.warn(`URL blocked: Invalid URL format: ${url}`);
     return false;
   }
 };

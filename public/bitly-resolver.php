@@ -41,6 +41,7 @@ header('Access-Control-Max-Age: 3600');
 header('Content-Type: application/json; charset=UTF-8');
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: DENY');
+header("Content-Security-Policy: frame-ancestors 'none'");
 
 // Only allow GET requests
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
@@ -100,6 +101,8 @@ curl_setopt_array($ch, [
     CURLOPT_SSL_VERIFYHOST => 2,         // Verify hostname
     CURLOPT_PROTOCOLS => CURLPROTO_HTTPS, // Only allow HTTPS
     CURLOPT_REDIR_PROTOCOLS => CURLPROTO_HTTPS, // Only allow HTTPS redirects
+    CURLOPT_HEADER => true,
+    CURLOPT_HTTPHEADER => ['Host: bit.ly'], // Prevent Host header injection - extra validation for bit.ly “Host” Header (Defense-in-Depth)
     CURLOPT_USERAGENT => 'Mozilla/5.0 (compatible; URLResolver/1.0)',
 ]);
 
@@ -140,6 +143,17 @@ $finalParsedUrl = parse_url($finalUrl);
 if (!$finalParsedUrl || !isset($finalParsedUrl['scheme']) || !isset($finalParsedUrl['host'])) {
     http_response_code(500);
     echo json_encode(['error' => 'Invalid resolved URL structure']);
+    exit;
+}
+
+// Security check: Prevent SSRF to private/internal IPs in case of unexpected redirect or DNS rebinding.
+$resolvedIp = gethostbyname($finalParsedUrl['host']);
+if (
+    filter_var($resolvedIp, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false ||
+    $resolvedIp === '127.0.0.1' || $resolvedIp === '::1'
+) {
+    http_response_code(403);
+    echo json_encode(['error' => 'Resolved IP address is not allowed']);
     exit;
 }
 

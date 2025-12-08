@@ -1,7 +1,7 @@
 import routes from '../../routes';
 
 import { getBreadcrumbs, getTitle } from 'src/utils/Navigation';
-import { PageHeader } from 'alps-library/organisms/sections/pageHeader/PageHeader';
+import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
 import { PageContent } from 'src/alps/organisms/content/PageContent';
 import LessonQuarterBlock from './LessonQuarterBlock';
 import { useLessonUtils } from 'src/hooks/useLessonUtils';
@@ -19,7 +19,7 @@ const Lessons = () => {
 
   return (
     <>
-      <PageHeader title={pageTitle} background={pageBackground} />
+      <PageHeaderLong title={pageTitle} background={pageBackground} />
       <PageContent breadcrumbs={breadcrumbs}>
         <section className="u-spacing--triple">
           <LessonQuarterProvider>

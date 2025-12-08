@@ -79,11 +79,11 @@ export interface MediaBlockProps {
    */
   kicker?: string;
   /**
-   * Specify the kickerAs of your  mediaIcon
+   * Specify the kickerAs of your mediaBlock
    */
   kickerAs?: 'h1' | 'h2' | 'h3' | 'h4';
   /**
-   * Specify the url of your  mediaIcon
+   * Specify the url of your mediaBlock
    */
   url?: string;
   /**
@@ -95,11 +95,15 @@ export interface MediaBlockProps {
    */
   stackedUntilSmall?: boolean;
   /**
-   * Specify the title of your  mediaIcon
+   * Specify the title of your mediaBlock
    */
   title?: string;
   /**
-   * Specify the titlePrefix of your  mediaIcon
+   * Specify the titleAs of your mediaBlock
+   */
+  titleAs?: 'h1' | 'h2' | 'h3' | 'h4';
+  /**
+   * Specify the titlePrefix of your mediaBlock
    */
   titlePrefix?: string;
   type?: keyof typeof MediaBlockTypesMap;
@@ -136,6 +140,7 @@ export const MediaBlock = ({
   reversed = false,
   stackedUntilSmall,
   title,
+  titleAs = 'h3',
   titlePrefix,
   type = 'default',
   video,
@@ -161,6 +166,7 @@ export const MediaBlock = ({
     'c-block--reversed': blockType && isReversed
   });
   const KickerTag = kickerAs; // TypeScript ensures it's a valid tag
+  const TitleTag = titleAs; // TypeScript ensures it's a valid tag
 
   const { onToggle, openClass } = useToggle(false, 'expanded', 'collapsed');
 
@@ -214,7 +220,7 @@ export const MediaBlock = ({
               </KickerTag>
             )}
             {title && (
-              <h3
+              <TitleTag
                 className={`c-block__title hyphens-auto ${
                   kicker ? 'u-space--zero' : ''
                 } ${
@@ -242,7 +248,7 @@ export const MediaBlock = ({
                     {title}
                   </span>
                 </Title>
-              </h3>
+              </TitleTag>
             )}
             {description && (
               <div

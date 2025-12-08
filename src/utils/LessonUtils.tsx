@@ -221,6 +221,7 @@ export type LessonDays = {
     verses: { [key: string]: string };
   }>;
   content: string;
+  index: string;
 };
 
 /**
@@ -244,6 +245,7 @@ export const getLessonDaysAndPdf = async (
       const detailRes = await fetch(`${day.full_read_path}/index.json`);
       const detail = (await detailRes.json()) as LessonDays;
       return {
+        index: detail.index,
         title: detail.title,
         date: detail.date,
         bible: detail.bible || [],

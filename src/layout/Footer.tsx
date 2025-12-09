@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Footer as AlpsFooter } from 'alps-library/organisms/global/footer/Footer';
 import { FooterPrimaryNavigationProps } from 'alps-library/molecules/navigation/footerPrimaryNavigation/FooterPrimaryNavigation';
+import { OLD_SITE } from 'src/constants';
 import ScrollUpButton from './ScrollUpButton';
 
 const scriptsToLoad = [
@@ -45,19 +46,19 @@ const Footer = () => {
       loadScripts().catch((e) => console.log(e));
     }
   }, []);
-
   const primaryNav: FooterPrimaryNavigationProps = {
     items: [
       {
         text: 'webmaster@sdabg.net',
         url: 'mailto:webmaster@sdabg.net?subject=new.sdabg.net'
+      },
+      {
+        text: 'Старият сайт: old.sdabg.net',
+        url: OLD_SITE
       }
-      // {
-      //   text: 'Feedback',
-      //   url: '#'
-      // }
     ]
   };
+
   return (
     <>
       <AlpsFooter

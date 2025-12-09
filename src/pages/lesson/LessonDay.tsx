@@ -357,6 +357,15 @@ export const LessonDay = ({ day }: LessonDayProps) => {
         }
       }
 
+      // Add target="_blank" for external links (starting with http)
+      if (Tag === 'a' && el.hasAttribute('href')) {
+        const href = el.getAttribute('href');
+        if (href && href.startsWith('http')) {
+          props.target = '_blank';
+          props.rel = 'noopener noreferrer';
+        }
+      }
+
       const children = Array.from(el.childNodes)
         .map((child, i) => walk(child, key + '-' + i, Tag))
         .filter(Boolean); // Remove null values from filtered whitespace

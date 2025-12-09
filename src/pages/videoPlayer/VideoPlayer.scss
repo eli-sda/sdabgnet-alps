@@ -8,13 +8,20 @@
     display: flex;
     gap: 24px;
     margin-top: 16px;
+    height: 500px;
 
     @container (max-width: 670px) {
       flex-direction: column;
+      height: auto;
       .videoPlayer-player {
         width: 100% !important;
       }
+      .videoPlayer-sidebar {
+        max-height: none;
+        overflow-y: visible;
+      }
     }
+
     .videoPlayer-player {
       flex: 0 0 auto;
       width: 400px;
@@ -25,7 +32,7 @@
       flex: 1 1 auto;
       display: flex;
       flex-direction: column;
-      max-height: 500px;
+      max-height: 100%;
       overflow-y: auto;
 
       .videoItem {

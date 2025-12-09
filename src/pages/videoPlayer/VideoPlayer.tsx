@@ -43,7 +43,7 @@ const VideoPlayer = ({ playlist }: VideoPlayerProps) => {
             videoSrc={`https://www.youtube.com/embed/${currentVideo.videoId}?autoplay=1`}
           />
         </div>
-        <div className="videoPlayer-sidebar u-border--left u-theme--border-color--darker">
+        <div className="videoPlayer-sidebar u-border--left u-theme--border-color--darker u-spacing">
           {videoItems.map((video, i) => {
             const thumb = `https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`;
             const isActive = currentIndex === i;

@@ -51,7 +51,7 @@ export function usePlaylists() {
       }
 
       // Otherwise, fetch from backend and update cache
-      return await loadPlaylists(type)
+      return await loadPlaylists(type, undefined, true)
         .then((loadedPlaylists) => {
           const sortedPlaylists = loadedPlaylists
             ?.slice() // make a copy so the original array is not modified

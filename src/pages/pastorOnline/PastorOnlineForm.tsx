@@ -92,6 +92,7 @@ const PastorOnlineForm = () => {
       {infoMessage && (
         <InfoDialog
           message={infoMessage}
+          isOpen={!!infoMessage}
           onClose={() => setInfoMessage(null)}
         />
       )}

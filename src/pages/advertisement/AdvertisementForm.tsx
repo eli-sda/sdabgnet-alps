@@ -147,6 +147,7 @@ const AdvertisementForm = ({ type }: { type: AdType }) => {
       {infoMessage && (
         <InfoDialog
           message={infoMessage}
+          isOpen={!!infoMessage}
           onClose={() => setInfoMessage(null)}
         />
       )}

@@ -17,8 +17,7 @@ import { usePagesMeta } from 'src/hooks/usePagesMeta';
 // import { VideoFull } from 'alps-library/organisms/sections/videoFull/VideoFull';
 
 import UpcomingEvents from './events/UpcomingEvents';
-import VideoPlayer from './videoPlayer/VideoPlayer';
-import videoPlaylist from './videoPlayer/video_playlist_demo.json';
+import { VideoDemo } from './videoPlayer/VideoDemo';
 
 const Home = () => {
   const [currentDate, setCurrentDate] = useState(() => moment());
@@ -193,7 +192,7 @@ const Home = () => {
           </ul>
         </div>
 
-        <VideoPlayer playlist={videoPlaylist} />
+        <VideoDemo />
 
         <p className="text">
           <a

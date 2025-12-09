@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -8,27 +8,31 @@ import {
 import { Button as AlpsButton } from 'src/alps/atoms/Button';
 
 type InfoDialogProps = {
-  message: string;
+  message?: string;
   title?: string;
+  children?: React.ReactNode;
+  fullScreen?: boolean;
+  isOpen: boolean;
+  onClose: () => void;
 };
 
 export const InfoDialog = ({
   message,
   title = 'Съобщение',
+  children,
+  fullScreen = false,
+  isOpen,
   onClose
-}: InfoDialogProps & { onClose?: () => void }) => {
-  const [open, setOpen] = useState(true);
-
-  const handleClose = () => {
-    setOpen(false);
-    onClose?.(); // call the optional onClose callback to reset or clear the parent state
-  };
+}: InfoDialogProps) => {
+  const handleClose = useCallback(() => {
+    onClose();
+  }, [onClose]);
 
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
+    <Dialog open={isOpen} onClose={handleClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
-        <p>{message}</p>
+        {children ? children : <p>{message}</p>}
       </DialogContent>
       <DialogActions>
         <AlpsButton label="Затвори" onClick={handleClose} />

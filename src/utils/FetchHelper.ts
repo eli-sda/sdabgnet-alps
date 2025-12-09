@@ -78,11 +78,18 @@ export const loadQuestions = async (): Promise<QuestionType[]> => {
   return questions;
 };
 
-export const loadPlaylists = async (type: string): Promise<PlaylistType[]> => {
+export const loadPlaylists = async (
+  type: string,
+  title?: string,
+  isResource: boolean = false
+): Promise<PlaylistType[]> => {
+  const titleFilter = title ? `&& title == '${title}'` : '';
+
   const playlistQuery = `*[
     _type == "playlist"
-    && isResource == true
-    && type == "${type}"
+    ${isResource ? '&& isResource == true' : ''}
+    && type == '${type}'
+    ${titleFilter}
     && count(items[_type == "reference"]) > 0
   ] | order(_createdAt desc) {
     _id,
@@ -99,12 +106,13 @@ export const loadPlaylists = async (type: string): Promise<PlaylistType[]> => {
       author,
       title,
       description,
+      ${
+        isResource
+          ? '"path": select(isResource == true => ^.slug.current + "/" + fileName, true => URL),'
+          : 'URL,'
+      }
       size,
-      // keyWords,
-      "path": select(
-        isResource == true => ^.slug.current + "/" + fileName,
-        true => URL
-      )
+      // keyWords
     }
   }`;
 

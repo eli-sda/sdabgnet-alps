@@ -208,6 +208,7 @@ const SunsetCalendar = (): JSX.Element => {
         {infoMessage && (
           <InfoDialog
             message={infoMessage}
+            isOpen={!!infoMessage}
             onClose={() => setInfoMessage(null)}
           />
         )}

@@ -45,7 +45,7 @@ const Lessons = () => {
             />
           </LessonQuarterProvider>
 
-          <h3 className="text u-padding--left">
+          <h4 className="text u-padding--left">
             Съботно училищните <b>уроци за деца</b> може да намерите{' '}
             <a
               href={`${OLD_SITE}/page.php?id=kids#lessons`}
@@ -55,7 +55,7 @@ const Lessons = () => {
               на стария сайт
               <i className="fas fa-external-link-alt u-space--quarter--left"></i>
             </a>
-          </h3>
+          </h4>
         </section>
       </PageContent>
     </>

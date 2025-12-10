@@ -1,29 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Button } from 'src/alps/atoms/Button';
-import { InfoDialog } from 'src/organisms/sections/InfoDialog';
 import { loadPlaylists } from 'src/utils/FetchHelper';
 import { extractYouTubeId } from 'src/utils/extractYouTubeId';
-import VideoPlayer, { VideoPlaylistType } from './VideoPlayer';
+import { VideoPlaylistType } from './VideoPlayer';
+import { VideoPlayerDialog } from './VideoPlayerDialog';
 import jsonPlaylist from './video_playlist_demo.json';
 
 export const VideoDemo = () => {
-  const [isJsonDialogOpen, setJsonOpen] = useState(false);
-  const [isSanityDialogOpen, setSanityOpen] = useState(false);
-
+  const [openDialog, setOpenDialog] = useState<'json' | 'sanity' | null>(null);
   const [sanityPlaylist, setSanityPlaylist] =
     useState<VideoPlaylistType | null>(null);
 
-  const [sanityLoading, setSanityLoading] = useState(false);
-
   useEffect(() => {
-    if (!isSanityDialogOpen) return;
+    if (openDialog !== 'sanity') return;
 
-    setSanityLoading(true);
+    setSanityPlaylist(null);
 
     loadPlaylists('video', 'Уебинар "Основи на вярата и науката"')
       .then((res) => {
         const p = res?.[0];
-        if (!p) return setSanityPlaylist(null);
+        if (!p) return;
 
         setSanityPlaylist({
           playlistTitle: p.title ?? '',
@@ -35,36 +31,25 @@ export const VideoDemo = () => {
             })) ?? []
         });
       })
-      .catch(() => setSanityPlaylist(null))
-      .finally(() => setSanityLoading(false));
-  }, [isSanityDialogOpen]);
+      .catch(() => setSanityPlaylist(null));
+  }, [openDialog]);
+
+  const handleJsonOpen = useCallback(() => setOpenDialog('json'), []);
+  const handleSanityOpen = useCallback(() => setOpenDialog('sanity'), []);
+  const handleClose = useCallback(() => setOpenDialog(null), []);
+
+  const currentPlaylist = openDialog === 'json' ? jsonPlaylist : sanityPlaylist;
 
   return (
     <div className="u-spacing">
-      <InfoDialog
-        title="JSON Плейлист"
-        fullScreen
-        isOpen={isJsonDialogOpen}
-        onClose={() => setJsonOpen(false)}
-      >
-        <VideoPlayer playlist={jsonPlaylist as VideoPlaylistType} />
-      </InfoDialog>
+      <VideoPlayerDialog
+        playlist={currentPlaylist}
+        isOpen={openDialog !== null}
+        onClose={handleClose}
+      />
 
-      <InfoDialog
-        title="Sanity Плейлист"
-        fullScreen
-        isOpen={isSanityDialogOpen}
-        onClose={() => setSanityOpen(false)}
-      >
-        {sanityLoading && <div>Зареждане…</div>}
-        {!sanityLoading && sanityPlaylist && (
-          <VideoPlayer playlist={sanityPlaylist} />
-        )}
-        {!sanityLoading && !sanityPlaylist && <div>Няма плейлист.</div>}
-      </InfoDialog>
-
-      <Button label="JSON плейлист" onClick={() => setJsonOpen(true)} />
-      <Button label="Sanity плейлист" onClick={() => setSanityOpen(true)} />
+      <Button label="JSON плейлист" onClick={handleJsonOpen} />
+      <Button label="Sanity плейлист" onClick={handleSanityOpen} />
     </div>
   );
 };

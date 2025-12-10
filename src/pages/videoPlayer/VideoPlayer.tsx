@@ -6,7 +6,6 @@ import './VideoPlayer.scss';
 export type VideoPlaylistType = {
   playlistTitle: string;
   playlistAuthor?: string;
-  playlistDescription?: string;
   videoItems: {
     videoId: string;
     title?: string;
@@ -33,7 +32,11 @@ const VideoPlayer = ({ playlist }: VideoPlayerProps) => {
   return (
     <div className="videoPlayer u-spacing">
       <HeadingBlock title={playlistTitle} />
-      {playlistAuthor && <h3>{playlistAuthor}</h3>}
+      {playlistAuthor && (
+        <h3 className="byline u-font--secondary--m can-be--white u-theme--color--darker u-space--half--top">
+          {playlistAuthor}
+        </h3>
+      )}
 
       <div className="videoPlayer-layout">
         <div className="videoPlayer-player">

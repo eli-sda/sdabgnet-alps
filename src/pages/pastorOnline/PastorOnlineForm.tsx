@@ -3,7 +3,7 @@ import { TextField } from 'alps-library/molecules/forms/elements/TextField';
 import { Button } from 'src/alps/atoms/Button';
 import React, { useMemo, useState } from 'react';
 import { EMAIL_REGEX, ERROR_SENDING_MESSAGE, SITE } from 'src/constants';
-import { InfoDialog } from 'src/organisms/sections/InfoDialog';
+import { MessageDialog } from 'src/organisms/sections/MessageDialog';
 
 const PastorOnlineForm = () => {
   const [infoMessage, setInfoMessage] = useState<string | null>(null);
@@ -90,7 +90,7 @@ const PastorOnlineForm = () => {
   return (
     <>
       {infoMessage && (
-        <InfoDialog
+        <MessageDialog
           message={infoMessage}
           isOpen={!!infoMessage}
           onClose={() => setInfoMessage(null)}

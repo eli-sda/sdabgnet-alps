@@ -7,33 +7,27 @@ import {
 } from '@mui/material';
 import { Button as AlpsButton } from 'src/alps/atoms/Button';
 
-type InfoDialogProps = {
+type MessageDialogProps = {
   message?: string;
   title?: string;
-  children?: React.ReactNode;
-  fullScreen?: boolean;
   isOpen: boolean;
   onClose: () => void;
 };
 
-export const InfoDialog = ({
+export const MessageDialog = ({
   message,
   title = 'Съобщение',
-  children,
-  fullScreen = false,
   isOpen,
   onClose
-}: InfoDialogProps) => {
+}: MessageDialogProps) => {
   const handleClose = useCallback(() => {
     onClose();
   }, [onClose]);
 
   return (
-    <Dialog open={isOpen} onClose={handleClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
+    <Dialog open={isOpen} onClose={handleClose} maxWidth="sm" fullWidth>
       <DialogTitle>{title}</DialogTitle>
-      <DialogContent>
-        {children ? children : <p>{message}</p>}
-      </DialogContent>
+      <DialogContent><p>{message}</p></DialogContent>
       <DialogActions>
         <AlpsButton label="Затвори" onClick={handleClose} />
       </DialogActions>

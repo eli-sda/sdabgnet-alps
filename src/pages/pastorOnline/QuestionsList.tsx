@@ -38,7 +38,7 @@ export const QuestionsList = ({
     >
       {items.map(({ answer, text, avatar, name }, idx) => (
         <li
-          className={`${itemClass} comment u-spacing`}
+          className={`${itemClass} comment hyphens-auto u-spacing`}
           key={`${level}-${idx}`}
           id={`question-${level}-${idx}`}
         >

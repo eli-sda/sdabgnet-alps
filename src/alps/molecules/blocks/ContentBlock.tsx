@@ -85,7 +85,7 @@ export const ContentBlock = ({
   const { onToggle, openClass } = useToggle();
 
   const classes = useClasses(
-    'c-block c-block__text u-border--left u-clear-fix ' +
+    'c-block c-block__text hyphens-auto u-border--left u-clear-fix ' +
       themeBorderColorClass +
       '--darker ' +
       'u-padding u-background-color--gray--light', //added this to have a background color

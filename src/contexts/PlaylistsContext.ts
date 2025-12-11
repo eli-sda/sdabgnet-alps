@@ -8,7 +8,6 @@ export type LinkType = {
   author?: string;
   title: string;
   description?: string | null;
-  URL?: string;
   size?: number;
   // keyWords?: string[] | null;
   path: string;

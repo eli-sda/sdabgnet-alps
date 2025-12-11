@@ -1,12 +1,8 @@
 import { useCallback } from 'react';
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions
-} from '@mui/material';
+import { Dialog, DialogTitle, DialogContent } from '@mui/material';
 import { Button as AlpsButton } from 'src/alps/atoms/Button';
 import VideoPlayer, { VideoPlaylistType } from './VideoPlayer';
+import './VideoPlayerDialog.scss';
 
 type VideoPlayerDialogProps = {
   playlist: VideoPlaylistType | null;
@@ -26,14 +22,29 @@ export const VideoPlayerDialog = ({
   }, [onClose]);
 
   return (
-    <Dialog open={isOpen} onClose={handleClose} maxWidth="xl" fullWidth>
-      <DialogTitle>{title}</DialogTitle>
+    <Dialog
+      open={isOpen}
+      onClose={(_event, reason) => {
+        if (reason === 'backdropClick') return;
+        handleClose();
+      }}
+      maxWidth="xl"
+      fullWidth
+    >
+      <DialogTitle>
+        {title}
+        <div className="dialog-close-button-wrapper">
+          <AlpsButton
+            faIconClass="fas fa-times fa-lg"
+            iconPosition="right"
+            simple
+            onClick={handleClose}
+          />
+        </div>
+      </DialogTitle>
       <DialogContent>
         {playlist && <VideoPlayer playlist={playlist} />}
       </DialogContent>
-      <DialogActions>
-        <AlpsButton label="Затвори" onClick={handleClose} />
-      </DialogActions>
     </Dialog>
   );
 };

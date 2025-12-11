@@ -26,8 +26,9 @@ export const VideoDemo = () => {
           playlistAuthor: p.author ?? '',
           videoItems:
             p.items?.map((i) => ({
-              videoId: extractYouTubeId(i.URL ?? ''),
-              title: i.title
+              videoId: extractYouTubeId(i.path),
+              title: i.title,
+              description: i.description ?? ''
             })) ?? []
         });
       })

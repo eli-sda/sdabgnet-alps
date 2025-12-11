@@ -33,7 +33,7 @@ const VideoPlayer = ({ playlist }: VideoPlayerProps) => {
     <div className="videoPlayer u-spacing">
       <HeadingBlock title={playlistTitle} />
       {playlistAuthor && (
-        <h3 className="byline u-font--secondary--m can-be--white u-theme--color--darker u-space--half--top">
+        <h3 className="u-font--secondary--m u-theme--color--darker u-space--half--top">
           {playlistAuthor}
         </h3>
       )}
@@ -41,12 +41,12 @@ const VideoPlayer = ({ playlist }: VideoPlayerProps) => {
       <div className="videoPlayer-layout">
         <div className="videoPlayer-player">
           <Figure
-            caption={currentVideo.title}
+            caption={`${currentVideo.title}\n\n${currentVideo.description || ''}`}
             size="large"
             videoSrc={`https://www.youtube.com/embed/${currentVideo.videoId}?autoplay=1`}
           />
         </div>
-        <div className="videoPlayer-sidebar u-border--left u-theme--border-color--darker u-spacing">
+        <div className="videoPlayer-sidebar u-border--left u-theme--border-color--darker">
           {videoItems.map((video, i) => {
             const thumb = `https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`;
             const isActive = currentIndex === i;

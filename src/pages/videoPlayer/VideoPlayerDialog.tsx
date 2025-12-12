@@ -1,5 +1,8 @@
+import React from 'react';
 import { useCallback } from 'react';
-import { Dialog, DialogTitle, DialogContent } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, Slide } from '@mui/material';
+import { TransitionProps } from '@mui/material/transitions';
+
 import { Button as AlpsButton } from 'src/alps/atoms/Button';
 import VideoPlayer, { VideoPlaylistType } from './VideoPlayer';
 import './VideoPlayerDialog.scss';
@@ -8,8 +11,17 @@ type VideoPlayerDialogProps = {
   playlist: VideoPlaylistType | null;
   title?: string;
   isOpen: boolean;
-  onClose: () => void;
+  onClose?: () => void;
 };
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="down" ref={ref} {...props} />;
+});
 
 export const VideoPlayerDialog = ({
   playlist,
@@ -18,7 +30,7 @@ export const VideoPlayerDialog = ({
   onClose
 }: VideoPlayerDialogProps) => {
   const handleClose = useCallback(() => {
-    onClose();
+    onClose?.();
   }, [onClose]);
 
   return (
@@ -28,12 +40,17 @@ export const VideoPlayerDialog = ({
         if (reason === 'backdropClick') return;
         handleClose();
       }}
+      slots={{
+        transition: Transition
+      }}
       maxWidth="xl"
       fullWidth
+      keepMounted // Improve performance by not unmounting on close
+      className="videoPlayerDialog"
     >
-      <DialogTitle>
+      <DialogTitle className="videoPlayerDialog-title">
         {title}
-        <div className="dialog-close-button-wrapper">
+        <div className="videoPlayerDialog-title-close-wrapper">
           <AlpsButton
             faIconClass="fas fa-times fa-lg"
             iconPosition="right"
@@ -43,7 +60,7 @@ export const VideoPlayerDialog = ({
         </div>
       </DialogTitle>
       <DialogContent>
-        {playlist && <VideoPlayer playlist={playlist} />}
+        {playlist && <VideoPlayer playlist={playlist} isVisible={isOpen} />}
       </DialogContent>
     </Dialog>
   );

@@ -4,30 +4,30 @@
   width: 100%;
   container-type: inline-size;
 
-  .videoPlayer-layout {
+  &-layout {
     display: flex;
     gap: 24px;
     margin-top: 16px;
 
     @container (max-width: 670px) {
       flex-direction: column;
-      .videoPlayer-player {
+      &-player {
         width: 100% !important;
       }
-      .videoPlayer-sidebar {
+      &-sidebar {
         max-height: none;
         overflow-y: visible;
       }
     }
 
-    .videoPlayer-player {
+    &-player {
       flex: 0 0 auto;
       width: 400px;
       max-width: 100%;
       white-space: pre-line;
     }
 
-    .videoPlayer-sidebar {
+    &-sidebar {
       flex: 1 1 auto;
       display: flex;
       flex-direction: column;

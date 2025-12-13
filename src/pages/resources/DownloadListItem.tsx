@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { RESOURCES_SITE, RESOURCES_FOLDER } from 'src/constants';
 import { LinkType } from 'src/contexts/PlaylistsContext';
 import { Button } from 'src/alps/atoms/Button';
@@ -24,6 +25,29 @@ const DownloadListItem = ({
   }, [path]);
 
   const [downloading, setDownloading] = useState(false);
+
+  // Parse description for video embeds
+  // Format: [VIDEO:youtube_url|caption_text]
+  const { htmlContent, videos } = useMemo(() => {
+    if (!description) return { htmlContent: '', videos: [] };
+
+    const videoRegex = /\[VIDEO:([^|]+)\|([^\]]+)\]/g;
+    const videos: Array<{ url: string; caption: string }> = [];
+
+    // Extract videos and replace tags with placeholders
+    const processedHtml = description.replace(
+      videoRegex,
+      (_match: string, url: string, caption: string) => {
+        const cleanUrl = url.trim();
+        const cleanCaption = caption.trim();
+        console.log('[DownloadListItem] Parsed video URL:', cleanUrl);
+        videos.push({ url: cleanUrl, caption: cleanCaption });
+        return `__VIDEO_${videos.length - 1}__`;
+      }
+    );
+
+    return { htmlContent: processedHtml, videos };
+  }, [description]);
 
   const url = useMemo(() => {
     if (path.startsWith('http://') || path.startsWith('https://')) {
@@ -66,11 +90,31 @@ const DownloadListItem = ({
       </h3>
       <div>
         <h3 className="u-space--quarter--bottom">{title}</h3>
-        <p
-          dangerouslySetInnerHTML={{
-            __html: description || ''
-          }}
-        ></p>
+        {htmlContent && (
+          <div>
+            {htmlContent.split(/(__VIDEO_\d+__)/g).map((part, index) => {
+              const videoMatch = part.match(/^__VIDEO_(\d+)__$/);
+              if (videoMatch) {
+                const videoIndex = parseInt(videoMatch[1], 10);
+                const video = videos[videoIndex];
+                return video ? (
+                  <Figure
+                    key={`video-${index}`}
+                    caption={video.caption}
+                    size="large"
+                    videoSrc={video.url}
+                  />
+                ) : null;
+              }
+              return part ? (
+                <div
+                  key={`text-${index}`}
+                  dangerouslySetInnerHTML={{ __html: part }}
+                />
+              ) : null;
+            })}
+          </div>
+        )}
         <Button
           key={_id}
           as="button"
@@ -78,7 +122,11 @@ const DownloadListItem = ({
           disabled={downloading}
           small
           className="u-space--half--top"
-          faIconClass={downloading ? 'fas fa-spinner fa-pulse fa-lg' : 'fas fa-download fa-lg'}
+          faIconClass={
+            downloading
+              ? 'fas fa-spinner fa-pulse fa-lg'
+              : 'fas fa-download fa-lg'
+          }
           label={`Изтегли ${size ? `(${size} MB)` : ''}`}
           isExternal
           download

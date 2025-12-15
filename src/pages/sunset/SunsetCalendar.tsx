@@ -186,7 +186,9 @@ const SunsetCalendar = (): JSX.Element => {
   useEffect(() => {
     const interval = setInterval(() => {
       const now = moment();
-      console.log(`in sunset today: ${now.format('YYYY-MM-DD')}`);
+      if (import.meta.env.DEV) {
+        console.log(`in sunset today: ${now.format('YYYY-MM-DD')}`);
+      }
       if (!now.isSame(currentMonth, 'month')) {
         setCurrentMonth(now.month());
       }

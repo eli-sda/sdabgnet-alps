@@ -39,6 +39,11 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
           },
           {
             type: 'primary',
+            text: 'Намери по-стари уроци',
+            url: routes.churchLife('lessons-search')
+          },
+          {
+            type: 'primary',
             text: 'СУ за деца',
             url: `${OLD_SITE}/page.php?id=kids#lessons`,
             isExternal: true

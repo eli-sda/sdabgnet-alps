@@ -16,6 +16,7 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 const Home = lazy(() => import('./pages/Home'));
 const Lessons = lazy(() => import('./pages/lesson/Lessons'));
 const Lesson = lazy(() => import('./pages/lesson/Lesson'));
+const LessonsSearch = lazy(() => import('./pages/lessonsSearch/LessonsSearch'));
 const Churches = lazy(() => import('./pages/Churches'));
 const Books = lazy(() => import('./pages/Books'));
 const Events = lazy(() => import('./pages/events/Events'));
@@ -128,6 +129,10 @@ const Router = () => (
             }
           />
           <Route path={routes.churchLife('lessons')} element={<Lessons />} />
+          <Route
+            path={routes.churchLife('lessons-search')}
+            element={<LessonsSearch />}
+          />
           <Route path={routes.churchLife('events')} element={<Events />} />
           <Route path={routes.churchLife()} element={<ChurchLife />} />
 

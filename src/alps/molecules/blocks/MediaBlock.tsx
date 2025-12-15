@@ -176,7 +176,7 @@ export const MediaBlock = ({
       {...blockProps}
     >
       {image && (
-        <div className="media-icon-button-container">
+        <>
           <MediaImage
             className={`${'image' in preset ? preset.image : ''}`}
             icon={!mediaIconAction ? icon : undefined}
@@ -186,13 +186,15 @@ export const MediaBlock = ({
             url={url}
           />
           {mediaIconAction && (
-            <button
-              className={`media-icon-button icon--${icon} o-button u-space--half--left u-space--half--bottom`}
-              onClick={mediaIconAction}
-              title={mediaIconTitle}
-            ></button>
+            <div className="media-icon-button-container">
+              <button
+                className={`media-icon-button icon--${icon} o-button u-space--half--left u-space--half--bottom`}
+                onClick={mediaIconAction}
+                title={mediaIconTitle}
+              ></button>
+            </div>
           )}
-        </div>
+        </>
       )}
       {video && (
         <div className="c-block__image-wrap">

@@ -35,4 +35,11 @@
       background-image: url(/images/icons/o-icon__gallery.svg);
     }
   }
+
+  @media (max-width: 460px) {
+    .c-block__title {
+      hyphens: auto;
+      overflow-wrap: break-word;
+    }
+  }
 }

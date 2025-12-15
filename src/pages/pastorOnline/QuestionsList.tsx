@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Question, QuestionProps } from 'src/pages/pastorOnline/Question';
 import { Button } from 'src/alps/atoms/Button';
+import { Question, QuestionProps } from 'src/pages/pastorOnline/Question';
+import './QuestionsList.scss';
 
 export interface QuestionItem extends QuestionProps {
   answer?: QuestionItem;
@@ -38,7 +39,7 @@ export const QuestionsList = ({
     >
       {items.map(({ answer, text, avatar, name }, idx) => (
         <li
-          className={`${itemClass} comment hyphens-auto u-spacing`}
+          className={`${itemClass} comment u-spacing`}
           key={`${level}-${idx}`}
           id={`question-${level}-${idx}`}
         >

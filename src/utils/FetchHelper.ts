@@ -80,14 +80,20 @@ export const loadQuestions = async (): Promise<QuestionType[]> => {
 
 export const loadPlaylists = async (
   type: string,
-  title?: string,
-  isResource: boolean = false
+  isResource?: boolean,
+  title?: string
 ): Promise<PlaylistType[]> => {
   const titleFilter = title ? `&& title == '${title}'` : '';
+  const isResourceFilter =
+    isResource === true
+      ? '&& isResource == true'
+      : isResource === false
+      ? '&& isResource == null'
+      : '';
 
   const playlistQuery = `*[
     _type == "playlist"
-    ${isResource ? '&& isResource == true' : ''}
+    ${isResourceFilter}
     && type == '${type}'
     ${titleFilter}
     && count(items[_type == "reference"]) > 0

@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { Button } from 'src/alps/atoms/Button';
 import { loadPlaylists } from 'src/utils/FetchHelper';
 import { extractYouTubeId } from 'src/utils/extractYouTubeId';
-import { VideoPlaylistType } from './VideoPlayer';
-import { VideoPlayerDialog } from './VideoPlayerDialog';
+import { VideoPlaylistType } from '../VideoPlayer';
+import { VideoPlayerDialog } from '../VideoPlayerDialog';
 import jsonPlaylist from './video_playlist_demo.json';
 
 export const VideoDemo = () => {
@@ -15,7 +15,7 @@ export const VideoDemo = () => {
 
   useEffect(() => {
     if (sanityPlaylist) return;
-    loadPlaylists('video', 'Уебинар "Основи на вярата и науката"')
+    loadPlaylists('video', false, 'Уебинар "Основи на вярата и науката"')
       .then((res) => {
         const p = res?.[0];
         if (!p) return;
@@ -32,7 +32,7 @@ export const VideoDemo = () => {
         });
       })
       .catch(() => setSanityPlaylist(null));
-  }, []);
+  }, [sanityPlaylist]);
 
   const handleJsonOpen = () => {
     setCurrentPlaylist(jsonPlaylist);

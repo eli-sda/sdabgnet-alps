@@ -25,7 +25,9 @@ const Home = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       const now = moment();
-      console.log(`in Home date: ${currentDate.format('YYYY-MM-DD')}`);
+      if (import.meta.env.DEV) {
+        console.log(`in Home date: ${currentDate.format('YYYY-MM-DD')}`);
+      }
       if (!now.isSame(currentDate, 'day')) {
         setCurrentDate(now);
       }

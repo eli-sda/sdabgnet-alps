@@ -40,7 +40,9 @@ const DownloadListItem = ({
       (_match: string, url: string, caption: string) => {
         const cleanUrl = url.trim();
         const cleanCaption = caption.trim();
-        console.log('[DownloadListItem] Parsed video URL:', cleanUrl);
+        if (import.meta.env.DEV) {
+          console.log('[DownloadListItem] Parsed video URL:', cleanUrl);
+        }
         videos.push({ url: cleanUrl, caption: cleanCaption });
         return `__VIDEO_${videos.length - 1}__`;
       }

@@ -48,7 +48,6 @@ export const Header = ({
     setTimeout(() => {
       const toOpen = $('body').hasClass('menu-is-active');
       setOpenMenu(toOpen);
-      // console.log('New menu state:', toOpen); // Debugging
     }, 500);
   };
 
@@ -118,7 +117,7 @@ export const Header = ({
           onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
             alert('За съжаление, търсачката все още не работи!');
-            if (search) {
+            if (search && import.meta.env.DEV) {
               console.log(`Търсене по: ${search}`);
             }
           }

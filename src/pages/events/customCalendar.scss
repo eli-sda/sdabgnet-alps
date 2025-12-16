@@ -11,6 +11,19 @@
     box-shadow: none;
     color: inherit;
   }
+
+  .rbc-agenda-table {
+    tbody tr td {
+      word-break: break-word;
+    }
+
+    @media (max-width: 360px) {
+      .rbc-agenda-time-cell {
+        white-space: normal;
+        min-width: 80px;
+      }
+    }
+  }
 }
 
 .u-theme--ming {
@@ -57,12 +70,6 @@
 
   .rbc-agenda-view {
     overflow: unset;
-  }
-
-  .rbc-agenda-table {
-    tbody tr td {
-      word-break: break-word;
-    }
   }
 
   @media (max-width: 845px) {

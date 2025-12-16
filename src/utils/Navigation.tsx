@@ -166,8 +166,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Речник',
-        url: routes.info('dictionary'),
-        isDisabled: true
+        url: routes.info('dictionary')
       },
       {
         type: 'primary',

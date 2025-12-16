@@ -59,6 +59,7 @@ const ForeignLinks = lazy(() => import('./pages/links/ForeignLinks'));
 const Apps = lazy(() => import('./pages/links/Apps'));
 const Institutions = lazy(() => import('./pages/Institutions'));
 const SunsetCalendarPage = lazy(() => import('./pages/sunset/SunsetCalendar'));
+const Dictionary = lazy(() => import('./pages/Dictionary'));
 // const theme = createTheme();
 
 const ScrollToTop = () => {
@@ -240,6 +241,8 @@ const Router = () => (
             path={routes.info('institutions')}
             element={<Institutions />}
           />
+
+          <Route path={routes.info('dictionary')} element={<Dictionary />} />
 
           {/* <Route path="teams" element={<Teams />}>
           <Route path=":teamId" element={<Team />} />

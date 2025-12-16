@@ -2,7 +2,7 @@
 
 .playlist-card {
   position: relative;
-  .media-icon-button-container {
+  .c-block__image {
     background-color: rgba($mingColor, 0.4);
   }
   &.is-current {

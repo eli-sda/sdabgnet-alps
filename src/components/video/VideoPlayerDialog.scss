@@ -1,0 +1,24 @@
+.videoPlayerDialog {
+  &-title {
+    position: relative;
+    padding-right: 40px; // Space for close button
+
+    &-close-wrapper {
+      position: absolute;
+      right: 10px;
+
+      button {
+        transition: transform 0.3s ease;
+
+        &:hover {
+          transform: rotate(90deg);
+        }
+      }
+    }
+  }
+  @media (min-width: 1300px) {
+    [role='dialog'] {
+      width: 70vw;
+    }
+  }
+}

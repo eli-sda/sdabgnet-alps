@@ -17,14 +17,14 @@ const PresentationResources = () => {
     routes.resources(),
     routes.resources('presentation')
   ];
-  const { getPlaylists } = usePlaylists();
+  const { getResourcePlaylists } = usePlaylists();
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
 
   useEffect(() => {
-    getPlaylists('presentations')
+    getResourcePlaylists('presentations')
       .then(setPlaylists)
       .catch((err) => console.error(err));
-  }, [getPlaylists]);
+  }, [getResourcePlaylists]);
 
   return (
     <Page

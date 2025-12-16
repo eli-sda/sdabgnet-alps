@@ -14,14 +14,14 @@ const VideoResources = () => {
   useScrollToHash();
 
   const breadcrumbsUrls = [routes.resources(), routes.resources('video')];
-  const { getPlaylists } = usePlaylists();
+  const { getResourcePlaylists } = usePlaylists();
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
 
   useEffect(() => {
-    getPlaylists('video')
+    getResourcePlaylists('video')
       .then(setPlaylists)
       .catch((err) => console.error(err));
-  }, [getPlaylists]);
+  }, [getResourcePlaylists]);
 
   return (
     <Page

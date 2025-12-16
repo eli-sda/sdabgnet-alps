@@ -16,7 +16,8 @@ import { usePagesMeta } from 'src/hooks/usePagesMeta';
 // import { deleteAllAudioLinks } from 'src/utils/Sanity/delete-audio-links';
 // import { VideoFull } from 'alps-library/organisms/sections/videoFull/VideoFull';
 
-import UpcomingEvents from './events/UpcomingEvents';
+import UpcomingEvents from '../components/UpcomingEvents';
+import { VideoDemo } from '../components/video/demo/VideoDemo';
 
 const Home = () => {
   const [currentDate, setCurrentDate] = useState(() => moment());
@@ -192,6 +193,8 @@ const Home = () => {
             </li>
           </ul>
         </div>
+
+        <VideoDemo />
 
         <p className="text">
           <a

@@ -278,7 +278,7 @@ samp {
   user-select: none;
   justify-content: flex-start;
   align-items: center;
-  background-color: #f5f5f5; //.u-background-color--gray--light
+  background-color: $lightGrayColor; //.u-background-color--gray--light
   padding-right: 0.3125rem;
   .title {
     display: flex;

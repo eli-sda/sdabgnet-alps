@@ -9,7 +9,7 @@ import { TextField } from 'alps-library/molecules/forms/elements/TextField';
 import { Dropdown } from 'alps-library/molecules/forms/elements/Dropdown';
 import { OptionGroup } from 'alps-library/molecules/forms/elements/OptionGroup';
 import { Button } from 'src/alps/atoms/Button';
-import { InfoDialog } from 'src/organisms/sections/InfoDialog';
+import { MessageDialog } from 'src/components/MessageDialog';
 
 const Contact = () => {
   const navigate = useNavigate();
@@ -108,8 +108,9 @@ const Contact = () => {
   return (
     <Page title={title} breadcrumbsUrls={breadcrumbsUrls}>
       {infoMessage && (
-        <InfoDialog
+        <MessageDialog
           message={infoMessage}
+          isOpen={!!infoMessage}
           onClose={() => setInfoMessage(null)}
         />
       )}

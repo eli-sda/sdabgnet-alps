@@ -10,7 +10,7 @@ import { Pullquote } from 'alps-library/molecules/text/pullquote/Pullquote';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import { Button } from 'src/alps/atoms/Button';
 import { Page } from 'src/organisms/Page';
-import { MessageDialog } from 'src/organisms/sections/MessageDialog';
+import { MessageDialog } from 'src/components/MessageDialog';
 import routes from 'src/routes';
 import { SITE } from 'src/constants';
 import { getTitle } from 'src/utils/Navigation';

@@ -3,7 +3,7 @@ import { TextField } from 'alps-library/molecules/forms/elements/TextField';
 import { Button } from 'src/alps/atoms/Button';
 import React, { useMemo, useState } from 'react';
 import { EMAIL_REGEX, ERROR_SENDING_MESSAGE, SITE } from 'src/constants';
-import { MessageDialog } from 'src/organisms/sections/MessageDialog';
+import { MessageDialog } from 'src/components/MessageDialog';
 
 const PastorOnlineForm = () => {
   const [infoMessage, setInfoMessage] = useState<string | null>(null);

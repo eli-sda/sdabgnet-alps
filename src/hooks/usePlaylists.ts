@@ -41,7 +41,7 @@ export function usePlaylists() {
    * @param type The playlist type (e.g. "video", "presentation").
    * @returns A promise resolving to an array of playlists.
    */
-  const getPlaylists = useCallback(
+  const getResourcePlaylists = useCallback(
     async (type: string): Promise<PlaylistType[]> => {
       const today = getTodayString();
 
@@ -171,5 +171,5 @@ export function usePlaylists() {
     setLastLoaded
   ]);
 
-  return { getPlaylists, getLinks, getSeminarRelatedPresentations };
+  return { getResourcePlaylists, getLinks, getSeminarRelatedPresentations };
 }

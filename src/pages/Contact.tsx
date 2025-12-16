@@ -9,7 +9,7 @@ import { TextField } from 'alps-library/molecules/forms/elements/TextField';
 import { Dropdown } from 'alps-library/molecules/forms/elements/Dropdown';
 import { OptionGroup } from 'alps-library/molecules/forms/elements/OptionGroup';
 import { Button } from 'src/alps/atoms/Button';
-import { MessageDialog } from 'src/organisms/sections/MessageDialog';
+import { MessageDialog } from 'src/components/MessageDialog';
 
 const Contact = () => {
   const navigate = useNavigate();

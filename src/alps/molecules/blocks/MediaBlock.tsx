@@ -221,7 +221,7 @@ export const MediaBlock = ({
             )}
             {title && (
               <TitleTag
-                className={`c-block__title ${
+                className={`c-block__title hyphens-auto ${
                   kicker ? 'u-space--zero' : ''
                 } ${
                   'title' in preset

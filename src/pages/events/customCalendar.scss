@@ -11,6 +11,12 @@
     box-shadow: none;
     color: inherit;
   }
+
+  .rbc-agenda-table {
+    tbody tr td {
+      word-break: break-word;
+    }
+  }
 }
 
 .u-theme--ming {
@@ -33,6 +39,7 @@
   .rbc-show-more {
     font-size: 0.71rem;
     background-color: inherit;
+    color: inherit;
   }
 
   .rbc-toolbar {
@@ -40,29 +47,25 @@
       border-radius: 3.125rem;
     }
   }
-  //   .rbc-show-more:hover,
+
   .rbc-toolbar {
     flex-wrap: nowrap;
-    button {
-      &:active,
-      &.rbc-active,
-      &:hover {
-        box-shadow: none;
-        background-color: $mingDarkColor;
-        border-color: $mingDarkColor;
-        color: #fff;
-      }
+  }
+
+  .rbc-toolbar button,
+  .rbc-show-more {
+    &:active,
+    &.rbc-active,
+    &:hover {
+      box-shadow: none;
+      background-color: $mingDarkColor;
+      border-color: $mingDarkColor;
+      color: #fff;
     }
   }
 
   .rbc-agenda-view {
     overflow: unset;
-  }
-
-  .rbc-agenda-table {
-    tbody tr td {
-      word-break: break-word;
-    }
   }
 
   @media (max-width: 845px) {

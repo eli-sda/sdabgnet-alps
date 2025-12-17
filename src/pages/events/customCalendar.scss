@@ -16,6 +16,13 @@
     tbody tr td {
       word-break: break-word;
     }
+
+    @media (max-width: 360px) {
+      .rbc-agenda-time-cell {
+        white-space: normal;
+        min-width: 80px;
+      }
+    }
   }
 }
 

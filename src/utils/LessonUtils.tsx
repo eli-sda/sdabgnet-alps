@@ -69,16 +69,18 @@ export const isValidLessonNumber = (weekString: string) => {
   return num >= 1 && num <= 13;
 };
 
+type resQuarterly = {
+  id: string; // ex. "2025-04"
+  cover: string;
+  title: string;
+  description: string;
+  human_date: string;
+  credits?: Array<{ name: string; value: string }>;
+  introduction: string;
+  quarterly_group: { name: string };
+};
 type resQuarter = {
-  quarterly: {
-    cover: string;
-    title: string;
-    description: string;
-    human_date: string;
-    credits?: Array<{ name: string; value: string }>;
-    introduction: string;
-    quarterly_group: { name: string };
-  };
+  quarterly: resQuarterly;
   lessons: Array<{
     id: string;
     cover: string;
@@ -137,7 +139,6 @@ export const loadQuarter = ({
     .then((res) => res.json())
     .then(
       ({ quarterly, lessons }: resQuarter) => {
-        console.log(quarterly);
         // setIsLoaded(true);
         // setItems(result);
         details.hasError = false;
@@ -275,4 +276,37 @@ export const getHTMLLessonText = (rawString: string): string => {
   //   return <div dangerouslySetInnerHTML={{ __html: htmlString }} />;
   // }
   return htmlString;
+};
+export const getAllLessonQuarters = (): Promise<QuarterObject[]> => {
+  const detailsTpl: QuarterObject = {
+    lessonQuarter: 0,
+    lessonYear: 0,
+    qTitle: '',
+    qDescription: '',
+    qIntroduction: '',
+    hasError: false,
+    lessons: []
+  };
+  const allQuarterlies: QuarterObject[] = [];
+
+  return fetch(`${SS_API_URL_BG_QUARTER}/index.json`)
+    .then((res) => res.json())
+    .then((quarterlies: resQuarterly[]) => {
+      quarterlies.forEach((quarterly) => {
+        const idParts = quarterly.id.split('-');
+        const idLength = idParts.length;
+        if (idLength >= 2) {
+          const details = { ...detailsTpl };
+          details.lessonYear = parseInt(idParts[0]);
+          details.lessonQuarter = parseInt(idParts[1]);
+          details.type = idLength > 2 ? (idParts[2] as LessonType) : '';
+          details.quarterlyCover = quarterly.cover;
+          details.qTitle = quarterly.title;
+          details.qHumanDate = quarterly.human_date;
+
+          allQuarterlies.push(details);
+        }
+      });
+      return Promise.resolve(allQuarterlies);
+    });
 };

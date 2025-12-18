@@ -3,7 +3,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import { Button as AlpsButton } from '../../alps/atoms/Button';
+import { Button as AlpsButton } from '../alps/atoms/Button';
 
 const PopupContent = ({
   children,

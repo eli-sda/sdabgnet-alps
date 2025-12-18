@@ -17,9 +17,6 @@ export const BreadcrumbItem = ({
   url,
   useNavLink = true
 }: BreadcrumbItemProps): JSX.Element => {
-  // console.log(
-  //   `in BreadcrumbItem, text: ${text}, url: ${url}, useNavLink: ${useNavLink}`
-  // );
   return (
     <li
       className={`c-breadcrumbs__list-item  u-font--secondary--s u-text-transform--upper u-display--inline-block ${
@@ -52,9 +49,11 @@ export interface BreadcrumbsProps {
 
 export const Breadcrumbs = ({ items = [] }: BreadcrumbsProps): JSX.Element => {
   const { pageMeta } = usePagesMeta();
-    return (
+  return (
     <>
-      {pageMeta && (<PageMeta meta={pageMeta} breadcrumbs={[...items]}></PageMeta>)}
+      {pageMeta && (
+        <PageMeta meta={pageMeta} breadcrumbs={[...items]}></PageMeta>
+      )}
       {items.length > 0 && (
         <nav className="c-breadcrumbs" role="navigation">
           <ul className="c-breadcrumbs__list">

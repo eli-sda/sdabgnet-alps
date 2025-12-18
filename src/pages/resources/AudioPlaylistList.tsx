@@ -27,7 +27,7 @@ const AudioPlaylistList = ({
   const { hash, search } = useLocation();
   const searchParams = new URLSearchParams(search);
   const playIndex = searchParams.get('playIndex');
-  const { getPlaylists } = usePlaylists();
+  const { getResourcePlaylists } = usePlaylists();
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
   const [selectedPlaylist, setSelectedPlaylist] = useState<PlaylistType | null>(
     null
@@ -78,13 +78,13 @@ const AudioPlaylistList = ({
       const playlistArr = [playlist];
       setInitialPlaylists(playlistArr);
     } else if (type) {
-      getPlaylists(type)
+      getResourcePlaylists(type)
         .then((playlists) => {
           setInitialPlaylists(playlists);
         })
         .catch((err) => console.error(err));
     }
-  }, [getPlaylists, type, playlist, setInitialPlaylists, playlists.length]);
+  }, [getResourcePlaylists, type, playlist, setInitialPlaylists, playlists.length]);
 
   // Initial index is now handled in the useEffect
   const getActionButtons = useCallback(

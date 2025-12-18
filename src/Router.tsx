@@ -16,6 +16,7 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 const Home = lazy(() => import('./pages/Home'));
 const Lessons = lazy(() => import('./pages/lesson/Lessons'));
 const Lesson = lazy(() => import('./pages/lesson/Lesson'));
+const LessonsSearch = lazy(() => import('./pages/lessonsSearch/LessonsSearch'));
 const Churches = lazy(() => import('./pages/Churches'));
 const Books = lazy(() => import('./pages/Books'));
 const Events = lazy(() => import('./pages/events/Events'));
@@ -58,6 +59,7 @@ const ForeignLinks = lazy(() => import('./pages/links/ForeignLinks'));
 const Apps = lazy(() => import('./pages/links/Apps'));
 const Institutions = lazy(() => import('./pages/Institutions'));
 const SunsetCalendarPage = lazy(() => import('./pages/sunset/SunsetCalendar'));
+const Dictionary = lazy(() => import('./pages/Dictionary'));
 // const theme = createTheme();
 
 const ScrollToTop = () => {
@@ -101,7 +103,8 @@ const Router = () => (
         <Route path={routes.home} element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="/index.html" element={<Home />} />
-          {/* churchLife */}
+
+          {/* Църковен живот - СУ*/}
           <Route path={routes.lesson} element={<Lesson />} />
           <Route path={routes.lesson_cq} element={<Lesson type="cq" />} />
           <Route path={routes.lesson_cc} element={<Lesson type="cc" />} />
@@ -128,30 +131,24 @@ const Router = () => (
             }
           />
           <Route path={routes.churchLife('lessons')} element={<Lessons />} />
-          <Route path={routes.churchLife('events')} element={<Events />} />
+          <Route
+            path={routes.churchLife('lessons-search')}
+            element={<LessonsSearch />}
+          />
+          {/* Църковен живот */}
           <Route path={routes.churchLife()} element={<ChurchLife />} />
-
+          <Route path={routes.churchLife('events')} element={<Events />} />
+          <Route
+            path={routes.churchLife('donations')}
+            element={<Donations />}
+          />
+          {/* Църковен живот - Общуване*/}
           <Route path={routes.commune()} element={<Commune />} />
           <Route
             path={routes.commune('pastor-online')}
             element={<PastorOnline />}
           />
-
-          <Route path={routes.churches} element={<Churches />} />
-          <Route path={routes.info('churches')} element={<Churches />} />
-          <Route path={routes.info()} element={<Info />} />
-          <Route
-            path={routes.info('sunset')}
-            element={<SunsetCalendarPage />}
-          />
-
-          <Route path={routes.media()} element={<Media />} />
-
-          <Route path={routes.resources()} element={<Resources />} />
-          <Route path={routes.resources('books')} element={<Books />} />
-
-          <Route path={routes.health()} element={<Health />} />
-
+          {/* Църковен живот - Обяви*/}
           <Route path={routes.advertisement()} element={<Advertisements />} />
 
           <Route
@@ -166,6 +163,70 @@ const Router = () => (
             path={routes.advertisement('other')}
             element={<AdvertisementPage type="other" />}
           />
+
+          {/* БГ справочник */}
+          <Route path={routes.info()} element={<Info />} />
+          <Route path={routes.churches} element={<Churches />} />
+          <Route path={routes.info('churches')} element={<Churches />} />
+          <Route
+            path={routes.info('institutions')}
+            element={<Institutions />}
+          />
+          <Route path={routes.info('dictionary')} element={<Dictionary />} />
+          <Route
+            path={routes.info('sunset')}
+            element={<SunsetCalendarPage />}
+          />
+
+          {/* Медии */}
+          <Route path={routes.media()} element={<Media />} />
+          <Route path={routes.media('radio')} element={<Radio />} />
+          <Route path={routes.media('tv')} element={<Television />} />
+          <Route
+            path={routes.media('bg-links')}
+            element={<AdventistsOnline />}
+          />
+          <Route path={routes.media('apps')} element={<Apps />} />
+          <Route path={routes.media('links')} element={<ForeignLinks />} />
+
+          {/* Ресурси */}
+          <Route path={routes.resources()} element={<Resources />} />
+          <Route path={routes.resources('books')} element={<Books />} />
+          <Route
+            path={routes.resources('audio')}
+            element={<AudioResources />}
+          />
+          <Route
+            path={routes.resources('audio', 'bible')}
+            element={<AudioBibleResources />}
+          />
+          <Route
+            path={routes.resources('audio', 'audiobook')}
+            element={<AudioBooksResources />}
+          />
+          <Route
+            path={routes.resources('audio', 'seminars')}
+            element={<AudioSeminarsResources />}
+          />
+          <Route
+            path={routes.resources('audio', 'sermons')}
+            element={<AudioPage type="sermons" />}
+          />
+          <Route
+            path={routes.resources('video')}
+            element={<VideoResources />}
+          />
+          <Route
+            path={routes.resources('presentation')}
+            element={<PresentationResources />}
+          />
+          <Route
+            path={routes.resources('image')}
+            element={<ImageResources />}
+          />
+
+          {/* Здраве */}
+          <Route path={routes.health()} element={<Health />} />
           <Route
             path={routes.health('institutions')}
             element={<HealthInstitutions />}
@@ -173,74 +234,13 @@ const Router = () => (
 
           <Route path={routes.contact} element={<Contact />} />
 
-          <Route
-            path={routes.resources('video')}
-            element={<VideoResources />}
-          />
-
-          <Route
-            path={routes.resources('presentation')}
-            element={<PresentationResources />}
-          />
-
-          <Route
-            path={routes.resources('image')}
-            element={<ImageResources />}
-          />
-
-          <Route
-            path={routes.resources('audio')}
-            element={<AudioResources />}
-          />
-
-          <Route
-            path={routes.resources('audio', 'audiobook')}
-            element={<AudioBooksResources />}
-          />
-
-          <Route
-            path={routes.resources('audio', 'bible')}
-            element={<AudioBibleResources />}
-          />
-
-          <Route
-            path={routes.resources('audio', 'seminars')}
-            element={<AudioSeminarsResources />}
-          />
-
-          <Route
-            path={routes.resources('audio', 'sermons')}
-            element={<AudioPage type="sermons" />}
-          />
-
-          <Route
-            path={routes.churchLife('donations')}
-            element={<Donations />}
-          />
-
-          <Route
-            path={routes.media('bg-links')}
-            element={<AdventistsOnline />}
-          />
-
-          <Route path={routes.media('tv')} element={<Television />} />
-
-          <Route path={routes.media('radio')} element={<Radio />} />
-
-          <Route path={routes.media('links')} element={<ForeignLinks />} />
-
-          <Route path={routes.media('apps')} element={<Apps />} />
-
-          <Route
-            path={routes.info('institutions')}
-            element={<Institutions />}
-          />
-
-          {/* <Route path="teams" element={<Teams />}>
-          <Route path=":teamId" element={<Team />} />
-          <Route path="new" element={<NewTeamForm />} />
-          <Route index element={<LeagueStandings />} />
-          </Route> */}
+          {/* 
+          <Route path="teams" element={<Teams />}>
+            <Route path=":teamId" element={<Team />} />
+            <Route path="new" element={<NewTeamForm />} />
+            <Route index element={<LeagueStandings />} />
+          </Route>
+           */}
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

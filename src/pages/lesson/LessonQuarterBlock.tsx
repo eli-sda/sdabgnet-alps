@@ -9,7 +9,7 @@ import {
 import './LessonQuarterBlock.scss';
 
 import { PageHeaderFeature2 } from 'src/organisms/sections/PageHeaderFeature2';
-import PopupContent from './PopupContent';
+import PopupContent from '../../components/PopupContent';
 
 import { useLessonUtils } from 'src/hooks/useLessonUtils';
 import { useLessonQuarterContext } from 'src/contexts/LessonQuarterContext';

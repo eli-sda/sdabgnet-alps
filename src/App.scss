@@ -174,8 +174,8 @@ p {
 }
 
 .hyphens-auto {
-  -webkit-hyphens: auto;
   hyphens: auto;
+  overflow-wrap: break-word;
 }
 
 .flex-1 {

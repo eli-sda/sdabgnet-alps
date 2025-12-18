@@ -74,9 +74,15 @@ const Lesson = ({ type = '' }: { type?: LessonType }) => {
     return params;
   }, [currentLessonParameters, quarter, week, year, type]);
 
+  const isCurrentQuarter =
+    params.lessonYear === currentLessonParameters.lessonYear &&
+    params.lessonQuarter === currentLessonParameters.lessonQuarter;
+
   const breadcrumbsUrls = [
     routes.churchLife(),
-    routes.churchLife('lessons'),
+    isCurrentQuarter
+      ? routes.churchLife('lessons')
+      : routes.churchLife('lessons-search'),
     lessonURL
   ];
   const breadcrumbs = getBreadcrumbs(breadcrumbsUrls);

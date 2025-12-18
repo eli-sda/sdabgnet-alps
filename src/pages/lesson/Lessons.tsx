@@ -8,6 +8,7 @@ import { useLessonUtils } from 'src/hooks/useLessonUtils';
 import { LessonQuarterProvider } from 'src/providers/LessonQuarterProvider';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
 import { OLD_SITE } from 'src/constants';
+import { Button } from 'src/alps/atoms/Button';
 
 const Lessons = () => {
   const { currentLessonParameters } = useLessonUtils();
@@ -45,17 +46,29 @@ const Lessons = () => {
             />
           </LessonQuarterProvider>
 
-          <h4 className="text u-padding--left">
-            Съботно училищните <b>уроци за деца</b> може да намерите{' '}
-            <a
-              href={`${OLD_SITE}/page.php?id=kids#lessons`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              на стария сайт
-              <i className="fas fa-external-link-alt u-space--quarter--left"></i>
-            </a>
-          </h4>
+          <section>
+            <Button
+              as="a"
+              label="Намери по-стари уроци"
+              outline
+              icon="arrow-long-right"
+              iconSize="m"
+              iconPosition="right"
+              className="u-space"
+              url={routes.churchLife('lessons-search')}
+            />
+            <h4 className="text u-padding--left">
+              Съботно училищните <b>уроци за деца</b> може да намерите{' '}
+              <a
+                href={`${OLD_SITE}/page.php?id=kids#lessons`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                на стария сайт
+                <i className="fas fa-external-link-alt u-space--quarter--left"></i>
+              </a>
+            </h4>
+          </section>
         </section>
       </PageContent>
     </>

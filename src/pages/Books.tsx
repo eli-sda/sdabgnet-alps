@@ -31,7 +31,9 @@ const Books = () => {
 
   useEffect(() => {
     //TODO: get all books from API
-    console.log('books:', books);
+    if (import.meta.env.DEV) {
+      console.log('books:', books);
+    }
     setAllBooks(books);
   }, []);
 

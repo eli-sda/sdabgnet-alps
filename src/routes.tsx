@@ -12,6 +12,7 @@ const routes = {
       | 'lesson'
       | 'lesson-cq'
       | 'lesson-cc'
+      | 'lessons-search'
       | 'events'
       | 'topics'
       | 'stories'

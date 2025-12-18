@@ -13,7 +13,7 @@ import {
 } from 'src/constants';
 import { getTitle } from 'src/utils/Navigation';
 import routes from 'src/routes';
-import { InfoDialog } from 'src/organisms/sections/InfoDialog';
+import { MessageDialog } from 'src/components/MessageDialog';
 
 const AdvertisementForm = ({ type }: { type: AdType }) => {
   const [infoMessage, setInfoMessage] = useState<string | null>(null);
@@ -145,8 +145,9 @@ const AdvertisementForm = ({ type }: { type: AdType }) => {
       </Caption>
 
       {infoMessage && (
-        <InfoDialog
+        <MessageDialog
           message={infoMessage}
+          isOpen={!!infoMessage}
           onClose={() => setInfoMessage(null)}
         />
       )}

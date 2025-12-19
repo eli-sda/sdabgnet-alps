@@ -15,6 +15,13 @@ import './customCalendar.scss';
 // Ensure the week starts on Monday using Bulgarian locale
 const localizer = momentLocalizer(moment);
 
+type RawCalendarEvent = {
+  title: string;
+  start: string;
+  end?: string;
+  link?: string;
+};
+
 type CalendarEvent = {
   title: string;
   start: Date;
@@ -77,49 +84,51 @@ const Events = () => {
   const breadcrumbsUrls = [routes.churchLife(), routes.churchLife('events')];
   const [parsedEvents, setParsedEvents] = useState<CalendarEvent[]>([]);
 
+  const fetchCalendar = (url: string): Promise<RawCalendarEvent[]> =>
+    fetch(url).then((res) => res.json());
+
   useEffect(() => {
-    fetch('/calendar.json')
-      .then((res) => res.json())
-      .then(
-        (
-          events: Array<{
-            title: string;
-            start: string;
-            end?: string;
-            link?: string;
-          }>
-        ) => {
-          const calendarEvents: CalendarEvent[] = events.map(
-            ({ title, start, end, link }) => {
-              const isAllDayStart = !/T\d{2}:\d{2}/.test(start);
-              const startDate = isAllDayStart
-                ? moment(start, 'YYYY-MM-DD').toDate()
-                : moment(start).toDate();
-              let endDate;
-              let isAllDayEnd = false;
-              if (end) {
-                isAllDayEnd = !/T\d{2}:\d{2}/.test(end);
-                endDate = isAllDayEnd
-                  ? moment(end, 'YYYY-MM-DD').toDate()
-                  : moment(end).toDate();
-              } else {
-                endDate = startDate;
-                isAllDayEnd = isAllDayStart;
-              }
-              return {
-                title,
-                start: startDate,
-                end: endDate,
-                link: typeof link === 'string' ? link : '',
-                allDay: isAllDayStart && isAllDayEnd
-              };
+    Promise.all([
+      fetchCalendar('/calendar-2025.json'),
+      fetchCalendar('/calendar-2026.json')
+    ])
+      .then(([events2025, events2026]) => {
+        const events = [...events2025, ...events2026];
+
+        const calendarEvents: CalendarEvent[] = events.map(
+          ({ title, start, end, link }) => {
+            const isAllDayStart = !/T\d{2}:\d{2}/.test(start);
+            const startDate = isAllDayStart
+              ? moment(start, 'YYYY-MM-DD').toDate()
+              : moment(start).toDate();
+
+            let endDate;
+            let isAllDayEnd = false;
+
+            if (end) {
+              isAllDayEnd = !/T\d{2}:\d{2}/.test(end);
+              endDate = isAllDayEnd
+                ? moment(end, 'YYYY-MM-DD').toDate()
+                : moment(end).toDate();
+            } else {
+              endDate = startDate;
+              isAllDayEnd = isAllDayStart;
             }
-          );
-          setParsedEvents(calendarEvents);
-        }
-      )
+
+            return {
+              title,
+              start: startDate,
+              end: endDate,
+              link: typeof link === 'string' ? link : '',
+              allDay: isAllDayStart && isAllDayEnd
+            };
+          }
+        );
+
+        setParsedEvents(calendarEvents);
+      })
       .catch((err) => {
-        console.error('Failed to load calendar.json', err);
+        console.error('Failed to load calendar json files', err);
         setParsedEvents([]);
       });
   }, []);

@@ -104,7 +104,6 @@ export const loadPlaylists = async (
     author,
     title,
     // keyWords,
-    image,
     "imageUrl": image.asset -> url,
     "items": items[_type == "reference"]->{
       _id,

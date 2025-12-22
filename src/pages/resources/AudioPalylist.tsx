@@ -20,12 +20,18 @@ const AudioPalylist = ({
   isPlaying,
   actionButtons
 }: AudioPalylistProps) => {
-  const { author, title = '', image } = playlist;
-  const img = getImage(
-    image && typeof image === 'object'
-      ? (image as SanityImageSource)
-      : undefined
-  );
+  const { author, title = '', imageUrl } = playlist;
+  const img = imageUrl
+    ? {
+        alt: '',
+        srcSet: {
+          default: `${imageUrl}`,
+          500: '',
+          750: '',
+          1200: ''
+        }
+      }
+    : getImage();
 
   const ctx = usePlayer();
   const pauseAction = ctx.pause ?? (() => {});

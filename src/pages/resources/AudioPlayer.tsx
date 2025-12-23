@@ -13,16 +13,25 @@ interface AudioPlayerProps {
   onPlayIndexChange?: (index: number) => void;
   onAudioPlay: () => void;
   onAudioPause: () => void;
+  initialTime?: number;
 }
 
 export interface AudioPlayerHandle {
   play: () => void;
   pause: () => void;
+  getCurrentTime: () => number;
 }
 
 const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
   (
-    { playlist, playIndex = 0, onPlayIndexChange, onAudioPlay, onAudioPause },
+    {
+      playlist,
+      playIndex = 0,
+      onPlayIndexChange,
+      onAudioPlay,
+      onAudioPause,
+      initialTime
+    },
     ref
   ) => {
     useEffect(() => {
@@ -30,6 +39,17 @@ const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
     }, []);
 
     const audioElementRef = useRef<HTMLAudioElement | null>(null);
+
+    // Set initial time on mount or when playlist changes
+    useEffect(() => {
+      if (
+        audioElementRef.current &&
+        typeof initialTime === 'number' &&
+        initialTime > 0
+      ) {
+        audioElementRef.current.currentTime = initialTime;
+      }
+    }, [playlist, initialTime]);
 
     useImperativeHandle(
       ref,
@@ -39,7 +59,8 @@ const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
         },
         pause: () => {
           audioElementRef.current?.pause();
-        }
+        },
+        getCurrentTime: () => audioElementRef.current?.currentTime ?? 0
       }),
       []
     );

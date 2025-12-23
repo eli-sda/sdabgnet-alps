@@ -135,7 +135,7 @@ const PlaylistActionButtons = ({
           <div className="share-link u-space--half--bottom">
             <TextField
               name="share-link"
-              label={showCopyLabel ? 'Линкът е копиран' : ''}
+              label={showCopyLabel ? 'Линкът е копиран' : 'Сподели линк'}
               value={url}
               readOnly
               onClick={(e) => (e.target as HTMLInputElement).select()}

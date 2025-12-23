@@ -27,6 +27,11 @@ const AudioPlaylistList = ({
   const { hash, search } = useLocation();
   const searchParams = new URLSearchParams(search);
   const playIndex = searchParams.get('playIndex');
+  // Supports only time as seconds (integer)
+  const timeParam = searchParams.get('time');
+  // Store initialTime in state so it only applies to the selected playlist from URL
+  const [initialTime, setInitialTime] = useState<number | undefined>(undefined);
+
   const { getResourcePlaylists } = usePlaylists();
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
   const [selectedPlaylist, setSelectedPlaylist] = useState<PlaylistType | null>(
@@ -41,6 +46,7 @@ const AudioPlaylistList = ({
       return; // Do nothing if the same playlist is selected
     }
     setCurrentPlayIndex(0);
+    setInitialTime(undefined);
     setSelectedPlaylist(playlist);
   };
 
@@ -61,12 +67,19 @@ const AudioPlaylistList = ({
           if (!isNaN(i) && i < matchedPlaylist.items.length) {
             setCurrentPlayIndex(i);
           }
+
+          if (timeParam && /^\d+$/.test(timeParam)) {
+            // Parse initial time (integer) from URL
+            setInitialTime(parseInt(timeParam, 10));
+          } else {
+            setInitialTime(undefined);
+          }
         }
 
         setSelectedPlaylist(matchedPlaylist || null);
       }
     },
-    [hash, playIndex]
+    [hash, playIndex, timeParam]
   );
 
   if (type === 'audiobook') {
@@ -84,7 +97,13 @@ const AudioPlaylistList = ({
         })
         .catch((err) => console.error(err));
     }
-  }, [getResourcePlaylists, type, playlist, setInitialPlaylists, playlists.length]);
+  }, [
+    getResourcePlaylists,
+    type,
+    playlist,
+    setInitialPlaylists,
+    playlists.length
+  ]);
 
   // Initial index is now handled in the useEffect
   const getActionButtons = useCallback(
@@ -114,6 +133,7 @@ const AudioPlaylistList = ({
                 : undefined
             }
             playlistName={playlist.title}
+            getCurrentTime={() => playerRef.current?.getCurrentTime() ?? 0}
           />
         </div>
       );
@@ -155,6 +175,7 @@ const AudioPlaylistList = ({
           onPlayIndexChange={setCurrentPlayIndex}
           onAudioPlay={() => setIsPlaying(true)}
           onAudioPause={() => setIsPlaying(false)}
+          initialTime={initialTime}
         />
       )}
     </AudioPlayerProvider>

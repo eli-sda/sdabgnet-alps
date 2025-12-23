@@ -61,7 +61,7 @@ const PlaylistActionButtons = ({
     if (withIndex && typeof fromIndex === 'number') {
       params.set('playIndex', fromIndex.toString());
     }
-    // add the  current tim only if withTime is selected
+    // add the current time only if withTime is selected
     if (withIndex && withTime && typeof getCurrentTime === 'function') {
       const time = getCurrentTime();
       if (time > 0) {

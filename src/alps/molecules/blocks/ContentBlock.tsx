@@ -12,6 +12,7 @@ import {
 import { getFontClass } from 'alps-library/global/fonts';
 import { Button } from 'src/alps/atoms/Button';
 import { NavLink } from 'react-router-dom';
+import './ContentBlock.scss';
 
 export interface ContentBlockProps {
   /**

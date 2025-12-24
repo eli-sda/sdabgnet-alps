@@ -3,13 +3,24 @@
 .playlist-card {
   position: relative;
   .c-block__image {
-    background-color: rgba($mingColor, 0.4);
+    background-color: $lightGrayColor;
   }
   &.is-current {
+    $selectedBorderWidth: 4px;
+    .c-block__image {
+      outline: $selectedBorderWidth solid $mingColor;
+      outline-offset: -#{$selectedBorderWidth};
+      .c-block__image-wrap {
+        padding: $selectedBorderWidth;
+      }
+    }
     .media-icon-button-container {
       .media-icon-button.icon--audio {
         background-image: url(/images/icon__audio-current.svg);
       }
+    }
+    .c-block__content.u-border--left {
+      border-left-color: $mingColor;
     }
   }
   &.is-playing {

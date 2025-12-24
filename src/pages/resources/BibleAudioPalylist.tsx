@@ -41,15 +41,7 @@ const BibleAudioPalylist = () => {
   const playlist = {
     _id: 'audioBible',
     title: 'Аудио Библия',
-    image: {
-      _type: 'image',
-      asset: {
-        _ref: 'image-a128b00a4deb52a7fef7ee2960f3fa329beb9bff-625x625-webp',
-        _type: 'reference'
-      }
-    },
-    imageUrl:
-      'https://cdn.sanity.io/images/tw3a1q78/production/a128b00a4deb52a7fef7ee2960f3fa329beb9bff-625x625.webp',
+    imageUrl: '/images/bible.webp',
     items
   };
 

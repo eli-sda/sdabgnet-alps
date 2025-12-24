@@ -15,6 +15,7 @@ import {
   LessonType,
   QuarterObject
 } from 'src/utils/LessonUtils';
+import './LessonsSearch.scss';
 
 const LESSON_TYPES: LessonType[] = ['', 'cq', 'cc'];
 type QuarterOption = {
@@ -209,7 +210,7 @@ const LessonsSearch = () => {
             }
           />
           {quarterOption && (
-            <div className="u-margin--bottom">
+            <div className="quarter-preview u-space--half--bottom">
               <MediaBlock
                 image={qImage}
                 type="feature"

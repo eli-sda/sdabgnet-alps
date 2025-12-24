@@ -14,7 +14,7 @@ const UpcomingEvents = () => {
   useEffect(() => {
     const loadEvents = async () => {
       try {
-        const res = await fetch('/calendar.json');
+        const res = await fetch('/calendar-2026.json');
         const data = (await res.json()) as SimpleEvent[];
 
         const today = moment().startOf('day');
@@ -28,7 +28,7 @@ const UpcomingEvents = () => {
 
         setEvents(upcoming);
       } catch (err) {
-        console.error('Failed to load calendar.json', err);
+        console.error('Failed to load calendar-2026.json', err);
         setEvents([]);
       }
     };
@@ -62,8 +62,8 @@ const UpcomingEvents = () => {
           url="/church_life/events"
           label="Виж календара"
           icon="arrow-long-right"
-          iconSize='s'
-          iconPosition='right'
+          iconSize="s"
+          iconPosition="right"
           outline
         />
       </div>

@@ -13,11 +13,12 @@ import { usePagesMeta } from 'src/hooks/usePagesMeta';
 // import { deleteAllLinks } from 'src/utils/DelteSanityDocuments';
 // import { fixSlugs } from 'src/utils/Sanity/fix-slug';
 // import { linkPlaylistsToItems } from 'src/utils/Sanity/link-playlists';
+// import { linkMusicPlaylistsToItems } from 'src/utils/Sanity/link-playlists';
 // import { deleteAllAudioLinks } from 'src/utils/Sanity/delete-audio-links';
 // import { VideoFull } from 'alps-library/organisms/sections/videoFull/VideoFull';
 
 import UpcomingEvents from '../components/UpcomingEvents';
-import { VideoDemo } from '../components/video/demo/VideoDemo';
+// import { VideoDemo } from '../components/video/demo/VideoDemo';
 
 const Home = () => {
   const [currentDate, setCurrentDate] = useState(() => moment());
@@ -131,6 +132,12 @@ const Home = () => {
               Delete All audio Links
             </Button>
           </div>*/}
+          {/* Playlist MUSIC Linking Test Buttons */}
+          {/* <div className="u-spacing--double">
+            <Button onClick={() => void linkMusicPlaylistsToItems()}>
+              Fill Music Playlist
+            </Button>
+          </div> */}
 
           {/* verse for today */}
           <DailyVerse date={currentDate}></DailyVerse>
@@ -194,7 +201,7 @@ const Home = () => {
           </ul>
         </div>
 
-        <VideoDemo />
+        {/* <VideoDemo /> */}
 
         <p className="text">
           <a

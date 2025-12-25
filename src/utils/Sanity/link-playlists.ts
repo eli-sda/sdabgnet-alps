@@ -3,6 +3,28 @@
 
 import { client, SanityDocument } from './constants';
 
+import musicLinksJson from './music-links.json';
+
+// Build a map: playlistTitle -> [fileName, ...] from musicLinksJson
+const playlistOrderMap: Record<string, string[]> = {};
+
+function loadMusicLinksOrder() {
+  if (Object.keys(playlistOrderMap).length > 0) {
+    return; // already loaded
+  }
+  (musicLinksJson as { fileName: string; keyWords: string[] }[]).forEach(
+    (item) => {
+      const playlistTitle = item.keyWords && item.keyWords[0];
+      if (playlistTitle) {
+        if (!playlistOrderMap[playlistTitle]) {
+          playlistOrderMap[playlistTitle] = [];
+        }
+        playlistOrderMap[playlistTitle].push(item.fileName);
+      }
+    }
+  );
+}
+
 export interface PlaylistDocument extends SanityDocument {
   _type: 'playlist';
   title: string;
@@ -232,4 +254,112 @@ function normalizeAuthor(author: string): string {
     .replace(/п-р\s*/g, '') // Remove "п-р " prefix
     .replace(/\s+/g, ' ') // Normalize spaces
     .trim();
+}
+
+// Sorting logic based on json file
+function sortMusicLinks(
+  links: LinkDocument[],
+  playlistTitle?: string
+): LinkDocument[] {
+  if (!playlistTitle || !playlistOrderMap[playlistTitle]) {
+    return links;
+  }
+  const orderArr = playlistOrderMap[playlistTitle];
+  const fileNameToOrder: Record<string, number> = {};
+  orderArr.forEach((fileName, idx) => {
+    fileNameToOrder[fileName] = idx;
+  });
+  return links.slice().sort((a, b) => {
+    const aOrder = fileNameToOrder[a.fileName] ?? Number.MAX_SAFE_INTEGER;
+    const bOrder = fileNameToOrder[b.fileName] ?? Number.MAX_SAFE_INTEGER;
+    return aOrder - bOrder;
+  });
+}
+
+export async function linkMusicPlaylistsToItems() {
+  console.log('Starting to link music playlists to their items...');
+  loadMusicLinksOrder();
+  let totalUpdated = 0;
+  try {
+    const playlists: PlaylistDocument[] = await client.fetch(
+      // Fetch all music playlists
+      `*[_type == "playlist" && type in ["music"] && isResource == true] | order(title asc){
+      _id,
+      _type,
+      title,
+      items
+    }`
+    );
+
+    // Fetch all music links
+    const links: LinkDocument[] = await client.fetch(`
+      *[_type == "link" && type == "music" && isResource == true]{
+        _id,
+        _type,
+        title,
+        author,
+        fileName,
+        keyWords
+      }
+    `);
+
+    console.log(
+      `Found ${playlists.length} playlists and ${links.length} links`
+    );
+
+    // Process each playlist
+    for (const playlist of playlists) {
+      // Find matching links for this playlist
+      const matchingLinks = links.filter((link) => {
+        // Check if any keyWord matches the playlist title exactly
+        if (link.keyWords.includes(playlist.title)) {
+          return true;
+        }
+      });
+
+      if (matchingLinks.length === 0) {
+        console.warn(`No matching links found for playlist: ${playlist.title}`);
+        continue;
+      }
+
+      // Sort music links by fileName to maintain order
+      const sortedMatchingLinks = sortMusicLinks(matchingLinks, playlist.title);
+      console.log(`📂 Playlist: "${playlist.title}"`);
+      console.log(`   Found ${sortedMatchingLinks.length} matching links:`);
+      sortedMatchingLinks.forEach((link, idx) => {
+        console.log(`      ${idx + 1}. "${link.title}" (${link.fileName}})`);
+      });
+      
+      // Create references to the matching links
+      const itemReferences = sortedMatchingLinks.map((link) => ({
+        _type: 'reference' as const,
+        _ref: link._id,
+        _key: `ref-${link._id}`
+      }));
+
+      // Update the playlist with the item references
+      try {
+        await client
+          .patch(playlist._id)
+          .set({
+            items: itemReferences
+          })
+          .commit();
+
+        console.log(
+          `✅ Updated playlist "${playlist.title}" with ${sortedMatchingLinks.length} items`
+        );
+        totalUpdated++;
+      } catch (error) {
+        console.error(`❌ Failed to update playlist ${playlist._id}:`, error);
+      }
+
+    }
+
+    console.log(
+      `\n🎉 Successfully updated ${totalUpdated} playlists out of ${playlists.length}`
+    );
+  } catch (error) {
+    console.error('❌ Error in linkMusicPlaylistsToItems:', error);
+  }
 }

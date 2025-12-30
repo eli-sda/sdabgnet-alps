@@ -1,27 +1,19 @@
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Caption } from 'alps-library/atoms/text/Caption';
+import { memo, useRef, useState } from 'react';
+import MediaPlaylistList from './MediaPlaylistList';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import AudioPlayerProvider from 'src/providers/AudioPlayerProvider';
-import { usePlaylists } from 'src/hooks/usePlaylists';
-import AudioPalylist from './AudioPalylist';
 import AudioPlayer, { AudioPlayerHandle } from './AudioPlayer';
-import PlaylistActionButtons from './PlaylistActionButtons';
-import './AudioPlaylistList.scss';
+import { useLocation } from 'react-router-dom';
 
-/**
- * @playlist - a playlist to use, instead of to fetch it
- * @type - type by which to get the playlists from BE
- */
-interface AudioPlaylistListProps {
+type AudioPlaylistListProps = {
   type?: string;
-  playlist?: PlaylistType;
+  playlists?: PlaylistType[];
   showDownloadAll?: boolean;
-}
+};
 
 const AudioPlaylistList = ({
   type,
-  playlist,
+  playlists,
   showDownloadAll = true
 }: AudioPlaylistListProps) => {
   const { hash, search } = useLocation();
@@ -31,13 +23,6 @@ const AudioPlaylistList = ({
   const timeParam = searchParams.get('time');
   // Store initialTime in state so it only applies to the selected playlist from URL
   const [initialTime, setInitialTime] = useState<number | undefined>(undefined);
-
-  const { getResourcePlaylists } = usePlaylists();
-  const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
-  const [selectedPlaylist, setSelectedPlaylist] = useState<PlaylistType | null>(
-    null
-  );
-  const [currentPlayIndex, setCurrentPlayIndex] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const playerRef = useRef<AudioPlayerHandle | null>(null);
 
@@ -82,102 +67,28 @@ const AudioPlaylistList = ({
     [hash, playIndex, timeParam]
   );
 
-  if (type === 'audiobook') {
-    type = 'audio-book';
-  }
-
-  useEffect(() => {
-    if (playlist && playlists.length === 0) {
-      const playlistArr = [playlist];
-      setInitialPlaylists(playlistArr);
-    } else if (type) {
-      getResourcePlaylists(type)
-        .then((playlists) => {
-          setInitialPlaylists(playlists);
-        })
-        .catch((err) => console.error(err));
-    }
-  }, [
-    getResourcePlaylists,
-    type,
-    playlist,
-    setInitialPlaylists,
-    playlists.length
-  ]);
-
-  // Initial index is now handled in the useEffect
-  const getActionButtons = useCallback(
-    (playlist: PlaylistType): JSX.Element => {
-      // Get the current title if this playlist is selected
-      const currentItemTitle =
-        selectedPlaylist?._id === playlist._id &&
-        playlist.items?.[currentPlayIndex]?.title
-          ? playlist.items[currentPlayIndex].title
-          : undefined;
-
-      return (
-        <div className="u-space--half--top">
-          <PlaylistActionButtons
-            shareUrl={`${window.location.origin}${window.location.pathname}#${playlist._id}`}
-            fromIndex={
-              selectedPlaylist?._id === playlist._id
-                ? currentPlayIndex
-                : undefined
-            }
-            fromTitle={currentItemTitle}
-            itemUrls={
-              showDownloadAll
-                ? playlist.items
-                    ?.map((item) => item.path)
-                    .filter((path): path is string => !!path) || []
-                : undefined
-            }
-            playlistName={playlist.title}
-            getCurrentTime={() => playerRef.current?.getCurrentTime() ?? 0}
-          />
-        </div>
-      );
-    },
-    [currentPlayIndex, selectedPlaylist, showDownloadAll]
-  );
-
   return (
     <AudioPlayerProvider playerRef={playerRef}>
-      {!playlists ||
-        (playlists.length === 0 && (
-          <div className="u-space--left">
-            <Caption>Няма налични аудио ресурси.</Caption>
-          </div>
-        ))}
-
-      <section className="audio-playlist-list u-space--top">
-        {playlists.map((playlist, i) => (
-          <div
-            key={i}
-            className="playlist-item u-padding--sides u-space--double--bottom"
-          >
-            <AudioPalylist
-              playlist={playlist}
-              onPlaylistSelect={() => handlePlaylistSelect(playlist)}
-              isCurrent={selectedPlaylist?._id === playlist._id}
-              isPlaying={selectedPlaylist?._id === playlist._id && isPlaying}
-              actionButtons={getActionButtons(playlist)}
+      <MediaPlaylistList
+        sanityType={type}
+        mediaPlaylists={playlists}
+        showDownloadAll={showDownloadAll}
+        renderPlayer={(selectedPlaylist, setPlayIndex, playIndex) =>
+          selectedPlaylist?.items ? (
+            <AudioPlayer
+              ref={playerRef}
+              playlist={selectedPlaylist}
+              playIndex={playIndex}
+              onPlayIndexChange={setPlayIndex}
+              onAudioPlay={() => setIsPlaying(true)}
+              onAudioPause={() => setIsPlaying(false)}
+              initialTime={initialTime}
             />
-          </div>
-        ))}
-      </section>
-
-      {selectedPlaylist?.items && (
-        <AudioPlayer
-          ref={playerRef}
-          playlist={selectedPlaylist}
-          playIndex={currentPlayIndex}
-          onPlayIndexChange={setCurrentPlayIndex}
-          onAudioPlay={() => setIsPlaying(true)}
-          onAudioPause={() => setIsPlaying(false)}
-          initialTime={initialTime}
-        />
-      )}
+          ) : null
+        }
+        mediaType={'audio'}
+        isPlaying={isPlaying}
+      />
     </AudioPlayerProvider>
   );
 };

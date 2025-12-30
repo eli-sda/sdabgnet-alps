@@ -21,6 +21,7 @@ export const VideoDemo = () => {
         if (!p) return;
 
         setSanityPlaylist({
+          _id: p._id,
           playlistTitle: p.title ?? '',
           playlistAuthor: p.author ?? '',
           videoItems:

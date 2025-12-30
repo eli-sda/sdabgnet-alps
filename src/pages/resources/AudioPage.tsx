@@ -3,7 +3,7 @@ import { PageSection } from 'src/organisms/PageSection';
 import routes from 'src/routes';
 import { getTitle } from 'src/utils/Navigation';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
-import AudioPlaylistList from './AudioPlaylistList';
+import MediaPlaylistList from './MediaPlaylistList';
 import './AudioPage.scss';
 
 type AudioPageProps = {
@@ -66,11 +66,13 @@ const AudioPage = ({ type, aside }: AudioPageProps) => {
             .
           </h4>
         </div>
-        {type === 'audiobook' && <AudioPlaylistList type={type} />}
+        {type === 'audiobook' && (
+          <MediaPlaylistList mediaType="audio" type={type} showDownloadAll />
+        )}
       </PageSection>
 
       {(type === 'seminars' || type === 'sermons') && (
-        <AudioPlaylistList type={type} />
+        <MediaPlaylistList mediaType="audio" type={type} showDownloadAll />
       )}
     </>
   );

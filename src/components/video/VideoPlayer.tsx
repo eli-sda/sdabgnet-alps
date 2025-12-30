@@ -1,9 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
+import { Caption } from 'alps-library/atoms/text/Caption';
 import './VideoPlayer.scss';
 
 export type VideoPlaylistType = {
+  _id: string;
   playlistTitle: string;
   playlistAuthor?: string;
   videoItems: {
@@ -54,15 +56,19 @@ const VideoPlayer = ({ playlist, isVisible = true }: VideoPlayerProps) => {
 
       <div className="videoPlayer-layout">
         <div className="videoPlayer-layout-player">
-          <Figure
-            caption={`${currentVideo.title}\n\n${
-              currentVideo.description || ''
-            }`}
-            size="large"
-            videoSrc={`https://www.youtube.com/embed/${currentVideo.videoId}?autoplay=1`}
-            onVideoEnded={handleVideoEnded}
-            isVisible={isVisible}
-          />
+          {currentVideo ? (
+            <Figure
+              caption={`${currentVideo.title}\n\n${
+                currentVideo.description || ''
+              }`}
+              size="large"
+              videoSrc={`https://www.youtube.com/embed/${currentVideo.videoId}?autoplay=1`}
+              onVideoEnded={handleVideoEnded}
+              isVisible={isVisible}
+            />
+          ) : (
+            <Caption>Няма налично видео</Caption>
+          )}
         </div>
         <div className="videoPlayer-layout-sidebar u-border--left u-theme--border-color--darker">
           {videoItems.map((video, i) => {

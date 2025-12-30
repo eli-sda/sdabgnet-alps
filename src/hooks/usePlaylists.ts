@@ -41,8 +41,12 @@ export function usePlaylists() {
    * @param type The playlist type (e.g. "video", "presentation").
    * @returns A promise resolving to an array of playlists.
    */
-  const getResourcePlaylists = useCallback(
-    async (type: string): Promise<PlaylistType[]> => {
+  const getPlaylists = useCallback(
+    async (
+      type: string,
+      isResource: boolean,
+      title?: string
+    ): Promise<PlaylistType[]> => {
       const today = getTodayString();
 
       // Return cached playlists for type if up-to-date
@@ -51,7 +55,7 @@ export function usePlaylists() {
       }
 
       // Otherwise, fetch from backend and update cache
-      return await loadPlaylists(type, true)
+      return await loadPlaylists(type, isResource, title)
         .then((loadedPlaylists) => {
           const sortedPlaylists = loadedPlaylists
             ?.slice() // make a copy so the original array is not modified
@@ -96,6 +100,21 @@ export function usePlaylists() {
         });
     },
     [playlists, lastLoaded, setPlaylists, setLastLoaded]
+  );
+
+  /**
+   * Retrieves resource playlists for a given type.
+   * - If playlists of that type are cached and up-to-date (loaded today), returns the cached data.
+   * - Otherwise, fetches them from the backend, updates the cache, and returns the new data.
+   *
+   * @param type The playlist type (e.g. "video", "presentation").
+   * @returns A promise resolving to an array of playlists.
+   */
+  const getResourcePlaylists = useCallback(
+    async (type: string, title?: string): Promise<PlaylistType[]> => {
+      return getPlaylists(type, true, title);
+    },
+    [getPlaylists]
   );
 
   /**
@@ -171,5 +190,5 @@ export function usePlaylists() {
     setLastLoaded
   ]);
 
-  return { getResourcePlaylists, getLinks, getSeminarRelatedPresentations };
+  return { getPlaylists, getResourcePlaylists, getLinks, getSeminarRelatedPresentations };
 }

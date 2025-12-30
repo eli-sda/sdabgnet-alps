@@ -42,7 +42,7 @@ export function usePlaylists() {
    * @returns A promise resolving to an array of playlists.
    */
   const getResourcePlaylists = useCallback(
-    async (type: string): Promise<PlaylistType[]> => {
+    async (type: string, title?: string): Promise<PlaylistType[]> => {
       const today = getTodayString();
 
       // Return cached playlists for type if up-to-date
@@ -51,7 +51,7 @@ export function usePlaylists() {
       }
 
       // Otherwise, fetch from backend and update cache
-      return await loadPlaylists(type, true)
+      return await loadPlaylists(type, true, title)
         .then((loadedPlaylists) => {
           const sortedPlaylists = loadedPlaylists
             ?.slice() // make a copy so the original array is not modified

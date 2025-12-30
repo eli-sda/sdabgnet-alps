@@ -60,6 +60,8 @@ const Apps = lazy(() => import('./pages/links/Apps'));
 const Institutions = lazy(() => import('./pages/Institutions'));
 const SunsetCalendarPage = lazy(() => import('./pages/sunset/SunsetCalendar'));
 const Dictionary = lazy(() => import('./pages/Dictionary'));
+const Music = lazy(() => import('./pages/resources/Music'));
+
 // const theme = createTheme();
 
 const ScrollToTop = () => {
@@ -233,6 +235,8 @@ const Router = () => (
           />
 
           <Route path={routes.contact} element={<Contact />} />
+
+          <Route path={routes.resources('music')} element={<Music />} />
 
           {/* 
           <Route path="teams" element={<Teams />}>

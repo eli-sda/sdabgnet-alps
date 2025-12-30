@@ -269,8 +269,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Музика',
-        url: routes.resources('music'),
-        isDisabled: true
+        url: routes.resources('music')
       },
       {
         type: 'primary',

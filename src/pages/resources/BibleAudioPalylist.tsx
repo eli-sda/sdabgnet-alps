@@ -79,7 +79,7 @@ const BibleAudioPalylist = () => {
         </h4>
       </div>
 
-      <AudioPlaylistList playlist={playlist} showDownloadAll={false} />
+      <AudioPlaylistList playlists={[playlist]} showDownloadAll={false} />
     </>
   );
 };

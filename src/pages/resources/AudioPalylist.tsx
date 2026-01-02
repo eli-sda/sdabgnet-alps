@@ -1,4 +1,3 @@
-import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { MediaBlock } from 'src/alps/molecules/blocks/MediaBlock';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlayer } from 'src/contexts/AudioPlayerContext';

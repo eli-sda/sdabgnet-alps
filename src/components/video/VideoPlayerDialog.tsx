@@ -5,20 +5,13 @@ import { TransitionProps } from '@mui/material/transitions';
 
 import { Button as AlpsButton } from 'src/alps/atoms/Button';
 import VideoPlayer, { VideoPlaylistType } from './VideoPlayer';
-import VideoPlaylistList from './VideoPlaylistList';
-import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import './VideoPlayerDialog.scss';
 
 type VideoPlayerDialogProps = {
-  playlist?: VideoPlaylistType | null;
+  playlist: VideoPlaylistType | null;
   title?: string;
   isOpen: boolean;
   onClose?: () => void;
-  // For using VideoPlaylistList instead of VideoPlayer
-  playlistType?: string;
-  playlistData?: PlaylistType;
-  usePlaylistList?: boolean;
-  showDownloadAll?: boolean;
 };
 
 const Transition = React.forwardRef(function Transition(
@@ -34,11 +27,7 @@ export const VideoPlayerDialog = ({
   playlist,
   title = '',
   isOpen,
-  onClose,
-  playlistType,
-  playlistData,
-  usePlaylistList = false,
-  showDownloadAll = true
+  onClose
 }: VideoPlayerDialogProps) => {
   const handleClose = useCallback(() => {
     onClose?.();
@@ -71,15 +60,7 @@ export const VideoPlayerDialog = ({
         </div>
       </DialogTitle>
       <DialogContent>
-        {usePlaylistList && playlistType ? (
-          <VideoPlaylistList
-            type={playlistType}
-            playlist={playlistData}
-            showDownloadAll={showDownloadAll}
-          />
-        ) : (
-          playlist && <VideoPlayer playlist={playlist} isVisible={isOpen} />
-        )}
+        {playlist && <VideoPlayer playlist={playlist} isVisible={isOpen} />}
       </DialogContent>
     </Dialog>
   );

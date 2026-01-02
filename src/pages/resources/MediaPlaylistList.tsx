@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useState } from 'react';
-// import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import PlaylistActionButtons from './PlaylistActionButtons';
@@ -16,7 +16,8 @@ interface MediaPlaylistListProps {
   renderPlayer?: (
     playlist: PlaylistType | null,
     setPlayIndex: (i: number) => void,
-    playIndex?: number
+    playIndex?: number,
+    initialTime?: number
   ) => React.ReactNode;
 }
 
@@ -29,9 +30,12 @@ const MediaPlaylistList = ({
   onPlaylistSelect,
   renderPlayer
 }: MediaPlaylistListProps) => {
-//   const { hash, search } = useLocation();
-//   const searchParams = new URLSearchParams(search);
-//   const playIndex = searchParams.get('playIndex');
+  const { hash, search } = useLocation();
+  const searchParams = new URLSearchParams(search);
+  const playIndex = searchParams.get('playIndex');
+  // Supports only time as seconds (integer)
+  const timeParam = searchParams.get('time');
+
   const { getPlaylists } = usePlaylists();
   const [playlists, setPlaylists] = useState<PlaylistType[]>(
     mediaPlaylists || []
@@ -40,27 +44,74 @@ const MediaPlaylistList = ({
     null
   );
   const [currentPlayIndex, setCurrentPlayIndex] = useState(0);
+  const [initialTime, setInitialTime] = useState<number | undefined>(undefined);
 
   const handleSelect = (playlist: PlaylistType) => {
+    if (selectedPlaylist?._id === playlist._id) {
+      return; // Do nothing if the same playlist is selected
+    }
     setSelectedPlaylist(playlist);
     setCurrentPlayIndex(0);
+    setInitialTime(undefined);
     onPlaylistSelect?.(playlist);
   };
+  const setInitialPlaylists = useCallback(
+    (playlistArr: PlaylistType[]) => {
+      setPlaylists(playlistArr);
+      if (hash) {
+        const playlistId = hash.replace('#', '');
+        const matchedPlaylist = playlistArr.find((p) => p._id === playlistId);
+
+        if (
+          matchedPlaylist &&
+          matchedPlaylist.items &&
+          matchedPlaylist.items.length > 0 &&
+          playIndex
+        ) {
+          const i = parseInt(playIndex);
+          if (!isNaN(i) && i < matchedPlaylist.items.length) {
+            setCurrentPlayIndex(i);
+          }
+
+          if (timeParam && /^\d+$/.test(timeParam)) {
+            // Parse initial time (integer) from URL
+            setInitialTime(parseInt(timeParam, 10));
+          } else {
+            setInitialTime(undefined);
+          }
+        }
+
+        setSelectedPlaylist(matchedPlaylist || null);
+      }
+    },
+    [hash, playIndex, timeParam]
+  );
 
   useEffect(() => {
+    const playlistsArr = [] as PlaylistType[];
     if (mediaPlaylists && mediaPlaylists.length > 0) {
-      //   setPlaylists([mediaPlaylists||undefined]);
-      setSelectedPlaylist(mediaPlaylists[0] || null);
+      playlistsArr.push(...mediaPlaylists);
+      // setSelectedPlaylist(mediaPlaylists[0] || null);
     }
     if (sanityType) {
-      void getPlaylists(sanityType, mediaType === 'audio').then((sanityPl) =>
-        setPlaylists((curruntPlaylysts) => ({
-          ...curruntPlaylysts,
-          ...sanityPl
-        }))
-      );
+      void getPlaylists(sanityType, mediaType === 'audio')
+        .then((sanityPl) => {
+          playlistsArr.push(...sanityPl);
+          setInitialPlaylists(playlistsArr);
+        })
+        .catch((error) => {
+          console.error('Error fetching playlists:', error);
+        });
+    } else {
+      setInitialPlaylists(playlistsArr);
     }
-  }, [mediaPlaylists, sanityType, getPlaylists, mediaType]);
+  }, [
+    mediaPlaylists,
+    sanityType,
+    getPlaylists,
+    mediaType,
+    setInitialPlaylists
+  ]);
 
   const getActionButtons = useCallback(
     (playlist: PlaylistType): JSX.Element => {
@@ -112,7 +163,12 @@ const MediaPlaylistList = ({
         ))}
       </section>
 
-      {renderPlayer?.(selectedPlaylist, setCurrentPlayIndex, currentPlayIndex)}
+      {renderPlayer?.(
+        selectedPlaylist,
+        setCurrentPlayIndex,
+        currentPlayIndex,
+        initialTime
+      )}
     </>
   );
 };

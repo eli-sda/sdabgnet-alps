@@ -190,5 +190,10 @@ export function usePlaylists() {
     setLastLoaded
   ]);
 
-  return { getPlaylists, getResourcePlaylists, getLinks, getSeminarRelatedPresentations };
+  return {
+    getPlaylists,
+    getResourcePlaylists,
+    getLinks,
+    getSeminarRelatedPresentations
+  };
 }

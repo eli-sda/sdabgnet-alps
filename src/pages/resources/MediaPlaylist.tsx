@@ -2,7 +2,7 @@ import { MediaBlock } from 'src/alps/molecules/blocks/MediaBlock';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlayer } from 'src/contexts/AudioPlayerContext';
 import { getImage } from 'src/utils/ImageHelper';
-import './AudioPalylist.scss';
+import './MediaPalylist.scss';
 
 type MediaPlaylistProps = {
   type: 'audio' | 'video';
@@ -38,7 +38,6 @@ const MediaPlaylist = ({
   const pauseAction = ctx.pause ?? (() => {});
   const playAction = ctx.play ?? (() => {});
 
-  const mediaIcon = type === 'video' ? 'video' : 'audio';
   const showPlayPauseControls = type === 'audio';
 
   return (
@@ -53,7 +52,7 @@ const MediaPlaylist = ({
         type="stacked"
         title={title}
         kicker={author}
-        mediaIcon={mediaIcon}
+        mediaIcon={type}
         mediaIconAction={
           showPlayPauseControls && isCurrent
             ? isPlaying
@@ -62,13 +61,11 @@ const MediaPlaylist = ({
             : onPlaylistSelect
         }
         mediaIconTitle={
-          showPlayPauseControls
-            ? isPlaying
-              ? 'Пауза'
-              : isCurrent
-              ? undefined
-              : 'Пусни плейлиста'
-            : undefined
+          showPlayPauseControls && isPlaying
+            ? 'Пауза'
+            : isCurrent
+            ? undefined
+            : 'Пусни плейлиста'
         }
         additionalContent={actionButtons}
       />

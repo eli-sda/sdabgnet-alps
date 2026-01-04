@@ -20,8 +20,6 @@ import { usePagesMeta } from 'src/hooks/usePagesMeta';
 import UpcomingEvents from '../components/UpcomingEvents';
 //DEMO:
 import { VideoDemo } from '../components/video/demo/VideoDemo';
-import MediaPlaylistList from './resources/MediaPlaylistList';
-import jsonPlaylist from '../components/video/demo/video_playlist_demo.json';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 
 const Home = () => {
@@ -207,8 +205,6 @@ const Home = () => {
         </div>
 
         <VideoDemo />
-
-        <MediaPlaylistList mediaType="video" mediaPlaylists={[jsonPlaylist]} />
 
         <p className="text">
           <a

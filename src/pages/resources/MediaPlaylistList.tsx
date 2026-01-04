@@ -4,7 +4,7 @@ import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import PlaylistActionButtons from './PlaylistActionButtons';
 import MediaPlaylist from './MediaPlaylist';
-import './AudioPlaylistList.scss';
+import './MediaPlaylistList.scss';
 
 interface MediaPlaylistListProps {
   mediaType: 'audio' | 'video';
@@ -19,6 +19,7 @@ interface MediaPlaylistListProps {
     playIndex?: number,
     initialTime?: number
   ) => React.ReactNode;
+  getCurrentTime?: () => number;
 }
 
 const MediaPlaylistList = ({
@@ -28,7 +29,8 @@ const MediaPlaylistList = ({
   showDownloadAll = false,
   isPlaying,
   onPlaylistSelect,
-  renderPlayer
+  renderPlayer,
+  getCurrentTime
 }: MediaPlaylistListProps) => {
   const { hash, search } = useLocation();
   const searchParams = new URLSearchParams(search);
@@ -48,6 +50,7 @@ const MediaPlaylistList = ({
 
   const handleSelect = (playlist: PlaylistType) => {
     if (selectedPlaylist?._id === playlist._id) {
+      onPlaylistSelect?.(playlist);
       return; // Do nothing if the same playlist is selected
     }
     setSelectedPlaylist(playlist);
@@ -55,6 +58,7 @@ const MediaPlaylistList = ({
     setInitialTime(undefined);
     onPlaylistSelect?.(playlist);
   };
+
   const setInitialPlaylists = useCallback(
     (playlistArr: PlaylistType[]) => {
       setPlaylists(playlistArr);
@@ -105,12 +109,13 @@ const MediaPlaylistList = ({
     } else {
       setInitialPlaylists(playlistsArr);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     mediaPlaylists,
     sanityType,
     getPlaylists,
-    mediaType,
-    setInitialPlaylists
+    mediaType
+    // setInitialPlaylists - do not include to avoid infinite loop
   ]);
 
   const getActionButtons = useCallback(
@@ -140,26 +145,31 @@ const MediaPlaylistList = ({
                 : undefined
             }
             playlistName={playlist.title}
+            getCurrentTime={getCurrentTime}
           />
         </div>
       );
     },
-    [currentPlayIndex, selectedPlaylist, showDownloadAll]
+    [currentPlayIndex, selectedPlaylist, showDownloadAll, getCurrentTime]
   );
 
   return (
     <>
       <section className="media-playlist-list u-space--top">
-        {playlists.map((pl) => (
-          <MediaPlaylist
-            key={pl._id}
-            playlist={pl}
-            onPlaylistSelect={() => handleSelect(pl)}
-            isCurrent={selectedPlaylist?._id === pl._id}
-            isPlaying={selectedPlaylist?._id === pl._id && isPlaying}
-            actionButtons={getActionButtons(pl)}
-            type={mediaType}
-          />
+        {playlists.map((playlist) => (
+          <div
+            key={playlist._id}
+            className="playlist-item u-padding--sides u-space--double--bottom"
+          >
+            <MediaPlaylist
+              playlist={playlist}
+              onPlaylistSelect={() => handleSelect(playlist)}
+              isCurrent={selectedPlaylist?._id === playlist._id}
+              isPlaying={selectedPlaylist?._id === playlist._id && isPlaying}
+              actionButtons={getActionButtons(playlist)}
+              type={mediaType}
+            />
+          </div>
         ))}
       </section>
 

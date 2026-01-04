@@ -1,55 +1,33 @@
 import { memo, useState } from 'react';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import MediaPlaylistList from 'src/pages/resources/MediaPlaylistList';
-import { VideoPlaylistType } from './VideoPlayer';
-import { extractYouTubeId } from 'src/utils/extractYouTubeId';
 import { VideoPlayerDialog } from './VideoPlayerDialog';
 
 type VideoPlaylistListProps = {
-  type?: string;
-  playlist?: PlaylistType;
-  showDownloadAll?: boolean;
+  sanityType?: string;
+  playlists?: PlaylistType[];
 };
 
-const VideoPlaylistList = ({ type, playlist }: VideoPlaylistListProps) => {
+const VideoPlaylistList = ({
+  sanityType,
+  playlists
+}: VideoPlaylistListProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [videoPlaylist, setVideoPlaylist] = useState<VideoPlaylistType | null>(
-    null
-  );
-
-  const handleVideoPlaylistSelect = (playlist: PlaylistType) => {
-    setVideoPlaylist({
-      _id: playlist._id,
-      playlistTitle: playlist.title ?? '',
-      playlistAuthor: playlist.author,
-      videoItems:
-        playlist.items?.map((item) => ({
-          videoId: extractYouTubeId(item.path) ?? '',
-          title: item.title ?? '',
-          description: item.description ?? ''
-        })) ?? []
-    });
-
-    setDialogOpen(true);
-  };
 
   return (
-    <>
-      <MediaPlaylistList
-        type={type}
-        playlist={playlist}
-        onPlaylistSelect={handleVideoPlaylistSelect}
-        mediaType="video"
-      />
-
-      {videoPlaylist && (
+    <MediaPlaylistList
+      sanityType={sanityType}
+      mediaPlaylists={playlists}
+      mediaType="video"
+      onPlaylistSelect={() => setDialogOpen(true)}
+      renderPlayer={(selectedPlaylist, _setPlayIndex, _playIndex) => (
         <VideoPlayerDialog
           isOpen={dialogOpen}
-          playlist={videoPlaylist}
+          playlist={selectedPlaylist}
           onClose={() => setDialogOpen(false)}
         />
       )}
-    </>
+    />
   );
 };
 

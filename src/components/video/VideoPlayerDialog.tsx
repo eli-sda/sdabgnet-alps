@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useCallback } from 'react';
 import { Dialog, DialogTitle, DialogContent, Slide } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 
 import { Button as AlpsButton } from 'src/alps/atoms/Button';
+
+import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import VideoPlayer, { VideoPlaylistType } from './VideoPlayer';
 import './VideoPlayerDialog.scss';
+import { extractYouTubeId } from 'src/utils/extractYouTubeId';
 
 type VideoPlayerDialogProps = {
-  playlist: VideoPlaylistType | null;
+  playlist: PlaylistType | null;
   title?: string;
   isOpen: boolean;
   onClose?: () => void;
@@ -32,7 +35,20 @@ export const VideoPlayerDialog = ({
   const handleClose = useCallback(() => {
     onClose?.();
   }, [onClose]);
-
+  const videoPlaylist = useMemo((): VideoPlaylistType | null => {
+    if (!playlist) return null;
+    return {
+      _id: playlist._id,
+      playlistTitle: playlist.title ?? '',
+      playlistAuthor: playlist.author,
+      videoItems:
+        playlist.items?.map((item) => ({
+          videoId: extractYouTubeId(item.path) ?? '',
+          title: item.title ?? '',
+          description: item.description ?? ''
+        })) ?? []
+    };
+  }, [playlist]);
   return (
     <Dialog
       open={isOpen}
@@ -60,7 +76,9 @@ export const VideoPlayerDialog = ({
         </div>
       </DialogTitle>
       <DialogContent>
-        {playlist && <VideoPlayer playlist={playlist} isVisible={isOpen} />}
+        {videoPlaylist && (
+          <VideoPlayer playlist={videoPlaylist} isVisible={isOpen} />
+        )}
       </DialogContent>
     </Dialog>
   );

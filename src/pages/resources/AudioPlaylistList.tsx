@@ -11,7 +11,7 @@ type AudioPlaylistListProps = {
   showDownloadAll?: boolean;
 };
 
-const AudioPlaylistList = ({
+const AudioPlaylistListComponent = ({
   type,
   playlists,
   showDownloadAll = true
@@ -69,6 +69,7 @@ const AudioPlaylistList = ({
         mediaPlaylists={playlists}
         mediaType={'audio'}
         showDownloadAll={showDownloadAll}
+        getCurrentTime={() => playerRef.current?.getCurrentTime() ?? 0}
         renderPlayer={(
           selectedPlaylist,
           setPlayIndex,
@@ -93,4 +94,4 @@ const AudioPlaylistList = ({
   );
 };
 
-export default memo(AudioPlaylistList);
+export const AudioPlaylistList = memo(AudioPlaylistListComponent);

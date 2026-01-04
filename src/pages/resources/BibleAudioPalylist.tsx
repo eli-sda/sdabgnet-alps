@@ -1,4 +1,4 @@
-import AudioPlaylistList from './AudioPlaylistList';
+import { AudioPlaylistList } from './AudioPlaylistList';
 import bibleBooksCounts from './bible_books_counts.json';
 import './AudioPage.scss';
 

@@ -1,46 +1,56 @@
 {
   "_id": "video_playlist_demo",
-  "playlistTitle": "\"Тайните на Библията\"",
-  "playlistAuthor": "BG4CHRIST",
-  "videoItems": [
+  "title": "\"Тайните на Библията\"",
+  "author": "BG4CHRIST",
+  "items": [
     {
-      "videoId": "VbH3RwBwIgE",
+      "_id": "VbH3RwBwIgE",
+      "path": "https://www.youtube.com/watch?v=VbH3RwBwIgE",
       "title": "Поредица \"Тайните на Библията\""
     },
     {
-      "videoId": "mVnXs2XNdOM",
+      "_id": "mVnXs2XNdOM",
+      "path": "https://www.youtube.com/watch?v=mVnXs2XNdOM",
       "title": "\"Тайните на Библията\" - Тема 1: Бог и Библията"
     },
     {
-      "videoId": "4yGRlkDApWQ",
+      "_id": "4yGRlkDApWQ",
+      "path": "https://www.youtube.com/watch?v=4yGRlkDApWQ",
       "title": "\"Тайните на Библията\" - Тема 2: Библията предсказва бъдещето"
     },
     {
-      "videoId": "seTvkOkfAt4",
+      "_id": "seTvkOkfAt4",
+      "path": "https://www.youtube.com/watch?v=seTvkOkfAt4",
       "title": "\"Тайните на Библията\" - Тема 3: Колко близо е края?"
     },
     {
-      "videoId": "56uVovIDKyk",
+      "_id": "56uVovIDKyk",
+      "path": "https://www.youtube.com/watch?v=56uVovIDKyk",
       "title": "\"Тайните на Библията\" - Тема 4: Ето иде с облаците"
     },
     {
-      "videoId": "ccaOvnboZZc",
+      "_id": "ccaOvnboZZc",
+      "path": "https://www.youtube.com/watch?v=ccaOvnboZZc",
       "title": "\"Тайните на Библията\" - Тема 5: Отвлечени и спасени"
     },
     {
-      "videoId": "aXe9QW5qRoA",
+      "_id": "aXe9QW5qRoA",
+      "path": "https://www.youtube.com/watch?v=aXe9QW5qRoA",
       "title": "\"Тайните на Библията\" - Тема 6 - Как да получа вечно спасение?"
     },
     {
-      "videoId": "ANh0yAFlqUk",
+      "_id": "ANh0yAFlqUk",
+      "path": "https://www.youtube.com/watch?v=ANh0yAFlqUk",
       "title": "\"Тайните на Библията\" - Тема 7 - Кога започва Божия съд?"
     },
     {
-      "videoId": "_VIcbbUuYLg",
+      "_id": "_VIcbbUuYLg",
+      "path": "https://www.youtube.com/watch?v=_VIcbbUuYLg",
       "title": "\"Тайните на Библията\" - Тема 8 - Огледалото на любовта"
     },
     {
-      "videoId": "ycmhISZLfoU",
+      "_id": "ycmhISZLfoU",
+      "path": "https://www.youtube.com/watch?v=ycmhISZLfoU",
       "title": "\"Тайните на Библията\" - Тема 9 - В крак с времето"
     }
   ]

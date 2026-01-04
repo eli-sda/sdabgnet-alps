@@ -5,15 +5,17 @@ import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import VideoPlaylistList from '../VideoPlaylistList';
 
 export const VideoDemo = () => {
-  const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
+  const [playlists, setPlaylists] = useState<PlaylistType[]>();
 
   useEffect(() => {
-    if (playlists.length > 0) return;
     const plArr = [jsonPlaylist as PlaylistType];
     loadPlaylists('video', false, 'Уебинар "Основи на вярата и науката"')
       .then((res) => {
         const p = res?.[0];
-        if (!p) return;
+        if (!p) {
+          setPlaylists(plArr);
+          return;
+        }
         plArr.push(p);
         setPlaylists(plArr);
       })
@@ -21,12 +23,14 @@ export const VideoDemo = () => {
         setPlaylists(plArr);
         console.error('Error loading video playlists:', e);
       });
-  }, [playlists]);
+  }, []); //useEffect runs once
 
   return (
     <section>
       <h3>Видео демо</h3>
-      <VideoPlaylistList playlists={playlists} />
+      {!!playlists && (
+        <VideoPlaylistList playlists={playlists} sanityType="bible_ref" />
+      )}
     </section>
   );
 };

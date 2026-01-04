@@ -86,16 +86,16 @@ const MediaPlaylistList = ({
         }
 
         setSelectedPlaylist(matchedPlaylist || null);
+        if (matchedPlaylist) onPlaylistSelect?.(matchedPlaylist);
       }
     },
-    [hash, playIndex, timeParam]
+    [hash, onPlaylistSelect, playIndex, timeParam]
   );
 
   useEffect(() => {
     const playlistsArr = [] as PlaylistType[];
     if (mediaPlaylists && mediaPlaylists.length > 0) {
       playlistsArr.push(...mediaPlaylists);
-      // setSelectedPlaylist(mediaPlaylists[0] || null);
     }
     if (sanityType) {
       void getPlaylists(sanityType, mediaType === 'audio')
@@ -105,6 +105,7 @@ const MediaPlaylistList = ({
         })
         .catch((error) => {
           console.error('Error fetching playlists:', error);
+          setInitialPlaylists(playlistsArr);
         });
     } else {
       setInitialPlaylists(playlistsArr);

@@ -88,7 +88,7 @@ export const loadPlaylists = async (
     isResource === true
       ? '&& isResource == true'
       : isResource === false
-      ? '&& isResource == null'
+      ? '&& (isResource == null || isResource == false)'
       : '';
 
   const playlistQuery = `*[

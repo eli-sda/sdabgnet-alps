@@ -57,24 +57,26 @@ const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
 
   return data ? (
     <div className={classes + moreClasses}>
+      <span className="c-block__meta u-font--secondary--xs u-theme--color--dark">
+        Библейски стих за деня
+      </span>
       <h3 className={`${getFontClass('primary', 's')} u-theme--color--darker`}>
         <strong>{data.title}</strong>
       </h3>
 
       {data.text && <p className={'c-block__body'}>{data.text}</p>}
+      <span className="c-block__meta u-font--secondary--xs u-theme--color--dark u-space--half--top">
+        {data.verse}
 
-      {data.date && (
-        <span className="c-block__meta u-font--secondary--xs u-theme--color--dark">
-          {data.verse}&nbsp;
+        {/* {data.date && (
           <time
             className="c-block__date u-text-transform--upper"
             dateTime={data.date}
           >
-            {/* {new Date(data.date).toLocaleDateString('bg-BG')} //25.12.2024 г.*/}
-            (стих за деня {moment(data.date).format('DD.MM.YYYY')})
+            &nbsp;({moment(data.date).format('DD.MM.YYYY')})
           </time>
-        </span>
-      )}
+        )} */}
+      </span>
 
       {data.comment && (
         <div className="text">

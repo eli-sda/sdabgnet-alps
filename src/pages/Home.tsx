@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 import routes from '../routes';
@@ -18,11 +18,14 @@ import { usePagesMeta } from 'src/hooks/usePagesMeta';
 // import { VideoFull } from 'alps-library/organisms/sections/videoFull/VideoFull';
 
 import UpcomingEvents from '../components/UpcomingEvents';
-// import { VideoDemo } from '../components/video/demo/VideoDemo';
+//DEMO:
+import { VideoDemo } from '../components/video/demo/VideoDemo';
+import { useScrollToHash } from 'src/hooks/useScrollToHash';
 
 const Home = () => {
   const [currentDate, setCurrentDate] = useState(() => moment());
   const { pageMeta } = usePagesMeta();
+  useScrollToHash();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -39,9 +42,9 @@ const Home = () => {
   }, [currentDate]);
 
   // TODO: use next year when replace the old site
-  // const prevYear = useMemo(() => {
-  //   return currentDate.clone().subtract(1, 'year');
-  // }, [currentDate]);
+  const prevYear = useMemo(() => {
+    return currentDate.clone().subtract(1, 'year');
+  }, [currentDate]);
 
   /*
   // const testSlides = [
@@ -140,10 +143,10 @@ const Home = () => {
           </div> */}
 
           {/* verse for today */}
-          <DailyVerse date={currentDate}></DailyVerse>
+          {/* <DailyVerse date={currentDate}></DailyVerse> */}
 
           {/* verse for current date but previous year */}
-          {/* <DailyVerse date={prevYear}></DailyVerse> */}
+          <DailyVerse date={prevYear}></DailyVerse>
 
           {/* verse for 2.01.2025  with links*/}
           {/* <DailyVerse date={moment('2025-01-02')}></DailyVerse> */}
@@ -201,7 +204,7 @@ const Home = () => {
           </ul>
         </div>
 
-        {/* <VideoDemo /> */}
+        <VideoDemo />
 
         <p className="text">
           <a

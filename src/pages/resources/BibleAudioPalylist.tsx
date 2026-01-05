@@ -1,4 +1,4 @@
-import AudioPlaylistList from './AudioPlaylistList';
+import { AudioPlaylistList } from './AudioPlaylistList';
 import bibleBooksCounts from './bible_books_counts.json';
 import './AudioPage.scss';
 
@@ -79,7 +79,7 @@ const BibleAudioPalylist = () => {
         </h4>
       </div>
 
-      <AudioPlaylistList playlist={playlist} showDownloadAll={false} />
+      <AudioPlaylistList playlists={[playlist]} showDownloadAll={false} />
     </>
   );
 };

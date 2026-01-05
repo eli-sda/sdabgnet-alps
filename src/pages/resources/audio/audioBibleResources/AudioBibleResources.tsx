@@ -6,7 +6,7 @@ import routes from 'src/routes';
 import { getTitle } from 'src/utils/Navigation';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
-import DownloadList from '../../../../components/downloadList/DownloadList';
+import DownloadList from 'src/components/downloadList/DownloadList';
 import BibleAudioPalylist from './BibleAudioPalylist';
 import bibles_data from './audio_bible.json';
 

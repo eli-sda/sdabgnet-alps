@@ -6,7 +6,7 @@ import { Page } from 'src/organisms/Page';
 import { LinkType } from 'src/contexts/PlaylistsContext';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import { getTitle } from 'src/utils/Navigation';
-import DownloadList from '../../components/downloadList/DownloadList';
+import DownloadList from 'src/components/downloadList/DownloadList';
 
 const ImageResources = () => {
   const breadcrumbsUrls = [routes.resources(), routes.resources('image')];

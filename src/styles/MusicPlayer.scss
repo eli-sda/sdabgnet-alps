@@ -16,8 +16,7 @@
   .react-jinke-music-player-mobile {
     box-shadow: none !important; // Remove mobile version shadow
   }
-
-  .rc-slider-handle {
-    z-index: 80; // Ensure slider handle is above progress-load-bar with z-index 77
+  .rc-slider {
+    z-index: 78; // Ensure slider is above progress-load-bar with z-index 77
   }
 }

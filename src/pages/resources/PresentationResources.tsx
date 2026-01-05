@@ -8,7 +8,7 @@ import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { getTitle } from 'src/utils/Navigation';
-import DownloadList from '../../components/downloadList/DownloadList';
+import DownloadList from 'src/components/downloadList/DownloadList';
 
 const PresentationResources = () => {
   useScrollToHash();

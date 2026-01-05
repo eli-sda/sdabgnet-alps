@@ -1,11 +1,11 @@
-import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { MediaBlock } from 'src/alps/molecules/blocks/MediaBlock';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlayer } from 'src/contexts/AudioPlayerContext';
 import { getImage } from 'src/utils/ImageHelper';
-import './AudioPalylist.scss';
+import './MediaPalylist.scss';
 
-type AudioPalylistProps = {
+type MediaPlaylistProps = {
+  type: 'audio' | 'video';
   playlist: PlaylistType;
   onPlaylistSelect: () => void;
   isCurrent?: boolean;
@@ -13,13 +13,14 @@ type AudioPalylistProps = {
   actionButtons?: JSX.Element;
 };
 
-const AudioPalylist = ({
+const MediaPlaylist = ({
+  type,
   playlist,
   onPlaylistSelect,
   isCurrent,
   isPlaying,
   actionButtons
-}: AudioPalylistProps) => {
+}: MediaPlaylistProps) => {
   const { author, title = '', imageUrl } = playlist;
   const img = imageUrl
     ? {
@@ -37,6 +38,8 @@ const AudioPalylist = ({
   const pauseAction = ctx.pause ?? (() => {});
   const playAction = ctx.play ?? (() => {});
 
+  const showPlayPauseControls = type === 'audio';
+
   return (
     <div
       className={`playlist-card ${isCurrent ? 'is-current' : ''} ${
@@ -49,12 +52,20 @@ const AudioPalylist = ({
         type="stacked"
         title={title}
         kicker={author}
-        mediaIcon="audio"
+        mediaIcon={type}
         mediaIconAction={
-          isCurrent ? (isPlaying ? pauseAction : playAction) : onPlaylistSelect
+          showPlayPauseControls && isCurrent
+            ? isPlaying
+              ? pauseAction
+              : playAction
+            : onPlaylistSelect
         }
         mediaIconTitle={
-          isPlaying ? 'Пауза' : isCurrent ? undefined : 'Пусни плейлиста'
+          showPlayPauseControls && isPlaying
+            ? 'Пауза'
+            : isCurrent
+            ? undefined
+            : 'Пусни плейлиста'
         }
         additionalContent={actionButtons}
       />
@@ -62,4 +73,4 @@ const AudioPalylist = ({
   );
 };
 
-export default AudioPalylist;
+export default MediaPlaylist;

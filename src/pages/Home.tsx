@@ -18,11 +18,14 @@ import { usePagesMeta } from 'src/hooks/usePagesMeta';
 // import { VideoFull } from 'alps-library/organisms/sections/videoFull/VideoFull';
 
 import UpcomingEvents from '../components/UpcomingEvents';
-// import { VideoDemo } from '../components/video/demo/VideoDemo';
+//DEMO:
+import { VideoDemo } from '../components/video/demo/VideoDemo';
+import { useScrollToHash } from 'src/hooks/useScrollToHash';
 
 const Home = () => {
   const [currentDate, setCurrentDate] = useState(() => moment());
   const { pageMeta } = usePagesMeta();
+  useScrollToHash();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -201,7 +204,7 @@ const Home = () => {
           </ul>
         </div>
 
-        {/* <VideoDemo /> */}
+        <VideoDemo />
 
         <p className="text">
           <a

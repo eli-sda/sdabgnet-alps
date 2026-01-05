@@ -1,61 +1,36 @@
 import { useState, useEffect } from 'react';
-import { Button } from 'src/alps/atoms/Button';
 import { loadPlaylists } from 'src/utils/FetchHelper';
-import { extractYouTubeId } from 'src/utils/extractYouTubeId';
-import { VideoPlaylistType } from '../VideoPlayer';
-import { VideoPlayerDialog } from '../VideoPlayerDialog';
 import jsonPlaylist from './video_playlist_demo.json';
+import { PlaylistType } from 'src/contexts/PlaylistsContext';
+import VideoPlaylistList from '../VideoPlaylistList';
 
 export const VideoDemo = () => {
-  const [open, setOpen] = useState(false);
-  const [sanityPlaylist, setSanityPlaylist] =
-    useState<VideoPlaylistType | null>(null);
-  const [currentPlaylist, setCurrentPlaylist] =
-    useState<VideoPlaylistType | null>(null);
+  const [playlists, setPlaylists] = useState<PlaylistType[]>();
 
   useEffect(() => {
-    if (sanityPlaylist) return;
+    const plArr = [jsonPlaylist as PlaylistType];
     loadPlaylists('video', false, 'Уебинар "Основи на вярата и науката"')
       .then((res) => {
         const p = res?.[0];
-        if (!p) return;
-
-        setSanityPlaylist({
-          playlistTitle: p.title ?? '',
-          playlistAuthor: p.author ?? '',
-          videoItems:
-            p.items?.map((i) => ({
-              videoId: extractYouTubeId(i.path),
-              title: i.title,
-              description: i.description ?? ''
-            })) ?? []
-        });
+        if (!p) {
+          setPlaylists(plArr);
+          return;
+        }
+        plArr.push(p);
+        setPlaylists(plArr);
       })
-      .catch(() => setSanityPlaylist(null));
-  }, [sanityPlaylist]);
-
-  const handleJsonOpen = () => {
-    setCurrentPlaylist(jsonPlaylist);
-    setOpen(true);
-  };
-  const handleSanityOpen = () => {
-    setCurrentPlaylist(sanityPlaylist);
-    setOpen(true);
-  };
-  const handleClose = () => setOpen(false);
+      .catch((e) => {
+        setPlaylists(plArr);
+        console.error('Error loading video playlists:', e);
+      });
+  }, []); //useEffect runs once
 
   return (
-    <div className="u-spacing">
-      <VideoPlayerDialog
-        playlist={currentPlaylist}
-        isOpen={open}
-        onClose={handleClose}
-      />
-
-      <Button label="JSON плейлист" onClick={handleJsonOpen} />
-      {sanityPlaylist && (
-        <Button label="Sanity плейлист" onClick={handleSanityOpen} />
+    <section>
+      <h3>Видео демо</h3>
+      {!!playlists && (
+        <VideoPlaylistList playlists={playlists} sanityType="bible_ref" />
       )}
-    </div>
+    </section>
   );
 };

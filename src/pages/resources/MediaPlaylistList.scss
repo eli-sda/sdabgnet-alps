@@ -1,4 +1,4 @@
-.audio-playlist-list {
+.media-playlist-list {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
@@ -10,7 +10,7 @@
 
 // On very small screens make playlist items fluid (shrink with page)
 @media (max-width: 325px) {
-  .audio-playlist-list {
+  .media-playlist-list {
     display: block;
     .playlist-item {
       width: 100%;

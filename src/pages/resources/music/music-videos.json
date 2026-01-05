@@ -1,0 +1,21 @@
+{
+  "_id": "youtube_music_playlist",
+  "title": "Песни от YouTube",
+  "items": [
+    {
+      "_id": "saZhMqWVxKY",
+      "path": "https://www.youtube.com/watch?v=saZhMqWVxKY",
+      "title": "Aнсамбъл \"Гласът на надеждата\" - Велик си Ти"
+    },
+    {
+      "_id": "tdBkcAwkkXM",
+      "path": "https://www.youtube.com/watch?v=tdBkcAwkkXM",
+      "title": "Марта Ляскова - Най-прекрасното място"
+    },
+    {
+      "_id": "Y2tthYa3mr0",
+      "path": "https://www.youtube.com/watch?v=Y2tthYa3mr0",
+      "title": "VIA DOLOROSA - Marta Lyaskova"
+    }
+  ]
+}

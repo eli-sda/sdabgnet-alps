@@ -8,9 +8,11 @@ import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import { getTitle } from 'src/utils/Navigation';
-import DownloadList from './DownloadList';
-import AudioPlaylistList from './AudioPlaylistList';
-import './AudioPage.scss';
+import DownloadList from '../DownloadList';
+import { AudioPlaylistList } from '../AudioPlaylistList';
+import VideoPlaylistList from 'src/components/video/VideoPlaylistList';
+import jsonPlaylist from './music-videos.json';
+import '../AudioPage.scss';
 
 const MusicPage = () => {
   useScrollToHash();
@@ -19,6 +21,8 @@ const MusicPage = () => {
 
   const { getResourcePlaylists } = usePlaylists();
   const [musicPlaylist, setMusicPlaylist] = useState<PlaylistType[]>([]);
+
+  const musicPlaylistArr = [jsonPlaylist as PlaylistType];
 
   useEffect(() => {
     getResourcePlaylists(
@@ -57,6 +61,7 @@ const MusicPage = () => {
             ))}
           </Accordion>
         </Text>
+        <VideoPlaylistList playlists={musicPlaylistArr} />
 
         <div className="audio-page-instructions u-space--double--top">
           <h4 className="audio-page-caption">

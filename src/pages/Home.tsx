@@ -19,7 +19,7 @@ import { usePagesMeta } from 'src/hooks/usePagesMeta';
 
 import UpcomingEvents from '../components/UpcomingEvents';
 //DEMO:
-import { VideoDemo } from '../components/video/demo/VideoDemo';
+import { VideoDemo } from '../components/media/video/demo/VideoDemo';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 
 const Home = () => {

@@ -1,6 +1,6 @@
-import { AudioPlaylistList } from './AudioPlaylistList';
+import { AudioPlaylistList } from '../../../../components/media/audio/AudioPlaylistList';
 import bibleBooksCounts from './bible_books_counts.json';
-import './AudioPage.scss';
+import '../AudioPage.scss';
 
 type BibleBook = {
   bookPath: string;

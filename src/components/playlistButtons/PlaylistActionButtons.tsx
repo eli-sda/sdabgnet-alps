@@ -3,7 +3,7 @@ import { TextField } from 'alps-library/molecules/forms/elements/TextField';
 import { Checkbox } from 'alps-library/molecules/forms/elements/Checkbox';
 import { Button } from 'src/alps/atoms/Button';
 import { RESOURCES_FOLDER } from 'src/constants';
-import DownloadPlaylist from './DownloadPlaylist';
+import DownloadPlaylistButton from './DownloadPlaylistButton';
 import './PlaylistActionButtons.scss';
 
 type PlaylistActionButtonsProps = {
@@ -120,7 +120,7 @@ const PlaylistActionButtons = ({
           )}
 
           {hasDownload && (
-            <DownloadPlaylist
+            <DownloadPlaylistButton
               itemUrls={itemUrls.map(
                 (url) => `${RESOURCES_FOLDER}${url.replace(/^\/+/, '')}`
               )}

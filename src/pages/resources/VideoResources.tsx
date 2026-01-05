@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
+import { Text } from 'alps-library/atoms/text/Text';
+import { Caption } from 'alps-library/atoms/text/Caption';
+import { Accordion } from 'src/alps/molecules/components/accordion/Accordion';
 import { Page } from 'src/organisms/Page';
 import routes from 'src/routes';
-import { getTitle } from 'src/utils/Navigation';
-import { usePlaylists } from 'src/hooks/usePlaylists';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
-import { Caption } from 'alps-library/atoms/text/Caption';
-import DownloadList from './DownloadList';
-import { Accordion } from 'src/alps/molecules/components/accordion/Accordion';
-import { Text } from 'alps-library/atoms/text/Text';
+import { usePlaylists } from 'src/hooks/usePlaylists';
+import { getTitle } from 'src/utils/Navigation';
+import DownloadList from '../../components/downloadList/DownloadList';
 
 const VideoResources = () => {
   useScrollToHash();

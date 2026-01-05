@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { saveAs } from 'file-saver';
 import { zipSync } from 'fflate';
-import { Button } from 'src/alps/atoms/Button';
 import { Progress } from 'alps-library/molecules/components/progress/Progress.tsx';
+import { Button } from 'src/alps/atoms/Button';
 import { RESOURCES_SITE } from 'src/constants';
-import './DownloadPlaylist.scss';
+import './DownloadPlaylistButton.scss';
 
-interface DownloadPlaylistProps {
+interface DownloadPlaylistButtonProps {
   itemUrls: string[];
   playlistName: string;
 }
@@ -18,10 +18,10 @@ const sanitizeFileName = (name: string): string =>
     .replace(/_+/g, '_') // Replace multiple underscores with single underscore
     .replace(/^_|_$/g, ''); // Trim leading/trailing underscores
 
-const DownloadPlaylist = ({
+const DownloadPlaylistButton = ({
   itemUrls,
   playlistName
-}: DownloadPlaylistProps) => {
+}: DownloadPlaylistButtonProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState<number | undefined>(undefined);
 
@@ -93,4 +93,4 @@ const DownloadPlaylist = ({
   );
 };
 
-export default DownloadPlaylist;
+export default DownloadPlaylistButton;

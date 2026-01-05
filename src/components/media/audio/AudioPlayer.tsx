@@ -2,8 +2,8 @@ import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import ReactJkMusicPlayer, {
   ReactJkMusicPlayerLocale
 } from 'react-jinke-music-player';
-import { createDynamicMusicPlayerLocale } from '../../utils/bgMusicPlayerLocale';
-import { suppressMusicPlayerWarnings } from '../../utils/suppressMusicPlayerWarnings';
+import { createDynamicMusicPlayerLocale } from '../../../utils/bgMusicPlayerLocale';
+import { suppressMusicPlayerWarnings } from '../../../utils/suppressMusicPlayerWarnings';
 import { PLAYER_RESOURCES_FOLDER } from 'src/constants';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 

@@ -1,6 +1,6 @@
 import { memo, useState } from 'react';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
-import MediaPlaylistList from 'src/pages/resources/MediaPlaylistList';
+import MediaPlaylistList from 'src/components/media/MediaPlaylistList';
 import { VideoPlayerDialog } from './VideoPlayerDialog';
 
 type VideoPlaylistListProps = {

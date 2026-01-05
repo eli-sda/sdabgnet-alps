@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
+import { Button } from 'src/alps/atoms/Button';
 import { RESOURCES_SITE, RESOURCES_FOLDER } from 'src/constants';
 import { LinkType } from 'src/contexts/PlaylistsContext';
-import { Button } from 'src/alps/atoms/Button';
 
 const DownloadListItem = ({
   title,

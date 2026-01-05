@@ -8,11 +8,11 @@ import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import { getTitle } from 'src/utils/Navigation';
-import DownloadList from '../DownloadList';
-import { AudioPlaylistList } from '../AudioPlaylistList';
-import VideoPlaylistList from 'src/components/video/VideoPlaylistList';
+import DownloadList from '../../../components/downloadList/DownloadList';
+import { AudioPlaylistList } from '../../../components/media/audio/AudioPlaylistList';
+import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
 import jsonPlaylist from './music-videos.json';
-import '../AudioPage.scss';
+import '../audio/AudioPage.scss';
 
 const MusicPage = () => {
   useScrollToHash();

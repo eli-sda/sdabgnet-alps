@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Page } from 'src/organisms/Page';
-import routes from 'src/routes';
-import { getTitle } from 'src/utils/Navigation';
-import { usePlaylists } from 'src/hooks/usePlaylists';
-import { PlaylistType } from 'src/contexts/PlaylistsContext';
-import { useScrollToHash } from 'src/hooks/useScrollToHash';
-import { Caption } from 'alps-library/atoms/text/Caption';
-import DownloadList from './DownloadList';
 import { Accordion } from 'alps-library/molecules/components/accordion/Accordion';
 import { Text } from 'alps-library/atoms/text/Text';
+import { Caption } from 'alps-library/atoms/text/Caption';
+import routes from 'src/routes';
+import { Page } from 'src/organisms/Page';
+import { PlaylistType } from 'src/contexts/PlaylistsContext';
+import { usePlaylists } from 'src/hooks/usePlaylists';
+import { useScrollToHash } from 'src/hooks/useScrollToHash';
+import { getTitle } from 'src/utils/Navigation';
+import DownloadList from '../../components/downloadList/DownloadList';
 
 const PresentationResources = () => {
   useScrollToHash();

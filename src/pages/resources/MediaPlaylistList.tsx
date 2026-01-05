@@ -133,7 +133,8 @@ const MediaPlaylistList = ({
           <PlaylistActionButtons
             shareUrl={`${window.location.origin}${window.location.pathname}#${playlist._id}`}
             fromIndex={
-              selectedPlaylist?._id === playlist._id
+                //TODO: for video player to support start from index
+              mediaType === 'audio' && selectedPlaylist?._id === playlist._id
                 ? currentPlayIndex
                 : undefined
             }
@@ -151,7 +152,7 @@ const MediaPlaylistList = ({
         </div>
       );
     },
-    [currentPlayIndex, selectedPlaylist, showDownloadAll, getCurrentTime]
+    [selectedPlaylist?._id, currentPlayIndex, mediaType, showDownloadAll, getCurrentTime]
   );
 
   return (

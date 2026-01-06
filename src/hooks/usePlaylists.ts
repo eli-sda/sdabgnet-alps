@@ -49,9 +49,13 @@ export function usePlaylists() {
     ): Promise<PlaylistType[]> => {
       const today = getTodayString();
 
-      // Return cached playlists for type if up-to-date
-      if (playlists[type] && lastLoaded[`playlist_${type}`] === today) {
-        return Promise.resolve(playlists[type]);
+      // Build a cache key that includes resource flag and title (if any)
+      const titleKey = title ? `_title=${encodeURIComponent(title)}` : '';
+      const cacheKey = isResource ? `resource_${type}${titleKey}` : `${type}${titleKey}`;
+
+      // Return cached playlists for cacheKey if up-to-date
+      if (playlists[cacheKey] && lastLoaded[`playlist_${cacheKey}`] === today) {
+        return Promise.resolve(playlists[cacheKey]);
       }
 
       // Otherwise, fetch from backend and update cache
@@ -89,9 +93,9 @@ export function usePlaylists() {
 
           setPlaylists({
             ...playlists,
-            [type]: sortedPlaylists
+            [cacheKey]: sortedPlaylists
           });
-          setLastLoaded(`playlist_${type}`, today);
+          setLastLoaded(`playlist_${cacheKey}`, today);
           return Promise.resolve(sortedPlaylists);
         })
         .catch((err) => {

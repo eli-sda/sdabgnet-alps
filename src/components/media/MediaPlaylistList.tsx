@@ -114,7 +114,6 @@ const MediaPlaylistList = ({
   }, [
     mediaPlaylists,
     sanityType,
-    getPlaylists,
     mediaType
     // setInitialPlaylists - do not include to avoid infinite loop
   ]);
@@ -133,7 +132,7 @@ const MediaPlaylistList = ({
           <PlaylistActionButtons
             shareUrl={`${window.location.origin}${window.location.pathname}#${playlist._id}`}
             fromIndex={
-                //TODO: for video player to support start from index
+              //TODO: for video player to support start from index
               mediaType === 'audio' && selectedPlaylist?._id === playlist._id
                 ? currentPlayIndex
                 : undefined
@@ -152,7 +151,13 @@ const MediaPlaylistList = ({
         </div>
       );
     },
-    [selectedPlaylist?._id, currentPlayIndex, mediaType, showDownloadAll, getCurrentTime]
+    [
+      selectedPlaylist?._id,
+      currentPlayIndex,
+      mediaType,
+      showDownloadAll,
+      getCurrentTime
+    ]
   );
 
   return (

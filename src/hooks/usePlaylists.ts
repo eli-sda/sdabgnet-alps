@@ -51,7 +51,9 @@ export function usePlaylists() {
 
       // Build a cache key that includes resource flag and title (if any)
       const titleKey = title ? `_title=${encodeURIComponent(title)}` : '';
-      const cacheKey = isResource ? `resource_${type}${titleKey}` : `${type}${titleKey}`;
+      const cacheKey = isResource
+        ? `resource_${type}${titleKey}`
+        : `${type}${titleKey}`;
 
       // Return cached playlists for cacheKey if up-to-date
       if (playlists[cacheKey] && lastLoaded[`playlist_${cacheKey}`] === today) {
@@ -91,10 +93,7 @@ export function usePlaylists() {
               });
             });
 
-          setPlaylists({
-            ...playlists,
-            [cacheKey]: sortedPlaylists
-          });
+          setPlaylists(cacheKey, sortedPlaylists);
           setLastLoaded(`playlist_${cacheKey}`, today);
           return Promise.resolve(sortedPlaylists);
         })
@@ -141,10 +140,7 @@ export function usePlaylists() {
       // Otherwise, fetch from backend and update cache
       return await loadLinks(type)
         .then((loadedLinks) => {
-          setLinks({
-            ...links,
-            [type]: loadedLinks
-          });
+          setLinks(type, loadedLinks);
           setLastLoaded(`link_${type}`, today);
           return Promise.resolve(loadedLinks);
         })

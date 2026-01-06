@@ -55,6 +55,16 @@
     ]
   },
   {
+    "title": "Блогът на Надя – Усмихни се – има защо!",
+    "image40": "/img/logos/40/smile.jpg",
+    "links": [
+      {
+        "url": "https://usmivka.secretko.com/",
+        "type": "сайт"
+      }
+    ]
+  },
+  {
     "title": "4Bible (За Библията)",
     "image40": "/img/logos/40/4Bible.png",
     "links": [
@@ -261,6 +271,27 @@
     "links": [
       {
         "url": "https://www.youtube.com/@dimifilyova5103",
+        "type": "youtube"
+      }
+    ]
+  },
+  {
+    "title": "Вярвам",
+    "description": "Тук ще откриеш библейски послания, християнски поучения, тълкувания на Библията, молитви, вдъхновяващи проповеди и истории за Исус Христос, които ще укрепят вярата ти. Или ще ти помогнат да я откриеш. Тяхната мисия е да ти помогнат да разбереш Божието слово и да живееш с повече мир, надежда и любов.",
+    "image40": "/img/logos/40/vqrvam.jpg",
+    "links": [
+      {
+        "url": "https://www.youtube.com/@Вярвам",
+        "type": "youtube"
+      }
+    ]
+  },
+  {
+    "title": "Библията говори",
+    "image40": "/img/logos/40/bible-talks.jpg",
+    "links": [
+      {
+        "url": "https://www.youtube.com/@BibleTalks.Studio",
         "type": "youtube"
       }
     ]

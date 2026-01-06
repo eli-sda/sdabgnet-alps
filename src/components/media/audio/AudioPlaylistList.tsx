@@ -1,5 +1,5 @@
 import { memo, useRef, useState } from 'react';
-import MediaPlaylistList from './MediaPlaylistList';
+import MediaPlaylistList from '../MediaPlaylistList';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import AudioPlayerProvider from 'src/providers/AudioPlayerProvider';
 import AudioPlayer, { AudioPlayerHandle } from './AudioPlayer';

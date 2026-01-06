@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { AccordionItem } from 'src/alps/molecules/components/accordion/AccordionItem';
 import { LinkType } from 'src/contexts/PlaylistsContext';
+import PlaylistActionButtons from '../playlistButtons/PlaylistActionButtons';
 import DownloadListItem from './DownloadListItem';
 import './DownloadList.scss';
-import { AccordionItem } from 'src/alps/molecules/components/accordion/AccordionItem';
-import PlaylistActionButtons from './PlaylistActionButtons';
 
 type DownloadListProps = {
   id?: string;

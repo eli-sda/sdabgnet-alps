@@ -2,7 +2,7 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlaylists } from 'src/hooks/usePlaylists';
-import PlaylistActionButtons from './PlaylistActionButtons';
+import PlaylistActionButtons from '../playlistButtons/PlaylistActionButtons';
 import MediaPlaylist from './MediaPlaylist';
 import './MediaPlaylistList.scss';
 

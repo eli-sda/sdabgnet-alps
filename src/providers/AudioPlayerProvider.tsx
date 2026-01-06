@@ -1,6 +1,6 @@
 import React from 'react';
 import { AudioPlayerContextType, AudioPlayerContext } from '../contexts/AudioPlayerContext';
-import { AudioPlayerHandle } from 'src/pages/resources/AudioPlayer';
+import { AudioPlayerHandle } from 'src/components/media/audio/AudioPlayer';
 
 type AudioPlayerProviderProps = {
   children: React.ReactNode;

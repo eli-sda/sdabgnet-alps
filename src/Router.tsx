@@ -40,16 +40,16 @@ const PresentationResources = lazy(
   () => import('./pages/resources/PresentationResources')
 );
 const ImageResources = lazy(() => import('./pages/resources/ImageResources'));
-const AudioResources = lazy(() => import('./pages/resources/AudioResources'));
-const AudioPage = lazy(() => import('./pages/resources/AudioPage'));
+const AudioResources = lazy(() => import('./pages/resources/audio/AudioResources'));
+const AudioPage = lazy(() => import('./pages/resources/audio/AudioPage'));
 const AudioBibleResources = lazy(
-  () => import('./pages/resources/AudioBibleResources')
+  () => import('./pages/resources/audio/audioBibleResources/AudioBibleResources')
 );
 const AudioSeminarsResources = lazy(
-  () => import('./pages/resources/AudioSeminarsResources')
+  () => import('./pages/resources/audio/AudioSeminarsResources')
 );
 const AudioBooksResources = lazy(
-  () => import('./pages/resources/AudioBooksResources')
+  () => import('./pages/resources/audio/audiobooks/AudioBooksResources')
 );
 const Donations = lazy(() => import('./pages/Donations'));
 const AdventistsOnline = lazy(() => import('./pages/links/AdventistsOnline'));

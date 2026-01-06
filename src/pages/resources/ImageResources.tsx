@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Page } from 'src/organisms/Page';
-import routes from 'src/routes';
-import { getTitle } from 'src/utils/Navigation';
-import { usePlaylists } from 'src/hooks/usePlaylists';
-import { LinkType } from 'src/contexts/PlaylistsContext';
 import { Caption } from 'alps-library/atoms/text/Caption';
-import DownloadList from './DownloadList';
 import { Text } from 'alps-library/atoms/text/Text';
+import routes from 'src/routes';
+import { Page } from 'src/organisms/Page';
+import { LinkType } from 'src/contexts/PlaylistsContext';
+import { usePlaylists } from 'src/hooks/usePlaylists';
+import { getTitle } from 'src/utils/Navigation';
+import DownloadList from 'src/components/downloadList/DownloadList';
 
 const ImageResources = () => {
   const breadcrumbsUrls = [routes.resources(), routes.resources('image')];

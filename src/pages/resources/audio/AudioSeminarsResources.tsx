@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { usePlaylists } from 'src/hooks/usePlaylists';
-import { SeminarRelatedPresentationsType } from 'src/contexts/PlaylistsContext';
-import AudioPage from './AudioPage';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
+import { SeminarRelatedPresentationsType } from 'src/contexts/PlaylistsContext';
+import { usePlaylists } from 'src/hooks/usePlaylists';
+import AudioPage from './AudioPage';
 
 const AudioSeminarsResources = () => {
   const { getSeminarRelatedPresentations } = usePlaylists();

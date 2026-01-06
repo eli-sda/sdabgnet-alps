@@ -3,7 +3,7 @@ import { PageSection } from 'src/organisms/PageSection';
 import routes from 'src/routes';
 import { getTitle } from 'src/utils/Navigation';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
-import { AudioPlaylistList } from './AudioPlaylistList';
+import { AudioPlaylistList } from 'src/components/media/audio/AudioPlaylistList';
 import './AudioPage.scss';
 
 type AudioPageProps = {

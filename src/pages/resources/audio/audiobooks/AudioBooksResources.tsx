@@ -1,7 +1,7 @@
-import { Figure } from 'alps-library/molecules/media/figure/Figure';
-import AudioPage from './AudioPage';
-import audiobooksForChildrenData from './audiobooksForChildren.json';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
+import { Figure } from 'alps-library/molecules/media/figure/Figure';
+import audiobooksForChildrenData from './audiobooksForChildren.json';
+import AudioPage from '../AudioPage';
 
 type audiobooksForChildrenType = {
   title: string;

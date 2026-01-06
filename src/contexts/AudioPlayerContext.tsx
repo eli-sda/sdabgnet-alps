@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { AudioPlayerHandle } from 'src/pages/resources/AudioPlayer';
+import { AudioPlayerHandle } from 'src/components/media/audio/AudioPlayer';
 
 export type AudioPlayerContextType = {
   playerRef: React.RefObject<AudioPlayerHandle> | null;

@@ -1,6 +1,7 @@
 {
   "_id": "youtube_music_playlist",
   "title": "Песни от YouTube",
+  "imageUrl": "/img/resources/music-videos.webp",
   "items": [
     {
       "_id": "saZhMqWVxKY",

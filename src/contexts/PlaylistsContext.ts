@@ -35,9 +35,9 @@ export type LinksMap = { [type: string]: LinkType[] };
 
 export type PlaylistsContextType = {
   playlists: PlaylistsMap;
-  setPlaylists: (playlists: PlaylistsMap) => void;
+  setPlaylists: (type: string, playlists: PlaylistType[]) => void;
   links: LinksMap;
-  setLinks: (links: LinksMap) => void;
+  setLinks: (type: string, links: LinkType[]) => void;
   seminarRelatedPresentations: SeminarRelatedPresentationsType[];
   setSeminarRelatedPresentations: (
     presentations: SeminarRelatedPresentationsType[]

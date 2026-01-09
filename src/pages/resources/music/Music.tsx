@@ -31,7 +31,8 @@ const MusicPage = () => {
     )
       .then(setMusicPlaylist)
       .catch((err) => console.error(err));
-  }, [getResourcePlaylists]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

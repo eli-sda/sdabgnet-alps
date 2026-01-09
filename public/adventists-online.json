@@ -55,6 +55,16 @@
     ]
   },
   {
+    "title": "Блогът на Надя – Усмихни се – има защо!",
+    "image40": "/img/logos/40/smile.png",
+    "links": [
+      {
+        "url": "https://usmivka.secretko.com/",
+        "type": "сайт"
+      }
+    ]
+  },
+  {
     "title": "4Bible (За Библията)",
     "image40": "/img/logos/40/4Bible.png",
     "links": [
@@ -257,7 +267,7 @@
   {
     "title": "Дими Фильова",
     "description": "Тук ще намерите актуални адвентни материали преведени от аглийски език, аудио книги, християнски песни.",
-    "image40": "/img/logos/40/dimi-filyova.jpg",
+    "image40": "/img/logos/40/dimi-filyova.png",
     "links": [
       {
         "url": "https://www.youtube.com/@dimifilyova5103",
@@ -266,9 +276,30 @@
     ]
   },
   {
+    "title": "Вярвам",
+    "description": "Тук ще откриеш библейски послания, християнски поучения, тълкувания на Библията, молитви, вдъхновяващи проповеди и истории за Исус Христос, които ще укрепят вярата ти. Или ще ти помогнат да я откриеш. Тяхната мисия е да ти помогнат да разбереш Божието слово и да живееш с повече мир, надежда и любов.",
+    "image40": "/img/logos/40/vqrvam.png",
+    "links": [
+      {
+        "url": "https://www.youtube.com/@Вярвам",
+        "type": "youtube"
+      }
+    ]
+  },
+  {
+    "title": "Библията говори",
+    "image40": "/img/logos/40/bible-talks.png",
+    "links": [
+      {
+        "url": "https://www.youtube.com/@BibleTalks.Studio",
+        "type": "youtube"
+      }
+    ]
+  },
+  {
     "title": "Моментът на истината",
     "description": "Моментът на истината - курс от 41 урока",
-    "image40": "/img/logos/40/cyberspaceministry.jpg",
+    "image40": "/img/logos/40/cyberspaceministry.png",
     "links": [
       {
         "url": "http://www.cyberspaceministry.org/Lessons/bul-les1.html",

@@ -12,8 +12,12 @@ import { usePagesMeta } from 'src/hooks/usePagesMeta';
 // import { Button } from '@mui/material';
 // import { deleteAllLinks } from 'src/utils/DelteSanityDocuments';
 // import { fixSlugs } from 'src/utils/Sanity/fix-slug';
-// import { linkPlaylistsToItems } from 'src/utils/Sanity/link-playlists';
-// import { linkMusicPlaylistsToItems } from 'src/utils/Sanity/link-playlists';
+// import {
+//   // linkPlaylistsToItems,
+//   // linkMusicPlaylistsToItems,
+//   // linkBibleVideoPlaylistsToItems,
+//   linkTestimoniesVideoPlaylistsToItems
+// } from 'src/utils/Sanity/link-playlists';
 // import { deleteAllAudioLinks } from 'src/utils/Sanity/delete-audio-links';
 // import { VideoFull } from 'alps-library/organisms/sections/videoFull/VideoFull';
 
@@ -138,10 +142,21 @@ const Home = () => {
           {/* Playlist MUSIC Linking Test Buttons */}
           {/* <div className="u-spacing--double">
             <Button onClick={() => void linkMusicPlaylistsToItems()}>
-              Fill Music Playlist
+              Fill Music Playlists
             </Button>
           </div> */}
-
+          {/* Playlist Bible Linking Test Buttons */}
+          {/* <div className="u-spacing--double">
+            <Button onClick={() => void linkBibleVideoPlaylistsToItems()}>
+              Fill Библейски Playlists
+            </Button>
+          </div> */}
+          {/* Playlist Testimony Linking Test Buttons */}
+          {/* <div className="u-spacing--double">
+            <Button onClick={() => void linkTestimoniesVideoPlaylistsToItems()}>
+              Fill Опитности Playlists
+            </Button>
+          </div> */}
           {/* verse for today */}
           {/* <DailyVerse date={currentDate}></DailyVerse> */}
 

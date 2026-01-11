@@ -256,6 +256,17 @@ function normalizeAuthor(author: string): string {
     .trim();
 }
 
+/**
+ * Sort video links by keyWords[1] (numeric order)
+ */
+function sortYoutubeVideoLinks(links: LinkDocument[]): LinkDocument[] {
+  return links.sort((a, b) => {
+    const aNum = parseInt(a.keyWords[1] || '0');
+    const bNum = parseInt(b.keyWords[1] || '0');
+    return aNum - bNum;
+  });
+}
+
 // Sorting logic based on json file
 function sortMusicLinks(
   links: LinkDocument[],
@@ -329,7 +340,7 @@ export async function linkMusicPlaylistsToItems() {
       sortedMatchingLinks.forEach((link, idx) => {
         console.log(`      ${idx + 1}. "${link.title}" (${link.fileName}})`);
       });
-      
+
       // Create references to the matching links
       const itemReferences = sortedMatchingLinks.map((link) => ({
         _type: 'reference' as const,
@@ -353,7 +364,6 @@ export async function linkMusicPlaylistsToItems() {
       } catch (error) {
         console.error(`❌ Failed to update playlist ${playlist._id}:`, error);
       }
-
     }
 
     console.log(
@@ -362,4 +372,106 @@ export async function linkMusicPlaylistsToItems() {
   } catch (error) {
     console.error('❌ Error in linkMusicPlaylistsToItems:', error);
   }
+}
+
+async function linkVideoPlaylistsToItems(playlistType: string) {
+  console.log(
+    `Starting to link ${playlistType} video playlists to their items...`
+  );
+  let totalUpdated = 0;
+  try {
+    const playlists: PlaylistDocument[] = await client.fetch(
+      // Fetch all playlists of the given type without items
+      `*[_type == "playlist" && type == "${playlistType}" && items == null] | order(title asc){
+      _id,
+      _type,
+      title,
+      items
+    }`
+    );
+
+    // Get all playlist titles for filtering links
+    const playlistTitles = playlists.map((p) => p.title);
+
+    // Fetch video links with isResource == null where first keyWord matches one of the playlist titles
+    const links: LinkDocument[] = await client.fetch(
+      `*[_type == "link" && type == "video" && isResource == null && keyWords[0] in $playlistTitles]{
+        _id,
+        _type,
+        title,
+        author,
+        fileName,
+        keyWords
+      }`,
+      { playlistTitles }
+    );
+
+    console.log(
+      `Found ${playlists.length} playlists and ${links.length} links`
+    );
+
+    // Process each playlist
+    for (const playlist of playlists) {
+      // Find matching links for this playlist
+      const matchingLinks = links.filter((link) => {
+        // Check if first keyWord matches the playlist title exactly
+        if (link.keyWords[0] === playlist.title) {
+          return true;
+        }
+      });
+
+      if (matchingLinks.length === 0) {
+        console.warn(`No matching links found for playlist: ${playlist.title}`);
+        continue;
+      }
+
+      // Sort links by keyWords[1] (numeric order)
+      const sortedMatchingLinks = sortYoutubeVideoLinks(matchingLinks);
+      console.log(`📂 Playlist: "${playlist.title}"`);
+      console.log(`   Found ${sortedMatchingLinks.length} matching links:`);
+      sortedMatchingLinks.forEach((link, idx) => {
+        console.log(
+          `      ${idx + 1}. "${link.title}" (keyWords[1]: ${link.keyWords[1]})`
+        );
+      });
+
+      // Create references to the matching links
+      const itemReferences = sortedMatchingLinks.map((link) => ({
+        _type: 'reference' as const,
+        _ref: link._id,
+        _key: `ref-${link._id}`
+      }));
+
+      // Update the playlist with the item references
+      try {
+        await client
+          .patch(playlist._id)
+          .set({
+            items: itemReferences
+          })
+          .commit();
+
+        console.log(
+          `✅ Updated playlist "${playlist.title}" with ${sortedMatchingLinks.length} items`
+        );
+        totalUpdated++;
+      } catch (error) {
+        console.error(`❌ Failed to update playlist ${playlist._id}:`, error);
+      }
+    }
+
+    console.log(
+      `\n🎉 Successfully updated ${totalUpdated} playlists out of ${playlists.length}`
+    );
+  } catch (error) {
+    console.error('❌ Error in linkVideoPlaylistsToItems:', error);
+  }
+}
+
+export async function linkBibleVideoPlaylistsToItems() {
+  await linkVideoPlaylistsToItems('bible_ref');
+}
+
+export async function linkTestimoniesVideoPlaylistsToItems() {
+  await linkVideoPlaylistsToItems('testimony');
 }

@@ -1,0 +1,38 @@
+/* Responsive grid for believe28 sections: max 3 columns, 2 on medium, 1 on small */
+.believe-grid {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  padding-inline: 1rem;
+}
+
+.believe-grid__col {
+  box-sizing: border-box;
+  /* 3 columns layout */
+  flex: 0 0 calc((100% - 2 * 1.5rem) / 3);
+  max-width: calc((100% - 2 * 1.5rem) / 3);
+}
+
+/* 2 columns for medium screens */
+@media (max-width: 992px) {
+  .believe-grid__col {
+    flex: 0 0 calc((100% - 1.5rem) / 2);
+    max-width: calc((100% - 1.5rem) / 2);
+  }
+}
+
+/* 1 column for small screens */
+@media (max-width: 600px) {
+  .believe-grid__col {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+.believe-title {
+  text-align: center;
+}

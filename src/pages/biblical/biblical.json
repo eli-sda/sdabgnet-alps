@@ -1,0 +1,28 @@
+[
+  {
+    "section": "",
+    "id": "biblical",
+    "items": [
+      {
+        "title": "Адвентистите от седмия ден вярват… (от Адвентисимо)",
+        "image40": "/img/logos/40/adventisimo.com.png",
+        "link": "https://www.adventisimo.com/sda-believe/"
+      },
+      {
+        "title": "Основни учения на Библията (от facebible.bg)",
+        "image40": "/img/logos/40/facebible.png",
+        "link": "https://facebible.bg/category/%D0%B7%D0%B0-%D0%B1%D0%B8%D0%B1%D0%BB%D0%B8%D1%8F%D1%82%D0%B0/%D0%BE%D1%81%D0%BD%D0%BE%D0%B2%D0%BD%D0%B8-%D1%83%D1%87%D0%B5%D0%BD%D0%B8%D1%8F/"
+      },
+      {
+        "title": "Телевизионен библейски курс \"Небесни послания, вяра и факти\"(от Hope Channel Bulgaria)",
+        "image40": "/img/logos/40/nebesni-poslania.png",
+        "link": "https://hopetv.bg/category/%D0%BF%D1%80%D0%B5%D0%B4%D0%B0%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F/%D0%BD%D0%B5%D0%B1%D0%B5%D1%81%D0%BD%D0%B8-%D0%BF%D0%BE%D1%81%D0%BB%D0%B0%D0%BD%D0%B8%D1%8F-%D0%B2%D1%8F%D1%80%D0%B0-%D0%B8-%D1%84%D0%B0%D0%BA%D1%82%D0%B8/"
+      },
+      {
+        "title": "Аудиокнига и Библейски курс (от Радио 3:16)",
+        "image40": "/img/logos/40/Bible-course.png",
+        "link": "https://3-16.bg/center/"
+      }
+    ]
+  }
+]

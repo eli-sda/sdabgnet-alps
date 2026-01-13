@@ -40,10 +40,13 @@ const PresentationResources = lazy(
   () => import('./pages/resources/PresentationResources')
 );
 const ImageResources = lazy(() => import('./pages/resources/ImageResources'));
-const AudioResources = lazy(() => import('./pages/resources/audio/AudioResources'));
+const AudioResources = lazy(
+  () => import('./pages/resources/audio/AudioResources')
+);
 const AudioPage = lazy(() => import('./pages/resources/audio/AudioPage'));
 const AudioBibleResources = lazy(
-  () => import('./pages/resources/audio/audioBibleResources/AudioBibleResources')
+  () =>
+    import('./pages/resources/audio/audioBibleResources/AudioBibleResources')
 );
 const AudioSeminarsResources = lazy(
   () => import('./pages/resources/audio/AudioSeminarsResources')
@@ -61,6 +64,7 @@ const Institutions = lazy(() => import('./pages/Institutions'));
 const SunsetCalendarPage = lazy(() => import('./pages/sunset/SunsetCalendar'));
 const Dictionary = lazy(() => import('./pages/Dictionary'));
 const Music = lazy(() => import('./pages/resources/music/Music'));
+const Biblical = lazy(() => import('./pages/biblical/Biblical'));
 
 // const theme = createTheme();
 
@@ -168,6 +172,7 @@ const Router = () => (
 
           {/* БГ справочник */}
           <Route path={routes.info()} element={<Info />} />
+          <Route path={routes.info('biblical')} element={<Biblical />} />
           <Route path={routes.churches} element={<Churches />} />
           <Route path={routes.info('churches')} element={<Churches />} />
           <Route

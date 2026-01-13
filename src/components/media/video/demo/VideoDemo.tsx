@@ -29,7 +29,10 @@ export const VideoDemo = () => {
     <section>
       <h3>Видео демо</h3>
       {!!playlists && (
-        <VideoPlaylistList playlists={playlists} sanityType="bible_ref" />
+        <>
+          <VideoPlaylistList playlists={playlists} sanityType="bible_ref" />
+          <VideoPlaylistList sanityType="testimony" />
+        </>
       )}
     </section>
   );

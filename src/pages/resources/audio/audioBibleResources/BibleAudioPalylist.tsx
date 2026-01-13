@@ -41,7 +41,7 @@ const BibleAudioPalylist = () => {
   const playlist = {
     _id: 'audioBible',
     title: 'Аудио Библия',
-    imageUrl: '/images/bible.webp',
+    imageUrl: '/img/resources/bible.webp',
     items
   };
 

@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useCallback, useState } from 'react';
 import {
   PlaylistsContext,
   PlaylistType,
@@ -7,20 +7,33 @@ import {
 } from 'src/contexts/PlaylistsContext';
 
 export const PlaylistsProvider = ({ children }: { children: ReactNode }) => {
-  const [playlists, setPlaylists] = useState<{
+  const [playlists, setPlaylistsState] = useState<{
     [type: string]: PlaylistType[];
   }>({});
-  const [links, setLinks] = useState<{ [type: string]: LinkType[] }>({});
+  const [links, setLinksState] = useState<{ [type: string]: LinkType[] }>({});
   const [lastLoaded, setLastLoadedState] = useState<{ [type: string]: string }>(
     {}
   );
   const [seminarRelatedPresentations, setSeminarRelatedPresentations] =
     useState<SeminarRelatedPresentationsType[]>([]);
 
-  // Setter for lastLoaded by type
-  const setLastLoaded = (type: string, date: string) => {
-    setLastLoadedState((prev) => ({ ...prev, [type]: date }));
-  };
+  // Setter for playlists by cacheKey
+  const setPlaylists = useCallback(
+    (cacheKey: string, playlistsData: PlaylistType[]) => {
+      setPlaylistsState((prev) => ({ ...prev, [cacheKey]: playlistsData }));
+    },
+    []
+  );
+
+  // Setter for links by cacheKey
+  const setLinks = useCallback((cacheKey: string, linksData: LinkType[]) => {
+    setLinksState((prev) => ({ ...prev, [cacheKey]: linksData }));
+  }, []);
+
+  // Setter for lastLoaded by cacheKey
+  const setLastLoaded = useCallback((cacheKey: string, date: string) => {
+    setLastLoadedState((prev) => ({ ...prev, [cacheKey]: date }));
+  }, []);
 
   return (
     <PlaylistsContext.Provider

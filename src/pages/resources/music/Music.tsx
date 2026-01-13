@@ -31,7 +31,8 @@ const MusicPage = () => {
     )
       .then(setMusicPlaylist)
       .catch((err) => console.error(err));
-  }, [getResourcePlaylists]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -40,7 +41,12 @@ const MusicPage = () => {
         kicker={getTitle(routes.resources())}
       />
       <PageSection breadcrumbsUrls={breadcrumbsUrls}>
-        <Text as="article" hasDropcap={false} spacing="double">
+        <Text
+          as="article"
+          hasDropcap={false}
+          spacing="double"
+          className="u-space--double--bottom"
+        >
           <Accordion>
             {musicPlaylist.map(({ _id, title, author, items }, i) => (
               <DownloadList
@@ -61,9 +67,10 @@ const MusicPage = () => {
             ))}
           </Accordion>
         </Text>
+
         <VideoPlaylistList playlists={musicPlaylistArr} />
 
-        <div className="audio-page-instructions u-space--double--top">
+        <div className="audio-page-instructions">
           <h4 className="audio-page-caption">
             Използвайте бутона{' '}
             <span className="audio-page-caption__icon-wrapper">

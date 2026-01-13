@@ -131,11 +131,7 @@ const Biblical = () => {
         </h2>
         <div className="u-space--double--top believe-grid">
           {believeSections.map((sectionData, sIndex) => (
-            <div
-              key={sIndex}
-              className="believe-grid__col"
-              // style={{ flex: '1 1 300px', maxWidth: '360px', boxSizing: 'border-box' }}
-            >
+            <div key={sIndex} className="believe-grid__col">
               <HeadingBlock title={sectionData.section} />
               <ul>
                 {sectionData.items.map((item, iIndex) => (

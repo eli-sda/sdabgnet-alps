@@ -1,15 +1,16 @@
 import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
-import { PageSection } from 'src/organisms/PageSection';
-import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
+import { Text } from 'alps-library/atoms/text/Text';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
+import { PageSection } from 'src/organisms/PageSection';
+import { PageHeaderFeature2 } from 'src/organisms/sections/PageHeaderFeature2';
 import routes from 'src/routes';
+import { MAIN_RESOURCES_FOLDER } from 'src/constants';
 import { getTitle } from 'src/utils/Navigation';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
 import { LinksBlock } from '../links/LinksBlock';
-import { LinksData, SectionList } from '../links/MediaLinksPage';
+import { LinksData, MediaListSection } from '../links/MediaLinksPage';
 import biblicalJson from './biblical.json';
-import onlineBiblesJson from './online-bibles.json';
 import believe28 from './believe28.json';
 import './Biblical.scss';
 
@@ -49,28 +50,11 @@ const Biblical = () => {
     }
   ];
 
-  const izuchavaiMeButtons = izuchavaiMe?.map(({ url, title }) => ({
-    label: title,
-    url,
-    className: 'link-button u-space--half--right u-space--half--bottom',
-    faIconClass: 'fas fa-external-link-alt',
-    hideExternalIcon: true,
-    simple: true,
-    outline: true,
-    isExternal: true
-  }));
-
   return (
     <>
       <PageHeaderLong title={getTitle(routes.info('biblical'))} />
       <PageSection
         breadcrumbsUrls={breadcrumbsUrls}
-        // aside={
-        //   <SectionList
-        //     sections={onlineBiblesJson as LinksData[]}
-        //     doubleSpace={false}
-        //   />
-        // }
         relatedPosts={{
           heading: 'Аудио курсове',
           blocks: [
@@ -104,35 +88,80 @@ const Biblical = () => {
 
         <section className="u-space--bottom">
           <LinksBlock
-            title="Курсове от Изучавай ме"
-            smallImage="/img/logos/40/bible-izuchavai-me.png"
-            buttons={izuchavaiMeButtons}
+            title="Курсове от Изучавай.ме"
+            picture="/img/logos/bible-izuchavai-me.png"
+            content={
+              <div>
+                {izuchavaiMe?.map(({ url, title }, index) => (
+                  <Text key={index}>
+                    <a
+                      className="u-font--primary--m c-block__title-link u-theme--color--darker u-theme--link-hover--dark"
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <strong>
+                        {title}
+                        <i className="fas fa-external-link-alt u-space--quarter--left"></i>
+                      </strong>
+                    </a>
+                  </Text>
+                ))}
+              </div>
+            }
           />
         </section>
 
         <section className="u-space--double--bottom">
-          <SectionList
+          <MediaListSection
             sections={biblicalJson as LinksData[]}
             doubleSpace={false}
           />
         </section>
-
-        <SectionList
-          sections={onlineBiblesJson as LinksData[]}
-          doubleSpace={false}
-        />
       </PageSection>
 
-      <VideoPlaylistList sanityType="bible_ref" />
+      <section>
+        <PageHeaderFeature2
+          blockType="longform"
+          blocks={[
+            {
+              type: 'longform',
+              title: 'Библейски видео поредици'
+            }
+          ]}
+        />
+        <VideoPlaylistList sanityType="bible_ref" />
+      </section>
 
       <section>
-        <h2 className="believe-title u-theme--color--darker u-text-transform--upper u-space--double">
-          Библейско изложение на 28 ОСНОВНИ УЧЕНИЯ
-        </h2>
-        <div className="u-space--double--top believe-grid">
+        <div className="u-space--double--bottom">
+          <PageHeaderFeature2
+            blockType="longform"
+            blocks={[
+              {
+                type: 'longform',
+                image: {
+                  alt: '',
+                  srcSet: {
+                    default: '/img/logos/believe28.gif',
+                    500: '',
+                    750: '',
+                    1200: ''
+                  }
+                },
+                title: 'Адвентистите от седмия ден вярват – 28 основни учения',
+                kicker: 'Главите от книга в PDF формат'
+              }
+            ]}
+          />
+        </div>
+
+        <div className="believe-grid">
           {believeSections.map((sectionData, sIndex) => (
             <div key={sIndex} className="believe-grid__col">
-              <HeadingBlock title={sectionData.section} />
+              <Text className="believe-section-title u-font--primary--m u-theme--color--darker">
+                <strong>{sectionData.section}</strong>
+              </Text>
               <ul>
                 {sectionData.items.map((item, iIndex) => (
                   <li
@@ -140,10 +169,14 @@ const Biblical = () => {
                     className="c-block__title hyphens-auto u-space u-theme--color--dark"
                   >
                     <a
-                      href={`https://sdasofia.org/sdabg/books/${item.path}`}
+                      href={`${MAIN_RESOURCES_FOLDER}/books/${item.path}`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
+                      <i
+                        className={'far fa-file-pdf u-space--half--right'}
+                        aria-hidden="true"
+                      ></i>
                       {item.title}
                     </a>
                   </li>

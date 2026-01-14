@@ -65,6 +65,7 @@ const SunsetCalendarPage = lazy(() => import('./pages/sunset/SunsetCalendar'));
 const Dictionary = lazy(() => import('./pages/Dictionary'));
 const Music = lazy(() => import('./pages/resources/music/Music'));
 const Biblical = lazy(() => import('./pages/biblical/Biblical'));
+const Bibles = lazy(() => import('./pages/bibles/Bibles'));
 
 // const theme = createTheme();
 
@@ -172,6 +173,7 @@ const Router = () => (
 
           {/* БГ справочник */}
           <Route path={routes.info()} element={<Info />} />
+          <Route path={routes.info('bibles')} element={<Bibles />} />
           <Route path={routes.info('biblical')} element={<Biblical />} />
           <Route path={routes.churches} element={<Churches />} />
           <Route path={routes.info('churches')} element={<Churches />} />

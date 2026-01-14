@@ -100,7 +100,7 @@ const renderLinksBlocks = (groups: LinkGroup[]) =>
     }
   );
 
-export const SectionList = ({
+export const MediaListSection = ({
   sections,
   doubleSpace
 }: {
@@ -143,7 +143,7 @@ const MediaLinksPage = ({
     asideSections.length > 0 ? (
       <>
         {asideSections.length > 0 && (
-          <SectionList sections={asideSections} doubleSpace={isDoubleSpacing} />
+          <MediaListSection sections={asideSections} doubleSpace={isDoubleSpacing} />
         )}
       </>
     ) : undefined;
@@ -156,7 +156,7 @@ const MediaLinksPage = ({
       relatedPosts={relatedPosts}
     >
       <section className="u-spacing--double">
-        <SectionList sections={mainSections} doubleSpace={isDoubleSpacing} />
+        <MediaListSection sections={mainSections} doubleSpace={isDoubleSpacing} />
       </section>
     </Page>
   );

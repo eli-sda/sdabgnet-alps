@@ -4,7 +4,7 @@ import ReactJkMusicPlayer, {
 } from 'react-jinke-music-player';
 import { createDynamicMusicPlayerLocale } from 'src/utils/bgMusicPlayerLocale';
 import { suppressMusicPlayerWarnings } from 'src/utils/suppressMusicPlayerWarnings';
-import { PLAYER_RESOURCES_FOLDER } from 'src/constants';
+import { MAIN_RESOURCES_FOLDER } from 'src/constants';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 
 import 'src/styles/MusicPlayer.scss';
@@ -75,7 +75,7 @@ const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
     const audioLists = items.map((item) => ({
       name: item.title || title || '',
       singer: item.author || author || '',
-      musicSrc: `${PLAYER_RESOURCES_FOLDER}${item.path.replace(/^\/+/, '')}`,
+      musicSrc: `${MAIN_RESOURCES_FOLDER}${item.path.replace(/^\/+/, '')}`,
       cover: imageUrl ? `${imageUrl}?w=300` : '/images/audio-cover.svg'
     }));
 

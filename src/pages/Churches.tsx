@@ -3,7 +3,7 @@ import { Button } from 'src/alps/atoms/Button';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
-import { LinksData, SectionList } from './links/MediaLinksPage';
+import { LinksData, MediaListSection } from './links/MediaLinksPage';
 
 const Churches = () => {
   const breadcrumbsUrls = [routes.info(), routes.info('churches')];
@@ -34,7 +34,7 @@ const Churches = () => {
           isExternal
         />
 
-        <SectionList sections={bgChurchesLinks} doubleSpace={false} />
+        <MediaListSection sections={bgChurchesLinks} doubleSpace={false} />
       </div>
     </Page>
   );

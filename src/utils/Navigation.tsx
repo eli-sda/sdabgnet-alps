@@ -150,6 +150,11 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
     subnav: [
       {
         type: 'primary',
+        text: 'Библии',
+        url: routes.info('bibles')
+      },
+      {
+        type: 'primary',
         text: 'Библейски учения и курсове',
         url: routes.info('biblical')
       },
@@ -241,7 +246,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
         subnav: [
           {
             type: 'primary',
-            text: 'Библии',
+            text: 'Аудио Библии',
             url: routes.resources('audio', 'bible')
           },
           {

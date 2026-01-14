@@ -1,6 +1,6 @@
 import { Page } from 'src/organisms/Page';
 import routes from 'src/routes';
-import { LinksData, SectionList } from './links/MediaLinksPage';
+import { LinksData, MediaListSection } from './links/MediaLinksPage';
 import { getTitle } from 'src/utils/Navigation';
 import institutionsLinks from './institutions.json';
 
@@ -26,7 +26,7 @@ const Institutions = (): JSX.Element => {
         ]
       }}
     >
-      <SectionList
+      <MediaListSection
         sections={institutionsLinks as LinksData[]}
         doubleSpace={false}
       />

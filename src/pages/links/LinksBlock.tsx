@@ -1,6 +1,7 @@
 // Copy CtaBlock.tsx from alps-library
 
 import { canBeClass, themeBorderColorClass } from 'alps-library/global/colors';
+import { Text } from 'alps-library/atoms/text/Text';
 import { Button, ButtonProps } from 'src/alps/atoms/Button';
 import './LinksBlock.scss';
 
@@ -30,6 +31,7 @@ export interface LinksBlockProps {
    * Array of buttons (label, url, icon, etc.)
    */
   buttons?: ButtonProps[];
+  content?: React.ReactNode;
 }
 
 export const LinksBlock = ({
@@ -39,7 +41,8 @@ export const LinksBlock = ({
   colorDescription = '',
   buttons = [],
   picture,
-  smallImage
+  smallImage,
+  content
 }: LinksBlockProps): JSX.Element => {
   const backgroundClass = picture ? 'has-image' : '';
 
@@ -67,21 +70,23 @@ export const LinksBlock = ({
                   className="small-image u-space--half--right"
                 />
               )}
-              <h3 className="c-block__title u-font--primary--m">
-                {link ? (
+              {link ? (
+                <Text>
                   <a
-                    className="u-color--gray--dark"
+                    className="u-font--primary--m c-block__title-link u-theme--color--darker u-theme--link-hover--dark"
                     href={link}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {title}
-                    <i className="fas fa-external-link-alt u-space--quarter--left"></i>
+                    <strong>
+                      {title}
+                      <i className="fas fa-external-link-alt u-space--quarter--left"></i>
+                    </strong>
                   </a>
-                ) : (
-                  title
-                )}
-              </h3>
+                </Text>
+              ) : (
+                <h3 className="c-block__title u-font--primary--m">{title}</h3>
+              )}
             </div>
           )}
           {description && (
@@ -95,7 +100,9 @@ export const LinksBlock = ({
           )}
           {colorDescription && (
             <p
-              className={'c-block__meta u-font--secondary--xs u-theme--color--base'}
+              className={
+                'c-block__meta u-font--secondary--xs u-theme--color--base'
+              }
             >
               {colorDescription}
             </p>
@@ -139,6 +146,7 @@ export const LinksBlock = ({
             )}
           </div>
         )}
+        {content}
       </div>
     </div>
   );

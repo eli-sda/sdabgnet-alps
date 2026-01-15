@@ -1,5 +1,4 @@
 import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
-import { Text } from 'alps-library/atoms/text/Text';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { PageSection } from 'src/organisms/PageSection';
 import { PageHeaderFeature2 } from 'src/organisms/sections/PageHeaderFeature2';
@@ -78,7 +77,7 @@ const Biblical = () => {
       >
         <section className="u-clear-fix">
           <Figure
-            className="u-space--double--top"
+            className="u-space--double--top u-space--bottom"
             align="left"
             caption="Рекламен клип Изучавай.ме"
             size="large"
@@ -87,29 +86,30 @@ const Biblical = () => {
         </section>
 
         <section className="u-space--bottom">
-          <LinksBlock
-            title="Курсове от Изучавай.ме"
-            picture="/img/logos/bible-izuchavai-me.png"
-            content={
-              <div>
-                {izuchavaiMe?.map(({ url, title }, index) => (
-                  <Text key={index}>
-                    <a
-                      className="u-font--primary--m c-block__title-link u-theme--color--darker u-theme--link-hover--dark"
-                      href={url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <strong>
-                        {title}
-                        <i className="fas fa-external-link-alt u-space--quarter--left"></i>
-                      </strong>
-                    </a>
-                  </Text>
-                ))}
-              </div>
-            }
-          />
+          <LinksBlock title="" picture="/img/logos/bible-izuchavai-me.png">
+            <div>
+              <h3 className="c-block__title u-space--half--bottom">
+                Курсове от Изучавай.ме
+              </h3>
+              {izuchavaiMe?.map(({ url, title }, index) => (
+                <>
+                  <a
+                    key={index}
+                    className="u-font--primary--m c-block__title-link u-theme--color--darker u-theme--link-hover--dark"
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <strong>
+                      {title}
+                      <i className="fas fa-external-link-alt u-space--quarter--left"></i>
+                    </strong>
+                  </a>
+                  <br />
+                </>
+              ))}
+            </div>
+          </LinksBlock>
         </section>
 
         <section className="u-space--double--bottom">
@@ -120,71 +120,73 @@ const Biblical = () => {
         </section>
       </PageSection>
 
-      <section>
-        <PageHeaderFeature2
-          blockType="longform"
-          blocks={[
-            {
-              type: 'longform',
-              title: 'Библейски видео поредици'
-            }
-          ]}
-        />
-        <VideoPlaylistList sanityType="bible_ref" />
-      </section>
-
-      <section>
-        <div className="u-space--double--bottom">
+      <section className="full-section">
+        <section>
           <PageHeaderFeature2
             blockType="longform"
             blocks={[
               {
                 type: 'longform',
-                image: {
-                  alt: '',
-                  srcSet: {
-                    default: '/img/logos/believe28.gif',
-                    500: '',
-                    750: '',
-                    1200: ''
-                  }
-                },
-                title: 'Адвентистите от седмия ден вярват – 28 основни учения',
-                kicker: 'Главите от книга в PDF формат'
+                title: 'Библейски видео поредици'
               }
             ]}
           />
-        </div>
+          <VideoPlaylistList sanityType="bible_ref" />
+        </section>
 
-        <div className="believe-grid">
-          {believeSections.map((sectionData, sIndex) => (
-            <div key={sIndex} className="believe-grid__col">
-              <Text className="believe-section-title u-font--primary--m u-theme--color--darker">
-                <strong>{sectionData.section}</strong>
-              </Text>
-              <ul>
-                {sectionData.items.map((item, iIndex) => (
-                  <li
-                    key={iIndex}
-                    className="c-block__title hyphens-auto u-space u-theme--color--dark"
-                  >
-                    <a
-                      href={`${MAIN_RESOURCES_FOLDER}/books/${item.path}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
+        <section>
+          <div className="u-space--double--bottom">
+            <PageHeaderFeature2
+              blockType="longform"
+              blocks={[
+                {
+                  type: 'longform',
+                  image: {
+                    alt: '',
+                    srcSet: {
+                      default: '/img/logos/believe28.gif',
+                      500: '',
+                      750: '',
+                      1200: ''
+                    }
+                  },
+                  kicker: 'Библейско изложение на 28 ОСНОВНИ УЧЕНИЯ',
+                  title: 'Адвентистите от седмия ден вярват...'
+                }
+              ]}
+            />
+          </div>
+
+          <div className="believe-grid">
+            {believeSections.map((sectionData, sIndex) => (
+              <div key={sIndex} className="believe-grid__col">
+                <h3 className="believe-section-title u-space--left u-font--primary--m u-theme--color--darker">
+                  <strong>{sectionData.section}</strong>
+                </h3>
+                <ul>
+                  {sectionData.items.map((item, iIndex) => (
+                    <li
+                      key={iIndex}
+                      className="c-block__title hyphens-auto u-space u-theme--color--dark u-theme--link-hover--darker"
                     >
-                      <i
-                        className={'far fa-file-pdf u-space--half--right'}
-                        aria-hidden="true"
-                      ></i>
-                      {item.title}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+                      <a
+                        href={`${MAIN_RESOURCES_FOLDER}/books/${item.path}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <i
+                          className={'far fa-file-pdf u-space--half--right'}
+                          aria-hidden="true"
+                        ></i>
+                        {item.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
       </section>
     </>
   );

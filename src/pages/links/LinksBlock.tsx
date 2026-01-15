@@ -1,7 +1,6 @@
 // Copy CtaBlock.tsx from alps-library
 
 import { canBeClass, themeBorderColorClass } from 'alps-library/global/colors';
-import { Text } from 'alps-library/atoms/text/Text';
 import { Button, ButtonProps } from 'src/alps/atoms/Button';
 import './LinksBlock.scss';
 
@@ -31,7 +30,7 @@ export interface LinksBlockProps {
    * Array of buttons (label, url, icon, etc.)
    */
   buttons?: ButtonProps[];
-  content?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export const LinksBlock = ({
@@ -42,7 +41,7 @@ export const LinksBlock = ({
   buttons = [],
   picture,
   smallImage,
-  content
+  children
 }: LinksBlockProps): JSX.Element => {
   const backgroundClass = picture ? 'has-image' : '';
 
@@ -52,7 +51,13 @@ export const LinksBlock = ({
     >
       {picture && (
         <div className="u-padding--half">
-          <img src={picture} alt={picture} />
+          {link ? (
+            <a href={link} target="_blank" rel="noopener noreferrer">
+              <img src={picture} alt={picture} />
+            </a>
+          ) : (
+            <img src={picture} alt={picture} />
+          )}
         </div>
       )}
       <div
@@ -71,19 +76,17 @@ export const LinksBlock = ({
                 />
               )}
               {link ? (
-                <Text>
-                  <a
-                    className="u-font--primary--m c-block__title-link u-theme--color--darker u-theme--link-hover--dark"
-                    href={link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <strong>
-                      {title}
-                      <i className="fas fa-external-link-alt u-space--quarter--left"></i>
-                    </strong>
-                  </a>
-                </Text>
+                <a
+                  className="u-font--primary--m c-block__title-link u-theme--color--darker u-theme--link-hover--dark"
+                  href={link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <strong>
+                    {title}
+                    <i className="fas fa-external-link-alt u-space--quarter--left"></i>
+                  </strong>
+                </a>
               ) : (
                 <h3 className="c-block__title u-font--primary--m">{title}</h3>
               )}
@@ -98,6 +101,7 @@ export const LinksBlock = ({
               {description}
             </p>
           )}
+          {children}
           {colorDescription && (
             <p
               className={
@@ -146,7 +150,6 @@ export const LinksBlock = ({
             )}
           </div>
         )}
-        {content}
       </div>
     </div>
   );

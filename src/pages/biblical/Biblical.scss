@@ -1,3 +1,9 @@
+.full-section {
+  @media (max-width: 900px) {
+    margin-top: 5rem;
+  }
+}
+
 .believe-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -13,9 +19,4 @@
   @media (max-width: 600px) {
     grid-template-columns: 1fr;
   }
-}
-
-.believe-section-title {
-  display: block;
-  text-align: center;
 }

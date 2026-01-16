@@ -3,7 +3,7 @@ export const OLD_SITE = 'https://sdabg.net';
 export const RESOURCES_SITE = 'https://sdasofia.org';
 
 export const RESOURCES_FOLDER = '/sdabg/'; // folder in https://sdasofia.org or https://linuxman.biz - set in vite config proxy also
-export const PLAYER_RESOURCES_FOLDER = `${RESOURCES_SITE}${RESOURCES_FOLDER}`; // use for the audio player
+export const MAIN_RESOURCES_FOLDER = `${RESOURCES_SITE}${RESOURCES_FOLDER}`; // use for the audio player
 
 export const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 

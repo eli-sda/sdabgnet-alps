@@ -1,0 +1,42 @@
+[
+  {
+    "section": "",
+    "items": [
+      {
+        "title": "BibleGateway",
+        "description": "Разполага с няколко български превода, богата търсачка, възможност за сравняване на различни преводи и откриване на библейски стихове по теми.",
+        "colorDescription": "biblegateway.com",
+        "image": "/img/logos/biblegateway.png",
+        "link": "https://www.biblegateway.com/passage/?search=%D0%99%D0%BE%D0%B0%D0%BD+3%3A16&version=BPB"
+      },
+      {
+        "title": "YouVersion",
+        "description": "Ще откриете 9 български превода, аудио версии, търсачка, стих за деня, планове за ежедневно посвещение, маркиране на стихове, опция за паралелно четене и мобилни приложения за Android и iOS, които улесняват ежедневното четене и изучаване на Библията.",
+        "colorDescription": "bible.com",
+        "image": "/img/logos/bible-app.png",
+        "link": "https://www.bible.com/bg/bible/23/GEN.1.BG1940"
+      },
+      {
+        "title": "Библия БГ",
+        "description": "Сайтът предлага удобна навигация по книги, глави и стихове, търсачка за думи и фрази и директни линкове към конкретни стихове.",
+        "colorDescription": "biblia.bg",
+        "image": "/img/logos/biblia-bg.png",
+        "link": "https://biblia.bg"
+      },
+      {
+        "title": "Многопреводна online Библия",
+        "description": "Българската online Библия на Адвентната българска мреж@ съдържа над 20 превода на Новия завет, 7 от които български, 6 превода на Стария завет и търсачка с богати възможности.",
+        "colorDescription": "sdabg.net & bibliata.com",
+        "image": "/img/logos/bibliata-com.gif",
+        "link": "https://bibliata.com/paralel/bible.php?b=john&c=3&v1=16"
+      },
+      {
+        "title": "Българска Библия 1940",
+        "description": "Онлайн четене на Библията от Ellen G. White Writings",
+        "colorDescription": "egwwritings.org",
+        "image": "/img/logos/egwwritings.png",
+        "link": "https://m.egwwritings.org/bg/book/14207/toc"
+      }
+    ]
+  }
+]

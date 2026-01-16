@@ -22,10 +22,12 @@ type LinkItem = {
 
 export type LinkGroup = {
   title: string;
+  link?: string;
   description?: string;
+  colorDescription?: string;
   image?: string;
   image40?: string;
-  links: LinkItem[];
+  links?: LinkItem[];
 };
 
 export type LinksData = {
@@ -65,33 +67,40 @@ const ensureSections = (data: LinkGroup[]): LinksData[] => {
 };
 
 const renderLinksBlocks = (groups: LinkGroup[]) =>
-  groups.map(({ title, description, image, image40, links }, i) => {
-    const buttons = links.map(({ url, type }) => ({
-      label: type,
-      url,
-      className: `link-button u-space--half--right ${
-        links.length > 1 ? 'u-space--half--bottom' : ''
-      }`,
-      faIconClass: `${getFaIconClass(type)} fa-lg`,
-      hideExternalIcon: true,
-      simple: true,
-      outline: true,
-      isExternal: true
-    }));
+  groups.map(
+    (
+      { title, link, description, colorDescription, image, image40, links },
+      i
+    ) => {
+      const buttons = links?.map(({ url, type }) => ({
+        label: type,
+        url,
+        className: `link-button u-space--half--right ${
+          links.length > 1 ? 'u-space--half--bottom' : ''
+        }`,
+        faIconClass: `${getFaIconClass(type)} fa-lg`,
+        hideExternalIcon: true,
+        simple: true,
+        outline: true,
+        isExternal: true
+      }));
 
-    return (
-      <LinksBlock
-        key={i}
-        title={title}
-        description={description}
-        picture={image}
-        smallImage={image40}
-        buttons={buttons}
-      />
-    );
-  });
+      return (
+        <LinksBlock
+          key={i}
+          title={title}
+          link={link}
+          description={description}
+          colorDescription={colorDescription}
+          picture={image}
+          smallImage={image40}
+          buttons={buttons}
+        />
+      );
+    }
+  );
 
-export const SectionList = ({
+export const MediaListSection = ({
   sections,
   doubleSpace
 }: {
@@ -134,7 +143,7 @@ const MediaLinksPage = ({
     asideSections.length > 0 ? (
       <>
         {asideSections.length > 0 && (
-          <SectionList sections={asideSections} doubleSpace={isDoubleSpacing} />
+          <MediaListSection sections={asideSections} doubleSpace={isDoubleSpacing} />
         )}
       </>
     ) : undefined;
@@ -147,7 +156,7 @@ const MediaLinksPage = ({
       relatedPosts={relatedPosts}
     >
       <section className="u-spacing--double">
-        <SectionList sections={mainSections} doubleSpace={isDoubleSpacing} />
+        <MediaListSection sections={mainSections} doubleSpace={isDoubleSpacing} />
       </section>
     </Page>
   );

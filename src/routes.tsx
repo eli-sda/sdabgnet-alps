@@ -30,6 +30,7 @@ const routes = {
 
   info: (
     item?:
+      | 'bibles'
       | 'biblical'
       | 'dictionary'
       | 'comment'

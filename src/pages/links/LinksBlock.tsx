@@ -10,9 +10,17 @@ export interface LinksBlockProps {
    */
   title: string;
   /**
+   * Specify the link of your LinksBlock title
+   */
+  link?: string;
+  /**
    * Specify the description of your LinksBlock
    */
   description?: string;
+  /**
+   * Specify the description with color of your LinksBlock
+   */
+  colorDescription?: string;
   picture?: string;
   /**
    * Small circular image to display next to the title
@@ -22,14 +30,18 @@ export interface LinksBlockProps {
    * Array of buttons (label, url, icon, etc.)
    */
   buttons?: ButtonProps[];
+  children?: React.ReactNode;
 }
 
 export const LinksBlock = ({
   title,
+  link,
   description = '',
+  colorDescription = '',
   buttons = [],
   picture,
   smallImage,
+  children
 }: LinksBlockProps): JSX.Element => {
   const backgroundClass = picture ? 'has-image' : '';
 
@@ -39,7 +51,13 @@ export const LinksBlock = ({
     >
       {picture && (
         <div className="u-padding--half">
-          <img src={picture} alt={picture} />
+          {link ? (
+            <a href={link} target="_blank" rel="noopener noreferrer">
+              <img src={picture} alt={picture} />
+            </a>
+          ) : (
+            <img src={picture} alt={picture} />
+          )}
         </div>
       )}
       <div
@@ -47,19 +65,31 @@ export const LinksBlock = ({
           'c-cta-block__content c-block__content u-spacing--half u-padding--half'
         }
       >
-          <div className={'c-cta-block__group c-block__group u-spacing--half'}>
+        <div className={'c-cta-block__group c-block__group u-spacing--half'}>
           {title && (
             <div className="title-with-image">
               {smallImage && (
-                <img 
-                  src={smallImage} 
-                  alt="" 
+                <img
+                  src={smallImage}
+                  alt=""
                   className="small-image u-space--half--right"
                 />
               )}
-              <h3 className="c-block__title u-font--primary--m">
-                {title}
-              </h3>
+              {link ? (
+                <a
+                  className="u-font--primary--m c-block__title-link u-theme--color--darker u-theme--link-hover--dark"
+                  href={link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <strong>
+                    {title}
+                    <i className="fas fa-external-link-alt u-space--quarter--left"></i>
+                  </strong>
+                </a>
+              ) : (
+                <h3 className="c-block__title u-font--primary--m">{title}</h3>
+              )}
             </div>
           )}
           {description && (
@@ -69,6 +99,16 @@ export const LinksBlock = ({
               }`}
             >
               {description}
+            </p>
+          )}
+          {children}
+          {colorDescription && (
+            <p
+              className={
+                'c-block__meta u-font--secondary--xs u-theme--color--base'
+              }
+            >
+              {colorDescription}
             </p>
           )}
         </div>

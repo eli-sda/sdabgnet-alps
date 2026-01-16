@@ -50,7 +50,7 @@ const Biblical = () => {
   ];
 
   return (
-    <>
+    <section className="biblical">
       <PageHeaderLong title={getTitle(routes.info('biblical'))} />
       <PageSection
         breadcrumbsUrls={breadcrumbsUrls}
@@ -120,7 +120,7 @@ const Biblical = () => {
         </section>
       </PageSection>
 
-      <section className="full-section">
+      <section className="full-section  u-space--top">
         <section>
           <PageHeaderFeature2
             blockType="longform"
@@ -134,61 +134,59 @@ const Biblical = () => {
           <VideoPlaylistList sanityType="bible_ref" />
         </section>
 
-        <section>
-          <div className="u-space--double--bottom">
-            <PageHeaderFeature2
-              blockType="longform"
-              blocks={[
-                {
-                  type: 'longform',
-                  image: {
-                    alt: '',
-                    srcSet: {
-                      default: '/img/logos/believe28.gif',
-                      500: '',
-                      750: '',
-                      1200: ''
-                    }
-                  },
-                  kicker: 'Библейско изложение на 28 ОСНОВНИ УЧЕНИЯ',
-                  title: 'Адвентистите от седмия ден вярват...'
-                }
-              ]}
-            />
-          </div>
+        <div className="u-space--top u-space--double--bottom">
+          <PageHeaderFeature2
+            blockType="longform"
+            blocks={[
+              {
+                type: 'longform',
+                image: {
+                  alt: '',
+                  srcSet: {
+                    default: '/img/logos/believe28.gif',
+                    500: '',
+                    750: '',
+                    1200: ''
+                  }
+                },
+                kicker: 'Библейско изложение на 28 ОСНОВНИ УЧЕНИЯ',
+                title: 'Адвентистите от седмия ден вярват...'
+              }
+            ]}
+          />
+        </div>
 
-          <div className="believe-grid">
-            {believeSections.map((sectionData, sIndex) => (
-              <div key={sIndex} className="believe-grid__col">
-                <h3 className="believe-section-title u-space--left u-font--primary--m u-theme--color--darker">
-                  <strong>{sectionData.section}</strong>
-                </h3>
-                <ul>
-                  {sectionData.items.map((item, iIndex) => (
-                    <li
-                      key={iIndex}
-                      className="c-block__title hyphens-auto u-space u-theme--color--dark u-theme--link-hover--darker"
+        <div className="believe-grid">
+          {believeSections.map((sectionData, sIndex) => (
+            <div key={sIndex} className="believe-grid__col">
+              <h3 className="believe-section-title u-space--left u-font--primary--m u-theme--color--darker">
+                <strong>{sectionData.section}</strong>
+              </h3>
+              <ul>
+                {sectionData.items.map((item, iIndex) => (
+                  <li
+                    key={iIndex}
+                    className="c-block__title hyphens-auto u-space u-theme--color--dark u-theme--link-hover--darker"
+                  >
+                    <a
+                      href={`${MAIN_RESOURCES_FOLDER}/books/${item.path}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
-                      <a
-                        href={`${MAIN_RESOURCES_FOLDER}/books/${item.path}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <i
-                          className={'far fa-file-pdf u-space--half--right'}
-                          aria-hidden="true"
-                        ></i>
-                        {item.title}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </section>
+                      <i
+                        className={'far fa-file-pdf u-space--half--right'}
+                        aria-hidden="true"
+                      ></i>
+                      {item.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       </section>
-    </>
+    </section>
   );
 };
 export default Biblical;

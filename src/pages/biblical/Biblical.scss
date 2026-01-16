@@ -1,22 +1,27 @@
-.full-section {
+.biblical {
   @media (max-width: 900px) {
-    margin-top: 5rem;
-  }
-}
-
-.believe-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-inline: 1rem;
-
-  @media (max-width: 990px) {
-    grid-template-columns: repeat(2, 1fr);
+    .c-sidebar {
+      margin-top: 20px;
+    }
+    .full-section {
+      margin-top: 50px;
+    }
   }
 
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
+  .believe-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-inline: 1rem;
+
+    @media (max-width: 990px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
   }
 }

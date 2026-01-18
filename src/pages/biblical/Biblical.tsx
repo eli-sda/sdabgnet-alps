@@ -86,10 +86,21 @@ const Biblical = () => {
         </section>
 
         <section className="u-space--bottom">
-          <LinksBlock title="" picture="/img/logos/bible-izuchavai-me.png">
+          <LinksBlock
+            title=""
+            picture="/img/logos/bible-izuchavai-me.webp"
+            colorDescription="Изучавай.ме"
+          >
             <div>
-              <h3 className="c-block__title u-space--half--bottom">
-                Курсове от Изучавай.ме
+              <h3 className="text c-block__title u-space--half--bottom">
+                Курсове от{' '}
+                <a
+                  href="https://www.izuchavai.me/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Изучавай ме
+                </a>
               </h3>
               {izuchavaiMe?.map(({ url, title }, index) => (
                 <>

@@ -42,3 +42,9 @@ export const getImage = (
 
   return img;
 };
+
+export const getImageTypeByUrl = (url: string, alt?: string): ImageType =>
+  ({
+    alt: alt,
+    srcSet: { default: url }
+  } as ImageType);

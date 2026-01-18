@@ -3,6 +3,7 @@ import { Grid } from 'alps-library/atoms/grids/Grid';
 import { GridItem } from 'alps-library/atoms/grids/GridItem';
 import { ListContent } from 'alps-library/organisms/content/listContent/ListContent';
 import { MediaBlock } from 'src/alps/molecules/blocks/MediaBlock';
+import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 
 type LessonHeadProps = {
   lessonTitle: string;
@@ -20,21 +21,7 @@ const LessonHead = ({
   lessonDateRange
 }: LessonHeadProps) => {
   const image = useMemo(() => {
-    const lImage = {
-      alt: '',
-      srcSet: {
-        default: '',
-        500: '',
-        750: '',
-        1200: ''
-      }
-    };
-
-    if (lessonCover) {
-      lImage.srcSet.default = lessonCover;
-    }
-
-    return lImage;
+    return lessonCover ? getImageTypeByUrl(lessonCover) : undefined;
   }, [lessonCover]);
 
   return (

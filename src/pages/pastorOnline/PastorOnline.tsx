@@ -7,6 +7,7 @@ import { PageContent } from 'src/alps/organisms/content/PageContent';
 import { PageSection } from 'src/organisms/PageSection';
 import routes from 'src/routes';
 import { getBreadcrumbs, getTitle } from 'src/utils/Navigation';
+import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import { QuestionType } from 'src/contexts/QuestionsContext';
 import { useQuestions } from 'src/hooks/useQuestions';
 import {
@@ -48,15 +49,7 @@ const PastorOnline = () => {
   const relatedQuestion: MediaBlockProps = {
     title: 'GotQuestions.org',
     description: 'Българската версия на сайта с отговорени библейски въпроси',
-    image: {
-      alt: '',
-      srcSet: {
-        default: '/img/pastorOnline/logo_gotQuestions.svg',
-        500: '',
-        750: '',
-        1200: ''
-      }
-    },
+    image: getImageTypeByUrl('/img/pastorOnline/logo_gotQuestions.svg'),
     url: 'https://www.gotquestions.org/Bulgarian/'
   };
   relatedItems.push(relatedQuestion);

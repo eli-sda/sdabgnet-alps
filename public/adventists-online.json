@@ -297,6 +297,32 @@
     ]
   },
   {
+    "title": "Психология ЗА ВСЕКИ ДЕН",
+    "description": "Актуална информация за личното израстване, щастливия брак, възпитанието на децата.",
+    "image40": "/img/logos/40/YordankaDeycheva.png",
+    "links": [
+      {
+        "url": "https://www.youtube.com/@psihologiazavsekiden",
+        "type": "youtube"
+      },
+      {
+        "url": "https://www.facebook.com/profile.php?id=100065068568146",
+        "type": "facebook"
+      }
+    ]
+  },
+  {
+    "title": "Здраве и Благополучие",
+    "description": "Практични стъпки за здравословен начин на живот и профилактика на болестите.",
+    "image40": "/img/logos/40/Zdrave-i-Blagopoluchie.png",
+    "links": [
+      {
+        "url": "https://www.facebook.com/profile.php?id=100064300735370",
+        "type": "facebook"
+      }
+    ]
+  },
+  {
     "title": "Моментът на истината",
     "description": "Моментът на истината - курс от 41 урока",
     "image40": "/img/logos/40/cyberspaceministry.png",

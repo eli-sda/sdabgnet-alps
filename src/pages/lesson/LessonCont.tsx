@@ -9,6 +9,7 @@ import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { Aside } from 'alps-library/organisms/asides/aside/Aside';
 import LessonAudio from './LessonAudio';
 import { resolveBitlyViaBackend } from 'src/utils/resolveBitly';
+import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import {
   formatDateRange,
   getLessonFromQuarter,
@@ -47,17 +48,7 @@ const LessonCont = ({
       if (!lesson) continue;
       const lessonBlock = {
         title: `${lesson.num}. ${lesson.title}`,
-        image: lesson.cover
-          ? {
-              alt: '',
-              srcSet: {
-                default: lesson.cover,
-                500: '',
-                750: '',
-                1200: ''
-              }
-            }
-          : undefined,
+        image: lesson.cover ? getImageTypeByUrl(lesson.cover) : undefined,
         url: `${lessonURL}/${lessonYear % 100}/${lessonQuarter}/${lesson.num}`,
         category:
           lesson.startDate && lesson.endDate

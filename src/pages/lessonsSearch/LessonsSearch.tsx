@@ -6,6 +6,7 @@ import { Dropdown } from 'alps-library/molecules/forms/elements/Dropdown';
 import { getFontClass } from 'alps-library/global/fonts';
 import routes from 'src/routes';
 import { getTitle } from 'src/utils/Navigation';
+import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import { Page } from 'src/organisms/Page';
 import { Button } from 'src/alps/atoms/Button';
 import { MediaBlock } from 'src/alps/molecules/blocks/MediaBlock';
@@ -129,20 +130,9 @@ const LessonsSearch = () => {
 
   // get quarter image
   const qImage = useMemo(() => {
-    const qImage = {
-      alt: '',
-      srcSet: {
-        default: '',
-        500: '',
-        750: '',
-        1200: ''
-      }
-    };
-    if (quarterOption) {
-      qImage.alt = quarterOption.title;
-      qImage.srcSet.default = quarterOption.cover || '';
-    }
-    return qImage;
+    return quarterOption?.cover
+      ? getImageTypeByUrl(quarterOption.cover, quarterOption.title)
+      : undefined;
   }, [quarterOption]);
 
   // construct lesson URL

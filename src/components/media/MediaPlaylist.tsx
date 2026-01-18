@@ -1,7 +1,7 @@
 import { MediaBlock } from 'src/alps/molecules/blocks/MediaBlock';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlayer } from 'src/contexts/AudioPlayerContext';
-import { getImage } from 'src/utils/ImageHelper';
+import { getImage, getImageTypeByUrl } from 'src/utils/ImageHelper';
 import './MediaPalylist.scss';
 
 type MediaPlaylistProps = {
@@ -22,17 +22,7 @@ const MediaPlaylist = ({
   actionButtons
 }: MediaPlaylistProps) => {
   const { author, title = '', imageUrl } = playlist;
-  const img = imageUrl
-    ? {
-        alt: '',
-        srcSet: {
-          default: `${imageUrl}`,
-          500: '',
-          750: '',
-          1200: ''
-        }
-      }
-    : getImage();
+  const img = imageUrl ? getImageTypeByUrl(imageUrl) : getImage();
 
   const ctx = usePlayer();
   const pauseAction = ctx.pause ?? (() => {});

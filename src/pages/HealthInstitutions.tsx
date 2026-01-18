@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
 import routes from 'src/routes';
+import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import { isValidUrl } from 'src/utils/FetchHelper';
 import { PageLinkItem } from 'src/organisms/PageLinkItem';
-import { ImageType } from 'alps-library/atoms/images/ImageType';
 import { ExternalPageLink } from 'src/types/externalPageLink';
 
 const breadcrumbsUrls = [routes.health(), routes.health('institutions')];
@@ -36,12 +36,7 @@ const HealthInstitutions = () => {
           url={url}
           title={title}
           description={description}
-          img={
-            {
-              alt: title,
-              srcSet: { default: img }
-            } as ImageType
-          }
+          img={getImageTypeByUrl(img)}
           sizeAtM="6"
           sizeAtXL="3"
         />

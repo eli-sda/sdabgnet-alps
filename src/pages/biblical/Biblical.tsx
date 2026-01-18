@@ -1,9 +1,11 @@
+import { useCallback } from 'react';
 import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { PageSection } from 'src/organisms/PageSection';
 import { PageHeaderFeature2 } from 'src/organisms/sections/PageHeaderFeature2';
 import routes from 'src/routes';
 import { MAIN_RESOURCES_FOLDER } from 'src/constants';
+import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import { getTitle } from 'src/utils/Navigation';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
@@ -48,7 +50,54 @@ const Biblical = () => {
       url: 'https://zdrave.izuchavai.me/'
     }
   ];
+  const adventisimo = [
+    {
+      title: 'Книгата Даниил',
+      url: 'https://www.adventisimo.com/daniel/'
+    },
+    {
+      title: 'Книгата Откровение',
+      url: 'https://www.adventisimo.com/revelation/'
+    },
+    {
+      title: 'Изследователният съд',
+      url: 'https://www.adventisimo.com/pre-advent-judgment/'
+    },
+    {
+      title: 'Съботата',
+      url: 'https://www.adventisimo.com/sabbath/'
+    },
+    {
+      title: 'Християнски живот',
+      url: 'https://www.adventisimo.com/devotionals/'
+    },
+    {
+      title: 'Елен Уайт',
+      url: 'https://www.adventisimo.com/ellen-white/'
+    }
+  ];
 
+  const subLinks = useCallback(
+    (links: { url: string; title: string }[]) =>
+      links?.map(({ url, title }, index) => (
+        <>
+          <a
+            key={index}
+            className="u-font--primary--m c-block__title-link u-theme--color--darker u-theme--link-hover--dark"
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <strong>
+              {title}
+              <i className="fas fa-external-link-alt u-space--quarter--left"></i>
+            </strong>
+          </a>
+          <br />
+        </>
+      )),
+    []
+  );
   return (
     <section className="biblical">
       <PageHeaderLong title={getTitle(routes.info('biblical'))} />
@@ -85,40 +134,45 @@ const Biblical = () => {
           />
         </section>
 
-        <section className="u-space--bottom">
+        <section className="u-spacing u-space--bottom">
           <LinksBlock
             title=""
             picture="/img/logos/bible-izuchavai-me.webp"
-            colorDescription="Изучавай.ме"
+            colorDescription="izuchavai.me"
           >
             <div>
               <h3 className="text c-block__title u-space--half--bottom">
-                Курсове от{' '}
+                Онлайн курсове от{' '}
                 <a
                   href="https://www.izuchavai.me/"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Изучавай ме
+                  Изучавай.ме
                 </a>
               </h3>
-              {izuchavaiMe?.map(({ url, title }, index) => (
-                <>
-                  <a
-                    key={index}
-                    className="u-font--primary--m c-block__title-link u-theme--color--darker u-theme--link-hover--dark"
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <strong>
-                      {title}
-                      <i className="fas fa-external-link-alt u-space--quarter--left"></i>
-                    </strong>
-                  </a>
-                  <br />
-                </>
-              ))}
+              {subLinks(izuchavaiMe)}
+            </div>
+          </LinksBlock>
+
+          <LinksBlock
+            title=""
+            picture="/img/logos/adventisimo.png"
+            colorDescription="adventisimo.com"
+          >
+            <div>
+              <h3 className="text c-block__title u-space--half--bottom">
+                От{' '}
+                <a
+                  href="https://adventisimo.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Адвентисимо
+                </a>{' '}
+                - адвентна апологетика
+              </h3>
+              {subLinks(adventisimo)}
             </div>
           </LinksBlock>
         </section>
@@ -151,15 +205,7 @@ const Biblical = () => {
             blocks={[
               {
                 type: 'longform',
-                image: {
-                  alt: '',
-                  srcSet: {
-                    default: '/img/logos/believe28.gif',
-                    500: '',
-                    750: '',
-                    1200: ''
-                  }
-                },
+                image: getImageTypeByUrl('/img/logos/believe28.gif'),
                 kicker: 'Библейско изложение на 28 ОСНОВНИ УЧЕНИЯ',
                 title: 'Адвентистите от седмия ден вярват...'
               }

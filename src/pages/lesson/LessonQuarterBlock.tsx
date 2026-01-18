@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { isEqual } from 'lodash';
 import routes from 'src/routes';
+import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import {
   getLessonFromQuarter,
   getRouteLesson,
@@ -54,22 +55,9 @@ const LessonQuarterBlock = (params: LessonQuarterBlockType) => {
   }, [getQuarter, lessonProps, setLessonDetails, setQuarter]);
 
   const qImage = useMemo(() => {
-    const qImage = {
-      alt: '',
-      srcSet: {
-        default: '',
-        500: '',
-        750: '',
-        1200: ''
-      }
-    };
-
-    if (quarterObject) {
-      qImage.alt = quarterObject.qTitle;
-      qImage.srcSet.default = quarterObject.quarterlyCover || '';
-    }
-
-    return qImage;
+    return quarterObject?.quarterlyCover
+      ? getImageTypeByUrl(quarterObject.quarterlyCover, quarterObject.qTitle)
+      : undefined;
   }, [quarterObject]);
 
   return (

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ImageType } from 'alps-library/atoms/images/ImageType';
+import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import { Pullquote } from 'alps-library/molecules/text/pullquote/Pullquote.tsx';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import routes from 'src/routes';
@@ -21,7 +21,7 @@ const Donations = () => {
       .then((data: ExternalPageLink[]) => {
         // Filter out invalid URLs to prevent open redirect vulnerability
         // Only validated URLs are stored in state
-        const validDonations = data.filter(item => isValidUrl(item.url));
+        const validDonations = data.filter((item) => isValidUrl(item.url));
         setDonations(validDonations);
       })
       .catch((err) => {
@@ -52,12 +52,7 @@ const Donations = () => {
           url={url}
           title={title}
           description={description}
-          img={
-            {
-              alt: title,
-              srcSet: { default: img }
-            } as ImageType
-          }
+          img={getImageTypeByUrl(img, title)}
           sizeAtM="6"
           sizeAtXL="3"
         />

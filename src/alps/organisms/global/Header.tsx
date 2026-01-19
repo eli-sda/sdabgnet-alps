@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { LogoType } from 'alps-library/atoms/icons/library/LogoType';
-import SDAbgNet from 'src/alps/atoms/images/logos/SDAbgNet';
+// import SDAbgNet from 'src/alps/atoms/images/logos/SDAbgNet';
+import { SITE_TITLE } from 'src/constants';
 import { NavLink } from 'react-router-dom';
 
 import {
@@ -34,7 +35,7 @@ export const Header = ({
   logo = {
     canBeDark: false,
     link: '/',
-    element: <SDAbgNet />,
+    // element: <SDAbgNet />,
     useFillTheme: usePathFill,
     url: '/img/sdabg.net-map-logo.svg'
   },
@@ -98,7 +99,7 @@ export const Header = ({
           <div className="c-header__logo c-logo">
             <NavLink className={logoClass} to={logo.link || ''}>
               {/* {logo.element} */}
-              <img src={logo.url} />
+              <img src={logo.url} title={SITE_TITLE} alt={`${SITE_TITLE} - лого`} />
             </NavLink>
           </div>
           <div className="c-header__nav-primary">

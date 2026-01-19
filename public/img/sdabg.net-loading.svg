@@ -2,7 +2,7 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
  "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="0 0 500 500">
-  <title>Адвентна българска мреж@</title>
+  <title>Адвентната българска мреж@</title>
 
   <!-- Централна група: логото и въртящия се текст -->
   <g transform="translate(250,250)">
@@ -20,7 +20,7 @@
 
       <text font-family="Advent Sans" font-size="30" fill="#007f98" letter-spacing="1">
         <textPath href="#circlePath" startOffset="50%" text-anchor="middle">
-          Адвентна българска мреж@
+          Адвентната българска мреж@
         </textPath>
       </text>
 

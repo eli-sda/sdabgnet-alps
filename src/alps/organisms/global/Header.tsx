@@ -19,7 +19,7 @@ import {
 export interface HeaderProps {
   className?: string;
   drawer?: DrawerNavigationProps;
-  logo?: LogoType;
+  logo?: LogoType & { url: string };
   primaryNav?: PrimaryNavigationProps;
   secondaryNav: SecondaryNavigationProps;
   /**
@@ -35,7 +35,8 @@ export const Header = ({
     canBeDark: false,
     link: '/',
     element: <SDAbgNet />,
-    useFillTheme: usePathFill
+    useFillTheme: usePathFill,
+    url: '/img/sdabg.net-map-logo.svg'
   },
   className,
   primaryNav,
@@ -96,7 +97,8 @@ export const Header = ({
           </div>
           <div className="c-header__logo c-logo">
             <NavLink className={logoClass} to={logo.link || ''}>
-              {logo.element}
+              {/* {logo.element} */}
+              <img src={logo.url} />
             </NavLink>
           </div>
           <div className="c-header__nav-primary">

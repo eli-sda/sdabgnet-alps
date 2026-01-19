@@ -51,7 +51,7 @@ $debug = isset($_GET['debug']) && $_GET['debug'] == '1';
 $siteName = 'Адвентната българска мреж@';
 $defTitle = 'Адвентната българска мреж@';
 $defDescription = 'Адвентната българска мрежа - Християнски портал на Църквата на адвентистите от седмия ден, място където да намерите книги, аудио, видео и други ресурси и адвентни сайтове, да споделите вярата си.';
-$defImage = "$site/img/sdabg.net-logo.jpg";
+$defImage = "$site/img/sdabg.net-map-logo.webp";
 
 $path = htmlspecialchars($_GET['path'] ?? '/');
 if ($debug) echo "<b>path:</b> {$path}<br>";

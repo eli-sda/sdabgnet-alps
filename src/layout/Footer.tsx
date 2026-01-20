@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Footer as AlpsFooter } from 'alps-library/organisms/global/footer/Footer';
 import { FooterPrimaryNavigationProps } from 'alps-library/molecules/navigation/footerPrimaryNavigation/FooterPrimaryNavigation';
-import { OLD_SITE } from 'src/constants';
+import { OLD_SITE, SITE_TITLE } from 'src/constants';
 import ScrollUpButton from './ScrollUpButton';
 
 const scriptsToLoad = [
@@ -70,9 +70,9 @@ const Footer = () => {
           country: 'България',
           phone: '0887 430 103'
         }}
-        copyright="Copyright ©2004, Адвентната българска мрежа"
+        copyright={`Copyright ©2004, ${SITE_TITLE}`}
         primaryNav={primaryNav}
-        text="Sdabg.net  - Адвентната българска мреж@ е портал с полезни ресурси и връзки в помощ на ЦАСД в България"
+        text={`Sdabg.net  - ${SITE_TITLE} е християнски портал с полезни ресурси и връзки в помощ на ЦАСД в България`}
       />
       <ScrollUpButton />
     </>

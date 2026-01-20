@@ -50,6 +50,7 @@ const Biblical = () => {
       url: 'https://zdrave.izuchavai.me/'
     }
   ];
+
   const adventisimo = [
     {
       title: 'Книгата Даниил',
@@ -72,7 +73,7 @@ const Biblical = () => {
       url: 'https://www.adventisimo.com/devotionals/'
     },
     {
-      title: 'Елен Уайт',
+      title: 'Елън Уайт',
       url: 'https://www.adventisimo.com/ellen-white/'
     }
   ];
@@ -141,7 +142,7 @@ const Biblical = () => {
             colorDescription="izuchavai.me"
           >
             <div>
-              <h3 className="text c-block__title u-space--half--bottom">
+              <h3 className="text u-space--half--bottom">
                 Онлайн курсове от{' '}
                 <a
                   href="https://www.izuchavai.me/"
@@ -161,7 +162,7 @@ const Biblical = () => {
             colorDescription="adventisimo.com"
           >
             <div>
-              <h3 className="text c-block__title u-space--half--bottom">
+              <h3 className="text u-space--half--bottom">
                 От{' '}
                 <a
                   href="https://adventisimo.com/"
@@ -185,7 +186,7 @@ const Biblical = () => {
         </section>
       </PageSection>
 
-      <section className="full-section  u-space--top">
+      <section className="full-section u-space--top">
         <section>
           <PageHeaderFeature2
             blockType="longform"

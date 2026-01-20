@@ -2,6 +2,7 @@ import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { BreadcrumbItemProps } from 'src/alps/molecules/navigation/Breadcrumbs';
+import { SITE_TITLE } from 'src/constants';
 
 export type PageMetaType = {
   title: string;
@@ -36,7 +37,7 @@ const PageMeta = ({ meta, breadcrumbs }: PageMetaProps) => {
     if (pageTitle) {
       pageTitle += ' - ';
     }
-    return `${pageTitle}Адвентната българска мреж@`;
+    return `${pageTitle}${SITE_TITLE}`;
   }, [breadcrumbs, meta?.title]);
 
   const keyWords = useMemo(() => {

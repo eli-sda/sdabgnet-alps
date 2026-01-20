@@ -1,5 +1,4 @@
-import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
-import { PageSection } from 'src/organisms/PageSection';
+import { Page } from 'src/organisms/Page';
 import routes from 'src/routes';
 import { getTitle } from 'src/utils/Navigation';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
@@ -22,11 +21,12 @@ const AudioPage = ({ type, aside }: AudioPageProps) => {
 
   return (
     <>
-      <PageHeaderLong
+      <Page
         title={getTitle(routes.resources('audio', type))}
         kicker={getTitle(routes.resources())}
-      />
-      <PageSection breadcrumbsUrls={breadcrumbsUrls} aside={aside}>
+        breadcrumbsUrls={breadcrumbsUrls}
+        aside={aside}
+      >
         <div className="audio-page-instructions">
           <h4 className="audio-page-caption">
             Използвайте бутона{' '}
@@ -67,7 +67,7 @@ const AudioPage = ({ type, aside }: AudioPageProps) => {
           </h4>
         </div>
         {type === 'audiobook' && <AudioPlaylistList type={type} />}
-      </PageSection>
+      </Page>
 
       {(type === 'seminars' || type === 'sermons') && (
         <AudioPlaylistList type={type} />

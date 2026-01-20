@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
-import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
+import { Page } from 'src/organisms/Page';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
-import { PageSection } from 'src/organisms/PageSection';
 import { PageHeaderFeature2 } from 'src/organisms/sections/PageHeaderFeature2';
 import routes from 'src/routes';
 import { MAIN_RESOURCES_FOLDER } from 'src/constants';
@@ -100,9 +99,10 @@ const Biblical = () => {
     []
   );
   return (
-    <section className="biblical">
-      <PageHeaderLong title={getTitle(routes.info('biblical'))} />
-      <PageSection
+    <>
+      <Page
+        pageClassName="biblical"
+        title={getTitle(routes.info('biblical'))}
         breadcrumbsUrls={breadcrumbsUrls}
         relatedPosts={{
           heading: 'Аудио курсове',
@@ -184,9 +184,9 @@ const Biblical = () => {
             doubleSpace={false}
           />
         </section>
-      </PageSection>
+      </Page>
 
-      <section className="full-section u-space--top">
+      <section className="biblical full-section u-space--top">
         <section>
           <PageHeaderFeature2
             blockType="longform"
@@ -244,7 +244,7 @@ const Biblical = () => {
           ))}
         </div>
       </section>
-    </section>
+    </>
   );
 };
 export default Biblical;

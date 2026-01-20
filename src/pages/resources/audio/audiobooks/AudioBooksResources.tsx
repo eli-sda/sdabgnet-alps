@@ -1,9 +1,9 @@
+import { useMemo } from 'react';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
+import { RelatedPosts } from 'src/alps/organisms/asides/RelatedPosts';
 import audiobooksForChildrenData from './audiobooksForChildren.json';
 import AudioPage from '../AudioPage';
-import { useMemo } from 'react';
-import { RelatedPosts } from 'src/alps/organisms/asides/RelatedPosts';
 
 type audiobooksForChildrenType = {
   title: string;

@@ -50,6 +50,7 @@ const Biblical = () => {
       url: 'https://zdrave.izuchavai.me/'
     }
   ];
+
   const adventisimo = [
     {
       title: 'Книгата Даниил',
@@ -72,7 +73,7 @@ const Biblical = () => {
       url: 'https://www.adventisimo.com/devotionals/'
     },
     {
-      title: 'Елен Уайт',
+      title: 'Елън Уайт',
       url: 'https://www.adventisimo.com/ellen-white/'
     }
   ];
@@ -185,7 +186,7 @@ const Biblical = () => {
         </section>
       </PageSection>
 
-      <section className="full-section  u-space--top">
+      <section className="full-section u-space--top">
         <section>
           <PageHeaderFeature2
             blockType="longform"

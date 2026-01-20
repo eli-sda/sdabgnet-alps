@@ -101,9 +101,14 @@ $imageWidth = $page['imageWidth'] ?? 1200;
 $imageHeight = $page['imageHeight'] ?? 630;
 $ogUrl = $site . $path;
 
-// Build the full URL with query parameters
+// Build the full URL with query parameters (excluding 'path' and 'spa' parameters)
 if (!empty($_SERVER['QUERY_STRING'])) {
-    $ogUrl .= '?' . $_SERVER['QUERY_STRING'];
+    parse_str($_SERVER['QUERY_STRING'], $queryParams);
+    unset($queryParams['path']); // Remove path parameter from og:url
+    unset($queryParams['spa']);  // Remove spa parameter from og:url
+    if (!empty($queryParams)) {
+        $ogUrl .= '?' . http_build_query($queryParams);
+    }
 }
 
 // Check for playlistTitle and title query parameters for custom sharing descriptions
@@ -136,10 +141,14 @@ if ($playlistTitle) {
 
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?= htmlspecialchars($title) ?></title>
+
+    <!-- Open Graph meta tags for social media sharing -->
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="bg_BG">
     <meta property="og:site_name" content="<?= htmlspecialchars($siteName) ?>" />
-    <meta property="description" content="<?= htmlspecialchars($description) ?>" />
+    <meta name="description" content="<?= htmlspecialchars($description) ?>" />
     <meta property="og:title" content="<?= htmlspecialchars($title) ?>" />
     <meta property="og:description" content="<?= htmlspecialchars($description) ?>" />
     <meta property="og:image" content="<?= htmlspecialchars($imageUrl) ?>" />
@@ -147,6 +156,12 @@ if ($playlistTitle) {
     <meta property="og:image:width" content="<?= htmlspecialchars($imageWidth) ?>" />
     <meta property="og:image:height" content="<?= htmlspecialchars($imageHeight) ?>" />
     <meta property="og:url" content="<?= htmlspecialchars($ogUrl) ?>" />
+
+    <!-- Twitter Card meta tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="<?= htmlspecialchars($title) ?>" />
+    <meta name="twitter:description" content="<?= htmlspecialchars($description) ?>" />
+    <meta name="twitter:image" content="<?= htmlspecialchars($imageUrl) ?>" />
 </head>
 
 <body>

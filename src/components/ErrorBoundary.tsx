@@ -50,52 +50,34 @@ class ErrorBoundary extends Component<Props, State> {
     if (this.state.hasError) {
       return (
         <div
+          className="u-spacing u-padding"
           style={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
             minHeight: '100vh',
-            padding: '20px',
-            textAlign: 'center',
-            fontFamily: 'Arial, sans-serif'
+            textAlign: 'center'
           }}
         >
-          <h1 style={{ color: '#007f98', marginBottom: '20px' }}>
-            Съжаляваме за неудобството
-          </h1>
-          <p
+          <img
+            className="u-space--bottom"
+            src="/img/sdabg.net-map-logo.svg"
+            title="Адвентната българска мреж@"
+            alt="Адвентната българска мреж@ - лого"
             style={{
-              marginBottom: '20px',
-              maxWidth: '600px',
-              lineHeight: '1.5'
+              maxWidth: '400px'
             }}
-          >
+          ></img>
+          <h1>Съжаляваме за неудобството</h1>
+          <p style={{ maxWidth: '600px' }}>
             Възникна техническа грешка при зареждането на приложението. Това
             обикновено се случва при актуализация на сайта.
           </p>
-          <p style={{ marginBottom: '30px', color: '#666' }}>
+          <p>
             Моля, опреснете страницата или опитайте отново след няколко секунди.
           </p>
-          <button
-            onClick={() => window.location.reload()}
-            style={{
-              padding: '12px 24px',
-              backgroundColor: '#007f98',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontSize: '16px',
-              transition: 'background-color 0.3s'
-            }}
-            onMouseOver={(e) => {
-              (e.target as HTMLButtonElement).style.backgroundColor = '#005f75';
-            }}
-            onMouseOut={(e) => {
-              (e.target as HTMLButtonElement).style.backgroundColor = '#007f98';
-            }}
-          >
+          <button onClick={() => window.location.reload()}>
             Опресни страницата
           </button>
           {process.env.NODE_ENV === 'development' && this.state.error && (
@@ -111,7 +93,6 @@ class ErrorBoundary extends Component<Props, State> {
               </summary>
               <pre
                 style={{
-                  background: '#f5f5f5',
                   padding: '15px',
                   borderRadius: '4px',
                   overflow: 'auto',

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
-import { RelatedPosts } from 'src/alps/organisms/asides/RelatedPosts';
+import { RelatedPostsProps } from 'src/alps/organisms/asides/RelatedPosts';
 import audiobooksForChildrenData from './audiobooksForChildren.json';
 import AudioPage from '../AudioPage';
 
@@ -37,23 +37,28 @@ const AudiobooksResources = () => {
             })}
           </div>
         )}
-        <div>
-          <RelatedPosts
-            heading="Други аудиокниги"
-            blocks={[
-              {
-                title: 'Срещи с Христос',
-                url: 'https://3-16.bg/sreshti-s-hristos/',
-                category: '3-16.br'
-              }
-            ]}
-          />
-        </div>
       </>
     ),
     [audiobooksForChildren]
   );
 
-  return <AudioPage type="audiobook" aside={asideContent ?? undefined} />;
+  const relatedAudio: RelatedPostsProps = {
+    heading: 'Други аудиокниги',
+    blocks: [
+      {
+        title: 'Срещи с Христос',
+        url: 'https://3-16.bg/sreshti-s-hristos/',
+        category: '3-16.br'
+      }
+    ]
+  };
+
+  return (
+    <AudioPage
+      type="audiobook"
+      aside={asideContent ?? undefined}
+      relatedPosts={relatedAudio}
+    />
+  );
 };
 export default AudiobooksResources;

@@ -80,9 +80,8 @@ const Biblical = () => {
   const subLinks = useCallback(
     (links: { url: string; title: string }[]) =>
       links?.map(({ url, title }, index) => (
-        <>
+        <div key={`${url}-${index}`}>
           <a
-            key={index}
             className="u-font--primary--m c-block__title-link u-theme--color--darker u-theme--link-hover--dark"
             href={url}
             target="_blank"
@@ -93,8 +92,7 @@ const Biblical = () => {
               <i className="fas fa-external-link-alt u-space--quarter--left"></i>
             </strong>
           </a>
-          <br />
-        </>
+        </div>
       )),
     []
   );

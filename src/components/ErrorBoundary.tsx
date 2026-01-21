@@ -68,7 +68,7 @@ class ErrorBoundary extends Component<Props, State> {
             style={{
               maxWidth: '400px'
             }}
-          ></img>
+          />
           <h1>Съжаляваме за неудобството</h1>
           <p style={{ maxWidth: '600px' }}>
             Възникна техническа грешка при зареждането на приложението. Това

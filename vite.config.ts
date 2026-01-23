@@ -14,6 +14,11 @@ export default defineConfig({
         target: 'https://sdasofia.org',
         changeOrigin: true,
         secure: false
+      },
+      '/rss': {
+        target: 'https://api.sdabg.net',
+        changeOrigin: true,
+        secure: false
       }
     }
   },

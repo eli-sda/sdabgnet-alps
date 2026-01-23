@@ -1,0 +1,51 @@
+@use '/src/styles/colors.scss' as *;
+.feed-section {
+  position: relative;
+  background-color: #d9f1f7;
+  &::after {
+    content: '';
+    display: block;
+    margin: 10px auto 0;
+    border-bottom: $mingColor 2px solid;
+  }
+  .feed-list {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2rem;
+    .c-media-block {
+      width: 100%;
+      min-width: 0;
+      & > * {
+        width: 100% !important;
+      }
+    }
+    &--3-on-row {
+      grid-template-columns: repeat(3, 1fr);
+      @media (max-width: 900px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    &--4-on-row {
+      grid-template-columns: repeat(4, 1fr);
+      @media (max-width: 900px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  }
+}
+.l-grid--7-col {
+  @media (min-width: 1101px) {
+    &.l-grid-item--xl--3-col {
+      .feed-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  }
+  @media (min-width: 901px) {
+    &.l-grid-item--l--4-col {
+      .feed-list {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  }
+}

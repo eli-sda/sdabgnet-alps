@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
-import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
+import { Page } from 'src/organisms/Page';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
-import { PageSection } from 'src/organisms/PageSection';
 import { PageHeaderFeature2 } from 'src/organisms/sections/PageHeaderFeature2';
 import routes from 'src/routes';
 import { MAIN_RESOURCES_FOLDER } from 'src/constants';
@@ -81,9 +80,8 @@ const Biblical = () => {
   const subLinks = useCallback(
     (links: { url: string; title: string }[]) =>
       links?.map(({ url, title }, index) => (
-        <>
+        <div key={`${url}-${index}`}>
           <a
-            key={index}
             className="u-font--primary--m c-block__title-link u-theme--color--darker u-theme--link-hover--dark"
             href={url}
             target="_blank"
@@ -94,15 +92,15 @@ const Biblical = () => {
               <i className="fas fa-external-link-alt u-space--quarter--left"></i>
             </strong>
           </a>
-          <br />
-        </>
+        </div>
       )),
     []
   );
   return (
-    <section className="biblical">
-      <PageHeaderLong title={getTitle(routes.info('biblical'))} />
-      <PageSection
+    <>
+      <Page
+        pageClassName="biblical"
+        title={getTitle(routes.info('biblical'))}
         breadcrumbsUrls={breadcrumbsUrls}
         relatedPosts={{
           heading: 'Аудио курсове',
@@ -184,9 +182,9 @@ const Biblical = () => {
             doubleSpace={false}
           />
         </section>
-      </PageSection>
+      </Page>
 
-      <section className="full-section u-space--top">
+      <section className="biblical full-section u-space--top">
         <section>
           <PageHeaderFeature2
             blockType="longform"
@@ -244,7 +242,7 @@ const Biblical = () => {
           ))}
         </div>
       </section>
-    </section>
+    </>
   );
 };
 export default Biblical;

@@ -1,6 +1,6 @@
-import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
-import { PageSection } from 'src/organisms/PageSection';
 import routes from 'src/routes';
+import { RelatedPostsProps } from 'src/alps/organisms/asides/RelatedPosts';
+import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { AudioPlaylistList } from 'src/components/media/audio/AudioPlaylistList';
@@ -9,9 +9,10 @@ import './AudioPage.scss';
 type AudioPageProps = {
   type: 'audiobook' | 'seminars' | 'sermons';
   aside?: React.ReactNode;
+  relatedPosts?: RelatedPostsProps;
 };
 
-const AudioPage = ({ type, aside }: AudioPageProps) => {
+const AudioPage = ({ type, aside, relatedPosts }: AudioPageProps) => {
   useScrollToHash();
 
   const breadcrumbsUrls = [
@@ -22,11 +23,13 @@ const AudioPage = ({ type, aside }: AudioPageProps) => {
 
   return (
     <>
-      <PageHeaderLong
+      <Page
         title={getTitle(routes.resources('audio', type))}
         kicker={getTitle(routes.resources())}
-      />
-      <PageSection breadcrumbsUrls={breadcrumbsUrls} aside={aside}>
+        breadcrumbsUrls={breadcrumbsUrls}
+        aside={aside}
+        relatedPosts={relatedPosts}
+      >
         <div className="audio-page-instructions">
           <h4 className="audio-page-caption">
             Използвайте бутона{' '}
@@ -67,7 +70,7 @@ const AudioPage = ({ type, aside }: AudioPageProps) => {
           </h4>
         </div>
         {type === 'audiobook' && <AudioPlaylistList type={type} />}
-      </PageSection>
+      </Page>
 
       {(type === 'seminars' || type === 'sermons') && (
         <AudioPlaylistList type={type} />

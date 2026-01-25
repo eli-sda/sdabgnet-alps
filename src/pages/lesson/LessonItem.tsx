@@ -8,14 +8,14 @@ import './LessonItem.scss';
 import {
   LessonDetails,
   getLessonDaysAndPdf,
-  LessonDays
+  LessonDayType
 } from '../../utils/LessonUtils';
 type LessonItemType = {
   qLesson: LessonDetails;
 };
 
 export const LessonItem = ({ qLesson }: LessonItemType) => {
-  const [days, setDays] = useState<LessonDays[]>([]);
+  const [days, setDays] = useState<LessonDayType[]>([]);
   const [pdfLink, setPdfLink] = useState<string | undefined>();
 
   useEffect(() => {

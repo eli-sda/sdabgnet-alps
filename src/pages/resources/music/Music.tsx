@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import routes from 'src/routes';
-import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
+import { Page } from 'src/organisms/Page';
 import { Accordion } from 'alps-library/molecules/components/accordion/Accordion';
 import { Text } from 'alps-library/atoms/text/Text';
-import { PageSection } from 'src/organisms/PageSection';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { usePlaylists } from 'src/hooks/usePlaylists';
@@ -36,11 +35,11 @@ const MusicPage = () => {
 
   return (
     <>
-      <PageHeaderLong
+      <Page
         title={getTitle(routes.resources('music'))}
         kicker={getTitle(routes.resources())}
-      />
-      <PageSection breadcrumbsUrls={breadcrumbsUrls}>
+        breadcrumbsUrls={breadcrumbsUrls}
+      >
         <Text
           as="article"
           hasDropcap={false}
@@ -103,7 +102,7 @@ const MusicPage = () => {
             от нея.
           </h4>
         </div>
-      </PageSection>
+      </Page>
 
       <AudioPlaylistList type="music" />
     </>

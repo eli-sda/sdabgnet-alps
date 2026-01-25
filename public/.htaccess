@@ -68,6 +68,8 @@
   # Redirect all other requests to index.php with the path as a query parameter
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
+  # Prevent infinite loop - don't rewrite if already at index.php
+  RewriteCond %{REQUEST_URI} !^/index\.php$ [NC]
   RewriteRule ^(.*)$ /index.php?path=/$1 [L,QSA]
 </IfModule>
 

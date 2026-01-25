@@ -214,7 +214,7 @@ type resLesson = {
   }>;
 };
 
-export type LessonDays = {
+export type LessonDayType = {
   title: string;
   date: string;
   bible?: Array<{
@@ -233,7 +233,7 @@ export type LessonDays = {
 export const getLessonDaysAndPdf = async (
   lessonFullPath: string
 ): Promise<{
-  days: LessonDays[];
+  days: LessonDayType[];
   pdfLink: string | undefined;
 }> => {
   // const lessonDays: LessonDays[] = [];
@@ -244,7 +244,7 @@ export const getLessonDaysAndPdf = async (
   const dayDetails = await Promise.all(
     days.map(async (day) => {
       const detailRes = await fetch(`${day.full_read_path}/index.json`);
-      const detail = (await detailRes.json()) as LessonDays;
+      const detail = (await detailRes.json()) as LessonDayType;
       return {
         index: detail.index,
         title: detail.title,

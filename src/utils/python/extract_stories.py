@@ -75,15 +75,34 @@ def get_day_content(day_full_read_path: str) -> Dict[str, Any]:
     url = f"{day_full_read_path}/index.json"
     return fetch_json(url)
 
-def extract_title_from_content(content: str) -> str:
+def extract_title_from_content(content: str) -> tuple[str, str]:
     """
-    Извлича заглавието от съдържанието.
-    Взема текста преди първия нов ред (\n).
+    Извлича заглавието от съдържанието и го премахва.
+    Взема текста от първия ред (обикновено <h3> таг), извлича само текста
+    и връща заглавието и съдържанието без първия ред.
+    
+    Returns:
+        tuple[str, str]: (title, content_without_title)
     """
     if not content:
-        return ""
+        return "", ""
+    
     lines = content.split('\n')
-    return lines[0].strip() if lines else ""
+    if not lines:
+        return "", content
+    
+    first_line = lines[0].strip()
+    
+    # Извличане на текста от HTML тага (напр. <h3 id="...">Текст</h3>)
+    # Търсим текста между > и </
+    import re
+    match = re.search(r'>([^<]+)</', first_line)
+    title = match.group(1).strip() if match else first_line
+    
+    # Премахване на първия ред от съдържанието
+    content_without_title = '\n'.join(lines[1:]).strip()
+    
+    return title, content_without_title
 
 def extract_year_from_quarter_id(quarter_id: str) -> str:
     """
@@ -125,17 +144,20 @@ def process_year_stories(year: str, quarterlies: List[Dict[str, Any]], output_di
                     if len(days) >= 8:
                         story_day = days[7]  # 8-ия ден = мисионерската история
                         day_full_read_path = story_day.get('full_read_path')
-                        
+
                         print(f"        Fetching story day content...")
                         day_content = get_day_content(day_full_read_path)
                         
                         # Извличане на нужните полета
                         content = day_content.get('content', '')
+                        title, content_clean = extract_title_from_content(content)
+
                         story = {
                             'date': day_content.get('date', ''),
                             'bible': day_content.get('bible', []),
-                            'content': content,
-                            'title': extract_title_from_content(content)
+                            'content': content_clean,
+                            'title': title,
+                            'index': day_content.get('index', '')
                         }
                         
                         stories.append(story)

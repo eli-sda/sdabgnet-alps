@@ -1,0 +1,8 @@
+.lessons-stories {
+  ul li {
+    text-indent: 0 !important;
+    &::before {
+      content: none !important;
+    }
+  }
+}

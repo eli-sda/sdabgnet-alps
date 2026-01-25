@@ -16,7 +16,7 @@ const Donations = () => {
   const [donations, setDonations] = useState<ExternalPageLink[]>([]);
 
   useEffect(() => {
-    fetch('/donations.json')
+    fetch('/json/donations.json')
       .then((res) => res.json())
       .then((data: ExternalPageLink[]) => {
         // Filter out invalid URLs to prevent open redirect vulnerability

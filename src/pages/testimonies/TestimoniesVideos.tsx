@@ -14,7 +14,7 @@ const TestimoniesVideos = () => {
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
 
   useEffect(() => {
-    fetch('/testimonies-videos.json')
+    fetch('/json/testimonies-videos.json')
       .then((res) => res.json())
       .then((data: TestimonyVideo[]) => {
         setVideos(data);

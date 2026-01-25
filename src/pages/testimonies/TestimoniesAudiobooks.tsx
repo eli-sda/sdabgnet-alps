@@ -11,7 +11,7 @@ const TestimoniesAudiobooks = () => {
   >([]);
 
   useEffect(() => {
-    fetch('/testimonies-audiobooks.json')
+    fetch('/json/testimonies-audiobooks.json')
       .then((res) => res.json())
       .then((data: PlaylistType[]) => {
         setTestimoniesAudiobooks(data);

@@ -12,6 +12,7 @@ import TestimoniesVideos from './TestimoniesVideos';
 import TestimoniesVideoPlaylists from './TestimoniesVideoPlaylists';
 import TestimoniesAudiobooks from './TestimoniesAudiobooks';
 import './Testimonies.scss';
+import { LessonsStories } from 'src/components/lesson/LessonsStories';
 
 const DEFAULT_TAB = 'stories';
 
@@ -76,7 +77,7 @@ const Testimonies = () => {
           />
         </TabList>
 
-        <TabPanel value="stories">Истории от СУ</TabPanel>
+        <TabPanel value="stories"><LessonsStories year={2026} /></TabPanel>
         <TabPanel value="videos">
           <TestimoniesVideos />
         </TabPanel>

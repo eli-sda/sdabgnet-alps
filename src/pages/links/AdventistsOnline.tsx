@@ -29,9 +29,9 @@ const AdventistsOnline = (): JSX.Element => {
             category: getTitle(routes.info())
           },
           {
-            title: getTitle(routes.info('institutions')),
-            url: routes.info('institutions'),
-            category: getTitle(routes.info())
+            title: getTitle(routes.media('institutions')),
+            url: routes.media('institutions'),
+            category: getTitle(routes.media())
           },
           {
             title: getTitle(routes.media('links')),

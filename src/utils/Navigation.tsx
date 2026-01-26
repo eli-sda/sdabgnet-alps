@@ -168,12 +168,12 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
         url: routes.info('dictionary'),
         isDisabled: true
       },
-      {
-        type: 'primary',
-        text: 'Коментари на библейски стихове',
-        url: routes.info('comment'),
-        isDisabled: true
-      },
+      // {
+      //   type: 'primary',
+      //   text: 'Коментари на библейски стихове',
+      //   url: routes.info('comment'),
+      //   isDisabled: true
+      // },
       {
         type: 'primary',
         text: 'Залез слънце',

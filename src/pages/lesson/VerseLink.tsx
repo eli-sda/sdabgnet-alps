@@ -8,7 +8,7 @@ import {
 
 import { OptionGroup } from 'alps-library/molecules/forms/elements/OptionGroup';
 import { Button as AlpsButton } from 'src/alps/atoms/Button';
-import { LessonDays } from 'src/utils/LessonUtils';
+import { LessonDayType } from 'src/utils/LessonUtils';
 
 export const VerseLink = ({
   verseKey,
@@ -17,7 +17,7 @@ export const VerseLink = ({
 }: {
   verseKey: string;
   label: string;
-  bible: LessonDays['bible'];
+  bible: LessonDayType['bible'];
 }) => {
   const [open, setOpen] = useState(false);
   const [translation, setTranslation] = useState(
@@ -40,7 +40,7 @@ export const VerseLink = ({
       <a href="#" className="verse" onClick={handleOpen}>
         {label}
       </a>
-      <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+      <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
         <DialogTitle>Библейски текст</DialogTitle>
         <DialogContent>
           <OptionGroup

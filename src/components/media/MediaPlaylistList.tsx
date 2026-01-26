@@ -20,6 +20,7 @@ interface MediaPlaylistListProps {
     initialTime?: number
   ) => React.ReactNode;
   getCurrentTime?: () => number;
+  className?: string;
 }
 
 const MediaPlaylistList = ({
@@ -30,7 +31,8 @@ const MediaPlaylistList = ({
   isPlaying,
   onPlaylistSelect,
   renderPlayer,
-  getCurrentTime
+  getCurrentTime,
+  className = ''
 }: MediaPlaylistListProps) => {
   const { hash, search } = useLocation();
   const searchParams = new URLSearchParams(search);
@@ -162,7 +164,7 @@ const MediaPlaylistList = ({
 
   return (
     <>
-      <section className="media-playlist-list u-space--top">
+      <section className={`media-playlist-list ${className}`}>
         {playlists.map((playlist) => (
           <div
             key={playlist._id}

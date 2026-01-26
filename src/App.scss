@@ -324,6 +324,10 @@ input[type='radio'] + label {
   border-color: $mingDarkestColor;
 }
 
+button:focus::before {
+  border: none !important;
+}
+
 // use when container inclide separator at the bottom
 .has-bottom-separator {
   position: relative;

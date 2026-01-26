@@ -25,6 +25,7 @@ const AudioPlaylistListComponent = ({
   return (
     <AudioPlayerProvider playerRef={playerRef}>
       <MediaPlaylistList
+        className="u-space--top"
         sanityType={type}
         mediaPlaylists={playlists}
         mediaType={'audio'}

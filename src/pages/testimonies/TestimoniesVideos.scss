@@ -1,0 +1,46 @@
+.testimonies-videos-list {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+
+   @media (max-width: 350px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .testimonies-videos {
+    float: none;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .media-playlist-list {
+    margin-top: 0;
+
+    .playlist-item {
+      width: 100%;
+      padding: 0;
+
+      .share-button {
+        display: none;
+      }
+
+      .media-icon-button.icon--video {
+        background-color: #ff0033;
+      }
+
+      .playlist-card.is-current {
+        .c-block__image {
+          outline: 4px solid #ff0033;
+        }
+
+        .c-block__content.u-border--left {
+          border-left-color: #ff0033;
+        }
+      }
+    }
+  }
+
+  & > * {
+    min-width: 0;
+  }
+}

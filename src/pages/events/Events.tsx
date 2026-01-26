@@ -89,8 +89,8 @@ const Events = () => {
 
   useEffect(() => {
     Promise.all([
-      fetchCalendar('/calendar-2025.json'),
-      fetchCalendar('/calendar-2026.json')
+      fetchCalendar('/json/calendar-2025.json'),
+      fetchCalendar('/json/calendar-2026.json')
     ])
       .then(([events2025, events2026]) => {
         const events = [...events2025, ...events2026];

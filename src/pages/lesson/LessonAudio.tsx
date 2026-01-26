@@ -33,7 +33,7 @@ const LessonAudio: React.FC<LessonAudioProps> = ({
         {
           name: `Урок ${week} ${title}`,
           singer: `Радио 3:16`,
-          cover: '/img/logos/radio3-16.avif',
+          cover: '/img/logos/radio3-16_white_red.svg',
           musicSrc: audioUrl
         }
       ]}

@@ -14,7 +14,7 @@ const UpcomingEvents = () => {
   useEffect(() => {
     const loadEvents = async () => {
       try {
-        const res = await fetch('/calendar-2026.json');
+        const res = await fetch('/json/calendar-2026.json');
         const data = (await res.json()) as SimpleEvent[];
 
         const today = moment().startOf('day');

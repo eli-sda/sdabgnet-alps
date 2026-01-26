@@ -124,8 +124,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Опитности от цял свят',
-        url: routes.churchLife('stories'),
-        isDisabled: true
+        url: routes.churchLife('testimonies')
       },
       {
         type: 'primary',

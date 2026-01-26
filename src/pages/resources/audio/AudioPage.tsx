@@ -1,5 +1,6 @@
-import { Page } from 'src/organisms/Page';
 import routes from 'src/routes';
+import { RelatedPostsProps } from 'src/alps/organisms/asides/RelatedPosts';
+import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { AudioPlaylistList } from 'src/components/media/audio/AudioPlaylistList';
@@ -8,9 +9,10 @@ import './AudioPage.scss';
 type AudioPageProps = {
   type: 'audiobook' | 'seminars' | 'sermons';
   aside?: React.ReactNode;
+  relatedPosts?: RelatedPostsProps;
 };
 
-const AudioPage = ({ type, aside }: AudioPageProps) => {
+const AudioPage = ({ type, aside, relatedPosts }: AudioPageProps) => {
   useScrollToHash();
 
   const breadcrumbsUrls = [
@@ -26,6 +28,7 @@ const AudioPage = ({ type, aside }: AudioPageProps) => {
         kicker={getTitle(routes.resources())}
         breadcrumbsUrls={breadcrumbsUrls}
         aside={aside}
+        relatedPosts={relatedPosts}
       >
         <div className="audio-page-instructions">
           <h4 className="audio-page-caption">

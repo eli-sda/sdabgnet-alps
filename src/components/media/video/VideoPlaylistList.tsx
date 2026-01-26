@@ -16,6 +16,7 @@ const VideoPlaylistList = ({
 
   return (
     <MediaPlaylistList
+      className="u-space--top"
       sanityType={sanityType}
       mediaPlaylists={playlists}
       mediaType="video"

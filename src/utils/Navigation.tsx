@@ -164,13 +164,9 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       },
       {
         type: 'primary',
-        text: 'Адвентни отдели и институции',
-        url: routes.info('institutions')
-      },
-      {
-        type: 'primary',
         text: 'Речник',
-        url: routes.info('dictionary')
+        url: routes.info('dictionary'),
+        isDisabled: true
       },
       {
         type: 'primary',
@@ -210,6 +206,11 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
         text: 'Списание "Християнска мисъл"',
         isExternal: true,
         url: 'https://hm-aw.adventist.bg/'
+      },
+      {
+        type: 'primary',
+        text: 'Адвентни отдели и институции',
+        url: routes.media('institutions')
       },
       {
         type: 'primary',

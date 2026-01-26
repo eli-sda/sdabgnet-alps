@@ -43,53 +43,54 @@ const Testimonies = () => {
       <Page
         title={getTitle(routes.churchLife('testimonies'))}
         breadcrumbsUrls={breadcrumbsUrls}
-      />
+      ></Page>
+      <section>
+        <TabContext value={value}>
+          <TabList
+            onChange={handleChange}
+            aria-label="testimonies tabs"
+            className="testimonies-tabs u-theme--background-color--darker u-padding u-space--top rbc-btn-group"
+            slotProps={{ indicator: { sx: { display: 'none' } } }}
+            variant="scrollable"
+            scrollButtons="auto"
+            allowScrollButtonsMobile
+          >
+            <Tab
+              label="Истории от СУ"
+              value="stories"
+              className="o-button o-button--outline"
+            />
+            <Tab
+              label="Видеа"
+              value="videos"
+              className="o-button o-button--outline"
+            />
+            <Tab
+              label="Видео-поредици"
+              value="videoPlaylists"
+              className="o-button o-button--outline"
+            />
+            <Tab
+              label="Аудиокниги"
+              value="audiobooks"
+              className="o-button o-button--outline"
+            />
+          </TabList>
 
-      <TabContext value={value}>
-        <TabList
-          onChange={handleChange}
-          aria-label="testimonies tabs"
-          className="testimonies-tabs u-theme--background-color--darker u-padding u-space--top rbc-btn-group"
-          slotProps={{ indicator: { sx: { display: 'none' } } }}
-          variant="scrollable"
-          scrollButtons="auto"
-          allowScrollButtonsMobile
-        >
-          <Tab
-            label="Истории от СУ"
-            value="stories"
-            className="o-button o-button--outline"
-          />
-          <Tab
-            label="Видеа"
-            value="videos"
-            className="o-button o-button--outline"
-          />
-          <Tab
-            label="Видео-поредици"
-            value="videoPlaylists"
-            className="o-button o-button--outline"
-          />
-          <Tab
-            label="Аудиокниги"
-            value="audiobooks"
-            className="o-button o-button--outline"
-          />
-        </TabList>
-
-        <TabPanel value="stories">
-          <TestimoniesStories />
-        </TabPanel>
-        <TabPanel value="videos">
-          <TestimoniesVideos />
-        </TabPanel>
-        <TabPanel value="videoPlaylists">
-          <TestimoniesVideoPlaylists />
-        </TabPanel>
-        <TabPanel value="audiobooks">
-          <TestimoniesAudiobooks />
-        </TabPanel>
-      </TabContext>
+          <TabPanel value="stories">
+            <TestimoniesStories />
+          </TabPanel>
+          <TabPanel value="videos">
+            <TestimoniesVideos />
+          </TabPanel>
+          <TabPanel value="videoPlaylists">
+            <TestimoniesVideoPlaylists />
+          </TabPanel>
+          <TabPanel value="audiobooks">
+            <TestimoniesAudiobooks />
+          </TabPanel>
+        </TabContext>
+      </section>
     </>
   );
 };

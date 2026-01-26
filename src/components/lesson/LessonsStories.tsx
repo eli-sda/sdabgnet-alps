@@ -11,7 +11,6 @@ interface LessonsStoriesProps {
 export const LessonsStories: React.FC<LessonsStoriesProps> = ({ year }) => {
   const [stories, setStories] = useState<LessonDayType[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchStories = async () => {
@@ -20,14 +19,14 @@ export const LessonsStories: React.FC<LessonsStoriesProps> = ({ year }) => {
         const response = await fetch(`/json/stories-${year}.json`);
 
         if (!response.ok) {
-          throw new Error(`Failed to load stories for year ${year}`);
+          setStories([]);
+          return;
         }
 
         const data = (await response.json()) as LessonDayType[];
         setStories(data);
-        setError(null);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Unknown error');
+      } catch (error) {
+        console.warn(`Грешка при зареждане на разкази за ${year}:`, error);
         setStories([]);
       } finally {
         setLoading(false);
@@ -39,10 +38,6 @@ export const LessonsStories: React.FC<LessonsStoriesProps> = ({ year }) => {
 
   if (loading) {
     return <div>Зареждане на разкази...</div>;
-  }
-
-  if (error) {
-    return <div>Грешка: {error}</div>;
   }
 
   if (stories.length === 0) {

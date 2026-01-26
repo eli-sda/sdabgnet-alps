@@ -62,7 +62,12 @@
   .rbc-toolbar button,
   .rbc-show-more {
     &:active,
-    &.rbc-active,
+    &.rbc-active {
+      box-shadow: none;
+      background-color: $selectedBgColor;
+      border-color: $selectedBgColor;
+      color: $selectedColor;
+    }
     &:hover {
       box-shadow: none;
       background-color: $mingDarkColor;

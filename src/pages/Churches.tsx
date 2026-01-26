@@ -11,7 +11,7 @@ const Churches = () => {
   const [bgChurchesLinks, setBgChurchesLinks] = useState<LinksData[]>([]);
 
   useEffect(() => {
-    fetch('/adventis-online-churches.json')
+    fetch('/json/adventis-online-churches.json')
       .then((res) => res.json())
       .then((data: LinksData[]) => setBgChurchesLinks(data))
       .catch((err) => {

@@ -7,7 +7,7 @@ const AdventistsOnline = (): JSX.Element => {
   const [bgLinks, setBgLinks] = useState<LinkGroup[]>([]);
 
   useEffect(() => {
-    fetch('/adventists-online.json')
+    fetch('/json/adventists-online.json')
       .then((res) => res.json())
       .then((data: LinkGroup[]) => setBgLinks(data))
       .catch((err) => {

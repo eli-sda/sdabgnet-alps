@@ -58,6 +58,15 @@ const PlaylistActionButtons = ({
 
     const params = new URLSearchParams();
 
+    const currentTab =
+      typeof window !== 'undefined'
+        ? new URLSearchParams(window.location.search).get('tab')
+        : null;
+
+    if (currentTab) {
+      params.set('tab', currentTab);
+    }
+
     if (withIndex && typeof fromIndex === 'number') {
       params.set('playIndex', fromIndex.toString());
     }

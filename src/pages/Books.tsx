@@ -25,6 +25,8 @@ import LinkIcon from '@mui/icons-material/Link';
 import AudioIcon from '@mui/icons-material/AudioFile';
 import { getTitle } from 'src/utils/Navigation';
 
+const authorsPath = '/img/author/';
+
 const Books = () => {
   //TODO to work #<bookId>
   const [allBooks, setAllBooks] = useState<BooksSection[]>([]);
@@ -72,7 +74,9 @@ const ListSection: FC<BooksSection> = ({
     <div className="c-block c-block__text  u-theme--border-color--darker u-border--left u-spacing--half">
       <ListItemButton onClick={handleClick} alignItems="flex-start">
         <ListItemAvatar>
-          {sectionImage && <Avatar alt={sectionTitle} src={sectionImage} />}
+          {sectionImage && (
+            <Avatar alt={sectionTitle} src={`${authorsPath}${sectionImage}`} />
+          )}
           {!sectionImage && (
             <Avatar>
               <GroupIcon />

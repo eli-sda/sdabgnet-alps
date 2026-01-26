@@ -1,53 +1,320 @@
 [
   {
     "sectionTitle": "Елън Уайт",
-    "sectionImage": "https://api.sdabg.net/images/author/Ellen_Gould_White.png",
+    "sectionImage": "EllenWhite.webp",
     "description": "Елън Гулд Уайт (Ellen Gould White) (1827-1915) е забележителна християнска писателка, живяла през 19-ти век, но книгите й все още имат революционно въздействие върху милиони хора. Тя е най-превежданата жена писател в историята на литературата. Книгите й обхващат широк кръг от теми: религия, образование, социални взаимоотношения, пророчества, съвети за издателската дейност, хранене, съвети към църквата, премахване на робството. Много хора вярват, че тя е специален пратеник от Бога, който да привлече вниманието към Свещеното Писание и към Исус Христос.",
     "books": [
       {
         "title": "Патриарси и пророци",
-        "path": "books/Ellen White/Patriarsi i proroci.zip",
-        "newLifeId": "патриарси-и-пророци",
-        "audioId": 1234
+        "path": "books/Ellen White/Patriarsi i proroci.pdf",
+        "newLifeId": "патриарси-и-пророци"
       },
       {
         "title": "Пророци и царе",
-        "path": "books/Ellen White/Proroci i care.zip",
+        "path": "books/Ellen White/Proroci i care.pdf",
         "newLifeId": "пророци-и-царе"
       },
       {
         "title": "Животът на Исус Христос",
-        "path": "books/Ellen White/Jivotyt na Isus Hristos.zip",
-        "newLifeId": "копнежът-на-вековете"
+        "path": "books/Ellen White/Jivotyt na Isus Hristos.pdf",
+        "newLifeId": "копнежът-на-вековете",
+        "audioId": "362fe04f-cc3e-4119-abea-418f0ab83bb2"
       },
       {
         "title": "Деяния на апостолите",
-        "path": "books/Ellen White/Deyaniya na apostolite.zip",
-        "newLifeId": "деяния-на-апостолите"
+        "path": "books/Ellen White/Deyaniya na apostolite.pdf"
+      },
+      {
+        "title": "Великата борба",
+        "path": "books/Ellen White/Velikata borba.pdf",
+        "newLifeId": "великата-борба",
+        "audioId": "db0a3db1-6432-4c02-894e-8745834df1cc"
+      },
+      {
+        "title": "Пътят към Христос (По-добрият път)",
+        "path": "books/Ellen White/Pytyat kym Hristos.zip",
+        "newLifeId": "пътят-към-христос",
+        "audioId": "6605c182-9401-4d5e-a9a4-eea15e3715e9"
+      },
+      {
+        "title": "Християнският дом",
+        "path": "books/Ellen White/Hristiyanskiyat dom.zip"
+      },
+      {
+        "title": "Възпитание",
+        "path": "books/Ellen White/Vyzpitanie.zip"
+      },
+      {
+        "title": "Вести към младите",
+        "path": "books/Ellen White/Vesti kym mladite.zip"
+      },
+      {
+        "title": "Съвети за диетата и храненето",
+        "path": "books/Ellen White/Syveti za dietata i hraneneto.zip"
+      },
+      {
+        "title": "Християнската опитност и виденията на Елън Уайт",
+        "path": "books/Ellen White/Hristiyanskata opitnost i videniyata na EGW.zip"
+      },
+      {
+        "title": "Събитията на последните дни",
+        "path": "books/Ellen White/Sybitiyata na poslednite dni.zip"
+      },
+      {
+        "title": "Свидетелства към църквата",
+        "path": "books/Ellen White/Svidetelstva kym cyrkvata.zip"
+      },
+      {
+        "title": "Христос в Своето светилище",
+        "path": "books/Ellen White/Hristos v Svoeto svetilishte.zip"
+      },
+      {
+        "title": "Общение с Бога",
+        "path": "books/Ellen White/Obshtenie s Boga.zip"
+      },
+      {
+        "title": "Христовите страдания за спасението на света",
+        "path": "books/Ellen White/Hristovite stradaniya za spasenieto na sveta.zip"
       }
     ]
   },
   {
     "sectionTitle": "Марк Финли",
-    "sectionImage": "https://api.sdabg.net/images/author/MarkFinley.png",
-    "description": "Марк Финли е автор ...",
+    "sectionImage": "MarkFinley.png",
+    "description": "Марк Финли е международно известен говорител и автор на множество книги с християнска тематика. Той е бивш директор на отдел „Проповедническа служба“ в Генералната конференция на Църквата на адвентистите от седмия ден и е водил многобройни телевизионни програми, включително „Надежда за днешния ден“ и „Маркови свидетелства“. Книгите му често се фокусират върху практическото приложение на библейските принципи в ежедневния живот и духовното израстване.",
     "books": [
       {
         "title": "Писма от самотния остров (в съавторство със Стивън Мосли)",
         "path": "books/Mark Finley/Pisma ot samotniya ostrov.zip"
       },
       {
-        "title": "Видео: Галелиянинът (НЕТ 2002) - Планинската проповед",
-        "path": "video/Lucian Cristescu - Galileaninat (NET 2002)/212 - Planinskata propoved.avi"
+        "title": "Почти забравения ден",
+        "path": "books/Mark Finley/Pochti zabraveniya den.zip"
+      },
+      {
+        "title": "Да печелим приятели за Бога",
+        "path": "books/Mark Finley/Da pechelim priyateli za Boga.zip"
+      },
+      {
+        "title": "Библейски семинар \"Откритията на пророчеството\"",
+        "path": "books/Mark Finley/Bibleyski seminar Otkritiyata na prorochestvoto.zip"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "Дуайт К. Нелсън",
+    "sectionImage": "DwightNelson.png",
+    "description": "",
+    "books": [
+      {
+        "title": "Претенцията",
+        "path": "books/Dwight Nelson/Pretenciyata.pdf"
+      },
+      {
+        "title": "Направено, за да устои",
+        "path": "books/Dwight Nelson/Napraveno, za da ustoi.zip"
+      },
+      {
+        "title": "Видях Исус да идва",
+        "path": "books/Dwight Nelson/Vidyah Isus da idva.zip"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "Морис Л. Венден",
+    "sectionImage": "MorrisVenden.png",
+    "description": "Морис Венден (Morris L. Venden) (1932 – 2013) е християнски автор и телевизионен говорител, силен застъпник на учението за оправдание чрез вяра. Автор е на повече от 30 книги, сред които са заглавия като \"95 тезиса за оправдание чрез вяра\", \"Как да разберете Божията воля за вашия живот\", \"Чудото на новорождението\" и др.",
+    "books": [
+      {
+        "title": "Любов, брак и оправдание чрез вяра",
+        "path": "books/Morris Venden/Lyubov, brak i opravdanie chrez vyara.pdf"
+      },
+      {
+        "title": "Ето идвам, готови ли сте или не",
+        "path": "books/Morris Venden/Eto idvam, gotovi li ste ili ne.zip"
+      },
+      {
+        "title": "95 тезиси за праведност чрез вяра",
+        "path": "books/Morris Venden/95 tezisi za pravednost chrez vyara.zip"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "Стийв Уолбърг",
+    "sectionImage": "SteveWohlberg.png",
+    "description": "",
+    "books": [
+      {
+        "title": "Разобличаване на заблудата за Израил",
+        "path": "books/Steve Wohlberg/Razoblichavane na zabludata za Izrail.zip"
+      },
+      {
+        "title": "Истината - на заден план",
+        "path": "books/Steve Wohlberg/Istinata - na zaden plan.zip"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "Джордж Вандеман",
+    "sectionImage": "GeorgeVandeman.png",
+    "description": "",
+    "books": [
+      {
+        "title": "Бил ли е Бог тийнейджър",
+        "path": "books/George Vandeman/Bil li e Bog teenager.pdf"
+      },
+      {
+        "title": "От другата страна на чудесата",
+        "path": "books/George Vandeman/Ot drugata strana na chudesata.zip"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "Кей Кузма",
+    "sectionImage": "KayKuzma.png",
+    "description": "",
+    "books": [
+      {
+        "title": "Как да помогнем на децата да се справят с проблема за смъртта",
+        "path": "books/Kay Kuzma/Kak da pomognem na decata da se spravyat s problema za smyrtta.pdf"
+      },
+      {
+        "title": "Как да развиете самочувствието на детето си",
+        "path": "books/Kay Kuzma/Kak da razviete samochuvstvieto na deteto si.pdf"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "Лони Мелашенко, Тимоти Крозби",
+    "sectionImage": "LonnieMelashenko_TimothyCrosby.png",
+    "description": "",
+    "books": [
+      {
+        "title": "Секс - илюзията и вълшебството",
+        "path": "books/Lonnie Melashenko, Timothy Crosby/Sex - ilyuziyata i vylshebstvoto.pdf"
+      },
+      {
+        "title": "Времето на телевизионния взрив",
+        "path": "books/Lonnie Melashenko, Timothy Crosby/Vremeto na televizionniya vzriv.pdf"
       }
     ]
   },
   {
     "sectionTitle": "Други",
+    "sectionImage": "",
+    "description": "",
     "books": [
       {
-        "title": "Отвъд въображението, Болдуин & Гибсън & Томас",
-        "path": "books/Drugi/Otvad vaobrajenieto.zip"
+        "title": "Стъпки към лично пробуждане, Хелмут Хаубайл",
+        "path": "books/Drugi/Stypki-kym-lichno-probuzhdane.pdf"
+      },
+      {
+        "title": "Проповедникът и Черният кон, Петя Накова",
+        "path": "http://iztok-zapad.eu/uploads/materials/Propovednikyt_cherniat_kon.pdf"
+      },
+      {
+        "title": "Отвъд въображението (Мисионска книга на годината за 2014г.), Болдуин & Гибсън & Томас",
+        "path": "books/Drugi/Otvad vaobrajenieto.pdf"
+      },
+      {
+        "title": "Как и кога почивният ден е променен от събота в неделя, Д-р Франк Адиелеуа",
+        "path": "books/Drugi/Dr Frank Adieleuwa - Kak i koga pochivniyat den e promenen.zip"
+      },
+      {
+        "title": "Христос возкресе",
+        "path": "books/Drugi/Hristos vozkrese.zip"
+      },
+      {
+        "title": "Ако е толкова лесно, защо е толкова трудно, Марджори Луис Лойд",
+        "path": "books/Drugi/Marjorie Lewis Lloyd - Ako e tolkova lesno, zashto e tolkova trudno.pdf"
+      },
+      {
+        "title": "Благодаря на Бога за трохите, Бони Котър",
+        "path": "books/Drugi/Bonnie Kotter - Blagodarya na Boga za trohite.pdf"
+      },
+      {
+        "title": "Любовта, Лен Макмилън",
+        "path": "books/Drugi/Len McMillan - Lyubovta.pdf"
+      },
+      {
+        "title": "Не ме изоставяй, Кей Ризо",
+        "path": "books/Drugi/Kay Rizzo - Ne me izostavyay.pdf"
+      },
+      {
+        "title": "Спешни съвети за самотни родители, Джанет Джонсън",
+        "path": "books/Drugi/Janet Johnson - Speshni syveti za samotni roditeli.pdf",
+        "newLifeId": "спешни-съвети-за-самотни-родители"
+      },
+      {
+        "title": "Спри за почивка, Клифърд Голдстейн",
+        "path": "books/Drugi/Clifford Coldstein - Spri za pochivka.pdf"
+      },
+      {
+        "title": "Срещи отблизо, Уилям Смит",
+        "path": "books/Drugi/William Scott - Sreshti otblizo.zip",
+        "newLifeId": "срещи-отблизо"
+      },
+      {
+        "title": "Децата дрогата родителите",
+        "path": "books/Drugi/Decata drogata roditelite.zip"
+      },
+      {
+        "title": "Горчивите методи на лечение. Пътищата на заблудата в алтернативните методи на лечение, Манфред Хайде",
+        "path": "books/Drugi/Manfred Heide - Gorchivite metodi na lechenie.zip"
+      },
+      {
+        "title": "Сега това е ясно (Ясно представяне на пророческите истини), Лио Скривън",
+        "path": "books/Drugi/Leo Schreven - Sega tova e yasno.zip"
+      },
+      {
+        "title": "Наръчник за проповедници - адвентисти от седмия ден",
+        "path": "books/Drugi/Narychnik za propovednici - adventisti ot sedmiya den.zip"
+      },
+      {
+        "title": "Миленимания, Мартин Уебър",
+        "path": "books/Drugi/Martin Weber - Milenimania.zip"
+      },
+      {
+        "title": "Виж с  нови  очи истинската  красота  на  Божия характер, Тай Гибсън",
+        "path": "books/Drugi/Ty Gibson - Vij s novi ochi istinskata krasota na Bojiya harakter.zip"
+      },
+      {
+        "title": "Радикални ученици за революционни църкви, Ръсел Бърил",
+        "path": "books/Drugi/Russell Burrill - Radikalni uchenici za revolyucionni cyrkvi.zip"
+      },
+      {
+        "title": "И помнете - Исус идва скоро, Дж. Р. Спанглер",
+        "path": "books/Drugi/Spangler -  I pomnete - Isus idva skoro.zip"
+      },
+      {
+        "title": "Опитайте Бога – ще ви хареса!, Кати Тон",
+        "path": "books/Drugi/Katie Tonn - Opitayte Boga - shte vi haresa.zip"
+      },
+      {
+        "title": "Твърде зает, за да не се молиш, Бил Хайбелс",
+        "path": "books/Drugi/Bill Hybels - Tvyrde zaet, za da ne se molish.zip"
+      },
+      {
+        "title": "Дърводелецът (нов поглед към Исус), Кенет Дж. Холанд",
+        "path": "books/Drugi/Kenneth Holland - Dyrvodelecyt (nov pogled kym Isus).zip"
+      },
+      {
+        "title": "Пет стъпки към успеха, Лио Хозър",
+        "path": "books/Drugi/Leo Hauser - Pet stypki kym uspeha.zip"
+      },
+      {
+        "title": "Ню Ейдж срещу евангелието, Дейвид Маршал",
+        "path": "books/Drugi/David Marshall - New Age sreshtu Evangelieto.zip",
+        "newLifeId": "ню-ейдж-срещу-евангелието"
+      },
+      {
+        "title": "Пътешествие в свръхестественото, Роджър Морно",
+        "path": "books/Drugi/Roger Morno - Pyteshestvie v svryhestestvenoto.pdf",
+        "newLifeId": "пътешествие-в-свръхестественото"
+      },
+      {
+        "title": "Ключ към Библията, Недялка Петрова",
+        "path": "books/Drugi/Nedyalka Petrova - Klyuch kam Bibliyata.pdf"
       }
     ]
   }

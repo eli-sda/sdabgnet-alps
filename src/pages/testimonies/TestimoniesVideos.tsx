@@ -24,7 +24,7 @@ const TestimoniesVideos = () => {
         setVideos([]);
       });
 
-    fetch('/testimonies-video-playlist.json')
+    fetch('/json/testimonies-video-playlist.json')
       .then((res) => res.json())
       .then((data: PlaylistType[]) => {
         setPlaylists(data);

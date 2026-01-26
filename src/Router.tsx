@@ -66,6 +66,7 @@ const Dictionary = lazy(() => import('./pages/Dictionary'));
 const Music = lazy(() => import('./pages/resources/music/Music'));
 const Biblical = lazy(() => import('./pages/biblical/Biblical'));
 const Bibles = lazy(() => import('./pages/bibles/Bibles'));
+const Testimonies = lazy(() => import('./pages/testimonies/Testimonies'));
 
 // const theme = createTheme();
 
@@ -145,6 +146,7 @@ const Router = () => (
           {/* Църковен живот */}
           <Route path={routes.churchLife()} element={<ChurchLife />} />
           <Route path={routes.churchLife('events')} element={<Events />} />
+          <Route path={routes.churchLife('testimonies')} element={<Testimonies />} />
           <Route
             path={routes.churchLife('donations')}
             element={<Donations />}

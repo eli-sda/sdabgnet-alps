@@ -14,7 +14,7 @@ const HealthInstitutions = () => {
   const [links, setLinks] = useState<ExternalPageLink[]>([]);
 
   useEffect(() => {
-    fetch('/healthInstitutions.json')
+    fetch('/json/healthInstitutions.json')
       .then((res) => res.json())
       .then((data: ExternalPageLink[]) => {
         // Filter out invalid URLs to prevent open redirect vulnerability

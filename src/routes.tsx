@@ -15,7 +15,7 @@ const routes = {
       | 'lessons-search'
       | 'events'
       | 'topics'
-      | 'stories'
+      | 'testimonies'
       | 'poetry'
       | 'humor'
       | 'donations'

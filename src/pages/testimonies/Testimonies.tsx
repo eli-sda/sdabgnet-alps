@@ -49,7 +49,7 @@ const Testimonies = () => {
           <TabList
             onChange={handleChange}
             aria-label="testimonies tabs"
-            className="testimonies-tabs u-theme--background-color--darker u-padding u-space--top rbc-btn-group"
+            className="testimonies-tabs u-theme--background-color--darker u-padding u-space--top"
             slotProps={{ indicator: { sx: { display: 'none' } } }}
             variant="scrollable"
             scrollButtons="auto"

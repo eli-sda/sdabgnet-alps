@@ -316,6 +316,6 @@ input[type='radio'] + label {
   border-color: $mingDarkestColor;
 }
 
-button:focus::before {
+a:focus::before, button:focus::before {
   border: none !important;
 }

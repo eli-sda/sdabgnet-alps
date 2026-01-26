@@ -234,5 +234,26 @@
       { "url": "http://adventism.pro/", "type": "сайт" },
       { "url": "https://www.facebook.com/progressda", "type": "facebook" }
     ]
+  },
+  {
+    "title": "Amazing Facts",
+    "description": "Our mission is to proclaim to the world the everlasting gospel of Revelation 14:6–12 and to encourage revival in the remnant church by leading people to embrace salvation by faith in Jesus, to establish them in the church, and to disciple all believers in the joy of leading others to Christ by word and example.",
+    "image": "/img/logos/amazing-facts.svg",
+    "links": [
+      { "url": "https://www.amazingfacts.org/", "type": "сайт" },
+      { "url": "https://www.facebook.com/AmazingFacts", "type": "facebook" },
+      {
+        "url": "https://www.instagram.com/amazingfactsministry/",
+        "type": "instagram"
+      }
+    ]
+  },
+  {
+    "title": "ASI Europe",
+    "description": "ASI Europe is passionate about lifelong learning in order to serve our Lord best by spreading the everlasting Gospel in Europe. ASI Europe's training offer includes: Personal Evangelism, Discipleship & Care Groups, Public Evangelism, Church Planting, and Leadership.",
+    "image": "/img/logos/ASI-Academy.png",
+    "links": [
+      { "url": "https://academy.asi-europe.org/all-courses/", "type": "сайт" }
+    ]
   }
 ]

@@ -164,20 +164,16 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       },
       {
         type: 'primary',
-        text: 'Адвентни отдели и институции',
-        url: routes.info('institutions')
-      },
-      {
-        type: 'primary',
         text: 'Речник',
-        url: routes.info('dictionary')
-      },
-      {
-        type: 'primary',
-        text: 'Коментари на библейски стихове',
-        url: routes.info('comment'),
+        url: routes.info('dictionary'),
         isDisabled: true
       },
+      // {
+      //   type: 'primary',
+      //   text: 'Коментари на библейски стихове',
+      //   url: routes.info('comment'),
+      //   isDisabled: true
+      // },
       {
         type: 'primary',
         text: 'Залез слънце',
@@ -210,6 +206,11 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
         text: 'Списание "Християнска мисъл"',
         isExternal: true,
         url: 'https://hm-aw.adventist.bg/'
+      },
+      {
+        type: 'primary',
+        text: 'Адвентни отдели и институции',
+        url: routes.media('institutions')
       },
       {
         type: 'primary',

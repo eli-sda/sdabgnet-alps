@@ -179,10 +179,6 @@ const Router = () => (
           <Route path={routes.info('biblical')} element={<Biblical />} />
           <Route path={routes.churches} element={<Churches />} />
           <Route path={routes.info('churches')} element={<Churches />} />
-          <Route
-            path={routes.info('institutions')}
-            element={<Institutions />}
-          />
           <Route path={routes.info('dictionary')} element={<Dictionary />} />
           <Route
             path={routes.info('sunset')}
@@ -193,6 +189,10 @@ const Router = () => (
           <Route path={routes.media()} element={<Media />} />
           <Route path={routes.media('radio')} element={<Radio />} />
           <Route path={routes.media('tv')} element={<Television />} />
+          <Route
+            path={routes.media('institutions')}
+            element={<Institutions />}
+          />
           <Route
             path={routes.media('bg-links')}
             element={<AdventistsOnline />}

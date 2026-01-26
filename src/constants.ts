@@ -17,7 +17,8 @@ export type MediaType =
   | 'links'
   | 'courses'
   | 'bg-links'
-  | 'apps';
+  | 'apps'
+  | 'institutions';
 
 export const ERROR_SENDING_MESSAGE =
   'Възникна грешка при изпращането. Моля, използвайте имейла долу в страницата.';

@@ -5,10 +5,10 @@ import { getTitle } from 'src/utils/Navigation';
 import institutionsLinks from './institutions.json';
 
 const Institutions = (): JSX.Element => {
-  const breadcrumbsUrls = [routes.info(), routes.info('institutions')];
+  const breadcrumbsUrls = [routes.media(), routes.media('institutions')];
   return (
     <Page
-      title={getTitle(routes.info('institutions'))}
+      title={getTitle(routes.media('institutions'))}
       breadcrumbsUrls={breadcrumbsUrls}
       relatedPosts={{
         heading: 'Други връзки',

@@ -1,0 +1,17 @@
+@use '/src/styles/colors.scss' as *;
+$imgHeight: 4rem;
+
+.partners {
+  background-color: $lightGrayColor;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: $imgHeight;
+  flex-wrap: wrap;
+  &-item {
+    img {
+      height: $imgHeight;
+      object-fit: contain;
+    }
+  }
+}

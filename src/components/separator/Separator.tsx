@@ -1,9 +1,9 @@
-import './SeparatorBottom.scss';
+import './Separator.scss';
 
-export const SeparatorBottom = () => {
+export const Separator = ({ type }: { type: 'top' | 'bottom' }) => {
   return (
     <div className="separator-wrapper">
-      <div className="separator--bottom">
+      <div className={`separator--${type}`}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 1600 200"
@@ -17,3 +17,5 @@ export const SeparatorBottom = () => {
     </div>
   );
 };
+export const SeparatorTop = () => <Separator type="top" />;
+export const SeparatorBottom = () => <Separator type="bottom" />;

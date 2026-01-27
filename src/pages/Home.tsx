@@ -6,6 +6,7 @@ import { PageSection } from 'src/organisms/PageSection';
 import PageMeta from 'src/utils/PageMeta';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
 
+// for Sanity update
 // import { Button } from '@mui/material';
 // import { deleteAllLinks } from 'src/utils/DelteSanityDocuments';
 // import { fixSlugs } from 'src/utils/Sanity/fix-slug';
@@ -16,15 +17,16 @@ import { usePagesMeta } from 'src/hooks/usePagesMeta';
 //   linkTestimoniesVideoPlaylistsToItems
 // } from 'src/utils/Sanity/link-playlists';
 // import { deleteAllAudioLinks } from 'src/utils/Sanity/delete-audio-links';
-// import { VideoFull } from 'alps-library/organisms/sections/videoFull/VideoFull';
 
 import UpcomingEvents from '../components/UpcomingEvents';
 //DEMO:
 import { TestLinks } from 'src/components/TestLinks';
 // import { VideoDemo } from '../components/media/video/demo/VideoDemo';
-import { FeedDemo } from 'src/components/rssFeed/demo/FeedDemo';
+// import { FeedDemo } from 'src/components/rssFeed/demo/FeedDemo';
 import { RssFeedDemo } from 'src/components/rssFeed/demo/RssFeedDemo';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
+
+import { Partners } from 'src/components/Partners';
 
 const Home = () => {
   const [currentDate, setCurrentDate] = useState(() => moment());
@@ -128,6 +130,7 @@ const Home = () => {
       </PageSection>
 
       <PageSection
+        pageClassName="page-aside-top"
         aside={
           <section className="u-spacing--double">
             {/* <Button onClick={() => fixSlugs()}>Fix Playlist Slugs</Button> */}
@@ -179,10 +182,11 @@ const Home = () => {
       >
         <section className="u-spacing--triple">
           {/* <VideoDemo /> */}
-          <FeedDemo />
+          {/* <FeedDemo /> */}
           <RssFeedDemo />
         </section>
       </PageSection>
+      <Partners />
     </>
   );
 };

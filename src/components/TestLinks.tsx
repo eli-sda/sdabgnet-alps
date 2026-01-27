@@ -1,7 +1,8 @@
 import { NavLink } from 'react-router-dom';
 import { OLD_SITE } from 'src/constants';
 import routes from 'src/routes';
-import { SeparatorBottom } from './separator/SeparatorBottom';
+import { Separator } from './separator/Separator';
+// import { VideoFull } from 'alps-library/organisms/sections/videoFull/VideoFull';
 
 export const TestLinks = () => (
   <div
@@ -73,6 +74,6 @@ export const TestLinks = () => (
         //'https://www.youtube.com/embed/-CwVPt6r7pY?cc_load_policy=1&cc_lang_pref=bg&hl=bg'
       }}
     /> */}
-    <SeparatorBottom />
+    <Separator type="bottom" />
   </div>
 );

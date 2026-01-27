@@ -40,7 +40,7 @@ const UpcomingEvents = () => {
 
   return (
     <div className="u-spacing--half">
-      <HeadingBlock title="Предстоящи събития" />
+      <HeadingBlock title="Скорошни събития" />
       <div>
         {events.map((event, i) => (
           <h3

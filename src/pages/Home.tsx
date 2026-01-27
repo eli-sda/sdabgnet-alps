@@ -21,7 +21,7 @@ import { usePagesMeta } from 'src/hooks/usePagesMeta';
 // import { deleteAllAudioLinks } from 'src/utils/Sanity/delete-audio-links';
 // import { VideoFull } from 'alps-library/organisms/sections/videoFull/VideoFull';
 
-import UpcomingEvents from '../components/events/UpcomingEvents';
+import UpcomingEvents from 'src/components/events/UpcomingEvents';
 import OpenForRegistrationEvents from 'src/components/events/OpenForRegistrationEvents';
 //DEMO:
 // import { VideoDemo } from '../components/media/video/demo/VideoDemo';

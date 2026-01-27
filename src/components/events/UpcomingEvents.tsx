@@ -1,48 +1,25 @@
-import { useEffect, useState } from 'react';
 import moment from 'moment';
-import { Button } from 'src/alps/atoms/Button';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
-
-type SimpleEvent = {
-  title: string;
-  start: string;
-};
+import { Button } from 'src/alps/atoms/Button';
+import { useCalendarEvents } from 'src/hooks/useCalendarEvents';
 
 const UpcomingEvents = () => {
-  const [events, setEvents] = useState<SimpleEvent[]>([]);
+  const { events } = useCalendarEvents();
 
-  useEffect(() => {
-    const loadEvents = async () => {
-      try {
-        const res = await fetch('/json/calendar-2026.json');
-        const data = (await res.json()) as SimpleEvent[];
+  const today = moment().startOf('day');
 
-        const today = moment().startOf('day');
+  const upcoming = events
+    .filter((e) => moment(e.start).isAfter(today))
+    .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
+    .slice(0, 3);
 
-        const upcoming = data
-          .filter((e) => moment(e.start).isAfter(today))
-          .sort(
-            (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime()
-          )
-          .slice(0, 3);
-
-        setEvents(upcoming);
-      } catch (err) {
-        console.error('Failed to load calendar-2026.json', err);
-        setEvents([]);
-      }
-    };
-
-    void loadEvents();
-  }, []);
-
-  if (!events.length) return null;
+  if (!upcoming.length) return null;
 
   return (
-    <div className="u-spacing--half">
+    <div>
       <HeadingBlock title="Скорошни събития" />
       <div>
-        {events.map((event, i) => (
+        {upcoming.map((event, i) => (
           <h3
             key={i}
             className="c-block__title hyphens-auto u-font--primary--s u-space--half u-theme--color--dark"

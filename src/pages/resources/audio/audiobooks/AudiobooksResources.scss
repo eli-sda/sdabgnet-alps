@@ -1,4 +1,8 @@
 .asside-section {
   display: flex;
   flex-direction: column;
+
+  .c-block__body a {
+    border-bottom: none;
+  }
 }

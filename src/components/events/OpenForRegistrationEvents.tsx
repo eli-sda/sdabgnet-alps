@@ -4,16 +4,11 @@ import { useCalendarEvents } from 'src/hooks/useCalendarEvents';
 
 const OpenForRegistrationEvents = () => {
   const { events } = useCalendarEvents();
-
   const today = moment().startOf('day');
-
-  const openRegistration = events
-    .filter((e) => moment(e.start).isAfter(today))
-    .filter(
-      (e) =>
-        e.link && e.endRegistration && moment(e.endRegistration).isAfter(today)
-    )
-    .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
+  const openRegistration = events.filter(
+    (e) =>
+      e.link && e.endRegistration && moment(e.endRegistration).isAfter(today)
+  );
 
   if (!openRegistration.length) return null;
 

@@ -1,46 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import moment from 'moment';
+import {
+  EventType,
+  useCalendarEventsContext
+} from 'src/contexts/CalendarEventsContext';
 
-export type EventType = {
-  title: string;
-  start: string;
-  endRegistration?: string;
-  link?: string;
-};
+export function useCalendarEvents() {
+  const { events } = useCalendarEventsContext();
 
-export const useCalendarEvents = () => {
-  const [events, setEvents] = useState<EventType[]>([]);
+  const upcoming = useMemo(() => getUpcomingEvents(events), [events]);
 
-  useEffect(() => {
-    const loadEvents = async () => {
-      const currentYear = moment().year();
-      const years = [currentYear, currentYear + 1];
+  return { events, upcoming };
+}
 
-      try {
-        const results = await Promise.allSettled(
-          years.map((year) =>
-            fetch(`/json/calendar-${year}.json`).then((res) =>
-              res.ok ? res.json() : []
-            )
-          )
-        );
+function getUpcomingEvents(events: EventType[]): EventType[] {
+  const today = moment().startOf('day');
 
-        const allEvents = results
-          .filter(
-            (r): r is PromiseFulfilledResult<EventType[]> =>
-              r.status === 'fulfilled'
-          )
-          .flatMap((r) => r.value);
-
-        setEvents(allEvents);
-      } catch (err) {
-        console.error('Failed to load calendar events', err);
-        setEvents([]);
-      }
-    };
-
-    void loadEvents();
-  }, []);
-
-  return { events };
-};
+  return events
+    .filter((e) => moment(e.start).isAfter(today))
+    .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
+}

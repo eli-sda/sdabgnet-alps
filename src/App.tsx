@@ -9,6 +9,7 @@ import { QuestionsProvider } from './providers/QuestionsProvider';
 import { PlaylistsProvider } from './providers/PlaylistsProvider';
 import { DailyVerseProvider } from './providers/DailyVerseProvider';
 import SunsetProvider from './providers/SunsetProvider';
+import { CalendarEventsProvider } from './providers/CalendarEventsProvider';
 
 const App = () => {
   useEffect(() => {
@@ -37,9 +38,11 @@ const App = () => {
             <QuestionsProvider>
               <SunsetProvider>
                 <PlaylistsProvider>
-                  <DailyVerseProvider>
-                    <Router />
-                  </DailyVerseProvider>
+                  <CalendarEventsProvider>
+                    <DailyVerseProvider>
+                      <Router />
+                    </DailyVerseProvider>
+                  </CalendarEventsProvider>
                 </PlaylistsProvider>
               </SunsetProvider>
             </QuestionsProvider>

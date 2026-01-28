@@ -10,11 +10,7 @@ import {
   loadPlaylists,
   loadSeminarRelatedPresentations
 } from 'src/utils/FetchHelper';
-
-function getTodayString() {
-  const today = new Date();
-  return today.toISOString().slice(0, 10); // YYYY-MM-DD
-}
+import { getTodayString } from 'src/utils/getTodayString';
 
 // removes prefixes like "п-р", "П-р", "д-р", "Д-р", with optional dots/spaces
 function normalizeAuthor(author?: string) {

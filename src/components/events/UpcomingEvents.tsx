@@ -1,25 +1,20 @@
+import { useMemo } from 'react';
 import moment from 'moment';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import { Button } from 'src/alps/atoms/Button';
 import { useCalendarEvents } from 'src/hooks/useCalendarEvents';
 
 const UpcomingEvents = () => {
-  const { events } = useCalendarEvents();
+  const { upcoming } = useCalendarEvents();
+  const events = useMemo(() => upcoming.slice(0, 3), [upcoming]);
 
-  const today = moment().startOf('day');
-
-  const upcoming = events
-    .filter((e) => moment(e.start).isAfter(today))
-    .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
-    .slice(0, 3);
-
-  if (!upcoming.length) return null;
+  if (!events.length) return null;
 
   return (
     <div>
       <HeadingBlock title="Скорошни събития" />
       <div>
-        {upcoming.map((event, i) => (
+        {events.map((event, i) => (
           <h3
             key={i}
             className="c-block__title hyphens-auto u-font--primary--s u-space--half u-theme--color--dark"

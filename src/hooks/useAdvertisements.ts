@@ -2,11 +2,7 @@ import { useCallback } from 'react';
 import { AdType } from 'src/constants';
 import { useAdvertisementsContext } from 'src/contexts/AdvertisementsContext';
 import { loadAdvertisements } from 'src/utils/FetchHelper';
-
-function getTodayString() {
-  const today = new Date();
-  return today.toISOString().slice(0, 10); // YYYY-MM-DD
-}
+import { getTodayString } from 'src/utils/getTodayString';
 
 export function useAdvertisements() {
   const { advertisements, setAdvertisements, lastLoaded, setLastLoaded } =

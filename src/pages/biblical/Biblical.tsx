@@ -80,7 +80,7 @@ const Biblical = () => {
   const subLinks = useCallback(
     (links: { url: string; title: string }[]) =>
       links?.map(({ url, title }, index) => (
-        <div key={`${url}-${index}`}>
+        <div key={index}>
           <a
             className="u-font--primary--m c-block__title-link u-theme--color--darker u-theme--link-hover--dark"
             href={url}

@@ -77,13 +77,13 @@ const Testimonies = () => {
             />
           </TabList>
 
-          <TabPanel value="stories">
+          <TabPanel value="stories" className="full-page">
             <TestimoniesStories />
           </TabPanel>
-          <TabPanel value="videos">
+          <TabPanel value="videos" className="full-page">
             <TestimoniesVideos />
           </TabPanel>
-          <TabPanel value="videoPlaylists">
+          <TabPanel value="videoPlaylists" className="full-page">
             <TestimoniesVideoPlaylists />
           </TabPanel>
           <TabPanel value="audiobooks">

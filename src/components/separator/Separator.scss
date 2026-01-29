@@ -1,0 +1,31 @@
+@use '/src/styles/const.scss' as *;
+.separator {
+  &-wrapper {
+    position: absolute;
+    inset: -1px 0;
+    pointer-events: none;
+    .separator {
+      &--top,
+      &--bottom {
+        height: $separator-height;
+        width: 100%;
+        position: absolute !important;
+        .separator__layer-1 {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          fill: white;
+        }
+      }
+      &--bottom {
+        bottom: 0 !important ;
+        top: auto;
+      }
+      &--top {
+        top: 0 !important ;
+        bottom: auto;
+        transform: rotate(180deg);
+      }
+    }
+  }
+}

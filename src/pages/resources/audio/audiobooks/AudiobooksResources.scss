@@ -1,0 +1,13 @@
+.asside-section {
+  display: flex;
+  flex-direction: column;
+
+  .c-block__body a {
+    border-bottom: none;
+  }
+
+  .c-block__expand .c-block__toggle {
+    width: auto !important;
+    margin-left: 15px;
+  }
+}

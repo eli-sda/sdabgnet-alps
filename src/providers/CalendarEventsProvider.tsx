@@ -1,10 +1,11 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
 import moment from 'moment';
 import {
   CalendarEventsContext,
   EventType
 } from 'src/contexts/CalendarEventsContext';
-import { getTodayString } from 'src/utils/getTodayString';
+
+export const localStorageEventsLoadedKey = 'upcomming_events_last_loaded';
 
 export const CalendarEventsProvider = ({
   children
@@ -12,47 +13,22 @@ export const CalendarEventsProvider = ({
   children: ReactNode;
 }) => {
   const [events, setEvents] = useState<EventType[]>([]);
-  const [lastLoaded, setLastLoaded] = useState<string>();
+
+  const upcoming: EventType[] = useMemo(() => {
+    const today = moment().startOf('day');
+    return events.filter((e) => moment(e.start).isAfter(today));
+  }, [events]);
 
   useEffect(() => {
-    const load = async () => {
-      const today = getTodayString();
-      const currentYear = moment().year();
-      const years = [currentYear, currentYear + 1];
-
-      try {
-        const results = await Promise.allSettled(
-          years.map((year) =>
-            fetch(`/json/calendar-${year}.json`).then((res) =>
-              res.ok ? res.json() : []
-            )
-          )
-        );
-
-        const allEvents = results
-          .filter((r): r is PromiseFulfilledResult<EventType[]> =>
-            r.status === 'fulfilled'
-          )
-          .flatMap((r) => r.value);
-
-        setEvents(allEvents);
-        setLastLoaded(today);
-      } catch (err) {
-        console.error('Failed to load calendar events', err);
-        setEvents([]);
-      }
-    };
-
-    void load();
+    localStorage.setItem(localStorageEventsLoadedKey, '');
   }, []);
-  
+
   return (
     <CalendarEventsContext.Provider
       value={{
         events,
-        setEvents,
-        lastLoaded,
-        setLastLoaded
+        upcoming,
+        setEvents
       }}
     >
       {children}

@@ -9,16 +9,14 @@ export type EventType = {
 
 export type CalendarEventsContextType = {
   events: EventType[];
+  upcoming: EventType[];
   setEvents: (events: EventType[]) => void;
-  lastLoaded: string | undefined;
-  setLastLoaded: (date: string) => void;
 };
 
 export const CalendarEventsContext = createContext<CalendarEventsContextType>({
   events: [],
-  setEvents: () => {},
-  lastLoaded: undefined,
-  setLastLoaded: () => {}
+  upcoming: [],
+  setEvents: () => {}
 });
 
 export function useCalendarEventsContext() {

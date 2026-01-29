@@ -54,6 +54,7 @@ export function useCalendarEvents() {
     } else {
       localStorage.setItem(localStorageEventsLoadedKey, today);
       return getCalendars().then((loadedEvents) => {
+        loadedEvents.sort((a, b) => moment(a.start).diff(moment(b.start)));
         setEvents(loadedEvents);
       });
     }

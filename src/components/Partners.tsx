@@ -1,5 +1,5 @@
-import './Partners.scss';
 import { Separator } from './separator/Separator';
+import './Partners.scss';
 
 const partnerLogos = [
   {

@@ -1,6 +1,7 @@
 import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import { MediaBlock } from 'src/alps/molecules/blocks/MediaBlock';
 import { Button } from 'src/alps/atoms/Button';
+
 export type FeedItemType = {
   title: string;
   link: string;

@@ -17,5 +17,6 @@ export const Separator = ({ type }: { type: 'top' | 'bottom' }) => {
     </div>
   );
 };
+
 export const SeparatorTop = () => <Separator type="top" />;
 export const SeparatorBottom = () => <Separator type="bottom" />;

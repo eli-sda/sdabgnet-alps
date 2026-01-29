@@ -13,7 +13,7 @@ import Layout from './layout/Layout';
 import { useLessonUtils } from './hooks/useLessonUtils';
 
 const NotFound = lazy(() => import('./pages/NotFound'));
-const Home = lazy(() => import('./pages/Home'));
+const Home = lazy(() => import('./pages/home/Home'));
 const Lessons = lazy(() => import('./pages/lesson/Lessons'));
 const Lesson = lazy(() => import('./pages/lesson/Lesson'));
 const LessonsSearch = lazy(() => import('./pages/lessonsSearch/LessonsSearch'));
@@ -146,7 +146,10 @@ const Router = () => (
           {/* Църковен живот */}
           <Route path={routes.churchLife()} element={<ChurchLife />} />
           <Route path={routes.churchLife('events')} element={<Events />} />
-          <Route path={routes.churchLife('testimonies')} element={<Testimonies />} />
+          <Route
+            path={routes.churchLife('testimonies')}
+            element={<Testimonies />}
+          />
           <Route
             path={routes.churchLife('donations')}
             element={<Donations />}

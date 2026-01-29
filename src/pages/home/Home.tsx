@@ -1,10 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
 import moment from 'moment';
-import DailyVerse from 'src/organisms/DailyVerse';
-import { PageSection } from 'src/organisms/PageSection';
+// import { PageSection } from 'src/organisms/PageSection';
 // import { Carousel } from 'alps-library/molecules/components/carousel/Carousel';
 import PageMeta from 'src/utils/PageMeta';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
+
+import DailyVerse from 'src/organisms/DailyVerse';
+import { HomeEvents } from './HomeEvents';
+import { RssFeeds } from 'src/components/rssFeed/RssFeeds';
+import { Partners } from 'src/components/Partners';
 
 // for Sanity update
 // import { Button } from '@mui/material';
@@ -18,21 +22,16 @@ import { usePagesMeta } from 'src/hooks/usePagesMeta';
 // } from 'src/utils/Sanity/link-playlists';
 // import { deleteAllAudioLinks } from 'src/utils/Sanity/delete-audio-links';
 
-import UpcomingEvents from 'src/components/events/UpcomingEvents';
-import OpenForRegistrationEvents from 'src/components/events/OpenForRegistrationEvents';
-//DEMO:
+// for DEMO:
 import { TestLinks } from 'src/components/TestLinks';
 // import { VideoDemo } from '../components/media/video/demo/VideoDemo';
 // import { FeedDemo } from 'src/components/rssFeed/demo/FeedDemo';
-import { RssFeeds } from 'src/components/rssFeed/RssFeeds';
-import { useScrollToHash } from 'src/hooks/useScrollToHash';
-
-import { Partners } from 'src/components/Partners';
+// import { useScrollToHash } from 'src/hooks/useScrollToHash';
 
 const Home = () => {
   const [currentDate, setCurrentDate] = useState(() => moment());
   const { pageMeta } = usePagesMeta();
-  useScrollToHash();
+  // useScrollToHash();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -124,21 +123,23 @@ const Home = () => {
   */
   return (
     <>
-      <PageSection blockType="wrap6">
+      <section className="full-page u-spacing--triple">
+        {/* <PageSection blockType="wrap6"> */}
         {pageMeta && <PageMeta meta={pageMeta} breadcrumbs={[]}></PageMeta>}
         {/* <Carousel slides={testSlides}></Carousel> */}
         <TestLinks />
-      </PageSection>
+        {/* </PageSection> */}
 
-      <PageSection
-        pageClassName="page-aside-top"
-        aside={
-          <section className="u-spacing--double">
-            {/* <Button onClick={() => fixSlugs()}>Fix Playlist Slugs</Button> */}
-            {/* <Button onClick={() => deleteAllLinks()}>Delete all links in Sanity</Button> */}
+        <DailyVerse date={prevYear}></DailyVerse>
+        <HomeEvents />
+      </section>
 
-            {/* Playlist Linking Test Buttons */}
-            {/*<div className="u-spacing--double">
+      <section className="u-spacing--double">
+        {/* <Button onClick={() => fixSlugs()}>Fix Playlist Slugs</Button> */}
+        {/* <Button onClick={() => deleteAllLinks()}>Delete all links in Sanity</Button> */}
+
+        {/* Playlist Linking Test Buttons */}
+        {/*<div className="u-spacing--double">
             <Button onClick={() => void linkPlaylistsToItems()}>
               Fill Audio Playlist
             </Button>
@@ -150,41 +151,34 @@ const Home = () => {
               Delete All audio Links
             </Button>
           </div>*/}
-            {/* Playlist MUSIC Linking Test Buttons */}
-            {/* <div className="u-spacing--double">
+        {/* Playlist MUSIC Linking Test Buttons */}
+        {/* <div className="u-spacing--double">
             <Button onClick={() => void linkMusicPlaylistsToItems()}>
               Fill Music Playlists
             </Button>
           </div> */}
-            {/* Playlist Bible Linking Test Buttons */}
-            {/* <div className="u-spacing--double">
+        {/* Playlist Bible Linking Test Buttons */}
+        {/* <div className="u-spacing--double">
             <Button onClick={() => void linkBibleVideoPlaylistsToItems()}>
               Fill Библейски Playlists
             </Button>
           </div> */}
-            {/* Playlist Testimony Linking Test Buttons */}
-            {/* <div className="u-spacing--double">
+        {/* Playlist Testimony Linking Test Buttons */}
+        {/* <div className="u-spacing--double">
             <Button onClick={() => void linkTestimoniesVideoPlaylistsToItems()}>
               Fill Опитности Playlists
             </Button>
           </div> */}
-            {/* verse for today */}
-            {/* <DailyVerse date={currentDate}></DailyVerse> */}
+        {/* verse for today */}
+        {/* <DailyVerse date={currentDate}></DailyVerse> */}
 
-            {/* verse for current date but previous year */}
-            <DailyVerse date={prevYear}></DailyVerse>
+        {/* verse for current date but previous year */}
+        {/* <DailyVerse date={prevYear}></DailyVerse> */}
 
-            {/* verse for 2.01.2025  with links*/}
-            {/* <DailyVerse date={moment('2025-01-02')}></DailyVerse> */}
+        {/* verse for 2.01.2025  with links*/}
+        {/* <DailyVerse date={moment('2025-01-02')}></DailyVerse> */}
+      </section>
 
-            <UpcomingEvents />
-
-            <OpenForRegistrationEvents />
-          </section>
-        }
-      >
-        <section className="u-spacing--triple"></section>
-      </PageSection>
       <section className="full-page u-spacing--triple">
         {/* <VideoDemo /> */}
         {/* <FeedDemo /> */}

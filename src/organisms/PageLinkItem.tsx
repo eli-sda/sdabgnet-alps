@@ -1,18 +1,28 @@
-import './PageLinkItem.scss'
 import { GridItem } from 'alps-library/atoms/grids/GridItem';
-import { ContentBlock } from 'src/alps/molecules/blocks/ContentBlock';
 import { ImageType } from 'alps-library/atoms/images/ImageType';
+import { ContentBlock } from 'src/alps/molecules/blocks/ContentBlock';
+import './PageLinkItem.scss';
 
-export type PageLinkItemType = {
+export type BaseLinkType = {
   url: string;
   title: string;
+};
+
+export type PageLinkItemType = BaseLinkType & {
   description: string;
   img?: ImageType;
   sizeAtM?: string;
   sizeAtXL?: string;
 };
 
-export const PageLinkItem = ({ url, title, description, img, sizeAtM = '3', sizeAtXL = '2' }: PageLinkItemType) => {
+export const PageLinkItem = ({
+  url,
+  title,
+  description,
+  img,
+  sizeAtM = '3',
+  sizeAtXL = '2'
+}: PageLinkItemType) => {
   return (
     <>
       <GridItem

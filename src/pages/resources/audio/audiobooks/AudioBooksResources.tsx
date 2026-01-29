@@ -115,7 +115,7 @@ const AudiobooksResources = () => {
             title={section.title}
             kicker="Слушайте в YouTube "
           >
-            <section className="u-spacing">
+            <section className="u-spacing--half">
               {section.items.map((item, itemIndex) => (
                 <h3
                   key={itemIndex}

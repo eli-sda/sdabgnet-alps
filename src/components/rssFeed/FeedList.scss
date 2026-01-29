@@ -1,0 +1,46 @@
+@use '/src/styles/colors.scss' as *;
+.feed-section {
+  position: relative;
+  container-type: inline-size;
+  background-color: #d9f1f7;
+  &::after {
+    content: '';
+    display: block;
+    margin: 10px auto 0;
+    border-bottom: $mingColor 2px solid;
+  }
+  .dark-title img {
+    max-width: 100px;
+    max-height: 80px;
+  }
+  .feed-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    .c-media-block {
+      width: 100%;
+      min-width: 0;
+      & > * {
+        width: 100% !important;
+        max-width: 180px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      a {
+        img {
+          -ms-transform: scale(1);
+          -webkit-transform: scale(1);
+          transform: scale(1);
+          -webkit-transition: all 1s ease;
+          transition: all 1s ease;
+        }
+
+        &:hover img {
+          -ms-transform: scale(1.06);
+          -webkit-transform: scale(1.06);
+          transform: scale(1.06);
+        }
+      }
+    }
+  }
+}

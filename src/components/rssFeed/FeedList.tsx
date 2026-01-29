@@ -6,26 +6,15 @@ export type FeedListProps = {
   title?: string;
   logoPath?: string;
   items?: FeedItemType[];
-  numbersOnRow?: number;
+  kicker?: string;
 };
 
-export const FeedList = ({
-  title,
-  logoPath,
-  items,
-  numbersOnRow
-}: FeedListProps) => {
+export const FeedList = ({ title, kicker, logoPath, items }: FeedListProps) => {
   return (
     <section className="feed-section">
-      <DarkTitle
-        title={title || 'Feed'}
-        imageUrl={logoPath}
-        maxImageWidth={100}
-      />
+      <DarkTitle title={title || 'Feed'} kicker={kicker} imageUrl={logoPath} />
 
-      <div
-        className={`feed-list ${numbersOnRow ? `feed-list--${numbersOnRow}-on-row` : ''} u-space--top`}
-      >
+      <div className={`feed-list u-space--top`}>
         {items?.map((item, i) => (
           <FeedItem key={i} {...item} />
         ))}

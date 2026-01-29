@@ -1,9 +1,9 @@
-// @use '/src/styles/const.scss' as *;
-$separator-height: 111px;
+@use '/src/styles/const.scss' as *;
 .separator {
   &-wrapper {
     position: absolute;
     inset: -1px 0;
+    pointer-events: none;
     .separator {
       &--top,
       &--bottom {
@@ -24,6 +24,7 @@ $separator-height: 111px;
       &--top {
         top: 0 !important ;
         bottom: auto;
+        transform: rotate(180deg);
       }
     }
   }

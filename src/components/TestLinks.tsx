@@ -6,64 +6,79 @@ import { Separator } from './separator/Separator';
 
 export const TestLinks = () => (
   <div
-    className="u-padding u-spacing has-bottom-separator"
-    style={{ backgroundColor: 'rgba(86, 168, 185, 0.3)', width: '100%' }}
+    className="u-padding--double has-bottom-separator"
+    style={{
+      backgroundColor: 'rgba(86, 168, 185, 0.4)',
+      width: '100%',
+      backgroundImage: 'url(/images/waves_bgr.webp)',
+      backgroundBlendMode: 'exclusion',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: '50% 50%',
+      backgroundSize: 'cover'
+    }}
   >
-    <h3>Тестване връзки:</h3>
-    <div className="text">
-      <ul>
-        <li>
-          <NavLink to={routes.churchLife('lessons')}>Отвори СУ</NavLink>
-        </li>
-        <li>
-          <NavLink to={routes.churchLife('lesson')}>
-            Отвори текущия урок за възрастни
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to={`${routes.churchLife('lesson')}/6/4/13`}>
-            Отвори урок 13 от 4 трим. на 2006г
-          </NavLink>
-        </li>
+    <section
+      className="u-padding"
+      style={{
+        backgroundColor: 'rgba(255,255,255,0.7)'
+      }}
+    >
+      <h3>Тестване връзки:</h3>
+      <div className="text">
+        <ul>
+          <li>
+            <NavLink to={routes.churchLife('lessons')}>Отвори СУ</NavLink>
+          </li>
+          <li>
+            <NavLink to={routes.churchLife('lesson')}>
+              Отвори текущия урок за възрастни
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to={`${routes.churchLife('lesson')}/6/4/13`}>
+              Отвори урок 13 от 4 трим. на 2006г
+            </NavLink>
+          </li>
 
-        <li>
-          <NavLink to={`${routes.churchLife('lesson')}/25/1/1`}>
-            Отвори урок 1 (за възрастни) от 1 трим. на 2025г
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to={routes.churchLife('lesson-cq')}>
-            Отвори текущия урок за младежи
-          </NavLink>
-        </li>
+          <li>
+            <NavLink to={`${routes.churchLife('lesson')}/25/1/1`}>
+              Отвори урок 1 (за възрастни) от 1 трим. на 2025г
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to={routes.churchLife('lesson-cq')}>
+              Отвори текущия урок за младежи
+            </NavLink>
+          </li>
 
-        <li>
-          <NavLink to={`${routes.churchLife('lesson-cq')}/25/1/2`}>
-            Отвори урок 2 за младежи от 1 трим. на 2025г.
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to={routes.churchLife('lesson-cc')}>
-            Отвори текущия урок за юноши
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to={`${routes.churchLife('lesson-cc')}/25/1/2`}>
-            Отвори урок 2 за юноши от 1 трим. на 2025г.
-          </NavLink>
-        </li>
-      </ul>
-    </div>
+          <li>
+            <NavLink to={`${routes.churchLife('lesson-cq')}/25/1/2`}>
+              Отвори урок 2 за младежи от 1 трим. на 2025г.
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to={routes.churchLife('lesson-cc')}>
+              Отвори текущия урок за юноши
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to={`${routes.churchLife('lesson-cc')}/25/1/2`}>
+              Отвори урок 2 за юноши от 1 трим. на 2025г.
+            </NavLink>
+          </li>
+        </ul>
+      </div>
 
-    <p className="text">
-      <a
-        href={`${OLD_SITE}/pdf/Adventist_Identity_Manual.pdf`}
-        target="_blank"
-        rel="noreferrer"
-      >
-        Визуална идентичност Базов дизайн (Adventist Identity Manual)
-      </a>
-    </p>
+      <p className="text">
+        <a
+          href={`${OLD_SITE}/pdf/Adventist_Identity_Manual.pdf`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Визуална идентичност Базов дизайн (Adventist Identity Manual)
+        </a>
+      </p>
+    </section>
     {/* <VideoFull
       srcVideo={{
         allow:

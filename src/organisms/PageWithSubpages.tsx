@@ -28,7 +28,12 @@ export const PageWithSubpages = ({
   const metaMap = getMetaMap(subnavPaths);
 
   return (
-    <Page title={title} breadcrumbsUrls={breadcrumbsUrls} blockType="wrap6">
+    <Page
+      title={title}
+      breadcrumbsUrls={breadcrumbsUrls}
+      blockType="wrap6"
+      pageClassName="full-page"
+    >
       {Object.values(metaMap).map(
         ({ path, title, description }: PageMetaType, idx) => (
           <PageLinkItem

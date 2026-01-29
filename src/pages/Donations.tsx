@@ -31,7 +31,12 @@ const Donations = () => {
   }, []);
 
   return (
-    <Page title={title} breadcrumbsUrls={breadcrumbsUrls} blockType="wrap6">
+    <Page
+      title={title}
+      breadcrumbsUrls={breadcrumbsUrls}
+      blockType="wrap6"
+      // pageClassName="full-page"
+    >
       <section className="l-grid-item l-grid-item--7-col u-space--bottom">
         <div className="u-space--half--bottom">
           <HeadingBlock title="Подкрепете с дарение или участие следните адвентни институции и проекти" />

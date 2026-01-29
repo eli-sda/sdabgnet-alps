@@ -23,7 +23,7 @@ import UpcomingEvents from '../components/UpcomingEvents';
 import { TestLinks } from 'src/components/TestLinks';
 // import { VideoDemo } from '../components/media/video/demo/VideoDemo';
 // import { FeedDemo } from 'src/components/rssFeed/demo/FeedDemo';
-import { RssFeedDemo } from 'src/components/rssFeed/demo/RssFeedDemo';
+import { RssFeeds } from 'src/components/rssFeed/RssFeeds';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 
 import { Partners } from 'src/components/Partners';
@@ -180,12 +180,13 @@ const Home = () => {
           </section>
         }
       >
-        <section className="u-spacing--triple">
-          {/* <VideoDemo /> */}
-          {/* <FeedDemo /> */}
-          <RssFeedDemo />
-        </section>
+        <section className="u-spacing--triple"></section>
       </PageSection>
+      <section className="full-page u-spacing--triple">
+        {/* <VideoDemo /> */}
+        {/* <FeedDemo /> */}
+        <RssFeeds />
+      </section>
       <Partners />
     </>
   );

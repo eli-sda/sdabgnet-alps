@@ -1,17 +1,32 @@
 @use '/src/styles/colors.scss' as *;
-$imgHeight: 4rem;
+$imgHeight: 80px;
 
 .partners {
   background-color: $lightGrayColor;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: $imgHeight;
-  flex-wrap: wrap;
-  &-item {
-    img {
-      height: $imgHeight;
-      object-fit: contain;
+  position: relative;
+  container-type: inline-size;
+  margin-bottom: -40px; // the double space form main padding-bottom
+  &-list {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    // grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 3rem;
+    @container (min-width: 250px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @container (min-width: 500px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @container (min-width: 900px) {
+      grid-template-columns: repeat(6, 1fr);
+    }
+    &-item {
+      margin-left: auto;
+      margin-right: auto;
+      img {
+        height: $imgHeight;
+        object-fit: contain;
+      }
     }
   }
 }

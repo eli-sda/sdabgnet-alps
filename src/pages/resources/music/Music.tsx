@@ -13,6 +13,28 @@ import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
 import jsonPlaylist from './music-videos.json';
 import '../audio/AudioPage.scss';
 
+const musicLinks = {
+  heading: 'Слушайте в YouTube',
+  blocks: [
+    {
+      title: 'Петък 7 1/2',
+      url: 'https://www.youtube.com/playlist?list=PLHxD0n8PEQXKiWJz28H8ckGi4HyIYNC-P'
+    },
+    {
+      title: 'Песни от Дима Босева',
+      url: 'https://www.youtube.com/@dimaboseva/videos'
+    },
+    {
+      title: 'Християнски песни',
+      url: 'https://www.youtube.com/playlist?list=PLVYPzB4Uygi8rtJItNbGQieGU1_5rxLQi'
+    },
+    {
+      title: 'Песни от Красимир Лазаров',
+      url: 'https://www.youtube.com/playlist?list=PLJR2nI6Iy0ZL985GVfv9Y-Gd_4ewAzZ9K'
+    }
+  ]
+};
+
 const MusicPage = () => {
   useScrollToHash();
 
@@ -39,6 +61,7 @@ const MusicPage = () => {
         title={getTitle(routes.resources('music'))}
         kicker={getTitle(routes.resources())}
         breadcrumbsUrls={breadcrumbsUrls}
+        relatedPosts={musicLinks}
       >
         <Text
           as="article"

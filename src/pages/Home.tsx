@@ -18,7 +18,8 @@ import { usePagesMeta } from 'src/hooks/usePagesMeta';
 // } from 'src/utils/Sanity/link-playlists';
 // import { deleteAllAudioLinks } from 'src/utils/Sanity/delete-audio-links';
 
-import UpcomingEvents from '../components/UpcomingEvents';
+import UpcomingEvents from 'src/components/events/UpcomingEvents';
+import OpenForRegistrationEvents from 'src/components/events/OpenForRegistrationEvents';
 //DEMO:
 import { TestLinks } from 'src/components/TestLinks';
 // import { VideoDemo } from '../components/media/video/demo/VideoDemo';
@@ -177,6 +178,8 @@ const Home = () => {
             {/* <DailyVerse date={moment('2025-01-02')}></DailyVerse> */}
 
             <UpcomingEvents />
+
+            <OpenForRegistrationEvents />
           </section>
         }
       >

@@ -1,11 +1,7 @@
 import { useCallback } from 'react';
 import { useDailyVerseContext } from 'src/contexts/DailyVerseContext';
 import { loadDailyVerse } from 'src/utils/FetchHelper';
-
-function getTodayString() {
-  const today = new Date();
-  return today.toISOString().slice(0, 10); // YYYY-MM-DD
-}
+import { getTodayString } from 'src/utils/getTodayString';
 
 export function useDailyVerse() {
   const { verses, setVerse } = useDailyVerseContext();

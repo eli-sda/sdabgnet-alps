@@ -1,12 +1,21 @@
 import { useCallback } from 'react';
 import { AdType } from 'src/constants';
 import { useAdvertisementsContext } from 'src/contexts/AdvertisementsContext';
-import { loadAdvertisements } from 'src/utils/FetchHelper';
+import {
+  loadAdvertisements,
+  loadLatestAdvertisement
+} from 'src/utils/FetchHelper';
 import { getTodayString } from 'src/utils/getTodayString';
 
 export function useAdvertisements() {
-  const { advertisements, setAdvertisements, lastLoaded, setLastLoaded } =
-    useAdvertisementsContext();
+  const {
+    advertisements,
+    setAdvertisements,
+    lastLoaded,
+    setLastLoaded,
+    latestAdvertisements,
+    setLatestAdvertisements
+  } = useAdvertisementsContext();
 
   /**
    * Returns the advertisements for the given type. If the advertisements are not loaded or are stale (older than today),
@@ -32,5 +41,20 @@ export function useAdvertisements() {
     [advertisements, lastLoaded, setAdvertisements, setLastLoaded]
   );
 
-  return { advertisements, getAdvertisements };
+  /**
+   * Load the latest advertisement for each type and store them in latestAdvertisements
+   * Does not modify the main advertisements map.
+   */
+  const getLatestAdvertisements = useCallback(async () => {
+    const latest = await loadLatestAdvertisement();
+    setLatestAdvertisements(latest);
+    return latest;
+  }, [setLatestAdvertisements]);
+
+  return {
+    advertisements,
+    getAdvertisements,
+    latestAdvertisements,
+    getLatestAdvertisements
+  };
 }

@@ -1,10 +1,13 @@
 import moment from 'moment';
+import { PortableTextBlock } from '@portabletext/types';
 import { client, clientVreses } from 'src/sanityClient';
 import { PageMetaMap, PageMetaType } from './PageMeta';
 import {
   AdvertisementsMap,
-  AdvertisementType
+  AdvertisementType,
+  LatestAdvertisementItem
 } from 'src/contexts/AdvertisementsContext';
+import { AdType, AD_TYPES } from 'src/constants';
 import { QuestionType } from 'src/contexts/QuestionsContext';
 import {
   LinkType,
@@ -64,6 +67,41 @@ export const loadAdvertisements = async (): Promise<AdvertisementsMap> => {
   });
 
   return adsMap;
+};
+
+export const loadLatestAdvertisement = async (
+  types: AdType[] = AD_TYPES
+): Promise<Partial<Record<AdType, LatestAdvertisementItem>>> => {
+  const results = await clientVreses.fetch<
+    {
+      type: AdType;
+      date: string;
+      text: PortableTextBlock[];
+    }[]
+  >(
+    `*[_type == "advertisement" && type in $types]
+     | order(date desc)
+     { type, date, text }`,
+    { types }
+  );
+
+  const entries = Object.entries(
+    results.reduce<
+      Partial<Record<AdType, { date: string; text: PortableTextBlock[] }>>
+    >((acc, item) => {
+      if (!acc[item.type]) {
+        acc[item.type] = {
+          date: item.date,
+          text: item.text
+        };
+      }
+      return acc;
+    }, {})
+  );
+
+  return Object.fromEntries(entries) as Partial<
+    Record<AdType, LatestAdvertisementItem>
+  >;
 };
 
 export const loadQuestions = async (): Promise<QuestionType[]> => {

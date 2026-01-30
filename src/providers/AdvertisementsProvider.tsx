@@ -1,7 +1,9 @@
 import { ReactNode, useState } from 'react';
+import { AdType } from 'src/constants';
 import {
   AdvertisementsContext,
-  AdvertisementsMap
+  AdvertisementsMap,
+  LatestAdvertisementItem
 } from 'src/contexts/AdvertisementsContext';
 
 export const AdvertisementsProvider = ({
@@ -11,13 +13,16 @@ export const AdvertisementsProvider = ({
 }) => {
   const [advertisements, setAdvertisements] = useState<AdvertisementsMap>();
   const [lastLoaded, setLastLoaded] = useState<string>();
+  const [latestAdvertisements, setLatestAdvertisements] = useState<Partial<Record<AdType, LatestAdvertisementItem>>>();
   return (
     <AdvertisementsContext.Provider
       value={{
         advertisements,
         setAdvertisements,
         lastLoaded,
-        setLastLoaded
+        setLastLoaded,
+        latestAdvertisements,
+        setLatestAdvertisements
       }}
     >
       {children}

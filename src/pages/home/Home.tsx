@@ -28,6 +28,9 @@ import { TestLinks } from 'src/components/TestLinks';
 // import { FeedDemo } from 'src/components/rssFeed/demo/FeedDemo';
 // import { useScrollToHash } from 'src/hooks/useScrollToHash';
 
+
+// import LatestAdvertisementsDemo from '../advertisement/LatestAdvertisementsDemo';
+
 const Home = () => {
   const [currentDate, setCurrentDate] = useState(() => moment());
   const { pageMeta } = usePagesMeta();
@@ -184,6 +187,9 @@ const Home = () => {
         {/* <FeedDemo /> */}
         <RssFeeds />
       </section>
+
+      {/* <LatestAdvertisementsDemo /> */}
+
       <Partners />
     </>
   );

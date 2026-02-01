@@ -22,6 +22,11 @@ const Bibles = () => {
             title: 'Аудио Библии',
             url: routes.resources('audio', 'bible'),
             category: 'Аудио ресурси'
+          },
+          {
+            title: 'Проект 150 години "Славейков" превод на Библията',
+            url: 'https://bible.bg/',
+            category: 'bible.bg'
           }
         ]
       }}

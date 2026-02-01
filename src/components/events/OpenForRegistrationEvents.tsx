@@ -3,24 +3,23 @@ import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/Heading
 import { useCalendarEvents } from 'src/hooks/useCalendarEvents';
 
 const OpenForRegistrationEvents = () => {
-  const { events } = useCalendarEvents();
-  const today = moment().startOf('day');
-  const openRegistration = events.filter(
-    (e) =>
-      e.link && e.endRegistration && moment(e.endRegistration).isAfter(today)
-  );
+  const { openForRegistration } = useCalendarEvents();
 
-  if (!openRegistration.length) return null;
+  if (!openForRegistration.length) return null;
 
   return (
     <div>
       <HeadingBlock title="Тече записване" />
       <div>
-        {openRegistration.map((event, i) => (
+        {openForRegistration.map((event, i) => (
           <h3
             key={i}
             className="c-block__title hyphens-auto u-font--primary--s u-space--half u-theme--color--dark"
           >
+            <i
+              className="far fa-clock u-space--half--right"
+              aria-hidden="true"
+            />
             до {moment(event.endRegistration).format('DD.MM.YYYY')}
             <br />
             <a href={event.link} target="_blank" rel="noopener noreferrer">

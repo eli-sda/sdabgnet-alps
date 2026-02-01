@@ -8,6 +8,7 @@ $btnBorderRadius: 3.125rem;
 
     button {
       border-radius: 0;
+      text-transform: none;
 
       &:first-child {
         border-top-left-radius: $btnBorderRadius;

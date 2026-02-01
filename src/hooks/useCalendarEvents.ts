@@ -8,7 +8,8 @@ import { localStorageEventsLoadedKey } from 'src/providers/CalendarEventsProvide
 import { getTodayString } from 'src/utils/getTodayString';
 
 export function useCalendarEvents() {
-  const { events, upcoming, setEvents } = useCalendarEventsContext();
+  const { events, upcoming, openForRegistration, setEvents } =
+    useCalendarEventsContext();
 
   useEffect(() => {
     const interval = setInterval(
@@ -60,5 +61,5 @@ export function useCalendarEvents() {
     }
   };
 
-  return { events, upcoming };
+  return { events, upcoming, openForRegistration };
 }

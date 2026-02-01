@@ -6,6 +6,7 @@ import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
 import AdvertisementForm from './AdvertisementForm';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
+import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { MediaBlockProps } from 'src/alps/molecules/blocks/MediaBlock';
 import { AdvertisementBlockProps } from './AdvertisementBlock';
 import { BlockFeed } from 'src/organisms/sections/BlockFeed';
@@ -15,6 +16,8 @@ import { AdvertisementType } from 'src/contexts/AdvertisementsContext';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 
 const AdvertisementPage = ({ type }: { type: AdType }) => {
+  useScrollToHash();
+
   const { getMetaMap } = usePagesMeta();
   const { pageBackground } = usePagesMeta();
   const title = getTitle(routes.advertisement(type));
@@ -87,14 +90,14 @@ const AdvertisementPage = ({ type }: { type: AdType }) => {
       pageClassName="page-aside-top"
     >
       {adBlocks && (
-        <>
+        <section id="ads">
           <HeadingBlock title="Обяви" />
           <BlockFeed
             blocks={adBlocks}
             blocksType="archivePage"
             mediaBlockComponent="AdvertisementBlock"
           />
-        </>
+        </section>
       )}
     </Page>
   );

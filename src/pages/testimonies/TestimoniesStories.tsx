@@ -17,7 +17,7 @@ const TestimoniesStories = () => {
         {years.map((year) => (
           <Button
             key={year}
-            label={year.toString()}
+            label={`${year.toString()} г.`}
             onClick={() => setSelectedYear(year)}
             className={selectedYear === year ? 'selected-button' : ''}
             outline

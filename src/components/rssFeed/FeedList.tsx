@@ -14,11 +14,17 @@ export const FeedList = ({ title, kicker, logoPath, items }: FeedListProps) => {
     <section className="feed-section">
       <DarkTitle title={title || 'Feed'} kicker={kicker} imageUrl={logoPath} />
 
-      <div className={`feed-list u-space--top`}>
-        {items?.map((item, i) => (
-          <FeedItem key={i} {...item} />
-        ))}
-      </div>
+      {items && items.length > 0 ? (
+        <div className={`feed-list u-space--top`}>
+          {items?.map((item, i) => (
+            <FeedItem key={i} {...item} />
+          ))}
+        </div>
+      ) : (
+        <div className="centered-text">
+          <i className="fas fa-spinner fa-pulse fa-5x u-space--triple"></i>
+        </div>
+      )}
     </section>
   );
 };

@@ -1,6 +1,6 @@
 import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { isEqual } from 'lodash';
-import moment, { Moment } from 'moment';
+import { Moment } from 'moment';
 
 import useClasses from 'alps-library/helpers/useClasses';
 import useToggle from 'alps-library/helpers/useToggle';
@@ -60,12 +60,14 @@ const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
       <span className="c-block__meta u-font--secondary--xs u-theme--color--dark">
         Библейски стих за деня
       </span>
-      <h3 className={`${getFontClass('primary', 's')} u-theme--color--darker`}>
+      <h3
+        className={`hyphens-auto ${getFontClass('primary', 's')} u-theme--color--darker`}
+      >
         <strong>{data.title}</strong>
       </h3>
 
       {data.text && <p className={'c-block__body'}>{data.text}</p>}
-      <span className="c-block__meta u-font--secondary--xs u-theme--color--dark u-space--half--top">
+      <span className="hyphens-auto c-block__meta u-font--secondary--xs u-theme--color--dark u-space--half--top">
         {data.verse}
 
         {/* {data.date && (
@@ -80,7 +82,7 @@ const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
 
       {data.comment && (
         <div className="text">
-          <div className="c-block__content">
+          <div className="hyphens-auto c-block__content">
             <CustomPortableText value={data.comment} />
             {data.halfYear && (
               <div className="u-text-align--right u-space--half--top u-space--bottom">

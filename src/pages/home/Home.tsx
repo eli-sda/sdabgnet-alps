@@ -7,6 +7,7 @@ import { usePagesMeta } from 'src/hooks/usePagesMeta';
 
 import DailyVerse from 'src/organisms/DailyVerse';
 import { HomeEvents } from './HomeEvents';
+import { AdvertisementsPreview } from 'src/components/advertisements/AdvertisementsPreview';
 import { RssFeeds } from 'src/components/rssFeed/RssFeeds';
 import { Partners } from 'src/components/Partners';
 
@@ -122,24 +123,29 @@ const Home = () => {
   // ];
   */
   return (
-    <>
-      <section className="full-page u-spacing--triple">
-        {/* <PageSection blockType="wrap6"> */}
-        {pageMeta && <PageMeta meta={pageMeta} breadcrumbs={[]}></PageMeta>}
-        {/* <Carousel slides={testSlides}></Carousel> */}
-        <TestLinks />
-        {/* </PageSection> */}
+    <section className="u-spacing--triple">
+      {pageMeta && <PageMeta meta={pageMeta} breadcrumbs={[]}></PageMeta>}
+      <TestLinks />
+      {/* <Carousel slides={testSlides}></Carousel> */}
 
+      <section className="full-page">
         <DailyVerse date={prevYear}></DailyVerse>
+      </section>
+
+      <section className="full-page">
         <HomeEvents />
       </section>
 
-      <section className="u-spacing--double">
-        {/* <Button onClick={() => fixSlugs()}>Fix Playlist Slugs</Button> */}
-        {/* <Button onClick={() => deleteAllLinks()}>Delete all links in Sanity</Button> */}
+      <section className="full-page">
+        <AdvertisementsPreview />
+      </section>
 
-        {/* Playlist Linking Test Buttons */}
-        {/*<div className="u-spacing--double">
+      {/* <section className="u-spacing--double"> */}
+      {/* <Button onClick={() => fixSlugs()}>Fix Playlist Slugs</Button> */}
+      {/* <Button onClick={() => deleteAllLinks()}>Delete all links in Sanity</Button> */}
+
+      {/* Playlist Linking Test Buttons */}
+      {/*<div className="u-spacing--double">
             <Button onClick={() => void linkPlaylistsToItems()}>
               Fill Audio Playlist
             </Button>
@@ -151,41 +157,42 @@ const Home = () => {
               Delete All audio Links
             </Button>
           </div>*/}
-        {/* Playlist MUSIC Linking Test Buttons */}
-        {/* <div className="u-spacing--double">
+      {/* Playlist MUSIC Linking Test Buttons */}
+      {/* <div className="u-spacing--double">
             <Button onClick={() => void linkMusicPlaylistsToItems()}>
               Fill Music Playlists
             </Button>
           </div> */}
-        {/* Playlist Bible Linking Test Buttons */}
-        {/* <div className="u-spacing--double">
+      {/* Playlist Bible Linking Test Buttons */}
+      {/* <div className="u-spacing--double">
             <Button onClick={() => void linkBibleVideoPlaylistsToItems()}>
               Fill Библейски Playlists
             </Button>
           </div> */}
-        {/* Playlist Testimony Linking Test Buttons */}
-        {/* <div className="u-spacing--double">
+      {/* Playlist Testimony Linking Test Buttons */}
+      {/* <div className="u-spacing--double">
             <Button onClick={() => void linkTestimoniesVideoPlaylistsToItems()}>
               Fill Опитности Playlists
             </Button>
           </div> */}
-        {/* verse for today */}
-        {/* <DailyVerse date={currentDate}></DailyVerse> */}
+      {/* verse for today */}
+      {/* <DailyVerse date={currentDate}></DailyVerse> */}
 
-        {/* verse for current date but previous year */}
-        {/* <DailyVerse date={prevYear}></DailyVerse> */}
+      {/* verse for current date but previous year */}
+      {/* <DailyVerse date={prevYear}></DailyVerse> */}
 
-        {/* verse for 2.01.2025  with links*/}
-        {/* <DailyVerse date={moment('2025-01-02')}></DailyVerse> */}
-      </section>
+      {/* verse for 2.01.2025  with links*/}
+      {/* <DailyVerse date={moment('2025-01-02')}></DailyVerse> */}
+      {/* </section> */}
 
       <section className="full-page u-spacing--triple">
         {/* <VideoDemo /> */}
         {/* <FeedDemo /> */}
         <RssFeeds />
       </section>
+
       <Partners />
-    </>
+    </section>
   );
 };
 export default Home;

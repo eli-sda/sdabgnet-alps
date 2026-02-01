@@ -1,0 +1,38 @@
+@use '/src/styles/colors.scss' as *;
+
+$imgWH: 70%;
+$imgMaxWidth: 200px;
+.advertisements-preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($imgMaxWidth, 1fr));
+  gap: 3rem;
+  &-item {
+    padding-top: 0;
+    background-color: $lightGrayColor;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: calc(#{$imgWH} / 2);
+    .c-block__image {
+      margin-top: calc(-1 * #{$imgWH} / 2);
+      width: $imgWH;
+      max-width: $imgMaxWidth;
+      img {
+        border-radius: 50%;
+      }
+    }
+    .multiline {
+      // show max 5 lines with ellipsis
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      line-clamp: 5;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+
+      // keep the new lines in plain text
+      .c-block__description-wrapper {
+        white-space: pre-line;
+      }
+    }
+  }
+}

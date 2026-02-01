@@ -100,6 +100,7 @@ p {
   }
 
   &.comment {
+    white-space: break-spaces;
     &::after,
     &:focus:after {
       content: 'Покажи коментара';
@@ -298,6 +299,9 @@ samp {
       text-align: right;
     }
   }
+}
+.centered-text {
+  text-align: center;
 }
 
 // pullquote

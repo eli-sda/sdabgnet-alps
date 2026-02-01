@@ -42,7 +42,7 @@ export const TestLinks = () => (
 
           <li>
             <NavLink to={`${routes.churchLife('lesson')}/25/1/1`}>
-              Отвори урок 1 (за възрастни) от 1 трим. на 2025г
+              Отвори урок 1 (за възрастни) от 1 трим. на 2025 г.
             </NavLink>
           </li>
           <li>
@@ -53,7 +53,7 @@ export const TestLinks = () => (
 
           <li>
             <NavLink to={`${routes.churchLife('lesson-cq')}/25/1/2`}>
-              Отвори урок 2 за младежи от 1 трим. на 2025г.
+              Отвори урок 2 за младежи от 1 трим. на 2025 г.
             </NavLink>
           </li>
           <li>
@@ -63,7 +63,7 @@ export const TestLinks = () => (
           </li>
           <li>
             <NavLink to={`${routes.churchLife('lesson-cc')}/25/1/2`}>
-              Отвори урок 2 за юноши от 1 трим. на 2025г.
+              Отвори урок 2 за юноши от 1 трим. на 2025 г.
             </NavLink>
           </li>
         </ul>

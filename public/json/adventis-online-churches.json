@@ -24,7 +24,7 @@
             "type": "сайт"
           },
           {
-            "url": "www.youtube.com/@casdbukovlak4075",
+            "url": "https://www.youtube.com/@casdbukovlak4075",
             "type": "youtube"
           }
         ]
@@ -340,15 +340,11 @@
         "title": "София-Солунска",
         "links": [
           {
-            "url": "http://vvv.bg/",
-            "type": "сайт"
-          },
-          {
             "url": "https://www.facebook.com/solunska.sda",
             "type": "facebook"
           },
           {
-            "url": "www.youtube.com/@vvv-bg",
+            "url": "https://www.youtube.com/@vvv-bg",
             "type": "youtube"
           },
           {

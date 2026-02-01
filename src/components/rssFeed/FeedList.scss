@@ -3,6 +3,11 @@
   position: relative;
   container-type: inline-size;
   background-color: #d9f1f7;
+
+  .fa-spinner {
+    margin: 30px auto;
+    color: $mingDarkestColor;
+  }
   &::after {
     content: '';
     display: block;

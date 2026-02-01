@@ -5,7 +5,7 @@ import {
   EventType
 } from 'src/contexts/CalendarEventsContext';
 
-export const localStorageEventsLoadedKey = 'upcomming_events_last_loaded';
+export const localStorageEventsLoadedKey = 'upcoming_events_last_loaded';
 
 export const CalendarEventsProvider = ({
   children
@@ -19,6 +19,20 @@ export const CalendarEventsProvider = ({
     return events.filter((e) => moment(e.start).isAfter(today));
   }, [events]);
 
+  const openForRegistration: EventType[] = useMemo(() => {
+    const today = moment().startOf('day');
+    return upcoming
+      .filter(
+        (e) =>
+          e.link &&
+          e.endRegistration &&
+          moment(e.endRegistration).isAfter(today)
+      )
+      .sort((a, b) =>
+        moment(a.endRegistration).diff(moment(b.endRegistration))
+      );
+  }, [upcoming]);
+
   useEffect(() => {
     localStorage.setItem(localStorageEventsLoadedKey, '');
   }, []);
@@ -28,6 +42,7 @@ export const CalendarEventsProvider = ({
       value={{
         events,
         upcoming,
+        openForRegistration,
         setEvents
       }}
     >

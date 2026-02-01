@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
-import Dialog from '@mui/material/Dialog';
 import { Breakpoint } from '@mui/system';
+import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import { Button as AlpsButton } from '../alps/atoms/Button';
+import { Button as AlpsButton } from '../../alps/atoms/Button';
+
+import './PopupContent.scss';
 
 const PopupContent = ({
   children,
   title,
   buttonLabel,
+  buttonLighter,
   asLink = false,
   maxWidth = 'sm',
   faIconClass
@@ -17,6 +20,7 @@ const PopupContent = ({
   children: React.ReactNode;
   title?: string;
   buttonLabel?: string;
+  buttonLighter?: boolean;
   asLink?: boolean;
   maxWidth?: Breakpoint | false;
   faIconClass?: string;
@@ -52,13 +56,18 @@ const PopupContent = ({
         <AlpsButton
           onClick={handleOpen}
           label={buttonLabel || 'Прочети повече'}
-          outline={true}
+          outline={!buttonLighter}
           faIconClass={faIconClass}
+          lighter={buttonLighter}
         />
       )}
 
       <Dialog open={open} onClose={handleClose} maxWidth={maxWidth} fullWidth>
-        {title && <DialogTitle>{title}</DialogTitle>}
+        {title && (
+          <DialogTitle className="popupContent-dialogTitle u-theme--background-color--base u-color--white">
+            {title}
+          </DialogTitle>
+        )}
         <DialogContent>{children}</DialogContent>
         <DialogActions>
           <AlpsButton label="Затвори" onClick={handleClose} />

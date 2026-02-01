@@ -25,6 +25,7 @@ import { Partners } from 'src/components/Partners';
 
 // for DEMO:
 import { TestLinks } from 'src/components/TestLinks';
+// import DailyVerseGray from 'src/organisms/DailyVerseGray';
 // import { VideoDemo } from '../components/media/video/demo/VideoDemo';
 // import { FeedDemo } from 'src/components/rssFeed/demo/FeedDemo';
 // import { useScrollToHash } from 'src/hooks/useScrollToHash';
@@ -125,12 +126,17 @@ const Home = () => {
   return (
     <section className="u-spacing--triple">
       {pageMeta && <PageMeta meta={pageMeta} breadcrumbs={[]}></PageMeta>}
+
       <TestLinks />
+
       {/* <Carousel slides={testSlides}></Carousel> */}
 
       <section className="full-page">
         <DailyVerse date={prevYear}></DailyVerse>
       </section>
+      {/* <section className="full-page">
+        <DailyVerseGray date={moment('2025-01-31')}></DailyVerseGray>
+      </section> */}
 
       <section className="full-page">
         <HomeEvents />

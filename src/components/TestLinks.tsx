@@ -10,7 +10,7 @@ export const TestLinks = () => (
     style={{
       backgroundColor: 'rgba(86, 168, 185, 0.4)',
       width: '100%',
-      backgroundImage: 'url(/images/waves_bgr.webp)',
+      backgroundImage: 'url(/images/home_bgr.webp)',
       backgroundBlendMode: 'exclusion',
       backgroundRepeat: 'no-repeat',
       backgroundPosition: '50% 50%',

@@ -17,8 +17,8 @@ import './Testimonies.scss';
 const TABS = [
   { label: 'Видеа', value: 'videos' },
   { label: 'Видео-поредици', value: 'videoPlaylists' },
-  { label: 'Истории от СУ', value: 'stories' },
-  { label: 'Аудиокниги', value: 'audiobooks' }
+  { label: 'Аудиокниги', value: 'audiobooks' },
+  { label: 'Истории от СУ', value: 'stories' }
 ];
 const TAB_ITEMS = TABS.map((tab) => (
   <Tab

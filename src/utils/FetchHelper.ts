@@ -72,36 +72,26 @@ export const loadAdvertisements = async (): Promise<AdvertisementsMap> => {
 export const loadLatestAdvertisement = async (
   types: AdType[] = AD_TYPES
 ): Promise<Partial<Record<AdType, LatestAdvertisementItem>>> => {
-  const results = await clientVreses.fetch<
-    {
-      type: AdType;
-      date: string;
-      text: PortableTextBlock[];
-    }[]
-  >(
-    `*[_type == "advertisement" && type in $types]
-     | order(date desc)
-     { type, date, text }`,
-    { types }
-  );
+  // Build GROQ projection for all types
+  const projection = types
+    .map(
+      (type) =>
+        `"${type}": *[_type == "advertisement" && type == "${type}"] | order(date desc)[0]{type, date, text}`
+    )
+    .join(',\n');
 
-  const entries = Object.entries(
-    results.reduce<
-      Partial<Record<AdType, { date: string; text: PortableTextBlock[] }>>
-    >((acc, item) => {
-      if (!acc[item.type]) {
-        acc[item.type] = {
-          date: item.date,
-          text: item.text
-        };
-      }
-      return acc;
-    }, {})
-  );
-
-  return Object.fromEntries(entries) as Partial<
-    Record<AdType, LatestAdvertisementItem>
-  >;
+  const query = `{${projection}}`;
+  const result: Partial<Record<AdType, LatestAdvertisementItem>> =
+    await clientVreses.fetch(query);
+  // result is an object: { type1: {type, date, text}, type2: {...}, ... }
+  // Remove undefined/null values (if no ad for type)
+  const filtered: Partial<Record<AdType, LatestAdvertisementItem>> = {};
+  for (const type of types) {
+    if (result[type]) {
+      filtered[type] = result[type];
+    }
+  }
+  return filtered;
 };
 
 export const loadQuestions = async (): Promise<QuestionType[]> => {
@@ -126,8 +116,8 @@ export const loadPlaylists = async (
     isResource === true
       ? '&& isResource == true'
       : isResource === false
-      ? '&& (isResource == null || isResource == false)'
-      : '';
+        ? '&& (isResource == null || isResource == false)'
+        : '';
 
   const playlistQuery = `*[
     _type == "playlist"
@@ -239,10 +229,10 @@ export const loadSunset = async (
         .then((json: SunsetApiResponse) => ({ date, json }))
         .catch(
           () =>
-            ({ date, json: null } as {
+            ({ date, json: null }) as {
               date: moment.Moment;
               json: SunsetApiResponse | null;
-            })
+            }
         );
     })
   );

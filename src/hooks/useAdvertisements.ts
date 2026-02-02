@@ -14,7 +14,9 @@ export function useAdvertisements() {
     lastLoaded,
     setLastLoaded,
     latestAdvertisements,
-    setLatestAdvertisements
+    setLatestAdvertisements,
+    lastLatestLoaded,
+    setLastLatestLoaded
   } = useAdvertisementsContext();
 
   /**
@@ -46,10 +48,21 @@ export function useAdvertisements() {
    * Does not modify the main advertisements map.
    */
   const getLatestAdvertisements = useCallback(async () => {
+    const today = getTodayString();
+    if (latestAdvertisements && lastLatestLoaded === today) {
+      return Promise.resolve(latestAdvertisements || []);
+    }
     const latest = await loadLatestAdvertisement();
+
     setLatestAdvertisements(latest);
+    setLastLatestLoaded(today);
     return latest;
-  }, [setLatestAdvertisements]);
+  }, [
+    latestAdvertisements,
+    lastLatestLoaded,
+    setLatestAdvertisements,
+    setLastLatestLoaded
+  ]);
 
   return {
     advertisements,

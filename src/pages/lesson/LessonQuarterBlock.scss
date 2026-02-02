@@ -6,12 +6,7 @@
   &::after {
     content: '';
     display: block;
-    width: 100%;
     margin: 10px auto 0;
     border-bottom: $mingColor 2px solid;
-  }
-
-  .c-page-header.c-page-header__feature .c-block__image {
-    margin-left: auto;
   }
 }

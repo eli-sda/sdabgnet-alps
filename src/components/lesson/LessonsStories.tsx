@@ -56,7 +56,7 @@ export const LessonsStories: React.FC<LessonsStoriesProps> = ({ year }) => {
               asLink={true}
               maxWidth="md"
             >
-              <div className="text">
+              <div className="text u-padding--top">
                 <LessonDayContent day={story} shouldShowImg={true} />
               </div>
             </PopupContent>

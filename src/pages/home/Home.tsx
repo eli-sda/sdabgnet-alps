@@ -135,7 +135,8 @@ const Home = () => {
         <DailyVerse date={prevYear}></DailyVerse>
       </section>
       {/* <section className="full-page">
-        <DailyVerseGray date={moment('2025-01-31')}></DailyVerseGray>
+        <DailyVerseGray date={moment('2025-12-23')}></DailyVerseGray>
+        <DailyVerse date={moment('2025-12-23')}></DailyVerse>
       </section> */}
 
       <section className="full-page">

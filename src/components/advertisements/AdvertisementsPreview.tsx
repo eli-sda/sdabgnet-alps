@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-
+import moment from 'moment';
+import { PortableTextBlock } from '@portabletext/types';
 import { ImageType } from 'alps-library/atoms/images/ImageType';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import { MediaImage } from 'src/alps/molecules/blocks/MediaImage';
@@ -9,12 +10,10 @@ import { AD_TYPES, AdType } from 'src/constants';
 import { getTitle } from 'src/utils/Navigation';
 import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import { BaseLinkType } from 'src/organisms/PageLinkItem';
-
-import './AdvertisementsPreview.scss';
 import { useAdvertisements } from 'src/hooks/useAdvertisements';
 import { AdvertisementType } from 'src/contexts/AdvertisementsContext';
-import { PortableTextBlock } from '@portabletext/types';
-import moment from 'moment';
+
+import './AdvertisementsPreview.scss';
 
 type AdverMeta = BaseLinkType & {
   image: ImageType;

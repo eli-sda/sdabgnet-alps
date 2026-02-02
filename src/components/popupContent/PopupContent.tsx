@@ -64,7 +64,7 @@ const PopupContent = ({
 
       <Dialog open={open} onClose={handleClose} maxWidth={maxWidth} fullWidth>
         {title && (
-          <DialogTitle className="popupContent-dialogTitle u-theme--background-color--base u-color--white">
+          <DialogTitle className="popupContent-dialogTitle u-color--gray--darker">
             {title}
           </DialogTitle>
         )}

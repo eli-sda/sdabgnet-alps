@@ -1,15 +1,11 @@
 @use '../../styles/colors.scss' as *;
 
-.to-lesson img {
-  border-radius: 50%;
-}
 .lessonQBlock-bottom-line {
   position: relative;
   background-color: #d9f1f7;
   &::after {
     content: '';
     display: block;
-    width: 80%;
     margin: 10px auto 0;
     border-bottom: $mingColor 2px solid;
   }

@@ -372,3 +372,12 @@ $leftRightPaddingFullPage: 10%;
     }
   }
 }
+
+// lesson quarter header feature (with vertical images)
+.c-page-header.c-page-header__feature .c-block__quarterSS .c-block__image {
+  max-width: 240px;
+  @media (max-width: 501px) {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

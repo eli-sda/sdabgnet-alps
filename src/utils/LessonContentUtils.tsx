@@ -177,7 +177,12 @@ export function renderContent(
   html: string,
   bibleData: LessonDayType['bible'] = []
 ) {
-  const parts = html.split(/<blockquote>|<\/blockquote>/i);
+  // Remove exactly {&quot;style&quot;: {&quot;text&quot;: {&quot;size&quot;: &quot;sm&quot;}}} from html string (Invers lessons bug)
+  const cleanedHtml = html.replace(
+    /\{&quot;style&quot;: \{&quot;text&quot;: \{&quot;size&quot;: &quot;sm&quot;\}\}\}/g,
+    ''
+  );
+  const parts = cleanedHtml.split(/<blockquote>|<\/blockquote>/i);
   return parts.map((part, idx) => {
     if (idx % 2 === 1) {
       // Optimized blockquote logic: first <p> becomes <h3>, rest as <p>, others as normal

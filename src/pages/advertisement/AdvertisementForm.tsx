@@ -1,9 +1,10 @@
+import React, { useMemo, useState, useEffect } from 'react';
 import { Form } from 'alps-library/molecules/forms/elements/Form.tsx';
 import { TextField } from 'alps-library/molecules/forms/elements/TextField';
-import { Button } from 'src/alps/atoms/Button';
 import { Dropdown } from 'alps-library/molecules/forms/elements/Dropdown';
 import { Caption } from 'alps-library/atoms/text/Caption';
-import React, { useMemo, useState } from 'react';
+import { Button } from 'src/alps/atoms/Button';
+import routes from 'src/routes';
 import {
   AD_TYPES,
   AdType,
@@ -12,7 +13,6 @@ import {
   SITE
 } from 'src/constants';
 import { getTitle } from 'src/utils/Navigation';
-import routes from 'src/routes';
 import { MessageDialog } from 'src/components/MessageDialog';
 
 const AdvertisementForm = ({ type }: { type: AdType }) => {
@@ -133,6 +133,10 @@ const AdvertisementForm = ({ type }: { type: AdType }) => {
   // Get the display text for the selected type
   const selectedTypeText =
     typeOptions.find((opt) => opt.value === fields.type)?.text || '';
+
+  useEffect(() => {
+    setFields((f) => ({ ...f, type }));
+  }, [type]);
 
   return (
     <>

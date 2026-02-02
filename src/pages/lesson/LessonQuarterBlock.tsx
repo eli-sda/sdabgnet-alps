@@ -69,10 +69,10 @@ const LessonQuarterBlock = (params: LessonQuarterBlockType) => {
           }
         >
           <PageHeaderFeature2
-            blockType="longform"
+            blockType="quarterSS"
             blocks={[
               {
-                type: 'longform', //'featureWide',
+                type: 'quarterSS',
                 image: qImage,
                 category: quarterObject.qAuthor,
                 description: withIntroduction

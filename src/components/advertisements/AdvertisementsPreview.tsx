@@ -10,8 +10,8 @@ import { AD_TYPES, AdType } from 'src/constants';
 import { getTitle } from 'src/utils/Navigation';
 import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import { BaseLinkType } from 'src/organisms/PageLinkItem';
+import { LatestAdvertisementItem } from 'src/contexts/AdvertisementsContext';
 import { useAdvertisements } from 'src/hooks/useAdvertisements';
-import { AdvertisementType } from 'src/contexts/AdvertisementsContext';
 
 import './AdvertisementsPreview.scss';
 
@@ -22,11 +22,14 @@ type AdverMeta = BaseLinkType & {
 };
 
 // Convert AdvertisementType to AdverMeta
-function advertisementToAdverMeta(ad: AdvertisementType): AdverMeta {
+function advertisementToAdverMeta(
+  type: AdType,
+  ad: LatestAdvertisementItem
+): AdverMeta {
   return {
-    title: getTitle(routes.advertisement(ad.type)),
-    url: routes.advertisement(ad.type),
-    image: getImageTypeByUrl(`/img/ads/${ad.type}.png`),
+    title: getTitle(routes.advertisement(type)),
+    url: routes.advertisement(type),
+    image: getImageTypeByUrl(`/img/ads/${type}.png`),
     text: ad.text,
     date: ad.date
   };
@@ -112,41 +115,30 @@ const AdvertisementPreview = ({ title, url, image, text, date }: AdverMeta) => {
 };
 
 export const AdvertisementsPreview = () => {
-  const { getAdvertisements } = useAdvertisements();
+  const { getLatestAdvertisements } = useAdvertisements();
   const [firstAdsByType, setFirstAdsByType] = useState<
     Record<AdType, AdverMeta | null>
   >({} as Record<AdType, AdverMeta | null>);
 
   useEffect(() => {
     let isMounted = true;
-    void Promise.all(
-      AD_TYPES.map(async (type) => {
-        try {
-          const ads: AdvertisementType[] = await getAdvertisements(type);
-          const firstAd = ads && ads.length > 0 ? ads[0] : null;
-          return {
-            type,
-            ad: firstAd ? advertisementToAdverMeta(firstAd) : null
-          };
-        } catch {
-          return { type, ad: null };
-        }
-      })
-    ).then((results) => {
+    void getLatestAdvertisements().then((latestAds) => {
       if (!isMounted) return;
       const adsByType: Record<AdType, AdverMeta | null> = {} as Record<
         AdType,
         AdverMeta | null
       >;
-      results.forEach(({ type, ad }) => {
-        adsByType[type] = ad;
+      Object.entries(latestAds).forEach(([type, ad]) => {
+        adsByType[type as AdType] = ad
+          ? advertisementToAdverMeta(type as AdType, ad)
+          : null;
       });
       setFirstAdsByType(adsByType);
     });
     return () => {
       isMounted = false;
     };
-  }, [getAdvertisements]);
+  }, [getLatestAdvertisements]);
 
   const renderedItems = useMemo(() => {
     return AD_TYPES.map((type) => {

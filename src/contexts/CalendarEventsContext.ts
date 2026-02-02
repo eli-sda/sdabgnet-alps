@@ -10,12 +10,14 @@ export type EventType = {
 export type CalendarEventsContextType = {
   events: EventType[];
   upcoming: EventType[];
+  openForRegistration: EventType[];
   setEvents: (events: EventType[]) => void;
 };
 
 export const CalendarEventsContext = createContext<CalendarEventsContextType>({
   events: [],
   upcoming: [],
+  openForRegistration: [],
   setEvents: () => {}
 });
 

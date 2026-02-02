@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PopupContent from '../PopupContent';
+import PopupContent from '../popupContent/PopupContent';
 import { LessonDayContent } from './LessonDayContent';
 import { LessonDayType } from '../../utils/LessonUtils';
 import './LessonsStories.scss';
@@ -56,7 +56,7 @@ export const LessonsStories: React.FC<LessonsStoriesProps> = ({ year }) => {
               asLink={true}
               maxWidth="md"
             >
-              <div className="text">
+              <div className="text u-padding--top">
                 <LessonDayContent day={story} shouldShowImg={true} />
               </div>
             </PopupContent>

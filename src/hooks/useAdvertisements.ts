@@ -50,10 +50,9 @@ export function useAdvertisements() {
   const getLatestAdvertisements = useCallback(async () => {
     const today = getTodayString();
     if (latestAdvertisements && lastLatestLoaded === today) {
-      return Promise.resolve(latestAdvertisements || []);
+      return Promise.resolve(latestAdvertisements);
     }
     const latest = await loadLatestAdvertisement();
-
     setLatestAdvertisements(latest);
     setLastLatestLoaded(today);
     return latest;

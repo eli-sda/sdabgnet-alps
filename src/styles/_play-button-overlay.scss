@@ -1,0 +1,35 @@
+@mixin play-button-overlay {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 20%;
+    aspect-ratio: 1 / 1;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    display: block;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border-left: 22px solid #fff;
+    border-top: 14px solid transparent;
+    border-bottom: 14px solid transparent;
+    transform: translate(-40%, -50%);
+    z-index: 3;
+    display: block;
+  }
+
+  &:hover::before {
+    background: rgba(0, 0, 0, 0.5);
+  }
+}

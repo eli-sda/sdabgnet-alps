@@ -5,8 +5,9 @@ import moment from 'moment';
 import PageMeta from 'src/utils/PageMeta';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
 
-import DailyVerse from 'src/organisms/DailyVerse';
+import DailyVerse from 'src/components/dailyVerse/DailyVerse';
 import { HomeEvents } from './HomeEvents';
+import { AdvertisementsPreview } from 'src/components/advertisements/AdvertisementsPreview';
 import { RssFeeds } from 'src/components/rssFeed/RssFeeds';
 import { Partners } from 'src/components/Partners';
 
@@ -24,10 +25,11 @@ import { Partners } from 'src/components/Partners';
 
 // for DEMO:
 import { TestLinks } from 'src/components/TestLinks';
+// import DailyVerseGray from 'src/components/dailyVerse/DailyVerseGray';
+// import DailyVerseDark from 'src/components/dailyVerse/DailyVerseDark';
 // import { VideoDemo } from '../components/media/video/demo/VideoDemo';
 // import { FeedDemo } from 'src/components/rssFeed/demo/FeedDemo';
 // import { useScrollToHash } from 'src/hooks/useScrollToHash';
-
 
 // import LatestAdvertisementsDemo from '../advertisement/LatestAdvertisementsDemo';
 
@@ -125,24 +127,36 @@ const Home = () => {
   // ];
   */
   return (
-    <>
-      <section className="full-page u-spacing--triple">
-        {/* <PageSection blockType="wrap6"> */}
-        {pageMeta && <PageMeta meta={pageMeta} breadcrumbs={[]}></PageMeta>}
-        {/* <Carousel slides={testSlides}></Carousel> */}
-        <TestLinks />
-        {/* </PageSection> */}
+    <section className="u-spacing--triple">
+      {pageMeta && <PageMeta meta={pageMeta} breadcrumbs={[]}></PageMeta>}
 
+      <TestLinks />
+
+      {/* <Carousel slides={testSlides}></Carousel> */}
+
+      <section className="full-page">
         <DailyVerse date={prevYear}></DailyVerse>
+        {/* <DailyVerseDark date={prevYear}></DailyVerseDark> */}
+      </section>
+      {/* <section className="full-page">
+        <DailyVerseGray date={moment('2025-12-23')}></DailyVerseGray>
+        <DailyVerse date={moment('2025-12-23')}></DailyVerse>
+      </section> */}
+
+      <section className="full-page">
         <HomeEvents />
       </section>
 
-      <section className="u-spacing--double">
-        {/* <Button onClick={() => fixSlugs()}>Fix Playlist Slugs</Button> */}
-        {/* <Button onClick={() => deleteAllLinks()}>Delete all links in Sanity</Button> */}
+      <section className="full-page">
+        <AdvertisementsPreview />
+      </section>
 
-        {/* Playlist Linking Test Buttons */}
-        {/*<div className="u-spacing--double">
+      {/* <section className="u-spacing--double"> */}
+      {/* <Button onClick={() => fixSlugs()}>Fix Playlist Slugs</Button> */}
+      {/* <Button onClick={() => deleteAllLinks()}>Delete all links in Sanity</Button> */}
+
+      {/* Playlist Linking Test Buttons */}
+      {/*<div className="u-spacing--double">
             <Button onClick={() => void linkPlaylistsToItems()}>
               Fill Audio Playlist
             </Button>
@@ -154,44 +168,43 @@ const Home = () => {
               Delete All audio Links
             </Button>
           </div>*/}
-        {/* Playlist MUSIC Linking Test Buttons */}
-        {/* <div className="u-spacing--double">
+      {/* Playlist MUSIC Linking Test Buttons */}
+      {/* <div className="u-spacing--double">
             <Button onClick={() => void linkMusicPlaylistsToItems()}>
               Fill Music Playlists
             </Button>
           </div> */}
-        {/* Playlist Bible Linking Test Buttons */}
-        {/* <div className="u-spacing--double">
+      {/* Playlist Bible Linking Test Buttons */}
+      {/* <div className="u-spacing--double">
             <Button onClick={() => void linkBibleVideoPlaylistsToItems()}>
               Fill Библейски Playlists
             </Button>
           </div> */}
-        {/* Playlist Testimony Linking Test Buttons */}
-        {/* <div className="u-spacing--double">
+      {/* Playlist Testimony Linking Test Buttons */}
+      {/* <div className="u-spacing--double">
             <Button onClick={() => void linkTestimoniesVideoPlaylistsToItems()}>
               Fill Опитности Playlists
             </Button>
           </div> */}
-        {/* verse for today */}
-        {/* <DailyVerse date={currentDate}></DailyVerse> */}
+      {/* verse for today */}
+      {/* <DailyVerse date={currentDate}></DailyVerse> */}
 
-        {/* verse for current date but previous year */}
-        {/* <DailyVerse date={prevYear}></DailyVerse> */}
+      {/* verse for current date but previous year */}
+      {/* <DailyVerse date={prevYear}></DailyVerse> */}
 
-        {/* verse for 2.01.2025  with links*/}
-        {/* <DailyVerse date={moment('2025-01-02')}></DailyVerse> */}
-      </section>
+      {/* verse for 2.01.2025  with links*/}
+      {/* <DailyVerse date={moment('2025-01-02')}></DailyVerse> */}
+      {/* </section> */}
 
       <section className="full-page u-spacing--triple">
         {/* <VideoDemo /> */}
         {/* <FeedDemo /> */}
+        {/* <LatestAdvertisementsDemo /> */}
         <RssFeeds />
       </section>
 
-      {/* <LatestAdvertisementsDemo /> */}
-
       <Partners />
-    </>
+    </section>
   );
 };
 export default Home;

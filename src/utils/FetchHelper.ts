@@ -1,10 +1,13 @@
 import moment from 'moment';
+import { PortableTextBlock } from '@portabletext/types';
 import { client, clientVreses } from 'src/sanityClient';
 import { PageMetaMap, PageMetaType } from './PageMeta';
 import {
   AdvertisementsMap,
-  AdvertisementType
+  AdvertisementType,
+  LatestAdvertisementItem
 } from 'src/contexts/AdvertisementsContext';
+import { AdType, AD_TYPES } from 'src/constants';
 import { QuestionType } from 'src/contexts/QuestionsContext';
 import {
   LinkType,
@@ -66,6 +69,31 @@ export const loadAdvertisements = async (): Promise<AdvertisementsMap> => {
   return adsMap;
 };
 
+export const loadLatestAdvertisement = async (
+  types: AdType[] = AD_TYPES
+): Promise<Partial<Record<AdType, LatestAdvertisementItem>>> => {
+  // Build GROQ projection for all types
+  const projection = types
+    .map(
+      (type) =>
+        `"${type}": *[_type == "advertisement" && type == "${type}"] | order(date desc)[0]{type, date, text}`
+    )
+    .join(',\n');
+
+  const query = `{${projection}}`;
+  const result: Partial<Record<AdType, LatestAdvertisementItem>> =
+    await clientVreses.fetch(query);
+  // result is an object: { type1: {type, date, text}, type2: {...}, ... }
+  // Remove undefined/null values (if no ad for type)
+  const filtered: Partial<Record<AdType, LatestAdvertisementItem>> = {};
+  for (const type of types) {
+    if (result[type]) {
+      filtered[type] = result[type];
+    }
+  }
+  return filtered;
+};
+
 export const loadQuestions = async (): Promise<QuestionType[]> => {
   const questionsQuery = `*[_type == "questionAnswer"] | order(_createdAt desc) {
    name,
@@ -88,8 +116,8 @@ export const loadPlaylists = async (
     isResource === true
       ? '&& isResource == true'
       : isResource === false
-      ? '&& (isResource == null || isResource == false)'
-      : '';
+        ? '&& (isResource == null || isResource == false)'
+        : '';
 
   const playlistQuery = `*[
     _type == "playlist"
@@ -201,10 +229,10 @@ export const loadSunset = async (
         .then((json: SunsetApiResponse) => ({ date, json }))
         .catch(
           () =>
-            ({ date, json: null } as {
+            ({ date, json: null }) as {
               date: moment.Moment;
               json: SunsetApiResponse | null;
-            })
+            }
         );
     })
   );

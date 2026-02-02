@@ -19,20 +19,36 @@ export type AdvertisementsMap = {
   [type: string]: AdvertisementType[];
 };
 
+export type LatestAdvertisementItem = {
+  date: string;
+  text: Array<PortableTextBlock>;
+};
+
 export type AdvertisementsContextType = {
   advertisements: AdvertisementsMap | undefined;
   setAdvertisements: (advertisements: AdvertisementsMap) => void;
   lastLoaded: string | undefined;
   setLastLoaded: (date: string) => void;
+  latestAdvertisements:
+    | Partial<Record<AdType, LatestAdvertisementItem>>
+    | undefined;
+  setLatestAdvertisements: (
+    advertisements: Partial<Record<AdType, LatestAdvertisementItem>>
+  ) => void;
+  lastLatestLoaded: string | undefined;
+  setLastLatestLoaded: (date: string) => void;
 };
 
-export const AdvertisementsContext =
-  createContext<AdvertisementsContextType>({
-    advertisements: undefined,
-    setAdvertisements: () => {},
-    lastLoaded: undefined,
-    setLastLoaded: () => {}
-  });
+export const AdvertisementsContext = createContext<AdvertisementsContextType>({
+  advertisements: undefined,
+  setAdvertisements: () => {},
+  lastLoaded: undefined,
+  setLastLoaded: () => {},
+  latestAdvertisements: undefined,
+  setLatestAdvertisements: () => {},
+  lastLatestLoaded: undefined,
+  setLastLatestLoaded: () => {}
+});
 
 export function useAdvertisementsContext() {
   const context = useContext(AdvertisementsContext);

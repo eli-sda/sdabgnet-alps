@@ -1,4 +1,4 @@
-import React from 'react';
+// as PageHeaderFeature but with our MediaBllock
 import useClasses from 'alps-library/helpers/useClasses';
 import renderItems from 'alps-library/helpers/renderItems';
 

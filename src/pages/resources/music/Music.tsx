@@ -10,8 +10,33 @@ import { getTitle } from 'src/utils/Navigation';
 import DownloadList from 'src/components/downloadList/DownloadList';
 import { AudioPlaylistList } from 'src/components/media/audio/AudioPlaylistList';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
-import jsonPlaylist from './music-videos.json';
 import '../audio/AudioPage.scss';
+
+const musicLinks = {
+  heading: 'Слушайте в YouTube',
+  blocks: [
+    {
+      title: 'Петък 7 1/2',
+      url: 'https://www.youtube.com/playlist?list=PLHxD0n8PEQXKiWJz28H8ckGi4HyIYNC-P'
+    },
+    {
+      title: 'Песни от Дима Босева',
+      url: 'https://www.youtube.com/@dimaboseva/videos'
+    },
+    {
+      title: 'Християнски песни',
+      url: 'https://www.youtube.com/playlist?list=PLVYPzB4Uygi8rtJItNbGQieGU1_5rxLQi'
+    },
+    {
+      title: 'Албум "Небесна мелодия"',
+      url: 'https://www.youtube.com/playlist?list=PLIeXbN0nkX1V3Rp4n6c122jl2k6FLg9Dl'
+    },
+    {
+      title: 'Песни от Красимир Лазаров',
+      url: 'https://www.youtube.com/playlist?list=PLJR2nI6Iy0ZL985GVfv9Y-Gd_4ewAzZ9K'
+    }
+  ]
+};
 
 const MusicPage = () => {
   useScrollToHash();
@@ -20,8 +45,19 @@ const MusicPage = () => {
 
   const { getResourcePlaylists } = usePlaylists();
   const [musicPlaylist, setMusicPlaylist] = useState<PlaylistType[]>([]);
+  const [musicVideos, setMusicVideos] = useState<PlaylistType[]>([]);
 
-  const musicPlaylistArr = [jsonPlaylist as PlaylistType];
+  useEffect(() => {
+    fetch('/json/music-videos.json')
+      .then((res) => res.json())
+      .then((data: PlaylistType) => {
+        setMusicVideos([data]);
+      })
+      .catch((err) => {
+        console.error('Failed to load music-videos.json', err);
+        setMusicVideos([]);
+      });
+  }, []);
 
   useEffect(() => {
     getResourcePlaylists(
@@ -39,6 +75,7 @@ const MusicPage = () => {
         title={getTitle(routes.resources('music'))}
         kicker={getTitle(routes.resources())}
         breadcrumbsUrls={breadcrumbsUrls}
+        relatedPosts={musicLinks}
       >
         <Text
           as="article"
@@ -67,7 +104,7 @@ const MusicPage = () => {
           </Accordion>
         </Text>
 
-        <VideoPlaylistList playlists={musicPlaylistArr} />
+        <VideoPlaylistList playlists={musicVideos} />
 
         <div className="audio-page-instructions">
           <h4 className="audio-page-caption">

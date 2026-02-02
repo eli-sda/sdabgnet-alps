@@ -202,10 +202,10 @@ const Biblical = () => {
       <section className="biblical full-section u-space--top">
         <section>
           <PageHeaderFeature2
-            blockType="longform"
+            blockType="quarterSS"
             blocks={[
               {
-                type: 'longform',
+                type: 'quarterSS',
                 title: 'Библейски видео поредици'
               }
             ]}
@@ -215,10 +215,10 @@ const Biblical = () => {
 
         <div className="u-space--top u-space--double--bottom">
           <PageHeaderFeature2
-            blockType="longform"
+            blockType="quarterSS"
             blocks={[
               {
-                type: 'longform',
+                type: 'quarterSS',
                 image: getImageTypeByUrl('/img/logos/believe28.gif'),
                 kicker: 'Библейско изложение на 28 ОСНОВНИ УЧЕНИЯ',
                 title: 'Адвентистите от седмия ден вярват...'

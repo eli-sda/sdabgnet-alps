@@ -5,7 +5,7 @@ import moment from 'moment';
 import PageMeta from 'src/utils/PageMeta';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
 
-import DailyVerse from 'src/components/DailyVerse';
+import DailyVerse from 'src/components/dailyVerse/DailyVerse';
 import { HomeEvents } from './HomeEvents';
 import { AdvertisementsPreview } from 'src/components/advertisements/AdvertisementsPreview';
 import { RssFeeds } from 'src/components/rssFeed/RssFeeds';
@@ -25,8 +25,8 @@ import { Partners } from 'src/components/Partners';
 
 // for DEMO:
 import { TestLinks } from 'src/components/TestLinks';
-// import DailyVerseGray from 'src/organisms/DailyVerseGray';
-// import DailyVerseDark from 'src/organisms/DailyVerseDark';
+// import DailyVerseGray from 'src/components/dailyVerse/DailyVerseGray';
+// import DailyVerseDark from 'src/components/dailyVerse/DailyVerseDark';
 // import { VideoDemo } from '../components/media/video/demo/VideoDemo';
 // import { FeedDemo } from 'src/components/rssFeed/demo/FeedDemo';
 // import { useScrollToHash } from 'src/hooks/useScrollToHash';

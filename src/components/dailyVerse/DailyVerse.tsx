@@ -9,7 +9,7 @@ import { getFontClass } from 'alps-library/global/fonts';
 import { CustomPortableText } from 'src/utils/CustomPortableText';
 import { useDailyVerse } from 'src/hooks/useDailyVerse';
 import { DailyVerseType } from 'src/contexts/DailyVerseContext';
-import PopupContent from './popupContent/PopupContent';
+import PopupContent from '../popupContent/PopupContent';
 
 const DailyVerseGray: FC<{ date: Moment }> = ({ date }) => {
   const [data, setData] = useState<DailyVerseType | null>(null);

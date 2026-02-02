@@ -13,9 +13,9 @@ import { useDailyVerse } from 'src/hooks/useDailyVerse';
 import { DailyVerseType } from 'src/contexts/DailyVerseContext';
 import PopupContent from 'src/components/popupContent/PopupContent';
 
-import './DailyVerse.scss';
+import './DailyVerseDark.scss';
 
-const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
+const DailyVerseDark: FC<{ date: Moment }> = ({ date }) => {
   const [data, setData] = useState<DailyVerseType | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -96,4 +96,4 @@ const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
   );
 };
 
-export default DailyVerse;
+export default DailyVerseDark;

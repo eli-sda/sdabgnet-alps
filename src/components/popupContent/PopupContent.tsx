@@ -15,7 +15,8 @@ const PopupContent = ({
   buttonLighter,
   asLink = false,
   maxWidth = 'sm',
-  faIconClass
+  faIconClass,
+  iconPosition = 'left'
 }: {
   children: React.ReactNode;
   title?: string;
@@ -24,6 +25,7 @@ const PopupContent = ({
   asLink?: boolean;
   maxWidth?: Breakpoint | false;
   faIconClass?: string;
+  iconPosition?: 'left' | 'right';
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -40,24 +42,31 @@ const PopupContent = ({
     icon = (
       <i
         className={`${faIconClass} ${
-          buttonLabel ? `u-space--quarter--right` : ''
+          buttonLabel
+            ? `u-space--quarter--${iconPosition === 'left' ? 'right' : 'left'}`
+            : ''
         }`}
       ></i>
     );
   }
+
+  const label = buttonLabel || 'Прочети повече';
+
   return (
     <>
       {asLink ? (
         <a href="#" onClick={handleOpen}>
-          {icon}
-          {buttonLabel || 'Прочети повече'}
+          {iconPosition === 'left' && icon}
+          {label}
+          {iconPosition === 'right' && icon}
         </a>
       ) : (
         <AlpsButton
           onClick={handleOpen}
-          label={buttonLabel || 'Прочети повече'}
+          label={label}
           outline={!buttonLighter}
           faIconClass={faIconClass}
+          iconPosition={iconPosition}
           lighter={buttonLighter}
         />
       )}

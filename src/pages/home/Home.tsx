@@ -5,7 +5,7 @@ import moment from 'moment';
 import PageMeta from 'src/utils/PageMeta';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
 
-import DailyVerse from 'src/organisms/DailyVerse';
+import DailyVerse from 'src/components/DailyVerse';
 import { HomeEvents } from './HomeEvents';
 import { AdvertisementsPreview } from 'src/components/advertisements/AdvertisementsPreview';
 import { RssFeeds } from 'src/components/rssFeed/RssFeeds';
@@ -26,6 +26,7 @@ import { Partners } from 'src/components/Partners';
 // for DEMO:
 import { TestLinks } from 'src/components/TestLinks';
 // import DailyVerseGray from 'src/organisms/DailyVerseGray';
+// import DailyVerseDark from 'src/organisms/DailyVerseDark';
 // import { VideoDemo } from '../components/media/video/demo/VideoDemo';
 // import { FeedDemo } from 'src/components/rssFeed/demo/FeedDemo';
 // import { useScrollToHash } from 'src/hooks/useScrollToHash';
@@ -135,6 +136,7 @@ const Home = () => {
 
       <section className="full-page">
         <DailyVerse date={prevYear}></DailyVerse>
+        {/* <DailyVerseDark date={prevYear}></DailyVerseDark> */}
       </section>
       {/* <section className="full-page">
         <DailyVerseGray date={moment('2025-12-23')}></DailyVerseGray>

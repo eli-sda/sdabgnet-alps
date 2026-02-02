@@ -1,0 +1,97 @@
+//Gray version of DailyVerse component with popup display for comment
+import { FC, useEffect, useMemo, useRef, useState } from 'react';
+import { isEqual } from 'lodash';
+import { Moment } from 'moment';
+
+import useClasses from 'alps-library/helpers/useClasses';
+import { themeBorderColorClass } from 'alps-library/global/colors';
+import { getFontClass } from 'alps-library/global/fonts';
+import { CustomPortableText } from 'src/utils/CustomPortableText';
+import { useDailyVerse } from 'src/hooks/useDailyVerse';
+import { DailyVerseType } from 'src/contexts/DailyVerseContext';
+import PopupContent from './popupContent/PopupContent';
+
+const DailyVerseGray: FC<{ date: Moment }> = ({ date }) => {
+  const [data, setData] = useState<DailyVerseType | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const classes = useClasses(
+    'c-block c-block__text u-border--left u-spacing ' +
+      themeBorderColorClass +
+      '--darker',
+    { 'c-block__text-expand': true }
+  );
+
+  const moreClasses =
+    ' can-be--dark-dark u-clear-fix u-padding u-background-color--gray--light';
+
+  const formattedDate = useMemo(
+    () => date.format('YYYY-MM-DD'), //date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+    [date]
+  );
+  const prevFormattedDate = useRef<string | null>(null);
+
+  const { getDailyVerse } = useDailyVerse();
+
+  useEffect(() => {
+    if (isEqual(prevFormattedDate.current, formattedDate)) return;
+    prevFormattedDate.current = formattedDate;
+
+    setLoading(true);
+    getDailyVerse(formattedDate)
+      .then((loaded) => {
+        // only set if it matches the requested date
+        if (loaded?.date === formattedDate) {
+          setData(loaded);
+        }
+      })
+      .catch((err) => console.error('Error loading daily verse: ', err))
+      .finally(() => setLoading(false));
+  }, [formattedDate, getDailyVerse]);
+
+  if (loading) {
+    return <i className="fas fa-spinner fa-pulse u-space--quarter"></i>;
+  }
+
+  return data ? (
+    <div className={classes + moreClasses}>
+      <span className="c-block__meta u-font--secondary--xs u-theme--color--dark">
+        Библейски стих за деня
+      </span>
+      <h3
+        className={`hyphens-auto ${getFontClass('primary', 's')} u-theme--color--darker`}
+      >
+        <strong>{data.title}</strong>
+      </h3>
+
+      {data.text && <p className={'c-block__body'}>{data.text}</p>}
+      <span className="hyphens-auto c-block__meta u-font--secondary--xs u-theme--color--dark u-space--half--top">
+        {data.verse}
+      </span>
+      <input type="hidden" name="date" value={formattedDate} />
+
+      {data.comment && (
+        <PopupContent
+          title={data.title}
+          buttonLabel="Покажи коментара"
+          faIconClass="far fa-comment-dots"
+          iconPosition="right"
+          maxWidth="md"
+        >
+          <div className="hyphens-auto text u-spacing u-padding--top">
+            <CustomPortableText value={data.comment} />
+            {data.halfYear && (
+              <div className="u-text-align--right u-space--half--top u-space--bottom">
+                {data.halfYear.author}, <em>{data.halfYear.title}</em>
+              </div>
+            )}
+          </div>
+        </PopupContent>
+      )}
+    </div>
+  ) : (
+    <p>{`Няма данни за ${date.format('DD.MM.YYYY')}`}</p>
+  );
+};
+
+export default DailyVerseGray;

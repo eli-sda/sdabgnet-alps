@@ -5,9 +5,11 @@ import { Button } from 'src/alps/atoms/Button';
 import { useCalendarEvents } from 'src/hooks/useCalendarEvents';
 
 const UpcomingEvents = () => {
-  const { upcoming } = useCalendarEvents();
-  const events = useMemo(() => upcoming.slice(0, 3), [upcoming]);
-
+  const { upcoming, openForRegistration } = useCalendarEvents();
+  const events = useMemo(() => {
+    const num = Math.max(openForRegistration.length, 3);
+    return upcoming.slice(0, num);
+  }, [upcoming, openForRegistration]);
   if (!events.length) return null;
 
   return (

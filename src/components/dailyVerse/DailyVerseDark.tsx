@@ -1,31 +1,23 @@
+/* like BreakoutBlock */
+
 import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { isEqual } from 'lodash';
-import moment, { Moment } from 'moment';
+import { Moment } from 'moment';
 
-import useClasses from 'alps-library/helpers/useClasses';
-import useToggle from 'alps-library/helpers/useToggle';
-import { themeBorderColorClass } from 'alps-library/global/colors';
-import { getFontClass } from 'alps-library/global/fonts';
-import { Button } from 'src/alps/atoms/Button';
+import {
+  themeBackgroundClass,
+  themeColorClass
+} from 'alps-library/global/colors';
 import { CustomPortableText } from 'src/utils/CustomPortableText';
 import { useDailyVerse } from 'src/hooks/useDailyVerse';
 import { DailyVerseType } from 'src/contexts/DailyVerseContext';
+import PopupContent from 'src/components/popupContent/PopupContent';
 
-const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
+import './DailyVerseDark.scss';
+
+const DailyVerseDark: FC<{ date: Moment }> = ({ date }) => {
   const [data, setData] = useState<DailyVerseType | null>(null);
   const [loading, setLoading] = useState(true);
-
-  const { onToggle, openClass } = useToggle();
-  const classes = useClasses(
-    'c-block c-block__text u-border--left u-spacing ' +
-      themeBorderColorClass +
-      '--darker',
-    { 'c-block__text-expand': true },
-    `${openClass}`
-  );
-
-  const moreClasses =
-    ' can-be--dark-dark u-clear-fix u-padding u-background-color--gray--light';
 
   const formattedDate = useMemo(
     () => date.format('YYYY-MM-DD'), //date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
@@ -56,31 +48,39 @@ const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
   }
 
   return data ? (
-    <div className={classes + moreClasses}>
-      <span className="c-block__meta u-font--secondary--xs u-theme--color--dark">
+    <div
+      className={`daily-verse c-block__breakout u-padding u-padding--double--top u-padding--double--bottom u-spacing can-be--dark-dark ${themeBackgroundClass}--darker`}
+    >
+      <h3 className=" u-theme--color--lighter c-block__kicker">
         Библейски стих за деня
-      </span>
-      <h3 className={`${getFontClass('primary', 's')} u-theme--color--darker`}>
-        <strong>{data.title}</strong>
       </h3>
-
-      {data.text && <p className={'c-block__body'}>{data.text}</p>}
-      <span className="c-block__meta u-font--secondary--xs u-theme--color--dark u-space--half--top">
-        {data.verse}
-
-        {/* {data.date && (
-          <time
-            className="c-block__date u-text-transform--upper"
-            dateTime={data.date}
-          >
-            &nbsp;({moment(data.date).format('DD.MM.YYYY')})
-          </time>
-        )} */}
-      </span>
+      <h3
+        className={
+          'hyphens-auto c-block__title u-color--white u-space--half--top'
+        }
+      >
+        {data.title}
+      </h3>
+      <p
+        className={
+          'hyphens-auto c-block__body ' + themeColorClass + '--lighter'
+        }
+      >
+        {data.text}
+        <span className="hyphens-auto c-block__meta u-font--secondary--xs u-space--half--top">
+          {data.verse}
+        </span>
+      </p>
 
       {data.comment && (
-        <div className="text">
-          <div className="c-block__content">
+        <PopupContent
+          title={data.title}
+          buttonLabel="Покажи коментара"
+          buttonLighter={true}
+          faIconClass="far fa-comment-dots"
+          maxWidth="md"
+        >
+          <div className="hyphens-auto text u-spacing u-padding--top">
             <CustomPortableText value={data.comment} />
             {data.halfYear && (
               <div className="u-text-align--right u-space--half--top u-space--bottom">
@@ -88,15 +88,7 @@ const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
               </div>
             )}
           </div>
-          <Button
-            as={'a'}
-            className={`${openClass} comment`}
-            expand={true}
-            onClick={onToggle}
-            outline={true}
-            toggle={true}
-          />
-        </div>
+        </PopupContent>
       )}
     </div>
   ) : (
@@ -104,4 +96,4 @@ const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
   );
 };
 
-export default DailyVerse;
+export default DailyVerseDark;

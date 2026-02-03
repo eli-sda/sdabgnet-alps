@@ -1,0 +1,7 @@
+@use '/src/styles/colors.scss' as *;
+
+.MuiTypography-root.popupContent-dialogTitle {
+  font-size: 1.5rem;
+  font-weight: 500;
+  border-bottom: 1px solid $grayDarkerColor;
+}

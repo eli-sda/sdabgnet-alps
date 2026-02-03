@@ -14,7 +14,20 @@ import TestimoniesAudiobooks from './TestimoniesAudiobooks';
 import TestimoniesStories from './TestimoniesStories';
 import './Testimonies.scss';
 
-const DEFAULT_TAB = 'stories';
+const TABS = [
+  { label: 'Видеа', value: 'videos' },
+  { label: 'Видео-поредици', value: 'videoPlaylists' },
+  { label: 'Аудиокниги', value: 'audiobooks' },
+  { label: 'Истории от СУ', value: 'stories' }
+];
+const TAB_ITEMS = TABS.map((tab) => (
+  <Tab
+    key={tab.value}
+    label={tab.label}
+    value={tab.value}
+    className="o-button o-button--outline"
+  />
+));
 
 const Testimonies = () => {
   useScrollToHash();
@@ -26,7 +39,7 @@ const Testimonies = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const tabFromUrl = searchParams.get('tab') ?? DEFAULT_TAB;
+  const tabFromUrl = searchParams.get('tab') ?? TABS[0].value;
   const [value, setValue] = React.useState(tabFromUrl);
 
   React.useEffect(() => {
@@ -55,26 +68,7 @@ const Testimonies = () => {
             scrollButtons="auto"
             allowScrollButtonsMobile
           >
-            <Tab
-              label="Истории от СУ"
-              value="stories"
-              className="o-button o-button--outline"
-            />
-            <Tab
-              label="Видеа"
-              value="videos"
-              className="o-button o-button--outline"
-            />
-            <Tab
-              label="Видео-поредици"
-              value="videoPlaylists"
-              className="o-button o-button--outline"
-            />
-            <Tab
-              label="Аудиокниги"
-              value="audiobooks"
-              className="o-button o-button--outline"
-            />
+            {TAB_ITEMS}
           </TabList>
 
           <TabPanel value="stories" className="full-page">

@@ -1,3 +1,5 @@
+@use '/src/styles/play-button-overlay' as *;
+
 /* Styles for expandable and collapsible descriptions in MediaBlock */
 .c-block__description-wrapper.collapsed {
   .c-block__description {
@@ -19,7 +21,7 @@
     aspect-ratio: 1 / 1;
     width: 20%;
     display: inline-block;
-    background-size: 70% auto;
+    background-size: 55% auto;
     border-color: transparent;
     background-position: center;
     background-repeat: no-repeat;

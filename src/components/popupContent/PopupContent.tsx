@@ -1,25 +1,31 @@
 import React, { useState } from 'react';
-import Dialog from '@mui/material/Dialog';
 import { Breakpoint } from '@mui/system';
+import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import { Button as AlpsButton } from '../alps/atoms/Button';
+import { Button as AlpsButton } from '../../alps/atoms/Button';
+
+import './PopupContent.scss';
 
 const PopupContent = ({
   children,
   title,
   buttonLabel,
+  buttonLighter,
   asLink = false,
   maxWidth = 'sm',
-  faIconClass
+  faIconClass,
+  iconPosition = 'left'
 }: {
   children: React.ReactNode;
   title?: string;
   buttonLabel?: string;
+  buttonLighter?: boolean;
   asLink?: boolean;
   maxWidth?: Breakpoint | false;
   faIconClass?: string;
+  iconPosition?: 'left' | 'right';
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -36,29 +42,41 @@ const PopupContent = ({
     icon = (
       <i
         className={`${faIconClass} ${
-          buttonLabel ? `u-space--quarter--right` : ''
+          buttonLabel
+            ? `u-space--quarter--${iconPosition === 'left' ? 'right' : 'left'}`
+            : ''
         }`}
       ></i>
     );
   }
+
+  const label = buttonLabel || 'Прочети повече';
+
   return (
     <>
       {asLink ? (
         <a href="#" onClick={handleOpen}>
-          {icon}
-          {buttonLabel || 'Прочети повече'}
+          {iconPosition === 'left' && icon}
+          {label}
+          {iconPosition === 'right' && icon}
         </a>
       ) : (
         <AlpsButton
           onClick={handleOpen}
-          label={buttonLabel || 'Прочети повече'}
-          outline={true}
+          label={label}
+          outline={!buttonLighter}
           faIconClass={faIconClass}
+          iconPosition={iconPosition}
+          lighter={buttonLighter}
         />
       )}
 
       <Dialog open={open} onClose={handleClose} maxWidth={maxWidth} fullWidth>
-        {title && <DialogTitle>{title}</DialogTitle>}
+        {title && (
+          <DialogTitle className="popupContent-dialogTitle u-color--gray--darker">
+            {title}
+          </DialogTitle>
+        )}
         <DialogContent>{children}</DialogContent>
         <DialogActions>
           <AlpsButton label="Затвори" onClick={handleClose} />

@@ -14,6 +14,7 @@ export const AdvertisementsProvider = ({
   const [advertisements, setAdvertisements] = useState<AdvertisementsMap>();
   const [lastLoaded, setLastLoaded] = useState<string>();
   const [latestAdvertisements, setLatestAdvertisements] = useState<Partial<Record<AdType, LatestAdvertisementItem>>>();
+  const [lastLatestLoaded, setLastLatestLoaded] = useState<string>();
   return (
     <AdvertisementsContext.Provider
       value={{
@@ -22,7 +23,9 @@ export const AdvertisementsProvider = ({
         lastLoaded,
         setLastLoaded,
         latestAdvertisements,
-        setLatestAdvertisements
+        setLatestAdvertisements,
+        lastLatestLoaded,
+        setLastLatestLoaded
       }}
     >
       {children}

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { AccordionItem } from 'src/alps/molecules/components/accordion/AccordionItem';
-import BookRow from './books/BookRow';
+import BookRow from './resources/books/BookRow';
 
 const BooksList = ({
   sectionTitle,

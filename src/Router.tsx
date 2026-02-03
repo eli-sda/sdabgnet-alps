@@ -18,7 +18,7 @@ const Lessons = lazy(() => import('./pages/lesson/Lessons'));
 const Lesson = lazy(() => import('./pages/lesson/Lesson'));
 const LessonsSearch = lazy(() => import('./pages/lessonsSearch/LessonsSearch'));
 const Churches = lazy(() => import('./pages/Churches'));
-const Books = lazy(() => import('./pages/books/Books'));
+const Books = lazy(() => import('./pages/resources/books/Books'));
 const Events = lazy(() => import('./pages/events/Events'));
 const HealthInstitutions = lazy(() => import('./pages/HealthInstitutions'));
 const ChurchLife = lazy(() => import('./pages/ChurchLife'));

@@ -1,6 +1,6 @@
-@use './styles/colors.scss' as *;
-@use './styles/const.scss' as *;
-@use './Alps-font-overwrite.scss' as *;
+@use '/src/styles/colors.scss' as *;
+@use '/src/styles/const.scss' as *;
+@use '/src/Alps-font-overwrite.scss' as *;
 
 /* Enable native smooth scrolling for in-page anchor links */
 html {

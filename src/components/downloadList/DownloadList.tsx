@@ -30,7 +30,7 @@ const DownloadList = ({
   // Render playlist items
   const content = useMemo(
     () => (
-      <div className="u-spacing--double u-space--half--bottom">
+      <div className="u-spacing--double u-space--half--bottom u-space--top">
         {items?.map((item, i) => (
           <DownloadListItem key={i} {...item} />
         ))}

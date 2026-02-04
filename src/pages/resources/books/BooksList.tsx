@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
+import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import { AccordionItem } from 'src/alps/molecules/components/accordion/AccordionItem';
-import BookRow from './BookRow';
+import DownloadListItem from 'src/components/downloadList/DownloadListItem';
+import './BooksList.scss';
 
 const BooksList = ({
   sectionTitle,
@@ -8,12 +10,28 @@ const BooksList = ({
   sectionImage,
   books
 }: BooksSection) => {
+  const heading = useMemo(() => {
+    return (
+      <div className="book-list-heading">
+        {sectionImage ? (
+          <img
+            src={`/img/author/${sectionImage}`}
+            className="heading-image u-space--half--right"
+          />
+        ) : (
+          <SupervisedUserCircleIcon className="user-circle-icon u-space--half--right" />
+        )}
+        <h3>{sectionTitle}</h3>
+      </div>
+    );
+  }, [sectionImage, sectionTitle]);
+
   const content = useMemo(
     () => (
-      <div className='u-spacing--double u-space--half--bottom'>
+      <div className="u-spacing--double u-space--half--bottom">
         {description && <p>{description}</p>}
         {books.map((book, i) => (
-          <BookRow key={i} {...book} />
+          <DownloadListItem key={i} _id={''} {...book} variant="book-row" />
         ))}
       </div>
     ),
@@ -21,12 +39,7 @@ const BooksList = ({
   );
 
   return (
-    <AccordionItem
-      imageSrc={sectionImage && `/img/author/${sectionImage}`}
-      faIconClass="far fa-folder"
-      faIconOpenClass="far fa-folder-open"
-      heading={<h3>{sectionTitle}</h3>}
-    >
+    <AccordionItem heading={heading} hideDefaultIcon>
       {content}
     </AccordionItem>
   );

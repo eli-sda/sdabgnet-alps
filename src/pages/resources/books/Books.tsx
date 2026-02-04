@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Accordion } from 'alps-library/molecules/components/accordion/Accordion';
-import { Page } from 'src/organisms/Page';
+import { Figure } from 'alps-library/molecules/media/figure/Figure';
+import { Accordion } from 'src/alps/molecules/components/accordion/Accordion';
 import routes from 'src/routes';
+import { Page } from 'src/organisms/Page';
+import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import { getTitle } from 'src/utils/Navigation';
-import BooksList from '../../BooksList';
+import BooksList from './BooksList';
 import rawBooks from './books.json';
 
 const books = rawBooks as BooksSection[];
@@ -17,11 +19,36 @@ const Books = () => {
 
   const breadcrumbsUrls = [routes.resources(), routes.resources('books')];
 
+  const asideBookVideo = (
+    <Figure
+      videoSrc="https://www.youtube.com/embed/XpKOUJIM28w?si=euk4RQ2pPbGIDviU"
+      caption='Книга "ПРОРОЧЕСТВОТО ЗА ЗВЕЗДАТА" : Археология и история, свързани с Исус Христос'
+    />
+  );
+
+  const relatedBooks = {
+    heading: 'Полезни връзки',
+    blocks: [
+      {
+        title: 'Електронна библиотека',
+        url: 'https://bibliotekabg.com/',
+        image: getImageTypeByUrl('/img/logos/lib.webp')
+      },
+      {
+        title: 'Ellen G. White Estate',
+        url: 'http://whiteestate.org/',
+        image: getImageTypeByUrl('/img/logos/whiteestate-logo.png')
+      }
+    ]
+  };
+
   return (
     <Page
       title={getTitle(routes.resources('books'))}
       kicker="Ресурси за изтегляне"
       breadcrumbsUrls={breadcrumbsUrls}
+      aside={asideBookVideo}
+      relatedPosts={relatedBooks}
     >
       <Accordion>
         {sections.map((section, i) => (

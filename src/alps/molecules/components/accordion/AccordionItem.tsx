@@ -22,7 +22,7 @@ export interface AccordionItemProps {
   heading: React.ReactNode;
   onChange?: (open: boolean) => void;
   refreshCounter?: number; // to trigger re-render from parent
-  imageSrc?: string;
+  hideDefaultIcon?: boolean;
 }
 
 export const AccordionItem = ({
@@ -36,7 +36,7 @@ export const AccordionItem = ({
   open: initialOpen,
   onChange,
   refreshCounter,
-  imageSrc
+  hideDefaultIcon
 }: AccordionItemProps): JSX.Element => {
   const { onToggle, openClass, open } = useToggle(initialOpen);
 
@@ -102,25 +102,16 @@ export const AccordionItem = ({
         onClick={_onToggle}
         style={{ userSelect: 'none' }}
       >
-        {!imageSrc && renderLeadingIcon()}
-
-        {imageSrc ? (
-          <img
-            src={imageSrc}
-            className="c-accordion__image u-space--half--right"
-          />
-        ) : (
-          icon && (
-            <IconWrap
-              className="u-space--half--right"
-              name={icon}
-              size="s"
-              color="darker"
-            />
-          )
-        )}
-
+        {!hideDefaultIcon && renderLeadingIcon()}
         {typeof heading === 'string' ? <strong>{heading}</strong> : heading}
+        {icon && (
+          <IconWrap
+            className={'u-space--half--left'}
+            name={icon}
+            size={'s'}
+            color={'darker'}
+          />
+        )}
       </div>
       <div
         className="c-accordion__content u-padding--half--left"

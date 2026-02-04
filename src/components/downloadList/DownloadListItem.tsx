@@ -1,16 +1,28 @@
 import { useMemo, useState } from 'react';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { Button } from 'src/alps/atoms/Button';
+import routes from 'src/routes';
 import { RESOURCES_SITE, RESOURCES_FOLDER } from 'src/constants';
 import { LinkType } from 'src/contexts/PlaylistsContext';
+import './DownloadListItem.scss';
+
+interface DownloadListItemProps extends LinkType {
+  variant?: 'default' | 'book-row';
+  audioId?: number | string;
+  newLifeId?: number | string;
+}
 
 const DownloadListItem = ({
   title,
   description,
   _id,
   path,
-  size
-}: LinkType) => {
+  size,
+  audioId,
+  newLifeId,
+  variant = 'default'
+}: DownloadListItemProps) => {
   const icon = useMemo(() => {
     if (path.endsWith('.pdf')) return 'file-pdf';
     if (path.endsWith('.doc') || path.endsWith('.docx')) return 'file-word';
@@ -82,6 +94,99 @@ const DownloadListItem = ({
     }
   };
 
+  const renderVideoContent = () => (
+    <div>
+      {htmlContent.split(/(__VIDEO_\d+__)/g).map((part, index) => {
+        const videoMatch = part.match(/^__VIDEO_(\d+)__$/);
+        if (videoMatch) {
+          const videoIndex = parseInt(videoMatch[1], 10);
+          const video = videos[videoIndex];
+          return video ? (
+            <Figure
+              key={`video-${index}`}
+              caption={video.caption}
+              size="large"
+              videoSrc={video.url}
+            />
+          ) : null;
+        }
+        return part ? (
+          <div
+            key={`text-${index}`}
+            dangerouslySetInnerHTML={{ __html: part }}
+          />
+        ) : null;
+      })}
+    </div>
+  );
+
+  const buttonProps = {
+    outline: true,
+    simple: true,
+    small: true
+  };
+
+  const downloadButton = (
+    <Button
+      key={_id}
+      as="button"
+      onClick={() => void handleDownload(url)}
+      disabled={downloading}
+      faIconClass={
+        downloading ? 'fas fa-spinner fa-pulse fa-lg' : 'fas fa-download'
+      }
+      label={
+        variant === 'book-row'
+          ? 'изтегли'
+          : `Изтегли ${size ? `(${size} MB)` : ''}`
+      }
+      {...(variant === 'book-row'
+        ? buttonProps
+        : { className: 'u-space--half--top', small: true })}
+    />
+  );
+
+  if (variant === 'book-row') {
+    return (
+      <div className="book-row u-spacing--half">
+        <div className="title hyphens-auto">
+          <AutoStoriesIcon className="u-space--half--right" />
+          <h3>{title}</h3>
+        </div>
+
+        {htmlContent && (
+          <div className="book-description">{renderVideoContent()}</div>
+        )}
+
+        <div className="action-buttons">
+          {downloadButton}
+
+          {audioId && (
+            <Button
+              label="слушай"
+              as="a"
+              url={`${routes.resources('audio', 'audiobook')}#${audioId}`}
+              faIconClass="fas fa-volume-up"
+              {...buttonProps}
+            />
+          )}
+
+          {newLifeId && (
+            <Button
+              label="виж в издателството"
+              as="a"
+              url={`https://newlife-bg.com/product/${newLifeId}/`}
+              isExternal
+              hideExternalIcon
+              faIconClass="fas fa-external-link-alt"
+              {...buttonProps}
+            />
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="download-item">
       <h3>
@@ -92,47 +197,8 @@ const DownloadListItem = ({
       </h3>
       <div>
         <h3 className="u-space--quarter--bottom">{title}</h3>
-        {htmlContent && (
-          <div>
-            {htmlContent.split(/(__VIDEO_\d+__)/g).map((part, index) => {
-              const videoMatch = part.match(/^__VIDEO_(\d+)__$/);
-              if (videoMatch) {
-                const videoIndex = parseInt(videoMatch[1], 10);
-                const video = videos[videoIndex];
-                return video ? (
-                  <Figure
-                    key={`video-${index}`}
-                    caption={video.caption}
-                    size="large"
-                    videoSrc={video.url}
-                  />
-                ) : null;
-              }
-              return part ? (
-                <div
-                  key={`text-${index}`}
-                  dangerouslySetInnerHTML={{ __html: part }}
-                />
-              ) : null;
-            })}
-          </div>
-        )}
-        <Button
-          key={_id}
-          as="button"
-          onClick={() => void handleDownload(url)}
-          disabled={downloading}
-          small
-          className="u-space--half--top"
-          faIconClass={
-            downloading
-              ? 'fas fa-spinner fa-pulse fa-lg'
-              : 'fas fa-download fa-lg'
-          }
-          label={`Изтегли ${size ? `(${size} MB)` : ''}`}
-          isExternal
-          download
-        />
+        {htmlContent && <div>{renderVideoContent()}</div>}
+        {downloadButton}
       </div>
     </div>
   );

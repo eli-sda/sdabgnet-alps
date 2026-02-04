@@ -36,7 +36,7 @@ const MediaPlaylistList = ({
 }: MediaPlaylistListProps) => {
   const { hash, search } = useLocation();
   const searchParams = new URLSearchParams(search);
-  const playIndex = searchParams.get('playIndex');
+  const playId = searchParams.get('playId');
   // Supports only time as seconds (integer)
   const timeParam = searchParams.get('time');
 
@@ -72,11 +72,14 @@ const MediaPlaylistList = ({
           matchedPlaylist &&
           matchedPlaylist.items &&
           matchedPlaylist.items.length > 0 &&
-          playIndex
+          playId
         ) {
-          const i = parseInt(playIndex);
-          if (!isNaN(i) && i < matchedPlaylist.items.length) {
-            setCurrentPlayIndex(i);
+          const index = matchedPlaylist.items.findIndex(
+            (item) => item._id === playId
+          );
+
+          if (index !== -1) {
+            setCurrentPlayIndex(index);
           }
 
           if (timeParam && /^\d+$/.test(timeParam)) {
@@ -91,14 +94,16 @@ const MediaPlaylistList = ({
         if (matchedPlaylist) onPlaylistSelect?.(matchedPlaylist);
       }
     },
-    [hash, onPlaylistSelect, playIndex, timeParam]
+    [hash, onPlaylistSelect, playId, timeParam]
   );
 
   useEffect(() => {
-    const playlistsArr = [] as PlaylistType[];
+    const playlistsArr: PlaylistType[] = [];
+
     if (mediaPlaylists && mediaPlaylists.length > 0) {
       playlistsArr.push(...mediaPlaylists);
     }
+
     if (sanityType) {
       void getPlaylists(sanityType, mediaType === 'audio')
         .then((sanityPl) => {
@@ -122,24 +127,21 @@ const MediaPlaylistList = ({
 
   const getActionButtons = useCallback(
     (playlist: PlaylistType): JSX.Element => {
-      // Get the current title if this playlist is selected
-      const currentItemTitle =
-        selectedPlaylist?._id === playlist._id &&
-        playlist.items?.[currentPlayIndex]?.title
-          ? playlist.items[currentPlayIndex].title
+      const currentItem =
+        selectedPlaylist?._id === playlist._id
+          ? playlist.items?.[currentPlayIndex]
           : undefined;
 
       return (
         <div className="u-space--half--top">
           <PlaylistActionButtons
             shareUrl={`${window.location.origin}${window.location.pathname}#${playlist._id}`}
-            fromIndex={
-              //TODO: for video player to support start from index
-              mediaType === 'audio' && selectedPlaylist?._id === playlist._id
-                ? currentPlayIndex
+            fromPlayId={
+              mediaType === 'audio' && currentItem?._id
+                ? currentItem._id
                 : undefined
             }
-            fromTitle={currentItemTitle}
+            fromTitle={currentItem?.title}
             itemUrls={
               showDownloadAll
                 ? playlist.items

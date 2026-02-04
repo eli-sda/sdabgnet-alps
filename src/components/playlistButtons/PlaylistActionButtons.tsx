@@ -8,7 +8,7 @@ import './PlaylistActionButtons.scss';
 
 type PlaylistActionButtonsProps = {
   shareUrl?: string;
-  fromIndex?: number;
+  fromPlayId?: string;
   fromTitle?: string;
   itemUrls?: string[];
   playlistName?: string;
@@ -33,7 +33,7 @@ function formatTime(seconds: number) {
 
 const PlaylistActionButtons = ({
   shareUrl,
-  fromIndex,
+  fromPlayId,
   fromTitle,
   itemUrls = [],
   playlistName = 'playlist',
@@ -67,16 +67,20 @@ const PlaylistActionButtons = ({
       params.set('tab', currentTab);
     }
 
-    if (withIndex && typeof fromIndex === 'number') {
-      params.set('playIndex', fromIndex.toString());
-    }
-    // add the current time only if withTime is selected
-    if (withIndex && withTime && typeof getCurrentTime === 'function') {
-      const time = getCurrentTime();
-      if (time > 0) {
-        params.set('time', Math.floor(time).toString());
+    if (withIndex) {
+      if (fromPlayId) {
+        params.set('playId', fromPlayId);
+      }
+
+      // add the current time only if withTime is selected
+      if (withTime && typeof getCurrentTime === 'function') {
+        const time = getCurrentTime();
+        if (time > 0) {
+          params.set('time', Math.floor(time).toString());
+        }
       }
     }
+
     if (playlistName) {
       params.set('playlistTitle', playlistName);
     }
@@ -90,7 +94,7 @@ const PlaylistActionButtons = ({
   }, [
     shareUrl,
     playlistName,
-    fromIndex,
+    fromPlayId,
     fromTitle,
     withIndex,
     withTime,
@@ -159,7 +163,7 @@ const PlaylistActionButtons = ({
             />
           </div>
 
-          {fromIndex !== undefined && (
+          {fromPlayId !== undefined && (
             <>
               <Checkbox
                 className="u-space--half--top"

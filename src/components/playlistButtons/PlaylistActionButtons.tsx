@@ -41,7 +41,7 @@ const PlaylistActionButtons = ({
   getCurrentTime
 }: PlaylistActionButtonsProps) => {
   const [toShow, setToShow] = useState(false);
-  const [withIndex, setWithIndex] = useState(false);
+  const [fromCurrent, setFromCurrent] = useState(false);
   const [showCopyLabel, setShowCopyLabel] = useState(false);
   const [withTime, setWithTime] = useState(false);
 
@@ -67,7 +67,7 @@ const PlaylistActionButtons = ({
       params.set('tab', currentTab);
     }
 
-    if (withIndex) {
+    if (fromCurrent) {
       if (fromPlayId) {
         params.set('playId', fromPlayId);
       }
@@ -85,7 +85,7 @@ const PlaylistActionButtons = ({
       params.set('playlistTitle', playlistName);
     }
 
-    if (withIndex && fromTitle) {
+    if (fromCurrent && fromTitle) {
       params.set('title', fromTitle);
     }
 
@@ -96,7 +96,7 @@ const PlaylistActionButtons = ({
     playlistName,
     fromPlayId,
     fromTitle,
-    withIndex,
+    fromCurrent,
     withTime,
     playlistID,
     getCurrentTime
@@ -172,13 +172,13 @@ const PlaylistActionButtons = ({
                     ? `startFromCurrentAudio-${playlistID}`
                     : 'startFromCurrentAudio'
                 }
-                checked={withIndex}
+                checked={fromCurrent}
                 onChange={(
                   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-                ) => setWithIndex((e.target as HTMLInputElement).checked)}
+                ) => setFromCurrent((e.target as HTMLInputElement).checked)}
                 label="Към текущото аудио"
               />
-              {withIndex && typeof getCurrentTime === 'function' && (
+              {fromCurrent && typeof getCurrentTime === 'function' && (
                 <Checkbox
                   name={
                     playlistID

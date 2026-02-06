@@ -8,7 +8,7 @@ import './PlaylistActionButtons.scss';
 
 type PlaylistActionButtonsProps = {
   shareUrl?: string;
-  fromIndex?: number;
+  fromPlayId?: string;
   fromTitle?: string;
   itemUrls?: string[];
   playlistName?: string;
@@ -33,7 +33,7 @@ function formatTime(seconds: number) {
 
 const PlaylistActionButtons = ({
   shareUrl,
-  fromIndex,
+  fromPlayId,
   fromTitle,
   itemUrls = [],
   playlistName = 'playlist',
@@ -41,7 +41,7 @@ const PlaylistActionButtons = ({
   getCurrentTime
 }: PlaylistActionButtonsProps) => {
   const [toShow, setToShow] = useState(false);
-  const [withIndex, setWithIndex] = useState(false);
+  const [fromCurrent, setFromCurrent] = useState(false);
   const [showCopyLabel, setShowCopyLabel] = useState(false);
   const [withTime, setWithTime] = useState(false);
 
@@ -67,21 +67,25 @@ const PlaylistActionButtons = ({
       params.set('tab', currentTab);
     }
 
-    if (withIndex && typeof fromIndex === 'number') {
-      params.set('playIndex', fromIndex.toString());
-    }
-    // add the current time only if withTime is selected
-    if (withIndex && withTime && typeof getCurrentTime === 'function') {
-      const time = getCurrentTime();
-      if (time > 0) {
-        params.set('time', Math.floor(time).toString());
+    if (fromCurrent) {
+      if (fromPlayId) {
+        params.set('playId', fromPlayId);
+      }
+
+      // add the current time only if withTime is selected
+      if (withTime && typeof getCurrentTime === 'function') {
+        const time = getCurrentTime();
+        if (time > 0) {
+          params.set('time', Math.floor(time).toString());
+        }
       }
     }
+
     if (playlistName) {
       params.set('playlistTitle', playlistName);
     }
 
-    if (withIndex && fromTitle) {
+    if (fromCurrent && fromTitle) {
       params.set('title', fromTitle);
     }
 
@@ -90,9 +94,9 @@ const PlaylistActionButtons = ({
   }, [
     shareUrl,
     playlistName,
-    fromIndex,
+    fromPlayId,
     fromTitle,
-    withIndex,
+    fromCurrent,
     withTime,
     playlistID,
     getCurrentTime
@@ -159,7 +163,7 @@ const PlaylistActionButtons = ({
             />
           </div>
 
-          {fromIndex !== undefined && (
+          {fromPlayId !== undefined && (
             <>
               <Checkbox
                 className="u-space--half--top"
@@ -168,13 +172,13 @@ const PlaylistActionButtons = ({
                     ? `startFromCurrentAudio-${playlistID}`
                     : 'startFromCurrentAudio'
                 }
-                checked={withIndex}
+                checked={fromCurrent}
                 onChange={(
                   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-                ) => setWithIndex((e.target as HTMLInputElement).checked)}
+                ) => setFromCurrent((e.target as HTMLInputElement).checked)}
                 label="Към текущото аудио"
               />
-              {withIndex && typeof getCurrentTime === 'function' && (
+              {fromCurrent && typeof getCurrentTime === 'function' && (
                 <Checkbox
                   name={
                     playlistID

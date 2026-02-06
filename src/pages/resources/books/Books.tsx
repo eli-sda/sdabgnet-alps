@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
-import { Text } from 'alps-library/atoms/text/Text';
 import { Accordion } from 'src/alps/molecules/components/accordion/Accordion';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
@@ -23,7 +22,7 @@ const Books = () => {
   const asideBookVideo = (
     <Figure
       videoSrc="https://www.youtube.com/embed/XpKOUJIM28w?si=euk4RQ2pPbGIDviU"
-      caption='Книга "ПРОРОЧЕСТВОТО ЗА ЗВЕЗДАТА" : Археология и история, свързани с Исус Христос'
+      caption='Книга "ПРОРОЧЕСТВОТО ЗА ЗВЕЗДАТА": Археология и история, свързани с Исус Христос'
     />
   );
 
@@ -51,13 +50,11 @@ const Books = () => {
       aside={asideBookVideo}
       relatedPosts={relatedBooks}
     >
-      <Text as="article" hasDropcap={false} spacing="double">
-        <Accordion>
-          {sections.map((section, i) => (
-            <BooksList key={i} {...section} />
-          ))}
-        </Accordion>
-      </Text>
+      <Accordion className="text">
+        {sections.map((section, i) => (
+          <BooksList key={i} {...section} />
+        ))}
+      </Accordion>
     </Page>
   );
 };

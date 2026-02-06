@@ -134,15 +134,11 @@ const DownloadListItem = ({
     />
   );
 
-  const additionalButtonsJsx = additionalButtons.map((btn, i) => (
-    <Button
-      key={`btn-${i}`}
-      className="u-space--half--top"
-      as="a"
-      {...btn}
-      small
-    />
-  ));
+  const additionalButtonsJsx = useMemo(() => {
+    return additionalButtons.map((btn, i) => (
+      <Button key={`btn-${i}`} className="u-space--half--top" {...btn} small />
+    ));
+  }, [additionalButtons]);
 
   return (
     <div className="download-item">
@@ -153,7 +149,7 @@ const DownloadListItem = ({
         ></i>
       </h3>
       <div>
-        <h3 className="u-space--quarter--bottom">{title}</h3>
+        <h3 className="u-space--quarter--bottom hyphens-auto">{title}</h3>
         {htmlContent && <div>{renderVideoContent}</div>}
         <div className="action-buttons">
           {downloadButton}

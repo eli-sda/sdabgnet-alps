@@ -13,7 +13,7 @@ const BooksList = ({
 }: BooksSection) => {
   const heading = useMemo(() => {
     return (
-      <div className="book-list-heading title">
+      <div className="book-list-heading">
         {sectionImage ? (
           <img
             src={`/img/author/${sectionImage}`}
@@ -39,6 +39,7 @@ const BooksList = ({
               additionalButtons.push({
                 label: 'слушай',
                 url: `${routes.resources('audio', 'audiobook')}#${book.audioId}`,
+                as: 'a' as const,
                 faIconClass: 'fas fa-volume-up'
               });
             }
@@ -47,6 +48,7 @@ const BooksList = ({
               additionalButtons.push({
                 label: 'виж в издателството',
                 url: `https://newlife-bg.com/product/${book.newLifeId}/`,
+                as: 'a' as const,
                 isExternal: true
               });
             }

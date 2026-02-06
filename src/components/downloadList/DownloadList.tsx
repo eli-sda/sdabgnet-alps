@@ -4,7 +4,6 @@ import { AccordionItem } from 'src/alps/molecules/components/accordion/Accordion
 import { LinkType } from 'src/contexts/PlaylistsContext';
 import PlaylistActionButtons from '../playlistButtons/PlaylistActionButtons';
 import DownloadListItem from './DownloadListItem';
-import './DownloadList.scss';
 
 type DownloadListProps = {
   id?: string;

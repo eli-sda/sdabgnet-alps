@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
+import { Text } from 'alps-library/atoms/text/Text';
 import { Accordion } from 'src/alps/molecules/components/accordion/Accordion';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
@@ -35,8 +36,8 @@ const Books = () => {
         image: getImageTypeByUrl('/img/logos/lib.webp')
       },
       {
-        title: 'Ellen G. White Estate',
-        url: 'http://whiteestate.org/',
+        title: 'Четете книгите на Елън Уайт онлайн',
+        url: 'https://m.egwwritings.org/bg/folders/1344',
         image: getImageTypeByUrl('/img/logos/whiteestate-logo.png')
       }
     ]
@@ -50,11 +51,13 @@ const Books = () => {
       aside={asideBookVideo}
       relatedPosts={relatedBooks}
     >
-      <Accordion>
-        {sections.map((section, i) => (
-          <BooksList key={i} {...section} />
-        ))}
-      </Accordion>
+      <Text as="article" hasDropcap={false} spacing="double">
+        <Accordion>
+          {sections.map((section, i) => (
+            <BooksList key={i} {...section} />
+          ))}
+        </Accordion>
+      </Text>
     </Page>
   );
 };

@@ -1,16 +1,12 @@
 import { useMemo, useState } from 'react';
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
-import { Button } from 'src/alps/atoms/Button';
-import routes from 'src/routes';
+import { Button, ButtonProps } from 'src/alps/atoms/Button';
 import { RESOURCES_SITE, RESOURCES_FOLDER } from 'src/constants';
 import { LinkType } from 'src/contexts/PlaylistsContext';
 import './DownloadListItem.scss';
 
 interface DownloadListItemProps extends LinkType {
-  variant?: 'default' | 'book-row';
-  audioId?: number | string;
-  newLifeId?: number | string;
+  additionalButtons?: ButtonProps[];
 }
 
 const DownloadListItem = ({
@@ -19,9 +15,7 @@ const DownloadListItem = ({
   _id,
   path,
   size,
-  audioId,
-  newLifeId,
-  variant = 'default'
+  additionalButtons = []
 }: DownloadListItemProps) => {
   const icon = useMemo(() => {
     if (path.endsWith('.pdf')) return 'file-pdf';
@@ -94,37 +88,36 @@ const DownloadListItem = ({
     }
   };
 
-  const renderVideoContent = () => (
-    <div>
-      {htmlContent.split(/(__VIDEO_\d+__)/g).map((part, index) => {
-        const videoMatch = part.match(/^__VIDEO_(\d+)__$/);
-        if (videoMatch) {
-          const videoIndex = parseInt(videoMatch[1], 10);
-          const video = videos[videoIndex];
-          return video ? (
-            <Figure
-              key={`video-${index}`}
-              caption={video.caption}
-              size="large"
-              videoSrc={video.url}
+  const renderVideoContent = useMemo(() => {
+    return (
+      <div className="u-spacing">
+        {htmlContent.split(/(__VIDEO_\d+__)/g).map((part, index) => {
+          const videoMatch = part.match(/^__VIDEO_(\d+)__$/);
+
+          if (videoMatch) {
+            const videoIndex = parseInt(videoMatch[1], 10);
+            const video = videos[videoIndex];
+
+            return video ? (
+              <Figure
+                key={`video-${index}`}
+                caption={video.caption}
+                size="large"
+                videoSrc={video.url}
+              />
+            ) : null;
+          }
+
+          return part ? (
+            <div
+              key={`text-${index}`}
+              dangerouslySetInnerHTML={{ __html: part }}
             />
           ) : null;
-        }
-        return part ? (
-          <div
-            key={`text-${index}`}
-            dangerouslySetInnerHTML={{ __html: part }}
-          />
-        ) : null;
-      })}
-    </div>
-  );
-
-  const buttonProps = {
-    outline: true,
-    simple: true,
-    small: true
-  };
+        })}
+      </div>
+    );
+  }, [htmlContent, videos]);
 
   const downloadButton = (
     <Button
@@ -133,59 +126,23 @@ const DownloadListItem = ({
       onClick={() => void handleDownload(url)}
       disabled={downloading}
       faIconClass={
-        downloading ? 'fas fa-spinner fa-pulse fa-lg' : 'fas fa-download'
+        downloading ? 'fas fa-spinner fa-pulse fa-lg' : 'fas fa-download fa-lg'
       }
-      label={
-        variant === 'book-row'
-          ? 'изтегли'
-          : `Изтегли ${size ? `(${size} MB)` : ''}`
-      }
-      {...(variant === 'book-row'
-        ? buttonProps
-        : { className: 'u-space--half--top', small: true })}
+      label={`Изтегли ${size ? `(${size} MB)` : ''}`}
+      className="u-space--half--top"
+      small
     />
   );
 
-  if (variant === 'book-row') {
-    return (
-      <div className="book-row u-spacing--half">
-        <div className="title hyphens-auto">
-          <AutoStoriesIcon className="u-space--half--right" />
-          <h3>{title}</h3>
-        </div>
-
-        {htmlContent && (
-          <div className="book-description">{renderVideoContent()}</div>
-        )}
-
-        <div className="action-buttons">
-          {downloadButton}
-
-          {audioId && (
-            <Button
-              label="слушай"
-              as="a"
-              url={`${routes.resources('audio', 'audiobook')}#${audioId}`}
-              faIconClass="fas fa-volume-up"
-              {...buttonProps}
-            />
-          )}
-
-          {newLifeId && (
-            <Button
-              label="виж в издателството"
-              as="a"
-              url={`https://newlife-bg.com/product/${newLifeId}/`}
-              isExternal
-              hideExternalIcon
-              faIconClass="fas fa-external-link-alt"
-              {...buttonProps}
-            />
-          )}
-        </div>
-      </div>
-    );
-  }
+  const additionalButtonsJsx = additionalButtons.map((btn, i) => (
+    <Button
+      key={`btn-${i}`}
+      className="u-space--half--top"
+      as="a"
+      {...btn}
+      small
+    />
+  ));
 
   return (
     <div className="download-item">
@@ -197,8 +154,11 @@ const DownloadListItem = ({
       </h3>
       <div>
         <h3 className="u-space--quarter--bottom">{title}</h3>
-        {htmlContent && <div>{renderVideoContent()}</div>}
-        {downloadButton}
+        {htmlContent && <div>{renderVideoContent}</div>}
+        <div className="action-buttons">
+          {downloadButton}
+          {additionalButtonsJsx}
+        </div>
       </div>
     </div>
   );

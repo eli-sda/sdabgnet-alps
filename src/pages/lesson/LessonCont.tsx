@@ -33,6 +33,7 @@ const LessonCont = ({
   const [videoDiscussionUrl, setVideoDiscussionUrl] = useState<string | null>(
     null
   );
+  const [videoCommentUrl, setVideoCommentUrl] = useState<string | null>(null);
 
   const passedLessons = useMemo(() => {
     if (!quarterObject) return [];
@@ -146,6 +147,29 @@ const LessonCont = ({
     return null;
   }, [qLesson, quarterObject, currentLessonParameters]);
 
+  // Define Bitly URL for video comment from TV Svetlina
+  // when the lesson is from 2026 later and not after the current lesson
+  const videoCommentBitlyUrl: string | null = useMemo(() => {
+    if (
+      qLesson &&
+      quarterObject &&
+      quarterObject.type === '' &&
+      quarterObject.lessonYear >= 2026 &&
+      (quarterObject.lessonYear < currentLessonParameters.lessonYear ||
+        (quarterObject.lessonYear === currentLessonParameters.lessonYear &&
+          quarterObject.lessonQuarter <
+            currentLessonParameters.lessonQuarter) ||
+        (quarterObject.lessonYear === currentLessonParameters.lessonYear &&
+          quarterObject.lessonQuarter ===
+            currentLessonParameters.lessonQuarter &&
+          qLesson.num <= currentLessonParameters.lessonNumber))
+    ) {
+      const lessonNum = qLesson.num.toString().padStart(2, '0');
+      return `https://bit.ly/ss-${quarterObject.lessonYear}-${quarterObject.lessonQuarter}-${lessonNum}`;
+    }
+    return null;
+  }, [qLesson, quarterObject, currentLessonParameters]);
+
   useEffect(() => {
     if (!videoDiscussionBitlyUrl) {
       setVideoDiscussionUrl(null);
@@ -165,6 +189,26 @@ const LessonCont = ({
     void getYouTubeUrl();
   }, [videoDiscussionBitlyUrl]);
 
+  useEffect(() => {
+    if (!videoCommentBitlyUrl) {
+      setVideoCommentUrl(null);
+      return;
+    }
+
+    const getYouTubeUrl = async () => {
+      await resolveBitlyViaBackend(videoCommentBitlyUrl)
+        .then((url) => {
+          setVideoCommentUrl(url);
+        })
+        .catch((error: unknown) => {
+          console.error('Failed to resolve bitly URL:', error);
+          setVideoCommentUrl(null);
+        });
+    };
+
+    void getYouTubeUrl();
+  }, [videoCommentBitlyUrl]);
+
   const videoDiscussion = useMemo(() => {
     if (videoDiscussionUrl) {
       return (
@@ -179,10 +223,24 @@ const LessonCont = ({
     return undefined;
   }, [videoDiscussionUrl]);
 
+  const videoComment = useMemo(() => {
+    if (videoCommentUrl) {
+      return (
+        <Figure
+          align="left"
+          caption="Коментар на урока от Марк Финли"
+          size="large"
+          videoSrc={videoCommentUrl}
+        />
+      );
+    }
+    return undefined;
+  }, [videoCommentUrl]);
+
   const sidebar = useMemo(() => {
     return (
       <>
-        {(video || videoDiscussion) && (
+        {(video || videoDiscussion || videoComment) && (
           <Aside>
             {video && (
               <Figure
@@ -193,6 +251,7 @@ const LessonCont = ({
               />
             )}
             {videoDiscussion && videoDiscussion}
+            {videoComment && videoComment}
           </Aside>
         )}
         {passedLessons.length > 0 && (
@@ -203,7 +262,7 @@ const LessonCont = ({
         )}
       </>
     );
-  }, [video, videoDiscussion, passedLessons]);
+  }, [video, videoDiscussion, videoComment, passedLessons]);
 
   return (
     <>

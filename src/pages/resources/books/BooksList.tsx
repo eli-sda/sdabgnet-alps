@@ -3,6 +3,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import { AccordionItem } from 'src/alps/molecules/components/accordion/AccordionItem';
 import routes from 'src/routes';
 import DownloadListItem from 'src/components/downloadList/DownloadListItem';
+import { SubNavArrow } from 'alps-library/molecules/navigation/primaryNavItem/SubNavArrow';
 import './BooksList.scss';
 
 const BooksList = ({
@@ -23,6 +24,7 @@ const BooksList = ({
           <GroupIcon className="user-circle-icon u-color--white u-background-color--gray u-space--quarter u-space--half--right u-padding--quarter" />
         )}
         <h3>{sectionTitle}</h3>
+        <SubNavArrow className="arrow" />
       </div>
     );
   }, [sectionImage, sectionTitle]);

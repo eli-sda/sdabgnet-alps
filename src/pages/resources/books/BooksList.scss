@@ -1,5 +1,6 @@
 .book-list-heading {
   display: flex;
+  width: 100%;
   align-items: center !important;
 
   .heading-image {
@@ -13,5 +14,8 @@
   .user-circle-icon {
     font-size: 40px;
     border-radius: 50%;
+  }
+  .arrow {
+    margin-left: auto;
   }
 }

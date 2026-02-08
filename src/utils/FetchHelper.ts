@@ -1,5 +1,4 @@
 import moment from 'moment';
-import { PortableTextBlock } from '@portabletext/types';
 import { client, clientVreses } from 'src/sanityClient';
 import { PageMetaMap, PageMetaType } from './PageMeta';
 import {

@@ -1,0 +1,9 @@
+.download-item {
+  display: flex;
+
+  .action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}

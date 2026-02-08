@@ -9,6 +9,7 @@ import { usePlaylists } from 'src/hooks/usePlaylists';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { getTitle } from 'src/utils/Navigation';
 import DownloadList from 'src/components/downloadList/DownloadList';
+import songbookLink from './music/songbook-link.json';
 
 const PresentationResources = () => {
   useScrollToHash();
@@ -32,6 +33,7 @@ const PresentationResources = () => {
       kicker={getTitle(routes.resources())}
       breadcrumbsUrls={breadcrumbsUrls}
       pageClassName="download-resources"
+      relatedPosts={songbookLink}
     >
       {/* Show message if no playlists */}
       {(!playlists || playlists.length === 0) && (

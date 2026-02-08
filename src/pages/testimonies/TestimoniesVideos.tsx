@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
+import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
 import './TestimoniesVideos.scss';
-import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 
 type TestimonyVideo = {
   title: string;

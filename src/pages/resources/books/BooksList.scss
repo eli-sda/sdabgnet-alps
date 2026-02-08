@@ -1,0 +1,21 @@
+.book-list-heading {
+  display: flex;
+  width: 100%;
+  align-items: center !important;
+
+  .heading-image {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    vertical-align: middle;
+  }
+
+  .user-circle-icon {
+    font-size: 40px;
+    border-radius: 50%;
+  }
+  .arrow {
+    margin-left: auto;
+  }
+}

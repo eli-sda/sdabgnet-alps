@@ -1,16 +1,22 @@
 import { useMemo, useState } from 'react';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
-import { Button } from 'src/alps/atoms/Button';
+import { Button, ButtonProps } from 'src/alps/atoms/Button';
 import { RESOURCES_SITE, RESOURCES_FOLDER } from 'src/constants';
 import { LinkType } from 'src/contexts/PlaylistsContext';
+import './DownloadListItem.scss';
+
+interface DownloadListItemProps extends LinkType {
+  additionalButtons?: ButtonProps[];
+}
 
 const DownloadListItem = ({
   title,
   description,
   _id,
   path,
-  size
-}: LinkType) => {
+  size,
+  additionalButtons = []
+}: DownloadListItemProps) => {
   const icon = useMemo(() => {
     if (path.endsWith('.pdf')) return 'file-pdf';
     if (path.endsWith('.doc') || path.endsWith('.docx')) return 'file-word';
@@ -82,6 +88,58 @@ const DownloadListItem = ({
     }
   };
 
+  const renderVideoContent = useMemo(() => {
+    return (
+      <div className="u-spacing">
+        {htmlContent.split(/(__VIDEO_\d+__)/g).map((part, index) => {
+          const videoMatch = part.match(/^__VIDEO_(\d+)__$/);
+
+          if (videoMatch) {
+            const videoIndex = parseInt(videoMatch[1], 10);
+            const video = videos[videoIndex];
+
+            return video ? (
+              <Figure
+                key={`video-${index}`}
+                caption={video.caption}
+                size="large"
+                videoSrc={video.url}
+              />
+            ) : null;
+          }
+
+          return part ? (
+            <div
+              key={`text-${index}`}
+              dangerouslySetInnerHTML={{ __html: part }}
+            />
+          ) : null;
+        })}
+      </div>
+    );
+  }, [htmlContent, videos]);
+
+  const downloadButton = (
+    <Button
+      key={_id}
+      as="button"
+      onClick={() => void handleDownload(url)}
+      disabled={downloading}
+      faIconClass={
+        downloading ? 'fas fa-spinner fa-pulse fa-lg' : 'fas fa-download fa-lg'
+      }
+      label={`Изтегли ${size ? `(${size} MB)` : ''}`}
+      className="u-space--half--top"
+      small
+    />
+  );
+
+  const additionalButtonsJsx = useMemo(() => {
+    return additionalButtons.map((btn, i) => (
+      <Button key={`btn-${i}`} className="u-space--half--top" {...btn} small />
+    ));
+  }, [additionalButtons]);
+
   return (
     <div className="download-item">
       <h3>
@@ -91,48 +149,12 @@ const DownloadListItem = ({
         ></i>
       </h3>
       <div>
-        <h3 className="u-space--quarter--bottom">{title}</h3>
-        {htmlContent && (
-          <div>
-            {htmlContent.split(/(__VIDEO_\d+__)/g).map((part, index) => {
-              const videoMatch = part.match(/^__VIDEO_(\d+)__$/);
-              if (videoMatch) {
-                const videoIndex = parseInt(videoMatch[1], 10);
-                const video = videos[videoIndex];
-                return video ? (
-                  <Figure
-                    key={`video-${index}`}
-                    caption={video.caption}
-                    size="large"
-                    videoSrc={video.url}
-                  />
-                ) : null;
-              }
-              return part ? (
-                <div
-                  key={`text-${index}`}
-                  dangerouslySetInnerHTML={{ __html: part }}
-                />
-              ) : null;
-            })}
-          </div>
-        )}
-        <Button
-          key={_id}
-          as="button"
-          onClick={() => void handleDownload(url)}
-          disabled={downloading}
-          small
-          className="u-space--half--top"
-          faIconClass={
-            downloading
-              ? 'fas fa-spinner fa-pulse fa-lg'
-              : 'fas fa-download fa-lg'
-          }
-          label={`Изтегли ${size ? `(${size} MB)` : ''}`}
-          isExternal
-          download
-        />
+        <h3 className="u-space--quarter--bottom hyphens-auto">{title}</h3>
+        {htmlContent && <div>{renderVideoContent}</div>}
+        <div className="action-buttons">
+          {downloadButton}
+          {additionalButtonsJsx}
+        </div>
       </div>
     </div>
   );

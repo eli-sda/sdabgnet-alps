@@ -3,6 +3,7 @@ import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { Accordion } from 'alps-library/molecules/components/accordion/Accordion';
 import { Text } from 'alps-library/atoms/text/Text';
+import { RelatedPosts } from 'src/alps/organisms/asides/RelatedPosts';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { usePlaylists } from 'src/hooks/usePlaylists';
@@ -10,6 +11,7 @@ import { getTitle } from 'src/utils/Navigation';
 import DownloadList from 'src/components/downloadList/DownloadList';
 import { AudioPlaylistList } from 'src/components/media/audio/AudioPlaylistList';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
+import songbookLink from './songbook-link.json';
 import '../audio/AudioPage.scss';
 
 const musicLinks = {
@@ -76,6 +78,7 @@ const MusicPage = () => {
         kicker={getTitle(routes.resources())}
         breadcrumbsUrls={breadcrumbsUrls}
         relatedPosts={musicLinks}
+        aside={<RelatedPosts {...songbookLink} />}
       >
         <Text
           as="article"

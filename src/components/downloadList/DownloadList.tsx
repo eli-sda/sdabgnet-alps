@@ -4,7 +4,6 @@ import { AccordionItem } from 'src/alps/molecules/components/accordion/Accordion
 import { LinkType } from 'src/contexts/PlaylistsContext';
 import PlaylistActionButtons from '../playlistButtons/PlaylistActionButtons';
 import DownloadListItem from './DownloadListItem';
-import './DownloadList.scss';
 
 type DownloadListProps = {
   id?: string;
@@ -30,7 +29,7 @@ const DownloadList = ({
   // Render playlist items
   const content = useMemo(
     () => (
-      <div className="u-spacing--double u-space--half--bottom">
+      <div className="u-spacing--double u-space--half--bottom u-space--top">
         {items?.map((item, i) => (
           <DownloadListItem key={i} {...item} />
         ))}

@@ -22,6 +22,7 @@ export interface AccordionItemProps {
   heading: React.ReactNode;
   onChange?: (open: boolean) => void;
   refreshCounter?: number; // to trigger re-render from parent
+  hideDefaultIcon?: boolean;
 }
 
 export const AccordionItem = ({
@@ -34,7 +35,8 @@ export const AccordionItem = ({
   heading,
   open: initialOpen,
   onChange,
-  refreshCounter
+  refreshCounter,
+  hideDefaultIcon
 }: AccordionItemProps): JSX.Element => {
   const { onToggle, openClass, open } = useToggle(initialOpen);
 
@@ -100,7 +102,7 @@ export const AccordionItem = ({
         onClick={_onToggle}
         style={{ userSelect: 'none' }}
       >
-        {renderLeadingIcon()}
+        {!hideDefaultIcon && renderLeadingIcon()}
         {typeof heading === 'string' ? <strong>{heading}</strong> : heading}
         {icon && (
           <IconWrap

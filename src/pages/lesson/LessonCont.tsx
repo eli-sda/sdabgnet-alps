@@ -122,6 +122,21 @@ const LessonCont = ({
     return video;
   }, [qLesson, quarterObject]);
 
+  const isNotAfterCurrentLesson = useMemo(() => {
+    return (
+      qLesson &&
+      quarterObject &&
+      (quarterObject.lessonYear < currentLessonParameters.lessonYear ||
+        (quarterObject.lessonYear === currentLessonParameters.lessonYear &&
+          quarterObject.lessonQuarter <
+            currentLessonParameters.lessonQuarter) ||
+        (quarterObject.lessonYear === currentLessonParameters.lessonYear &&
+          quarterObject.lessonQuarter ===
+            currentLessonParameters.lessonQuarter &&
+          qLesson.num <= currentLessonParameters.lessonNumber))
+    );
+  }, [qLesson, quarterObject, currentLessonParameters]);
+
   // Define Bitly URL for video discussion of VVV
   // when the lesson is from 2025 Q4 or later and not after the current lesson
   const videoDiscussionBitlyUrl: string | null = useMemo(() => {
@@ -132,20 +147,13 @@ const LessonCont = ({
       (quarterObject.lessonYear > 2025 ||
         (quarterObject.lessonYear === 2025 &&
           quarterObject.lessonQuarter >= 4)) &&
-      (quarterObject.lessonYear < currentLessonParameters.lessonYear ||
-        (quarterObject.lessonYear === currentLessonParameters.lessonYear &&
-          quarterObject.lessonQuarter <
-            currentLessonParameters.lessonQuarter) ||
-        (quarterObject.lessonYear === currentLessonParameters.lessonYear &&
-          quarterObject.lessonQuarter ===
-            currentLessonParameters.lessonQuarter &&
-          qLesson.num <= currentLessonParameters.lessonNumber))
+      isNotAfterCurrentLesson
     ) {
       const lessonNum = qLesson.num.toString().padStart(2, '0');
       return `https://bit.ly/${quarterObject.lessonYear}-T${quarterObject.lessonQuarter}-Urok${lessonNum}`;
     }
     return null;
-  }, [qLesson, quarterObject, currentLessonParameters]);
+  }, [qLesson, quarterObject, isNotAfterCurrentLesson]);
 
   // Define Bitly URL for video comment from TV Svetlina
   // when the lesson is from 2026 later and not after the current lesson
@@ -155,20 +163,13 @@ const LessonCont = ({
       quarterObject &&
       quarterObject.type === '' &&
       quarterObject.lessonYear >= 2026 &&
-      (quarterObject.lessonYear < currentLessonParameters.lessonYear ||
-        (quarterObject.lessonYear === currentLessonParameters.lessonYear &&
-          quarterObject.lessonQuarter <
-            currentLessonParameters.lessonQuarter) ||
-        (quarterObject.lessonYear === currentLessonParameters.lessonYear &&
-          quarterObject.lessonQuarter ===
-            currentLessonParameters.lessonQuarter &&
-          qLesson.num <= currentLessonParameters.lessonNumber))
+      isNotAfterCurrentLesson
     ) {
       const lessonNum = qLesson.num.toString().padStart(2, '0');
       return `https://bit.ly/ss-${quarterObject.lessonYear}-${quarterObject.lessonQuarter}-${lessonNum}`;
     }
     return null;
-  }, [qLesson, quarterObject, currentLessonParameters]);
+  }, [qLesson, quarterObject, isNotAfterCurrentLesson]);
 
   useEffect(() => {
     if (!videoDiscussionBitlyUrl) {

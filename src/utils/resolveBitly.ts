@@ -64,7 +64,7 @@ export async function resolveBitlyViaBackend(
     );
 
     if (!response.ok) {
-      console.error('Failed to resolve URL:', response.statusText);
+      // console.error('Failed to resolve URL:', response.statusText);
       return null;
     }
 

@@ -133,7 +133,8 @@ curl_close($ch);
 
 // Validate response
 if ($httpCode >= 400 || empty($finalUrl)) {
-    http_response_code(500);
+    // Return appropriate client error code instead of 500
+    http_response_code($httpCode >= 400 && $httpCode < 500 ? $httpCode : 404);
     echo json_encode(['error' => 'Failed to resolve URL']);
     exit;
 }

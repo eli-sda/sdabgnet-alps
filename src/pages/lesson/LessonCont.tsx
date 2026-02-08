@@ -33,6 +33,7 @@ const LessonCont = ({
   const [videoDiscussionUrl, setVideoDiscussionUrl] = useState<string | null>(
     null
   );
+  const [videoCommentUrl, setVideoCommentUrl] = useState<string | null>(null);
 
   const passedLessons = useMemo(() => {
     if (!quarterObject) return [];
@@ -121,6 +122,21 @@ const LessonCont = ({
     return video;
   }, [qLesson, quarterObject]);
 
+  const isNotAfterCurrentLesson = useMemo(() => {
+    return (
+      qLesson &&
+      quarterObject &&
+      (quarterObject.lessonYear < currentLessonParameters.lessonYear ||
+        (quarterObject.lessonYear === currentLessonParameters.lessonYear &&
+          quarterObject.lessonQuarter <
+            currentLessonParameters.lessonQuarter) ||
+        (quarterObject.lessonYear === currentLessonParameters.lessonYear &&
+          quarterObject.lessonQuarter ===
+            currentLessonParameters.lessonQuarter &&
+          qLesson.num <= currentLessonParameters.lessonNumber))
+    );
+  }, [qLesson, quarterObject, currentLessonParameters]);
+
   // Define Bitly URL for video discussion of VVV
   // when the lesson is from 2025 Q4 or later and not after the current lesson
   const videoDiscussionBitlyUrl: string | null = useMemo(() => {
@@ -131,20 +147,29 @@ const LessonCont = ({
       (quarterObject.lessonYear > 2025 ||
         (quarterObject.lessonYear === 2025 &&
           quarterObject.lessonQuarter >= 4)) &&
-      (quarterObject.lessonYear < currentLessonParameters.lessonYear ||
-        (quarterObject.lessonYear === currentLessonParameters.lessonYear &&
-          quarterObject.lessonQuarter <
-            currentLessonParameters.lessonQuarter) ||
-        (quarterObject.lessonYear === currentLessonParameters.lessonYear &&
-          quarterObject.lessonQuarter ===
-            currentLessonParameters.lessonQuarter &&
-          qLesson.num <= currentLessonParameters.lessonNumber))
+      isNotAfterCurrentLesson
     ) {
       const lessonNum = qLesson.num.toString().padStart(2, '0');
       return `https://bit.ly/${quarterObject.lessonYear}-T${quarterObject.lessonQuarter}-Urok${lessonNum}`;
     }
     return null;
-  }, [qLesson, quarterObject, currentLessonParameters]);
+  }, [qLesson, quarterObject, isNotAfterCurrentLesson]);
+
+  // Define Bitly URL for video comment from TV Svetlina
+  // when the lesson is from 2026 later and not after the current lesson
+  const videoCommentBitlyUrl: string | null = useMemo(() => {
+    if (
+      qLesson &&
+      quarterObject &&
+      quarterObject.type === '' &&
+      quarterObject.lessonYear >= 2026 &&
+      isNotAfterCurrentLesson
+    ) {
+      const lessonNum = qLesson.num.toString().padStart(2, '0');
+      return `https://bit.ly/ss-${quarterObject.lessonYear}-${quarterObject.lessonQuarter}-${lessonNum}`;
+    }
+    return null;
+  }, [qLesson, quarterObject, isNotAfterCurrentLesson]);
 
   useEffect(() => {
     if (!videoDiscussionBitlyUrl) {
@@ -165,6 +190,26 @@ const LessonCont = ({
     void getYouTubeUrl();
   }, [videoDiscussionBitlyUrl]);
 
+  useEffect(() => {
+    if (!videoCommentBitlyUrl) {
+      setVideoCommentUrl(null);
+      return;
+    }
+
+    const getYouTubeUrl = async () => {
+      await resolveBitlyViaBackend(videoCommentBitlyUrl)
+        .then((url) => {
+          setVideoCommentUrl(url);
+        })
+        .catch((error: unknown) => {
+          console.error('Failed to resolve bitly URL:', error);
+          setVideoCommentUrl(null);
+        });
+    };
+
+    void getYouTubeUrl();
+  }, [videoCommentBitlyUrl]);
+
   const videoDiscussion = useMemo(() => {
     if (videoDiscussionUrl) {
       return (
@@ -179,10 +224,24 @@ const LessonCont = ({
     return undefined;
   }, [videoDiscussionUrl]);
 
+  const videoComment = useMemo(() => {
+    if (videoCommentUrl) {
+      return (
+        <Figure
+          align="left"
+          caption="Коментар на урока от Марк Финли"
+          size="large"
+          videoSrc={videoCommentUrl}
+        />
+      );
+    }
+    return undefined;
+  }, [videoCommentUrl]);
+
   const sidebar = useMemo(() => {
     return (
       <>
-        {(video || videoDiscussion) && (
+        {(video || videoDiscussion || videoComment) && (
           <Aside>
             {video && (
               <Figure
@@ -193,6 +252,7 @@ const LessonCont = ({
               />
             )}
             {videoDiscussion && videoDiscussion}
+            {videoComment && videoComment}
           </Aside>
         )}
         {passedLessons.length > 0 && (
@@ -203,7 +263,7 @@ const LessonCont = ({
         )}
       </>
     );
-  }, [video, videoDiscussion, passedLessons]);
+  }, [video, videoDiscussion, videoComment, passedLessons]);
 
   return (
     <>

@@ -1,5 +1,4 @@
 import moment from 'moment';
-import { PortableTextBlock } from '@portabletext/types';
 import { client, clientVreses } from 'src/sanityClient';
 import { PageMetaMap, PageMetaType } from './PageMeta';
 import {
@@ -16,6 +15,7 @@ import {
 } from 'src/contexts/PlaylistsContext';
 import { DailyVerseType } from 'src/contexts/DailyVerseContext';
 import { SunsetEvent } from 'src/contexts/SunsetContext';
+import { CarouselAdType } from 'src/contexts/CarouselAdsContext';
 
 export const loadPagesMeta = async (): Promise<PageMetaMap> => {
   const query = `*[_type == "page"] {
@@ -186,6 +186,20 @@ export const loadSeminarRelatedPresentations = async (): Promise<
     }`;
 
   return await client.fetch(presentationsQuery);
+};
+
+export const loadCarouselAds = async (): Promise<CarouselAdType[]> => {
+  const carouselAdsQuery = `*[_type == "carouselAd"] | order(_createdAt desc) {
+   title,
+   description,
+   image,
+   buttonLabel,
+   url
+}`;
+
+  const carouselAds: CarouselAdType[] = await client.fetch(carouselAdsQuery);
+
+  return carouselAds;
 };
 
 export const loadDailyVerse = async (date: string): Promise<DailyVerseType> => {

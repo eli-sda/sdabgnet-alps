@@ -54,8 +54,8 @@ const MediaPlaylist = ({
           showPlayPauseControls && isPlaying
             ? 'Пауза'
             : isCurrent
-            ? undefined
-            : 'Пусни плейлиста'
+              ? undefined
+              : 'Пусни плейлиста'
         }
         additionalContent={actionButtons}
       />

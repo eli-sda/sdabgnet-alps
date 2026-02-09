@@ -1,4 +1,5 @@
 // modified Slide.tsx from alps - not usig grid classes for text wrap
+import { useEffect, useRef, useState } from 'react';
 import { Button } from 'src/alps/atoms/Button';
 import { Picture } from 'alps-library/atoms/images/Picture';
 import { ImageType } from 'alps-library/atoms/images/ImageType';
@@ -49,9 +50,32 @@ export const Slide = ({
   textClass = '',
   url
 }: SlideProps): JSX.Element => {
+  const [isVertical, setIsVertical] = useState(false);
+  const pictureRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const imgElement = pictureRef.current?.querySelector('img');
+    if (imgElement) {
+      const checkOrientation = () => {
+        if (imgElement.naturalWidth && imgElement.naturalHeight) {
+          setIsVertical(imgElement.naturalHeight > imgElement.naturalWidth);
+        }
+      };
+
+      if (imgElement.complete) {
+        checkOrientation();
+      } else {
+        imgElement.addEventListener('load', checkOrientation);
+        return () => imgElement.removeEventListener('load', checkOrientation);
+      }
+    }
+  }, [image]);
+
   return (
-    <div className={`c-carousel__item ${className}`}>
-      <Picture image={image} lazy={imageIsLazy} />
+    <div className={`c-carousel__item ${isVertical ? 'is-vertical' : ''} ${className}`}>
+      <div ref={pictureRef}>
+        <Picture image={image} lazy={imageIsLazy} />
+      </div>
       {heading && (
         <div className="c-carousel__item-text__wrap  l-grid">
           <div className={'l-grid-item'}>

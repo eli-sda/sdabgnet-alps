@@ -10,10 +10,24 @@ import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { MediaBlockProps } from 'src/alps/molecules/blocks/MediaBlock';
 import { AdvertisementBlockProps } from './AdvertisementBlock';
 import { BlockFeed } from 'src/organisms/sections/BlockFeed';
-import { getImage } from 'src/utils/ImageHelper';
+import {
+  getImage,
+  asideImageSizes,
+  ImageSizes,
+  VIEWPORT_MAX
+} from 'src/utils/ImageHelper';
 import { useAdvertisements } from 'src/hooks/useAdvertisements';
 import { AdvertisementType } from 'src/contexts/AdvertisementsContext';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
+
+// Advertisement images layout (c-block__row in archivePage)
+// Image occupies 2/7 viewport (<701px), 1/7 viewport (≥701px)
+const advertisementImageSizes: ImageSizes = {
+  default: Math.round((VIEWPORT_MAX.MOBILE * 2) / 7), // = 143px
+  sm: Math.round((VIEWPORT_MAX.SMALL * 2) / 7), // = 200px
+  md: Math.round((VIEWPORT_MAX.MEDIUM * 1) / 7), // = 171px
+  lg: Math.round((VIEWPORT_MAX.XLARGE * 1) / 7) // = 365px
+};
 
 const AdvertisementPage = ({ type }: { type: AdType }) => {
   useScrollToHash();
@@ -47,7 +61,7 @@ const AdvertisementPage = ({ type }: { type: AdType }) => {
 
     if (!meta) return;
 
-    const image = getImage(meta.imageUrl, '', false, true);
+    const image = getImage(meta.imageUrl, '', false, asideImageSizes);
 
     const relatedAdverBlock: MediaBlockProps = {
       title: meta.title,
@@ -65,7 +79,9 @@ const AdvertisementPage = ({ type }: { type: AdType }) => {
   ];
 
   const adBlocks: AdvertisementBlockProps[] = ads.map((ad) => {
-    const img = ad.image ? getImage(ad.image, '', true) : undefined;
+    const img = ad.image
+      ? getImage(ad.image, '', true, advertisementImageSizes)
+      : undefined;
 
     return {
       name: ad.name,

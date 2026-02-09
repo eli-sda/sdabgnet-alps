@@ -1,11 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import moment from 'moment';
-// import { PageSection } from 'src/organisms/PageSection';
-// import { Carousel } from 'alps-library/molecules/components/carousel/Carousel';
+
 import PageMeta from 'src/utils/PageMeta';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
 
-import DailyVerse from 'src/components/dailyVerse/DailyVerse';
 import { HomeEvents } from './HomeEvents';
 import { AdvertisementsPreview } from 'src/components/advertisements/AdvertisementsPreview';
 import { RssFeeds } from 'src/components/rssFeed/RssFeeds';
@@ -24,7 +22,9 @@ import { Partners } from 'src/components/Partners';
 // import { deleteAllAudioLinks } from 'src/utils/Sanity/delete-audio-links';
 
 // for DEMO:
-import { TestLinks } from 'src/components/TestLinks';
+// import { TestLinks } from 'src/components/TestLinks';
+import { HomeTopContainer } from './HomeTopContainer';
+// import DailyVerse from 'src/components/dailyVerse/DailyVerse';
 // import DailyVerseGray from 'src/components/dailyVerse/DailyVerseGray';
 // import DailyVerseDark from 'src/components/dailyVerse/DailyVerseDark';
 // import { VideoDemo } from '../components/media/video/demo/VideoDemo';
@@ -52,93 +52,18 @@ const Home = () => {
     return () => clearInterval(interval);
   }, [currentDate]);
 
-  // TODO: use next year when replace the old site
   const prevYear = useMemo(() => {
     return currentDate.clone().subtract(1, 'year');
   }, [currentDate]);
 
-  /*
-  // const testSlides = [
-  //   {
-  //     heading: 'Lorem Ipsum',
-  //     subtitle: 'Fusce nec urna ut tellus accumsan fermentum.',
-  //     dek: 'Morbi eleifend, mi et varius imperdiet, nunc magna ullamcorper nibh, vel varius felis dui ac arcu. Vestibulum semper commodo dolor vel congue. Curabitur eleifend ligula ut arcu finibus posuere.',
-  //     cta: 'Mec cursus mi',
-  //     url: 'https://www.adventist.org',
-  //     image: {
-  //       srcSet: {
-  //         default: '//picsum.photos/480/270?image=1041',
-  //         '500': '//picsum.photos/750/350?image=1041',
-  //         '750': '//picsum.photos/1200/800?image=1041',
-  //         '1200': '//picsum.photos/1500/900?image=1041'
-  //       },
-  //       alt: 'Placeholder image'
-  //     }
-  //   },
-  //   {
-  //     heading: 'Consequatur',
-  //     subtitle: 'Nulla exercitationem perspiciatis',
-  //     dek: 'Debitis et aut voluptatem omnis quis quis similique.',
-  //     cta: 'Quod voluptatibus',
-  //     url: 'https://www.adventist.org',
-  //     image: {
-  //       srcSet: {
-  //         default: '//picsum.photos/480/270?image=1044',
-  //         '500': '//picsum.photos/750/350?image=1044',
-  //         '750': '//picsum.photos/1200/800?image=1044',
-  //         '1200': '//picsum.photos/1500/900?image=1044'
-  //       },
-  //       alt: 'Placeholder image'
-  //     }
-  //   },
-  //   {
-  //     heading: 'Quae vel et',
-  //     subtitle: 'Atque numquam quo non nostrum.',
-  //     dek: 'Curabitur eleifend ligula ut arcu finibus posuere.',
-  //     cta: 'Dolorum et ligula',
-  //     url: 'https://www.adventist.org',
-  //     image: {
-  //       srcSet: {
-  //         default: '//picsum.photos/480/270?image=1002',
-  //         '500': '//picsum.photos/750/350?image=1002',
-  //         '750': '//picsum.photos/1200/800?image=1002',
-  //         '1200': '//picsum.photos/1500/900?image=1002'
-  //       },
-  //       alt: 'Placeholder image'
-  //     }
-  //   },
-  //   {
-  //     heading: 'Sint incidunt ut',
-  //     subtitle:
-  //       'Doloribus ut dignissimos accusantium ex sapiente quia occaecati est.',
-  //     dek: 'Enim qui minus beatae nemo quia laborum suscipit repudiandae. Ea neque voluptatem maxime. Ut nostrum distinctio enim blanditiis debitis.',
-  //     cta: 'Utex quia!',
-  //     url: 'https://www.adventist.org',
-  //     image: {
-  //       srcSet: {
-  //         default: '//picsum.photos/480/270?image=832',
-  //         '500': '//picsum.photos/750/350?image=832',
-  //         '750': '//picsum.photos/1200/800?image=832',
-  //         '1200': '//picsum.photos/1500/900?image=832'
-  //       },
-  //       alt: 'Placeholder image'
-  //     }
-  //   }
-  // ];
-  */
   return (
     <section className="u-spacing--triple">
       {pageMeta && <PageMeta meta={pageMeta} breadcrumbs={[]}></PageMeta>}
+      <HomeTopContainer dailyVerseDate={prevYear} />
 
-      <TestLinks />
-
-      {/* <Carousel slides={testSlides}></Carousel> */}
-
-      <section className="full-page">
-        <DailyVerse date={prevYear}></DailyVerse>
-        {/* <DailyVerseDark date={prevYear}></DailyVerseDark> */}
-      </section>
       {/* <section className="full-page">
+      <TestLinks />
+        <DailyVerseDark date={prevYear}></DailyVerseDark>
         <DailyVerseGray date={moment('2025-12-23')}></DailyVerseGray>
         <DailyVerse date={moment('2025-12-23')}></DailyVerse>
       </section> */}
@@ -186,15 +111,6 @@ const Home = () => {
               Fill Опитности Playlists
             </Button>
           </div> */}
-      {/* verse for today */}
-      {/* <DailyVerse date={currentDate}></DailyVerse> */}
-
-      {/* verse for current date but previous year */}
-      {/* <DailyVerse date={prevYear}></DailyVerse> */}
-
-      {/* verse for 2.01.2025  with links*/}
-      {/* <DailyVerse date={moment('2025-01-02')}></DailyVerse> */}
-      {/* </section> */}
 
       <section className="full-page u-spacing--triple">
         {/* <VideoDemo /> */}

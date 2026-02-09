@@ -10,6 +10,7 @@ import { PlaylistsProvider } from './providers/PlaylistsProvider';
 import { DailyVerseProvider } from './providers/DailyVerseProvider';
 import SunsetProvider from './providers/SunsetProvider';
 import { CalendarEventsProvider } from './providers/CalendarEventsProvider';
+import { CarouselAdsProvider } from './providers/CarouselAdsProvider';
 import { RssFeedProvider } from './providers/RssFeedProvider';
 
 const App = () => {
@@ -41,9 +42,11 @@ const App = () => {
                 <PlaylistsProvider>
                   <CalendarEventsProvider>
                     <RssFeedProvider>
-                      <DailyVerseProvider>
-                        <Router />
-                      </DailyVerseProvider>
+                      <CarouselAdsProvider>
+                        <DailyVerseProvider>
+                          <Router />
+                        </DailyVerseProvider>
+                      </CarouselAdsProvider>
                     </RssFeedProvider>
                   </CalendarEventsProvider>
                 </PlaylistsProvider>

@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
+import { useRssFeed } from 'src/hooks/useRssFeed';
 import { FeedItemType } from './FeedItem';
 import { FeedList } from './FeedList';
-import { RSS_PATH, API_URL } from 'src/constants';
 
 export type RssFeedListProps = {
   rssFeedName?: 'hopetv' | '3_16' | 'newlife' | 'svetlina' | 'ltv';
@@ -14,23 +14,21 @@ export const RssFeedList = ({
   rssFeedName,
   maxItems = 6
 }: RssFeedListProps) => {
-  const [items, setItems] = useState<FeedItemType[]>([]);
-  const url = useMemo(
-    () =>
-      `${import.meta.env.DEV ? RSS_PATH : `${API_URL}${RSS_PATH}`}${rssFeedName}/${maxItems}`,
-    [rssFeedName, maxItems]
-  );
+  const { getFeed, feeds } = useRssFeed();
 
+  // trigger fetch if not already loaded
   useEffect(() => {
-    if (!url) return;
-    fetch(url)
-      .then((res) => res.json())
-      .then((data: FeedItemType[]) => setItems(data))
-      .catch((err) => {
-        console.error(`Failed to load items from ${url}`, err);
-        setItems([]);
-      });
-  }, [url]);
+    if (!rssFeedName) return;
+
+    if (!feeds || !feeds[rssFeedName]) {
+      void getFeed(rssFeedName, maxItems);
+    }
+  }, [rssFeedName, maxItems, feeds, getFeed]);
+
+  const items: FeedItemType[] = useMemo(() => {
+    if (!rssFeedName) return [];
+    return feeds?.[rssFeedName] ?? [];
+  }, [rssFeedName, feeds]);
 
   const feedProps = useMemo(() => {
     let logoName: string | undefined;

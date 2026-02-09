@@ -1,6 +1,6 @@
 export const SITE = 'https://new.sdabg.net';
 export const SITE_TITLE = 'Адвентната българска мреж@';
-export const OLD_SITE = 'https://sdabg.net';
+export const OLD_SITE = 'https://old.sdabg.net';
 export const API_URL = 'https://api.sdabg.net';
 export const RESOURCES_SITE = 'https://sdasofia.org';
 

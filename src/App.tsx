@@ -10,6 +10,7 @@ import { PlaylistsProvider } from './providers/PlaylistsProvider';
 import { DailyVerseProvider } from './providers/DailyVerseProvider';
 import SunsetProvider from './providers/SunsetProvider';
 import { CalendarEventsProvider } from './providers/CalendarEventsProvider';
+import { CarouselAdsProvider } from './providers/CarouselAdsProvider';
 
 const App = () => {
   useEffect(() => {
@@ -39,9 +40,11 @@ const App = () => {
               <SunsetProvider>
                 <PlaylistsProvider>
                   <CalendarEventsProvider>
-                    <DailyVerseProvider>
-                      <Router />
-                    </DailyVerseProvider>
+                    <CarouselAdsProvider>
+                      <DailyVerseProvider>
+                        <Router />
+                      </DailyVerseProvider>
+                    </CarouselAdsProvider>
                   </CalendarEventsProvider>
                 </PlaylistsProvider>
               </SunsetProvider>

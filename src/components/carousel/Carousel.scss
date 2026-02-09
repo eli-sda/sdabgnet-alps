@@ -1,0 +1,124 @@
+@use '/src/styles/colors.scss' as *;
+
+.c-carousel {
+  width: 100%;
+
+  &__slides {
+    display: grid !important;
+    align-items: start !important;
+    position: relative !important;
+
+    .slick-list {
+      overflow: visible !important;
+      width: 100% !important;
+    }
+
+    .slick-track {
+      display: grid !important;
+      grid-template-columns: 1fr !important;
+      align-items: start !important;
+      width: 100% !important;
+      position: relative !important;
+      background-color: rgb(255, 255, 255, 0.4);
+    }
+
+    .slick-slide {
+      grid-area: 1 / 1 !important;
+      width: 100% !important;
+      position: relative !important;
+      left: 0 !important;
+      top: 0 !important;
+      opacity: 0 !important;
+      z-index: 1 !important;
+      pointer-events: none !important;
+
+      &.slick-active {
+        opacity: 1 !important;
+        z-index: 2 !important;
+        pointer-events: auto !important;
+
+        // Force pointer events on all children except controls
+        & * {
+          pointer-events: auto !important;
+        }
+      }
+    }
+  }
+
+  &__item {
+    width: 100%;
+    box-sizing: border-box;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+    & &-text__wrap {
+      position: relative !important;
+      height: auto !important;
+      width: 100% !important;
+      left: auto !important;
+      top: auto !important;
+    }
+    & &-text {
+      //.u-padding--bottom from alp class, as alps set 0
+      padding-bottom: 15px;
+      @media (min-width: 901px) {
+        padding-bottom: 1.25rem;
+      }
+    }
+    picture {
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 2px solid rgb($mingDarkestColor, 0.7);
+
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover; // horizontal images (default)
+      }
+    }
+
+    // Vertical images
+    &.is-vertical picture img {
+      object-fit: contain;
+    }
+  }
+
+  $arrowButtonSize: 2.8125rem; // from alp class .c-carousel__arrow
+
+  &__controls {
+    @media (max-width: 500px) {
+      display: none;
+    }
+    left: calc(-1 *#{$arrowButtonSize} / 2);
+    gap: calc(100% - #{$arrowButtonSize});
+    padding: 0;
+    cursor: default !important;
+    pointer-events: none !important;
+
+    * {
+      pointer-events: none !important;
+    }
+
+    .c-carousel__arrow {
+      cursor: pointer;
+      pointer-events: auto !important;
+      transition:
+        box-shadow 0.2s ease,
+        transform 0.15s ease;
+
+      &:before,
+      &:after {
+        display: none !important;
+      }
+
+      &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        transform: scale(1.05);
+      }
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+  }
+}

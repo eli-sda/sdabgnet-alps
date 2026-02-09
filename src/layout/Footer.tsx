@@ -50,7 +50,7 @@ const Footer = () => {
     items: [
       {
         text: 'webmaster@sdabg.net',
-        url: 'mailto:webmaster@sdabg.net?subject=new.sdabg.net'
+        url: 'mailto:webmaster@sdabg.net?subject=sdabg.net'
       },
       {
         text: 'Старият сайт: old.sdabg.net',

@@ -36,7 +36,7 @@ const routes = {
       | 'comment'
       | 'sunset'
       | 'churches'
-  ) => `/info${item ? `/${item}` : ''}`, //https://sdabg.net/page.php?id=bible_reference | sunset | teritory
+  ) => `/info${item ? `/${item}` : ''}`, //https://old.sdabg.net/page.php?id=bible_reference | sunset | teritory
 
   resources: (
     item?: 'books' | 'audio' | 'video' | 'music' | 'presentation' | 'image',

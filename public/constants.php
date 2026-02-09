@@ -1,3 +1,3 @@
 <?php
-$DOMAIN = 'new.sdabg.net'; // //todo chage to main domain after replace the old site
+$DOMAIN = 'sdabg.net';
 $site = "https://$DOMAIN";

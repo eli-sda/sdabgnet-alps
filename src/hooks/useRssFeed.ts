@@ -15,7 +15,7 @@ export function useRssFeed() {
   const loadingFeeds = useRef<Record<string, boolean>>({});
 
   const getFeed = useCallback(
-    async (rssFeedName: string, maxItems = 6): Promise<FeedItemType[]> => {
+    async (rssFeedName: string, maxItems: number): Promise<FeedItemType[]> => {
       const today = getTodayString();
 
       if (
@@ -57,6 +57,8 @@ export function useRssFeed() {
         setFeedItems(rssFeedName, []);
         setLastLoaded(rssFeedName, today);
         return [];
+      } finally {
+        loadingFeeds.current[rssFeedName] = false;
       }
     },
     [feeds, lastLoaded, setFeedItems, setLastLoaded]

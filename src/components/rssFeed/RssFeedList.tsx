@@ -4,9 +4,7 @@ import { FeedItemType } from './FeedItem';
 import { FeedList } from './FeedList';
 
 export type RssFeedListProps = {
-  rssFeedName?: 'hopetv' | '3_16' | 'newlife' | 'svetlina' | 'ltv';
-  logoPath?: string;
-  items?: FeedItemType[];
+  rssFeedName: 'hopetv' | '3_16' | 'newlife' | 'svetlina' | 'ltv';
   maxItems?: number;
 };
 
@@ -14,19 +12,16 @@ export const RssFeedList = ({
   rssFeedName,
   maxItems = 6
 }: RssFeedListProps) => {
-  const { getFeed, feeds } = useRssFeed();
+  const { feeds, getFeed } = useRssFeed();
 
   // trigger fetch if not already loaded
   useEffect(() => {
-    if (!rssFeedName) return;
-
     if (!feeds || !feeds[rssFeedName]) {
       void getFeed(rssFeedName, maxItems);
     }
   }, [rssFeedName, maxItems, feeds, getFeed]);
 
   const items: FeedItemType[] = useMemo(() => {
-    if (!rssFeedName) return [];
     return feeds?.[rssFeedName] ?? [];
   }, [rssFeedName, feeds]);
 

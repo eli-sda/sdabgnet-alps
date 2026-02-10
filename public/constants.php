@@ -1,3 +1,3 @@
 <?php
-$DOMAIN = 'sdabg.net';
+$DOMAIN = $_SERVER['HTTP_HOST'] ?? 'sdabg.net';
 $site = "https://$DOMAIN";

@@ -22,7 +22,11 @@ export const RssFeedList = ({
   }, [rssFeedName, maxItems, feeds, getFeed]);
 
   const items: FeedItemType[] = useMemo(() => {
-    return feeds?.[rssFeedName] ?? [];
+    const feedItems = feeds?.[rssFeedName] ?? [];
+    return feedItems.map((item) => ({
+      ...item,
+      title: item.title?.replace(' СУБТИТРИ', '') ?? item.title
+    }));
   }, [rssFeedName, feeds]);
 
   const feedProps = useMemo(() => {
@@ -62,6 +66,7 @@ export const RssFeedList = ({
       kicker={feedProps.kicker}
       logoPath={feedProps.logoPath}
       items={items}
+      feedListClassName={rssFeedName === 'newlife' ? 'books' : ''}
     />
   );
 };

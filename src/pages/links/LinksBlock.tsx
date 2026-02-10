@@ -120,7 +120,6 @@ export const LinksBlock = ({
                   label,
                   url,
                   outline,
-                  simple,
                   icon,
                   faIconClass,
                   iconPosition = 'left',
@@ -138,7 +137,6 @@ export const LinksBlock = ({
                   label={label}
                   url={url}
                   outline={outline}
-                  simple={simple}
                   icon={icon}
                   faIconClass={faIconClass}
                   iconPosition={iconPosition}

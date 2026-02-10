@@ -1,4 +1,10 @@
-export const SITE = 'https://sdabg.net';
+const isNewSubdomain =
+  typeof window !== 'undefined' && window.location.hostname === 'new.sdabg.net';
+
+export const SITE =
+  import.meta.env.DEV || isNewSubdomain
+    ? 'https://new.sdabg.net'
+    : 'https://sdabg.net';
 export const SITE_TITLE = 'Адвентната българска мреж@';
 export const OLD_SITE = 'https://old.sdabg.net';
 export const API_URL = 'https://api.sdabg.net';

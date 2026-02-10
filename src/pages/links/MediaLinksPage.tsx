@@ -80,7 +80,6 @@ const renderLinksBlocks = (groups: LinkGroup[]) =>
         }`,
         faIconClass: `${getFaIconClass(type)} fa-lg`,
         hideExternalIcon: true,
-        simple: true,
         outline: true,
         isExternal: true
       }));
@@ -143,7 +142,10 @@ const MediaLinksPage = ({
     asideSections.length > 0 ? (
       <>
         {asideSections.length > 0 && (
-          <MediaListSection sections={asideSections} doubleSpace={isDoubleSpacing} />
+          <MediaListSection
+            sections={asideSections}
+            doubleSpace={isDoubleSpacing}
+          />
         )}
       </>
     ) : undefined;
@@ -156,7 +158,10 @@ const MediaLinksPage = ({
       relatedPosts={relatedPosts}
     >
       <section className="u-spacing--double">
-        <MediaListSection sections={mainSections} doubleSpace={isDoubleSpacing} />
+        <MediaListSection
+          sections={mainSections}
+          doubleSpace={isDoubleSpacing}
+        />
       </section>
     </Page>
   );

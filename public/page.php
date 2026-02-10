@@ -37,8 +37,8 @@ $redirectMap = [
     'audio' => '/resources/audio',
     'video' => '/resources/video',
     'music' => '/resources/music',
-    'presentation' => '/resources/presentation',
-    'poetry' => '/church_life/poetry',
+    'present' => '/resources/presentation',
+    // 'poetry' => '/church_life/poetry',
     'answer' => '/commune/pastor-online',
     //to the old version of the site:
     'kids' => 'https://old.sdabg.net/page.php?id=kids',

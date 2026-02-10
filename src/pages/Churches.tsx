@@ -4,6 +4,7 @@ import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
 import { LinksData, MediaListSection } from './links/MediaLinksPage';
+import { Caption } from 'alps-library/atoms/text/Caption';
 
 const Churches = () => {
   const breadcrumbsUrls = [routes.info(), routes.info('churches')];
@@ -26,14 +27,18 @@ const Churches = () => {
       kicker={getTitle(routes.info())}
       breadcrumbsUrls={breadcrumbsUrls}
     >
-      <div className='u-spacing'>
-        <Button
-          as="a"
-          label="Намери църква в страницата на СЦАСД"
-          url="https://www.adventist.bg/nameri-carkva"
-          isExternal
-        />
-
+      <div className="u-spacing">
+        <Caption>
+          За да намерите най-близката до вас адвентна църква, посетете{' '}
+          <a
+            href="https://www.adventist.bg/nameri-carkva"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            страницата на СЦАСД
+          </a>
+          , където има интерактивна карта и списък с всички църкви в България.
+        </Caption>
         <MediaListSection sections={bgChurchesLinks} doubleSpace={false} />
       </div>
     </Page>

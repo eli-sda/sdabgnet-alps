@@ -19,6 +19,12 @@ export default defineConfig({
         target: 'https://api.sdabg.net',
         changeOrigin: true,
         secure: false
+      },
+      '/api': {
+        target: 'https://api.sdabg.net',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, '')
       }
     }
   },

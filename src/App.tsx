@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
-import './App.scss';
 import Router from './Router';
 import { CurrentLessonProvider } from './providers/CurrentLessonProvider';
 import { PagesMetaDataProvider } from './providers/PagesMetaDataProvider';
@@ -12,6 +11,8 @@ import SunsetProvider from './providers/SunsetProvider';
 import { CalendarEventsProvider } from './providers/CalendarEventsProvider';
 import { CarouselAdsProvider } from './providers/CarouselAdsProvider';
 import { RssFeedProvider } from './providers/RssFeedProvider';
+
+import './App.scss';
 
 const App = () => {
   useEffect(() => {

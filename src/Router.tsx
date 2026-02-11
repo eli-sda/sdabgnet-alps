@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 
 import Layout from './layout/Layout';
+import MatomoTracker from './components/MatomoTracker';
 // import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useLessonUtils } from './hooks/useLessonUtils';
 
@@ -107,6 +108,7 @@ const Router = () => (
     >
       {/* <ThemeProvider theme={theme}> */}
       <ScrollToTop />
+      <MatomoTracker />
       <Routes>
         <Route path={routes.home} element={<Layout />}>
           <Route index element={<Home />} />

@@ -14,19 +14,24 @@ export function initMatomo(): void {
     return;
 
   // prevents double loading of the script
-  if (document.querySelector(`script[src*="${MATOMO_URL}"]`)) return;
+  if (document.querySelector(`script[src*="/js/piwik.js"]`)) return;
 
   window._paq = window._paq || [];
 
   // cookieless mode
   window._paq.push(['disableCookies']);
   window._paq.push(['enableLinkTracking']);
+
   window._paq.push(['setTrackerUrl', `${MATOMO_URL}piwik.php`]);
+  //   // use the PHP proxy endpoint on this domain
+  //   window._paq.push(['setTrackerUrl', `/matomo-proxy.php`]);
+
   window._paq.push(['setSiteId', SITE_ID]);
 
   const script = document.createElement('script');
   script.async = true;
-  script.src = `${MATOMO_URL}piwik.js`;
+  // load local copy of the tracker script
+  script.src = `/js/piwik.js`;
 
   document.head.appendChild(script);
 }

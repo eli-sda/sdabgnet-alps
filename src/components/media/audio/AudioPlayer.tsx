@@ -41,17 +41,23 @@ const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
     }, []);
 
     const audioElementRef = useRef<HTMLAudioElement | null>(null);
+    const initialTimeAppliedRef = useRef(false);
 
     useEffect(() => {
       const audio = audioElementRef.current;
       if (!audio || typeof initialTime !== 'number' || initialTime <= 0) return;
 
+      // Only apply initial time once (for the first audio from URL)
+      if (initialTimeAppliedRef.current) return;
+
       let isCurrent = true;
 
       const setInitialTime = () => {
         if (!isCurrent) return; // safety check in case audio element changes
+
         try {
           audio.currentTime = initialTime;
+          initialTimeAppliedRef.current = true;
         } catch {
           // some mobile browsers may throw if seeking too early
         }
@@ -69,7 +75,7 @@ const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
         isCurrent = false;
         audio.removeEventListener('loadedmetadata', setInitialTime);
       };
-    }, [playlist, initialTime]);
+    }, [playlist, initialTime, playIndex]);
 
     useImperativeHandle(
       ref,

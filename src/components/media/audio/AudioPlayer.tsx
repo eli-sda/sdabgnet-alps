@@ -42,15 +42,33 @@ const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
 
     const audioElementRef = useRef<HTMLAudioElement | null>(null);
 
-    // Set initial time on mount or when playlist changes
     useEffect(() => {
-      if (
-        audioElementRef.current &&
-        typeof initialTime === 'number' &&
-        initialTime > 0
-      ) {
-        audioElementRef.current.currentTime = initialTime;
+      const audio = audioElementRef.current;
+      if (!audio || typeof initialTime !== 'number' || initialTime <= 0) return;
+
+      let isCurrent = true;
+
+      const setInitialTime = () => {
+        if (!isCurrent) return; // safety check in case audio element changes
+        try {
+          audio.currentTime = initialTime;
+        } catch {
+          // some mobile browsers may throw if seeking too early
+        }
+      };
+
+      if (audio.readyState >= 1) {
+        // metadata is already loaded, seek immediately
+        setInitialTime();
+      } else {
+        // wait for loadedmetadata event
+        audio.addEventListener('loadedmetadata', setInitialTime);
       }
+
+      return () => {
+        isCurrent = false;
+        audio.removeEventListener('loadedmetadata', setInitialTime);
+      };
     }, [playlist, initialTime]);
 
     useImperativeHandle(

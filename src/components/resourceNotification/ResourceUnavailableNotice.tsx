@@ -7,10 +7,9 @@ type ResourceResponse = { status: boolean } | { error: string };
 
 export const ResourceUnavailableNotice = () => {
   const [isUnavailable, setIsUnavailable] = useState(false);
+  const url = `${import.meta.env.DEV ? API_PATH : API_URL}/resourceServer.php`;
 
   useEffect(() => {
-    const url = `${import.meta.env.DEV ? API_PATH : API_URL}/resourceServer.php`;
-
     const check = async (): Promise<void> => {
       try {
         const res = await fetch(url);

@@ -12,7 +12,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
     subnav: [
       {
         type: 'primary',
-        text: 'Проекта SEED',
+        text: 'Проектът SEED',
         url: 'https://seed.asi-bg.org/',
         isExternal: true
       },

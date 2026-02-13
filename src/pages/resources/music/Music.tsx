@@ -108,8 +108,9 @@ const MusicPage = () => {
         </Text>
 
         <VideoPlaylistList playlists={musicVideos} />
-
-        <div className="audio-page-instructions">
+      </Page>
+      <section className="u-space--triple--top u-spacing--double">
+        <div className="audio-page-instructions u-padding--sides ">
           <h4 className="audio-page-caption">
             Използвайте бутона{' '}
             <span className="audio-page-caption__icon-wrapper">
@@ -142,9 +143,8 @@ const MusicPage = () => {
             от нея.
           </h4>
         </div>
-      </Page>
-
-      <AudioPlaylistList type="music" />
+        <AudioPlaylistList type="music" />
+      </section>
     </>
   );
 };

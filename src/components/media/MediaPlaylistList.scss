@@ -1,10 +1,11 @@
+$itemW: 274px;
+
 .media-playlist-list {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($itemW, 1fr));
 
   .playlist-item {
-    width: 274px;
+    width: $itemW;
   }
 }
 

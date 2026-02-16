@@ -391,6 +391,106 @@
             "type": "youtube"
           }
         ]
+      }
+    ]
+  },
+  {
+    "section": "Български църкви извън България",
+    "id": "churches-abroad",
+    "items": [
+      {
+        "title": "ЦАСД Виена",
+        "links": [
+          {
+            "url": "http://sdabg.at",
+            "type": "сайт"
+          },
+          {
+            "url": "https://www.facebook.com/SDAViennaBG",
+            "type": "facebook"
+          },
+          {
+            "url": "https://www.youtube.com/@SdaViennaBg",
+            "type": "youtube"
+          },
+          {
+            "url": "https://www.instagram.com/adventvienna/",
+            "type": "instagram"
+          }
+        ]
+      },
+      {
+        "title": "ЦАСД Вупертал",
+        "links": [
+          {
+            "url": "https://www.facebook.com/share/Nea8gzVFJDAhCLHM/?mibextid=wwXIfr",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "Църква Esslingen, Германия",
+        "links": [
+          {
+            "url": "https://www.facebook.com/share/bXahUD2S72bnF2RF/?mibextid=wwXIfr",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "Адвентна църква Леонберг, Германия",
+        "links": [
+          {
+            "url": "https://www.facebook.com/share/hsh2cLvpQw4awns3/?mibextid=wwXIfr",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "Адвентна църква Майнхайм, Германия",
+        "links": [
+          {
+            "url": "https://www.facebook.com/share/pdcrjZ2GUubvDuJk/?mibextid=wwXIfr",
+            "type": "facebook"
+          }
+        ]
+      },
+
+      {
+        "title": "Българска църква, Германия Адрес: 72622 Nürtingen Werastraße 25",
+        "links": [
+          {
+            "url": "https://www.facebook.com/share/R73VCPCtEhckvnTu/?mibextid=wwXIfr",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "ЦАСД Офенбах, Франкфурт, Германия",
+        "links": [
+          {
+            "url": "https://www.facebook.com/share/L8bFaxCxNhtJSc1v/?mibextid=wwXIfr",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "ЦАСД Кипър - гр. Никозия; - ул. Клементис, Антон Сандев",
+        "links": [
+          {
+            "url": "https://www.facebook.com/share/3gv7qHXSVu43MYho/?mibextid=wwXIfr",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "ЦАСД Кьолн",
+        "links": [
+          {
+            "url": "https://www.facebook.com/share/oNA2faGdSXH54cwH/?mibextid=wwXIfr",
+            "type": "facebook"
+          }
+        ]
       },
       {
         "title": "Лондон (Българска ЦАСД)",
@@ -410,23 +510,11 @@
         ]
       },
       {
-        "title": "Виена",
+        "title": "Адвентна църква - Моасак, Франция",
         "links": [
           {
-            "url": "http://sdabg.at",
-            "type": "сайт"
-          },
-          {
-            "url": "https://www.facebook.com/SDAViennaBG",
+            "url": "https://www.facebook.com/share/9y58K3uZY6e77MRs/?mibextid=wwXIfr",
             "type": "facebook"
-          },
-          {
-            "url": "https://www.youtube.com/@SdaViennaBg",
-            "type": "youtube"
-          },
-          {
-            "url": "https://www.instagram.com/adventvienna/",
-            "type": "instagram"
           }
         ]
       }

@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Button } from 'src/alps/atoms/Button';
+import { Caption } from 'alps-library/atoms/text/Caption';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
 import { LinksData, MediaListSection } from './links/MediaLinksPage';
-import { Caption } from 'alps-library/atoms/text/Caption';
 
 const Churches = () => {
   const breadcrumbsUrls = [routes.info(), routes.info('churches')];
@@ -23,11 +22,11 @@ const Churches = () => {
 
   return (
     <Page
-      title="Адвентни църкви в България"
+      title={getTitle(routes.info('churches'))}
       kicker={getTitle(routes.info())}
       breadcrumbsUrls={breadcrumbsUrls}
     >
-      <div className="u-spacing">
+      <div className="u-spacing--double">
         <Caption>
           За да намерите най-близката до вас адвентна църква, посетете{' '}
           <a

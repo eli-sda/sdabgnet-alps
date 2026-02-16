@@ -159,7 +159,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       },
       {
         type: 'primary',
-        text: 'Адвентни църкви',
+        text: 'Български адвентни църкви',
         url: routes.info('churches')
       },
       {

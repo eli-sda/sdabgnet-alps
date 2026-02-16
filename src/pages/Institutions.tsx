@@ -26,10 +26,12 @@ const Institutions = (): JSX.Element => {
         ]
       }}
     >
-      <MediaListSection
-        sections={institutionsLinks as LinksData[]}
-        doubleSpace={false}
-      />
+      <div className="u-spacing--double">
+        <MediaListSection
+          sections={institutionsLinks as LinksData[]}
+          doubleSpace={false}
+        />
+      </div>
     </Page>
   );
 };

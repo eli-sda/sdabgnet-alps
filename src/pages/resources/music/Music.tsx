@@ -34,6 +34,10 @@ const musicLinks = {
       url: 'https://www.youtube.com/playlist?list=PLIeXbN0nkX1V3Rp4n6c122jl2k6FLg9Dl'
     },
     {
+      title: 'Гласът на надеждата',
+      url: 'https://www.youtube.com/@Гласътнанадеждата'
+    },
+    {
       title: 'Песни от Красимир Лазаров',
       url: 'https://www.youtube.com/playlist?list=PLJR2nI6Iy0ZL985GVfv9Y-Gd_4ewAzZ9K'
     }

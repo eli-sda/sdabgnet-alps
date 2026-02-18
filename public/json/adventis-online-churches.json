@@ -1,6 +1,6 @@
 [
   {
-    "section": "Български адвентни църкви в мрежата",
+    "section": "",
     "id": "churches",
     "items": [
       {
@@ -391,13 +391,7 @@
             "type": "youtube"
           }
         ]
-      }
-    ]
-  },
-  {
-    "section": "Български църкви извън България",
-    "id": "churches-abroad",
-    "items": [
+      },
       {
         "title": "Виена, Австрия",
         "links": [

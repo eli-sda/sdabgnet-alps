@@ -13,6 +13,7 @@ const Bibles = () => {
   return (
     <Page
       title={getTitle(routes.info('bibles'))}
+      kicker={getTitle(routes.info())}
       breadcrumbsUrls={breadcrumbsUrls}
       background={pageBackground}
       relatedPosts={{

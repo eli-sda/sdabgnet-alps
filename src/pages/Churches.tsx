@@ -22,7 +22,7 @@ const Churches = () => {
 
   return (
     <Page
-      title={getTitle(routes.info('churches'))}
+      title="Български адвентни църкви"
       kicker={getTitle(routes.info())}
       breadcrumbsUrls={breadcrumbsUrls}
     >

@@ -201,6 +201,7 @@ const SunsetCalendar = (): JSX.Element => {
   return (
     <Page
       title={getTitle(routes.info('sunset'))}
+      kicker={getTitle(routes.info())}
       background={pageBackground}
       breadcrumbsUrls={breadcrumbsUrls}
       blockType="wrap6"

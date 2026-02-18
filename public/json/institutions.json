@@ -1,11 +1,11 @@
 [
   {
-    "section": "",
+    "section": "Отдели и институции на СЦАСД България",
     "id": "institutions",
     "items": [
       {
         "title": "Съюз на ЦАСД в България",
-        "description": "Съюз на църквите на адвентистите от Седмия ден в България",
+        "description": "Съюз на църквите на адвентистите от седмия ден в България",
         "image40": "/img/logos/40/adventistbg.png",
         "links": [
           {
@@ -23,7 +23,7 @@
         ]
       },
       {
-        "title": "Съботно Училище - ЦАСД България",
+        "title": "Отдел \"Съботно училище\"",
         "image40": "/img/logos/40/Sabbath.School.Bulgaria.png",
         "links": [
           {
@@ -51,7 +51,7 @@
         ]
       },
       {
-        "title": "Семейно служене",
+        "title": "Отдел \"Семейно служене\"",
         "image40": "/img/logos/40/family-ministry.png",
         "links": [
           {
@@ -61,12 +61,20 @@
         ]
       },
       {
-        "title": "Служба на жените",
+        "title": "Отдел \"Служба на жените\"",
         "image40": "/img/logos/40/women's-service.png",
         "links": [
           {
-            "url": "https://www.facebook.com/profile.php?id=100064877040330",
+            "url": "https://www.facebook.com/profile.php?id=61556735117409",
             "type": "facebook"
+          },
+          {
+            "url": "https://www.instagram.com/herstoryeu",
+            "type": "instagram"
+          },
+          {
+            "url": "https://her-story.eu/",
+            "type": "сайт"
           }
         ]
       },
@@ -109,7 +117,18 @@
         ]
       },
       {
-        "title": "AДРА България",
+        "title": "Адвентно-мюсюлмански връзки ЦАСД България",
+        "description": "Отдел АМВ е в помощ на членовете на Църквата на адвентистите от седмия ден, които желаят да споделят евангелието със своите приятели мюсюлмани.",
+        "image40": "/img/logos/40/Adventist-Muslim-Relations-CASD-Bulgaria.png",
+        "links": [
+          {
+            "url": "https://www.facebook.com/profile.php?id=100089575059618",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "Фондация AДРА България",
         "description": "АДРА България - адвентна хуманитарна организация",
         "image40": "/img/logos/40/ADRA.png",
         "links": [
@@ -128,7 +147,7 @@
         ]
       },
       {
-        "title": "Фондация \"Грижа за Здравето\"",
+        "title": "Фондация \"Грижа за Здравето\" (Здравен отдел)",
         "description": "Мисията на фондацията е да подобрява физическото и психично здраве на българското общество.",
         "image40": "/img/logos/40/grizha.za.zdraveto.png",
         "links": [
@@ -147,13 +166,71 @@
         ]
       },
       {
-        "title": "Адвентно-мюсюлмански връзки ЦАСД България",
-        "description": "Отдел АМВ е в помощ на членовете на Църквата на адвентистите от седмия ден, които желаят да споделят евангелието със своите приятели мюсюлмани.",
-        "image40": "/img/logos/40/Adventist-Muslim-Relations-CASD-Bulgaria.png",
+        "title": "Hope Channel Bulgaria",
+        "description": "Hope Channel Bulgaria е официалната адвентна телевизия на ЦАСД. Hope Channel е глобална телевизионна мрежа, състояща се от 80 канала по целия свят и излъчвания на над 100 езика. Hope Channel Bulgaria стартира през 2005 година и предлага програми за цялостен християнски живот. С нейна помощ можете да участвате дистанционно в духовни семинари, богослужения, здравни форуми и други събития.",
+        "image40": "/img/logos/40/hope-channel.svg",
         "links": [
           {
-            "url": "https://www.facebook.com/profile.php?id=100089575059618",
+            "url": "https://hopetv.bg/",
+            "type": "сайт"
+          },
+          {
+            "url": "https://www.facebook.com/HopetvBG",
             "type": "facebook"
+          },
+          {
+            "url": "https://www.youtube.com/user/hopetvbg",
+            "type": "youtube"
+          },
+          {
+            "url": "https://www.instagram.com/hopechannelbulgaria/",
+            "type": "instagram"
+          }
+        ]
+      },
+      {
+        "title": "Радио 3:16",
+        "description": "Радио 3:16 е продуцирано от AWR. То говори за важните неща от живота – семейство, вяра, приятелство, общество и история, разум и чувства. ТОЧНО КАЗАНО!",
+        "image40": "/img/logos/40/radio3-16_red.svg",
+        "links": [
+          {
+            "url": "https://3-16.bg/",
+            "type": "сайт"
+          },
+          {
+            "url": "https://www.facebook.com/radio316bg",
+            "type": "facebook"
+          },
+          {
+            "url": "https://www.youtube.com/@radio316bg",
+            "type": "youtube"
+          },
+          {
+            "url": "https://www.instagram.com/radio316bg",
+            "type": "instagram"
+          }
+        ]
+      },
+      {
+        "title": "Издателство \"Нов живот\"",
+        "description": "Издателство \"Нов живот\" е официалният издател на Църквата на адвентистите от седмия ден. Всички книги можете да разгледате и поръчате от сайта - онлайн книжарница.",
+        "image40": "/img/logos/40/newlife.png",
+        "links": [
+          {
+            "url": "https://newlife-bg.com/",
+            "type": "сайт"
+          },
+          {
+            "url": "https://www.facebook.com/BooksNewLifeBG/",
+            "type": "facebook"
+          },
+          {
+            "url": "https://www.youtube.com/user/newlifebooksbg",
+            "type": "youtube"
+          },
+          {
+            "url": "https://www.instagram.com/nov_jivot_books/",
+            "type": "instagram"
           }
         ]
       },
@@ -172,7 +249,7 @@
         ]
       },
       {
-        "title": "Национален хор \"Гласът на надеждата\"",
+        "title": "\"Гласът на надеждата\" - национален хор на ЦАСД",
         "image40": "/img/logos/40/the-voice-of-hope.png",
         "links": [
           {
@@ -192,7 +269,13 @@
             "type": "instagram"
           }
         ]
-      },
+      }
+    ]
+  },
+  {
+    "section": "Подкрепящи служения",
+    "id": "services",
+    "items": [
       {
         "title": "Детска градина „Цветна надежда“",
         "description": "„Цветна надежда“ е адвентен образователен проект, развиващ се в София, и открито преподаващ библейските принципи на деца на възраст от 2 до 6 години. Там всеки ден са свидетели на това как Бог оформя сърцата и умовете на децата, като им представя любяща грижа и библейски уроци в близка до домашната среда.",
@@ -265,6 +348,17 @@
           {
             "url": "http://zdravencentarmedovo.com",
             "type": "сайт"
+          }
+        ]
+      },
+      {
+        "title": "Клуб Биоммен",
+        "description": "Сдружението с нестопанска цел „Добро сърце“ е организация, която се занимава със здравно образование и духовно насърчаване.",
+        "image40": "/img/logos/40/club-biommen.png",
+        "links": [
+          {
+            "url": "https://www.facebook.com/profile.php?id=100059977225155",
+            "type": "facebook"
           }
         ]
       }

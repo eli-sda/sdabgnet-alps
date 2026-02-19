@@ -1,11 +1,24 @@
-import { Page } from 'src/organisms/Page';
+import { useEffect, useState } from 'react';
 import routes from 'src/routes';
-import { LinksData, MediaListSection } from './links/MediaLinksPage';
+import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
-import institutionsLinks from './institutions.json';
+import { LinksData, MediaListSection } from './links/MediaLinksPage';
 
 const Institutions = (): JSX.Element => {
   const breadcrumbsUrls = [routes.media(), routes.media('institutions')];
+
+  const [institutions, setInstitutions] = useState<LinksData[]>([]);
+
+  useEffect(() => {
+    fetch('/json/institutions.json')
+      .then((res) => res.json())
+      .then((data: LinksData[]) => setInstitutions(data))
+      .catch((err) => {
+        console.error('Failed to load institutions.json', err);
+        setInstitutions([]);
+      });
+  }, []);
+
   return (
     <Page
       title={getTitle(routes.media('institutions'))}
@@ -26,10 +39,9 @@ const Institutions = (): JSX.Element => {
         ]
       }}
     >
-      <MediaListSection
-        sections={institutionsLinks as LinksData[]}
-        doubleSpace={false}
-      />
+      <div className="u-spacing--double">
+        <MediaListSection sections={institutions} doubleSpace={false} />
+      </div>
     </Page>
   );
 };

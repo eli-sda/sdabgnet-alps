@@ -18,6 +18,10 @@ const musicLinks = {
   heading: 'Слушайте в YouTube',
   blocks: [
     {
+      title: 'Гласът на надеждата',
+      url: 'https://www.youtube.com/@Гласътнанадеждата'
+    },
+    {
       title: 'Петък 7 1/2',
       url: 'https://www.youtube.com/playlist?list=PLHxD0n8PEQXKiWJz28H8ckGi4HyIYNC-P'
     },

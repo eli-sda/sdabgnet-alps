@@ -393,6 +393,27 @@
         ]
       },
       {
+        "title": "Виена, Австрия",
+        "links": [
+          {
+            "url": "http://sdabg.at",
+            "type": "сайт"
+          },
+          {
+            "url": "https://www.facebook.com/SDAViennaBG",
+            "type": "facebook"
+          },
+          {
+            "url": "https://www.youtube.com/@SdaViennaBg",
+            "type": "youtube"
+          },
+          {
+            "url": "https://www.instagram.com/adventvienna/",
+            "type": "instagram"
+          }
+        ]
+      },
+      {
         "title": "Лондон (Българска ЦАСД)",
         "links": [
           {
@@ -410,23 +431,83 @@
         ]
       },
       {
-        "title": "Виена",
+        "title": "Вупертал, Германия",
         "links": [
           {
-            "url": "http://sdabg.at",
-            "type": "сайт"
-          },
-          {
-            "url": "https://www.facebook.com/SDAViennaBG",
+            "url": "https://www.facebook.com/profile.php?id=61560958585973",
             "type": "facebook"
-          },
+          }
+        ]
+      },
+      {
+        "title": "Esslingen, Германия",
+        "links": [
           {
-            "url": "https://www.youtube.com/@SdaViennaBg",
-            "type": "youtube"
-          },
+            "url": "https://www.facebook.com/profile.php?id=100084969033538",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "Леонберг, Германия",
+        "links": [
           {
-            "url": "https://www.instagram.com/adventvienna/",
-            "type": "instagram"
+            "url": "https://www.facebook.com/profile.php?id=61561086841986",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "Майнхайм, Германия",
+        "links": [
+          {
+            "url": "https://www.facebook.com/profile.php?id=100081022761945",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "Nürtingen, Германия",
+        "links": [
+          {
+            "url": "https://www.facebook.com/profile.php?id=100090852634690",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "Офенбах, Германия",
+        "links": [
+          {
+            "url": "https://www.facebook.com/profile.php?id=100080019682740",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "Кьолн, Германия",
+        "links": [
+          {
+            "url": "https://www.facebook.com/profile.php?id=100029719579036",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "Никозия, Кипър",
+        "links": [
+          {
+            "url": "https://www.facebook.com/profile.php?id=100087010893002",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "Моасак, Франция",
+        "links": [
+          {
+            "url": "https://www.facebook.com/carkva.moissac",
+            "type": "facebook"
           }
         ]
       }

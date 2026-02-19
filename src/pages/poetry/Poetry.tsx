@@ -16,7 +16,7 @@ const renderText = (text: string) => {
       return <em key={index}>{content}</em>;
     }
 
-    return <span key={index}>{part}</span>;
+    return part;
   });
 };
 
@@ -54,7 +54,7 @@ const Poetry = () => {
       breadcrumbsUrls={breadcrumbsUrls}
       aside={<PoetryForm />}
       relatedPosts={relatedPosts}
-      pageClassName='page-aside-top'
+      pageClassName="page-aside-top"
     >
       <section className="poetry-stories text">
         <ul>
@@ -68,12 +68,13 @@ const Poetry = () => {
                 maxWidth="md"
               >
                 <div className="poem text u-padding--top">
-                  <p className="poem-text">{renderText(text)}</p>
-
-                  <section className="details u-space--top u-space--right">
-                    {author && <p>{author}</p>}
-                    {date && <p>{date}</p>}
-                  </section>
+                  <div className="poem-text">
+                    <p>{renderText(text)}</p>
+                    <div className="details u-space--top u-space--right">
+                      {author && <p>{author}</p>}
+                      {date && <p>{date}</p>}
+                    </div>
+                  </div>
                 </div>
               </PopupContent>
             </li>

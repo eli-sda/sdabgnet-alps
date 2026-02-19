@@ -54,6 +54,7 @@ const Poetry = () => {
       breadcrumbsUrls={breadcrumbsUrls}
       aside={<PoetryForm />}
       relatedPosts={relatedPosts}
+      pageClassName='page-aside-top'
     >
       <section className="poetry-stories text">
         <ul>

@@ -4,18 +4,19 @@ interface TitleProps {
   url?: string;
   children: React.ReactNode;
   className?: string;
+  useLinkAsA?: boolean;
 }
 
 // Usage
 // <Title url="https://example.com" className="title-link">Click Here</Title>;
 // <Title className="title-text">Plain Title</Title>;
 
-const Title = ({ url, children, className }: TitleProps): JSX.Element => {
+const Title = ({ url, children, className, useLinkAsA }: TitleProps): JSX.Element => {
   if (!url) {
     return <span className={className}>{children}</span>; // Render plain text if no URL
   }
 
-  const isExternal = url.startsWith('http');
+  const isExternal = url.startsWith('http') || useLinkAsA;
   const TitleTag: React.ElementType = isExternal ? 'a' : NavLink;
 
   const linkProps = isExternal

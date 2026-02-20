@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
-import { getTodayString } from 'src/utils/getTodayString';
 import { usePoetry } from 'src/hooks/usePoetry';
 import PopupContent from 'src/components/popupContent/PopupContent';
 import PoetryForm from './PoetryForm';
@@ -41,14 +40,11 @@ const relatedPosts = {
 const Poetry = () => {
   const breadcrumbsUrls = [routes.churchLife(), routes.churchLife('poetry')];
 
-  const { poetry, getPoetry, lastLoaded } = usePoetry();
+  const { poetry, getPoetry } = usePoetry();
 
   useEffect(() => {
-    if (!poetry || lastLoaded !== getTodayString()) {
-      void getPoetry();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lastLoaded, getPoetry]);
+    void getPoetry();
+  }, [getPoetry]);
 
   return (
     <Page

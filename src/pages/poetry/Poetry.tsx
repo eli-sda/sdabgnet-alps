@@ -2,10 +2,11 @@ import { useEffect } from 'react';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
+import { getTodayString } from 'src/utils/getTodayString';
 import { usePoetry } from 'src/hooks/usePoetry';
 import PopupContent from 'src/components/popupContent/PopupContent';
-import './Poetry.scss';
 import PoetryForm from './PoetryForm';
+import './Poetry.scss';
 
 const renderText = (text: string) => {
   const parts = text.split(/(<i>[\s\S]*?<\/i>)/g);
@@ -20,33 +21,34 @@ const renderText = (text: string) => {
   });
 };
 
+const relatedPosts = {
+  heading: 'Още поезия',
+  blocks: [
+    {
+      title: 'Стихосбирка „Приказка за любовта“',
+      url: '/pdf/stihosbirka_elena_ivanova.pdf',
+      useLinkAsA: true,
+      category: 'Елена Иванова'
+    },
+    {
+      title: 'Орхидея - блог със стихове',
+      url: 'https://orhideq07.blogspot.com/',
+      category: 'Цветелина Чолакова'
+    }
+  ]
+};
+
 const Poetry = () => {
   const breadcrumbsUrls = [routes.churchLife(), routes.churchLife('poetry')];
 
-  const { poetry, getPoetry } = usePoetry();
+  const { poetry, getPoetry, lastLoaded } = usePoetry();
 
   useEffect(() => {
-    if (!poetry) {
+    if (!poetry || lastLoaded !== getTodayString()) {
       void getPoetry();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const relatedPosts = {
-    heading: 'Полезни връзки',
-    blocks: [
-      {
-        title: 'Стихосбирка „Приказка за любовта“',
-        url: '/pdf/stihosbirka_elena_ivanova.pdf',
-        useLinkAsA: true,
-        category: 'Елена Иванова'
-      },
-      {
-        title: 'Блог на Цветелина Чолакова с нейни стихове',
-        url: 'https://orhideq07.blogspot.com/'
-      }
-    ]
-  };
+  }, [lastLoaded, getPoetry]);
 
   return (
     <Page
@@ -62,7 +64,7 @@ const Poetry = () => {
             <li key={index}>
               <PopupContent
                 title={title}
-                buttonLabel={title}
+                buttonLabel={`${title}${author ? ` - ${author}` : ''}`}
                 faIconClass="fas fa-feather-alt"
                 asLink={true}
                 maxWidth="md"

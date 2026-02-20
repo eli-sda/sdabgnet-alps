@@ -113,7 +113,7 @@ export interface MediaBlockProps {
    */
   expandable?: boolean;
   /**
-   * If true, NavLink will render as <a>
+   * * If true, will use <a> for link, otherwise NavLink
    */
   useLinkAsA?: boolean;
 }

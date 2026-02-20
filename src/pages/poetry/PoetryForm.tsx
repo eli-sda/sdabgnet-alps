@@ -45,7 +45,6 @@ const PoetryForm = () => {
     touched.email && !isEmailValid ? 'Невалиден имейл адрес' : '';
 
   const reset = (clearAll: boolean) => {
-    // After submit reset only the text field and its touched state
     let emptyFields: object = {
       text: '',
       title: '',
@@ -63,18 +62,12 @@ const PoetryForm = () => {
     if (clearAll) {
       emptyFields = {
         ...emptyFields,
-        author: '',
-        email: '',
-        title: '',
-        date: ''
+        email: ''
       };
 
       touched = {
         ...touched,
-        author: false,
-        email: false,
-        title: false,
-        date: false
+        email: false
       };
     }
 

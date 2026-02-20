@@ -25,5 +25,5 @@ export function usePoetry() {
       .catch();
   }, [poetry, lastLoaded, setPoetry, setLastLoaded]);
 
-  return { poetry, getPoetry };
+  return { poetry, getPoetry, lastLoaded };
 }

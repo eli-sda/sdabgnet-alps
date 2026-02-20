@@ -1,0 +1,27 @@
+.poetry-stories {
+  ul li {
+    text-indent: 0 !important;
+    &::before {
+      content: none !important;
+    }
+  }
+}
+
+.poem {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto;
+
+  .poem-text {
+    white-space: pre-line;
+    margin: 0 auto;
+  }
+
+  .details {
+    text-align: right;
+    p {
+      font-style: italic;
+    }
+  }
+}

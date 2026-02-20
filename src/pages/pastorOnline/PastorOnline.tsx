@@ -47,10 +47,10 @@ const PastorOnline = () => {
 
   const relatedItems: MediaBlockProps[] = [];
   const relatedQuestion: MediaBlockProps = {
-    title: 'GotQuestions.org',
-    description: 'Българската версия на сайта с отговорени библейски въпроси',
-    image: getImageTypeByUrl('/img/pastorOnline/logo_gotQuestions.svg'),
-    url: 'https://www.gotquestions.org/Bulgarian/'
+    title: 'Bible SDA UA – Telegram бот',
+    description: 'Бот за библейски въпроси и духовни теми, създаден от адвентисти на основата на Библията и писанията на Елън Уайт. Ако нещо ви затруднява, тук ще получите ясни обяснения и насоки.',
+    image: getImageTypeByUrl('/img/pastorOnline/telegram-bot.webp'),
+    url: 'https://t.me/bible_ua_gpt_bot'
   };
   relatedItems.push(relatedQuestion);
   return (

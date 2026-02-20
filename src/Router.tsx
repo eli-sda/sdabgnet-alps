@@ -67,6 +67,7 @@ const Music = lazy(() => import('./pages/resources/music/Music'));
 const Biblical = lazy(() => import('./pages/biblical/Biblical'));
 const Bibles = lazy(() => import('./pages/bibles/Bibles'));
 const Testimonies = lazy(() => import('./pages/testimonies/Testimonies'));
+const Poetry = lazy(() => import('./pages/poetry/Poetry'));
 
 // const theme = createTheme();
 
@@ -160,6 +161,7 @@ const Router = () => (
             path={routes.commune('pastor-online')}
             element={<PastorOnline />}
           />
+          <Route path={routes.churchLife('poetry')} element={<Poetry />} />
           {/* Църковен живот - Обяви*/}
           <Route path={routes.advertisement()} element={<Advertisements />} />
 

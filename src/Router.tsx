@@ -67,6 +67,8 @@ const Music = lazy(() => import('./pages/resources/music/Music'));
 const Biblical = lazy(() => import('./pages/biblical/Biblical'));
 const Bibles = lazy(() => import('./pages/bibles/Bibles'));
 const Testimonies = lazy(() => import('./pages/testimonies/Testimonies'));
+const About = lazy(() => import('./pages/About'));
+const Banner = lazy(() => import('./pages/banner/Banner'));
 
 // const theme = createTheme();
 
@@ -248,6 +250,10 @@ const Router = () => (
           />
 
           <Route path={routes.contact} element={<Contact />} />
+
+          {/* За нас */}
+          <Route path={routes.about()} element={<About />} />
+          <Route path={routes.about('banner')} element={<Banner />} />
 
           {/* 
           <Route path="teams" element={<Teams />}>

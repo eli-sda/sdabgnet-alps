@@ -57,13 +57,13 @@ const Poetry = () => {
       <section className="poetry-stories text">
         <ul>
           {poetry?.map(({ title, author, date, text }, index) => (
-            <li key={index}>
+            <li key={index} className="u-font--secondary--l">
               <PopupContent
                 title={title}
-                buttonLabel={`${title}${author ? ` - ${author}` : ''}`}
+                buttonLabel={title}
                 faIconClass="fas fa-feather-alt"
                 asLink={true}
-                maxWidth="md"
+                maxWidth="sm"
               >
                 <div className="poem text u-padding--top">
                   <div className="poem-text">
@@ -75,6 +75,7 @@ const Poetry = () => {
                   </div>
                 </div>
               </PopupContent>
+              <div className="u-font--secondary--xs">{author}</div>
             </li>
           ))}
         </ul>

@@ -329,6 +329,28 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
     ]
   },
   {
+    text: 'За нас',
+    url: routes.about(),
+    subnav: [
+      {
+        type: 'primary',
+        text: 'Екип',
+        url: routes.about('team'),
+        isDisabled: true
+      },
+      {
+        type: 'primary',
+        text: 'Банер',
+        url: routes.about('banner')
+      },
+      {
+        type: 'primary',
+        text: 'Отзиви',
+        url: routes.about('feedback')
+      }
+    ]
+  },
+  {
     text: 'Детски кът',
     url: routes.kids
   }

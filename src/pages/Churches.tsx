@@ -63,18 +63,6 @@ const Churches = () => {
       breadcrumbsUrls={breadcrumbsUrls}
     >
       <div className="u-spacing--double">
-        <BaseSearch
-          placeholder="Гр./с. (напр. София, Варна)"
-          searchLabel="Търси"
-          onSearch={(e: React.ChangeEvent<HTMLInputElement>) => {
-            const v = e.target.value;
-            setSearchQuery(v);
-            filterLinks(v);
-          }}
-          onSubmit={() => {
-            filterLinks(searchQuery);
-          }}
-        />
         <Caption>
           За да намерите най-близката до вас адвентна църква, посетете{' '}
           <a
@@ -86,7 +74,20 @@ const Churches = () => {
           </a>
           , където има интерактивна карта и списък с всички църкви в България.
         </Caption>
-        
+
+        <BaseSearch
+          placeholder="Търси по гр./с. (напр. София, Варна)"
+          hideSearchButton
+          onSearch={(e: React.ChangeEvent<HTMLInputElement>) => {
+            const v = e.target.value;
+            setSearchQuery(v);
+            filterLinks(v);
+          }}
+          onSubmit={() => {
+            filterLinks(searchQuery);
+          }}
+        />
+
         {bgChurchesLinks.length > 0 && filteredChurchesLinks.length === 0 ? (
           <Caption>Няма намерени резултати.</Caption>
         ) : (

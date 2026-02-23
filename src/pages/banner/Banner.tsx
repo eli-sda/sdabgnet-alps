@@ -7,9 +7,10 @@ import './Banner.scss';
 const Banner = () => {
   const breadcrumbsUrls = [routes.about(), routes.about('banner')];
 
-  const bannerHtml = `<a  href="http://sdabg.net" target="_blank" rel="noopener noreferrer">
-  <img  src="http://sdabg.net/img/sdabg.net-map-logo.svg" title="Адвентната българска мреж@" alt="Адвентната българска мреж@ - лого" width="200" />
-  </a>`;
+  const bannerHtml = `<a href="http://sdabg.net" target="_blank" rel="noopener noreferrer">
+  <img src="http://sdabg.net/img/sdabg.net-map-logo.svg" title="Адвентната българска мреж@" 
+  alt="Адвентната българска мреж@ - лого" width="200" />
+</a>`;
 
   const copyToClipboard = () => {
     void navigator.clipboard.writeText(bannerHtml);
@@ -29,7 +30,7 @@ const Banner = () => {
         <div dangerouslySetInnerHTML={{ __html: bannerHtml }} />
 
         <h3 className="u-theme--color--darker">
-          Копирайте и използвайте следния код:
+          копирайте и използвайте следния код:
         </h3>
         <pre>
           <code>{bannerHtml}</code>

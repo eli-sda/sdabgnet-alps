@@ -7,8 +7,9 @@ import './Banner.scss';
 const Banner = () => {
   const breadcrumbsUrls = [routes.about(), routes.about('banner')];
 
-  const bannerHtml = `<a href="http://sdabg.net" target="_blank" rel="noopener noreferrer">
-  <img src="http://sdabg.net/img/sdabg.net-map-logo.svg" title="Адвентната българска мреж@" 
+  const bannerHtml = `<a href="https://sdabg.net" target="_blank" rel="noopener noreferrer">
+  <img src="//sdabg.net/img/sdabg.net-map-logo.svg"
+  title="Адвентната българска мреж@"
   alt="Адвентната българска мреж@ - лого" width="200" />
 </a>`;
 

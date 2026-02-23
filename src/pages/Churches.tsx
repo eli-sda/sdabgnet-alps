@@ -76,7 +76,7 @@ const Churches = () => {
         </Caption>
 
         <BaseSearch
-          placeholder="Търси по гр./с. (напр. София, Варна)"
+          placeholder="Търси по гр./с./име на църква (напр. екзарх)"
           hideSearchButton
           onSearch={(e: React.ChangeEvent<HTMLInputElement>) => {
             const v = e.target.value;
@@ -84,7 +84,7 @@ const Churches = () => {
             filterLinks(v);
           }}
           onSubmit={() => {
-            filterLinks(searchQuery);
+            return false;
           }}
         />
 

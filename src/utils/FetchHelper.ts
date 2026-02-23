@@ -16,6 +16,7 @@ import {
 import { DailyVerseType } from 'src/contexts/DailyVerseContext';
 import { SunsetEvent } from 'src/contexts/SunsetContext';
 import { CarouselAdType } from 'src/contexts/CarouselAdsContext';
+import { PoetryType } from 'src/contexts/PoetryContext';
 
 export const loadPagesMeta = async (): Promise<PageMetaMap> => {
   const query = `*[_type == "page"] {
@@ -186,6 +187,19 @@ export const loadSeminarRelatedPresentations = async (): Promise<
     }`;
 
   return await client.fetch(presentationsQuery);
+};
+
+export const loadPoetry = async (): Promise<PoetryType[]> => {
+  const poetryQuery = `*[_type == "poetry"] | order(_createdAt desc) {
+  title,
+  author,
+  date,
+  text
+  }`;
+
+  const poetry: PoetryType[] = await clientVreses.fetch(poetryQuery);
+
+  return poetry;
 };
 
 export const loadCarouselAds = async (): Promise<CarouselAdType[]> => {

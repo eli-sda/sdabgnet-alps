@@ -94,8 +94,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Поезия',
-        url: routes.churchLife('poetry'),
-        isDisabled: true
+        url: routes.churchLife('poetry')
       },
       {
         type: 'primary',

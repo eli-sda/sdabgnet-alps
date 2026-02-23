@@ -75,6 +75,14 @@ const PopupContent = ({
         {title && (
           <DialogTitle className="popupContent-dialogTitle u-color--gray--darker">
             {title}
+            <div className="close-wrapper">
+              <AlpsButton
+                faIconClass="fas fa-times fa-lg"
+                iconPosition="right"
+                simple
+                onClick={handleClose}
+              />
+            </div>
           </DialogTitle>
         )}
         <DialogContent>{children}</DialogContent>

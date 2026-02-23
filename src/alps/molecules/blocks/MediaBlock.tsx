@@ -112,6 +112,10 @@ export interface MediaBlockProps {
    * Specify whether the description should be expandable
    */
   expandable?: boolean;
+  /**
+   * * If true, will use <a> for link, otherwise NavLink
+   */
+  useLinkAsA?: boolean;
 }
 
 /**
@@ -145,7 +149,8 @@ export const MediaBlock = ({
   type = 'default',
   video,
   url,
-  expandable = false
+  expandable = false,
+  useLinkAsA = false
 }: MediaBlockProps): JSX.Element => {
   // Get preset props current type
 
@@ -233,6 +238,7 @@ export const MediaBlock = ({
               >
                 <Title
                   url={url}
+                  useLinkAsA={useLinkAsA}
                   className={`c-block__title-link ${
                     'titleLink' in preset
                       ? preset.titleLink

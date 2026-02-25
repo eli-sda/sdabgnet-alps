@@ -30,6 +30,10 @@ const musicLinks = {
       url: 'https://www.youtube.com/@dimaboseva/videos'
     },
     {
+      title: 'Хваление Благодат',
+      url: 'https://www.youtube.com/playlist?list=PLIt3SrgpCVT_AWIvDTNbXmvAJiqLRIWsF'
+    },
+    {
       title: 'Християнски песни',
       url: 'https://www.youtube.com/playlist?list=PLVYPzB4Uygi8rtJItNbGQieGU1_5rxLQi'
     },

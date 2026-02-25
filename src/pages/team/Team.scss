@@ -1,0 +1,26 @@
+@use '/src/styles/colors.scss' as *;
+
+.team-swiper {
+  .swiper {
+    width: 100%;
+  }
+
+  .swiper-slide {
+    width: clamp(260px, 80vw, 300px);
+
+    @media (max-width: 550px) {
+      width: 100%;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: $mingColor;
+}

@@ -335,8 +335,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Екип',
-        url: routes.about('team'),
-        isDisabled: true
+        url: routes.about('team')
       },
       {
         type: 'primary',

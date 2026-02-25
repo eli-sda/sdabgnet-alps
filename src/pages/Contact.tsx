@@ -135,7 +135,7 @@ const Contact = () => {
         </OptionGroup>
 
         {topic === 'participate' ? (
-          <h4>
+          <h4 className='text'>
             Моля, попълнете този{' '}
             <a
               href="https://docs.google.com/forms/d/e/1FAIpQLScuGmqB24Pq1YZtmgJ6wn-iqOY48enerD_9jHqtngh5ykpE9Q/viewform"

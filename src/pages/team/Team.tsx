@@ -12,6 +12,7 @@ type TeamMember = {
   id: number;
   name: string;
   role: string;
+  description?: string;
   email: string;
   image: string;
 };
@@ -20,7 +21,9 @@ const team: TeamMember[] = [
   {
     id: 1,
     name: 'Елена Иванова',
-    role: 'WEB-дизайнер',
+    role: 'Ръководител и разработчик на проекта',
+    description:
+      'Ръководи развитието на платформата и отговаря за нейната техническа реализация и поддръжка.',
     email: 'webmaster@sdabg.net',
     image: 'https://swiperjs.com/demos/images/nature-1.jpg'
   },
@@ -28,20 +31,26 @@ const team: TeamMember[] = [
     id: 2,
     name: 'Габриела Ортова',
     role: 'Front-end разработчик',
+    description:
+      'Разработва и поддържа видимата част и функционалностите на сайта.',
     email: 'gabi.ortova@gmail.com',
-    image: '/img/team/gabriela-ortova.jpg'
+    image: '/img/team/gabriela-ortova.webp'
   },
   {
     id: 3,
     name: 'Илия Дюлгеров',
-    role: 'Linux специалист',
+    role: 'Системен администратор',
+    description:
+      'Осигурява и поддържа сървъра, на който се съхраняват ресурсите за изтегляне.',
     email: 'iliasda@yahoo.com',
     image: 'https://swiperjs.com/demos/images/nature-3.jpg'
   },
   {
     id: 4,
     name: 'Венцислав Панайотов',
-    role: 'Отговори на въпроси',
+    role: 'Пастор онлайн',
+    description:
+      'Отговаря на духовни и библейски въпроси в рубриката „Пастор онлайн“.',
     email: 'VentsiPanayotov@bitex.bg',
     image: '/img/team/ventsislav-panayotov.jpg'
   },
@@ -55,14 +64,16 @@ const team: TeamMember[] = [
   {
     id: 6,
     name: 'Светлозар Стефанов',
-    role: 'Издателство "Нов живот" (утринни бдения)',
+    role: 'Издателство "Нов живот"',
+    description: 'Предоставя утринните бдения.',
     email: 'sstefanov@newlife-bg.com',
-    image: '/img/team/svetlozar-stefanov.jpg'
+    image: '/img/team/svetlozar-stefanov.webp'
   },
   {
     id: 7,
     name: 'Живко Грушев',
     role: 'Религиозни материали',
+    description: 'Подготвя и предоставя аудио ресурси и други материали.',
     email: 'zhivkogrushev@gmail.com',
     image: 'https://swiperjs.com/demos/images/nature-7.jpg'
   }
@@ -105,11 +116,17 @@ const Team = () => {
       >
         {team.map((member) => (
           <SwiperSlide key={member.id}>
-            <div className="team-card hyphens-auto">
+            <div className="team-card hyphens-auto u-spacing--quarter">
               <img src={member.image} alt={member.name} />
               <h3 className="u-theme--color--darker">{member.name}</h3>
-              <p>{member.role}</p>
-              <p>{member.email}</p>
+              <p className="member-role">{member.role}</p>
+              <p className='u-space--quarter--bottom'>{member.description}</p>
+              <a
+                href={`mailto:${member.email}`}
+                className="member-email"
+              >
+                {member.email}
+              </a>
             </div>
           </SwiperSlide>
         ))}

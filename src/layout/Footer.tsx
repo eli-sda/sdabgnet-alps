@@ -11,7 +11,7 @@ const scriptsToLoad = [
   // '//cdn.adventist.org/alps/3/latest/js/script.min.js'//not loading leatest ver.
   'https://cdn.adventist.org/alps/3/3.12.2/js/head-script.min.js',
   // 'https://cdn.adventist.org/alps/3/3.12.2/js/script.min.js'
-  '/js/script.min.js'
+  // '/js/script.min.js'
 ];
 
 const loadScript = (url: string, id: string) => {

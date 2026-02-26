@@ -12,15 +12,45 @@
       width: 100%;
     }
 
-    img {
-      display: block;
-      width: 100%;
-      object-fit: cover;
+    .team-card {
+      img {
+        display: block;
+        object-fit: cover;
+        aspect-ratio: 4 / 6;
+      }
+
+      .member-role {
+        color: #000;
+      }
+
+      .member-email {
+        border-bottom: 1px solid $mingColor;
+
+        &:hover {
+          border-bottom-width: 2px;
+        }
+      }
     }
   }
 }
 
 .swiper-button-prev,
 .swiper-button-next {
-  color: $mingColor;
+  color: white;
+  background-color: $mingDarkestColor;
+  border-radius: 50%;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  svg,
+  &:hover {
+    transform: scale(1.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
 }

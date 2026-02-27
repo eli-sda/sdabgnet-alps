@@ -6,8 +6,6 @@
   }
 
   .swiper-slide {
-    width: clamp(260px, 80vw, 300px);
-
     @media (max-width: 550px) {
       width: 100%;
     }
@@ -17,18 +15,6 @@
         display: block;
         object-fit: cover;
         aspect-ratio: 4 / 6;
-      }
-
-      .member-role {
-        color: #000;
-      }
-
-      .member-email {
-        border-bottom: 1px solid $mingColor;
-
-        &:hover {
-          border-bottom-width: 2px;
-        }
       }
     }
   }

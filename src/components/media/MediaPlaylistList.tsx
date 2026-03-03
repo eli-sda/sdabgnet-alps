@@ -37,6 +37,7 @@ const MediaPlaylistList = ({
   const { hash, search } = useLocation();
   const searchParams = new URLSearchParams(search);
   const playId = searchParams.get('playId');
+  const playlistIdFromSearch = searchParams.get('playlistId');
   // Supports only time as seconds (integer)
   const timeParam = searchParams.get('time');
 
@@ -64,8 +65,9 @@ const MediaPlaylistList = ({
   const setInitialPlaylists = useCallback(
     (playlistArr: PlaylistType[]) => {
       setPlaylists(playlistArr);
-      if (hash) {
-        const playlistId = hash.replace('#', '');
+      // support playlist selection from either hash (#<id>) or query ?playlistId=<id>
+      const playlistId = playlistIdFromSearch || (hash ? hash.replace('#', '') : null);
+      if (playlistId) {
         const matchedPlaylist = playlistArr.find((p) => p._id === playlistId);
 
         if (
@@ -94,7 +96,7 @@ const MediaPlaylistList = ({
         if (matchedPlaylist) onPlaylistSelect?.(matchedPlaylist);
       }
     },
-    [hash, onPlaylistSelect, playId, timeParam]
+    [hash, onPlaylistSelect, playId, playlistIdFromSearch, timeParam]
   );
 
   useEffect(() => {
@@ -124,6 +126,18 @@ const MediaPlaylistList = ({
     mediaType
     // setInitialPlaylists - do not include to avoid infinite loop
   ]);
+
+  // Scroll to playlist when URL has playlistId parameter
+  useEffect(() => {
+    if (!playlistIdFromSearch) return;
+    
+    setTimeout(() => {
+      const element = document.getElementById(`playlist-${playlistIdFromSearch}`);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 500);
+  }, [playlistIdFromSearch]);
 
   const getActionButtons = useCallback(
     (playlist: PlaylistType): JSX.Element => {
@@ -170,6 +184,7 @@ const MediaPlaylistList = ({
       <section className={`media-playlist-list ${className}`}>
         {playlists.map((playlist) => (
           <div
+            id={`playlist-${playlist._id}`}
             key={playlist._id}
             className="playlist-item u-padding--sides u-space--double--bottom"
           >

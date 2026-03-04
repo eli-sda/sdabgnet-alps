@@ -1,4 +1,13 @@
 import { concat } from 'lodash';
+import { IconType } from 'react-icons/lib';
+import { GiOpenBook } from 'react-icons/gi';
+import { RiBookOpenLine, RiQuestionAnswerFill } from 'react-icons/ri';
+import { TbSunset2Filled as _TbSunset2Filled } from 'react-icons/tb';
+const TbSunset2Filled = _TbSunset2Filled as IconType;
+// import { SiAudiobookshelf } from 'react-icons/si';
+import { LuAudioLines, LuBookAudio } from 'react-icons/lu';
+import { MdRecordVoiceOver } from 'react-icons/md';
+
 import { BreadcrumbItemProps } from 'src/alps/molecules/navigation/Breadcrumbs';
 import { PrimaryNavItemProps } from 'src/alps/molecules/navigation/PrimaryNavItem';
 import routes from 'src/routes';
@@ -21,6 +30,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
         type: 'primary',
         text: 'Съботно училище',
         url: routes.churchLife('lessons'),
+        reactIcon: RiBookOpenLine,
         subnav: [
           {
             type: 'primary',
@@ -53,34 +63,40 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Календар със събития',
-        url: routes.churchLife('events')
+        url: routes.churchLife('events'),
+        faIconClass: 'far fa-calendar-alt'
       },
       {
         type: 'primary',
         text: 'Общуване',
         url: routes.commune(),
+        reactIcon: RiQuestionAnswerFill,
         subnav: [
           {
             type: 'primary',
             text: 'Пастор онлайн',
-            url: routes.commune('pastor-online')
+            url: routes.commune('pastor-online'),
+            reactIcon: RiQuestionAnswerFill
           },
           {
             type: 'primary',
             text: 'Молитвена група',
             url: 'https://www.facebook.com/groups/188820787814459/',
+            faIconClass: 'fab fa-facebook-f',
             isExternal: true
           },
           {
             type: 'primary',
             text: 'Адвентна българска мрежа',
             url: 'https://www.facebook.com/groups/sdabg.net',
+            faIconClass: 'fab fa-facebook-f',
             isExternal: true
           },
           {
             type: 'primary',
             text: 'Адвентен форум',
             url: 'https://www.facebook.com/groups/AdventistDiscussions',
+            faIconClass: 'fab fa-facebook-f',
             isExternal: true
           }
         ]
@@ -94,27 +110,32 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Поезия',
-        url: routes.churchLife('poetry')
+        url: routes.churchLife('poetry'),
+        faIconClass: 'fas fa-feather-alt'
       },
       {
         type: 'primary',
         text: 'Обяви',
         url: routes.advertisement(),
+        faIconClass: 'fas fa-bullhorn',
         subnav: [
           {
             type: 'primary',
             text: 'Услуги/Работа',
-            url: routes.advertisement('services')
+            url: routes.advertisement('services'),
+            faIconClass: 'fas fa-briefcase'
           },
           {
             type: 'primary',
             text: 'Покупко-Продажби/Наем',
-            url: routes.advertisement('buySell')
+            url: routes.advertisement('buySell'),
+            faIconClass: 'fas fa-store'
           },
           {
             type: 'primary',
             text: 'Други',
-            url: routes.advertisement('other')
+            url: routes.advertisement('other'),
+            faIconClass: 'fas fa-tags'
           }
           //добави линк в Други или в Обяви стр.
           //   text: 'Приятелство', isExternal: true, url: 'https://dvamazahristos.org'
@@ -123,7 +144,8 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Опитности от цял свят',
-        url: routes.churchLife('testimonies')
+        url: routes.churchLife('testimonies'),
+        faIconClass: 'fas fa-globe'
       },
       {
         type: 'primary',
@@ -134,32 +156,33 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Дарения за каузи',
-        url: routes.churchLife('donations')
+        url: routes.churchLife('donations'),
+        faIconClass: 'fas fa-hand-holding-heart'
       }
     ]
   },
-  // {
-  //   text: 'Beliefs'
-  //   // is_active: true
-  // },
   {
     text: 'БГ Справочник',
     url: routes.info(),
+    faIconClass: 'fas fa-book',
     subnav: [
       {
         type: 'primary',
         text: 'Библии',
-        url: routes.info('bibles')
+        url: routes.info('bibles'),
+        faIconClass: 'fas fa-bible'
       },
       {
         type: 'primary',
         text: 'Библейски учения и курсове',
-        url: routes.info('biblical')
+        url: routes.info('biblical'),
+        faIconClass: 'fas fa-book-reader'
       },
       {
         type: 'primary',
         text: 'Адвентни църкви',
-        url: routes.info('churches')
+        url: routes.info('churches'),
+        icon: 'logo'
       },
       {
         type: 'primary',
@@ -176,23 +199,27 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Залез слънце',
-        url: routes.info('sunset')
+        url: routes.info('sunset'),
+        reactIcon: TbSunset2Filled
       }
     ]
   },
   {
     text: 'Медии',
     url: routes.media(),
+    faIconClass: 'fas fa-link',
     subnav: [
       {
         type: 'primary',
         text: 'Радиа',
-        url: routes.media('radio')
+        url: routes.media('radio'),
+        faIconClass: 'fas fa-broadcast-tower'
       },
       {
         type: 'primary',
         text: 'Телевизии',
-        url: routes.media('tv')
+        url: routes.media('tv'),
+        faIconClass: 'fas fa-tv'
       },
       {
         type: 'primary',
@@ -209,22 +236,26 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Адвентни отдели и институции',
-        url: routes.media('institutions')
+        url: routes.media('institutions'),
+        faIconClass: 'fas fa-link'
       },
       {
         type: 'primary',
         text: 'Адвентисти онлайн',
-        url: routes.media('bg-links')
+        url: routes.media('bg-links'),
+        faIconClass: 'fas fa-link'
       },
       {
         type: 'primary',
         text: 'Приложения',
-        url: routes.media('apps')
+        url: routes.media('apps'),
+        faIconClass: 'fas fa-mobile-alt'
       },
       {
         type: 'primary',
         text: 'Чужди сайтове',
-        url: routes.media('links')
+        url: routes.media('links'),
+        faIconClass: 'fas fa-link'
       }
     ]
   },
@@ -232,64 +263,81 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
   {
     text: 'Ресурси',
     url: routes.resources(),
+    faIconClass: 'fas fa-download',
     subnav: [
       {
         type: 'primary',
         text: 'Книги',
-        url: routes.resources('books')
+        url: routes.resources('books'),
+        reactIcon: GiOpenBook
       },
       {
         type: 'primary',
         text: 'Аудио',
         url: routes.resources('audio'),
+        reactIcon: LuAudioLines,
         subnav: [
           {
             type: 'primary',
             text: 'Аудио Библии',
-            url: routes.resources('audio', 'bible')
+            url: routes.resources('audio', 'bible'),
+            reactIcon: LuBookAudio
           },
           {
             type: 'primary',
             text: 'Аудиокниги',
-            url: routes.resources('audio', 'audiobook')
+            url: routes.resources('audio', 'audiobook'),
+            reactIcon: LuBookAudio //SiAudiobookshelf
           },
           {
             type: 'primary',
             text: 'Семинари',
-            url: routes.resources('audio', 'seminars')
+            url: routes.resources('audio', 'seminars'),
+            reactIcon: MdRecordVoiceOver
           },
           {
             type: 'primary',
             text: 'Проповеди',
-            url: routes.resources('audio', 'sermons')
+            url: routes.resources('audio', 'sermons'),
+            reactIcon: MdRecordVoiceOver
           }
         ]
       },
       {
         type: 'primary',
         text: 'Видео',
-        url: routes.resources('video')
+        url: routes.resources('video'),
+        faIconClass: 'far fa-file-video'
       },
       {
         type: 'primary',
         text: 'Музика',
-        url: routes.resources('music')
+        url: routes.resources('music'),
+        faIconClass: 'far fa-file-audio'
       },
       {
         type: 'primary',
         text: 'Презентации',
-        url: routes.resources('presentation')
+        url: routes.resources('presentation'),
+        faIconClass: 'far fa-file-powerpoint'
       },
       {
         type: 'primary',
         text: 'Изображения',
-        url: routes.resources('image')
+        url: routes.resources('image'),
+        faIconClass: 'far fa-file-image'
       }
     ]
   },
   {
+    text: 'Видеотека',
+    url: routes.videoteka,
+    faIconClass: 'fas fa-video'
+  },
+  {
     text: 'Здраве',
     url: routes.health(),
+    faIconClass: 'fas fa-heartbeat',
     subnav: [
       {
         type: 'primary',
@@ -336,6 +384,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
         type: 'primary',
         text: 'Екип',
         url: routes.about('team'),
+        faIconClass: 'fas fa-users',
         isDisabled: true
       },
       {
@@ -346,7 +395,8 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Отзиви',
-        url: routes.about('feedback')
+        url: routes.about('feedback'),
+        faIconClass: 'fas fa-comment-dots'
       }
     ]
   },
@@ -354,10 +404,6 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
     text: 'Детски кът',
     url: routes.kids
   }
-  // {
-  //   text: 'Sign up now',
-  //   link_class: 'is-bold'
-  // }
 ];
 
 type MenuItem = {

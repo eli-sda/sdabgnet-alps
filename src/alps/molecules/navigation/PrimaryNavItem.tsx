@@ -45,8 +45,14 @@ export interface PrimaryNavItemProps {
    * Specify whether the PrimaryNavItem should be a noWrap variant
    */
   noWrap?: boolean;
-  isExternal?: boolean; //Eli added
+
+  //Eli added:
+  isExternal?: boolean;
   useNavLink?: boolean;
+  /**
+   * FontAwesome icon name, for example 'fab fa-facebook-f'
+   */
+  faIconClass?: string;
 }
 
 export const PrimaryNavItem = ({
@@ -59,7 +65,8 @@ export const PrimaryNavItem = ({
   onClick,
   noWrap,
   isExternal = url.indexOf('http') == 0,
-  useNavLink = true
+  useNavLink = true,
+  faIconClass
 }: PrimaryNavItemProps): JSX.Element => {
   const [isOpen, setIsOpen] = useState(statuses.closed);
   const [openSubNav, setOpenSubNav] = useState(null);
@@ -98,10 +105,15 @@ export const PrimaryNavItem = ({
   const linkIcon = isExternal && (
     <i className="fas fa-external-link-alt u-space--quarter--left"></i>
   );
-  const fbLink =
-    isExternal && url?.startsWith('https://www.facebook.com') ? (
-      <i className="fab fa-facebook-f u-space--quarter--right"></i>
-    ) : undefined;
+  const faIcon = faIconClass && (
+    <i className={`${faIconClass} u-space--quarter--right`}></i>
+  );
+  const iconWithText = (
+    <>
+      {faIcon}
+      {text}
+    </>
+  );
 
   return (
     <li
@@ -111,15 +123,14 @@ export const PrimaryNavItem = ({
     >
       {isExternal ? (
         <a {...linkAttr} onClick={onClick}>
-          {fbLink}
-          {text}
+          {iconWithText}
           {linkIcon}
         </a>
       ) : useNavLink ? (
-        <NavLink {...linkAttr}>{text}</NavLink>
+        <NavLink {...linkAttr}>{iconWithText}</NavLink>
       ) : (
         <a {...linkAttr} onClick={onClick}>
-          {text}
+          {iconWithText}
         </a>
       )}
 

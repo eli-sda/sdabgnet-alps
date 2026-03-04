@@ -23,7 +23,7 @@ const team: TeamMember[] = [
     role: 'Ръководител и разработчик на проекта',
     description:
       'Ръководи развитието на платформата и отговаря за нейната техническа реализация и поддръжка.',
-    image: 'https://swiperjs.com/demos/images/nature-1.jpg'
+    image: '/img/team/elena-ivanova.webp'
   },
   {
     id: 2,
@@ -39,7 +39,7 @@ const team: TeamMember[] = [
     role: 'Системен администратор',
     description:
       'Осигурява и поддържа сървъра, на който се съхраняват ресурсите за изтегляне.',
-    image: 'https://swiperjs.com/demos/images/nature-3.jpg'
+    image: '/img/team/admin-icon.svg'
   },
   {
     id: 4,
@@ -67,7 +67,7 @@ const team: TeamMember[] = [
     name: 'Живко Грушев',
     role: 'Религиозни материали',
     description: 'Подготвя и предоставя аудио ресурси и други материали.',
-    image: 'https://swiperjs.com/demos/images/nature-7.jpg'
+    image: '/img/team/jivko-grushev.webp'
   }
 ];
 

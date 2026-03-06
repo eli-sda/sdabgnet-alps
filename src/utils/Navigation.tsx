@@ -388,8 +388,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
         type: 'primary',
         text: 'Екип',
         url: routes.about('team'),
-        faIconClass: 'fas fa-users',
-        isDisabled: true
+        faIconClass: 'fas fa-users'
       },
       {
         type: 'primary',

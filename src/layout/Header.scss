@@ -67,6 +67,8 @@ a.c-secondary-nav__link {
   &.withSvgIcon {
     display: flex;
     align-items: center;
+    justify-content: start;
+    .u-icon--m,
     svg {
       width: 1em;
       height: 1em;

@@ -1,12 +1,15 @@
 import { concat } from 'lodash';
 import { IconType } from 'react-icons/lib';
 import { GiOpenBook } from 'react-icons/gi';
-import { RiBookOpenLine, RiQuestionAnswerFill } from 'react-icons/ri';
+import {
+  RiBookOpenLine,
+  RiQuestionAnswerFill,
+  RiUserVoiceFill
+} from 'react-icons/ri';
 import { TbSunset2Filled as _TbSunset2Filled } from 'react-icons/tb';
 const TbSunset2Filled = _TbSunset2Filled as IconType;
 // import { SiAudiobookshelf } from 'react-icons/si';
 import { LuAudioLines, LuBookAudio } from 'react-icons/lu';
-import { MdRecordVoiceOver } from 'react-icons/md';
 
 import { BreadcrumbItemProps } from 'src/alps/molecules/navigation/Breadcrumbs';
 import { PrimaryNavItemProps } from 'src/alps/molecules/navigation/PrimaryNavItem';
@@ -18,6 +21,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
   {
     text: 'Църковен живот',
     url: routes.churchLife(),
+    icon: 'logo',
     subnav: [
       {
         type: 'primary',
@@ -293,13 +297,13 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
             type: 'primary',
             text: 'Семинари',
             url: routes.resources('audio', 'seminars'),
-            reactIcon: MdRecordVoiceOver
+            reactIcon: RiUserVoiceFill
           },
           {
             type: 'primary',
             text: 'Проповеди',
             url: routes.resources('audio', 'sermons'),
-            reactIcon: MdRecordVoiceOver
+            reactIcon: RiUserVoiceFill
           }
         ]
       },

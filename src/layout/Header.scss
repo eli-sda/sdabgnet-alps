@@ -66,6 +66,7 @@ a.c-secondary-nav__link {
 .c-primary-nav__link {
   &.withSvgIcon {
     display: flex;
+    align-items: center;
     svg {
       width: 1em;
       height: 1em;
@@ -76,7 +77,14 @@ a.c-secondary-nav__link {
   }
 }
 
-.c-drawer .c-drawer__nav-primary svg path {
-  fill: unset;
-  stroke: currentColor !important;
+.c-drawer .c-drawer__nav-primary svg {
+  path,
+  circle,
+  rect,
+  polygon,
+  line,
+  polyline {
+    fill: unset;
+    stroke: currentColor !important;
+  }
 }

@@ -1,6 +1,9 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { SubNavArrow } from 'alps-library/molecules/navigation/primaryNavItem/SubNavArrow';
+import { iconConfig } from 'alps-library/atoms/icons/_config';
+import { IconWrap } from 'alps-library/atoms/icons/IconWrap';
+import useClasses from 'alps-library/helpers/useClasses';
 
 import { SubNavItemProps } from './SubNavItem';
 import { SubNav } from './SubNav';
@@ -53,6 +56,10 @@ export interface PrimaryNavItemProps {
    * FontAwesome icon name, for example 'fab fa-facebook-f'
    */
   faIconClass?: string;
+  /**
+   * SVG icon name from alps icons, for example 'logo'
+   */
+  icon?: keyof typeof iconConfig.iconNamesMap;
 }
 
 export const PrimaryNavItem = ({
@@ -66,7 +73,8 @@ export const PrimaryNavItem = ({
   noWrap,
   isExternal = url.indexOf('http') == 0,
   useNavLink = true,
-  faIconClass
+  faIconClass,
+  icon
 }: PrimaryNavItemProps): JSX.Element => {
   const [isOpen, setIsOpen] = useState(statuses.closed);
   const [openSubNav, setOpenSubNav] = useState(null);
@@ -94,23 +102,34 @@ export const PrimaryNavItem = ({
     target: isExternal ? '_blank' : undefined,
     to: url || '',
     href: url || '',
-    className: `c-primary-nav__link 
-    ${openClass} 
-    ${linkClass} 
-    ${priority ? 'is-priority' : ''}
-    ${noWrap ? 'u-flex--nowrap' : ''} 
-    u-font--primary-nav u-theme--link-hover--base u-theme--border-color--base u-color--gray--dark`
+    className: useClasses(
+      `c-primary-nav__link u-font--primary-nav u-theme--link-hover--base u-theme--border-color--base u-color--gray--dark`,
+      {
+        [openClass]: !!openClass,
+        withSvgIcon: !!icon,
+        [linkClass]: !!linkClass,
+        'is-priority': !!priority,
+        'u-flex--nowrap': !!noWrap
+      }
+    )
   };
 
   const linkIcon = isExternal && (
     <i className="fas fa-external-link-alt u-space--quarter--left"></i>
   );
-  const faIcon = faIconClass && (
+
+  const iconEl = faIconClass ? (
     <i className={`${faIconClass} u-space--quarter--right`}></i>
-  );
+  ) : icon ? (
+    <IconWrap
+      name={icon}
+      size="m"
+      className="c-alps-icon u-space--quarter--right"
+    />
+  ) : null;
   const iconWithText = (
     <>
-      {faIcon}
+      {iconEl}
       {text}
     </>
   );

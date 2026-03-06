@@ -1,6 +1,10 @@
 import React, { useCallback } from 'react';
+import { IconType } from 'react-icons/lib';
+import { iconConfig } from 'alps-library/atoms/icons/_config';
+import { IconWrap } from 'alps-library/atoms/icons/IconWrap';
 import { SubNavArrow } from 'alps-library/molecules/navigation/primaryNavItem/SubNavArrow';
 import useToggle from 'alps-library/helpers/useToggle';
+import useClasses from 'alps-library/helpers/useClasses';
 import { SubNav } from './SubNav';
 import {
   backgroundColorClass,
@@ -17,9 +21,20 @@ export interface SubNavItemProps {
   text: string;
   type: 'primary' | 'secondary';
   url?: string;
-  isExternal?: boolean; //Eli added
+
+  //Eli added:
+  isExternal?: boolean;
   useNavLink?: boolean;
-  isDisabled?: boolean; // Eli added
+  isDisabled?: boolean;
+  /**
+   * FontAwesome icon name, for example 'fab fa-facebook-f'
+   */
+  faIconClass?: string;
+  /**
+   * SVG icon name from alps icons, for example 'logo'
+   */
+  icon?: keyof typeof iconConfig.iconNamesMap;
+  reactIcon?: IconType;
 }
 
 export const SubNavItem = ({
@@ -32,7 +47,10 @@ export const SubNavItem = ({
   onClick,
   isExternal = url?.indexOf('http') == 0,
   useNavLink = true,
-  isDisabled = false
+  isDisabled = false,
+  faIconClass,
+  icon,
+  reactIcon
 }: SubNavItemProps): JSX.Element => {
   const { onToggle, openClass } = useToggle(false);
   const hasSubnav = Array.isArray(subnav) && subnav.length > 0;
@@ -51,46 +69,71 @@ export const SubNavItem = ({
     target: isExternal ? '_blank' : undefined,
     to: url || '',
     href: url || '',
-    className: `c-${type}-nav__${navLevel}__link c-subnav__link 
-    ${active ? ' active' : ''}
-    ${
-      isTertiary
-        ? themeLinkHoverClass + '--lighter'
-        : themeLinkHoverClass + '--base'
-    }`,
-    color: `gray${type === 'primary' ? '--dark' : ''}`
+    className: useClasses(`c-${type}-nav__${navLevel}__link c-subnav__link`, {
+      withSvgIcon: !!icon || !!reactIcon,
+      active: active,
+      [themeLinkHoverClass + '--lighter']: isTertiary,
+      [themeLinkHoverClass + '--base']: !isTertiary,
+      'u-color--gray--darker': type === 'primary'
+    })
   };
 
   const linkIcon = isExternal && (
     <i className="fas fa-external-link-alt u-space--quarter--left"></i>
   );
-  const fbLink =
-    isExternal && url?.startsWith('https://www.facebook.com') ? (
-      <i className="fab fa-facebook-f u-space--quarter--right"></i>
-    ) : undefined;
+  // reactIcon is expected to be an Icon component (IconType)
+  let reactIconEl: React.ReactNode = null;
+  if (reactIcon) {
+    const IconComp = reactIcon;
+    reactIconEl = (
+      <span className="u-icon u-icon--m u-space--quarter--right">
+        <IconComp />
+      </span>
+    );
+  }
+
+  const iconEl = faIconClass ? (
+    <i className={`${faIconClass} u-space--quarter--right`}></i>
+  ) : icon ? (
+    <IconWrap
+      name={icon}
+      size="m"
+      className="c-alps-icon u-space--quarter--right"
+    />
+  ) : (
+    reactIconEl
+  );
+  const iconWithText = (
+    <>
+      {iconEl}
+      {text}
+    </>
+  );
   return (
     <li
-      className={`c-${type}-nav__${navLevel}__list-item c-subnav__list-item 
-                ${hasSubnav ? 'has-subnav' : ''} 
-                ${openClass}
-                ${isTertiary ? null : backgroundColorClass + '--gray--light'}
-                ${isTertiary ? themeBackgroundClass + '--base' : null}
-            `}
+      className={useClasses(
+        `c-${type}-nav__${navLevel}__list-item c-subnav__list-item`,
+        {
+          'has-subnav': hasSubnav,
+          [openClass]: hasSubnav,
+          [themeBackgroundClass + '--base']: isTertiary,
+          [backgroundColorClass + '--gray--light']: !isTertiary
+        }
+      )}
     >
       {isExternal ? (
         <a {...linkAttr} onClick={onClick}>
-          {fbLink}
-          {text}
+          {iconWithText}
           {linkIcon}
         </a>
       ) : useNavLink && !isDisabled ? (
-        <NavLink {...linkAttr}>{text}</NavLink>
+        <NavLink {...linkAttr}>{iconWithText}</NavLink>
       ) : !isDisabled ? (
         <a {...linkAttr} onClick={onClick}>
-          {text}
+          {iconWithText}
         </a>
       ) : (
-        <span className="c-subnav__link disabled">{text}</span>
+        <span className="c-subnav__link disabled">{iconWithText}</span>
       )}
       {hasSubnav && (
         <SubNavArrow

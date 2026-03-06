@@ -70,6 +70,7 @@ export const VideoPlayerDialog = ({
           <AlpsButton
             faIconClass="fas fa-times fa-lg"
             iconPosition="right"
+            title="Затвори"
             simple
             onClick={handleClose}
           />

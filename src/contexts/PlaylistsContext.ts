@@ -2,14 +2,20 @@
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { createContext, useContext } from 'react';
 
+export type TopicType = {
+  _id: string;
+  title: string;
+};
+
 export type LinkType = {
   _id: string;
-  // isResource?: boolean;
+  isResource?: boolean;
   author?: string;
   title: string;
   description?: string | null;
   size?: number;
-  // keyWords?: string[] | null;
+  keyWords?: string[] | null;
+  topics?: TopicType[] | null;
   path: string;
 };
 

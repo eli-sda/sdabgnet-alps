@@ -60,7 +60,7 @@ export interface ButtonProps {
   icon?: keyof typeof iconConfig.iconNamesMap;
   iconSize?: keyof typeof iconConfig.iconSizes.map;
   /**
-   * FontAwesome icon name, for example 'download'
+   * FontAwesome icon name, for example 'fas fa-download fa-lg'
    */
   faIconClass?: string;
   /**
@@ -181,7 +181,7 @@ export const Button = ({
         to: url || '',
         href: url,
         className: `${buttonClass} ${classes}`,
-        download: download ? filename ?? 'download' : undefined
+        download: download ? (filename ?? 'download') : undefined
       };
 
       elementByType =

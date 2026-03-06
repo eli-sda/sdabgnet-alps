@@ -21,7 +21,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
   {
     text: 'Църковен живот',
     url: routes.churchLife(),
-    icon: 'logo',
+    faIconClass: 'fas fa-cross',
     subnav: [
       {
         type: 'primary',

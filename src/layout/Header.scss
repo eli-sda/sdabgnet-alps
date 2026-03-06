@@ -51,9 +51,16 @@ a.c-secondary-nav__link {
   display: flex;
   align-items: baseline;
 }
+
+// not for drawer menu
+.c-header {
+  .c-primary-nav__link,
+  .c-subnav__link {
+    white-space: nowrap !important;
+  }
+}
 .c-primary-nav__link,
 .c-subnav__link {
-  white-space: nowrap !important;
   &.active {
     color: $mingColor !important;
   }
@@ -67,6 +74,8 @@ a.c-secondary-nav__link {
   &.withSvgIcon {
     display: flex;
     align-items: center;
+    justify-content: start;
+    .u-icon--m,
     svg {
       width: 1em;
       height: 1em;
@@ -87,4 +96,8 @@ a.c-secondary-nav__link {
     fill: unset;
     stroke: currentColor !important;
   }
+}
+// fix sub-menu width in the drawer when the text is long
+.c-drawer .c-subnav {
+  min-width: unset;
 }

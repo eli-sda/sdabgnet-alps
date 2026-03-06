@@ -72,6 +72,7 @@ const About = lazy(() => import('./pages/About'));
 const Banner = lazy(() => import('./pages/banner/Banner'));
 const Feedback = lazy(() => import('./pages/feedback/Feedback'));
 const Team = lazy(() => import('./pages/team/Team'));
+const Videoteka = lazy(() => import('./pages/videoteka/Videoteka'));
 
 // const theme = createTheme();
 
@@ -245,6 +246,8 @@ const Router = () => (
             element={<ImageResources />}
           />
           <Route path={routes.resources('music')} element={<Music />} />
+
+          <Route path={routes.videoteka} element={<Videoteka />} />
 
           {/* Здраве */}
           <Route path={routes.health()} element={<Health />} />

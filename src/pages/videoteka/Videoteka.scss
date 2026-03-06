@@ -1,0 +1,28 @@
+.videoteka-search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  @media (max-width: 501px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .MuiAutocomplete-root {
+    flex: 1;
+    .MuiInputLabel-root:not(.MuiInputLabel-shrink) {
+      max-width: calc(100% - 60px);
+    }
+    .MuiInputBase-input {
+      margin-right: 6px;
+    }
+    .MuiAutocomplete-endAdornment {
+      .MuiAutocomplete-clearIndicator {
+        margin-right: 4px !important;
+      }
+    }
+  }
+
+  .o-button {
+    white-space: nowrap;
+    margin: 0;
+  }
+}

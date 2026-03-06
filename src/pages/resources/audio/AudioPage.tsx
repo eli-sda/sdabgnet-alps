@@ -4,6 +4,7 @@ import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { AudioPlaylistList } from 'src/components/media/audio/AudioPlaylistList';
+import { SUBPAGE_KICKER } from './AudioResources';
 import './AudioPage.scss';
 
 type AudioPageProps = {
@@ -25,7 +26,7 @@ const AudioPage = ({ type, aside, relatedPosts }: AudioPageProps) => {
     <>
       <Page
         title={getTitle(routes.resources('audio', type))}
-        kicker={getTitle(routes.resources())}
+        kicker={SUBPAGE_KICKER}
         breadcrumbsUrls={breadcrumbsUrls}
         aside={aside}
         relatedPosts={relatedPosts}

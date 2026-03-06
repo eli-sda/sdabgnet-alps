@@ -84,6 +84,7 @@ const Team = () => {
         grabCursor
         watchSlidesProgress
         navigation
+        loop
         centeredSlides
         slidesPerView={3}
         coverflowEffect={{

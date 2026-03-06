@@ -199,6 +199,7 @@ const PlaylistActionButtons = ({
             className="close-button"
             faIconClass="fas fa-times fa-lg"
             iconPosition="right"
+            title="Затвори"
             onClick={() => {
               setToShow(false);
               setShowCopyLabel(false);

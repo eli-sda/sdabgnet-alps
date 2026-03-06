@@ -13,7 +13,7 @@ const PopupContent = ({
   title,
   buttonLabel,
   buttonLighter,
-  asLink = false, 
+  asLink = false,
   linkTitleClassName,
   maxWidth = 'sm',
   faIconClass,
@@ -81,6 +81,7 @@ const PopupContent = ({
               <AlpsButton
                 faIconClass="fas fa-times fa-lg"
                 iconPosition="right"
+                title="Затвори"
                 simple
                 onClick={handleClose}
               />

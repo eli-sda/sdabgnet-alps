@@ -11,6 +11,7 @@ type TestimonyVideo = {
   id: string;
   title: string;
   videoSrc: string;
+  thumbnail?: string;
 };
 
 const TestimoniesVideos = () => {
@@ -75,13 +76,18 @@ const TestimoniesVideos = () => {
     <section className="testimonies-videos-list">
       <VideoPlaylistList playlists={playlists} />
 
-      {videos.map(({ id, title, videoSrc }) => {
+      {videos.map(({ id, title, videoSrc, thumbnail }) => {
         const isYouTube = videoSrc.includes('youtube.com');
+        const isRumble = videoSrc.includes('rumble.com');
         const isActive = activeVideo === id;
         const videoId = `${videoIdPrefix}${id}`;
 
         return (
-          <div key={videoId} id={videoId} className="testimonies-videos">
+          <div
+            key={videoId}
+            id={videoId}
+            className={`testimonies-videos${isActive ? ' is-active' : ''}`}
+          >
             {isYouTube ? (
               <Figure
                 className="testimonies-videos"
@@ -99,6 +105,16 @@ const TestimoniesVideos = () => {
                   isActive
                     ? `https://www.youtube.com/embed/${id}?autoplay=1`
                     : undefined
+                }
+              />
+            ) : isRumble && thumbnail ? (
+              <Figure
+                className="testimonies-videos"
+                caption={title}
+                size="large"
+                image={getImageTypeByUrl(thumbnail)}
+                onImageClick={() =>
+                  window.open(videoSrc, '_blank', 'noopener,noreferrer')
                 }
               />
             ) : (

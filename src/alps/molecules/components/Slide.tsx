@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Button } from 'src/alps/atoms/Button';
 import { Picture } from 'alps-library/atoms/images/Picture';
 import { ImageType } from 'alps-library/atoms/images/ImageType';
+import { NavLink } from 'react-router-dom';
 
 export interface SlideProps {
   className?: string;
@@ -52,6 +53,7 @@ export const Slide = ({
 }: SlideProps): JSX.Element => {
   const [isVertical, setIsVertical] = useState(false);
   const pictureRef = useRef<HTMLDivElement>(null);
+  const isExternal = url?.startsWith('http');
 
   useEffect(() => {
     const imgElement = pictureRef.current?.querySelector('img');
@@ -71,11 +73,28 @@ export const Slide = ({
     }
   }, [image]);
 
+  const imgEl = (
+    <div ref={pictureRef}>
+      <Picture image={image} lazy={imageIsLazy} />
+    </div>
+  );
+  const imgLink = url ? (
+    isExternal ? (
+      <a href={url} target="_blank" rel="noopener noreferrer">
+        {imgEl}
+      </a>
+    ) : (
+      <NavLink to={url}>{imgEl}</NavLink>
+    )
+  ) : (
+    imgEl
+  );
+
   return (
-    <div className={`c-carousel__item ${isVertical ? 'is-vertical' : ''} ${className}`}>
-      <div ref={pictureRef}>
-        <Picture image={image} lazy={imageIsLazy} />
-      </div>
+    <div
+      className={`c-carousel__item ${isVertical ? 'is-vertical' : ''} ${className}`}
+    >
+      {imgLink}
       {heading && (
         <div className="c-carousel__item-text__wrap  l-grid">
           <div className={'l-grid-item'}>

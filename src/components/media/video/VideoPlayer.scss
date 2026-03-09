@@ -63,6 +63,13 @@
           align-self: center;
         }
 
+        &-link:disabled,
+        &-link:disabled:hover {
+          color: inherit;
+          opacity: 0.5;
+          cursor: default;
+        }
+
         &-text {
           flex: 1 1 auto;
           display: -webkit-box;

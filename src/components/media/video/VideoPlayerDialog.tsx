@@ -1,5 +1,4 @@
 import React, { useMemo, useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { Dialog, DialogTitle, DialogContent, Slide } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 
@@ -15,7 +14,7 @@ type VideoPlayerDialogProps = {
   title?: string;
   isOpen: boolean;
   onClose?: () => void;
-  initialVideoId?: string;
+  playIndex?: number;
 };
 
 const Transition = React.forwardRef(function Transition(
@@ -32,14 +31,11 @@ export const VideoPlayerDialog = ({
   title = '',
   isOpen,
   onClose,
-  initialVideoId: propInitialVideoId
+  playIndex = 0
 }: VideoPlayerDialogProps) => {
-  const [searchParams] = useSearchParams();
   const handleClose = useCallback(() => {
     onClose?.();
   }, [onClose]);
-  // Use prop initialVideoId if provided, otherwise fall back to searchParams
-  const initialVideoId = propInitialVideoId ?? searchParams.get('video') ?? undefined;
   const videoPlaylist = useMemo((): VideoPlaylistType | null => {
     if (!playlist) return null;
     return {
@@ -47,36 +43,15 @@ export const VideoPlayerDialog = ({
       playlistTitle: playlist.title ?? '',
       playlistAuthor: playlist.author,
       videoItems:
-        playlist.items?.map((item) => {
-          let id = extractYouTubeId(item.path) ?? '';
-
-          if (!id && item.path) {
-            // try parsing v param from URL as a fallback
-            try {
-              const u = new URL(item.path);
-              id = u.searchParams.get('v') ?? '';
-            } catch {
-              const m = (item.path || '').match(/[?&]v=([^&]+)/);
-              if (m) id = decodeURIComponent(m[1]);
-            }
-          }
-
-          return {
-            videoId: id ?? '',
-            title: item.title ?? '',
-            description: item.description ?? ''
-          };
-        }) ?? []
+        playlist.items?.map((item) => ({
+          _id: item._id,
+          videoId: extractYouTubeId(item.path) ?? '',
+          title: item.title,
+          description: item.description ?? ''
+        })) ?? []
     };
   }, [playlist]);
-  
-  const initialIndex = useMemo((): number => {
-    if (!videoPlaylist || !initialVideoId) return -1;
-    const index = videoPlaylist.videoItems.findIndex(
-      (v) => v.videoId === initialVideoId
-    );
-    return index;
-  }, [videoPlaylist, initialVideoId]);
+
   return (
     <Dialog
       open={isOpen}
@@ -108,8 +83,7 @@ export const VideoPlayerDialog = ({
           <VideoPlayer
             playlist={videoPlaylist}
             isVisible={isOpen}
-            initialIndex={initialIndex >= 0 ? initialIndex : undefined}
-            initialVideoId={initialVideoId}
+            initialIndex={playIndex}
           />
         )}
       </DialogContent>

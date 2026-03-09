@@ -66,7 +66,8 @@ const MediaPlaylistList = ({
     (playlistArr: PlaylistType[]) => {
       setPlaylists(playlistArr);
       // support playlist selection from either hash (#<id>) or query ?playlistId=<id>
-      const playlistId = playlistIdFromSearch || (hash ? hash.replace('#', '') : null);
+      const playlistId =
+        playlistIdFromSearch || (hash ? hash.replace('#', '') : null);
       if (playlistId) {
         const matchedPlaylist = playlistArr.find((p) => p._id === playlistId);
 
@@ -127,18 +128,6 @@ const MediaPlaylistList = ({
     // setInitialPlaylists - do not include to avoid infinite loop
   ]);
 
-  // Scroll to playlist when URL has playlistId parameter
-  useEffect(() => {
-    if (!playlistIdFromSearch) return;
-    
-    setTimeout(() => {
-      const element = document.getElementById(`playlist-${playlistIdFromSearch}`);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, 500);
-  }, [playlistIdFromSearch]);
-
   const getActionButtons = useCallback(
     (playlist: PlaylistType): JSX.Element => {
       const currentItem =
@@ -150,12 +139,7 @@ const MediaPlaylistList = ({
         <div className="u-space--half--top">
           <PlaylistActionButtons
             shareUrl={`${window.location.origin}${window.location.pathname}#${playlist._id}`}
-            fromPlayId={
-              //TODO: for video player to support start from index
-              mediaType === 'audio' && currentItem?._id
-                ? currentItem._id
-                : undefined
-            }
+            fromPlayId={currentItem?._id}
             fromTitle={currentItem?.title}
             itemUrls={
               showDownloadAll
@@ -170,13 +154,7 @@ const MediaPlaylistList = ({
         </div>
       );
     },
-    [
-      selectedPlaylist?._id,
-      currentPlayIndex,
-      mediaType,
-      showDownloadAll,
-      getCurrentTime
-    ]
+    [selectedPlaylist?._id, currentPlayIndex, showDownloadAll, getCurrentTime]
   );
 
   return (
@@ -184,7 +162,6 @@ const MediaPlaylistList = ({
       <section className={`media-playlist-list ${className}`}>
         {playlists.map((playlist) => (
           <div
-            id={`playlist-${playlist._id}`}
             key={playlist._id}
             className="playlist-item u-padding--sides u-space--double--bottom"
           >

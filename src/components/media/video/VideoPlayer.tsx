@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { Caption } from 'alps-library/atoms/text/Caption';
+import { Button } from 'src/alps/atoms/Button';
 import './VideoPlayer.scss';
 
 export type VideoPlaylistType = {
@@ -10,8 +10,9 @@ export type VideoPlaylistType = {
   playlistTitle: string;
   playlistAuthor?: string;
   videoItems: {
+    _id: string;
     videoId: string;
-    title?: string;
+    title: string;
     description?: string;
   }[];
 };
@@ -20,105 +21,25 @@ interface VideoPlayerProps {
   playlist: VideoPlaylistType;
   isVisible?: boolean;
   initialIndex?: number;
-  initialVideoId?: string;
 }
 
 const VideoPlayer = ({
   playlist,
   isVisible = true,
-  initialIndex,
-  initialVideoId
+  initialIndex = 0
 }: VideoPlayerProps) => {
   const { playlistTitle, playlistAuthor, videoItems } = playlist;
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [copiedId, setCopiedId] = useState<string | null>(null);
-
-  const videoIdFromUrl = searchParams.get('video');
 
   const currentVideo = videoItems[currentIndex];
 
-  /**
-   * When playlist changes:
-   * If initialVideoId provided → find it
-   * Else if initialIndex provided → use it
-   * Else if URL has video param → find it
-   * Otherwise → fallback to first video
-   */
   useEffect(() => {
     if (!videoItems?.length) return;
 
-    // Priority 1: Use initialVideoId if provided
-    if (initialVideoId) {
-      const indexFromVideoId = videoItems.findIndex(
-        (v) => v.videoId === initialVideoId
-      );
-      if (indexFromVideoId !== -1) {
-        setCurrentIndex(indexFromVideoId);
-        return;
-      }
-    }
-
-    // Priority 2: if an initialIndex is provided by the Dialog, use it (deterministic)
-    if (
-      typeof initialIndex === 'number' &&
-      initialIndex >= 0 &&
-      initialIndex < videoItems.length
-    ) {
-      setCurrentIndex(initialIndex);
-      return;
-    }
-
-    // Priority 3: fallback to video id from URL if present
-    if (videoIdFromUrl) {
-      const indexFromUrl = videoItems.findIndex(
-        (v) => v.videoId === videoIdFromUrl
-      );
-
-      if (indexFromUrl !== -1) {
-        setCurrentIndex(indexFromUrl);
-        return;
-      }
-    }
-
-    // fallback
-    setCurrentIndex(0);
-  }, [playlist, initialIndex, initialVideoId, videoIdFromUrl, videoItems]);
-
-  /**
-   * Sync URL when current video changes
-   */
-  useEffect(() => {
-    if (!videoItems?.length) return;
-
-    const existingVideo = searchParams.get('video');
-    const existingPlaylist = searchParams.get('playlistId');
-
-    // If current URL already matches the current video & playlist, do nothing
-    if (
-      currentVideo &&
-      isVisible &&
-      existingVideo === currentVideo.videoId &&
-      existingPlaylist === playlist._id
-    ) {
-      return;
-    }
-
-    const newParams = new URLSearchParams(searchParams);
-
-    if (currentVideo && isVisible) {
-      newParams.set('playlistId', playlist._id);
-      newParams.set('video', currentVideo.videoId);
-    } else {
-      newParams.delete('video');
-      newParams.delete('playlistId');
-    }
-
-    setSearchParams(newParams, { replace: true });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentVideo?.videoId, isVisible, playlist._id]);
+    setCurrentIndex(initialIndex);
+  }, [playlist, initialIndex, videoItems.length]);
 
   const playVideo = (index: number) => {
     if (index < 0) index = videoItems.length - 1;
@@ -135,19 +56,21 @@ const VideoPlayer = ({
     });
   }, [videoItems.length]);
 
-  const handleCopyLink = (videoId: string) => {
-    const baseUrl = window.location.origin + window.location.pathname;
-    const params = new URLSearchParams(window.location.search);
-    const currentTab = params.get('tab');
+  const handleCopyLink = (videoId: string, videoTitle: string) => {
+    const baseUrl = `${window.location.origin}${window.location.pathname}`;
+    const hash = '#' + playlist._id;
 
+    const params = new URLSearchParams();
+    const currentTab = new URLSearchParams(window.location.search).get('tab');
     if (currentTab) {
       params.set('tab', currentTab);
     }
-
     params.set('playlistId', playlist._id);
-    params.set('video', videoId);
+    params.set('playId', videoId);
+    params.set('playlistTitle', playlistTitle);
+    params.set('title', videoTitle);
 
-    const finalUrl = `${baseUrl}?${params.toString()}`;
+    const finalUrl = `${baseUrl}?${params.toString()}${hash}`;
 
     void navigator.clipboard.writeText(finalUrl).then(() => {
       setCopiedId(videoId);
@@ -199,19 +122,22 @@ const VideoPlayer = ({
                 <img src={thumb} />
                 <h4 className="videoItem-text hyphens-auto">{video.title}</h4>
 
-                <div
+                <Button
                   className="videoItem-link"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleCopyLink(video.videoId);
+                    (e.currentTarget as HTMLElement).blur();
+                    handleCopyLink(video._id, video.title);
                   }}
-                >
-                  {copiedId === video.videoId ? (
-                    <i className="fas fa-check"></i>
-                  ) : (
-                    <i className="far fa-copy"></i>
-                  )}
-                </div>
+                  simple
+                  faIconClass={`fas fa-${copiedId === video._id ? 'check' : 'share-alt'} fa-lg`}
+                  title={
+                    copiedId === video._id
+                      ? 'Линкът е копиран'
+                      : 'Вземи линк'
+                  }
+                  disabled={copiedId === video._id}
+                />
               </div>
             );
           })}

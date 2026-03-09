@@ -11,6 +11,7 @@ import { getTitle } from 'src/utils/Navigation';
 import DownloadList from 'src/components/downloadList/DownloadList';
 import { AudioPlaylistList } from 'src/components/media/audio/AudioPlaylistList';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
+import { SUBPAGE_KICKER } from '../Resources';
 import songbookLink from './songbook-link.json';
 import '../audio/AudioPage.scss';
 
@@ -28,6 +29,10 @@ const musicLinks = {
     {
       title: 'Песни от Дима Босева',
       url: 'https://www.youtube.com/@dimaboseva/videos'
+    },
+    {
+      title: 'Хваление Благодат',
+      url: 'https://www.youtube.com/playlist?list=PLIt3SrgpCVT_AWIvDTNbXmvAJiqLRIWsF'
     },
     {
       title: 'Християнски песни',
@@ -79,7 +84,7 @@ const MusicPage = () => {
     <>
       <Page
         title={getTitle(routes.resources('music'))}
-        kicker={getTitle(routes.resources())}
+        kicker={SUBPAGE_KICKER}
         breadcrumbsUrls={breadcrumbsUrls}
         relatedPosts={musicLinks}
         aside={<RelatedPosts {...songbookLink} />}

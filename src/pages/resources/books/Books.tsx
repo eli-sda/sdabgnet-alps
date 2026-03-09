@@ -5,6 +5,7 @@ import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import { getTitle } from 'src/utils/Navigation';
+import { SUBPAGE_KICKER } from '../Resources';
 import BooksList from './BooksList';
 import rawBooks from './books.json';
 
@@ -45,7 +46,7 @@ const Books = () => {
   return (
     <Page
       title={getTitle(routes.resources('books'))}
-      kicker="Ресурси за изтегляне"
+      kicker={SUBPAGE_KICKER}
       breadcrumbsUrls={breadcrumbsUrls}
       aside={asideBookVideo}
       relatedPosts={relatedBooks}

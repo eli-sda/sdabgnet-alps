@@ -37,6 +37,7 @@ const MediaPlaylistList = ({
   const { hash, search } = useLocation();
   const searchParams = new URLSearchParams(search);
   const playId = searchParams.get('playId');
+  const playlistIdFromSearch = searchParams.get('playlistId');
   // Supports only time as seconds (integer)
   const timeParam = searchParams.get('time');
 
@@ -64,8 +65,10 @@ const MediaPlaylistList = ({
   const setInitialPlaylists = useCallback(
     (playlistArr: PlaylistType[]) => {
       setPlaylists(playlistArr);
-      if (hash) {
-        const playlistId = hash.replace('#', '');
+      // support playlist selection from either hash (#<id>) or query ?playlistId=<id>
+      const playlistId =
+        playlistIdFromSearch || (hash ? hash.replace('#', '') : null);
+      if (playlistId) {
         const matchedPlaylist = playlistArr.find((p) => p._id === playlistId);
 
         if (
@@ -94,7 +97,7 @@ const MediaPlaylistList = ({
         if (matchedPlaylist) onPlaylistSelect?.(matchedPlaylist);
       }
     },
-    [hash, onPlaylistSelect, playId, timeParam]
+    [hash, onPlaylistSelect, playId, playlistIdFromSearch, timeParam]
   );
 
   useEffect(() => {
@@ -136,12 +139,7 @@ const MediaPlaylistList = ({
         <div className="u-space--half--top">
           <PlaylistActionButtons
             shareUrl={`${window.location.origin}${window.location.pathname}#${playlist._id}`}
-            fromPlayId={
-              //TODO: for video player to support start from index
-              mediaType === 'audio' && currentItem?._id
-                ? currentItem._id
-                : undefined
-            }
+            fromPlayId={currentItem?._id}
             fromTitle={currentItem?.title}
             itemUrls={
               showDownloadAll
@@ -156,13 +154,7 @@ const MediaPlaylistList = ({
         </div>
       );
     },
-    [
-      selectedPlaylist?._id,
-      currentPlayIndex,
-      mediaType,
-      showDownloadAll,
-      getCurrentTime
-    ]
+    [selectedPlaylist?._id, currentPlayIndex, showDownloadAll, getCurrentTime]
   );
 
   return (

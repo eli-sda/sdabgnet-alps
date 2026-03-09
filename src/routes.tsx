@@ -47,6 +47,7 @@ const routes = {
     }
     return `/resources${item ? `/${item}` : ''}`;
   },
+  videoteka: '/videoteka',
   health: (
     item?:
       | 'new-start'

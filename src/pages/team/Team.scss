@@ -1,0 +1,43 @@
+@use '/src/styles/colors.scss' as *;
+
+.team-swiper {
+  .swiper {
+    width: 100%;
+  }
+
+  .swiper-slide {
+    @media (max-width: 550px) {
+      width: 100%;
+    }
+
+    .team-card {
+      img {
+        display: block;
+        object-fit: cover;
+        aspect-ratio: 4 / 6;
+        margin: 0 auto;
+      }
+    }
+  }
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: white;
+  background-color: $mingDarkestColor;
+  border-radius: 50%;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  svg,
+  &:hover {
+    transform: scale(1.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+}

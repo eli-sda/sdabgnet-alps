@@ -19,12 +19,15 @@ const VideoPlaylistList = ({
       sanityType={sanityType}
       mediaPlaylists={playlists}
       mediaType="video"
-      onPlaylistSelect={() => setDialogOpen(true)}
-      renderPlayer={(selectedPlaylist, _setPlayIndex, _playIndex) => (
+      onPlaylistSelect={() => {
+        setDialogOpen(true);
+      }}
+      renderPlayer={(selectedPlaylist, _setPlayIndex, playIndex) => (
         <VideoPlayerDialog
           isOpen={dialogOpen}
           playlist={selectedPlaylist}
           onClose={() => setDialogOpen(false)}
+          playIndex={playIndex}
         />
       )}
     />

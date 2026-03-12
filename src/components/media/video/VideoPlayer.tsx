@@ -3,6 +3,7 @@ import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/Heading
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import { Button } from 'src/alps/atoms/Button';
+import ShareVideoButton from 'src/components/ShareVideoButton';
 import './VideoPlayer.scss';
 
 export type VideoPlaylistType = {
@@ -57,6 +58,17 @@ const VideoPlayer = ({
   }, [videoItems.length]);
 
   const handleCopyLink = (videoId: string, videoTitle: string) => {
+    const finalUrl = computeFinalUrl(videoId, videoTitle);
+
+    if (!finalUrl) return;
+
+    void navigator.clipboard.writeText(finalUrl).then(() => {
+      setCopiedId(videoId);
+      setTimeout(() => setCopiedId(null), 3000);
+    });
+  };
+
+  const computeFinalUrl = (videoId: string, videoTitle: string) => {
     const baseUrl = `${window.location.origin}${window.location.pathname}`;
     const hash = '#' + playlist._id;
 
@@ -70,12 +82,7 @@ const VideoPlayer = ({
     params.set('playlistTitle', playlistTitle);
     params.set('title', videoTitle);
 
-    const finalUrl = `${baseUrl}?${params.toString()}${hash}`;
-
-    void navigator.clipboard.writeText(finalUrl).then(() => {
-      setCopiedId(videoId);
-      setTimeout(() => setCopiedId(null), 3000);
-    });
+    return `${baseUrl}?${params.toString()}${hash}`;
   };
 
   return (
@@ -90,15 +97,21 @@ const VideoPlayer = ({
       <div className="videoPlayer-layout">
         <div className="videoPlayer-layout-player">
           {currentVideo ? (
-            <Figure
-              caption={`${currentVideo.title}\n\n${
-                currentVideo.description || ''
-              }`}
-              size="large"
-              videoSrc={`https://www.youtube.com/embed/${currentVideo.videoId}?autoplay=1`}
-              onVideoEnded={handleVideoEnded}
-              isVisible={isVisible}
-            />
+            <>
+              <Figure
+                caption={`${currentVideo.title}\n\n${
+                  currentVideo.description || ''
+                }`}
+                size="large"
+                videoSrc={`https://www.youtube.com/embed/${currentVideo.videoId}?autoplay=1`}
+                onVideoEnded={handleVideoEnded}
+                isVisible={isVisible}
+              />
+              <ShareVideoButton
+                url={computeFinalUrl(currentVideo._id, currentVideo.title)}
+                btnClassName="share-video-button"
+              />
+            </>
           ) : (
             <Caption>Няма налично видео</Caption>
           )}
@@ -114,12 +127,14 @@ const VideoPlayer = ({
                 className={`videoItem ${isActive ? 'active' : ''}`}
                 onClick={() => playVideo(i)}
               >
-                <div className="video-index-container">
-                  <span className="u-font--secondary--xs">
-                    {isActive ? <i className="fas fa-play"></i> : i + 1}
-                  </span>
+                <div className="videoItem-thumb">
+                  <div className="video-index-container">
+                    <span className="u-font--secondary--xs u-space--half--right">
+                      {isActive ? <i className="fas fa-play"></i> : i + 1}
+                    </span>
+                  </div>
+                  <img src={thumb} />
                 </div>
-                <img src={thumb} />
                 <h4 className="videoItem-text hyphens-auto">{video.title}</h4>
 
                 <Button
@@ -132,9 +147,7 @@ const VideoPlayer = ({
                   simple
                   faIconClass={`fas fa-${copiedId === video._id ? 'check' : 'share-alt'} fa-lg`}
                   title={
-                    copiedId === video._id
-                      ? 'Линкът е копиран'
-                      : 'Вземи линк'
+                    copiedId === video._id ? 'Линкът е копиран' : 'Вземи линк'
                   }
                   disabled={copiedId === video._id}
                 />

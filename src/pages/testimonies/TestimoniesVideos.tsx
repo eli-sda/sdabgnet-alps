@@ -1,18 +1,27 @@
 import { useEffect, useState } from 'react';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
+import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { getImageTypeByUrl } from 'src/utils/ImageHelper';
+import ShareVideoButton from 'src/components/ShareVideoButton';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
 import './TestimoniesVideos.scss';
 
 type TestimonyVideo = {
+  id: string;
   title: string;
   videoSrc: string;
+  thumbnail?: string;
 };
 
 const TestimoniesVideos = () => {
+  useScrollToHash();
+
   const [videos, setVideos] = useState<TestimonyVideo[]>([]);
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
+  const [activeVideo, setActiveVideo] = useState<string | null>(null);
+
+  const videoIdPrefix = 'video-';
 
   useEffect(() => {
     fetch('/json/testimonies-videos.json')
@@ -36,60 +45,91 @@ const TestimoniesVideos = () => {
       });
   }, []);
 
-  // Helper to extract YouTube video ID from URL
-  function getYouTubeId(url: string): string | null {
-    // Handles youtube.com/watch?v=, youtu.be/, and youtube.com/embed/
-    const match = url.match(
-      /(?:youtube\.com\/(?:.*[?&]v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
-    );
-    return match ? match[1] : null;
-  }
+  const handleHashChange = () => {
+    const hash = window.location.hash.slice(1);
 
-  const [activeVideo, setActiveVideo] = useState<string | null>(null);
+    if (hash.startsWith(videoIdPrefix)) {
+      const videoId = hash.substring(videoIdPrefix.length);
+
+      // force refresh even if same id
+      setActiveVideo(null);
+
+      setTimeout(() => {
+        setActiveVideo(videoId);
+      }, 0);
+    }
+  };
+
+  useEffect(() => {
+    // run on mount
+    handleHashChange();
+
+    // listen for future changes
+    window.addEventListener('hashchange', handleHashChange);
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, []);
 
   return (
     <section className="testimonies-videos-list">
       <VideoPlaylistList playlists={playlists} />
 
-      {videos.map(({ title, videoSrc }, index) => {
-        const ytId = getYouTubeId(videoSrc);
-        if (ytId) {
-          const isActive = activeVideo === ytId;
-          return (
-            <div key={`${ytId}-${index}`} className="testimonies-videos">
-              {!isActive && (
-                <Figure
-                  className="testimonies-videos"
-                  caption={title}
-                  size="large"
-                  image={getImageTypeByUrl(
-                    `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`
-                  )}
-                  onImageClick={() => setActiveVideo(ytId)}
-                />
-              )}
-              {isActive && (
-                <Figure
-                  className="testimonies-videos"
-                  caption={title}
-                  size="large"
-                  videoSrc={`https://www.youtube.com/embed/${ytId}?autoplay=1`}
-                />
-              )}
-            </div>
-          );
-        } else {
-          // Not YouTube: show Figure directly
-          return (
-            <Figure
-              key={`${title}-${index}`}
-              className="testimonies-videos"
-              caption={title}
-              size="large"
-              videoSrc={videoSrc}
+      {videos.map(({ id, title, videoSrc, thumbnail }) => {
+        const isYouTube = videoSrc.includes('youtube.com');
+        const isRumble = videoSrc.includes('rumble.com');
+        const isActive = activeVideo === id;
+        const videoId = `${videoIdPrefix}${id}`;
+
+        return (
+          <div
+            key={videoId}
+            id={videoId}
+            className={`testimonies-videos${isActive ? ' is-active' : ''}`}
+          >
+            {isYouTube ? (
+              <Figure
+                className="testimonies-videos"
+                caption={title}
+                size="large"
+                image={
+                  !isActive
+                    ? getImageTypeByUrl(
+                        `https://img.youtube.com/vi/${id}/hqdefault.jpg`
+                      )
+                    : undefined
+                }
+                onImageClick={!isActive ? () => setActiveVideo(id) : undefined}
+                videoSrc={
+                  isActive
+                    ? `https://www.youtube.com/embed/${id}?autoplay=1`
+                    : undefined
+                }
+              />
+            ) : isRumble && thumbnail ? (
+              <Figure
+                className="testimonies-videos"
+                caption={title}
+                size="large"
+                image={getImageTypeByUrl(thumbnail)}
+                onImageClick={() =>
+                  window.open(videoSrc, '_blank', 'noopener,noreferrer')
+                }
+              />
+            ) : (
+              <Figure
+                className="testimonies-videos"
+                caption={title}
+                size="large"
+                videoSrc={videoSrc}
+              />
+            )}
+            <ShareVideoButton
+              url={`${window.location.origin}${window.location.pathname}?tab=videos#${videoId}`}
             />
-          );
-        }
+          </div>
+        );
       })}
     </section>
   );

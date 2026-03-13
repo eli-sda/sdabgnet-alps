@@ -15,6 +15,18 @@
     margin-right: auto;
   }
 
+  @keyframes pulse-play {
+    0%,
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+      background: rgba(0, 0, 0, 0.3);
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.2);
+      background: rgba(0, 0, 0, 0.6);
+    }
+  }
+
   .testimonies-videos {
     float: none;
     width: 100%;
@@ -23,6 +35,13 @@
     flex-direction: column;
     justify-content: flex-start;
 
+    &.is-active .o-figure__image::before {
+      animation: pulse-play 1s ease-in-out infinite;
+    }
+
+    .u-image--wrap {
+      margin: 0;
+    }
     .o-figure__image {
       @include play-button-overlay;
       cursor: pointer;
@@ -46,13 +65,27 @@
     margin-top: 0;
 
     .playlist-item {
+      width: 100%;
+      padding-left: 0;
+      padding-right: 0;
       .share-button {
         display: none;
       }
 
-      .playlist-card.is-current {
-        .c-block__image {
-          outline: none;
+      .playlist-card {
+        picture {
+          aspect-ratio: 16 / 9;
+          img {
+            width: 100%;
+          }
+        }
+        &.is-current {
+          .c-block__image {
+            outline: none;
+            .c-block__image-wrap {
+              padding: 0;
+            }
+          }
         }
       }
     }

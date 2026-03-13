@@ -10,7 +10,7 @@ $itemW: 274px;
 }
 
 // On very small screens make playlist items fluid (shrink with page)
-@media (max-width: 325px) {
+@media (max-width: 380px) {
   .media-playlist-list {
     display: block;
     .playlist-item {

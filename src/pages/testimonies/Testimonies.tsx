@@ -71,16 +71,16 @@ const Testimonies = () => {
             {TAB_ITEMS}
           </TabList>
 
-          <TabPanel value="stories" className="full-page">
+          <TabPanel value="stories" className="full-page u-space--double--top">
             <TestimoniesStories />
           </TabPanel>
-          <TabPanel value="videos" className="full-page">
+          <TabPanel value="videos" className="full-page u-space--double--top">
             <TestimoniesVideos />
           </TabPanel>
-          <TabPanel value="videoPlaylists" className="full-page">
+          <TabPanel value="videoPlaylists" className="full-page u-space--double--top">
             <TestimoniesVideoPlaylists />
           </TabPanel>
-          <TabPanel value="audiobooks">
+          <TabPanel value="audiobooks" className="u-space--double--top">
             <TestimoniesAudiobooks />
           </TabPanel>
         </TabContext>

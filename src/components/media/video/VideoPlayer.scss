@@ -11,9 +11,11 @@
 
     @container (max-width: 670px) {
       flex-direction: column;
+
       &-player {
         width: 100% !important;
       }
+
       &-sidebar {
         max-height: none;
         overflow-y: visible;
@@ -25,6 +27,14 @@
       width: 400px;
       max-width: 100%;
       white-space: pre-line;
+
+      .share-video-button {
+        display: none;
+
+        @media (max-width: 380px) {
+          display: block;
+        }
+      }
     }
 
     &-sidebar {
@@ -43,16 +53,9 @@
         &.active {
           background-color: rgba($mingColor, 0.2);
         }
+
         &:hover:not(.active) {
           background-color: $lightGrayColor;
-        }
-
-        .video-index-container {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          text-align: center;
         }
 
         img {
@@ -63,11 +66,8 @@
           align-self: center;
         }
 
-        &-link:disabled,
-        &-link:disabled:hover {
-          color: inherit;
-          opacity: 0.5;
-          cursor: default;
+        &-thumb {
+          display: flex;
         }
 
         &-text {
@@ -78,6 +78,53 @@
           -webkit-box-orient: vertical;
           overflow: hidden;
           text-overflow: ellipsis;
+        }
+
+        &-link {
+          padding: 0;
+
+          @media (max-width: 380px) {
+            display: none;
+          }
+
+          &:disabled,
+          &:disabled:hover {
+            color: inherit;
+            opacity: 0.5;
+            cursor: default;
+          }
+        }
+
+        @media (max-width: 350px) {
+          display: grid;
+          grid-template-columns: auto 100px;
+          grid-template-rows: auto auto auto;
+          gap: 8px;
+          align-items: center;
+
+          .video-index-container {
+            grid-column: 1;
+            grid-row: 1;
+            align-self: center;
+          }
+
+          img {
+            grid-column: 2;
+            grid-row: 1;
+            margin-right: 0;
+          }
+
+          .videoItem-text {
+            grid-column: 1 / -1;
+            grid-row: 2;
+            margin-top: 0.5rem;
+          }
+
+          &-link {
+            grid-column: 2;
+            grid-row: 3;
+            justify-self: end;
+          }
         }
       }
     }

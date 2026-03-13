@@ -346,10 +346,17 @@ button:focus::before {
 }
 
 $leftRightPaddingFullPage: 10%;
+$leftRightPaddingFullPageSmall: 5%;
 .full-page {
   margin-left: $leftRightPaddingFullPage;
   margin-right: $leftRightPaddingFullPage;
   $allColsWidth: calc(100% - 2 * #{$leftRightPaddingFullPage});
+
+  @media (max-width: 500px) {
+    margin-left: $leftRightPaddingFullPageSmall;
+    margin-right: $leftRightPaddingFullPageSmall;
+  }
+
   &.l-grid-wrap--6-of-7 {
     width: $allColsWidth;
   }

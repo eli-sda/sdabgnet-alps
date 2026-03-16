@@ -1,6 +1,8 @@
 @use '/src/styles/colors.scss' as *;
 @use '/src/styles/const.scss' as *;
 
+$shareBtnSwitch: 380px;
+
 .videoPlayer {
   width: 100%;
   container-type: inline-size;
@@ -32,7 +34,7 @@
       .share-video-button {
         display: none;
 
-        @media (max-width: 380px) {
+        @media (max-width: $shareBtnSwitch) {
           display: block;
         }
       }
@@ -92,7 +94,7 @@
         &-link {
           padding: 0;
 
-          @media (max-width: 380px) {
+          @media (max-width: $shareBtnSwitch) {
             display: none;
           }
 

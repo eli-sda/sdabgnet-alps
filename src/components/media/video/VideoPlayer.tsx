@@ -116,7 +116,7 @@ const VideoPlayer = ({
             <Caption>Няма налично видео</Caption>
           )}
         </div>
-        <div className="videoPlayer-layout-sidebar u-border--left u-theme--border-color--darker">
+        <div className="videoPlayer-layout-sidebar u-spacing--half u-theme--border-color--darker">
           {videoItems.map((video, i) => {
             const thumb = `https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`;
             const isActive = currentIndex === i;
@@ -124,7 +124,7 @@ const VideoPlayer = ({
             return (
               <div
                 key={i}
-                className={`videoItem ${isActive ? 'active' : ''}`}
+                className={`videoItem u-border--left ${isActive ? 'active' : ''}`}
                 onClick={() => playVideo(i)}
               >
                 <div className="videoItem-thumb">

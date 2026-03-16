@@ -393,7 +393,7 @@ $leftRightPaddingFullPageSmall: 5%;
   }
 }
 //Dialog
-@media (max-width: $XSmall) {
+@media (max-width: $SmallScreen) {
   .MuiDialog-root .MuiDialog-paper {
     margin-left: 0 !important;
     margin-right: 0 !important;

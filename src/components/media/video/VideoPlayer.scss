@@ -106,7 +106,7 @@ $shareBtnSwitch: 380px;
           }
         }
 
-        @media (max-width:  $XSmall) {
+        @media (max-width: $XSmallScreen) {
           display: grid;
           grid-template-columns: auto 100px;
           grid-template-rows: auto auto auto;

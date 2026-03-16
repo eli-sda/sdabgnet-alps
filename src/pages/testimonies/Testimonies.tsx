@@ -56,13 +56,14 @@ const Testimonies = () => {
       <Page
         title={getTitle(routes.churchLife('testimonies'))}
         breadcrumbsUrls={breadcrumbsUrls}
-      ></Page>
-      <section>
+        blockType="wrap6"
+        pageClassName="testimonies-page"
+      >
         <TabContext value={value}>
           <TabList
             onChange={handleChange}
             aria-label="testimonies tabs"
-            className="testimonies-tabs u-theme--background-color--darker u-padding u-space--top"
+            className="testimonies-tabs u-theme--background-color--darker u-padding"
             slotProps={{ indicator: { sx: { display: 'none' } } }}
             variant="scrollable"
             scrollButtons="auto"
@@ -71,20 +72,20 @@ const Testimonies = () => {
             {TAB_ITEMS}
           </TabList>
 
-          <TabPanel value="stories" className="full-page u-space--double--top">
+          <TabPanel value="stories" className="full-page">
             <TestimoniesStories />
           </TabPanel>
-          <TabPanel value="videos" className="full-page u-space--double--top">
+          <TabPanel value="videos" className="full-page">
             <TestimoniesVideos />
           </TabPanel>
-          <TabPanel value="videoPlaylists" className="full-page u-space--double--top">
+          <TabPanel value="videoPlaylists" className="full-page">
             <TestimoniesVideoPlaylists />
           </TabPanel>
-          <TabPanel value="audiobooks" className="u-space--double--top">
+          <TabPanel value="audiobooks">
             <TestimoniesAudiobooks />
           </TabPanel>
         </TabContext>
-      </section>
+      </Page>
     </>
   );
 };

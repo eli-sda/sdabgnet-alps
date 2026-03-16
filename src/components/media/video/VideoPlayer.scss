@@ -1,4 +1,7 @@
 @use '/src/styles/colors.scss' as *;
+@use '/src/styles/const.scss' as *;
+
+$shareBtnSwitch: 380px;
 
 .videoPlayer {
   width: 100%;
@@ -31,7 +34,7 @@
       .share-video-button {
         display: none;
 
-        @media (max-width: 380px) {
+        @media (max-width: $shareBtnSwitch) {
           display: block;
         }
       }
@@ -56,6 +59,14 @@
 
         &:hover:not(.active) {
           background-color: $lightGrayColor;
+        }
+
+        .video-index-container {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
         }
 
         img {
@@ -83,7 +94,7 @@
         &-link {
           padding: 0;
 
-          @media (max-width: 380px) {
+          @media (max-width: $shareBtnSwitch) {
             display: none;
           }
 
@@ -95,11 +106,12 @@
           }
         }
 
-        @media (max-width: 350px) {
+        @media (max-width: $XSmallScreen) {
           display: grid;
           grid-template-columns: auto 100px;
           grid-template-rows: auto auto auto;
-          gap: 8px;
+          column-gap: 8px;
+          row-gap: 0;
           align-items: center;
 
           .video-index-container {

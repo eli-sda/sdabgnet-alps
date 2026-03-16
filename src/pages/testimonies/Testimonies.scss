@@ -1,47 +1,51 @@
 @use '/src/styles/colors.scss' as *;
 
 $btnBorderRadius: 3.125rem;
+.testimonies-page {
+  .MuiTabs-root.testimonies-tabs {
+    color: $lighterMingColor;
+    width: 100%;
 
-.testimonies-tabs {
-  color: $lighterMingColor;
-
-  .MuiTabs-list {
-    &.MuiTabs-flexContainer {
-      @media (min-width: 665px) {
-        justify-content: center;
+    .MuiTabs-list {
+      &.MuiTabs-flexContainer {
+        @media (min-width: 665px) {
+          justify-content: center;
+        }
       }
-    }
 
-    button {
-      border-radius: 0;
-
-      &.MuiTab-root {
-        line-height: 1;
-        font-family: inherit;
-        font-weight: bold;
+      button {
         border-radius: 0;
-        border-width: 1px;
-        border-style: solid;
 
-        &:first-child {
-          border-top-left-radius: $btnBorderRadius;
-          border-bottom-left-radius: $btnBorderRadius;
-        }
+        &.MuiTab-root {
+          line-height: 1;
+          font-family: inherit;
+          font-weight: bold;
+          border-radius: 0;
+          border-width: 1px;
+          border-style: solid;
 
-        &:last-child {
-          border-top-right-radius: $btnBorderRadius;
-          border-bottom-right-radius: $btnBorderRadius;
-        }
+          &:first-child {
+            border-top-left-radius: $btnBorderRadius;
+            border-bottom-left-radius: $btnBorderRadius;
+          }
 
-        &.Mui-selected {
-          background-color: $lighterMingColor;
-          color: $mingDarkestColor !important;
+          &:last-child {
+            border-top-right-radius: $btnBorderRadius;
+            border-bottom-right-radius: $btnBorderRadius;
+          }
+
+          &.Mui-selected {
+            background-color: $lighterMingColor;
+            color: $mingDarkestColor !important;
+          }
         }
       }
     }
   }
-}
-
-.MuiTabPanel-root.css-13xfq8m-MuiTabPanel-root {
-  padding: 0;
+  .MuiTabPanel-root {
+    width: 100%;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-bottom: 0 !important;
+  }
 }

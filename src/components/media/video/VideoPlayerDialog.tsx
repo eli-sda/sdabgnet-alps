@@ -69,7 +69,7 @@ export const VideoPlayerDialog = ({
     >
       <DialogTitle className="videoPlayerDialog-title">
         {title}
-        <div className="videoPlayerDialog-title-close-wrapper">
+        <div className="close-wrapper">
           <AlpsButton
             faIconClass="fas fa-times fa-lg"
             iconPosition="right"

@@ -200,7 +200,7 @@ const Biblical = () => {
       </Page>
 
       <section className="biblical full-section u-space--top">
-        <section>
+        <section className='u-spacing--double'>
           <PageHeaderFeature2
             blockType="quarterSS"
             blocks={[

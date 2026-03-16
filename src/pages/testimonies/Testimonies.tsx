@@ -56,13 +56,14 @@ const Testimonies = () => {
       <Page
         title={getTitle(routes.churchLife('testimonies'))}
         breadcrumbsUrls={breadcrumbsUrls}
-      ></Page>
-      <section>
+        blockType="wrap6"
+        pageClassName="testimonies-page"
+      >
         <TabContext value={value}>
           <TabList
             onChange={handleChange}
             aria-label="testimonies tabs"
-            className="testimonies-tabs u-theme--background-color--darker u-padding u-space--top"
+            className="testimonies-tabs u-theme--background-color--darker u-padding"
             slotProps={{ indicator: { sx: { display: 'none' } } }}
             variant="scrollable"
             scrollButtons="auto"
@@ -84,7 +85,7 @@ const Testimonies = () => {
             <TestimoniesAudiobooks />
           </TabPanel>
         </TabContext>
-      </section>
+      </Page>
     </>
   );
 };

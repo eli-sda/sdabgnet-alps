@@ -40,7 +40,7 @@ export const VerseLink = ({
       <a href="#" className="verse" onClick={handleOpen}>
         {label}
       </a>
-      <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
+      <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
         <DialogTitle>Библейски текст</DialogTitle>
         <DialogContent>
           <OptionGroup

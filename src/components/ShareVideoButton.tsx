@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import { Button } from 'src/alps/atoms/Button';
 
-const ShareVideoButton = ({ url }: { url: string }) => {
+const ShareVideoButton = ({
+  url,
+  btnClassName
+}: {
+  url: string;
+  btnClassName?: string;
+}) => {
   const [showCopyLabel, setShowCopyLabel] = useState(false);
 
   const handleCopy = () => {
@@ -15,6 +21,7 @@ const ShareVideoButton = ({ url }: { url: string }) => {
   return (
     <Button
       onClick={handleCopy}
+      className={btnClassName}
       disabled={showCopyLabel}
       small
       icon="share"

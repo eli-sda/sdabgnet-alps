@@ -5,6 +5,10 @@ $btnBorderRadius: 3.125rem;
 .testimonies-tabs {
   color: $lighterMingColor;
 
+  .MuiTabPanel-root {
+    padding: 0 !important;
+  }
+
   .MuiTabs-list {
     &.MuiTabs-flexContainer {
       @media (min-width: 665px) {
@@ -40,8 +44,4 @@ $btnBorderRadius: 3.125rem;
       }
     }
   }
-}
-
-.MuiTabPanel-root {
-  padding: 0 !important;
 }

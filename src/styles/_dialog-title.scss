@@ -1,0 +1,24 @@
+@use '/src/styles/colors.scss' as *;
+
+@mixin dialog-title {
+  position: relative;
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: $grayDarkerColor;
+  border-bottom: 1px solid $grayDarkerColor;
+  padding-right: 40px; // Space for close button
+
+  .close-wrapper {
+    position: absolute;
+    right: 10px;
+    top: 16px;
+
+    button {
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: rotate(90deg);
+      }
+    }
+  }
+}

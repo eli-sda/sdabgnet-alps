@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import { Button } from 'src/alps/atoms/Button';
@@ -87,7 +86,6 @@ const VideoPlayer = ({
 
   return (
     <div className="videoPlayer u-spacing">
-      <HeadingBlock title={playlistTitle} />
       {playlistAuthor && (
         <h3 className="u-font--secondary--m u-theme--color--darker u-space--half--top">
           {playlistAuthor}

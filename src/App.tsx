@@ -11,6 +11,7 @@ import SunsetProvider from './providers/SunsetProvider';
 import { CalendarEventsProvider } from './providers/CalendarEventsProvider';
 import { CarouselAdsProvider } from './providers/CarouselAdsProvider';
 import { RssFeedProvider } from './providers/RssFeedProvider';
+import { PoetryProvider } from './providers/PoetryProvider';
 
 import './App.scss';
 
@@ -39,19 +40,21 @@ const App = () => {
         <CurrentLessonProvider>
           <AdvertisementsProvider>
             <QuestionsProvider>
-              <SunsetProvider>
-                <PlaylistsProvider>
-                  <CalendarEventsProvider>
-                    <RssFeedProvider>
-                      <CarouselAdsProvider>
-                        <DailyVerseProvider>
-                          <Router />
-                        </DailyVerseProvider>
-                      </CarouselAdsProvider>
-                    </RssFeedProvider>
-                  </CalendarEventsProvider>
-                </PlaylistsProvider>
-              </SunsetProvider>
+              <PoetryProvider>
+                <SunsetProvider>
+                  <PlaylistsProvider>
+                    <CalendarEventsProvider>
+                      <RssFeedProvider>
+                        <CarouselAdsProvider>
+                          <DailyVerseProvider>
+                            <Router />
+                          </DailyVerseProvider>
+                        </CarouselAdsProvider>
+                      </RssFeedProvider>
+                    </CalendarEventsProvider>
+                  </PlaylistsProvider>
+                </SunsetProvider>
+              </PoetryProvider>
             </QuestionsProvider>
           </AdvertisementsProvider>
         </CurrentLessonProvider>

@@ -9,6 +9,7 @@ import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import { getTitle } from 'src/utils/Navigation';
 import DownloadList from 'src/components/downloadList/DownloadList';
+import { SUBPAGE_KICKER } from './Resources';
 
 const VideoResources = () => {
   useScrollToHash();
@@ -26,7 +27,7 @@ const VideoResources = () => {
   return (
     <Page
       title={getTitle(routes.resources('video'))}
-      kicker={getTitle(routes.resources())}
+      kicker={SUBPAGE_KICKER}
       breadcrumbsUrls={breadcrumbsUrls}
       pageClassName="download-resources"
     >

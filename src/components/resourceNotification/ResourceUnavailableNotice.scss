@@ -1,0 +1,11 @@
+@use '/src/styles/colors.scss' as *;
+
+.resource-notification {
+  .c-store-notification {
+    width: fit-content;
+
+    i {
+      color: $notificationColor;
+    }
+  }
+}

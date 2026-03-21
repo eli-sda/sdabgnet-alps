@@ -1,5 +1,4 @@
-import React, { useMemo } from 'react';
-import { useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { Dialog, DialogTitle, DialogContent, Slide } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 
@@ -15,6 +14,7 @@ type VideoPlayerDialogProps = {
   title?: string;
   isOpen: boolean;
   onClose?: () => void;
+  playIndex?: number;
 };
 
 const Transition = React.forwardRef(function Transition(
@@ -30,7 +30,8 @@ export const VideoPlayerDialog = ({
   playlist,
   title = '',
   isOpen,
-  onClose
+  onClose,
+  playIndex = 0
 }: VideoPlayerDialogProps) => {
   const handleClose = useCallback(() => {
     onClose?.();
@@ -43,12 +44,14 @@ export const VideoPlayerDialog = ({
       playlistAuthor: playlist.author,
       videoItems:
         playlist.items?.map((item) => ({
+          _id: item._id,
           videoId: extractYouTubeId(item.path) ?? '',
-          title: item.title ?? '',
+          title: item.title,
           description: item.description ?? ''
         })) ?? []
     };
   }, [playlist]);
+
   return (
     <Dialog
       open={isOpen}
@@ -66,10 +69,11 @@ export const VideoPlayerDialog = ({
     >
       <DialogTitle className="videoPlayerDialog-title">
         {title}
-        <div className="videoPlayerDialog-title-close-wrapper">
+        <div className="close-wrapper">
           <AlpsButton
             faIconClass="fas fa-times fa-lg"
             iconPosition="right"
+            title="Затвори"
             simple
             onClick={handleClose}
           />
@@ -77,7 +81,11 @@ export const VideoPlayerDialog = ({
       </DialogTitle>
       <DialogContent>
         {videoPlaylist && (
-          <VideoPlayer playlist={videoPlaylist} isVisible={isOpen} />
+          <VideoPlayer
+            playlist={videoPlaylist}
+            isVisible={isOpen}
+            initialIndex={playIndex}
+          />
         )}
       </DialogContent>
     </Dialog>

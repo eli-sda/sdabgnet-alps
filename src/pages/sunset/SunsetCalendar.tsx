@@ -4,7 +4,6 @@ import 'moment/dist/locale/bg';
 moment.locale('bg');
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import { TbSunset2 } from 'react-icons/tb';
-import { GridItem } from 'alps-library/atoms/grids/GridItem';
 import { BaseSearch } from 'alps-library/molecules/forms/elements/BaseSearch';
 import { Pullquote } from 'alps-library/molecules/text/pullquote/Pullquote';
 import { Caption } from 'alps-library/atoms/text/Caption';
@@ -183,15 +182,18 @@ const SunsetCalendar = (): JSX.Element => {
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const now = moment();
-      if (import.meta.env.DEV) {
-        console.log(`in sunset today: ${now.format('YYYY-MM-DD')}`);
-      }
-      if (!now.isSame(currentMonth, 'month')) {
-        setCurrentMonth(now.month());
-      }
-    }, 60 * 1000 * 60); // Check every hour
+    const interval = setInterval(
+      () => {
+        const now = moment();
+        if (import.meta.env.DEV) {
+          console.log(`in sunset today: ${now.format('YYYY-MM-DD')}`);
+        }
+        if (!now.isSame(currentMonth, 'month')) {
+          setCurrentMonth(now.month());
+        }
+      },
+      60 * 1000 * 60
+    ); // Check every hour
 
     return () => clearInterval(interval);
   }, [currentMonth]);
@@ -199,13 +201,24 @@ const SunsetCalendar = (): JSX.Element => {
   return (
     <Page
       title={getTitle(routes.info('sunset'))}
+      kicker={getTitle(routes.info())}
       background={pageBackground}
       breadcrumbsUrls={breadcrumbsUrls}
       blockType="wrap6"
       pageClassName="sunset-page"
     >
-      {/* <section className="l-grid-item l-grid-item--7-col u-space--bottom"> */}
-      <GridItem className="c-article" sizeAtM="6">
+      <section className=" u-spacing--double">
+        <section className="pullquotes-section">
+          <Pullquote
+            quote="„Помни съботния ден, за да го освещаваш. Шест дни да работиш и да вършиш всичките си дела;“"
+            author="Изх. 20:8,9"
+          />
+          <Pullquote
+            quote="„... от вечер до вечер, да пазите съботата си“"
+            author="Левит 23:32"
+          />
+        </section>
+
         {infoMessage && (
           <MessageDialog
             message={infoMessage}
@@ -214,14 +227,6 @@ const SunsetCalendar = (): JSX.Element => {
           />
         )}
 
-        <Pullquote
-          quote="„Помни съботния ден, за да го освещаваш. Шест дни да работиш и да вършиш всичките си дела;“"
-          author="Изх. 20:8,9"
-        />
-        <Pullquote
-          quote="„... от вечер до вечер, да пазите съботата си“"
-          author="Левит 23:32"
-        />
         <section className="city-section u-spacing--half u-padding--bottom">
           <BaseSearch
             placeholder="Гр./с. (напр. Баня, Сливен)"
@@ -235,37 +240,38 @@ const SunsetCalendar = (): JSX.Element => {
           ></BaseSearch>
           <Caption>{name}</Caption>
         </section>
-      </GridItem>
-      <GridItem sizeAtM="6" sizeAtXL="6">
-        <Calendar
-          localizer={localizer}
-          formats={formats}
-          events={events}
-          date={currentCalendarDate}
-          onNavigate={onNavigate}
-          views={[Views.MONTH]}
-          startAccessor="start"
-          endAccessor="end"
-          components={{
-            toolbar: CustomToolbar,
-            event: ({ event }: { event: CalendarEvent }) => (
-              <div className="rbc-event-content">
-                <TbSunset2 />
-                <br />
-                {event.title ? (
-                  <span>{event.title}</span>
-                ) : (
-                  <i className="fas fa-spinner fa-pulse u-space--quarter"></i>
-                )}
-              </div>
-            )
-          }}
-          style={{ minHeight: 600, maxWidth: 1000, margin: '0 auto' }}
-          min={new Date(2020, 1, 1, 16, 0)}
-          max={new Date(2020, 1, 1, 22, 0)}
-          messages={{ next: 'Следващ', previous: 'Предишен', today: 'Текущ' }}
-        />
-      </GridItem>
+
+        <section className="calendar-section">
+          <Calendar
+            localizer={localizer}
+            formats={formats}
+            events={events}
+            date={currentCalendarDate}
+            onNavigate={onNavigate}
+            views={[Views.MONTH]}
+            startAccessor="start"
+            endAccessor="end"
+            components={{
+              toolbar: CustomToolbar,
+              event: ({ event }: { event: CalendarEvent }) => (
+                <div className="rbc-event-content">
+                  <TbSunset2 />
+                  <br />
+                  {event.title ? (
+                    <span>{event.title}</span>
+                  ) : (
+                    <i className="fas fa-spinner fa-pulse u-space--quarter"></i>
+                  )}
+                </div>
+              )
+            }}
+            style={{ minHeight: 600, maxWidth: 1000, margin: '0 auto' }}
+            min={new Date(2020, 1, 1, 16, 0)}
+            max={new Date(2020, 1, 1, 22, 0)}
+            messages={{ next: 'Следващ', previous: 'Предишен', today: 'Текущ' }}
+          />
+        </section>
+      </section>
     </Page>
   );
 };

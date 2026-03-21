@@ -14,6 +14,7 @@ const PopupContent = ({
   buttonLabel,
   buttonLighter,
   asLink = false,
+  linkTitleClassName,
   maxWidth = 'sm',
   faIconClass,
   iconPosition = 'left'
@@ -23,6 +24,7 @@ const PopupContent = ({
   buttonLabel?: string;
   buttonLighter?: boolean;
   asLink?: boolean;
+  linkTitleClassName?: string;
   maxWidth?: Breakpoint | false;
   faIconClass?: string;
   iconPosition?: 'left' | 'right';
@@ -55,7 +57,7 @@ const PopupContent = ({
   return (
     <>
       {asLink ? (
-        <a href="#" onClick={handleOpen}>
+        <a href="#" className={linkTitleClassName} onClick={handleOpen}>
           {iconPosition === 'left' && icon}
           {label}
           {iconPosition === 'right' && icon}
@@ -73,8 +75,17 @@ const PopupContent = ({
 
       <Dialog open={open} onClose={handleClose} maxWidth={maxWidth} fullWidth>
         {title && (
-          <DialogTitle className="popupContent-dialogTitle u-color--gray--darker">
+          <DialogTitle className="popupContent-dialogTitle">
             {title}
+            <div className="close-wrapper">
+              <AlpsButton
+                faIconClass="fas fa-times fa-lg"
+                iconPosition="right"
+                title="Затвори"
+                simple
+                onClick={handleClose}
+              />
+            </div>
           </DialogTitle>
         )}
         <DialogContent>{children}</DialogContent>

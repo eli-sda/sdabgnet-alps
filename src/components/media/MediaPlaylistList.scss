@@ -1,15 +1,16 @@
+$itemW: 274px;
+
 .media-playlist-list {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($itemW, 1fr));
 
   .playlist-item {
-    width: 274px;
+    width: $itemW;
   }
 }
 
 // On very small screens make playlist items fluid (shrink with page)
-@media (max-width: 325px) {
+@media (max-width: 380px) {
   .media-playlist-list {
     display: block;
     .playlist-item {

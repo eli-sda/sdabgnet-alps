@@ -68,6 +68,12 @@ const Music = lazy(() => import('./pages/resources/music/Music'));
 const Biblical = lazy(() => import('./pages/biblical/Biblical'));
 const Bibles = lazy(() => import('./pages/bibles/Bibles'));
 const Testimonies = lazy(() => import('./pages/testimonies/Testimonies'));
+const Poetry = lazy(() => import('./pages/poetry/Poetry'));
+const About = lazy(() => import('./pages/About'));
+const Banner = lazy(() => import('./pages/banner/Banner'));
+const Feedback = lazy(() => import('./pages/feedback/Feedback'));
+const Team = lazy(() => import('./pages/team/Team'));
+const Videoteka = lazy(() => import('./pages/videoteka/Videoteka'));
 
 // const theme = createTheme();
 
@@ -162,6 +168,7 @@ const Router = () => (
             path={routes.commune('pastor-online')}
             element={<PastorOnline />}
           />
+          <Route path={routes.churchLife('poetry')} element={<Poetry />} />
           {/* Църковен живот - Обяви*/}
           <Route path={routes.advertisement()} element={<Advertisements />} />
 
@@ -242,6 +249,8 @@ const Router = () => (
           />
           <Route path={routes.resources('music')} element={<Music />} />
 
+          <Route path={routes.videoteka} element={<Videoteka />} />
+
           {/* Здраве */}
           <Route path={routes.health()} element={<Health />} />
           <Route
@@ -250,6 +259,12 @@ const Router = () => (
           />
 
           <Route path={routes.contact} element={<Contact />} />
+
+          {/* За нас */}
+          <Route path={routes.about()} element={<About />} />
+          <Route path={routes.about('team')} element={<Team />} />
+          <Route path={routes.about('banner')} element={<Banner />} />
+          <Route path={routes.about('feedback')} element={<Feedback />} />
 
           {/* 
           <Route path="teams" element={<Teams />}>

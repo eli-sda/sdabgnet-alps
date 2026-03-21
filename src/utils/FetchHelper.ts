@@ -16,6 +16,7 @@ import {
 import { DailyVerseType } from 'src/contexts/DailyVerseContext';
 import { SunsetEvent } from 'src/contexts/SunsetContext';
 import { CarouselAdType } from 'src/contexts/CarouselAdsContext';
+import { PoetryType } from 'src/contexts/PoetryContext';
 
 export const loadPagesMeta = async (): Promise<PageMetaMap> => {
   const query = `*[_type == "page"] {
@@ -173,6 +174,56 @@ export const loadLinks = async (type: string): Promise<LinkType[]> => {
   return await client.fetch(linkQuery);
 };
 
+// Helper: filter out numeric-only and empty tags
+export const filterTags = (tags?: (string | null)[] | null): string[] => {
+  if (!Array.isArray(tags)) return [];
+  return tags
+    .map((t) => (t == null ? '' : String(t).trim()))
+    .filter((t) => t !== '' && !/^\d+$/.test(t));
+};
+
+/** Fetch all topic documents — list is managed dynamically in Sanity Studio */
+export const loadAllTopics = async (): Promise<
+  { _id: string; title: string }[]
+> => {
+  const query = `*[_type == "topic"] | order(title asc) { _id, title }`;
+  return await client.fetch(query);
+};
+
+/**
+ * Load videos filtered by topic _ids (references) OR legacy keyWords strings.
+ * Pass topic._id values from loadAllTopics().
+ */
+export const loadLinksByTopics = async (
+  topicIds: string[]
+): Promise<LinkType[]> => {
+  const linkQuery = `*[
+    _type == "link"
+    && type == "video"
+    && count(topics[_ref in $topicIds]) > 0
+  ] | order(_createdAt desc) {
+    _id,
+    title,
+    size,
+    isResource,
+    keyWords,
+    "topics": topics[]->{ _id, title },
+    "path": select(isResource == true => "images/" + fileName, 
+    true => URL
+    )
+  }`;
+
+  const results: LinkType[] = await client.fetch(linkQuery, { topicIds });
+  // Use helper to clean keyWords and keep null when none left
+  return results.map((link) => {
+    const filtered = filterTags(link.keyWords as string[] | null);
+    return {
+      ...link,
+      keyWords: filtered.length ? filtered : null
+    } as LinkType;
+  });
+};
+
 export const loadSeminarRelatedPresentations = async (): Promise<
   SeminarRelatedPresentationsType[]
 > => {
@@ -186,6 +237,19 @@ export const loadSeminarRelatedPresentations = async (): Promise<
     }`;
 
   return await client.fetch(presentationsQuery);
+};
+
+export const loadPoetry = async (): Promise<PoetryType[]> => {
+  const poetryQuery = `*[_type == "poetry"] | order(_createdAt desc) {
+  title,
+  author,
+  date,
+  text
+  }`;
+
+  const poetry: PoetryType[] = await clientVreses.fetch(poetryQuery);
+
+  return poetry;
 };
 
 export const loadCarouselAds = async (): Promise<CarouselAdType[]> => {

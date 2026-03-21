@@ -11,6 +11,7 @@ import { getTitle } from 'src/utils/Navigation';
 import DownloadList from 'src/components/downloadList/DownloadList';
 import { AudioPlaylistList } from 'src/components/media/audio/AudioPlaylistList';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
+import { SUBPAGE_KICKER } from '../Resources';
 import songbookLink from './songbook-link.json';
 import '../audio/AudioPage.scss';
 
@@ -18,12 +19,20 @@ const musicLinks = {
   heading: 'Слушайте в YouTube',
   blocks: [
     {
+      title: 'Гласът на надеждата',
+      url: 'https://www.youtube.com/@Гласътнанадеждата'
+    },
+    {
       title: 'Петък 7 1/2',
       url: 'https://www.youtube.com/playlist?list=PLHxD0n8PEQXKiWJz28H8ckGi4HyIYNC-P'
     },
     {
       title: 'Песни от Дима Босева',
       url: 'https://www.youtube.com/@dimaboseva/videos'
+    },
+    {
+      title: 'Хваление Благодат',
+      url: 'https://www.youtube.com/playlist?list=PLIt3SrgpCVT_AWIvDTNbXmvAJiqLRIWsF'
     },
     {
       title: 'Християнски песни',
@@ -75,7 +84,7 @@ const MusicPage = () => {
     <>
       <Page
         title={getTitle(routes.resources('music'))}
-        kicker={getTitle(routes.resources())}
+        kicker={SUBPAGE_KICKER}
         breadcrumbsUrls={breadcrumbsUrls}
         relatedPosts={musicLinks}
         aside={<RelatedPosts {...songbookLink} />}
@@ -108,8 +117,9 @@ const MusicPage = () => {
         </Text>
 
         <VideoPlaylistList playlists={musicVideos} />
-
-        <div className="audio-page-instructions">
+      </Page>
+      <section className="u-space--triple--top u-spacing--double">
+        <div className="audio-page-instructions u-padding--sides">
           <h4 className="audio-page-caption">
             Използвайте бутона{' '}
             <span className="audio-page-caption__icon-wrapper">
@@ -142,9 +152,8 @@ const MusicPage = () => {
             от нея.
           </h4>
         </div>
-      </Page>
-
-      <AudioPlaylistList type="music" />
+        <AudioPlaylistList type="music" />
+      </section>
     </>
   );
 };

@@ -7,6 +7,7 @@ import { getTitle } from 'src/utils/Navigation';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import DownloadList from 'src/components/downloadList/DownloadList';
+import { SUBPAGE_KICKER } from '../AudioResources';
 import BibleAudioPalylist from './BibleAudioPalylist';
 import bibles_data from './audio_bible.json';
 
@@ -24,7 +25,7 @@ const AudioBibleResources = () => {
   return (
     <Page
       title={getTitle(routes.resources('audio', 'bible'))}
-      kicker={getTitle(routes.resources())}
+      kicker={SUBPAGE_KICKER}
       breadcrumbsUrls={breadcrumbs}
     >
       {/* Show message if no bibles */}

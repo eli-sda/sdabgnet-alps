@@ -47,6 +47,7 @@ const routes = {
     }
     return `/resources${item ? `/${item}` : ''}`;
   },
+  videoteka: '/videoteka',
   health: (
     item?:
       | 'new-start'
@@ -56,6 +57,8 @@ const routes = {
       | 'institutions'
       | 'services'
   ) => `/health${item ? `/${item}` : ''}`,
+  about: (item?: 'team' | 'banner' | 'feedback') =>
+    `/about${item ? `/${item}` : ''}`,
   kids: `${OLD_SITE}/page.php?id=kids`
 };
 export default routes;

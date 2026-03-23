@@ -1,4 +1,3 @@
-const MATOMO_URL = 'https://matomo.adventist.bg/';
 const SITE_ID = '3';
 const ALLOWED_HOST = 'sdabg.net';
 
@@ -14,7 +13,7 @@ export function initMatomo(): void {
     return;
 
   // prevents double loading of the script
-  if (document.querySelector(`script[src*="/js/piwik.js"]`)) return;
+  if (document.querySelector('script[src*="/js/piwik.js"]')) return;
 
   window._paq = window._paq || [];
 
@@ -22,16 +21,15 @@ export function initMatomo(): void {
   window._paq.push(['disableCookies']);
   window._paq.push(['enableLinkTracking']);
 
-  window._paq.push(['setTrackerUrl', `${MATOMO_URL}piwik.php`]);
-  //   // use the PHP proxy endpoint on this domain
-  //   window._paq.push(['setTrackerUrl', `/matomo-proxy.php`]);
+  // use the PHP proxy on this domain to forward tracking data to Matomo
+  window._paq.push(['setTrackerUrl', `/matomo-proxy.php`]);
 
   window._paq.push(['setSiteId', SITE_ID]);
 
   const script = document.createElement('script');
   script.async = true;
-  // load local copy of the tracker script
-  script.src = `/js/piwik.js`;
+  // load local copy of the tracker script (same-domain, avoids ad-blocker blocking)
+  script.src = '/js/piwik.js';
 
   document.head.appendChild(script);
 }

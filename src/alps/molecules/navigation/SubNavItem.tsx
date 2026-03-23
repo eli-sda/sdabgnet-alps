@@ -79,7 +79,7 @@ export const SubNavItem = ({
   };
 
   const linkIcon = isExternal && (
-    <i className="fas fa-external-link-alt u-space--quarter--left"></i>
+    <i className="fas fa-external-link-alt fa-sm u-space--quarter--left"></i>
   );
   // reactIcon is expected to be an Icon component (IconType)
   let reactIconEl: React.ReactNode = null;

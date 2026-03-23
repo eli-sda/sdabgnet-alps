@@ -201,13 +201,17 @@ export const loadLinksByTopics = async (
     _type == "link"
     && type == "video"
     && count(topics[_ref in $topicIds]) > 0
-  ] | order(_createdAt desc) {
+  ] | order(title asc) {
     _id,
     title,
     size,
     isResource,
     keyWords,
+    author,
+    description,
     "topics": topics[]->{ _id, title },
+    "playlistId": *[_type == 'playlist' && defined(^.keyWords[0]) && title == ^.keyWords[0]][0]._id,
+    "playlistType": *[_type == 'playlist' && defined(^.keyWords[0]) && title == ^.keyWords[0]][0].type,
     "path": select(isResource == true => "images/" + fileName, 
     true => URL
     )

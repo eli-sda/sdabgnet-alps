@@ -115,7 +115,7 @@ export const PrimaryNavItem = ({
   };
 
   const linkIcon = isExternal && (
-    <i className="fas fa-external-link-alt u-space--quarter--left"></i>
+    <i className="fas fa-external-link-alt fa-sm u-space--quarter--left"></i>
   );
 
   const iconEl = faIconClass ? (

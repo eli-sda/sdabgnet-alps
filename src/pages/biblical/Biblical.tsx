@@ -121,7 +121,7 @@ const Biblical = () => {
           >
             <strong>
               {title}
-              <i className="fas fa-external-link-alt u-space--quarter--left"></i>
+              <i className="fas fa-external-link-alt fa-sm u-space--quarter--left"></i>
             </strong>
           </a>
         </div>
@@ -200,7 +200,7 @@ const Biblical = () => {
       </Page>
 
       <section className="biblical full-section u-space--top">
-        <section className='u-spacing--double'>
+        <section className="u-spacing--double">
           <PageHeaderFeature2
             blockType="quarterSS"
             blocks={[

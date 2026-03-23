@@ -8,7 +8,7 @@ import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
 import { loadAllTopics, loadLinksByTopics } from 'src/utils/FetchHelper';
 import { LinkType, TopicType } from 'src/contexts/PlaylistsContext';
-import { LinksBlock } from 'src/pages/links/LinksBlock';
+import { VideoLinkBlock } from './VideoLinkBlock';
 import DownloadList from 'src/components/downloadList/DownloadList';
 import './Videoteka.scss';
 
@@ -108,20 +108,7 @@ const Videoteka = () => {
               YouTube видеа
             </h2>
             {youtubeVideos.map((video, i) => (
-              <LinksBlock
-                key={video._id || i}
-                title={video.title}
-                link={video.path}
-                buttons={[
-                  {
-                    label: 'Виж видео',
-                    url: video.path,
-                    faIconClass: 'fas fa-video',
-                    isExternal: true,
-                    outline: true
-                  }
-                ]}
-              />
+              <VideoLinkBlock key={video._id || i} video={video} appliedTopics={appliedTopics} />
             ))}
           </section>
         )}

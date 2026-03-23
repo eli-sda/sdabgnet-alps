@@ -1,0 +1,16 @@
+@use '/src/styles/colors.scss' as *;
+.video-link-block {
+  .fa-youtube {
+    color: $youtubeRedColor;
+  }
+  .video-block-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chip-no-bg {
+    background: none !important;
+    border: 1px solid $lightGrayColor;
+    color: inherit;
+  }
+}

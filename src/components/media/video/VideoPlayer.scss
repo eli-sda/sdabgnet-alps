@@ -12,40 +12,53 @@ $shareBtnSwitch: 380px;
     gap: 24px;
     margin-top: 16px;
 
-    @container (max-width: 670px) {
+    /* Vertical layout for small screens - flex-direction set by CSS, not orientation */
+    &.is-vertical {
       flex-direction: column;
 
-      &-player {
+      /* Reset panel widths */
+      .videoPlayer-layout-player {
         width: 100% !important;
+        flex: 1 1 auto;
       }
 
-      &-sidebar {
+      .videoPlayer-layout-sidebar {
         max-height: none;
         overflow-y: visible;
+        flex: 1 1 auto;
+      }
+    }
+
+    /* Horizontal layout for larger screens */
+    &.is-horizontal {
+      flex-direction: row;
+
+      .videoPlayer-layout-player {
+        flex: 0 0 auto;
+        width: 100%;
+      }
+
+      .videoPlayer-layout-sidebar {
+        flex: 1 1 auto;
       }
     }
 
     &-player {
-      flex: 0 0 auto;
-      width: 400px;
-      max-width: 100%;
       white-space: pre-line;
 
       .share-video-button {
-        display: none;
+        display: block;
 
-        @media (max-width: $shareBtnSwitch) {
-          display: block;
+        /* Hide share button on horizontal screens */
+        .videoPlayer-layout.is-horizontal & {
+          display: none;
         }
       }
     }
 
     &-sidebar {
-      flex: 1 1 auto;
       display: flex;
       flex-direction: column;
-      max-height: min(500px, 40vh);
-      overflow-y: auto;
 
       .videoItem {
         display: flex;
@@ -93,10 +106,7 @@ $shareBtnSwitch: 380px;
 
         &-link {
           padding: 0;
-
-          @media (max-width: $shareBtnSwitch) {
-            display: none;
-          }
+          display: flex;
 
           &:disabled,
           &:disabled:hover {
@@ -106,7 +116,7 @@ $shareBtnSwitch: 380px;
           }
         }
 
-        @media (max-width: $XSmallScreen) {
+        @container (max-width: $XSmallScreen) {
           display: grid;
           grid-template-columns: auto 100px;
           grid-template-rows: auto auto auto;
@@ -141,4 +151,137 @@ $shareBtnSwitch: 380px;
       }
     }
   }
+
+  /* Hide video item link buttons in vertical mode */
+  &-layout.is-vertical .videoItem-link {
+    display: none !important;
+  }
+
+  .videoPlayer-divider {
+    width: 14px;
+    cursor: col-resize;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    user-select: none;
+    padding: 6px 0;
+
+    /* Hide separator in vertical mode */
+    .videoPlayer-layout.is-vertical & {
+      display: none;
+    }
+
+    .handle {
+      width: 2px;
+      height: 52%;
+      background: $grayColor;
+      border-radius: 2px;
+      transition:
+        background 0.12s ease,
+        transform 0.12s ease;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03) inset;
+    }
+
+    &:hover .handle,
+    &[data-resizing='true'] .handle {
+      background: rgba(0, 0, 0, 0.65);
+      transform: scaleY(1.04);
+    }
+
+    /* optional small dots to suggest grab handle */
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.18);
+    }
+
+    &::before {
+      top: 26%;
+    }
+
+    &::after {
+      bottom: 26%;
+    }
+  }
+
+  // .Container {
+  //   width: 100%;
+  //   height: 100%;
+  //   display: flex;
+  //   flex-direction: column;
+  //   gap: 1rem;
+  // }
+
+  // .TopRow {
+  //   flex: 0 0 auto;
+  //   text-align: center;
+  // }
+
+  // .BottomRow {
+  //   flex: 1 1 auto;
+  // }
+
+  // .Panel {
+  //   display: flex;
+  //   flex-direction: column;
+  // }
+
+  // .PanelContent {
+  //   height: 100%;
+  //   width: 100%;
+  //   background-color: var(--color-panel-background);
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  //   overflow: hidden;
+  //   border-radius: 0.5rem;
+  // }
+
+  // /* RESIZE HANDLE */
+
+  // .ResizeHandleOuter {
+  //   flex: 0 0 12px;
+  //   position: relative;
+  //   cursor: col-resize;
+  //   outline: none;
+  // }
+
+  // /* invisible drag zone */
+  // .ResizeHandleOuter::before {
+  //   content: '';
+  //   position: absolute;
+  //   inset: 0;
+  // }
+
+  // /* visible divider */
+  // .ResizeHandleInner {
+  //   position: absolute;
+  //   top: 10%;
+  //   bottom: 10%;
+  //   left: 50%;
+  //   width: 2px;
+  //   transform: translateX(-50%);
+  //   border-radius: 2px;
+  //   background: rgba(0, 0, 0, 0.15);
+  //   transition:
+  //     background 0.2s ease,
+  //     height 0.2s ease;
+  // }
+
+  // /* hover */
+  // .ResizeHandleOuter:hover .ResizeHandleInner {
+  //   background: rgba(0, 0, 0, 0.4);
+  // }
+
+  // /* active drag */
+  // .ResizeHandleOuter[data-resize-handle-active] .ResizeHandleInner {
+  //   background: rgba(0, 0, 0, 0.7);
+  // }
 }

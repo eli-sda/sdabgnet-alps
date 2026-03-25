@@ -75,7 +75,7 @@ const PopupContent = ({
 
       <Dialog open={open} onClose={handleClose} maxWidth={maxWidth} fullWidth>
         {title && (
-          <DialogTitle className="popupContent-dialogTitle u-color--gray--darker">
+          <DialogTitle className="popupContent-dialogTitle">
             {title}
             <div className="close-wrapper">
               <AlpsButton

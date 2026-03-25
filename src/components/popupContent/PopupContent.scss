@@ -1,23 +1,5 @@
-@use '/src/styles/colors.scss' as *;
+@use '/src/styles/_dialog-title' as *;
 
 .MuiTypography-root.popupContent-dialogTitle {
-  font-size: 1.5rem;
-  font-weight: 500;
-  border-bottom: 1px solid $grayDarkerColor;
-  position: relative;
-  padding-right: 40px; // Space for close button
-
-  .close-wrapper {
-    position: absolute;
-    right: 10px;
-    top: 16px;
-
-    button {
-      transition: transform 0.3s ease;
-
-      &:hover {
-        transform: rotate(90deg);
-      }
-    }
-  }
+  @include dialog-title;
 }

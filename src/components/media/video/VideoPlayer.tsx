@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { Panel, Group, Separator } from 'react-resizable-panels';
-import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import { Button } from 'src/alps/atoms/Button';
@@ -133,7 +132,7 @@ const VideoPlayer = ({
   );
 
   const playlistDiv = (
-    <div className="videoPlayer-layout-sidebar u-spacing--half u-theme--border-color--darker">
+    <div className="videoPlayer-layout-sidebar u-spacing--half">
       {videoItems.map((video, i) => {
         const thumb = `https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`;
         const isActive = currentIndex === i;
@@ -141,7 +140,7 @@ const VideoPlayer = ({
         return (
           <div
             key={i}
-            className={`videoItem u-border--left ${isActive ? 'active' : ''}`}
+            className={`videoItem u-border--left u-theme--border-color--darker ${isActive ? 'active' : ''}`}
             onClick={() => playVideo(i)}
           >
             <div className="videoItem-thumb">
@@ -174,8 +173,6 @@ const VideoPlayer = ({
 
   return (
     <div className="videoPlayer u-spacing" ref={playerRef}>
-      <HeadingBlock title={playlistTitle} />
-
       {playlistAuthor && (
         <h3 className="u-font--secondary--m u-theme--color--darker u-space--half--top">
           {playlistAuthor}

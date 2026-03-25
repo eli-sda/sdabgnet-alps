@@ -26,6 +26,7 @@ const VideoPlaylistList = ({
         <VideoPlayerDialog
           isOpen={dialogOpen}
           playlist={selectedPlaylist}
+          title={selectedPlaylist?.title}
           onClose={() => setDialogOpen(false)}
           playIndex={playIndex}
         />

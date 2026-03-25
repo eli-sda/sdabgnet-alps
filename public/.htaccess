@@ -43,6 +43,13 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # Redirect HTTP -> HTTPS (preserve host, path and query string)
+  # For reverse proxies/load-balancers check the X-Forwarded-Proto header
+  # Only redirect when the connection is not HTTPS AND the proxy did not mark the request as https
+  RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
   # Set index.php as the default file to load
   DirectoryIndex index.php index.html
 

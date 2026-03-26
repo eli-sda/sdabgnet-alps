@@ -202,7 +202,7 @@ const VideoPlayer = ({
           </Separator>
         )}
         {/* PLAYLIST PANEL */}
-        <Panel defaultSize="30%" minSize="20%">
+        <Panel className='playlist-container' defaultSize="30%" minSize="20%">
           {playlistDiv}
         </Panel>
       </Group>

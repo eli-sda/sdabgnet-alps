@@ -61,8 +61,13 @@ $shareBtnSwitch: 380px;
         width: 100%;
       }
 
-      .videoPlayer-layout-sidebar {
-        flex: 1 1 auto;
+      .playlist-container {
+        position: relative;
+
+        .videoPlayer-layout-sidebar {
+          position: absolute;
+          overflow-y: auto;
+        }
       }
     }
 

@@ -174,10 +174,10 @@ $shareBtnSwitch: 380px;
     display: flex;
     align-items: center;
     justify-items: center;
-    background-color: #444;
+    background-color: $grayColor;
     &[data-separator='active'],
     &[data-separator='hover'] {
-      background-color: #666;
+      background-color: $grayDarkColor;
     }
     svg {
       width: 12px;

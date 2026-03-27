@@ -14,6 +14,7 @@ export type VideoPlaylistType = {
     _id: string;
     videoId: string;
     title: string;
+    author?: string;
     description?: string;
   }[];
 };
@@ -113,8 +114,8 @@ const VideoPlayer = ({
         <>
           <Figure
             caption={`${currentVideo.title}\n\n${
-              currentVideo.description || ''
-            }`}
+              currentVideo.author ? currentVideo.author + '\n\n' : ''
+            }${currentVideo.description || ''}`}
             size="large"
             videoSrc={`https://www.youtube.com/embed/${currentVideo.videoId}?autoplay=1`}
             onVideoEnded={handleVideoEnded}
@@ -202,7 +203,7 @@ const VideoPlayer = ({
           </Separator>
         )}
         {/* PLAYLIST PANEL */}
-        <Panel className='playlist-container' defaultSize="30%" minSize="20%">
+        <Panel className="playlist-container" defaultSize="30%" minSize="20%">
           {playlistDiv}
         </Panel>
       </Group>

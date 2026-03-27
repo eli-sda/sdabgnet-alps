@@ -47,6 +47,7 @@ export const VideoPlayerDialog = ({
           _id: item._id,
           videoId: extractYouTubeId(item.path) ?? '',
           title: item.title,
+          author: item.author ?? '',
           description: item.description ?? ''
         })) ?? []
     };
@@ -55,10 +56,7 @@ export const VideoPlayerDialog = ({
   return (
     <Dialog
       open={isOpen}
-      onClose={(_event, reason) => {
-        if (reason === 'backdropClick') return;
-        handleClose();
-      }}
+      onClose={handleClose}
       slots={{
         transition: Transition
       }}

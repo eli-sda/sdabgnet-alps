@@ -4,3 +4,20 @@
     overflow-wrap: break-word;
   }
 }
+
+.c-block {
+  .c-alps-icon,
+  .c-alps-icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .title-react-icon {
+    .u-icon {
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+      text-align: center;
+    }
+  }
+}

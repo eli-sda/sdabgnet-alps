@@ -10,8 +10,11 @@ import {
   StyleOptions
 } from 'alps-library/helpers/DateTimeFormat';
 import { getFontClass } from 'alps-library/global/fonts';
+import { iconConfig } from 'alps-library/atoms/icons/_config';
+import { IconWrap } from 'alps-library/atoms/icons/IconWrap';
 import { Button } from 'src/alps/atoms/Button';
 import { NavLink } from 'react-router-dom';
+import { IconType } from 'react-icons/lib';
 import './ContentBlock.scss';
 
 export interface ContentBlockProps {
@@ -19,6 +22,9 @@ export interface ContentBlockProps {
    * Specify the title of your ContentBlock
    */
   title?: string;
+  reactIcon?: IconType;
+  faIconClass?: string;
+  icon?: keyof typeof iconConfig.iconNamesMap; // Alps/SVG icons
   /**
    * Specify the size of your titleSize
    */
@@ -71,6 +77,9 @@ export interface ContentBlockProps {
 
 export const ContentBlock = ({
   title,
+  reactIcon,
+  faIconClass,
+  icon,
   titleSize = 's',
   description,
   cta = '',
@@ -108,6 +117,33 @@ export const ContentBlock = ({
     className: 'c-block__title-link u-theme--link-hover--dark'
   };
 
+  let reactIconEl: React.ReactNode = null;
+
+  if (reactIcon) {
+    const IconComp = reactIcon;
+    reactIconEl = (
+      <span
+        className="u-icon u-space--quarter--right"
+      >
+        <IconComp />
+      </span>
+    );
+  } else if (faIconClass) {
+    reactIconEl = (
+      <i
+        className={`${faIconClass} u-space--quarter--right`}
+      ></i>
+    );
+  } else if (icon) {
+    reactIconEl = (
+      <IconWrap
+        name={icon}
+        size="m"
+        className="c-alps-icon u-space--quarter--right"
+      />
+    );
+  }
+
   return (
     <div className={classes + moreClasses}>
       {image && <MediaImage image={image} url={url} />}
@@ -115,8 +151,9 @@ export const ContentBlock = ({
         <h3
           className={`${
             titleSize ? getFontClass('primary', titleSize) : 'u-font--primary'
-          } u-theme--color--darker`}
+          } u-theme--color--darker ${reactIcon ? 'title-react-icon' : ''}`}
         >
+          {reactIconEl}
           {url ? (
             isExternal ? (
               <a {...linkAttr}>
@@ -187,8 +224,6 @@ export const ContentBlock = ({
             <Button
               as="a"
               className="c-block__button"
-              // icon="arrow-long-right"
-              // iconPosition="right"
               outline={true}
               label={cta}
               url={url}

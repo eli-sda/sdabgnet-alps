@@ -10,7 +10,7 @@ import {
   StyleOptions
 } from 'alps-library/helpers/DateTimeFormat';
 import { getFontClass } from 'alps-library/global/fonts';
-import { Button } from 'src/alps/atoms/Button';
+import { Button, ButtonProps } from 'src/alps/atoms/Button';
 import { NavLink } from 'react-router-dom';
 import './ContentBlock.scss';
 
@@ -67,6 +67,10 @@ export interface ContentBlockProps {
   withImage?: boolean;
   more?: string;
   image?: ImageType;
+  /**
+   * Array of button properties to render multiple buttons
+   */
+  buttons?: ButtonProps[];
 }
 
 export const ContentBlock = ({
@@ -81,7 +85,8 @@ export const ContentBlock = ({
   url = '',
   category = '',
   more = '',
-  image
+  image,
+  buttons
 }: ContentBlockProps): JSX.Element => {
   const { onToggle, openClass } = useToggle();
 
@@ -182,19 +187,32 @@ export const ContentBlock = ({
             />
           </>
         ) : (
-          cta &&
-          url && (
-            <Button
-              as="a"
-              className="c-block__button"
-              // icon="arrow-long-right"
-              // iconPosition="right"
-              outline={true}
-              label={cta}
-              url={url}
-              isExternal={isExternal}
-            />
-          )
+          <div className="u-spacing--half">
+            {buttons && buttons.length > 0
+              ? buttons.map((buttonProps, idx) => (
+                  <Button
+                    key={idx}
+                    {...buttonProps}
+                    as="a"
+                    className="c-block__button"
+                    outline={true}
+                  />
+                ))
+              : /* Fallback to single CTA button */
+                cta &&
+                url && (
+                  <Button
+                    as="a"
+                    className="c-block__button"
+                    // icon="arrow-long-right"
+                    // iconPosition="right"
+                    outline={true}
+                    label={cta}
+                    url={url}
+                    isExternal={isExternal}
+                  />
+                )}
+          </div>
         )}
       </div>
     </div>

@@ -187,14 +187,14 @@ export const ContentBlock = ({
             />
           </>
         ) : (
-          <div className="u-spacing--half">
+          <div className="c-cta-block__buttons c-block__buttons">
             {buttons && buttons.length > 0
               ? buttons.map((buttonProps, idx) => (
                   <Button
                     key={idx}
                     {...buttonProps}
                     as="a"
-                    className="c-block__button"
+                    className="c-block__button u-space--half--right u-space--half--bottom"
                     outline={true}
                   />
                 ))

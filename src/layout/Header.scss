@@ -72,9 +72,9 @@ a.c-secondary-nav__link {
 .c-secondary-nav__link,
 .c-primary-nav__link {
   &.withSvgIcon {
-    display: flex;
-    align-items: center;
-    justify-content: start;
+    .ui-icon {
+      vertical-align: middle;
+    }
     .u-icon--m,
     svg {
       width: 1em;

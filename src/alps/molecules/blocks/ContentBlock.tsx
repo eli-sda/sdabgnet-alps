@@ -122,18 +122,12 @@ export const ContentBlock = ({
   if (reactIcon) {
     const IconComp = reactIcon;
     reactIconEl = (
-      <span
-        className="u-icon u-space--quarter--right"
-      >
+      <span className="u-icon u-space--quarter--right">
         <IconComp />
       </span>
     );
   } else if (faIconClass) {
-    reactIconEl = (
-      <i
-        className={`${faIconClass} u-space--quarter--right`}
-      ></i>
-    );
+    reactIconEl = <i className={`${faIconClass} u-space--quarter--right`}></i>;
   } else if (icon) {
     reactIconEl = (
       <IconWrap
@@ -153,7 +147,6 @@ export const ContentBlock = ({
             titleSize ? getFontClass('primary', titleSize) : 'u-font--primary'
           } u-theme--color--darker ${reactIcon ? 'title-react-icon' : ''}`}
         >
-          {reactIconEl}
           {url ? (
             isExternal ? (
               <a {...linkAttr}>
@@ -161,6 +154,7 @@ export const ContentBlock = ({
               </a>
             ) : (
               <NavLink {...linkAttr}>
+                {reactIconEl}
                 <strong>{title}</strong>
               </NavLink>
             )

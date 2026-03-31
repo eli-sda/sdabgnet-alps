@@ -1,15 +1,19 @@
-@media (max-width: 460px) {
-  .c-block.c-block__text {
-    hyphens: auto;
-    overflow-wrap: break-word;
-  }
-}
-
 .c-block {
+  @media (max-width: 460px) {
+    &c-block__text {
+      hyphens: auto;
+      overflow-wrap: break-word;
+    }
+  }
+
   .c-alps-icon,
   .c-alps-icon svg {
     width: 1.5rem;
     height: 1.5rem;
+
+    path {
+      fill: currentColor;
+    }
   }
 
   .title-react-icon {

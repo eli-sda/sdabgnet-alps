@@ -150,6 +150,7 @@ export const ContentBlock = ({
           {url ? (
             isExternal ? (
               <a {...linkAttr}>
+                {reactIconEl}
                 <strong>{title}</strong>
               </a>
             ) : (

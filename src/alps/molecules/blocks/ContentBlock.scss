@@ -1,6 +1,12 @@
-@media (max-width: 460px) {
-  .c-block.c-block__text {
-    hyphens: auto;
-    overflow-wrap: break-word;
+.c-block {
+  @media (max-width: 460px) {
+    &.c-block__text {
+      hyphens: auto;
+      overflow-wrap: break-word;
+    }
+  }
+
+  .c-cta-block__buttons {
+    gap: 10px;
   }
 }

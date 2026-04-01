@@ -194,7 +194,7 @@ export const ContentBlock = ({
                     key={idx}
                     {...buttonProps}
                     as="a"
-                    className="c-block__button u-space--half--right u-space--half--bottom"
+                    className="c-block__button"
                     outline={true}
                   />
                 ))

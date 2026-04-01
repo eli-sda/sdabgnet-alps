@@ -4,7 +4,7 @@ import { Text } from 'alps-library/atoms/text/Text';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
-import { PlaylistType } from 'src/contexts/PlaylistsContext';
+import { LinkType, PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { getTitle } from 'src/utils/Navigation';
@@ -18,14 +18,22 @@ const PresentationResources = () => {
     routes.resources(),
     routes.resources('presentation')
   ];
-  const { getResourcePlaylists } = usePlaylists();
+  const { getResourcePlaylists, getStandalonePresentations } = usePlaylists();
+
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
+  const [standalonePresentations, setStandalonePresentations] = useState<
+    LinkType[]
+  >([]);
 
   useEffect(() => {
     getResourcePlaylists('presentations')
       .then(setPlaylists)
       .catch((err) => console.error(err));
-  }, [getResourcePlaylists]);
+
+    getStandalonePresentations()
+      .then(setStandalonePresentations)
+      .catch((err) => console.error(err));
+  }, [getResourcePlaylists, getStandalonePresentations]);
 
   return (
     <Page
@@ -43,6 +51,8 @@ const PresentationResources = () => {
       )}
 
       <Text as="article" hasDropcap={false} spacing="double">
+        <DownloadList items={standalonePresentations} />
+
         <Accordion>
           {playlists.map(({ _id, title, author, items }, i) => (
             <DownloadList

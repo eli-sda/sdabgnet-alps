@@ -17,6 +17,10 @@ export const PlaylistsProvider = ({ children }: { children: ReactNode }) => {
   const [seminarRelatedPresentations, setSeminarRelatedPresentations] =
     useState<SeminarRelatedPresentationsType[]>([]);
 
+  const [standalonePresentations, setStandalonePresentations] = useState<
+    LinkType[]
+  >([]);
+
   // Setter for playlists by cacheKey
   const setPlaylists = useCallback(
     (cacheKey: string, playlistsData: PlaylistType[]) => {
@@ -44,6 +48,8 @@ export const PlaylistsProvider = ({ children }: { children: ReactNode }) => {
         setLinks,
         seminarRelatedPresentations,
         setSeminarRelatedPresentations,
+        standalonePresentations,
+        setStandalonePresentations,
         lastLoaded,
         setLastLoaded
       }}

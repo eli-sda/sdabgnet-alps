@@ -6,10 +6,12 @@ import {
   RiUserVoiceFill
 } from 'react-icons/ri';
 import { TbSunset2Filled } from 'react-icons/tb';
+import { IconType } from 'react-icons/lib';
 
 // import { SiAudiobookshelf } from 'react-icons/si';
 import { LuAudioLines, LuBookAudio } from 'react-icons/lu';
 
+import { iconConfig } from 'alps-library/atoms/icons/_config';
 import { BreadcrumbItemProps } from 'src/alps/molecules/navigation/Breadcrumbs';
 import { PrimaryNavItemProps } from 'src/alps/molecules/navigation/PrimaryNavItem';
 import routes from 'src/routes';
@@ -408,12 +410,15 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
   }
 ];
 
-type MenuItem = {
+export type MenuItem = {
   text: string;
   isExternal?: boolean;
   isDisabled?: boolean;
   url?: string;
   subnav?: MenuItem[];
+  reactIcon?: IconType;
+  faIconClass?: string;
+  icon?: keyof typeof iconConfig.iconNamesMap;
 };
 
 export const secondaryNavItems: SecondaryNavItemProps[] = [

@@ -411,13 +411,25 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
 ];
 
 export type MenuItem = {
+  /**
+   * Specify the text of your MenuItem
+   */
   text: string;
-  isExternal?: boolean;
+  isExternal?: boolean; //Eli added
   isDisabled?: boolean;
+  /**
+   * Specify the url of your MenuItem
+   */
   url?: string;
   subnav?: MenuItem[];
   reactIcon?: IconType;
+  /**
+   * FontAwesome icon name, for example 'fab fa-facebook-f'
+   */
   faIconClass?: string;
+  /**
+   * SVG icon name from alps icons, for example 'logo'
+   */
   icon?: keyof typeof iconConfig.iconNamesMap;
 };
 

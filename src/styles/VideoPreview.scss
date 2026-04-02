@@ -1,0 +1,45 @@
+@use '/src/styles/play-button-overlay' as *;
+
+@keyframes pulse-play {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    background: rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    background: rgba(0, 0, 0, 0.6);
+  }
+}
+
+.video-preview {
+  width: 100%;
+  box-sizing: border-box;
+
+  &.is-active .o-figure__image::before {
+    animation: pulse-play 1s ease-in-out infinite;
+  }
+
+  .u-image--wrap {
+    margin: 0;
+  }
+
+  .o-figure__image {
+    @include play-button-overlay;
+    cursor: pointer;
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    display: block;
+    overflow: hidden;
+    position: relative;
+  }
+
+  img,
+  picture,
+  .o-figure__image > * {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}

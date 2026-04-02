@@ -5,6 +5,7 @@ import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import ShareVideoButton from 'src/components/ShareVideoButton';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
+import '/src/styles/VideoPreview.scss';
 import './TestimoniesVideos.scss';
 
 type TestimonyVideo = {
@@ -90,7 +91,7 @@ const TestimoniesVideos = () => {
           >
             {isYouTube ? (
               <Figure
-                className="testimonies-videos"
+                className={`testimonies-videos video-preview ${isActive ? 'is-active' : ''}`}
                 caption={title}
                 size="large"
                 image={
@@ -109,7 +110,7 @@ const TestimoniesVideos = () => {
               />
             ) : isRumble && thumbnail ? (
               <Figure
-                className="testimonies-videos"
+                className="testimonies-videos video-preview"
                 caption={title}
                 size="large"
                 image={getImageTypeByUrl(thumbnail)}
@@ -119,7 +120,7 @@ const TestimoniesVideos = () => {
               />
             ) : (
               <Figure
-                className="testimonies-videos"
+                className="testimonies-videos video-preview"
                 caption={title}
                 size="large"
                 videoSrc={videoSrc}

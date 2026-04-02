@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { Page } from 'src/organisms/Page';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import routes from 'src/routes';
@@ -13,6 +13,7 @@ import { LinksBlock } from '../links/LinksBlock';
 import { LinksData, MediaListSection } from '../links/MediaLinksPage';
 import biblicalJson from './biblical.json';
 import believe28 from './believe28.json';
+import '/src/styles/VideoPreview.scss';
 import './Biblical.scss';
 
 type BelieveItem = {
@@ -109,6 +110,10 @@ const Biblical = () => {
 
   const believeSections = believe28 as BelieveSection[];
 
+  // State to track if the video iframe should be loaded
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoId = 'diVY5dKQpew';
+
   const subLinks = useCallback(
     (links: { url: string; title: string }[]) =>
       links?.map(({ url, title }, index) => (
@@ -140,11 +145,23 @@ const Biblical = () => {
       >
         <section className="u-clear-fix">
           <Figure
-            className="u-space--double--top u-space--bottom"
+            className={`u-space--double--top u-space--bottom video-preview ${isPlaying ? 'is-active' : ''}`}
             align="left"
             caption="Рекламен клип Изучавай.ме"
             size="large"
-            videoSrc="https://www.youtube.com/embed/diVY5dKQpew"
+            image={
+              !isPlaying
+                ? getImageTypeByUrl(
+                    `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
+                  )
+                : undefined
+            }
+            onImageClick={!isPlaying ? () => setIsPlaying(true) : undefined}
+            videoSrc={
+              isPlaying
+                ? `https://www.youtube.com/embed/${videoId}?autoplay=1`
+                : undefined
+            }
           />
         </section>
 
@@ -200,7 +217,7 @@ const Biblical = () => {
       </Page>
 
       <section className="biblical full-section u-space--top">
-        <section className='u-spacing--double'>
+        <section className="u-spacing--double">
           <PageHeaderFeature2
             blockType="quarterSS"
             blocks={[

@@ -8,6 +8,8 @@ import { getTitle } from 'src/utils/Navigation';
 import { SUBPAGE_KICKER } from '../Resources';
 import BooksList from './BooksList';
 import rawBooks from './books.json';
+import { extractYouTubeId } from 'src/utils/extractYouTubeId';
+import '/src/styles/VideoPreview.scss';
 
 const books = rawBooks as BooksSection[];
 
@@ -20,10 +22,28 @@ const Books = () => {
 
   const breadcrumbsUrls = [routes.resources(), routes.resources('books')];
 
+  const [isPlayingAsideVideo, setIsPlayingAsideVideo] = useState(false);
+
+  const asideBookVideoUrl = 'https://www.youtube.com/embed/XpKOUJIM28w';
+  const asideVideoId = extractYouTubeId(asideBookVideoUrl);
+
   const asideBookVideo = (
     <Figure
-      videoSrc="https://www.youtube.com/embed/XpKOUJIM28w?si=euk4RQ2pPbGIDviU"
+      className={`video-preview ${isPlayingAsideVideo ? 'is-active' : ''}`}
+      videoSrc={
+        isPlayingAsideVideo ? `${asideBookVideoUrl}?autoplay=1` : undefined
+      }
       caption='Книга "ПРОРОЧЕСТВОТО ЗА ЗВЕЗДАТА": Археология и история, свързани с Исус Христос'
+      image={
+        !isPlayingAsideVideo && asideVideoId
+          ? getImageTypeByUrl(
+              `https://img.youtube.com/vi/${asideVideoId}/hqdefault.jpg`
+            )
+          : undefined
+      }
+      onImageClick={
+        !isPlayingAsideVideo ? () => setIsPlayingAsideVideo(true) : undefined
+      }
     />
   );
 

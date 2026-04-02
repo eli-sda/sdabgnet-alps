@@ -28,6 +28,7 @@ export default defineConfig({
       }
     }
   },
+  resolve: { alias: [{ find: /^~(.*)$/, replacement: '$1' }] },
   plugins: [
     react(),
     tsconfigPaths(), // This plugin will use the paths defined in your tsconfig.json

@@ -11,6 +11,17 @@
     ]
   },
   {
+    "title": "Bible Verse Memorizer",
+    "description": "Запомняне на библейски стихове - Вашият ежедневен спътник за запаметяване на стихове от Писанието. Укрепете вярата си и запомнете библейски стихове без усилие с приложението.",
+    "image": "/img/logos/bible-verse-memorizer.webp",
+    "links": [
+      {
+        "url": "https://play.google.com/store/apps/details?id=com.bobo.bibleversememorizer",
+        "type": "google play"
+      }
+    ]
+  },
+  {
     "title": "Утринни четива",
     "description": "„Утринни четива“ е приложение съдържащо стих от Библията и кратък коментар за всеки ден. Налични са няколко поредици със заглавия: „Поглед нагоре, Елън Уайт“, „Нашият Баща се грижи, Елън Уайт“, „Мараната - Нашият Господ иде!, Елън Уайт“.",
     "image": "/img/logos/morning-readings-logo.png",

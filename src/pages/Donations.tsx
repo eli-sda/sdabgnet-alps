@@ -51,13 +51,14 @@ const Donations = () => {
         />
       </section>
 
-      {donations.map(({ url, title, description, img }, idx) => (
+      {donations.map(({ url, title, description, img, buttons }, idx) => (
         <PageLinkItem
           key={idx}
           url={url}
           title={title}
           description={description}
           img={getImageTypeByUrl(img, title)}
+          buttons={buttons}
           sizeAtM="6"
           sizeAtXL="3"
         />

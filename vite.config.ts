@@ -28,15 +28,7 @@ export default defineConfig({
       }
     }
   },
-  resolve: {
-    alias: [
-      {
-        find: /^~(.*)$/,
-        replacement: '$1'
-      }
-    ]
-  },
-
+  resolve: { alias: [{ find: /^~(.*)$/, replacement: '$1' }] }, //Fixed a build error caused by legacy Webpack tilde (~) imports in react-jinke-music-player's .less files
   plugins: [
     react(),
     tsconfigPaths(), // This plugin will use the paths defined in your tsconfig.json

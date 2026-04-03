@@ -1,5 +1,7 @@
+import { IconType } from 'react-icons/lib';
 import { GridItem } from 'alps-library/atoms/grids/GridItem';
 import { ImageType } from 'alps-library/atoms/images/ImageType';
+import { iconConfig } from 'alps-library/atoms/icons/_config';
 import { ContentBlock } from 'src/alps/molecules/blocks/ContentBlock';
 import { ButtonProps } from 'src/alps/atoms/Button';
 import './PageLinkItem.scss';
@@ -15,6 +17,9 @@ export type PageLinkItemType = BaseLinkType & {
   buttons?: ButtonProps[];
   sizeAtM?: string;
   sizeAtXL?: string;
+  reactIcon?: IconType;
+  faIconClass?: string;
+  icon?: keyof typeof iconConfig.iconNamesMap;
 };
 
 export const PageLinkItem = ({
@@ -24,7 +29,10 @@ export const PageLinkItem = ({
   img,
   buttons,
   sizeAtM = '3',
-  sizeAtXL = '2'
+  sizeAtXL = '2',
+  reactIcon,
+  faIconClass,
+  icon
 }: PageLinkItemType) => {
   return (
     <>
@@ -37,6 +45,9 @@ export const PageLinkItem = ({
       >
         <ContentBlock
           title={title}
+          reactIcon={reactIcon}
+          faIconClass={faIconClass}
+          icon={icon}
           description={description}
           url={url}
           cta="Отвори страницата"

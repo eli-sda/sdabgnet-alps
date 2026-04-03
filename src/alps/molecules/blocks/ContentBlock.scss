@@ -5,4 +5,23 @@
       overflow-wrap: break-word;
     }
   }
+
+  .c-alps-icon,
+  .c-alps-icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+
+    path {
+      fill: currentColor;
+    }
+  }
+
+  .title-react-icon {
+    .u-icon {
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+      text-align: center;
+    }
+  }
 }

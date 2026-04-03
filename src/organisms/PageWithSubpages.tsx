@@ -35,14 +35,21 @@ export const PageWithSubpages = ({
       pageClassName="full-page"
     >
       {Object.values(metaMap).map(
-        ({ path, title, description }: PageMetaType, idx) => (
-          <PageLinkItem
-            key={idx}
-            url={path}
-            title={title}
-            description={description}
-          />
-        )
+        ({ path, title, description }: PageMetaType, idx) => {
+          const subnavItem = subnav.find((item) => item.url === path);
+
+          return (
+            <PageLinkItem
+              key={idx}
+              url={path}
+              title={title}
+              description={description}
+              reactIcon={subnavItem?.reactIcon}
+              faIconClass={subnavItem?.faIconClass}
+              icon={subnavItem?.icon}
+            />
+          );
+        }
       )}
     </Page>
   );

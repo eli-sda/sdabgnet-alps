@@ -126,13 +126,13 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
         subnav: [
           {
             type: 'primary',
-            text: 'Услуги/Работа',
+            text: 'Услуги и работа',
             url: routes.advertisement('services'),
             faIconClass: 'fas fa-briefcase'
           },
           {
             type: 'primary',
-            text: 'Покупко-Продажби/Наем',
+            text: 'Покупко-продажби и наеми',
             url: routes.advertisement('buySell'),
             faIconClass: 'fas fa-store'
           },

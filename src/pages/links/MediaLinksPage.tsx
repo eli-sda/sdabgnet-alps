@@ -75,9 +75,6 @@ const renderLinksBlocks = (groups: LinkGroup[]) =>
       const buttons = links?.map(({ url, type }) => ({
         label: type,
         url,
-        className: `link-button u-space--half--right ${
-          links.length > 1 ? 'u-space--half--bottom' : ''
-        }`,
         faIconClass: `${getFaIconClass(type)} fa-lg`,
         hideExternalIcon: true,
         outline: true,

@@ -12,7 +12,7 @@ import {
 import { getFontClass } from 'alps-library/global/fonts';
 import { iconConfig } from 'alps-library/atoms/icons/_config';
 import { IconWrap } from 'alps-library/atoms/icons/IconWrap';
-import { Button } from 'src/alps/atoms/Button';
+import { Button, ButtonProps } from 'src/alps/atoms/Button';
 import { NavLink } from 'react-router-dom';
 import { IconType } from 'react-icons/lib';
 import './ContentBlock.scss';
@@ -73,6 +73,10 @@ export interface ContentBlockProps {
   withImage?: boolean;
   more?: string;
   image?: ImageType;
+  /**
+   * Array of button properties to render multiple buttons
+   */
+  buttons?: ButtonProps[];
 }
 
 export const ContentBlock = ({
@@ -90,7 +94,8 @@ export const ContentBlock = ({
   url = '',
   category = '',
   more = '',
-  image
+  image,
+  buttons
 }: ContentBlockProps): JSX.Element => {
   const { onToggle, openClass } = useToggle();
 
@@ -214,17 +219,32 @@ export const ContentBlock = ({
             />
           </>
         ) : (
-          cta &&
-          url && (
-            <Button
-              as="a"
-              className="c-block__button"
-              outline={true}
-              label={cta}
-              url={url}
-              isExternal={isExternal}
-            />
-          )
+          <div className="c-cta-block__buttons c-block__buttons">
+            {buttons && buttons.length > 0
+              ? buttons.map((buttonProps, idx) => (
+                  <Button
+                    key={idx}
+                    {...buttonProps}
+                    as="a"
+                    className="c-block__button"
+                    outline={true}
+                  />
+                ))
+              : /* Fallback to single CTA button */
+                cta &&
+                url && (
+                  <Button
+                    as="a"
+                    className="c-block__button"
+                    // icon="arrow-long-right"
+                    // iconPosition="right"
+                    outline={true}
+                    label={cta}
+                    url={url}
+                    isExternal={isExternal}
+                  />
+                )}
+          </div>
         )}
       </div>
     </div>

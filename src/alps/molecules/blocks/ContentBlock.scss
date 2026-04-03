@@ -1,6 +1,6 @@
 .c-block {
   @media (max-width: 460px) {
-    &c-block__text {
+    &.c-block__text {
       hyphens: auto;
       overflow-wrap: break-word;
     }

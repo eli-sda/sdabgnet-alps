@@ -39,7 +39,19 @@
     "title": "Фондация “Грижа за здравето”",
     "url": "https://healthcare-bg.com/napravi-darenie/",
     "img": "/img/health/health-care.png",
-    "description": "Дари състрадание, любов и надежда за едно по-добро бъдеще! \n - Подкрепи най-належащите случаи \n - “Осинови” дете в България \n - “Осинови” Баба или Дядо \n - “Осинови” дете в Кения"
+    "description": "Дари състрадание, любов и надежда за едно по-добро бъдеще! \n - Подкрепи най-належащите случаи \n - “Осинови” дете в България \n - “Осинови” Баба или Дядо \n - “Осинови” дете в Кения",
+    "buttons": [
+      {
+        "label": "Отвори страницата",
+        "url": "https://healthcare-bg.com/napravi-darenie/",
+        "isExternal": true
+      },
+      {
+        "label": "Грижа за Всеки - ДОБРОВОЛЦИ",
+        "url": "https://www.facebook.com/groups/grizha.za.vseki",
+        "isExternal": true
+      }
+    ]
   },
   {
     "title": "Топла супа",

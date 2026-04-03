@@ -3,6 +3,7 @@ import { GridItem } from 'alps-library/atoms/grids/GridItem';
 import { ImageType } from 'alps-library/atoms/images/ImageType';
 import { iconConfig } from 'alps-library/atoms/icons/_config';
 import { ContentBlock } from 'src/alps/molecules/blocks/ContentBlock';
+import { ButtonProps } from 'src/alps/atoms/Button';
 import './PageLinkItem.scss';
 
 export type BaseLinkType = {
@@ -13,6 +14,7 @@ export type BaseLinkType = {
 export type PageLinkItemType = BaseLinkType & {
   description: string;
   img?: ImageType;
+  buttons?: ButtonProps[];
   sizeAtM?: string;
   sizeAtXL?: string;
   reactIcon?: IconType;
@@ -25,6 +27,7 @@ export const PageLinkItem = ({
   title,
   description,
   img,
+  buttons,
   sizeAtM = '3',
   sizeAtXL = '2',
   reactIcon,
@@ -49,6 +52,7 @@ export const PageLinkItem = ({
           url={url}
           cta="Отвори страницата"
           image={img || undefined}
+          buttons={buttons}
         ></ContentBlock>
       </GridItem>
     </>

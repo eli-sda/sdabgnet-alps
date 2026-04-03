@@ -64,7 +64,7 @@
   RewriteCond %{REQUEST_URI} !\.(?:jpg|jpeg|png|gif|ico|svg|webp|pdf|css|js|woff|woff2|ttf|eot|otf|mp4|webm|ogg|mp3|wav|txt|xml|json)$ [NC]
 
   # Explicitly allow phpinfo_.php, get-meta-description.php, contact.php, ad.php, askPastor.php, poetry.php, page.php, matomo-proxy.php to bypass all redirection
-  RewriteCond %{REQUEST_URI} ^/(phpinfo_\.php|get-meta-description\.php|contact\.php|ad\.php|askPastor\.php|poetry\.php|bitly-proxy|matomo-proxy\.php|nominatim-proxy\.php|page\.php)$ [NC]
+  RewriteCond %{REQUEST_URI} ^/(phpinfo_\.php|get-meta-description\.php|contact\.php|ad\.php|askPastor\.php|poetry\.php|bitly-proxy\.php|matomo-proxy\.php|nominatim-proxy\.php|page\.php)$ [NC]
   RewriteRule ^ - [L]
 
   # Allow only index.php to be executed

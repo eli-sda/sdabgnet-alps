@@ -13,7 +13,6 @@ const Churches = () => {
   const [filteredChurchesLinks, setFilteredChurchesLinks] = useState<
     LinksData[]
   >([]);
-  const [searchQuery, setSearchQuery] = useState<string>('');
 
   useEffect(() => {
     fetch('/json/adventis-online-churches.json')
@@ -80,7 +79,6 @@ const Churches = () => {
           hideSearchButton
           onSearch={(e: React.ChangeEvent<HTMLInputElement>) => {
             const v = e.target.value;
-            setSearchQuery(v);
             filterLinks(v);
           }}
           onSubmit={() => {

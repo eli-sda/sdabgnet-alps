@@ -1,16 +1,17 @@
 import { concat } from 'lodash';
-import { IconType } from 'react-icons/lib';
 import { GiOpenBook } from 'react-icons/gi';
 import {
   RiBookOpenLine,
   RiQuestionAnswerFill,
   RiUserVoiceFill
 } from 'react-icons/ri';
-import { TbSunset2Filled as _TbSunset2Filled } from 'react-icons/tb';
-const TbSunset2Filled = _TbSunset2Filled as IconType;
+import { TbSunset2Filled } from 'react-icons/tb';
+import { IconType } from 'react-icons/lib';
+
 // import { SiAudiobookshelf } from 'react-icons/si';
 import { LuAudioLines, LuBookAudio } from 'react-icons/lu';
 
+import { iconConfig } from 'alps-library/atoms/icons/_config';
 import { BreadcrumbItemProps } from 'src/alps/molecules/navigation/Breadcrumbs';
 import { PrimaryNavItemProps } from 'src/alps/molecules/navigation/PrimaryNavItem';
 import routes from 'src/routes';
@@ -125,13 +126,13 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
         subnav: [
           {
             type: 'primary',
-            text: 'Услуги/Работа',
+            text: 'Услуги и работа',
             url: routes.advertisement('services'),
             faIconClass: 'fas fa-briefcase'
           },
           {
             type: 'primary',
-            text: 'Покупко-Продажби/Наем',
+            text: 'Покупко-продажби и наеми',
             url: routes.advertisement('buySell'),
             faIconClass: 'fas fa-store'
           },
@@ -409,13 +410,27 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
   }
 ];
 
-type MenuItem = {
+export type MenuItem = {
+  /**
+   * Specify the text of your MenuItem
+   */
   text: string;
-  isExternal?: boolean;
+  isExternal?: boolean; //Eli added
   isDisabled?: boolean;
+  /**
+   * Specify the url of your MenuItem
+   */
   url?: string;
   subnav?: MenuItem[];
-  icon?: string;
+  reactIcon?: IconType;
+  /**
+   * FontAwesome icon name, for example 'fab fa-facebook-f'
+   */
+  faIconClass?: string;
+  /**
+   * SVG icon name from alps icons, for example 'logo'
+   */
+  icon?: keyof typeof iconConfig.iconNamesMap;
 };
 
 export const secondaryNavItems: SecondaryNavItemProps[] = [

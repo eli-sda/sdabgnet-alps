@@ -20,6 +20,7 @@ import { Partners } from 'src/components/Partners';
 //   linkTestimoniesVideoPlaylistsToItems
 // } from 'src/utils/Sanity/link-playlists';
 // import { deleteAllAudioLinks } from 'src/utils/Sanity/delete-audio-links';
+// import { cleanupPlaylistItems } from 'src/utils/Sanity/cleanup-playlist-items';
 
 // for DEMO:
 // import { TestLinks } from 'src/components/TestLinks';
@@ -107,10 +108,15 @@ const Home = () => {
           </div> */}
       {/* Playlist Testimony Linking Test Buttons */}
       {/* <div className="u-spacing--double">
-            <Button onClick={() => void linkTestimoniesVideoPlaylistsToItems()}>
-              Fill Опитности Playlists
-            </Button>
-          </div> */}
+        <Button onClick={() => void linkTestimoniesVideoPlaylistsToItems()}>
+          Fill Опитности Playlists
+        </Button>
+      </div> */}
+      {/* <div className="u-spacing--double">
+        <Button onClick={() => void cleanupPlaylistItems('testimony', 'СРЕЩИ')}>
+          Изтрий видеата от плейлист СРЕЩИ
+        </Button>
+      </div> */}
 
       <section className="full-page u-spacing--triple">
         {/* <VideoDemo /> */}

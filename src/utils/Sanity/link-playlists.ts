@@ -382,7 +382,7 @@ async function linkVideoPlaylistsToItems(playlistType: string) {
   try {
     const playlists: PlaylistDocument[] = await client.fetch(
       // Fetch all playlists of the given type without items
-      `*[_type == "playlist" && type == "${playlistType}" && items == null] | order(title asc){
+      `*[_type == "playlist" && type == "${playlistType}" && (items == null || count(items) == 0)] | order(title asc){
       _id,
       _type,
       title,

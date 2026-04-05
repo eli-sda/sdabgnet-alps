@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { Accordion } from 'src/alps/molecules/components/accordion/Accordion';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import { getTitle } from 'src/utils/Navigation';
+import { extractYouTubeId } from 'src/utils/extractYouTubeId';
+import VideoWithPreview from 'src/components/videoWithPreview/VideoWithPreview';
 import { SUBPAGE_KICKER } from '../Resources';
 import BooksList from './BooksList';
 import rawBooks from './books.json';
-import { extractYouTubeId } from 'src/utils/extractYouTubeId';
-import '/src/styles/VideoPreview.scss';
 
 const books = rawBooks as BooksSection[];
 
@@ -28,22 +27,12 @@ const Books = () => {
   const asideVideoId = extractYouTubeId(asideBookVideoUrl);
 
   const asideBookVideo = (
-    <Figure
-      className={`video-preview ${isPlayingAsideVideo ? 'is-active' : ''}`}
-      videoSrc={
-        isPlayingAsideVideo ? `${asideBookVideoUrl}?autoplay=1` : undefined
-      }
-      caption='Книга "ПРОРОЧЕСТВОТО ЗА ЗВЕЗДАТА": Археология и история, свързани с Исус Христос'
-      image={
-        !isPlayingAsideVideo && asideVideoId
-          ? getImageTypeByUrl(
-              `https://img.youtube.com/vi/${asideVideoId}/hqdefault.jpg`
-            )
-          : undefined
-      }
-      onImageClick={
-        !isPlayingAsideVideo ? () => setIsPlayingAsideVideo(true) : undefined
-      }
+    <VideoWithPreview
+      id={asideVideoId}
+      title='Книга "ПРОРОЧЕСТВОТО ЗА ЗВЕЗДАТА": Археология и история, свързани с Исус Христос'
+      videoSrc="https://www.youtube.com"
+      isActive={isPlayingAsideVideo}
+      onActivate={() => setIsPlayingAsideVideo(true)}
     />
   );
 

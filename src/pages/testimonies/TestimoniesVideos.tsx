@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
-import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import ShareVideoButton from 'src/components/ShareVideoButton';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
-import '/src/styles/VideoPreview.scss';
+import VideoWithPreview from 'src/components/videoWithPreview/VideoWithPreview';
 import './TestimoniesVideos.scss';
 
 type TestimonyVideo = {
@@ -78,8 +76,6 @@ const TestimoniesVideos = () => {
       <VideoPlaylistList playlists={playlists} />
 
       {videos.map(({ id, title, videoSrc, thumbnail }) => {
-        const isYouTube = videoSrc.includes('youtube.com');
-        const isRumble = videoSrc.includes('rumble.com');
         const isActive = activeVideo === id;
         const videoId = `${videoIdPrefix}${id}`;
 
@@ -89,43 +85,15 @@ const TestimoniesVideos = () => {
             id={videoId}
             className={`testimonies-videos${isActive ? ' is-active' : ''}`}
           >
-            {isYouTube ? (
-              <Figure
-                className={`testimonies-videos video-preview ${isActive ? 'is-active' : ''}`}
-                caption={title}
-                size="large"
-                image={
-                  !isActive
-                    ? getImageTypeByUrl(
-                        `https://img.youtube.com/vi/${id}/hqdefault.jpg`
-                      )
-                    : undefined
-                }
-                onImageClick={!isActive ? () => setActiveVideo(id) : undefined}
-                videoSrc={
-                  isActive
-                    ? `https://www.youtube.com/embed/${id}?autoplay=1`
-                    : undefined
-                }
-              />
-            ) : isRumble && thumbnail ? (
-              <Figure
-                className="testimonies-videos video-preview"
-                caption={title}
-                size="large"
-                image={getImageTypeByUrl(thumbnail)}
-                onImageClick={() =>
-                  window.open(videoSrc, '_blank', 'noopener,noreferrer')
-                }
-              />
-            ) : (
-              <Figure
-                className="testimonies-videos video-preview"
-                caption={title}
-                size="large"
-                videoSrc={videoSrc}
-              />
-            )}
+            <VideoWithPreview
+              id={id}
+              title={title}
+              videoSrc={videoSrc}
+              isActive={isActive}
+              thumbnail={thumbnail}
+              onActivate={setActiveVideo}
+              size="large"
+            />
             <ShareVideoButton
               url={`${window.location.origin}${window.location.pathname}?tab=videos#${videoId}`}
             />

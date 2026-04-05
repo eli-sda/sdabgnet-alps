@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react';
 import { Page } from 'src/organisms/Page';
-import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import routes from 'src/routes';
 import { RelatedPosts } from 'src/alps/organisms/asides/RelatedPosts';
 import { PageHeaderFeature2 } from 'src/organisms/sections/PageHeaderFeature2';
@@ -9,11 +8,11 @@ import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import { getTitle } from 'src/utils/Navigation';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
+import VideoWithPreview from 'src/components/videoWithPreview/VideoWithPreview';
 import { LinksBlock } from '../links/LinksBlock';
 import { LinksData, MediaListSection } from '../links/MediaLinksPage';
 import biblicalJson from './biblical.json';
 import believe28 from './believe28.json';
-import '/src/styles/VideoPreview.scss';
 import './Biblical.scss';
 
 type BelieveItem = {
@@ -143,25 +142,16 @@ const Biblical = () => {
         aside={<RelatedPosts {...audioCourses} />}
         relatedPosts={youTubeLinks}
       >
-        <section className="u-clear-fix">
-          <Figure
-            className={`u-space--double--top u-space--bottom video-preview ${isPlaying ? 'is-active' : ''}`}
+        <section className="u-clear-fix youtube-section">
+          <VideoWithPreview
+            id={videoId}
+            title="Рекламен клип Изучавай.ме"
+            videoSrc="https://www.youtube.com"
+            isActive={isPlaying}
+            onActivate={() => setIsPlaying(true)}
+            className="u-space--double--top u-space--bottom"
             align="left"
-            caption="Рекламен клип Изучавай.ме"
             size="large"
-            image={
-              !isPlaying
-                ? getImageTypeByUrl(
-                    `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
-                  )
-                : undefined
-            }
-            onImageClick={!isPlaying ? () => setIsPlaying(true) : undefined}
-            videoSrc={
-              isPlaying
-                ? `https://www.youtube.com/embed/${videoId}?autoplay=1`
-                : undefined
-            }
           />
         </section>
 

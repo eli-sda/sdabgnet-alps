@@ -1,21 +1,19 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import { IconWrap } from 'alps-library/atoms/icons/IconWrap';
 import { SubNavArrow } from 'alps-library/molecules/navigation/primaryNavItem/SubNavArrow';
-import { iconConfig } from 'alps-library/atoms/icons/_config';
 
+import { MenuItem } from 'src/utils/Navigation';
 import { SubNav } from './SubNav';
-import { NavLink } from 'react-router-dom';
+import { SubNavItemProps } from './SubNavItem';
 
-export interface SecondaryNavItemProps {
-  icon?: keyof typeof iconConfig.iconNamesMap;
+export interface SecondaryNavItemProps extends Omit<MenuItem, 'subnav'> {
   isPriority?: boolean;
   noWrap?: boolean;
   onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
-  subnav?: [];
-  text: string;
+  subnav?: SubNavItemProps[];
   type?: 'search' | 'menu';
-  url?: string;
   useNavLink?: boolean;
 }
 

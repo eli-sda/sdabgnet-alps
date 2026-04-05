@@ -59,8 +59,11 @@ export async function resolveBitlyViaBackend(
   shortUrl: string
 ): Promise<string | null> {
   try {
+    // Send only the path slug (e.g. "2026-T2-Urok01") to avoid WAF rules
+    // that flag full URLs (https://...) in query strings.
+    const slug = shortUrl.replace(/^https?:\/\/bit\.ly\//, '');
     const response = await fetch(
-      `${SITE}/bitly-resolver.php?url=${encodeURIComponent(shortUrl)}`
+      `${SITE}/bitly-proxy.php?slug=${encodeURIComponent(slug)}`
     );
 
     if (!response.ok) {

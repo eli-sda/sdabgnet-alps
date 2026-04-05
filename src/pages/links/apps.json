@@ -55,17 +55,6 @@
     ]
   },
   {
-    "title": "Библейски поредици",
-    "description": "„Библейски поредици“ дава възможност по-бързо, визуализирано и подредено да се докоснем до святите текстове на Библията.",
-    "image": "/img/logos/bible-series-logo.webp",
-    "links": [
-      {
-        "url": "https://play.google.com/store/apps/details?id=com.dodosteam.bibleSeminars",
-        "type": "google play"
-      }
-    ]
-  },
-  {
     "title": "Пътят към Христос",
     "description": "Приложението предлага възможност за прослушване на главите от книгата „Пътят към Христос“ в аудио формат.",
     "image": "/img/logos/steps-to-christ-logo.gif",

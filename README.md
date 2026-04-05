@@ -48,8 +48,6 @@ export default tseslint.config({
   },
 })
 ```
-## Note: FIX of build
-After install of audio player [react-jinke-music-player](https://github.com/lijinke666/react-music-player/) and use it's less files, have to remove `~` from [node_modules\react-jinke-music-player\lib\styles\index.less](node_modules\react-jinke-music-player\lib\styles\index.less) to fix an error in the build.
 
 If you want to view the bundle analysis after the build:
 ``npm run build``, you can manually open the generated [stats.html](stats.html) file in your browser.

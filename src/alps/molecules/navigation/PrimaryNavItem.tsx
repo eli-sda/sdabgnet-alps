@@ -1,12 +1,12 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { SubNavArrow } from 'alps-library/molecules/navigation/primaryNavItem/SubNavArrow';
-import { iconConfig } from 'alps-library/atoms/icons/_config';
 import { IconWrap } from 'alps-library/atoms/icons/IconWrap';
 import useClasses from 'alps-library/helpers/useClasses';
 
 import { SubNavItemProps } from './SubNavItem';
 import { SubNav } from './SubNav';
+import { MenuItem } from 'src/utils/Navigation';
 
 const statuses = {
   closed: { menu: false, search: false },
@@ -21,7 +21,7 @@ function useItemId(text: string, url: string) {
   );
 }
 
-export interface PrimaryNavItemProps {
+export interface PrimaryNavItemProps extends MenuItem {
   /**
    * Specify whether the PrimaryNavItem should be an active variant
    */
@@ -37,29 +37,12 @@ export interface PrimaryNavItemProps {
   priority?: boolean;
   subnav?: SubNavItemProps[];
   /**
-   * Specify the text of your  PrimaryNavItem
-   */
-  text: string;
-  /**
-   * Specify the url of your  PrimaryNavItem
-   */
-  url?: string;
-  /**
    * Specify whether the PrimaryNavItem should be a noWrap variant
    */
   noWrap?: boolean;
 
   //Eli added:
-  isExternal?: boolean;
   useNavLink?: boolean;
-  /**
-   * FontAwesome icon name, for example 'fab fa-facebook-f'
-   */
-  faIconClass?: string;
-  /**
-   * SVG icon name from alps icons, for example 'logo'
-   */
-  icon?: keyof typeof iconConfig.iconNamesMap;
 }
 
 export const PrimaryNavItem = ({

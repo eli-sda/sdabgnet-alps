@@ -11,6 +11,47 @@
     ]
   },
   {
+    "title": "Съботно Училище",
+    "description": "Официалното приложение на отдел „Съботно училище и лично служене“ към ГК на ЦАСД. Включва младежки уроци Inverse и други ресурси.",
+    "image": "/img/logos/sabbath-school-and-inverse-logo.webp",
+    "links": [
+      {
+        "url": "https://play.google.com/store/apps/details?id=com.cryart.sabbathschool",
+        "type": "google play"
+      },
+      {
+        "url": "https://apps.apple.com/us/app/sabbath-school-pm/id895272167",
+        "type": "app store"
+      }
+    ]
+  },
+  {
+    "title": "Библия",
+    "description": "Вземете Божието Слово със себе си, като изтеглите безплатното приложение Библията. Слушайте аудио версии, създавайте молитви и изучавайте заедно с приятели. Над 2400 версии на над 1600 езика.",
+    "image": "/img/logos/bible-app-logo.png",
+    "links": [
+      {
+        "url": "https://play.google.com/store/apps/details?id=com.sirma.mobile.bible.android",
+        "type": "google play"
+      },
+      {
+        "url": "https://apps.apple.com/us/app/bible/id282935706",
+        "type": "app store"
+      }
+    ]
+  },
+  {
+    "title": "Bible Verse Memorizer",
+    "description": "Запомняне на библейски стихове - Вашият ежедневен спътник за запаметяване на стихове от Писанието. Укрепете вярата си и запомнете библейски стихове без усилие с приложението.",
+    "image": "/img/logos/bible-verse-memorizer.webp",
+    "links": [
+      {
+        "url": "https://play.google.com/store/apps/details?id=com.bobo.bibleversememorizer",
+        "type": "google play"
+      }
+    ]
+  },
+  {
     "title": "Утринни четива",
     "description": "„Утринни четива“ е приложение съдържащо стих от Библията и кратък коментар за всеки ден. Налични са няколко поредици със заглавия: „Поглед нагоре, Елън Уайт“, „Нашият Баща се грижи, Елън Уайт“, „Мараната - Нашият Господ иде!, Елън Уайт“.",
     "image": "/img/logos/morning-readings-logo.png",
@@ -44,17 +85,6 @@
     ]
   },
   {
-    "title": "Пътят към Христос",
-    "description": "Приложението предлага възможност за прослушване на главите от книгата „Пътят към Христос“ в аудио формат.",
-    "image": "/img/logos/steps-to-christ-logo.gif",
-    "links": [
-      {
-        "url": "https://play.google.com/store/apps/details?id=com.dodosteam.stepsToChrist",
-        "type": "google play"
-      }
-    ]
-  },
-  {
     "title": "Библейски Учения",
     "description": "Приложението представя по достъпен начин някои от основните учения на Библията. Подходящо е и за хора, които тепърва се запознават с християнската вяра.",
     "image": "/img/logos/bible-teachings-logo.webp",
@@ -66,32 +96,13 @@
     ]
   },
   {
-    "title": "Съботно Училище",
-    "description": "Официалното приложение на отдел „Съботно училище и лично служене“ към ГК на ЦАСД. Включва младежки уроци Inverse и други ресурси.",
-    "image": "/img/logos/sabbath-school-and-inverse-logo.webp",
+    "title": "Пътят към Христос",
+    "description": "Приложението предлага възможност за прослушване на главите от книгата „Пътят към Христос“ в аудио формат.",
+    "image": "/img/logos/steps-to-christ-logo.gif",
     "links": [
       {
-        "url": "https://play.google.com/store/apps/details?id=com.cryart.sabbathschool",
+        "url": "https://play.google.com/store/apps/details?id=com.dodosteam.stepsToChrist",
         "type": "google play"
-      },
-      {
-        "url": "https://apps.apple.com/us/app/sabbath-school-pm/id895272167",
-        "type": "app store"
-      }
-    ]
-  },
-  {
-    "title": "Библия",
-    "description": "Вземете Божието Слово със себе си, като изтеглите безплатното приложение Библията. Слушайте аудио версии, създавайте молитви и изучавайте заедно с приятели. Над 2400 версии на над 1600 езика.",
-    "image": "/img/logos/bible-app-logo.png",
-    "links": [
-      {
-        "url": "https://play.google.com/store/apps/details?id=com.sirma.mobile.bible.android",
-        "type": "google play"
-      },
-      {
-        "url": "https://apps.apple.com/us/app/bible/id282935706",
-        "type": "app store"
       }
     ]
   }

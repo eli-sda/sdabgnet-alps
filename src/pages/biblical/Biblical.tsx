@@ -111,7 +111,6 @@ const Biblical = () => {
 
   // State to track if the video iframe should be loaded
   const [isPlaying, setIsPlaying] = useState(false);
-  const videoId = 'diVY5dKQpew';
 
   const subLinks = useCallback(
     (links: { url: string; title: string }[]) =>
@@ -142,15 +141,12 @@ const Biblical = () => {
         aside={<RelatedPosts {...audioCourses} />}
         relatedPosts={youTubeLinks}
       >
-        <section className="u-clear-fix youtube-section">
+        <section className="u-clear-fix youtube-section u-space--bottom">
           <VideoWithPreview
-            id={videoId}
             title="Рекламен клип Изучавай.ме"
-            videoSrc="https://www.youtube.com"
+            videoSrc="https://www.youtube.com/watch?v=diVY5dKQpew"
             isActive={isPlaying}
             onActivate={() => setIsPlaying(true)}
-            className="u-space--double--top u-space--bottom"
-            align="left"
             size="large"
           />
         </section>

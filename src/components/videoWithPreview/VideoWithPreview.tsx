@@ -1,37 +1,36 @@
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import './VideoWithPreview.scss';
+import { extractYouTubeId } from 'src/utils/extractYouTubeId';
 
 interface VideoWithPreviewProps {
-  id: string;
   title: string;
   videoSrc: string;
   isActive: boolean;
   thumbnail?: string;
   onActivate?: (id: string) => void;
-  className?: string;
   size?: 'large' | 'medium' | 'small';
   align?: 'left' | 'right' | 'center';
 }
 
 const VideoWithPreview = ({
-  id,
   title,
   videoSrc,
   isActive,
   thumbnail,
   onActivate,
-  className = '',
   size = 'large',
   align
 }: VideoWithPreviewProps) => {
+  const id = extractYouTubeId(videoSrc);
+
   const isYouTube = videoSrc.includes('youtube.com');
   const isRumble = videoSrc.includes('rumble.com');
 
   if (isYouTube) {
     return (
       <Figure
-        className={`${className} video-preview ${isActive ? 'is-active' : ''}`}
+        className={`video-preview ${isActive ? 'is-active' : ''}`}
         caption={title}
         size={size}
         align={align}
@@ -55,7 +54,7 @@ const VideoWithPreview = ({
   if (isRumble && thumbnail) {
     return (
       <Figure
-        className={`${className} video-preview`}
+        className="video-preview"
         caption={title}
         size={size}
         align={align}
@@ -70,7 +69,7 @@ const VideoWithPreview = ({
   // Default: direct video source
   return (
     <Figure
-      className={`${className} video-preview`}
+      className="video-preview"
       caption={title}
       size={size}
       align={align}

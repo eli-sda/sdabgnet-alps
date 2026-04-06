@@ -80,13 +80,8 @@ const TestimoniesVideos = () => {
         const videoId = `${videoIdPrefix}${id}`;
 
         return (
-          <div
-            key={videoId}
-            id={videoId}
-            className={`testimonies-videos${isActive ? ' is-active' : ''}`}
-          >
+          <div key={videoId} id={videoId} className="testimonies-videos">
             <VideoWithPreview
-              id={id}
               title={title}
               videoSrc={videoSrc}
               isActive={isActive}

@@ -4,7 +4,6 @@ import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import { getTitle } from 'src/utils/Navigation';
-import { extractYouTubeId } from 'src/utils/extractYouTubeId';
 import VideoWithPreview from 'src/components/videoWithPreview/VideoWithPreview';
 import { SUBPAGE_KICKER } from '../Resources';
 import BooksList from './BooksList';
@@ -23,14 +22,10 @@ const Books = () => {
 
   const [isPlayingAsideVideo, setIsPlayingAsideVideo] = useState(false);
 
-  const asideBookVideoUrl = 'https://www.youtube.com/embed/XpKOUJIM28w';
-  const asideVideoId = extractYouTubeId(asideBookVideoUrl);
-
   const asideBookVideo = (
     <VideoWithPreview
-      id={asideVideoId}
       title='Книга "ПРОРОЧЕСТВОТО ЗА ЗВЕЗДАТА": Археология и история, свързани с Исус Христос'
-      videoSrc="https://www.youtube.com"
+      videoSrc="https://www.youtube.com/watch?v=XpKOUJIM28w"
       isActive={isPlayingAsideVideo}
       onActivate={() => setIsPlayingAsideVideo(true)}
     />

@@ -3,11 +3,11 @@ import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import ShareVideoButton from 'src/components/ShareVideoButton';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
-import VideoWithPreview from 'src/components/videoWithPreview/VideoWithPreview';
+import VideoWithPreview from 'src/components/media/video/videoWithPreview/VideoWithPreview';
+import { extractYouTubeId } from 'src/utils/extractYouTubeId';
 import './TestimoniesVideos.scss';
 
 type TestimonyVideo = {
-  id: string;
   title: string;
   videoSrc: string;
   thumbnail?: string;
@@ -71,16 +71,22 @@ const TestimoniesVideos = () => {
     };
   }, []);
 
+  const generateVideoId = (videoSrc: string, index: number): string => {
+    const youtubeId = extractYouTubeId(videoSrc);
+    return youtubeId || `custom-${index}`;
+  };
+
   return (
     <section className="testimonies-videos-list">
       <VideoPlaylistList playlists={playlists} />
 
-      {videos.map(({ id, title, videoSrc, thumbnail }) => {
-        const isActive = activeVideo === id;
-        const videoId = `${videoIdPrefix}${id}`;
+      {videos.map(({ title, videoSrc, thumbnail }, index) => {
+        const videoId = generateVideoId(videoSrc, index);
+        const isActive = activeVideo === videoId;
+        const elementId = `${videoIdPrefix}${videoId}`;
 
         return (
-          <div key={videoId} id={videoId} className="testimonies-videos">
+          <div key={videoId} id={elementId} className="testimonies-videos">
             <VideoWithPreview
               title={title}
               videoSrc={videoSrc}
@@ -90,7 +96,7 @@ const TestimoniesVideos = () => {
               size="large"
             />
             <ShareVideoButton
-              url={`${window.location.origin}${window.location.pathname}?tab=videos#${videoId}`}
+              url={`${window.location.origin}${window.location.pathname}?tab=videos#${elementId}`}
             />
           </div>
         );

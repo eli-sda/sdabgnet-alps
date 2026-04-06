@@ -4,7 +4,7 @@ import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import { getTitle } from 'src/utils/Navigation';
-import VideoWithPreview from 'src/components/videoWithPreview/VideoWithPreview';
+import VideoWithPreview from 'src/components/media/video/videoWithPreview/VideoWithPreview';
 import { SUBPAGE_KICKER } from '../Resources';
 import BooksList from './BooksList';
 import rawBooks from './books.json';

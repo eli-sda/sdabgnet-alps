@@ -32,37 +32,44 @@ export const RssFeedList = ({
   const feedProps = useMemo(() => {
     let logoName: string | undefined;
     let title = '';
+    let titleLink = '';
     let kicker = 'последни предавания';
     switch (rssFeedName) {
       case 'hopetv':
         title = 'Hope Channel Bulgaria';
+        titleLink = 'https://hopetv.bg/';
         logoName = 'hope-channel-logo.svg';
         break;
       case 'newlife':
         title = 'Издателство "Нов Живот"';
+        titleLink = 'https://newlife.bg/';
         kicker = 'последни издания';
         logoName = 'new-life_color.svg';
         break;
       case '3_16':
         title = 'Радио 3:16';
+        titleLink = 'https://3-16.bg/';
         logoName = 'radio3-16_red.svg';
         break;
       case 'svetlina':
         title = 'Телевизия и Радио "Светлина"';
+        titleLink = 'https://www.youtube.com/@TeleviziaSvetlina';
         logoName = 'radiosvetlina-logo.svg';
         break;
       case 'ltv':
         title = 'LTV България';
+        titleLink = 'https://www.youtube.com/@LTVBulgaria';
         kicker = 'последни предавания';
         logoName = 'ltv-logo.svg';
         break;
     }
-    return { logoPath: `/img/logos/${logoName}`, title, kicker };
+    return { logoPath: `/img/logos/${logoName}`, title, kicker, titleLink };
   }, [rssFeedName]);
 
   return (
     <FeedList
       title={feedProps.title}
+      titleLink={feedProps.titleLink}
       kicker={feedProps.kicker}
       logoPath={feedProps.logoPath}
       items={items}

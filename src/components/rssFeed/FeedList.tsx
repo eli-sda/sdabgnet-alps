@@ -4,6 +4,7 @@ import './FeedList.scss';
 
 export type FeedListProps = {
   title?: string;
+  titleLink?: string;
   logoPath?: string;
   items?: FeedItemType[];
   kicker?: string;
@@ -12,14 +13,25 @@ export type FeedListProps = {
 
 export const FeedList = ({
   title,
+  titleLink,
   kicker,
   logoPath,
   items,
   feedListClassName = ''
 }: FeedListProps) => {
+  const titleContent = (
+    <DarkTitle title={title || 'Feed'} kicker={kicker} imageUrl={logoPath} />
+  );
+
   return (
     <section className="feed-section">
-      <DarkTitle title={title || 'Feed'} kicker={kicker} imageUrl={logoPath} />
+      {titleLink ? (
+        <a href={titleLink} target="_blank" rel="noopener noreferrer">
+          {titleContent}
+        </a>
+      ) : (
+        titleContent
+      )}
 
       {items && items.length > 0 ? (
         <div className={`feed-list u-space--top ${feedListClassName}`}>

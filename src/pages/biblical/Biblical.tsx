@@ -1,6 +1,5 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { Page } from 'src/organisms/Page';
-import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import routes from 'src/routes';
 import { RelatedPosts } from 'src/alps/organisms/asides/RelatedPosts';
 import { PageHeaderFeature2 } from 'src/organisms/sections/PageHeaderFeature2';
@@ -9,6 +8,7 @@ import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import { getTitle } from 'src/utils/Navigation';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
+import VideoWithPreview from 'src/components/media/video/videoWithPreview/VideoWithPreview';
 import { LinksBlock } from '../links/LinksBlock';
 import { LinksData, MediaListSection } from '../links/MediaLinksPage';
 import biblicalJson from './biblical.json';
@@ -109,6 +109,9 @@ const Biblical = () => {
 
   const believeSections = believe28 as BelieveSection[];
 
+  // State to track if the video iframe should be loaded
+  const [isPlaying, setIsPlaying] = useState(false);
+
   const subLinks = useCallback(
     (links: { url: string; title: string }[]) =>
       links?.map(({ url, title }, index) => (
@@ -138,13 +141,13 @@ const Biblical = () => {
         aside={<RelatedPosts {...audioCourses} />}
         relatedPosts={youTubeLinks}
       >
-        <section className="u-clear-fix">
-          <Figure
-            className="u-space--double--top u-space--bottom"
-            align="left"
-            caption="Рекламен клип Изучавай.ме"
+        <section className="u-clear-fix youtube-section u-space--bottom">
+          <VideoWithPreview
+            title="Рекламен клип Изучавай.ме"
+            videoSrc="https://www.youtube.com/watch?v=diVY5dKQpew"
+            isActive={isPlaying}
+            onActivate={() => setIsPlaying(true)}
             size="large"
-            videoSrc="https://www.youtube.com/embed/diVY5dKQpew"
           />
         </section>
 
@@ -200,7 +203,7 @@ const Biblical = () => {
       </Page>
 
       <section className="biblical full-section u-space--top">
-        <section className='u-spacing--double'>
+        <section className="u-spacing--double">
           <PageHeaderFeature2
             blockType="quarterSS"
             blocks={[

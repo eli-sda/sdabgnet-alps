@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
-import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import ShareVideoButton from 'src/components/ShareVideoButton';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
+import VideoWithPreview from 'src/components/media/video/videoWithPreview/VideoWithPreview';
+import { extractYouTubeId, extractRumbleId } from 'src/utils/extractVideoId';
 import './TestimoniesVideos.scss';
 
 type TestimonyVideo = {
-  id: string;
   title: string;
   videoSrc: string;
   thumbnail?: string;
@@ -72,61 +71,40 @@ const TestimoniesVideos = () => {
     };
   }, []);
 
+  const getVideoId = (videoSrc: string): string => {
+    const videoId = extractYouTubeId(videoSrc) || extractRumbleId(videoSrc);
+
+    if (!videoId) {
+      console.warn(`Could not extract video ID from URL: ${videoSrc}`);
+    }
+
+    return videoId;
+  };
+
   return (
     <section className="testimonies-videos-list">
       <VideoPlaylistList playlists={playlists} />
 
-      {videos.map(({ id, title, videoSrc, thumbnail }) => {
-        const isYouTube = videoSrc.includes('youtube.com');
-        const isRumble = videoSrc.includes('rumble.com');
-        const isActive = activeVideo === id;
-        const videoId = `${videoIdPrefix}${id}`;
+      {videos.map(({ title, videoSrc, thumbnail }) => {
+        const videoId = getVideoId(videoSrc);
+
+        if (!videoId) return null;
+
+        const isActive = activeVideo === videoId;
+        const elementId = `${videoIdPrefix}${videoId}`;
 
         return (
-          <div
-            key={videoId}
-            id={videoId}
-            className={`testimonies-videos${isActive ? ' is-active' : ''}`}
-          >
-            {isYouTube ? (
-              <Figure
-                className="testimonies-videos"
-                caption={title}
-                size="large"
-                image={
-                  !isActive
-                    ? getImageTypeByUrl(
-                        `https://img.youtube.com/vi/${id}/hqdefault.jpg`
-                      )
-                    : undefined
-                }
-                onImageClick={!isActive ? () => setActiveVideo(id) : undefined}
-                videoSrc={
-                  isActive
-                    ? `https://www.youtube.com/embed/${id}?autoplay=1`
-                    : undefined
-                }
-              />
-            ) : isRumble && thumbnail ? (
-              <Figure
-                className="testimonies-videos"
-                caption={title}
-                size="large"
-                image={getImageTypeByUrl(thumbnail)}
-                onImageClick={() =>
-                  window.open(videoSrc, '_blank', 'noopener,noreferrer')
-                }
-              />
-            ) : (
-              <Figure
-                className="testimonies-videos"
-                caption={title}
-                size="large"
-                videoSrc={videoSrc}
-              />
-            )}
+          <div key={videoId} id={elementId} className="testimonies-videos">
+            <VideoWithPreview
+              title={title}
+              videoSrc={videoSrc}
+              isActive={isActive}
+              thumbnail={thumbnail}
+              onActivate={setActiveVideo}
+              size="large"
+            />
             <ShareVideoButton
-              url={`${window.location.origin}${window.location.pathname}?tab=videos#${videoId}`}
+              url={`${window.location.origin}${window.location.pathname}?tab=videos#${elementId}`}
             />
           </div>
         );

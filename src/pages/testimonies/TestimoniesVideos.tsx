@@ -71,16 +71,14 @@ const TestimoniesVideos = () => {
     };
   }, []);
 
-  const generateVideoId = (videoSrc: string): string | undefined => {
-    const youtubeId = extractYouTubeId(videoSrc);
-    const rumbleId = extractRumbleId(videoSrc);
+  const getVideoId = (videoSrc: string): string => {
+    const videoId = extractYouTubeId(videoSrc) || extractRumbleId(videoSrc);
 
-    if (!youtubeId && !rumbleId) {
+    if (!videoId) {
       console.warn(`Could not extract video ID from URL: ${videoSrc}`);
-      return undefined;
     }
 
-    return youtubeId || rumbleId;
+    return videoId;
   };
 
   return (
@@ -88,7 +86,10 @@ const TestimoniesVideos = () => {
       <VideoPlaylistList playlists={playlists} />
 
       {videos.map(({ title, videoSrc, thumbnail }) => {
-        const videoId = generateVideoId(videoSrc);
+        const videoId = getVideoId(videoSrc);
+
+        if (!videoId) return null;
+
         const isActive = activeVideo === videoId;
         const elementId = `${videoIdPrefix}${videoId}`;
 

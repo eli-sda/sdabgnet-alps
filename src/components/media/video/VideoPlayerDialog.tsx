@@ -5,7 +5,7 @@ import { TransitionProps } from '@mui/material/transitions';
 import { Button as AlpsButton } from 'src/alps/atoms/Button';
 
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
-import { extractYouTubeId } from 'src/utils/extractYouTubeId';
+import { extractYouTubeId } from 'src/utils/extractVideoId';
 import VideoPlayer, { VideoPlaylistType } from './VideoPlayer';
 import './VideoPlayerDialog.scss';
 

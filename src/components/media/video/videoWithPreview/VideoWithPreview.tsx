@@ -1,7 +1,7 @@
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import './VideoWithPreview.scss';
-import { extractYouTubeId } from 'src/utils/extractYouTubeId';
+import { extractYouTubeId } from 'src/utils/extractVideoId';
 
 interface VideoWithPreviewProps {
   title: string;

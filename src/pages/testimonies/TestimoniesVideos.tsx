@@ -4,7 +4,7 @@ import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import ShareVideoButton from 'src/components/ShareVideoButton';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
 import VideoWithPreview from 'src/components/media/video/videoWithPreview/VideoWithPreview';
-import { extractYouTubeId } from 'src/utils/extractYouTubeId';
+import { extractYouTubeId, extractRumbleId } from 'src/utils/extractVideoId';
 import './TestimoniesVideos.scss';
 
 type TestimonyVideo = {
@@ -71,17 +71,24 @@ const TestimoniesVideos = () => {
     };
   }, []);
 
-  const generateVideoId = (videoSrc: string, index: number): string => {
+  const generateVideoId = (videoSrc: string): string | undefined => {
     const youtubeId = extractYouTubeId(videoSrc);
-    return youtubeId || `custom-${index}`;
+    const rumbleId = extractRumbleId(videoSrc);
+
+    if (!youtubeId && !rumbleId) {
+      console.warn(`Could not extract video ID from URL: ${videoSrc}`);
+      return undefined;
+    }
+
+    return youtubeId || rumbleId;
   };
 
   return (
     <section className="testimonies-videos-list">
       <VideoPlaylistList playlists={playlists} />
 
-      {videos.map(({ title, videoSrc, thumbnail }, index) => {
-        const videoId = generateVideoId(videoSrc, index);
+      {videos.map(({ title, videoSrc, thumbnail }) => {
+        const videoId = generateVideoId(videoSrc);
         const isActive = activeVideo === videoId;
         const elementId = `${videoIdPrefix}${videoId}`;
 

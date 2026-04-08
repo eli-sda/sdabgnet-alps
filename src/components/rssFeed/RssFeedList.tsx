@@ -42,7 +42,7 @@ export const RssFeedList = ({
         break;
       case 'newlife':
         title = 'Издателство "Нов Живот"';
-        titleLink = 'https://newlife.bg/';
+        titleLink = 'https://newlife-bg.com';
         kicker = 'последни издания';
         logoName = 'new-life_color.svg';
         break;

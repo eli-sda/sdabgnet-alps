@@ -86,12 +86,11 @@ const TestimoniesVideos = () => {
     <section className="testimonies-videos-list">
       <VideoPlaylistList playlists={playlists} />
 
-      {videos.map(({ title, URL, description }) => {
-        if (!URL) {
-          return null;
-        }
+      {videos.map(({ title, path, description }) => {
+        const videoId = getVideoId(path);
 
-        const videoId = getVideoId(URL);
+        if (!videoId) return null;
+
         const isActive = activeVideo === videoId;
         const elementId = `${videoIdPrefix}${videoId}`;
 
@@ -105,7 +104,7 @@ const TestimoniesVideos = () => {
           <div key={videoId} id={elementId} className="testimonies-videos">
             <VideoWithPreview
               title={title}
-              videoSrc={URL}
+              videoSrc={path}
               isActive={isActive}
               thumbnail={parsedThumbnail}
               onActivate={setActiveVideo}

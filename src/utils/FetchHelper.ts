@@ -140,7 +140,6 @@ export const loadPlaylists = async (
       author,
       title,
       description,
-      URL,
       "path": select(isResource == true => ^.slug.current + "/" + fileName, true => URL),
       size,
       // keyWords

@@ -54,7 +54,7 @@ const VideoWithPreview = ({
   if (isRumble && thumbnail) {
     return (
       <Figure
-        className="video-preview"
+        className={`video-preview ${isActive ? 'is-active' : ''}`}
         caption={title}
         size={size}
         align={align}

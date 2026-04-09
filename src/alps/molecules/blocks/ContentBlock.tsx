@@ -227,7 +227,6 @@ export const ContentBlock = ({
                     {...buttonProps}
                     as="a"
                     className="c-block__button"
-                    outline={true}
                   />
                 ))
               : /* Fallback to single CTA button */

@@ -8,6 +8,7 @@ import { HomeEvents } from './HomeEvents';
 import { AdvertisementsPreview } from 'src/components/advertisements/AdvertisementsPreview';
 import { RssFeeds } from 'src/components/rssFeed/RssFeeds';
 import { Partners } from 'src/components/Partners';
+import { CallForHelp } from 'src/components/CallForHelp';
 
 // for Sanity update
 // import { Button } from '@mui/material';
@@ -71,6 +72,10 @@ const Home = () => {
 
       <section className="full-page">
         <HomeEvents />
+      </section>
+
+      <section className="full-page">
+        <CallForHelp />
       </section>
 
       <section className="full-page">

@@ -205,6 +205,10 @@
     "description": "",
     "books": [
       {
+        "title": "Библейски адвентен коментар",
+        "path": "books/Drugi/Библейски Коментар.zip"
+      },
+      {
         "title": "Стъпки към лично пробуждане, Хелмут Хаубайл",
         "path": "books/Drugi/Stypki-kym-lichno-probuzhdane.pdf"
       },

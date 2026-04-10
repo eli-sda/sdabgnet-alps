@@ -132,6 +132,7 @@ export const loadPlaylists = async (
     // type,
     author,
     title,
+    description,
     // keyWords,
     "imageUrl": image.asset -> url,
     "items": items[_type == "reference"]->{

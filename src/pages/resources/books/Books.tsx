@@ -2,23 +2,25 @@ import { useEffect, useState } from 'react';
 import { Accordion } from 'src/alps/molecules/components/accordion/Accordion';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
+import { PlaylistType } from 'src/contexts/PlaylistsContext';
+import { usePlaylists } from 'src/hooks/usePlaylists';
 import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import { getTitle } from 'src/utils/Navigation';
 import VideoWithPreview from 'src/components/media/video/videoWithPreview/VideoWithPreview';
 import { SUBPAGE_KICKER } from '../Resources';
 import BooksList from './BooksList';
-import rawBooks from './books.json';
-
-const books = rawBooks as BooksSection[];
 
 const Books = () => {
-  const [sections, setSections] = useState<BooksSection[]>([]);
+  const breadcrumbsUrls = [routes.resources(), routes.resources('books')];
+
+  const { getResourcePlaylists } = usePlaylists();
+  const [books, setBooks] = useState<PlaylistType[]>([]);
 
   useEffect(() => {
-    setSections(books);
-  }, []);
-
-  const breadcrumbsUrls = [routes.resources(), routes.resources('books')];
+    getResourcePlaylists('books', undefined, false)
+      .then(setBooks)
+      .catch((err) => console.error(err));
+  }, [getResourcePlaylists]);
 
   const [isPlayingAsideVideo, setIsPlayingAsideVideo] = useState(false);
 
@@ -56,8 +58,8 @@ const Books = () => {
       relatedPosts={relatedBooks}
     >
       <Accordion className="text">
-        {sections.map((section, i) => (
-          <BooksList key={i} {...section} />
+        {books.map((book, i) => (
+          <BooksList key={i} {...book} />
         ))}
       </Accordion>
     </Page>

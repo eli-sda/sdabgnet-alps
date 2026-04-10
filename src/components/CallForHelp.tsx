@@ -9,7 +9,7 @@ const causes = [
     description:
       'Руми вече веднъж победи болестта, но днес отново се бори за живота си и има нужда от спешно лечение, за да получи втори шанс. ЕДНА МАЙЧИНА МОЛБА: Да върнем бъдещето на десетгодишния Руми!',
     img: '/img/causes/rumi.webp',
-    url: 'https://pavelandreev.org/bg/campaign/10-godishniyat-rumi-se-bori-s-retsidiv-transplantatsiyata-e-shansat-mu?fbclid=IwZXh0bgNhZW0CMTEAYnJpZBEwdnpON2tIdTdLcWJHdEpYNnNydGMGYXBwX2lkATAAAR6ilfoKBa28xMMi-64k2WBcT7o4I4QZ2rKb2w1G79zJOBIPcEkZJg4XUYOInA_aem_sNDAj-gFPc7b9Q_yspmPxQ'
+    url: 'https://pavelandreev.org/bg/campaign/10-godishniyat-rumi-se-bori-s-retsidiv-transplantatsiyata-e-shansat-mu'
   },
   {
     title: 'Помощ за Коби Бердал: Необходима е спешна медицинска помощ',

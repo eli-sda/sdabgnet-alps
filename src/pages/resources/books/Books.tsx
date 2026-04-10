@@ -18,7 +18,15 @@ const Books = () => {
 
   useEffect(() => {
     getResourcePlaylists('books', undefined, false)
-      .then(setBooks)
+      //Други at the end of the list
+      .then((data: PlaylistType[]) => {
+        const sortedData = data.sort((a, b) => {
+          if (a.title === 'Други') return 1;
+          if (b.title === 'Други') return -1;
+          return 0;
+        });
+        setBooks(sortedData);
+      })
       .catch((err) => console.error(err));
   }, [getResourcePlaylists]);
 

@@ -79,6 +79,39 @@ export interface ContentBlockProps {
   buttons?: ButtonProps[];
 }
 
+/** Parses markdown-style links [text](url) in a string and renders them as <a> (external) or <NavLink> (internal). */
+const parseLinksMd = (text: string): React.ReactNode[] => {
+  const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  const parts: React.ReactNode[] = [];
+  let lastIndex = 0;
+  let match;
+  while ((match = linkRegex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index));
+    }
+    const [, linkText, linkUrl] = match;
+    const external = linkUrl.startsWith('http');
+    if (external) {
+      parts.push(
+        <a key={match.index} href={linkUrl} target="_blank" rel="noopener noreferrer" className="u-theme--link-hover--dark">
+          {linkText}
+        </a>
+      );
+    } else {
+      parts.push(
+        <NavLink key={match.index} to={linkUrl} className="u-theme--link-hover--dark">
+          {linkText}
+        </NavLink>
+      );
+    }
+    lastIndex = match.index + match[0].length;
+  }
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+  return parts;
+};
+
 export const ContentBlock = ({
   title,
   reactIcon,
@@ -173,7 +206,7 @@ export const ContentBlock = ({
           <p className={'c-block__body'}>
             {description.split('\n').map((line, i, arr) => (
               <React.Fragment key={i}>
-                {line}
+                {parseLinksMd(line)}
                 {i < arr.length - 1 && <br />}
               </React.Fragment>
             ))}

@@ -44,12 +44,14 @@
       {
         "label": "Отвори страницата",
         "url": "https://healthcare-bg.com/napravi-darenie/",
-        "isExternal": true
+        "isExternal": true,
+        "outline": true
       },
       {
         "label": "Грижа за Всеки - ДОБРОВОЛЦИ",
         "url": "https://www.facebook.com/groups/grizha.za.vseki",
-        "isExternal": true
+        "isExternal": true,
+        "outline": true
       }
     ]
   },

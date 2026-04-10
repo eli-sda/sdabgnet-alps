@@ -98,6 +98,10 @@ const youTubeLinks = {
     {
       title: '🎞️ Триединството (плейлист)',
       url: 'https://www.youtube.com/playlist?list=PLVYPzB4Uygi9JXqscXn9D4HZLx-MjRgbX'
+    },
+    {
+      title: '🎞️ Седмият Ден (плейлист)',
+      url: 'https://www.youtube.com/playlist?list=PLdkD_M036WsQjnM1tOoOyY6FV2-P62KwU'
     }
   ]
 };

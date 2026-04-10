@@ -1,0 +1,46 @@
+import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
+import { ContentBlock } from 'src/alps/molecules/blocks/ContentBlock';
+import { getImageTypeByUrl } from 'src/utils/ImageHelper';
+import './CallForHelp.scss';
+
+const causes = [
+  {
+    title: 'Руми се изправя срещу болестта за втори път',
+    description:
+      'Руми вече веднъж победи болестта, но днес отново се бори за живота си и има нужда от спешно лечение, за да получи втори шанс. ЕДНА МАЙЧИНА МОЛБА: Да върнем бъдещето на десетгодишния Руми!',
+    img: '/img/causes/rumi.webp',
+    url: 'https://pavelandreev.org/bg/campaign/10-godishniyat-rumi-se-bori-s-retsidiv-transplantatsiyata-e-shansat-mu'
+  },
+  {
+    title: 'Помощ за Коби Бердал: Необходима е спешна медицинска помощ',
+    description:
+      'Коби е съпругата на Крисчън Бердал. Гледайте [неговата история](/church_life/testimonies?playlistId=b1fa3eb8-d5d7-4469-804f-f5e73d55ae14&playId=63af30da-9a55-4498-86e2-01fe73f19fa4) в страницата с опитности.',
+    img: '/img/causes/coby.webp',
+    url: 'https://www.gofundme.com/f/help-save-cobys-life-urgent-medical-support-needed'
+  }
+];
+
+export const CallForHelp = () => {
+  return (
+    <section className="u-spacing call-for-help">
+      <HeadingBlock title="Зов за помощ" />
+
+      {causes.map((cause, index) => (
+        <ContentBlock
+          key={index}
+          description={cause.description}
+          title={cause.title}
+          image={getImageTypeByUrl(cause.img)}
+          buttons={[
+            {
+              label: 'Подкрепете каузата',
+              url: cause.url,
+              small: true,
+              isExternal: true
+            }
+          ]}
+        />
+      ))}
+    </section>
+  );
+};

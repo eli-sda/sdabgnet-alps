@@ -16,7 +16,7 @@ export const clientVreses = createClient({
   projectId: import.meta.env.VITE_SANITY_VERSES_PROJECT_ID as string,
   dataset: import.meta.env.VITE_SANITY_DATASET as string,
   apiVersion: '2022-03-07',
-  useCdn: import.meta.env.VITE_SANITY_DATASET === 'production', // `true` for fast, cached responses
+  useCdn: !import.meta.env.DEV, // `true` for fast, cached responses
   token: versesToken
 });
 
@@ -25,8 +25,9 @@ export const client = createClient({
   projectId: import.meta.env.VITE_SANITY_SDABGNET_PROJECT_ID as string,
   dataset: import.meta.env.VITE_SANITY_DATASET as string,
   apiVersion: '2025-11-21',
-  useCdn: import.meta.env.VITE_SANITY_DATASET === 'production', // `true` for fast, cached responses
+  useCdn: !import.meta.env.DEV, // `true` for fast, cached responses
   token
+  // perspective: 'raw' // Enables drafts (with token & useCdn: false, e.g. in DEV)
 });
 
 const builder = imageUrlBuilder(client);

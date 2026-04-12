@@ -259,7 +259,7 @@ function normalizeAuthor(author: string): string {
 /**
  * Sort video links by keyWords[1] (numeric order)
  */
-function sortYoutubeVideoLinks(links: LinkDocument[]): LinkDocument[] {
+function sortLinksByKeyWords(links: LinkDocument[]): LinkDocument[] {
   return links.sort((a, b) => {
     const aNum = parseInt(a.keyWords[1] || '0');
     const bNum = parseInt(b.keyWords[1] || '0');
@@ -426,7 +426,7 @@ async function linkVideoPlaylistsToItems(playlistType: string) {
       }
 
       // Sort links by keyWords[1] (numeric order)
-      const sortedMatchingLinks = sortYoutubeVideoLinks(matchingLinks);
+      const sortedMatchingLinks = sortLinksByKeyWords(matchingLinks);
       console.log(`📂 Playlist: "${playlist.title}"`);
       console.log(`   Found ${sortedMatchingLinks.length} matching links:`);
       sortedMatchingLinks.forEach((link, idx) => {
@@ -474,4 +474,100 @@ export async function linkBibleVideoPlaylistsToItems() {
 
 export async function linkTestimoniesVideoPlaylistsToItems() {
   await linkVideoPlaylistsToItems('testimony');
+}
+
+export async function linkBookPlaylistsToItems() {
+  const playlistType = 'books';
+
+  console.log(`Starting to link ${playlistType} playlists to their items...`);
+
+  let totalUpdated = 0;
+
+  try {
+    const playlists: PlaylistDocument[] = await client.fetch(
+      // Fetch all playlists of the given type without items
+      `*[_type == "playlist" && type == "${playlistType}" && isResource == true && (items == null || count(items) == 0)] | order(title asc){
+      _id,
+      _type,
+      title,
+      description,
+      items
+    }`
+    );
+
+    // Get all playlist titles for filtering links
+    const playlistTitles = playlists.map((p) => p.title);
+
+    // Fetch book links with isResource == true where first keyWord matches one of the playlist titles
+    const links: LinkDocument[] = await client.fetch(
+      `*[_type == "link" && type == "book" && isResource == true && keyWords[0] in $playlistTitles]{
+        _id,
+        _type,
+        title,
+        author,
+        fileName,
+        keyWords
+      }`,
+      { playlistTitles }
+    );
+
+    console.log(
+      `Found ${playlists.length} playlists and ${links.length} links`
+    );
+
+    // Process each playlist
+    for (const playlist of playlists) {
+      // Find matching links for this playlist
+      const matchingLinks = links.filter(
+        (link) => link.keyWords[0] === playlist.title
+      );
+
+      if (matchingLinks.length === 0) {
+        console.warn(`No matching links found for playlist: ${playlist.title}`);
+        continue;
+      }
+
+      // Sort links by keyWords[1] (numeric order)
+      const sortedMatchingLinks = sortLinksByKeyWords(matchingLinks);
+
+      console.log(`📂 Playlist: "${playlist.title}"`);
+      console.log(`   Found ${sortedMatchingLinks.length} matching links:`);
+
+      sortedMatchingLinks.forEach((link, idx) => {
+        console.log(
+          `      ${idx + 1}. "${link.title}" (keyWords[1]: ${link.keyWords[1]})`
+        );
+      });
+
+      // Create references to the matching links
+      const itemReferences = sortedMatchingLinks.map((link) => ({
+        _type: 'reference' as const,
+        _ref: link._id,
+        _key: `ref-${link._id}`
+      }));
+
+      // Update the playlist with the item references
+      try {
+        await client
+          .patch(playlist._id)
+          .set({
+            items: itemReferences
+          })
+          .commit();
+
+        console.log(
+          `✅ Updated playlist "${playlist.title}" with ${sortedMatchingLinks.length} items`
+        );
+        totalUpdated++;
+      } catch (error) {
+        console.error(`❌ Failed to update playlist ${playlist._id}:`, error);
+      }
+    }
+
+    console.log(
+      `\n🎉 Successfully updated ${totalUpdated} playlists out of ${playlists.length}`
+    );
+  } catch (error) {
+    console.error('❌ Error in linkBookPlaylistsToItems:', error);
+  }
 }

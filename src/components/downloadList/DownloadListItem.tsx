@@ -11,6 +11,7 @@ interface DownloadListItemProps extends LinkType {
 
 const DownloadListItem = ({
   title,
+  author,
   description,
   _id,
   path,
@@ -150,6 +151,9 @@ const DownloadListItem = ({
       </h3>
       <div>
         <h3 className="u-space--quarter--bottom hyphens-auto">{title}</h3>
+        {author && (
+          <h3 className="c-block__kicker u-space--quarter--bottom">{author}</h3>
+        )}
         {htmlContent && <div>{renderVideoContent}</div>}
         <div className="action-buttons">
           {downloadButton}

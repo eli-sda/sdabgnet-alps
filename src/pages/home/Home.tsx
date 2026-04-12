@@ -19,6 +19,7 @@ import { CallForHelp } from 'src/components/CallForHelp';
 //   // linkMusicPlaylistsToItems,
 //   // linkBibleVideoPlaylistsToItems,
 //   linkTestimoniesVideoPlaylistsToItems
+// linkBookPlaylistsToItems
 // } from 'src/utils/Sanity/link-playlists';
 // import { deleteAllAudioLinks } from 'src/utils/Sanity/delete-audio-links';
 // import { cleanupPlaylistItems } from 'src/utils/Sanity/cleanup-playlist-items';
@@ -120,6 +121,11 @@ const Home = () => {
       {/* <div className="u-spacing--double">
         <Button onClick={() => void cleanupPlaylistItems('testimony', 'СРЕЩИ')}>
           Изтрий видеата от плейлист СРЕЩИ
+        </Button>
+      </div> */} 
+      {/* <div className="u-spacing--double">
+        <Button onClick={() => void linkBookPlaylistsToItems()}>
+          Fill Book Playlists
         </Button>
       </div> */}
 

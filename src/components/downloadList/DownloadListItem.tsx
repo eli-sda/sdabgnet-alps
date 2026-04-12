@@ -55,7 +55,9 @@ const DownloadListItem = ({
       }
     );
 
-    return { htmlContent: processedHtml, videos };
+    const htmlWithBreaks = processedHtml.replace(/\n/g, '<br/>');
+
+    return { htmlContent: htmlWithBreaks, videos };
   }, [description]);
 
   const url = useMemo(() => {

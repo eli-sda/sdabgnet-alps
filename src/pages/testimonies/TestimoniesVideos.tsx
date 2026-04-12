@@ -86,7 +86,7 @@ const TestimoniesVideos = () => {
     <section className="testimonies-videos-list">
       <VideoPlaylistList playlists={playlists} />
 
-      {videos.map(({ title, path, description }) => {
+      {videos.map(({ title, author, path, description }) => {
         const videoId = getVideoId(path);
 
         if (!videoId) return null;
@@ -103,7 +103,7 @@ const TestimoniesVideos = () => {
         return (
           <div key={videoId} id={elementId} className="testimonies-videos">
             <VideoWithPreview
-              title={title}
+              title={`${title}${author ? ' | ' + author : ''}`}
               videoSrc={path}
               isActive={isActive}
               thumbnail={parsedThumbnail}

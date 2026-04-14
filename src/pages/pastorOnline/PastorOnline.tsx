@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import { Caption } from 'alps-library/atoms/text/Caption';
-import { MediaBlockProps } from 'src/alps/molecules/blocks/MediaBlock';
 import { PageContent } from 'src/alps/organisms/content/PageContent';
 import { PageSection } from 'src/organisms/PageSection';
 import routes from 'src/routes';
@@ -45,14 +44,23 @@ const PastorOnline = () => {
     }
   }));
 
-  const relatedItems: MediaBlockProps[] = [];
-  const relatedQuestion: MediaBlockProps = {
-    title: 'Bible SDA UA – Telegram бот',
-    description: 'Бот за библейски въпроси и духовни теми, създаден от адвентисти на основата на Библията и писанията на Елън Уайт. Ако нещо ви затруднява, тук ще получите ясни обяснения и насоки.',
-    image: getImageTypeByUrl('/img/pastorOnline/telegram-bot.webp'),
-    url: 'https://t.me/bible_ua_gpt_bot'
-  };
-  relatedItems.push(relatedQuestion);
+  const relatedItems = [
+    {
+      title: 'Bible SDA UA – Telegram бот',
+      description:
+        'Бот за библейски въпроси и духовни теми, създаден от адвентисти на основата на Библията и писанията на Елън Уайт. Ако нещо ви затруднява, тук ще получите ясни обяснения и насоки.',
+      image: getImageTypeByUrl('/img/pastorOnline/telegram-bot.webp'),
+      url: 'https://t.me/bible_ua_gpt_bot'
+    },
+    {
+      title: 'Bible SDA UA - бот',
+      description:
+        'Познатият бот за библейски въпроси, вече и като уебсайт. Основан на Библията и учението на адвентистите от седмия ден, тук ще получите ясни обяснения, насоки и подкрепа за духовния живот.',
+      image: getImageTypeByUrl('/img/pastorOnline/bot-avatar.webp'),
+      url: 'https://sda.bible-llm.com'
+    }
+  ];
+
   return (
     <>
       <PageHeaderLong title={title} />

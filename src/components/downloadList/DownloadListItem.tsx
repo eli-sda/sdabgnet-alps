@@ -144,7 +144,7 @@ const DownloadListItem = ({
   }, [additionalButtons]);
 
   return (
-    <div className="download-item">
+    <div id={_id} className="download-item">
       <h3>
         <i
           className={`far fa-${icon} u-space--half--right`}

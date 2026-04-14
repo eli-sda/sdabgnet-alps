@@ -1,4 +1,5 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import GroupIcon from '@mui/icons-material/Group';
 import { SubNavArrow } from 'alps-library/molecules/navigation/primaryNavItem/SubNavArrow';
 import { AccordionItem } from 'src/alps/molecules/components/accordion/AccordionItem';
@@ -16,6 +17,11 @@ const BooksList = ({
   items
 }: PlaylistType) => {
   useScrollToHash();
+  const { hash } = useLocation();
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  // Determine if this accordion should be initially open based on the hash
+  const isInitiallyOpened = hash === `#${_id}`;
 
   const heading = useMemo(() => {
     return (
@@ -33,6 +39,24 @@ const BooksList = ({
       </div>
     );
   }, [_id, imageUrl, title]);
+
+  const handleCopyLink = useCallback(
+    (bookId: string, bookTitle: string) => {
+      const baseUrl = `${window.location.origin}${routes.resources('books')}`;
+      const params = new URLSearchParams();
+
+      params.set('itemId', bookId);
+      params.set('title', bookTitle);
+
+      const finalUrl = `${baseUrl}?${params.toString()}#${_id}`;
+
+      void navigator.clipboard.writeText(finalUrl).then(() => {
+        setCopiedId(bookId);
+        setTimeout(() => setCopiedId(null), 3000);
+      });
+    },
+    [_id]
+  );
 
   const content = useMemo(
     () => (
@@ -88,6 +112,14 @@ const BooksList = ({
               });
             }
 
+            const isCopied = copiedId === book._id;
+            additionalButtons.push({
+              label: isCopied ? 'копирано' : 'сподели',
+              as: 'button' as const,
+              onClick: () => handleCopyLink(book._id, book.title),
+              faIconClass: isCopied ? 'fas fa-check' : 'fas fa-share-alt'
+            });
+
             return (
               <DownloadListItem
                 key={book._id}
@@ -100,11 +132,15 @@ const BooksList = ({
         </div>
       </div>
     ),
-    [items, description]
+    [items, description, copiedId, handleCopyLink]
   );
 
   return (
-    <AccordionItem heading={heading} hideDefaultIcon>
+    <AccordionItem
+      heading={heading}
+      hideDefaultIcon
+      open={isInitiallyOpened}
+    >
       {content}
     </AccordionItem>
   );

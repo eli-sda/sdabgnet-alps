@@ -3,6 +3,7 @@
 import { canBeClass, themeBorderColorClass } from 'alps-library/global/colors';
 import { Button, ButtonProps } from 'src/alps/atoms/Button';
 import './LinksBlock.scss';
+import React from 'react';
 
 export interface LinksBlockProps {
   /**
@@ -98,7 +99,12 @@ export const LinksBlock = ({
                 title ? 'u-font--secondary' : 'u-font--secondary--m'
               }`}
             >
-              {description}
+              {description.split('\n').map((line, i, arr) => (
+                <React.Fragment key={i}>
+                  {line}
+                  {i < arr.length - 1 && <br />}
+                </React.Fragment>
+              ))}
             </p>
           )}
           {children}

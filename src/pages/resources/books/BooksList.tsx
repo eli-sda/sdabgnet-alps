@@ -21,7 +21,11 @@ const BooksList = ({
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   // Determine if this accordion should be initially open based on the hash
-  const isInitiallyOpened = hash === `#${_id}`;
+  const isInitiallyOpened = useMemo(() => {
+    const targetHashId = hash.replace('#', '');
+
+    return items?.some((book) => book._id === targetHashId);
+  }, [hash, items]);
 
   const heading = useMemo(() => {
     return (
@@ -40,23 +44,19 @@ const BooksList = ({
     );
   }, [_id, imageUrl, title]);
 
-  const handleCopyLink = useCallback(
-    (bookId: string, bookTitle: string) => {
-      const baseUrl = `${window.location.origin}${routes.resources('books')}`;
-      const params = new URLSearchParams();
+  const handleCopyLink = useCallback((bookId: string, bookTitle: string) => {
+    const baseUrl = `${window.location.origin}${routes.resources('books')}`;
+    const params = new URLSearchParams();
 
-      params.set('itemId', bookId);
-      params.set('title', bookTitle);
+    params.set('title', bookTitle);
 
-      const finalUrl = `${baseUrl}?${params.toString()}#${_id}`;
+    const finalUrl = `${baseUrl}?${params.toString()}#${bookId}`;
 
-      void navigator.clipboard.writeText(finalUrl).then(() => {
-        setCopiedId(bookId);
-        setTimeout(() => setCopiedId(null), 3000);
-      });
-    },
-    [_id]
-  );
+    void navigator.clipboard.writeText(finalUrl).then(() => {
+      setCopiedId(bookId);
+      setTimeout(() => setCopiedId(null), 3000);
+    });
+  }, []);
 
   const content = useMemo(
     () => (
@@ -136,11 +136,7 @@ const BooksList = ({
   );
 
   return (
-    <AccordionItem
-      heading={heading}
-      hideDefaultIcon
-      open={isInitiallyOpened}
-    >
+    <AccordionItem heading={heading} hideDefaultIcon open={isInitiallyOpened}>
       {content}
     </AccordionItem>
   );

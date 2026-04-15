@@ -53,10 +53,10 @@ const PastorOnline = () => {
       url: 'https://t.me/bible_ua_gpt_bot'
     },
     {
-      title: 'Bible SDA UA - бот',
+      title: 'Bible SDA AI',
       description:
-        'Познатият бот за библейски въпроси, вече и като уебсайт. Основан на Библията и учението на адвентистите от седмия ден, тук ще получите ясни обяснения, насоки и подкрепа за духовния живот.',
-      image: getImageTypeByUrl('/img/pastorOnline/bot-avatar.webp'),
+        'Познатият бот за библейски въпроси, вече и като уебсайт.',
+      image: getImageTypeByUrl('/img/pastorOnline/bible-bot.svg'),
       url: 'https://sda.bible-llm.com'
     }
   ];

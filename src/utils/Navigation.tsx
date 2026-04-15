@@ -365,8 +365,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Рецепти',
-        url: routes.health('recipes'),
-        isDisabled: true
+        url: routes.health('recipes')
       },
       {
         type: 'primary',

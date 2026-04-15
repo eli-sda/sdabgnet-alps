@@ -74,6 +74,7 @@ const Banner = lazy(() => import('./pages/banner/Banner'));
 const Feedback = lazy(() => import('./pages/feedback/Feedback'));
 const Team = lazy(() => import('./pages/team/Team'));
 const Videoteka = lazy(() => import('./pages/videoteka/Videoteka'));
+const Recipes = lazy(() => import('./pages/health/Recipes'));
 
 // const theme = createTheme();
 
@@ -253,6 +254,7 @@ const Router = () => (
 
           {/* Здраве */}
           <Route path={routes.health()} element={<Health />} />
+          <Route path={routes.health('recipes')} element={<Recipes />} />
           <Route
             path={routes.health('institutions')}
             element={<HealthInstitutions />}

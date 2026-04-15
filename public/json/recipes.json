@@ -1,0 +1,57 @@
+[
+  {
+    "section": "",
+    "id": "recipes",
+    "items": [
+      {
+        "title": "С вкус на Здраве / Кулинарно предаване",
+        "image": "/img/health/s-vkus-na-zdrave.webp",
+        "links": [
+          {
+            "url": "https://ltv.bg/recipes/recipes-s-vkus-na-zdrave/",
+            "type": "сайт"
+          },
+          {
+            "url": "https://www.facebook.com/media/set/?set=a.1139303036197779&type=3",
+            "type": "facebook"
+          },
+          {
+            "url": "https://www.youtube.com/playlist?list=PLIeXbN0nkX1XsvcX0sGmKiZMUHuhf2CZZ",
+            "type": "youtube"
+          }
+        ]
+      },
+      {
+        "title": "Рецепти - Полезно и Вкусно",
+        "image": "/img/health/polezno&vkusno.webp",
+        "links": [
+          {
+            "url": "https://www.youtube.com/playlist?list=PLIeXbN0nkX1WtMtdDDv9FzVfp7HZVCShn",
+            "type": "youtube"
+          }
+        ]
+      },
+      {
+        "title": "FaceBible Рецепти", 
+        "image": "/img/health/facebible.webp",
+        "links": [
+          {
+            "url": "https://facebible.bg/%D0%B7%D0%B4%D1%80%D0%B0%D0%B2%D0%B5/%D1%80%D0%B5%D1%86%D0%B5%D0%BF%D1%82%D0%B8/",
+            "type": "сайт"
+          }
+        ]
+      },
+      {
+        "title": "Просто Вкусно",
+        "description": "Екипа е млад и много амбициозен, с високи цели и обещава редовно да представя практично здраве. Заедно с Дейна и Ронда успешно ще съчетаете полезното с приятното.",
+        "image": "/img/health/prosto-vkusno.webp",
+        "links": [
+          {
+            "url": "https://www.youtube.com/playlist?list=PLbPGBo1Z6m3dZtVp49YKgCYv8binPkPOV",
+            "type": "youtube"
+          }
+        ]
+      }
+    ]
+  }
+]

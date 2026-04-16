@@ -238,6 +238,23 @@ const LessonCont = ({
     return undefined;
   }, [videoCommentUrl]);
 
+  const cqVideoDiscussion = useMemo(() => {
+    return (
+      <a
+        href="https://www.youtube.com/@inVerseBible"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Figure
+          align="left"
+          caption="Гледайте на английски коментарите към уроците в YouTube"
+          size="large"
+          image={getImageTypeByUrl('/img/logos/inVerse.webp')}
+        />
+      </a>
+    );
+  }, []);
+
   const sidebar = useMemo(() => {
     return (
       <>
@@ -253,15 +270,7 @@ const LessonCont = ({
             )}
             {videoDiscussion && videoDiscussion}
             {videoComment && videoComment}
-            {isCQLesson && (
-              <Figure
-                align="left"
-                caption="Гледайте на английски коментарите към уроците в YouTube"
-                size="large"
-                image={getImageTypeByUrl('/img/logos/inVerse.webp')}
-                onImageClick={() => window.open('https://www.youtube.com/@inVerseBible', '_blank')}
-              />
-            )}
+            {isCQLesson && cqVideoDiscussion}
           </Aside>
         )}
         {passedLessons.length > 0 && (
@@ -272,7 +281,14 @@ const LessonCont = ({
         )}
       </>
     );
-  }, [video, videoDiscussion, videoComment, passedLessons, isCQLesson]);
+  }, [
+    video,
+    videoDiscussion,
+    videoComment,
+    passedLessons,
+    isCQLesson,
+    cqVideoDiscussion
+  ]);
 
   return (
     <>

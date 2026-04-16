@@ -211,54 +211,54 @@ const LessonCont = ({
   }, [videoCommentBitlyUrl]);
 
   const videoDiscussion = useMemo(() => {
-    if (videoDiscussionUrl) {
-      return (
+    return (
+      videoDiscussionUrl && (
         <Figure
           align="left"
           caption="Видео дискусия на урока"
           size="large"
           videoSrc={videoDiscussionUrl}
         />
-      );
-    }
-    return undefined;
+      )
+    );
   }, [videoDiscussionUrl]);
 
   const videoComment = useMemo(() => {
-    if (videoCommentUrl) {
-      return (
+    return (
+      videoCommentUrl && (
         <Figure
           align="left"
           caption="Коментар на урока от Марк Финли"
           size="large"
           videoSrc={videoCommentUrl}
         />
-      );
-    }
-    return undefined;
+      )
+    );
   }, [videoCommentUrl]);
 
   const cqVideoDiscussion = useMemo(() => {
     return (
-      <a
-        href="https://www.youtube.com/@inVerseBible"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Figure
-          align="left"
-          caption="Гледайте на английски коментарите към уроците в YouTube"
-          size="large"
-          image={getImageTypeByUrl('/img/logos/inVerse.webp')}
-        />
-      </a>
+      isCQLesson && (
+        <a
+          href="https://www.youtube.com/@inVerseBible"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Figure
+            align="left"
+            caption="Гледайте на английски коментарите към уроците в YouTube"
+            size="large"
+            image={getImageTypeByUrl('/img/logos/inVerse.webp')}
+          />
+        </a>
+      )
     );
-  }, []);
+  }, [isCQLesson]);
 
   const sidebar = useMemo(() => {
     return (
       <>
-        {(video || videoDiscussion || videoComment || isCQLesson) && (
+        {(video || videoDiscussion || videoComment || cqVideoDiscussion) && (
           <Aside>
             {video && (
               <Figure
@@ -268,9 +268,9 @@ const LessonCont = ({
                 videoSrc={video.src}
               />
             )}
-            {videoDiscussion && videoDiscussion}
-            {videoComment && videoComment}
-            {isCQLesson && cqVideoDiscussion}
+            {videoDiscussion}
+            {videoComment}
+            {cqVideoDiscussion}
           </Aside>
         )}
         {passedLessons.length > 0 && (
@@ -281,14 +281,7 @@ const LessonCont = ({
         )}
       </>
     );
-  }, [
-    video,
-    videoDiscussion,
-    videoComment,
-    passedLessons,
-    isCQLesson,
-    cqVideoDiscussion
-  ]);
+  }, [video, videoDiscussion, videoComment, passedLessons, cqVideoDiscussion]);
 
   return (
     <>

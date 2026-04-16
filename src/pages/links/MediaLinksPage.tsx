@@ -17,7 +17,7 @@ interface MediaLinksPageProps {
 
 type LinkItem = {
   url: string;
-  type: 'сайт' | 'facebook' | 'youtube' | 'instagram' | 'tik tok';
+  type: 'сайт' | 'facebook' | 'youtube' | 'instagram' | 'tik tok' | 'telegram';
 };
 
 export type LinkGroup = {
@@ -43,7 +43,8 @@ const faIconClasses: Record<string, string> = {
   instagram: 'fab fa-instagram',
   'google play': 'fab fa-google-play',
   'app store': 'fab fa-app-store',
-  'tik tok': 'fab fa-tiktok'
+  'tik tok': 'fab fa-tiktok',
+  telegram: 'fab fa-telegram-plane'
 };
 
 const getFaIconClass = (type: string) => faIconClasses[type];

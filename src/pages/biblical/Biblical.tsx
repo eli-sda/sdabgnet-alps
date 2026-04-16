@@ -92,6 +92,18 @@ const audioCourses = {
   ]
 };
 
+const useful = {
+  heading: 'Полезно',
+  blocks: [
+    {
+      title: 'Bible SDA AI',
+      description:
+        'AI помощник, на който може да задавате въпроси за Библията, вярата, духовния живот или конкретни библейски текстове. Всички отговори се основават на Библията и на официалните източници на ЦАСД.',
+      url: 'https://sda.bible-llm.com'
+    }
+  ]
+};
+
 const youTubeLinks = {
   heading: 'Гледайте в YouTube',
   blocks: [
@@ -142,7 +154,11 @@ const Biblical = () => {
         pageClassName="biblical"
         title={getTitle(routes.info('biblical'))}
         breadcrumbsUrls={breadcrumbsUrls}
-        aside={<RelatedPosts {...audioCourses} />}
+        aside={
+          <section className="u-spacing--double">
+            <RelatedPosts {...audioCourses} /> <RelatedPosts {...useful} />
+          </section>
+        }
         relatedPosts={youTubeLinks}
       >
         <section className="u-clear-fix youtube-section u-space--bottom">

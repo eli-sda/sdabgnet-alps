@@ -53,10 +53,10 @@ export const LinksBlock = ({
         <div className="u-padding--half">
           {link ? (
             <a href={link} target="_blank" rel="noopener noreferrer">
-              <img src={picture} alt={picture} />
+              <img src={picture} />
             </a>
           ) : (
-            <img src={picture} alt={picture} />
+            <img src={picture} />
           )}
         </div>
       )}

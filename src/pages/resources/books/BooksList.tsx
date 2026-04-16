@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import GroupIcon from '@mui/icons-material/Group';
 import { SubNavArrow } from 'alps-library/molecules/navigation/primaryNavItem/SubNavArrow';
@@ -19,6 +19,23 @@ const BooksList = ({
   useScrollToHash();
   const { hash } = useLocation();
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [activeBookId, setActiveBookId] = useState<string | null>(null);
+
+  // Animate icon when hash matches a book
+  useEffect(() => {
+    if (!hash) return;
+    const targetHashId = hash.replace('#', '');
+    setActiveBookId(null);
+    let resetTimeout: number;
+    const delay = window.setTimeout(() => {
+      setActiveBookId(targetHashId);
+      resetTimeout = window.setTimeout(() => setActiveBookId(null), 5000);
+    }, 1100);
+    return () => {
+      clearTimeout(delay);
+      clearTimeout(resetTimeout);
+    };
+  }, [hash]);
 
   // Determine if this accordion should be initially open based on the hash
   const isInitiallyOpened = useMemo(() => {
@@ -113,6 +130,7 @@ const BooksList = ({
             }
 
             const isCopied = copiedId === book._id;
+
             additionalButtons.push({
               label: isCopied ? 'копирано' : 'сподели',
               as: 'button' as const,
@@ -126,13 +144,14 @@ const BooksList = ({
                 {...book}
                 description={cleanDescription} // Override the original description
                 additionalButtons={additionalButtons}
+                isActive={activeBookId === book._id}
               />
             );
           })}
         </div>
       </div>
     ),
-    [items, description, copiedId, handleCopyLink]
+    [items, description, copiedId, handleCopyLink, activeBookId]
   );
 
   return (

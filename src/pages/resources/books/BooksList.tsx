@@ -1,4 +1,5 @@
-import { useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import GroupIcon from '@mui/icons-material/Group';
 import { SubNavArrow } from 'alps-library/molecules/navigation/primaryNavItem/SubNavArrow';
 import { AccordionItem } from 'src/alps/molecules/components/accordion/AccordionItem';
@@ -16,6 +17,32 @@ const BooksList = ({
   items
 }: PlaylistType) => {
   useScrollToHash();
+  const { hash } = useLocation();
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [activeBookId, setActiveBookId] = useState<string | null>(null);
+
+  // Animate icon when hash matches a book
+  useEffect(() => {
+    if (!hash) return;
+    const targetHashId = hash.replace('#', '');
+    setActiveBookId(null);
+    let resetTimeout: number;
+    const delay = window.setTimeout(() => {
+      setActiveBookId(targetHashId);
+      resetTimeout = window.setTimeout(() => setActiveBookId(null), 5000);
+    }, 1100);
+    return () => {
+      clearTimeout(delay);
+      clearTimeout(resetTimeout);
+    };
+  }, [hash]);
+
+  // Determine if this accordion should be initially open based on the hash
+  const isInitiallyOpened = useMemo(() => {
+    const targetHashId = hash.replace('#', '');
+
+    return items?.some((book) => book._id === targetHashId);
+  }, [hash, items]);
 
   const heading = useMemo(() => {
     return (
@@ -33,6 +60,20 @@ const BooksList = ({
       </div>
     );
   }, [_id, imageUrl, title]);
+
+  const handleCopyLink = useCallback((bookId: string, bookTitle: string) => {
+    const baseUrl = `${window.location.origin}${routes.resources('books')}`;
+    const params = new URLSearchParams();
+
+    params.set('title', bookTitle);
+
+    const finalUrl = `${baseUrl}?${params.toString()}#${bookId}`;
+
+    void navigator.clipboard.writeText(finalUrl).then(() => {
+      setCopiedId(bookId);
+      setTimeout(() => setCopiedId(null), 3000);
+    });
+  }, []);
 
   const content = useMemo(
     () => (
@@ -88,23 +129,33 @@ const BooksList = ({
               });
             }
 
+            const isCopied = copiedId === book._id;
+
+            additionalButtons.push({
+              label: isCopied ? 'копирано' : 'сподели',
+              as: 'button' as const,
+              onClick: () => handleCopyLink(book._id, book.title),
+              faIconClass: isCopied ? 'fas fa-check' : 'fas fa-share-alt'
+            });
+
             return (
               <DownloadListItem
                 key={book._id}
                 {...book}
                 description={cleanDescription} // Override the original description
                 additionalButtons={additionalButtons}
+                isActive={activeBookId === book._id}
               />
             );
           })}
         </div>
       </div>
     ),
-    [items, description]
+    [items, description, copiedId, handleCopyLink, activeBookId]
   );
 
   return (
-    <AccordionItem heading={heading} hideDefaultIcon>
+    <AccordionItem heading={heading} hideDefaultIcon open={isInitiallyOpened}>
       {content}
     </AccordionItem>
   );

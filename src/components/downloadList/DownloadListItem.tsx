@@ -7,6 +7,7 @@ import './DownloadListItem.scss';
 
 interface DownloadListItemProps extends LinkType {
   additionalButtons?: ButtonProps[];
+  isActive?: boolean; // highlight/animate download button
 }
 
 const DownloadListItem = ({
@@ -16,7 +17,8 @@ const DownloadListItem = ({
   _id,
   path,
   size,
-  additionalButtons = []
+  additionalButtons = [],
+  isActive = false
 }: DownloadListItemProps) => {
   const icon = useMemo(() => {
     if (path.endsWith('.pdf')) return 'file-pdf';
@@ -129,7 +131,9 @@ const DownloadListItem = ({
       onClick={() => void handleDownload(url)}
       disabled={downloading}
       faIconClass={
-        downloading ? 'fas fa-spinner fa-pulse fa-lg' : 'fas fa-download fa-lg'
+        downloading
+          ? 'fas fa-spinner fa-pulse fa-lg'
+          : `fas fa-download fa-lg${isActive ? ' is-active' : ''}`
       }
       label={`Изтегли ${size ? `(${size} MB)` : ''}`}
       className="u-space--half--top"
@@ -144,7 +148,7 @@ const DownloadListItem = ({
   }, [additionalButtons]);
 
   return (
-    <div className="download-item">
+    <div id={_id} className="download-item">
       <h3>
         <i
           className={`far fa-${icon} u-space--half--right`}

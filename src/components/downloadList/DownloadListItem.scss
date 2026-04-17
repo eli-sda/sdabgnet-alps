@@ -5,5 +5,45 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+
+    // Animate download icon when active (hash match)
+    .fa-download.is-active {
+      animation: fa-bounce-custom 5s linear;
+      filter: none;
+    }
+  }
+}
+
+@keyframes fa-bounce-custom {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-18px);
+  }
+  20% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-18px);
+  }
+  40% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-18px);
+  }
+  60% {
+    transform: translateY(0);
+  }
+  70% {
+    transform: translateY(-18px);
+  }
+  80% {
+    transform: translateY(0);
+  }
+  90% {
+    transform: translateY(-18px);
   }
 }

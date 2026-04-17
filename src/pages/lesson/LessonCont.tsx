@@ -34,6 +34,7 @@ const LessonCont = ({
     null
   );
   const [videoCommentUrl, setVideoCommentUrl] = useState<string | null>(null);
+  const isCQLesson = quarterObject?.type === 'cq';
 
   const passedLessons = useMemo(() => {
     if (!quarterObject) return [];
@@ -63,7 +64,6 @@ const LessonCont = ({
 
   const video: null | { caption: string; src: string } = useMemo(() => {
     let video = null;
-    const isCQLesson = quarterObject?.type === 'cq';
     if (
       qLesson &&
       quarterObject &&
@@ -120,7 +120,7 @@ const LessonCont = ({
       };
     }
     return video;
-  }, [qLesson, quarterObject]);
+  }, [isCQLesson, qLesson, quarterObject]);
 
   const isNotAfterCurrentLesson = useMemo(() => {
     return (
@@ -211,37 +211,54 @@ const LessonCont = ({
   }, [videoCommentBitlyUrl]);
 
   const videoDiscussion = useMemo(() => {
-    if (videoDiscussionUrl) {
-      return (
+    return (
+      videoDiscussionUrl && (
         <Figure
           align="left"
           caption="Видео дискусия на урока"
           size="large"
           videoSrc={videoDiscussionUrl}
         />
-      );
-    }
-    return undefined;
+      )
+    );
   }, [videoDiscussionUrl]);
 
   const videoComment = useMemo(() => {
-    if (videoCommentUrl) {
-      return (
+    return (
+      videoCommentUrl && (
         <Figure
           align="left"
           caption="Коментар на урока от Марк Финли"
           size="large"
           videoSrc={videoCommentUrl}
         />
-      );
-    }
-    return undefined;
+      )
+    );
   }, [videoCommentUrl]);
+
+  const cqVideoDiscussion = useMemo(() => {
+    return (
+      isCQLesson && (
+        <a
+          href="https://www.youtube.com/@inVerseBible"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Figure
+            align="left"
+            caption="Гледайте на английски коментарите към уроците в YouTube"
+            size="large"
+            image={getImageTypeByUrl('/img/logos/inVerse.webp')}
+          />
+        </a>
+      )
+    );
+  }, [isCQLesson]);
 
   const sidebar = useMemo(() => {
     return (
       <>
-        {(video || videoDiscussion || videoComment) && (
+        {(video || videoDiscussion || videoComment || cqVideoDiscussion) && (
           <Aside>
             {video && (
               <Figure
@@ -251,8 +268,9 @@ const LessonCont = ({
                 videoSrc={video.src}
               />
             )}
-            {videoDiscussion && videoDiscussion}
-            {videoComment && videoComment}
+            {videoDiscussion}
+            {videoComment}
+            {cqVideoDiscussion}
           </Aside>
         )}
         {passedLessons.length > 0 && (
@@ -263,7 +281,7 @@ const LessonCont = ({
         )}
       </>
     );
-  }, [video, videoDiscussion, videoComment, passedLessons]);
+  }, [video, videoDiscussion, videoComment, passedLessons, cqVideoDiscussion]);
 
   return (
     <>

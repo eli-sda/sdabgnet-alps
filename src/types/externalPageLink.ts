@@ -1,4 +1,5 @@
-import { ButtonProps } from "src/alps/atoms/Button";
+import { ButtonProps } from 'src/alps/atoms/Button';
+import { LinkItem } from 'src/utils/Links';
 
 export type ExternalPageLink = {
   url: string;
@@ -6,4 +7,5 @@ export type ExternalPageLink = {
   description: string;
   img: string;
   buttons?: ButtonProps[];
+  links?: LinkItem[];
 };

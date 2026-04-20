@@ -3,24 +3,76 @@
     "url": "https://healthcare-bg.com/",
     "title": "Фондация \"Грижа за Здравето\"",
     "description": "Фондация “Грижа за здравето” е глътка свеж въздух в един все по-безжизнен свят. Тя е основана през 2011 година и оттогава насам не е спирала да носи надежда за по-добър живот.",
-    "img": "/img/health/health-care.png"
+    "img": "/img/health/health-care.png",
+    "links": [
+      {
+        "type": "сайт",
+        "url": "https://healthcare-bg.com/"
+      },
+      {
+        "type": "facebook",
+        "url": "https://www.facebook.com/grizha.za.zdraveto"
+      },
+      {
+        "type": "instagram",
+        "url": "https://www.instagram.com/healthcare_bg/"
+      }
+    ]
   },
   {
     "url": "https://www.yanikabg.com/",
     "title": "Образователен център за деца и младежи с увреден слух \"Яника\"",
     "description": "\"Яника\" е уютно пространство от домашен тип, в което децата със слухови и езиково- говорни нарушения, работят със специалисти и играят с връстници. ",
-    "img": "/img/health/qnika.svg"
+    "img": "/img/health/qnika.svg",
+    "links": [
+      {
+        "type": "сайт",
+        "url": "https://www.yanikabg.com/"
+      },
+      {
+        "type": "facebook",
+        "url": "https://www.facebook.com/centeryanika"
+      },
+      {
+        "type": "youtube",
+        "url": "https://www.youtube.com/@yanikacenter"
+      },
+      {
+        "type": "instagram",
+        "url": "https://www.instagram.com/centeryanika/"
+      }
+    ]
   },
   {
-    "url": "https://lifeinhope.com",
     "title": "Център за здраве в с. Баня",
+    "url": "https://lifeinhope.com",
     "description": "Програмата \"Нов Старт\" предложена от нашия Център за Здраве, използва натурални (природни) средства, а здравословните принципи и начин на живот са доказали своята ефективност в множество страни по света, за подобряване на здравето на хора, страдащи от различни хронични заболявания.",
-    "img": "/img/logos/center-for-health-logo.png"
+    "img": "/img/logos/center-for-health-logo.png",
+    "links": [
+      {
+        "type": "сайт",
+        "url": "https://lifeinhope.com"
+      },
+      {
+        "type": "facebook",
+        "url": "https://www.facebook.com/novstart.info/"
+      },
+      {
+        "type": "youtube",
+        "url": "https://www.youtube.com/@centerforhealth9726"
+      }
+    ]
   },
   {
     "title": "Център за здраве в с. Медово",
     "url": "http://zdravencentarmedovo.com",
     "img": "/img/logos/zdraven-centar-medovo-logo.jpg",
-    "description": "Макар, че живеем в 21 век почти няма дом, в който да няма болест! Нашата цел е възстановяване на физическото и психическо здраве на посетителите на нашия център. Това постигаме чрез изучаване и прилагане на световноизвестната, здравновъзстановителната програма NEW START."
+    "description": "Макар, че живеем в 21 век почти няма дом, в който да няма болест! Нашата цел е възстановяване на физическото и психическо здраве на посетителите на нашия център. Това постигаме чрез изучаване и прилагане на световноизвестната, здравновъзстановителната програма NEW START.",
+    "links": [
+      {
+        "type": "сайт",
+        "url": "http://zdravencentarmedovo.com"
+      }
+    ]
   }
 ]

@@ -1,9 +1,9 @@
 // Copy CtaBlock.tsx from alps-library
-
+import React from 'react';
 import { canBeClass, themeBorderColorClass } from 'alps-library/global/colors';
 import { Button, ButtonProps } from 'src/alps/atoms/Button';
+import { generateId } from 'src/utils/Links';
 import './LinksBlock.scss';
-import React from 'react';
 
 export interface LinksBlockProps {
   /**
@@ -46,8 +46,11 @@ export const LinksBlock = ({
 }: LinksBlockProps): JSX.Element => {
   const backgroundClass = picture ? 'has-image' : '';
 
+  const id = generateId(title);
+
   return (
     <div
+      id={id}
       className={`links-block c-cta-block c-block ${canBeClass}--dark-dark u-border--left ${themeBorderColorClass}--darker--left ${backgroundClass}`}
     >
       {picture && (

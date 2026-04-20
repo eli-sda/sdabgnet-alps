@@ -1,0 +1,46 @@
+@use '/src/styles/colors.scss' as *;
+.changelog-page {
+  .changelog-entry {
+    &__header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    &__item {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    &__text {
+      flex: 1;
+    }
+
+    .changelog-badge {
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.75em;
+      padding: 0.15em 0.55em;
+      border-radius: 4px;
+      letter-spacing: 0.03em;
+
+      &--feature {
+        background: rgba($green, 0.1);
+        color: $green;
+      }
+
+      &--improvement {
+        background: rgba($bluejey, 0.1);
+        color: $bluejey;
+      }
+
+      &--fix {
+        background: rgba($orange, 0.15);
+        color: $orange;
+      }
+    }
+  }
+}

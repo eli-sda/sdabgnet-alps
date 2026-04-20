@@ -1,0 +1,27 @@
+@use '/src/styles/colors.scss' as *;
+.c-secondary-nav {
+  &__icon-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+  }
+
+  &__dot {
+    position: absolute !important;
+    top: -4px;
+    right: -6px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: $orange;
+    pointer-events: none;
+  }
+}
+
+// In the drawer the icon is larger, so anchor the dot to the icon itself
+.c-drawer__nav-secondary .c-secondary-nav__icon-wrap {
+  .c-secondary-nav__dot {
+    right: -3px;
+  }
+}

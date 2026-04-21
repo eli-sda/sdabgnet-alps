@@ -35,6 +35,7 @@ export const SecondaryNavItem = ({
   useNavLink = true,
   showDot = false
 }: SecondaryNavItemProps): JSX.Element => {
+  const unreadDescriptionId = React.useId();
   const linkClass = {
     // to: url || "",
     // href: url || "",
@@ -48,8 +49,9 @@ export const SecondaryNavItem = ({
   }
   const LinkTag = (useNavLink ? NavLink : 'a') as React.ElementType;
   const linkProps = useNavLink ? { to: url } : url ? { href: url } : {};
+  const unreadAccessibilityProps = showDot ? { 'aria-describedby': unreadDescriptionId } : {};
 
-  const dot = showDot && <span className="c-secondary-nav__dot" />;
+  const dot = showDot && <span className="c-secondary-nav__dot" aria-hidden="true" />;
 
   const iconComp = icon ? (
     <span className="c-secondary-nav__icon-wrap">
@@ -74,9 +76,27 @@ export const SecondaryNavItem = ({
         'js-toggle-search': type === 'search'
       })}
     >
-      <LinkTag {...linkClass} {...linkProps} {...onClick}>
+      <LinkTag {...linkClass} {...linkProps} {...unreadAccessibilityProps} {...onClick}>
         {iconComp}
         {text}
+        {showDot && (
+          <span
+            id={unreadDescriptionId}
+            style={{
+              position: 'absolute',
+              width: '1px',
+              height: '1px',
+              padding: 0,
+              margin: '-1px',
+              overflow: 'hidden',
+              clip: 'rect(0, 0, 0, 0)',
+              whiteSpace: 'nowrap',
+              border: 0
+            }}
+          >
+            има нови
+          </span>
+        )}
       </LinkTag>
       {subnav && (
         <>

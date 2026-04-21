@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 export type LinkItem = {
   url: string;
-  type: 'сайт' | 'facebook' | 'youtube' | 'instagram' | 'tik tok' | 'telegram';
+  type: 'сайт' | 'facebook' | 'youtube' | 'instagram' | 'google play' | 'app store' | 'tik tok' | 'telegram';
 };
 
 const faIconClasses: Record<string, string> = {

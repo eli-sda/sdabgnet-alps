@@ -5,6 +5,7 @@ const routes = {
 
   churches: '/churches',
   contact: '/contact',
+  changelog: '/changelog',
 
   churchLife: (
     item?:

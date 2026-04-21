@@ -22,7 +22,7 @@ const causes = [
 
 export const CallForHelp = () => {
   return (
-    <section className="u-spacing call-for-help">
+    <section id="help" className="u-spacing call-for-help">
       <HeadingBlock title="Зов за помощ" />
 
       {causes.map((cause, index) => (

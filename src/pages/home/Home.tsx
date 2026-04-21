@@ -32,14 +32,14 @@ import { HomeTopContainer } from './HomeTopContainer';
 // import DailyVerseDark from 'src/components/dailyVerse/DailyVerseDark';
 // import { VideoDemo } from '../components/media/video/demo/VideoDemo';
 // import { FeedDemo } from 'src/components/rssFeed/demo/FeedDemo';
-// import { useScrollToHash } from 'src/hooks/useScrollToHash';
+import { useScrollToHash } from 'src/hooks/useScrollToHash';
 
 // import LatestAdvertisementsDemo from '../advertisement/LatestAdvertisementsDemo';
 
 const Home = () => {
   const [currentDate, setCurrentDate] = useState(() => moment());
   const { pageMeta } = usePagesMeta();
-  // useScrollToHash();
+  useScrollToHash();
 
   useEffect(() => {
     const interval = setInterval(() => {

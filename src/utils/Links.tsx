@@ -81,10 +81,13 @@ export const parseLinksMd = (text: string): React.ReactNode[] => {
   return parts;
 };
 
-export const newLinesWithLinks = (text: string): React.ReactNode[] =>
-  text.split('\n').map((line, i) => (
+export const newLinesWithLinks = (text: string): React.ReactNode[] => {
+  const lines = text.split('\n');
+
+  return lines.map((line, i) => (
     <React.Fragment key={i}>
       {parseLinksMd(line)}
-      {i < text.split('\n').length - 1 && <br />}
+      {i < lines.length - 1 && <br />}
     </React.Fragment>
   ));
+};

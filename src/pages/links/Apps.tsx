@@ -1,11 +1,13 @@
+import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import MediaLinksPage, { LinkGroup } from './MediaLinksPage';
-import tvLinks from './apps.json';
+import apps from './apps.json';
 
 const Apps = (): JSX.Element => {
+  useScrollToHash();
   return (
     <MediaLinksPage
       mediaType="apps"
-      linksJson={tvLinks as LinkGroup[]}
+      linksJson={apps as LinkGroup[]}
       isDoubleSpacing
     />
   );

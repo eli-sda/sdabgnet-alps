@@ -1,29 +1,43 @@
 import { useEffect, useState } from 'react';
-import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { Accordion } from 'src/alps/molecules/components/accordion/Accordion';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
+import { PlaylistType } from 'src/contexts/PlaylistsContext';
+import { usePlaylists } from 'src/hooks/usePlaylists';
 import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import { getTitle } from 'src/utils/Navigation';
+import VideoWithPreview from 'src/components/media/video/videoWithPreview/VideoWithPreview';
 import { SUBPAGE_KICKER } from '../Resources';
 import BooksList from './BooksList';
-import rawBooks from './books.json';
-
-const books = rawBooks as BooksSection[];
 
 const Books = () => {
-  const [sections, setSections] = useState<BooksSection[]>([]);
-
-  useEffect(() => {
-    setSections(books);
-  }, []);
-
   const breadcrumbsUrls = [routes.resources(), routes.resources('books')];
 
+  const { getResourcePlaylists } = usePlaylists();
+  const [books, setBooks] = useState<PlaylistType[]>([]);
+
+  useEffect(() => {
+    getResourcePlaylists('books', undefined, false)
+      //Други at the end of the list
+      .then((data: PlaylistType[]) => {
+        const sortedData = data.sort((a, b) => {
+          if (a.title === 'Други') return 1;
+          if (b.title === 'Други') return -1;
+          return 0;
+        });
+        setBooks(sortedData);
+      })
+      .catch((err) => console.error(err));
+  }, [getResourcePlaylists]);
+
+  const [isPlayingAsideVideo, setIsPlayingAsideVideo] = useState(false);
+
   const asideBookVideo = (
-    <Figure
-      videoSrc="https://www.youtube.com/embed/XpKOUJIM28w?si=euk4RQ2pPbGIDviU"
-      caption='Книга "ПРОРОЧЕСТВОТО ЗА ЗВЕЗДАТА": Археология и история, свързани с Исус Христос'
+    <VideoWithPreview
+      title='Книга "ПРОРОЧЕСТВОТО ЗА ЗВЕЗДАТА": Археология и история, свързани с Исус Христос'
+      videoSrc="https://www.youtube.com/watch?v=XpKOUJIM28w"
+      isActive={isPlayingAsideVideo}
+      onActivate={() => setIsPlayingAsideVideo(true)}
     />
   );
 
@@ -52,8 +66,8 @@ const Books = () => {
       relatedPosts={relatedBooks}
     >
       <Accordion className="text">
-        {sections.map((section, i) => (
-          <BooksList key={i} {...section} />
+        {books.map((book, i) => (
+          <BooksList key={i} {...book} />
         ))}
       </Accordion>
     </Page>

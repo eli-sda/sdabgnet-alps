@@ -1,40 +1,26 @@
 import React, { useCallback } from 'react';
-import { IconType } from 'react-icons/lib';
-import { iconConfig } from 'alps-library/atoms/icons/_config';
+import { NavLink } from 'react-router-dom';
 import { IconWrap } from 'alps-library/atoms/icons/IconWrap';
 import { SubNavArrow } from 'alps-library/molecules/navigation/primaryNavItem/SubNavArrow';
 import useToggle from 'alps-library/helpers/useToggle';
 import useClasses from 'alps-library/helpers/useClasses';
-import { SubNav } from './SubNav';
 import {
   backgroundColorClass,
   themeBackgroundClass,
   themeLinkHoverClass
 } from 'alps-library/global/colors';
-import { NavLink } from 'react-router-dom';
+import { MenuItem } from 'src/utils/Navigation';
+import { SubNav } from './SubNav';
 
-export interface SubNavItemProps {
+export interface SubNavItemProps extends MenuItem {
   active?: boolean;
   level?: 'secondary' | 'tertiary';
   onClick?: (e: unknown) => void;
   subnav?: SubNavItemProps[];
-  text: string;
   type: 'primary' | 'secondary';
-  url?: string;
 
-  //Eli added:
-  isExternal?: boolean;
+  // Eli added:
   useNavLink?: boolean;
-  isDisabled?: boolean;
-  /**
-   * FontAwesome icon name, for example 'fab fa-facebook-f'
-   */
-  faIconClass?: string;
-  /**
-   * SVG icon name from alps icons, for example 'logo'
-   */
-  icon?: keyof typeof iconConfig.iconNamesMap;
-  reactIcon?: IconType;
 }
 
 export const SubNavItem = ({

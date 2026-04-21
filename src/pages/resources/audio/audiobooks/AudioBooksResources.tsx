@@ -76,6 +76,11 @@ const relatedAudio = {
       title: 'Срещи с Христос',
       url: 'https://3-16.bg/sreshti-s-hristos/',
       category: '3-16.br'
+    },
+    {
+      title: 'Направен, за да устои - Дуайт Нелсън',
+      url: 'https://www.youtube.com/playlist?list=PLfCTd97jVbHXWPMYdbEfB8q85fPnuLjL3',
+      category: 'youtube плейлист'
     }
   ]
 };

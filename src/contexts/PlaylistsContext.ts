@@ -27,6 +27,7 @@ export type PlaylistType = {
   type?: string;
   author?: string;
   title?: string;
+  description?: string;
   // keyWords?: string[] | null;
   image?: SanityImageSource | null;
   imageUrl?: string | null;
@@ -50,6 +51,8 @@ export type PlaylistsContextType = {
   setSeminarRelatedPresentations: (
     presentations: SeminarRelatedPresentationsType[]
   ) => void;
+  standalonePresentations: LinkType[];
+  setStandalonePresentations: (presentations: LinkType[]) => void;
   lastLoaded: { [type: string]: string };
   setLastLoaded: (type: string, date: string) => void;
 };
@@ -61,6 +64,8 @@ export const PlaylistsContext = createContext<PlaylistsContextType>({
   setLinks: () => {},
   seminarRelatedPresentations: [],
   setSeminarRelatedPresentations: () => {},
+  standalonePresentations: [],
+  setStandalonePresentations: () => {},
   lastLoaded: {},
   setLastLoaded: () => {}
 });

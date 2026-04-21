@@ -11,6 +11,62 @@
     ]
   },
   {
+    "title": "Съботно Училище",
+    "description": "Официалното приложение на отдел „Съботно училище и лично служене“ към ГК на ЦАСД. Включва младежки уроци Inverse и други ресурси.",
+    "image": "/img/logos/sabbath-school-and-inverse-logo.webp",
+    "links": [
+      {
+        "url": "https://play.google.com/store/apps/details?id=com.cryart.sabbathschool",
+        "type": "google play"
+      },
+      {
+        "url": "https://apps.apple.com/us/app/sabbath-school-pm/id895272167",
+        "type": "app store"
+      }
+    ]
+  },
+  {
+    "title": "Библия",
+    "description": "Вземете Божието Слово със себе си, като изтеглите безплатното приложение Библията. Слушайте аудио версии, създавайте молитви и изучавайте заедно с приятели. Над 2400 версии на над 1600 езика.",
+    "image": "/img/logos/bible-app-logo.png",
+    "links": [
+      {
+        "url": "https://play.google.com/store/apps/details?id=com.sirma.mobile.bible.android",
+        "type": "google play"
+      },
+      {
+        "url": "https://apps.apple.com/us/app/bible/id282935706",
+        "type": "app store"
+      }
+    ]
+  },
+  {
+    "title": "Bible Verse Memorizer",
+    "description": "Запомняне на библейски стихове - Вашият ежедневен спътник за запаметяване на стихове от Писанието. Укрепете вярата си и запомнете библейски стихове без усилие с приложението.",
+    "image": "/img/logos/bible-verse-memorizer.webp",
+    "links": [
+      {
+        "url": "https://play.google.com/store/apps/details?id=com.bobo.bibleversememorizer",
+        "type": "google play"
+      }
+    ]
+  },
+  {
+    "title": "Chat bot Bible AI SDA UA",
+    "description": "Бот за библейски въпроси и духовни теми.\n 📖 Отговаря въз основа на официалните източници на Църквата на адвентистите от седмия ден и Библията\n✍️ Цитира Елън Уайт дословно от базата EGW Writings — без измислени цитати\n📅 Урокът от Съботното училище — може да разкаже за урока за седмицата или за днес\n🔍 Библейски стихове от различни преводи по ваш избор\n🌅 Стих за деня всяка сутрин — напишете /subscribe и изберете удобен час: от 5:00 до 9:00\n🎤 Разбира гласови съобщения\n💬 Отговаря на вашия език — български, украински, руски, английски и др.",
+    "image": "/img/pastorOnline/telegram-bot.webp",
+    "links": [
+      {
+        "url": "https://sda.bible-llm.com",
+        "type": "сайт"
+      },
+      {
+        "url": "https://t.me/bible_ua_gpt_bot",
+        "type": "telegram"
+      }
+    ]
+  },
+  {
     "title": "Утринни четива",
     "description": "„Утринни четива“ е приложение съдържащо стих от Библията и кратък коментар за всеки ден. Налични са няколко поредици със заглавия: „Поглед нагоре, Елън Уайт“, „Нашият Баща се грижи, Елън Уайт“, „Мараната - Нашият Господ иде!, Елън Уайт“.",
     "image": "/img/logos/morning-readings-logo.png",
@@ -44,12 +100,23 @@
     ]
   },
   {
-    "title": "Библейски поредици",
-    "description": "„Библейски поредици“ дава възможност по-бързо, визуализирано и подредено да се докоснем до святите текстове на Библията.",
-    "image": "/img/logos/bible-series-logo.webp",
+    "title": "Библейски Учения",
+    "description": "Приложението представя по достъпен начин някои от основните учения на Библията. Подходящо е и за хора, които тепърва се запознават с християнската вяра.",
+    "image": "/img/logos/bible-teachings-logo.webp",
     "links": [
       {
-        "url": "https://play.google.com/store/apps/details?id=com.dodosteam.bibleSeminars",
+        "url": "https://play.google.com/store/apps/details?id=com.panilov.bibleteachings",
+        "type": "google play"
+      }
+    ]
+  },
+  {
+    "title": "LTV България",
+    "description": "LTV България е християнска телевизия, която предлага вдъхновяващи предавания, проповеди, музика и образователни програми 24/7. Приложението ви осигурява удобен достъп до непрекъснат телевизионен поток от подбрани записи, както и до внимателно организиран видео архив.",
+    "image": "/img/logos/ltv.webp",
+    "links": [
+      {
+        "url": "https://play.google.com/store/apps/details?id=com.bobo.ltvbulgaria",
         "type": "google play"
       }
     ]
@@ -62,47 +129,6 @@
       {
         "url": "https://play.google.com/store/apps/details?id=com.dodosteam.stepsToChrist",
         "type": "google play"
-      }
-    ]
-  },
-  {
-    "title": "Библейски Учения",
-    "description": "Приложението представя по достъпен начин някои от основните учения на Библията. Подходящо е и за хора, които тепърва се запознават с християнската вяра.",
-    "image": "/img/logos/bible-teachings-logo.webp",
-    "links": [
-      {
-        "url": "https://play.google.com/store/apps/details?id=com.panilov.bibleteachings",
-        "type": "google play"
-      }
-    ]
-  },
-  {
-    "title": "Съботно Училище",
-    "description": "Официалното приложение на отдел „Съботно училище и лично служене“ към ГК на ЦАСД. Включва младежки уроци Inverse и други ресурси.",
-    "image": "/img/logos/sabbath-school-and-inverse-logo.webp",
-    "links": [
-      {
-        "url": "https://play.google.com/store/apps/details?id=com.cryart.sabbathschool",
-        "type": "google play"
-      },
-      {
-        "url": "https://apps.apple.com/us/app/sabbath-school-pm/id895272167",
-        "type": "app store"
-      }
-    ]
-  },
-  {
-    "title": "Библия",
-    "description": "Вземете Божието Слово със себе си, като изтеглите безплатното приложение Библията. Слушайте аудио версии, създавайте молитви и изучавайте заедно с приятели. Над 2400 версии на над 1600 езика.",
-    "image": "/img/logos/bible-app-logo.png",
-    "links": [
-      {
-        "url": "https://play.google.com/store/apps/details?id=com.sirma.mobile.bible.android",
-        "type": "google play"
-      },
-      {
-        "url": "https://apps.apple.com/us/app/bible/id282935706",
-        "type": "app store"
       }
     ]
   }

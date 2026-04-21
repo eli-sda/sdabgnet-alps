@@ -8,7 +8,8 @@ import {
 import {
   loadLinks,
   loadPlaylists,
-  loadSeminarRelatedPresentations
+  loadSeminarRelatedPresentations,
+  loadStandalonePresentations
 } from 'src/utils/FetchHelper';
 import { getTodayString } from 'src/utils/getTodayString';
 
@@ -25,6 +26,8 @@ export function usePlaylists() {
     setLinks,
     seminarRelatedPresentations,
     setSeminarRelatedPresentations,
+    standalonePresentations,
+    setStandalonePresentations,
     lastLoaded,
     setLastLoaded
   } = usePlaylistsContext();
@@ -35,21 +38,26 @@ export function usePlaylists() {
    * - Otherwise, fetches them from the backend, updates the cache, and returns the new data.
    *
    * @param type The playlist type (e.g. "video", "presentation").
+   * @param isResource Whether it is a resource.
+   * @param title Optional title to filter by.
+   * @param shouldSort Optional flag to disable sorting. Defaults to true.
    * @returns A promise resolving to an array of playlists.
    */
   const getPlaylists = useCallback(
     async (
       type: string,
       isResource: boolean,
-      title?: string
+      title?: string,
+      shouldSort: boolean = true
     ): Promise<PlaylistType[]> => {
       const today = getTodayString();
 
-      // Build a cache key that includes resource flag and title (if any)
+      // Build a cache key that includes resource flag, title (if any), and sort preference
       const titleKey = title ? `_title=${encodeURIComponent(title)}` : '';
+      const sortKey = shouldSort ? '' : '_unsorted';
       const cacheKey = isResource
-        ? `resource_${type}${titleKey}`
-        : `${type}${titleKey}`;
+        ? `resource_${type}${titleKey}${sortKey}`
+        : `${type}${titleKey}${sortKey}`;
 
       // Return cached playlists for cacheKey if up-to-date
       if (playlists[cacheKey] && lastLoaded[`playlist_${cacheKey}`] === today) {
@@ -59,9 +67,10 @@ export function usePlaylists() {
       // Otherwise, fetch from backend and update cache
       return await loadPlaylists(type, isResource, title)
         .then((loadedPlaylists) => {
-          const sortedPlaylists = loadedPlaylists
-            ?.slice() // make a copy so the original array is not modified
-            .sort((a, b) => {
+          const processedPlaylists = loadedPlaylists?.slice() || [];
+
+          if (shouldSort) {
+            processedPlaylists.sort((a, b) => {
               const special = ['чуждоговорящи', 'други'];
 
               const aTitle = (a.title || '').toLowerCase();
@@ -88,10 +97,11 @@ export function usePlaylists() {
                 sensitivity: 'base'
               });
             });
+          }
 
-          setPlaylists(cacheKey, sortedPlaylists);
+          setPlaylists(cacheKey, processedPlaylists);
           setLastLoaded(`playlist_${cacheKey}`, today);
-          return Promise.resolve(sortedPlaylists);
+          return Promise.resolve(processedPlaylists);
         })
         .catch((err) => {
           console.error(`Failed to fetch ${type} playlists: ${err}`);
@@ -107,11 +117,16 @@ export function usePlaylists() {
    * - Otherwise, fetches them from the backend, updates the cache, and returns the new data.
    *
    * @param type The playlist type (e.g. "video", "presentation").
+   * @param shouldSort Optional flag to disable sorting. Defaults to true.
    * @returns A promise resolving to an array of playlists.
    */
   const getResourcePlaylists = useCallback(
-    async (type: string, title?: string): Promise<PlaylistType[]> => {
-      return getPlaylists(type, true, title);
+    async (
+      type: string,
+      title?: string,
+      shouldSort: boolean = true
+    ): Promise<PlaylistType[]> => {
+      return getPlaylists(type, true, title, shouldSort);
     },
     [getPlaylists]
   );
@@ -186,10 +201,47 @@ export function usePlaylists() {
     setLastLoaded
   ]);
 
+  /**
+   * Retrieves standalone presentations.
+   * - If standalone presentations are cached and have been loaded today, returns the cached data.
+   * - Otherwise, fetches them from the backend, updates the cache, and returns the newly loaded data.
+   * @returns A promise resolving to an array of standalone presentations.
+   */
+  const getStandalonePresentations = useCallback(async (): Promise<
+    LinkType[]
+  > => {
+    const today = getTodayString();
+
+    if (
+      standalonePresentations &&
+      lastLoaded['standalonePresentations'] === today
+    ) {
+      return Promise.resolve(standalonePresentations);
+    }
+
+    // Otherwise, fetch from backend and update cache
+    return await loadStandalonePresentations()
+      .then((loadedPresentations) => {
+        setStandalonePresentations(loadedPresentations);
+        setLastLoaded('standalonePresentations', today);
+        return Promise.resolve(loadedPresentations);
+      })
+      .catch((err) => {
+        console.error(`Failed to fetch standalone presentations: ${err}`);
+        return Promise.resolve([]);
+      });
+  }, [
+    lastLoaded,
+    setLastLoaded,
+    setStandalonePresentations,
+    standalonePresentations
+  ]);
+
   return {
     getPlaylists,
     getResourcePlaylists,
     getLinks,
-    getSeminarRelatedPresentations
+    getSeminarRelatedPresentations,
+    getStandalonePresentations
   };
 }

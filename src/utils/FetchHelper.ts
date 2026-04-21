@@ -132,6 +132,7 @@ export const loadPlaylists = async (
     // type,
     author,
     title,
+    description,
     // keyWords,
     "imageUrl": image.asset -> url,
     "items": items[_type == "reference"]->{
@@ -239,6 +240,24 @@ export const loadSeminarRelatedPresentations = async (): Promise<
       _id,
       title
     }`;
+
+  return await client.fetch(presentationsQuery);
+};
+
+export const loadStandalonePresentations = async (): Promise<LinkType[]> => {
+  const presentationsQuery = `*[
+    _type == "link" 
+    && isResource == true 
+    && type == "presentation"
+    && !(_id in *[_type == "playlist" && type == "presentations"].items[]._ref)
+  ] | order(_createdAt desc) {
+    _id,
+    author,
+    title,
+    description,
+    size,
+    "path": "presentations/" + fileName
+  }`;
 
   return await client.fetch(presentationsQuery);
 };

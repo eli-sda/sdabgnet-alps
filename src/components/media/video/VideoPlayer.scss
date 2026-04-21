@@ -9,43 +9,79 @@ $shareBtnSwitch: 380px;
 
   &-layout {
     display: flex;
-    gap: 24px;
+    column-gap: 6px;
+    row-gap: 24px;
     margin-top: 16px;
 
-    @container (max-width: 670px) {
+    /* Vertical layout for small screens - flex-direction set by CSS, not orientation */
+    &.is-vertical {
       flex-direction: column;
+      height: auto !important;
+      overflow: visible !important;
 
-      &-player {
-        width: 100% !important;
+      /* Allow react-resizable-panels to size to content in vertical mode */
+      [data-panel] {
+        flex-basis: auto !important;
+        overflow: visible !important;
+        min-height: 0;
+        &:hover {
+          cursor: default !important;
+        }
+      }
+      &:hover {
+        cursor: default !important;
       }
 
-      &-sidebar {
+      .videoPlayer-layout-player {
+        /* Reset panel widths */
+        width: 100% !important;
+        flex: 1 1 auto;
+      }
+
+      .videoPlayer-layout-sidebar {
         max-height: none;
         overflow-y: visible;
+        flex: 1 1 auto;
+      }
+      .share-video-button {
+        display: block;
+      }
+      /* Hide video item link buttons in vertical mode */
+      .videoItem-link {
+        display: none !important;
       }
     }
 
-    &-player {
-      flex: 0 0 auto;
-      width: 400px;
-      max-width: 100%;
-      white-space: pre-line;
+    /* Horizontal layout for larger screens */
+    &.is-horizontal {
+      flex-direction: row;
 
-      .share-video-button {
-        display: none;
+      .videoPlayer-layout-player {
+        flex: 0 0 auto;
+        width: 100%;
+      }
 
-        @media (max-width: $shareBtnSwitch) {
-          display: block;
+      .playlist-container {
+        position: relative;
+
+        .videoPlayer-layout-sidebar {
+          position: absolute;
+          overflow-y: auto;
         }
       }
     }
 
+    &-player {
+      white-space: pre-line;
+
+      .share-video-button {
+        display: none;
+      }
+    }
+
     &-sidebar {
-      flex: 1 1 auto;
       display: flex;
       flex-direction: column;
-      max-height: min(500px, 40vh);
-      overflow-y: auto;
 
       .videoItem {
         display: flex;
@@ -93,10 +129,7 @@ $shareBtnSwitch: 380px;
 
         &-link {
           padding: 0;
-
-          @media (max-width: $shareBtnSwitch) {
-            display: none;
-          }
+          display: flex;
 
           &:disabled,
           &:disabled:hover {
@@ -139,6 +172,24 @@ $shareBtnSwitch: 380px;
           }
         }
       }
+    }
+  }
+
+  .separator {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    background-color: $grayColor;
+    &[data-separator='active'],
+    &[data-separator='hover'] {
+      background-color: $grayDarkColor;
+    }
+    svg {
+      width: 12px;
+      max-width: unset;
+      height: 12px;
+      flex-shrink: 0;
+      color: white;
     }
   }
 }

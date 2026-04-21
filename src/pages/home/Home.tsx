@@ -8,6 +8,7 @@ import { HomeEvents } from './HomeEvents';
 import { AdvertisementsPreview } from 'src/components/advertisements/AdvertisementsPreview';
 import { RssFeeds } from 'src/components/rssFeed/RssFeeds';
 import { Partners } from 'src/components/Partners';
+import { CallForHelp } from 'src/components/CallForHelp';
 
 // for Sanity update
 // import { Button } from '@mui/material';
@@ -18,8 +19,10 @@ import { Partners } from 'src/components/Partners';
 //   // linkMusicPlaylistsToItems,
 //   // linkBibleVideoPlaylistsToItems,
 //   linkTestimoniesVideoPlaylistsToItems
+// linkBookPlaylistsToItems
 // } from 'src/utils/Sanity/link-playlists';
 // import { deleteAllAudioLinks } from 'src/utils/Sanity/delete-audio-links';
+// import { cleanupPlaylistItems } from 'src/utils/Sanity/cleanup-playlist-items';
 
 // for DEMO:
 // import { TestLinks } from 'src/components/TestLinks';
@@ -29,14 +32,14 @@ import { HomeTopContainer } from './HomeTopContainer';
 // import DailyVerseDark from 'src/components/dailyVerse/DailyVerseDark';
 // import { VideoDemo } from '../components/media/video/demo/VideoDemo';
 // import { FeedDemo } from 'src/components/rssFeed/demo/FeedDemo';
-// import { useScrollToHash } from 'src/hooks/useScrollToHash';
+import { useScrollToHash } from 'src/hooks/useScrollToHash';
 
 // import LatestAdvertisementsDemo from '../advertisement/LatestAdvertisementsDemo';
 
 const Home = () => {
   const [currentDate, setCurrentDate] = useState(() => moment());
   const { pageMeta } = usePagesMeta();
-  // useScrollToHash();
+  useScrollToHash();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -70,6 +73,10 @@ const Home = () => {
 
       <section className="full-page">
         <HomeEvents />
+      </section>
+
+      <section className="full-page">
+        <CallForHelp />
       </section>
 
       <section className="full-page">
@@ -107,10 +114,20 @@ const Home = () => {
           </div> */}
       {/* Playlist Testimony Linking Test Buttons */}
       {/* <div className="u-spacing--double">
-            <Button onClick={() => void linkTestimoniesVideoPlaylistsToItems()}>
-              Fill Опитности Playlists
-            </Button>
-          </div> */}
+        <Button onClick={() => void linkTestimoniesVideoPlaylistsToItems()}>
+          Fill Опитности Playlists
+        </Button>
+      </div> */}
+      {/* <div className="u-spacing--double">
+        <Button onClick={() => void cleanupPlaylistItems('testimony', 'СРЕЩИ')}>
+          Изтрий видеата от плейлист СРЕЩИ
+        </Button>
+      </div> */} 
+      {/* <div className="u-spacing--double">
+        <Button onClick={() => void linkBookPlaylistsToItems()}>
+          Fill Book Playlists
+        </Button>
+      </div> */}
 
       <section className="full-page u-spacing--triple">
         {/* <VideoDemo /> */}

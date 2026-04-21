@@ -25,17 +25,29 @@ a.c-secondary-nav__link {
   }
 }
 
-@media (min-width: 701px) {
-  .c-header__nav-secondary .c-secondary-nav__list {
-    padding-right: 0;
-    margin-right: 9.375rem;
+.c-header__nav-secondary {
+  .c-secondary-nav__list {
+    @media (min-width: 701px) {
+      padding-right: 0;
+      margin-right: 9.375rem;
+    }
+    @media (max-width: 500px) {
+      justify-content: space-between;
+      flex-wrap: nowrap; // prevent bell from wrapping above Menu on very small screens
+    }
   }
-}
 
-/* fix menu item */
-@media (min-width: 501px) {
-  .c-header__nav-secondary .c-secondary-nav__list-item.is-priority {
-    display: none;
+  /* fix menu item */
+  .c-secondary-nav__list-item {
+    &.is-priority {
+      @media (min-width: 501px) {
+        display: none;
+      }
+    }
+    /* always-visible items shown on all screen sizes */
+    &.is-always-visible {
+      display: flex !important;
+    }
   }
 }
 
@@ -72,9 +84,9 @@ a.c-secondary-nav__link {
 .c-secondary-nav__link,
 .c-primary-nav__link {
   &.withSvgIcon {
-    display: flex;
-    align-items: center;
-    justify-content: start;
+    .ui-icon {
+      vertical-align: middle;
+    }
     .u-icon--m,
     svg {
       width: 1em;

@@ -1,7 +1,8 @@
 // Copy CtaBlock.tsx from alps-library
-
+import React from 'react';
 import { canBeClass, themeBorderColorClass } from 'alps-library/global/colors';
 import { Button, ButtonProps } from 'src/alps/atoms/Button';
+import { generateId } from 'src/utils/Links';
 import './LinksBlock.scss';
 
 export interface LinksBlockProps {
@@ -45,18 +46,21 @@ export const LinksBlock = ({
 }: LinksBlockProps): JSX.Element => {
   const backgroundClass = picture ? 'has-image' : '';
 
+  const id = generateId(title);
+
   return (
     <div
+      id={id}
       className={`links-block c-cta-block c-block ${canBeClass}--dark-dark u-border--left ${themeBorderColorClass}--darker--left ${backgroundClass}`}
     >
       {picture && (
         <div className="u-padding--half">
           {link ? (
             <a href={link} target="_blank" rel="noopener noreferrer">
-              <img src={picture} alt={picture} />
+              <img src={picture} />
             </a>
           ) : (
-            <img src={picture} alt={picture} />
+            <img src={picture} />
           )}
         </div>
       )}
@@ -98,7 +102,12 @@ export const LinksBlock = ({
                 title ? 'u-font--secondary' : 'u-font--secondary--m'
               }`}
             >
-              {description}
+              {description.split('\n').map((line, i, arr) => (
+                <React.Fragment key={i}>
+                  {line}
+                  {i < arr.length - 1 && <br />}
+                </React.Fragment>
+              ))}
             </p>
           )}
           {children}

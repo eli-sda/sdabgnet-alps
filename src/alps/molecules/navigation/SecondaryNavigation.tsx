@@ -1,6 +1,7 @@
 import React from 'react';
 import renderItems from 'alps-library/helpers/renderItems';
 import { SecondaryNavItem, SecondaryNavItemProps } from './SecondaryNavItem';
+import './SecondaryNavigation.scss';
 
 export interface SecondaryNavigationProps {
   items?: SecondaryNavItemProps[];
@@ -22,6 +23,8 @@ export interface SecondaryNavigationProps {
   showSearch?: boolean;
   onClickSearch?: () => void;
   onClickMenu?: () => void;
+  /** Items rendered after the Menu button */
+  itemsAfterMenu?: SecondaryNavItemProps[];
 }
 
 export const SecondaryNavigation = ({
@@ -31,7 +34,8 @@ export const SecondaryNavigation = ({
   showMenu = true,
   showSearch = true,
   onClickMenu,
-  onClickSearch
+  onClickSearch,
+  itemsAfterMenu = []
 }: SecondaryNavigationProps): JSX.Element => {
   return (
     <nav className="c-secondary-nav" role="navigation">
@@ -57,6 +61,7 @@ export const SecondaryNavigation = ({
             onClick={onClickMenu}
           />
         )}
+        {renderItems(itemsAfterMenu, SecondaryNavItem, '')}
       </ul>
     </nav>
   );

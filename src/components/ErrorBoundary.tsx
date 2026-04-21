@@ -80,7 +80,7 @@ class ErrorBoundary extends Component<Props, State> {
           <button onClick={() => window.location.reload()}>
             Опресни страницата
           </button>
-          {process.env.NODE_ENV === 'development' && this.state.error && (
+          {import.meta.env.DEV && this.state.error && (
             <details
               style={{
                 marginTop: '20px',

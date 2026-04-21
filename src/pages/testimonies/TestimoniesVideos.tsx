@@ -1,49 +1,49 @@
 import { useEffect, useState } from 'react';
-import { Figure } from 'alps-library/molecules/media/figure/Figure';
-import { PlaylistType } from 'src/contexts/PlaylistsContext';
+import { LinkType, PlaylistType } from 'src/contexts/PlaylistsContext';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
-import { getImageTypeByUrl } from 'src/utils/ImageHelper';
+import { usePlaylists } from 'src/hooks/usePlaylists';
 import ShareVideoButton from 'src/components/ShareVideoButton';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
+import VideoWithPreview from 'src/components/media/video/videoWithPreview/VideoWithPreview';
+import { extractYouTubeId, extractRumbleId } from 'src/utils/extractVideoId';
 import './TestimoniesVideos.scss';
-
-type TestimonyVideo = {
-  id: string;
-  title: string;
-  videoSrc: string;
-  thumbnail?: string;
-};
 
 const TestimoniesVideos = () => {
   useScrollToHash();
 
-  const [videos, setVideos] = useState<TestimonyVideo[]>([]);
+  const { getPlaylists } = usePlaylists();
+
+  const [videos, setVideos] = useState<LinkType[]>([]);
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
 
   const videoIdPrefix = 'video-';
 
   useEffect(() => {
-    fetch('/json/testimonies-videos.json')
-      .then((res) => res.json())
-      .then((data: TestimonyVideo[]) => {
-        setVideos(data);
+    getPlaylists('testimony_video', false)
+      .then((data: PlaylistType[]) => {
+        // Find the playlist that contains 'SINGLE' in its title
+        const singlePlaylist = data.find((p) => p.title?.includes('SINGLE'));
+
+        if (singlePlaylist && singlePlaylist.items) {
+          // Set its videos to the videos state
+          setVideos(singlePlaylist.items);
+        } else {
+          setVideos([]);
+        }
+
+        // Filter out the 'SINGLE' playlist to keep the rest clean
+        const regularPlaylists = data.filter(
+          (p) => !p.title?.includes('SINGLE')
+        );
+        setPlaylists(regularPlaylists);
       })
       .catch((err) => {
         console.error(err);
         setVideos([]);
-      });
-
-    fetch('/json/testimonies-video-playlist.json')
-      .then((res) => res.json())
-      .then((data: PlaylistType[]) => {
-        setPlaylists(data);
-      })
-      .catch((err) => {
-        console.error(err);
         setPlaylists([]);
       });
-  }, []);
+  }, [getPlaylists]);
 
   const handleHashChange = () => {
     const hash = window.location.hash.slice(1);
@@ -72,61 +72,46 @@ const TestimoniesVideos = () => {
     };
   }, []);
 
+  const getVideoId = (videoSrc: string): string => {
+    const videoId = extractYouTubeId(videoSrc) || extractRumbleId(videoSrc);
+
+    if (!videoId) {
+      console.warn(`Could not extract video ID from URL: ${videoSrc}`);
+    }
+
+    return videoId;
+  };
+
   return (
     <section className="testimonies-videos-list">
       <VideoPlaylistList playlists={playlists} />
 
-      {videos.map(({ id, title, videoSrc, thumbnail }) => {
-        const isYouTube = videoSrc.includes('youtube.com');
-        const isRumble = videoSrc.includes('rumble.com');
-        const isActive = activeVideo === id;
-        const videoId = `${videoIdPrefix}${id}`;
+      {videos.map(({ title, author, path, description }) => {
+        const videoId = getVideoId(path);
+
+        if (!videoId) return null;
+
+        const isActive = activeVideo === videoId;
+        const elementId = `${videoIdPrefix}${videoId}`;
+
+        // Extract thumbnail from the description string if it's there
+        const parsedThumbnail =
+          description && typeof description === 'string'
+            ? description.match(/thumbnail:\s*(https?:\/\/[^\s]+)/i)?.[1]
+            : undefined;
 
         return (
-          <div
-            key={videoId}
-            id={videoId}
-            className={`testimonies-videos${isActive ? ' is-active' : ''}`}
-          >
-            {isYouTube ? (
-              <Figure
-                className="testimonies-videos"
-                caption={title}
-                size="large"
-                image={
-                  !isActive
-                    ? getImageTypeByUrl(
-                        `https://img.youtube.com/vi/${id}/hqdefault.jpg`
-                      )
-                    : undefined
-                }
-                onImageClick={!isActive ? () => setActiveVideo(id) : undefined}
-                videoSrc={
-                  isActive
-                    ? `https://www.youtube.com/embed/${id}?autoplay=1`
-                    : undefined
-                }
-              />
-            ) : isRumble && thumbnail ? (
-              <Figure
-                className="testimonies-videos"
-                caption={title}
-                size="large"
-                image={getImageTypeByUrl(thumbnail)}
-                onImageClick={() =>
-                  window.open(videoSrc, '_blank', 'noopener,noreferrer')
-                }
-              />
-            ) : (
-              <Figure
-                className="testimonies-videos"
-                caption={title}
-                size="large"
-                videoSrc={videoSrc}
-              />
-            )}
+          <div key={videoId} id={elementId} className="testimonies-videos">
+            <VideoWithPreview
+              title={`${title}${author ? ' | ' + author : ''}`}
+              videoSrc={path}
+              isActive={isActive}
+              thumbnail={parsedThumbnail}
+              onActivate={setActiveVideo}
+              size="large"
+            />
             <ShareVideoButton
-              url={`${window.location.origin}${window.location.pathname}?tab=videos#${videoId}`}
+              url={`${window.location.origin}${window.location.pathname}?tab=videos#${elementId}`}
             />
           </div>
         );

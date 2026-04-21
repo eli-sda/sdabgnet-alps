@@ -1,13 +1,16 @@
 <?php
 
 /**
- * URL Resolver API Endpoint
+ * Bitly Proxy API Endpoint
  *
- * This script resolves bit.ly short URLs to their final YouTube destinations.
- * It follows redirects securely and returns the final URL in JSON format.
+ * Resolves bit.ly short URLs to their final YouTube destinations.
+ * Named bitly-proxy.php (instead of bitly-resolver.php) to match the
+ * server WAF allowlist pattern (*-proxy.php).
+ *
+ * Follows redirects securely and returns the final URL in JSON format.
  *
  * Security Features:
- * - Only accepts HTTPS URLs from whitelisted domains (bit.ly)
+ * - Only accepts bit.ly slugs; reconstructs full URL server-side
  * - Validates URL format and structure
  * - Limits redirect chains to prevent abuse
  * - Only returns HTTPS URLs to whitelisted destinations (YouTube)
@@ -16,7 +19,7 @@
  * - Output sanitization to prevent XSS
  *
  * Usage:
- *   GET /resolve-url.php?url=https://bit.ly/xxx
+ *   GET /bitly-proxy.php?slug=2026-T2-Urok01
  *
  * Response:
  *   Success: {"url": "https://youtu.be/xxx"}
@@ -36,7 +39,9 @@ if (isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], $allowed
     header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
     header('Vary: Origin');
 }
+
 header('Access-Control-Allow-Methods: GET');
+header('Access-Control-Allow-Headers: Accept');
 header('Access-Control-Max-Age: 3600');
 header('Content-Type: application/json; charset=UTF-8');
 header('X-Content-Type-Options: nosniff');
@@ -44,7 +49,7 @@ header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: DENY', true);
 header("Content-Security-Policy: frame-ancestors 'none'; default-src 'none'", true);
 
-// Only allow GET requests
+// Allow GET only
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     http_response_code(405);
     echo json_encode(['error' => 'Method not allowed']);
@@ -52,7 +57,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
 }
 
 // Get and validate URL parameter
-$urlInput = $_GET['url'] ?? '';
+// Client sends just the bit.ly slug (e.g. "2026-T2-Urok01") — not the full
+// URL — to avoid WAF rules that flag https:// patterns in query strings.
+// The full bit.ly URL is reconstructed here before validation.
+$slug = isset($_GET['slug']) ? trim((string)$_GET['slug']) : '';
+
+$urlInput = $slug !== '' ? "https://bit.ly/{$slug}" : '';
+
 
 if (empty($urlInput)) {
     http_response_code(400);

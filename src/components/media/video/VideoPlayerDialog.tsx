@@ -5,7 +5,7 @@ import { TransitionProps } from '@mui/material/transitions';
 import { Button as AlpsButton } from 'src/alps/atoms/Button';
 
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
-import { extractYouTubeId } from 'src/utils/extractYouTubeId';
+import { extractYouTubeId } from 'src/utils/extractVideoId';
 import VideoPlayer, { VideoPlaylistType } from './VideoPlayer';
 import './VideoPlayerDialog.scss';
 
@@ -47,6 +47,7 @@ export const VideoPlayerDialog = ({
           _id: item._id,
           videoId: extractYouTubeId(item.path) ?? '',
           title: item.title,
+          author: item.author ?? '',
           description: item.description ?? ''
         })) ?? []
     };
@@ -55,10 +56,7 @@ export const VideoPlayerDialog = ({
   return (
     <Dialog
       open={isOpen}
-      onClose={(_event, reason) => {
-        if (reason === 'backdropClick') return;
-        handleClose();
-      }}
+      onClose={handleClose}
       slots={{
         transition: Transition
       }}

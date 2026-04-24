@@ -1,0 +1,68 @@
+[
+     {
+        "id": "2026-04-20",
+        "date": "2026-04-20",
+        "title": "Седмични подобрения – 20.04.2026",
+        "changes": [
+            {
+                "type": "feature",
+                "text": "Добавено е меню [\"Какво ново\"](/changelog) с нотификация за нови промени по сайта.\n Махнато е менюто \"Намери църква\"."
+            },
+            {
+                "type": "improvement",
+                "text": "Добавена е страницата [Рецепти](/health/recipes) в менюто [\"Здраве\"](/health)."
+            },
+            {
+                "type": "improvement",
+                "text": "В страницата [Здравни институции](/health/institutions) вече има линкове към сайтове, социални мрежи и YouTube."
+            },
+            {
+                "type": "improvement",
+                "text": "Добавен е бот \"Bible SDA UA\" за библейски въпроси и духовни теми в [Приложения](/media/apps#chat-bot-bible-ai-sda-ua) и други страници."
+            },
+            {
+                "type": "improvement",
+                "text": "Добавена е аудиокнигата [\"И ще бъдете свидетели за Мен...\"](/resources/audio/audiobook?#6685c521-285c-4aca-8768-0f207c63d1b5) от пастор Рачко Ябанджиев."
+            },
+            {
+                "type": "improvement",
+                "text": "В [Аудиокниги](/resources/audio/audiobook) е добавен линк към книгата \"Направен, за да устои\"."
+            },
+            {
+                "type": "improvement",
+                "text": "Вече можете да вземете линк и да споделите книга от [Книги](/resources/books)."
+            },
+            {
+                "type": "improvement",
+                "text": "В [младежките уроци inVerse](/church_life/lesson-cq) е добавен линк към дискусия на английски."
+            },
+            {
+                "type": "improvement",
+                "text": "В [Календара със събития](/church_life/events) са добавени линкове към събития."
+            }
+        ]
+    },
+    {
+        "id": "2026-04-12",
+        "date": "2026-04-12",
+        "title": "Седмични подобрения – 12.04.2026",
+        "changes": [
+            {
+                "type": "feature",
+                "text": "На началната страница е добавена секция [\"Зов за помощ\"](/#help)"
+            },
+            {
+                "type": "improvement",
+                "text": "[Книгите](/resources/books) от ресурсите са обогатени, някои са обновени."
+            },
+            {
+                "type": "improvement",
+                "text": "Видеата в [Опитности](/church_life/testimonies?tab=videos) и [книгите](/resources/books) от ресурсите се зареждат от база данни."
+            },
+            {
+                "type": "improvement",
+                "text": "Добавени приложения: [\"Bible Verse Memorizer\"](/media/apps#bible-verse-memorizer), [\"LTV България\"](/media/apps#ltv-balgariya)."
+            }
+        ]
+    }
+]

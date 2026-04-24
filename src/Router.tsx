@@ -75,6 +75,7 @@ const Feedback = lazy(() => import('./pages/feedback/Feedback'));
 const Team = lazy(() => import('./pages/team/Team'));
 const Videoteka = lazy(() => import('./pages/videoteka/Videoteka'));
 const Recipes = lazy(() => import('./pages/health/Recipes'));
+const Changelog = lazy(() => import('./pages/changelog/Changelog'));
 const NewStart = lazy(() => import('./pages/newStart/NewStart'));
 
 // const theme = createTheme();
@@ -262,13 +263,16 @@ const Router = () => (
             element={<HealthInstitutions />}
           />
 
-          <Route path={routes.contact} element={<Contact />} />
-
           {/* За нас */}
           <Route path={routes.about()} element={<About />} />
           <Route path={routes.about('team')} element={<Team />} />
           <Route path={routes.about('banner')} element={<Banner />} />
           <Route path={routes.about('feedback')} element={<Feedback />} />
+
+          {/* Контакт */}
+          <Route path={routes.contact} element={<Contact />} />
+          {/* Какво ново */}
+          <Route path={routes.changelog} element={<Changelog />} />
 
           {/* 
           <Route path="teams" element={<Teams />}>

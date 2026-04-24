@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
+import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
-import routes from 'src/routes';
 import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import { isValidUrl } from 'src/utils/FetchHelper';
+import { getFaIconClass } from 'src/utils/Links';
 import { PageLinkItem } from 'src/organisms/PageLinkItem';
 import { ExternalPageLink } from 'src/types/externalPageLink';
 
@@ -35,17 +36,28 @@ const HealthInstitutions = () => {
       blockType="wrap6"
       // pageClassName="full-page"
     >
-      {links.map(({ url, title, description, img }, idx) => (
-        <PageLinkItem
-          key={idx}
-          url={url}
-          title={title}
-          description={description}
-          img={getImageTypeByUrl(img)}
-          sizeAtM="6"
-          sizeAtXL="3"
-        />
-      ))}
+      {links.map(({ url, title, description, img, links }, idx) => {
+        const buttons = links?.map(({ url, type }) => ({
+          label: type,
+          url,
+          faIconClass: `${getFaIconClass(type)} fa-lg`,
+          hideExternalIcon: true,
+          outline: true,
+          isExternal: true
+        }));
+        return (
+          <PageLinkItem
+            key={idx}
+            url={url}
+            title={title}
+            description={description}
+            img={getImageTypeByUrl(img)}
+            buttons={buttons}
+            sizeAtM="6"
+            sizeAtXL="3"
+          />
+        );
+      })}
     </Page>
   );
 };

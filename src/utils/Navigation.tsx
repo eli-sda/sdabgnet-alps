@@ -433,14 +433,19 @@ export type MenuItem = {
 
 export const secondaryNavItems: SecondaryNavItemProps[] = [
   {
-    icon: 'find',
-    text: 'Намери църква',
-    url: routes.churches
-  },
-  {
     icon: 'contact',
     text: 'Контакт',
     url: routes.contact
+  }
+];
+
+// Used only for getTitle/breadcrumbs lookup — not rendered directly
+export const allSecondaryNavItems: SecondaryNavItemProps[] = [
+  ...secondaryNavItems,
+  {
+    faIconClass: 'fas fa-bell',
+    text: 'Какво ново',
+    url: routes.changelog
   }
 ];
 
@@ -452,7 +457,7 @@ function _getTitle(
   targetUrl: string,
   items: MenuItem[] = concat(
     primaryNavigationItems as MenuItem[],
-    secondaryNavItems
+    allSecondaryNavItems
   )
 ): string {
   // Seach in navigation menu items by url

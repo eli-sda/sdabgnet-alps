@@ -4,6 +4,7 @@ import { RelatedPostsProps } from 'src/alps/organisms/asides/RelatedPosts';
 import { Page } from 'src/organisms/Page';
 import routes from 'src/routes';
 import { MediaType } from 'src/constants';
+import { getFaIconClass, LinkItem } from 'src/utils/Links';
 import { getTitle } from 'src/utils/Navigation';
 import { LinksBlock } from './LinksBlock';
 
@@ -14,11 +15,6 @@ interface MediaLinksPageProps {
   relatedPosts?: RelatedPostsProps;
   isDoubleSpacing?: boolean;
 }
-
-type LinkItem = {
-  url: string;
-  type: 'сайт' | 'facebook' | 'youtube' | 'instagram' | 'tik tok' | 'telegram';
-};
 
 export type LinkGroup = {
   title: string;
@@ -35,19 +31,6 @@ export type LinksData = {
   id: string;
   items: LinkGroup[];
 };
-
-const faIconClasses: Record<string, string> = {
-  сайт: 'fas fa-globe-americas',
-  facebook: 'fab fa-facebook-f',
-  youtube: 'fab fa-youtube',
-  instagram: 'fab fa-instagram',
-  'google play': 'fab fa-google-play',
-  'app store': 'fab fa-app-store',
-  'tik tok': 'fab fa-tiktok',
-  telegram: 'fab fa-telegram-plane'
-};
-
-const getFaIconClass = (type: string) => faIconClasses[type];
 
 const isSectionsArray = (
   data: LinkGroup[] | LinksData[]

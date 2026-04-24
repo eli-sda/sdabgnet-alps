@@ -19,4 +19,15 @@
   .rc-slider {
     z-index: 78; // Ensure slider is above progress-load-bar with z-index 77
   }
+
+  .react-jinke-music-player-mobile-cover {
+    display: flex;
+    align-items: center;
+    justify-content: center; // to center and show full rectangle covers
+    .cover {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
 }

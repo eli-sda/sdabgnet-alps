@@ -75,6 +75,7 @@ const Feedback = lazy(() => import('./pages/feedback/Feedback'));
 const Team = lazy(() => import('./pages/team/Team'));
 const Videoteka = lazy(() => import('./pages/videoteka/Videoteka'));
 const Recipes = lazy(() => import('./pages/health/Recipes'));
+const NewStart = lazy(() => import('./pages/newStart/NewStart'));
 
 // const theme = createTheme();
 
@@ -253,6 +254,7 @@ const Router = () => (
           <Route path={routes.videoteka} element={<Videoteka />} />
 
           {/* Здраве */}
+          <Route path={routes.health('new-start')} element={<NewStart />} />
           <Route path={routes.health()} element={<Health />} />
           <Route path={routes.health('recipes')} element={<Recipes />} />
           <Route

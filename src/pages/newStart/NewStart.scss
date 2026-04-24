@@ -1,0 +1,145 @@
+@use '/src/styles/colors.scss' as *;
+
+.new-start-page {
+  .new-start-section {
+    display: flex;
+    justify-content: space-between;
+    // align-items: center;
+    gap: 2rem; // Space between list and banner
+
+    @media (max-width: 900px) {
+      flex-direction: column; // Stack on smaller screens
+    }
+
+    .new-start-principles {
+      list-style: none;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px; // Row spacing
+
+      .principle-item {
+        display: flex;
+        align-items: center;
+        gap: 6px; // Space between the colored letter and the text
+
+        // Styling the letter box
+        .letter-bg {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 36px;
+          height: 36px;
+          color: #fff;
+          font-size: 1.2rem;
+          flex-shrink: 0; // Prevent the box from shrinking if text is long
+        }
+      }
+    }
+
+    .new-start-banner {
+      max-width: 100%;
+      height: auto;
+
+      @media (min-width: 901px) {
+        max-width: 50%; // Keep it proportional on desktop side-by-side view
+      }
+    }
+  }
+
+  .new-start-swiper {
+    width: 100%;
+
+    .new-start-item {
+      position: relative;
+
+      img {
+        display: block;
+        object-fit: cover;
+        margin: 0 auto;
+        width: 100%;
+        height: auto;
+      }
+
+      .text-content {
+        position: relative;
+        z-index: 10;
+        margin-top: -20%; // Percentage margin scales with image width
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+    }
+  }
+
+  // Swiper controls styling
+  .swiper-button-prev,
+  .swiper-button-next {
+    @media (max-width: 500px) {
+      display: none;
+    }
+
+    color: white;
+    background-color: $mingDarkestColor;
+    border-radius: 50%;
+    transition:
+      box-shadow 0.2s ease,
+      transform 0.15s ease;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover {
+      transform: scale(1.08);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  .swiper-pagination {
+    bottom: 0 !important;
+
+    .swiper-pagination-bullet {
+      background-color: rgba($mingDarkestColor, 0.5) !important;
+      opacity: 1 !important;
+      width: 10px !important;
+      height: 10px !important;
+      margin: 0 5px !important;
+      transition: all 0.3s ease !important;
+
+      &.swiper-pagination-bullet-active {
+        background-color: $mingDarkestColor !important;
+        width: 12px !important;
+        height: 12px !important;
+      }
+    }
+  }
+
+  // Video grid section
+  .new-start-videos {
+    @media (max-width: 900px) {
+      margin-top: 50px;
+    }
+  }
+
+  // Pullquotes styling
+  .pullquotes {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1000px;
+
+    .pullquote:first-of-type {
+      p:first-child {
+        padding-top: 0;
+      }
+    }
+
+    p,
+    .o-citation {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}

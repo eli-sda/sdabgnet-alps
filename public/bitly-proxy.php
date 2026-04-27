@@ -56,48 +56,27 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     exit;
 }
 
-// Get and validate URL parameter
 // Client sends just the bit.ly slug (e.g. "2026-T2-Urok01") — not the full
 // URL — to avoid WAF rules that flag https:// patterns in query strings.
-// The full bit.ly URL is reconstructed here before validation.
+// The full bit.ly URL is reconstructed server-side after validation.
 $slug = isset($_GET['slug']) ? trim((string)$_GET['slug']) : '';
 
-$urlInput = $slug !== '' ? "https://bit.ly/{$slug}" : '';
-
-
-if (empty($urlInput)) {
+if (empty($slug)) {
     http_response_code(400);
-    echo json_encode(['error' => 'URL parameter required']);
+    echo json_encode(['error' => 'slug parameter required']);
     exit;
 }
 
-// Validate URL format
-if (!filter_var($urlInput, FILTER_VALIDATE_URL)) {
+// Whitelist validation: bit.ly slugs only contain alphanumeric characters, hyphens, and underscores.
+// Validates and sanitizes input at the earliest point, breaking any taint flow before it reaches curl_exec.
+if (!preg_match('/^[a-zA-Z0-9\-_]+$/', $slug)) {
     http_response_code(400);
-    echo json_encode(['error' => 'Invalid URL format']);
+    echo json_encode(['error' => 'Invalid slug format']);
     exit;
 }
 
-// Parse URL and validate - SSRF prevention
-$parsedUrl = parse_url($urlInput);
-
-if (
-    !$parsedUrl ||
-    !isset($parsedUrl['scheme']) ||
-    $parsedUrl['scheme'] !== 'https' ||
-    !isset($parsedUrl['host']) ||
-    strtolower($parsedUrl['host']) !== 'bit.ly'
-) {
-    http_response_code(400);
-    echo json_encode(['error' => 'Only HTTPS bit.ly URLs are allowed.']);
-    exit;
-}
-
-// Reconstruct validated URL to prevent injection attacks
-$validatedUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . ($parsedUrl['path'] ?? '/');
-if (isset($parsedUrl['query'])) {
-    $validatedUrl .= '?' . $parsedUrl['query'];
-}
+// Construct the validated bit.ly URL from the sanitized slug
+$validatedUrl = 'https://bit.ly/' . $slug;
 
 // Initialize cURL with validated and sanitized URL
 $ch = curl_init($validatedUrl);

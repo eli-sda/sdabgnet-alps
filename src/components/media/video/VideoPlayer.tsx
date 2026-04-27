@@ -3,6 +3,7 @@ import { Panel, Group, Separator } from 'react-resizable-panels';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import { Button } from 'src/alps/atoms/Button';
+import { parseLinksMd } from 'src/utils/Links';
 import ShareVideoButton from 'src/components/ShareVideoButton';
 import './VideoPlayer.scss';
 
@@ -10,6 +11,7 @@ export type VideoPlaylistType = {
   _id: string;
   playlistTitle: string;
   playlistAuthor?: string;
+  playlistDescription?: string;
   videoItems: {
     _id: string;
     videoId: string;
@@ -30,7 +32,7 @@ const VideoPlayer = ({
   isVisible = true,
   initialIndex = 0
 }: VideoPlayerProps) => {
-  const { playlistTitle, playlistAuthor, videoItems } = playlist;
+  const { playlistTitle, playlistAuthor, playlistDescription, videoItems } = playlist;
 
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -171,12 +173,19 @@ const VideoPlayer = ({
   );
 
   return (
-    <div className="videoPlayer u-spacing" ref={playerRef}>
+    <div className="videoPlayer" ref={playerRef}>
       {playlistAuthor && (
         <h3 className="u-font--secondary--m u-theme--color--darker u-space--half--top">
           {playlistAuthor}
         </h3>
       )}
+      {
+        playlistDescription && (
+          <p className="text u-space--half--top">
+            {parseLinksMd(playlistDescription)}
+          </p>
+        )
+      }
 
       <Group
         orientation={isVertical ? 'vertical' : 'horizontal'}

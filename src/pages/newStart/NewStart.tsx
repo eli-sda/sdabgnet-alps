@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
-import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
 import { Pullquote } from 'alps-library/molecules/text/pullquote/Pullquote';
+import { Caption } from 'alps-library/atoms/text/Caption';
 import routes from 'src/routes';
+import { Page } from 'src/organisms/Page';
 import { RelatedPosts } from 'src/alps/organisms/asides/RelatedPosts';
 import { LinkType, PlaylistType } from 'src/contexts/PlaylistsContext';
 import { getTitle } from 'src/utils/Navigation';
+import { newLinesWithLinks } from 'src/utils/Links';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
-import { PageSection } from 'src/organisms/PageSection';
 import { PageHeaderFeature2 } from 'src/organisms/sections/PageHeaderFeature2';
 import VideoGrid from 'src/components/media/video/videoGrid/VideoGrid';
 import 'swiper/css';
@@ -45,6 +46,7 @@ const asideContent = (
 
 const relatedHealthCenters = {
   heading: 'Здравни центрове',
+  id: 'health-centers',
   blocks: [
     {
       title: 'Център за здраве в с. Баня',
@@ -64,8 +66,7 @@ const newStartPrinciples = [
   {
     letter: 'S',
     text: '- Слънце',
-    color: '#CDDA51',
-    isStart: true
+    color: '#CDDA51'
   },
   { letter: 'T', text: '- Въздържание', color: '#FBDC61' },
   { letter: 'A', text: '- Въздух', color: '#F8A045' },
@@ -124,85 +125,110 @@ const NewStart = (): JSX.Element => {
 
   return (
     <section className="new-start-page u-spacing--double">
-      <PageHeaderLong title={getTitle(routes.health('new-start'))} />
-
-      <PageSection
+      <Page
+        title={getTitle(routes.health('new-start'))}
         breadcrumbsUrls={breadcrumbsUrls}
-        pageClassName="new-start-section full-page"
+        aside={asideContent}
+        relatedPosts={relatedHealthCenters}
       >
-        <ul className="new-start-principles">
-          {newStartPrinciples.map((item, index) => (
-            <li
-              key={index}
-              className={`principle-item ${item.isStart ? 'u-space--top' : ''}`}
-            >
-              <span
-                className="letter-bg"
-                style={{ backgroundColor: item.color }}
-              >
-                {item.letter}
-              </span>
-              <span className="principle-text">{item.text}</span>
-            </li>
-          ))}
-        </ul>
+        <section className="u-spacing--double">
+          <Caption>
+            Програма <b>NEW START</b> (НОВО НАЧАЛО) вече над 40 години се
+            прилага с постоянен успех в профилактиката и лечението на значимите
+            сьвременни заболявания. Освен в здравния институт &quot;УИМАР&quot;
+            - Калифорния - САЩ, където е синтезирана в настоящия вид, множество
+            центрове по света са основани и работят по тези принципи, чрез които
+            постигат завидни и трайни резултати. Семпли и ефективни правила, в
+            хармония с човешката физиология, изцяло научно обосновани, без модни
+            увлечения и съмнителни теории. Програма <b>NEW START</b> е официално
+            призната от Световната ЗО.
+          </Caption>
 
-        <img
-          className="new-start-banner"
-          src="/img/health/newStart/new-start-banner.svg"
-        />
-      </PageSection>
+          <Caption>
+            Благотворното въздействие на всички тези естествени средства може да
+            преживеете като посетите{' '}
+            <a href={`#${relatedHealthCenters.id}`}>
+              {' '}
+              здравно-възстановителните центрове
+            </a>{' '}
+            в България.
+          </Caption>
 
-      <PageSection aside={asideContent} relatedPosts={relatedHealthCenters}>
-        <section className="pullquotes">
-          <Pullquote
-            quote="„Чист въздух, слънчева светлина, въздържание, почивка, упражнения, правилно хранене, употреба на вода, доверие в божествената сила — това са истинските средства за лечение.“"
-            author="По стъпките на Великия лекар, стр. 127"
-          />
+          <section className="new-start-principles">
+            <div className="principles-columns">
+              {[
+                newStartPrinciples.slice(0, 3), // N E W
+                newStartPrinciples.slice(3) // S T A R T
+              ].map((column, colIndex) => (
+                <ul key={`col-${colIndex}`} className="principles-list">
+                  {column.map((item, index) => (
+                    <li
+                      key={`item-${colIndex}-${index}`}
+                      className="principle-item"
+                    >
+                      <span
+                        className="letter-bg"
+                        style={{ backgroundColor: item.color }}
+                      >
+                        {item.letter}
+                      </span>
+                      <span className="principle-text">{item.text}</span>
+                    </li>
+                  ))}
+                </ul>
+              ))}
+            </div>
 
-          <Pullquote
-            quote="„Съвършената чистота, изобилието от слънчева светлина, внимателното отношение към хигиената във всеки детайл от домашния живот са от съществено значение за свободата от болести и за веселието и жизнеността на обитателите на дома.“"
-            author="По стъпките на Великия лекар, стр. 276"
-          />
+            <img
+              className="new-start-banner"
+              src="/img/health/newStart/new-start-banner.svg"
+            />
+          </section>
+
+          <section className="pullquotes">
+            <Pullquote
+              quote="„Чист въздух, слънчева светлина, въздържание, почивка, упражнения, правилно хранене, употреба на вода, доверие в божествената сила — това са истинските средства за лечение.“"
+              author="По стъпките на Великия лекар, стр. 127"
+            />
+
+            <Pullquote
+              quote="„Съвършената чистота, изобилието от слънчева светлина, внимателното отношение към хигиената във всеки детайл от домашния живот са от съществено значение за свободата от болести и за веселието и жизнеността на обитателите на дома.“"
+              author="По стъпките на Великия лекар, стр. 276"
+            />
+          </section>
+
+          <Swiper
+            slidesPerView={'auto'}
+            spaceBetween={30}
+            navigation
+            pagination={{ clickable: true }}
+            mousewheel
+            keyboard
+            centeredSlides
+            modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+            className="new-start-swiper"
+          >
+            {newStartItems.map((item) => (
+              <SwiperSlide key={item.id}>
+                <div
+                  className="new-start-item hyphens-auto"
+                  style={{ backgroundColor: item.color }}
+                >
+                  <img src={item.image} />
+                  <section
+                    className="text-content u-padding u-spacing--quarter u-color--black"
+                  >
+                    <h3>{item.title}</h3>
+                    <p>
+                      {newLinesWithLinks(item.description)}
+                    </p>
+                  </section>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </section>
-
-        <Swiper
-          slidesPerView={'auto'}
-          spaceBetween={30}
-          navigation
-          pagination={{ clickable: true }}
-          mousewheel
-          keyboard
-          loop
-          centeredSlides
-          modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-          className="new-start-swiper"
-        >
-          {newStartItems.map((item) => (
-            <SwiperSlide key={item.id}>
-              <div
-                className="new-start-item hyphens-auto u-space--top"
-                style={{ backgroundColor: item.color }}
-              >
-                <img src={item.image} />
-                <section className="text-content u-padding u-spacing--quarter">
-                  <h3 className="u-theme--color--darker0 u-color--white">
-                    {item.title}
-                  </h3>
-                  <p className="u-color--black0 u-color--white">
-                    {item.description.split('\n').map((line, i, arr) => (
-                      <React.Fragment key={i}>
-                        {line}
-                        {i < arr.length - 1 && <br />}
-                      </React.Fragment>
-                    ))}
-                  </p>
-                </section>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </PageSection>
+      </Page>
 
       <section className="new-start-videos u-space--top u-spacing--double">
         <PageHeaderFeature2

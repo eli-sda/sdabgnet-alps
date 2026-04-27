@@ -1,38 +1,49 @@
 @use '/src/styles/colors.scss' as *;
 
 .new-start-page {
-  .new-start-section {
+  .new-start-principles {
     display: flex;
-    justify-content: space-between;
-    // align-items: center;
-    gap: 2rem; // Space between list and banner
+    align-items: center;
+    gap: 4rem; // Space between list and banner
 
     @media (max-width: 900px) {
-      flex-direction: column; // Stack on smaller screens
+      flex-direction: column;
     }
 
-    .new-start-principles {
-      list-style: none;
-      margin: 0;
+    .principles-columns {
       display: flex;
       flex-direction: column;
-      gap: 16px; // Row spacing
+      gap: 2rem;
+      flex-shrink: 0;
 
-      .principle-item {
+      @media (max-width: 900px) and (min-width: 421px) {
+        flex-direction: row;
+        gap: 2rem;
+      }
+
+      .principles-list {
+        list-style: none;
+        margin: 0;
         display: flex;
-        align-items: center;
-        gap: 6px; // Space between the colored letter and the text
+        flex-direction: column;
+        gap: 16px; // Row spacing
 
-        // Styling the letter box
-        .letter-bg {
+        .principle-item {
           display: flex;
           align-items: center;
-          justify-content: center;
-          width: 36px;
-          height: 36px;
-          color: #fff;
-          font-size: 1.2rem;
-          flex-shrink: 0; // Prevent the box from shrinking if text is long
+          gap: 6px; // Space between the colored letter and the text
+
+          // Styling the letter box
+          .letter-bg {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            color: #fff;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+          }
         }
       }
     }
@@ -42,16 +53,30 @@
       height: auto;
 
       @media (min-width: 901px) {
-        max-width: 50%; // Keep it proportional on desktop side-by-side view
+        flex: 1; // Take up all available remaining space
+        min-width: 0; // Prevent flexbox overflow issues
       }
     }
   }
 
   .new-start-swiper {
     width: 100%;
+    padding-bottom: 3em;
+
+    .swiper-slide {
+      width: 85%;
+      height: auto;
+      transition: opacity 0.3s ease;
+      opacity: 0.4;
+
+      &.swiper-slide-active {
+        opacity: 1;
+      }
+    }
 
     .new-start-item {
       position: relative;
+      height: 100%;
 
       img {
         display: block;
@@ -71,48 +96,48 @@
         box-sizing: border-box;
       }
     }
-  }
 
-  // Swiper controls styling
-  .swiper-button-prev,
-  .swiper-button-next {
-    @media (max-width: 500px) {
-      display: none;
+    // Swiper controls styling
+    .swiper-button-prev,
+    .swiper-button-next {
+      color: #fff;
+      background-color: $mingDarkestColor;
+      border-radius: 50%;
+      transition:
+        box-shadow 0.2s ease,
+        transform 0.15s ease;
+
+      @media (max-width: 500px) {
+        display: none;
+      }
+
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      &:hover {
+        transform: scale(1.08);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      }
     }
 
-    color: white;
-    background-color: $mingDarkestColor;
-    border-radius: 50%;
-    transition:
-      box-shadow 0.2s ease,
-      transform 0.15s ease;
+    .swiper-pagination {
+      bottom: 0 !important;
 
-    svg {
-      width: 18px;
-      height: 18px;
-    }
+      .swiper-pagination-bullet {
+        background-color: rgba($mingDarkestColor, 0.5) !important;
+        opacity: 1 !important;
+        width: 10px !important;
+        height: 10px !important;
+        margin: 0 5px !important;
+        transition: all 0.3s ease !important;
 
-    &:hover {
-      transform: scale(1.08);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    }
-  }
-
-  .swiper-pagination {
-    bottom: 0 !important;
-
-    .swiper-pagination-bullet {
-      background-color: rgba($mingDarkestColor, 0.5) !important;
-      opacity: 1 !important;
-      width: 10px !important;
-      height: 10px !important;
-      margin: 0 5px !important;
-      transition: all 0.3s ease !important;
-
-      &.swiper-pagination-bullet-active {
-        background-color: $mingDarkestColor !important;
-        width: 12px !important;
-        height: 12px !important;
+        &.swiper-pagination-bullet-active {
+          background-color: $mingDarkestColor !important;
+          width: 12px !important;
+          height: 12px !important;
+        }
       }
     }
   }
@@ -130,10 +155,8 @@
     margin-right: auto;
     max-width: 1000px;
 
-    .pullquote:first-of-type {
-      p:first-child {
-        padding-top: 0;
-      }
+    .pullquote:first-of-type p:first-child {
+      padding-top: 0;
     }
 
     p,

@@ -211,17 +211,13 @@ const NewStart = (): JSX.Element => {
             {newStartItems.map((item) => (
               <SwiperSlide key={item.id}>
                 <div
-                  className="new-start-item hyphens-auto"
+                  className="new-start-item"
                   style={{ backgroundColor: item.color }}
                 >
                   <img src={item.image} />
-                  <section
-                    className="text-content u-padding u-spacing--quarter u-color--black"
-                  >
+                  <section className="text-content u-padding u-spacing--quarter u-color--black">
                     <h3>{item.title}</h3>
-                    <p>
-                      {newLinesWithLinks(item.description)}
-                    </p>
+                    <p>{newLinesWithLinks(item.description)}</p>
                   </section>
                 </div>
               </SwiperSlide>

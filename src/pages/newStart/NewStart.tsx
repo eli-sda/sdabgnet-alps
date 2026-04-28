@@ -11,6 +11,7 @@ import { getTitle } from 'src/utils/Navigation';
 import { newLinesWithLinks } from 'src/utils/Links';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
+import { usePagesMeta } from 'src/hooks/usePagesMeta';
 import { PageHeaderFeature2 } from 'src/organisms/sections/PageHeaderFeature2';
 import VideoGrid from 'src/components/media/video/videoGrid/VideoGrid';
 import 'swiper/css';
@@ -78,6 +79,7 @@ const NewStart = (): JSX.Element => {
   useScrollToHash();
 
   const breadcrumbsUrls = [routes.health(), routes.health('new-start')];
+  const { pageBackground } = usePagesMeta();
 
   const [newStartItems, setNewStartItems] = useState<newStartItem[]>([]);
 
@@ -127,6 +129,7 @@ const NewStart = (): JSX.Element => {
     <section className="new-start-page u-spacing--double">
       <Page
         title={getTitle(routes.health('new-start'))}
+        background={pageBackground}
         breadcrumbsUrls={breadcrumbsUrls}
         aside={asideContent}
         relatedPosts={relatedHealthCenters}
@@ -135,7 +138,14 @@ const NewStart = (): JSX.Element => {
           <Caption>
             Програма <b>NEW START</b> (НОВО НАЧАЛО) вече над 40 години се
             прилага с постоянен успех в профилактиката и лечението на значимите
-            сьвременни заболявания. Освен в здравния институт &quot;УИМАР&quot;
+            сьвременни заболявания. Освен в{' '}
+            <a
+              href="https://newstart.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              здравния институт &quot;УИМАР&quot;
+            </a>{' '}
             - Калифорния - САЩ, където е синтезирана в настоящия вид, множество
             центрове по света са основани и работят по тези принципи, чрез които
             постигат завидни и трайни резултати. Семпли и ефективни правила, в
@@ -197,32 +207,44 @@ const NewStart = (): JSX.Element => {
             />
           </section>
 
-          <Swiper
-            slidesPerView={'auto'}
-            spaceBetween={30}
-            navigation
-            pagination={{ clickable: true }}
-            mousewheel
-            keyboard
-            centeredSlides
-            modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-            className="new-start-swiper"
-          >
-            {newStartItems.map((item) => (
-              <SwiperSlide key={item.id}>
-                <div
-                  className="new-start-item"
-                  style={{ backgroundColor: item.color }}
-                >
-                  <img src={item.image} />
-                  <section className="text-content u-padding u-spacing--quarter u-color--black">
-                    <h3>{item.title}</h3>
-                    <p>{newLinesWithLinks(item.description)}</p>
-                  </section>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+          <section className="eleven-principles u-spacing--double">
+            {/* <PageHeaderFeature2
+              blockType="quarterSS"
+              blocks={[
+                {
+                  type: 'quarterSS',
+                  title: '11 принципа на здравето'
+                }
+              ]}
+            /> */}
+
+            <Swiper
+              slidesPerView={'auto'}
+              spaceBetween={10}
+              navigation
+              pagination={{ clickable: true }}
+              mousewheel
+              keyboard
+              centeredSlides
+              modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+              className="new-start-swiper"
+            >
+              {newStartItems.map((item) => (
+                <SwiperSlide key={item.id}>
+                  <div
+                    className="new-start-item"
+                    style={{ backgroundColor: item.color }}
+                  >
+                    <img src={item.image} />
+                    <section className="text-content u-padding u-spacing--quarter u-color--black">
+                      <h3>{item.title}</h3>
+                      <p>{newLinesWithLinks(item.description)}</p>
+                    </section>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </section>
         </section>
       </Page>
 

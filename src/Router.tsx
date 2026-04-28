@@ -255,8 +255,8 @@ const Router = () => (
           <Route path={routes.videoteka} element={<Videoteka />} />
 
           {/* Здраве */}
-          <Route path={routes.health('new-start')} element={<NewStart />} />
           <Route path={routes.health()} element={<Health />} />
+          <Route path={routes.health('new-start')} element={<NewStart />} />
           <Route path={routes.health('recipes')} element={<Recipes />} />
           <Route
             path={routes.health('institutions')}

@@ -39,7 +39,7 @@ const TestimoniesVideos = () => {
   }, [getPlaylists]);
 
   return (
-    <VideoGrid videos={videos} playlists={playlists} isPlaylistFirst={true} />
+    <VideoGrid videos={videos} playlists={playlists} tabParam='videos' isPlaylistFirst={true} />
   );
 };
 

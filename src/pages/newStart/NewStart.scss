@@ -1,4 +1,5 @@
 @use '/src/styles/colors.scss' as *;
+@use '/src/styles/swiper-controls' as *;
 
 .new-start-page {
   .new-start-principles {
@@ -7,7 +8,7 @@
     gap: 4rem; // Space between list and banner
 
     @media (max-width: 900px) {
-      flex-direction: column;
+      flex-direction: column-reverse;
     }
 
     .principles-columns {
@@ -59,84 +60,67 @@
     }
   }
 
-  .new-start-swiper {
-    width: 100%;
-    padding-bottom: 3em;
+  .eleven-principles {
+    // .c-media-block.c-block.c-block__quarterSS {
+    //     margin-left: -15px;
+    // }
 
-    .swiper-slide {
-      width: 85%;
-      height: auto;
-      transition: opacity 0.3s ease;
-      opacity: 0.4;
+    .new-start-swiper {
+      width: 100%;
+      padding-bottom: 3em;
 
-      &.swiper-slide-active {
-        opacity: 1;
-      }
-    }
-
-    .new-start-item {
-      position: relative;
-      height: 100%;
-
-      img {
-        display: block;
-        object-fit: cover;
-        margin: 0 auto;
-        width: 100%;
+      .swiper-slide {
+        width: 85%;
         height: auto;
+        transition: opacity 0.3s ease;
+        opacity: 0.4;
+
+        &.swiper-slide-active {
+          opacity: 1;
+        }
       }
 
-      .text-content {
+      .new-start-item {
         position: relative;
-        z-index: 10;
-        margin-top: -20%; // Percentage margin scales with image width
-        margin-left: auto;
-        margin-right: auto;
-        max-width: 100%;
-        box-sizing: border-box;
-      }
-    }
+        height: 100%;
 
-    // Swiper controls styling
-    .swiper-button-prev,
-    .swiper-button-next {
-      color: #fff;
-      background-color: $mingDarkestColor;
-      border-radius: 50%;
-      transition:
-        box-shadow 0.2s ease,
-        transform 0.15s ease;
+        img {
+          display: block;
+          object-fit: cover;
+          margin: 0 auto;
+          width: 100%;
+          height: auto;
+        }
 
-      @media (max-width: 500px) {
-        display: none;
+        .text-content {
+          position: relative;
+          z-index: 10;
+          margin-top: -20%; // Percentage margin scales with image width
+          margin-left: auto;
+          margin-right: auto;
+          max-width: 100%;
+          box-sizing: border-box;
+        }
       }
 
-      svg {
-        width: 18px;
-        height: 18px;
-      }
+      @include swiper-controls;
 
-      &:hover {
-        transform: scale(1.08);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-      }
-    }
+      .swiper-pagination {
+        bottom: 0 !important;
 
-    .swiper-pagination {
-      bottom: 0 !important;
+        .swiper-pagination-bullet {
+          background-color: rgba($mingDarkestColor, 0.5) !important;
+          opacity: 1 !important;
+          width: 10px !important;
+          height: 10px !important;
+          margin: 0 5px !important;
+          transition: all 0.3s ease !important;
 
-      .swiper-pagination-bullet {
-        background-color: rgba($mingDarkestColor, 0.5) !important;
-        opacity: 1 !important;
-        width: 10px !important;
-        height: 10px !important;
-        margin: 0 5px !important;
-        transition: all 0.3s ease !important;
-
-        &.swiper-pagination-bullet-active {
-          background-color: $mingDarkestColor !important;
-          width: 12px !important;
-          height: 12px !important;
+          &.swiper-pagination-bullet-active {
+            background-color: $mingDarkestColor !important;
+            width: 12px !important;
+            height: 12px !important;
+          }
         }
       }
     }

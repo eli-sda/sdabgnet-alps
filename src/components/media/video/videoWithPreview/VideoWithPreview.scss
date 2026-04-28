@@ -36,10 +36,12 @@
 
   img,
   picture,
-  .o-figure__image > * {
+  .o-figure__image > *,
+  iframe {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+    aspect-ratio: 16 / 9;
   }
 }

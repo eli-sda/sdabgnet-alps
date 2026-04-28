@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
 import { Pullquote } from 'alps-library/molecules/text/pullquote/Pullquote';
 import { Caption } from 'alps-library/atoms/text/Caption';
+import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { RelatedPosts } from 'src/alps/organisms/asides/RelatedPosts';
@@ -207,16 +208,8 @@ const NewStart = (): JSX.Element => {
             />
           </section>
 
-          <section className="eleven-principles u-spacing--double">
-            {/* <PageHeaderFeature2
-              blockType="quarterSS"
-              blocks={[
-                {
-                  type: 'quarterSS',
-                  title: '11 принципа на здравето'
-                }
-              ]}
-            /> */}
+          <section className="eleven-principles u-spacing">
+            <HeadingBlock title="11 принципа на здравето" />
 
             <Swiper
               slidesPerView={'auto'}

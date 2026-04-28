@@ -87,6 +87,9 @@ const BooksList = ({
             let audioId = ''; // id to use as internal anchor to Аудио: /resources/audio#<audioId>
             let cleanDescription = book.description || '';
 
+            book.author =
+              book.author && title === 'Други' ? `${book.author}` : ''; // set the author only if the book has one and the playlist title is 'Други'
+
             if (cleanDescription) {
               // Extract newLifeId and remove it from the description
               const newLifeMatch = cleanDescription.match(
@@ -151,7 +154,7 @@ const BooksList = ({
         </div>
       </div>
     ),
-    [items, description, copiedId, handleCopyLink, activeBookId]
+    [items, description, copiedId, handleCopyLink, activeBookId, title]
   );
 
   return (

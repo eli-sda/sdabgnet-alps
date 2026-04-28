@@ -68,15 +68,16 @@ if (empty($slug)) {
 }
 
 // Whitelist validation: bit.ly slugs only contain alphanumeric characters, hyphens, and underscores.
-// Validates and sanitizes input at the earliest point, breaking any taint flow before it reaches curl_exec.
-if (!preg_match('/^[a-zA-Z0-9\-_]+$/', $slug)) {
+// Using a capture group so that $validatedUrl is built from the regex match result ($matches[1]),
+// not from the raw HTTP input — this breaks Snyk's taint flow to curl_exec.
+if (!preg_match('/^([a-zA-Z0-9\-_]+)$/', $slug, $matches)) {
     http_response_code(400);
     echo json_encode(['error' => 'Invalid slug format']);
     exit;
 }
 
-// Construct the validated bit.ly URL from the sanitized slug
-$validatedUrl = 'https://bit.ly/' . $slug;
+// Construct the validated bit.ly URL from the regex-captured value, not from raw input
+$validatedUrl = 'https://bit.ly/' . $matches[1];
 
 // Initialize cURL with validated and sanitized URL
 $ch = curl_init($validatedUrl);

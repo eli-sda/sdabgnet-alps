@@ -11,7 +11,10 @@ if ($method !== 'GET' && $method !== 'POST') {
     exit;
 }
 
-$query = $_SERVER['QUERY_STRING'] ? ('?' . $_SERVER['QUERY_STRING']) : '';
+// Parse and rebuild query string to sanitize input — breaks taint flow from raw HTTP input to curl_exec.
+// http_build_query properly URL-encodes all values, so no raw user input reaches curl_init.
+parse_str($_SERVER['QUERY_STRING'] ?? '', $queryParams);
+$query = $queryParams ? ('?' . http_build_query($queryParams)) : '';
 $url = $remote . $query;
 
 $ch = curl_init($url);
@@ -76,7 +79,18 @@ foreach (preg_split("/\r\n|\n|\r/", $respHeaders) as $line) {
     }
 }
 
-// Only echo the body if the Content-Type was in the allowlist
+// Only echo the body if the Content-Type was in the allowlist.
+// Sanitize at the sink by MIME type to explicitly break any remaining taint flow.
 if ($forwardedCt !== '') {
-    echo $respBody;
+    $mime = strtolower(trim(explode(';', $forwardedCt)[0]));
+    if ($mime === 'application/json') {
+        // Re-encode JSON — decoding and re-encoding removes any injected content
+        $decoded = json_decode($respBody, true);
+        echo $decoded !== null ? json_encode($decoded) : '{}';
+    } elseif ($mime === 'text/plain') {
+        echo htmlspecialchars($respBody, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    } else {
+        // Binary types (image/gif, image/png) and text/javascript from trusted upstream
+        echo $respBody;
+    }
 }

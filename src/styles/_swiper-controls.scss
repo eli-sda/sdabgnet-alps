@@ -1,0 +1,27 @@
+@use '/src/styles/colors.scss' as *;
+
+@mixin swiper-controls {
+  .swiper-button-prev,
+  .swiper-button-next {
+    color: #fff;
+    background-color: $mingDarkestColor;
+    border-radius: 50%;
+    transition:
+      box-shadow 0.2s ease,
+      transform 0.15s ease;
+
+    @media (max-width: 500px) {
+      display: none;
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover {
+      transform: scale(1.08);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+  }
+}

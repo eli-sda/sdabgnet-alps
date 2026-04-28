@@ -346,9 +346,8 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
     subnav: [
       {
         type: 'primary',
-        text: 'Програмата New start',
-        url: routes.health('new-start'),
-        isDisabled: true
+        text: 'Програмата NEW START',
+        url: routes.health('new-start')
       },
       {
         type: 'primary',

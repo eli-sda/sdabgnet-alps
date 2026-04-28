@@ -42,6 +42,7 @@ export const VideoPlayerDialog = ({
       _id: playlist._id,
       playlistTitle: playlist.title ?? '',
       playlistAuthor: playlist.author,
+      playlistDescription: playlist.description ?? '',
       videoItems:
         playlist.items?.map((item) => ({
           _id: item._id,

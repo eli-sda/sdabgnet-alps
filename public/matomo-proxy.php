@@ -56,14 +56,27 @@ $respBody = substr($response, $headerSize);
 
 http_response_code($httpCode);
 
+// Whitelist of Content-Types Matomo is expected to return.
+// Only forward the body if it matches — prevents XSS if upstream response is ever unexpected HTML.
+$allowedContentTypes = ['image/gif', 'image/png', 'application/json', 'text/plain', 'text/javascript'];
+$forwardedCt = '';
+
 // Forward Content-Type safely — strip any newlines to prevent header injection
 foreach (preg_split("/\r\n|\n|\r/", $respHeaders) as $line) {
     if (stripos($line, 'Content-Type:') === 0) {
         $ct = trim(substr($line, strlen('Content-Type:')));
         $ct = str_replace(["\r", "\n"], '', $ct);
-        header('Content-Type: ' . $ct);
+        // Extract the MIME type without parameters (e.g. strip "; charset=utf-8")
+        $mime = strtolower(trim(explode(';', $ct)[0]));
+        if (in_array($mime, $allowedContentTypes, true)) {
+            $forwardedCt = $ct;
+            header('Content-Type: ' . $ct);
+        }
         break;
     }
 }
 
-echo $respBody;
+// Only echo the body if the Content-Type was in the allowlist
+if ($forwardedCt !== '') {
+    echo $respBody;
+}

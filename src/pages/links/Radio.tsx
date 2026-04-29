@@ -1,14 +1,20 @@
+import { useState, useEffect } from 'react';
 import MediaLinksPage, { LinkGroup } from './MediaLinksPage';
-import radioBgLinks from './radio.json';
 
 const Radio = (): JSX.Element => {
-  return (
-    <MediaLinksPage
-      mediaType="radio"
-      linksJson={radioBgLinks as LinkGroup[]}
-      isDoubleSpacing
-    />
-  );
+  const [radio, setRadio] = useState<LinkGroup[]>([]);
+
+  useEffect(() => {
+    fetch('/json/radio.json')
+      .then((res) => res.json())
+      .then((data: LinkGroup[]) => setRadio(data))
+      .catch((err) => {
+        console.error('Failed to load radio.json', err);
+        setRadio([]);
+      });
+  }, []);
+
+  return <MediaLinksPage mediaType="radio" linksJson={radio} isDoubleSpacing />;
 };
 
 export default Radio;

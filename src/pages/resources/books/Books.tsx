@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { BaseSearch } from 'alps-library/molecules/forms/elements/BaseSearch';
+import { Caption } from 'alps-library/atoms/text/Caption';
 import { Accordion } from 'src/alps/molecules/components/accordion/Accordion';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
@@ -6,6 +8,7 @@ import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import { getTitle } from 'src/utils/Navigation';
+import { filterSectionedData } from 'src/utils/filterHelpers';
 import VideoWithPreview from 'src/components/media/video/videoWithPreview/VideoWithPreview';
 import { SUBPAGE_KICKER } from '../Resources';
 import BooksList from './BooksList';
@@ -15,10 +18,12 @@ const Books = () => {
 
   const { getResourcePlaylists } = usePlaylists();
   const [books, setBooks] = useState<PlaylistType[]>([]);
+  const [filteredBooks, setFilteredBooks] = useState<PlaylistType[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     getResourcePlaylists('books', undefined, false)
-      //Други at the end of the list
+      // Други at the end of the list
       .then((data: PlaylistType[]) => {
         const sortedData = data.sort((a, b) => {
           if (a.title === 'Други') return 1;
@@ -26,6 +31,7 @@ const Books = () => {
           return 0;
         });
         setBooks(sortedData);
+        setFilteredBooks(sortedData);
       })
       .catch((err) => console.error(err));
   }, [getResourcePlaylists]);
@@ -57,6 +63,8 @@ const Books = () => {
     ]
   };
 
+  const isFiltered = searchQuery.length > 0;
+
   return (
     <Page
       title={getTitle(routes.resources('books'))}
@@ -65,11 +73,33 @@ const Books = () => {
       aside={asideBookVideo}
       relatedPosts={relatedBooks}
     >
-      <Accordion className="text">
-        {books.map((book, i) => (
-          <BooksList key={i} {...book} />
-        ))}
-      </Accordion>
+      <BaseSearch
+        placeholder="Търси по име или автор на книга"
+        hideSearchButton
+        onSearch={(e: React.ChangeEvent<HTMLInputElement>) => {
+          const q = e.target.value;
+          setSearchQuery(q.trim());
+          setFilteredBooks(filterSectionedData(books, q, ['title', 'author']));
+        }}
+        onSubmit={() => {
+          return false;
+        }}
+        className="u-space--bottom"
+      />
+
+      {books.length > 0 && filteredBooks.length === 0 ? (
+        <Caption>Няма намерени резултати.</Caption>
+      ) : (
+        <Accordion className="text">
+          {filteredBooks.map((book, i) => (
+            <BooksList
+              key={`${book._id || i}-${isFiltered ? 'filtered' : 'all'}`}
+              isFiltered={isFiltered}
+              {...book}
+            />
+          ))}
+        </Accordion>
+      )}
     </Page>
   );
 };

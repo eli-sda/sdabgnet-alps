@@ -14,8 +14,9 @@ const BooksList = ({
   title,
   description,
   imageUrl,
-  items
-}: PlaylistType) => {
+  items,
+  isFiltered
+}: PlaylistType & { isFiltered?: boolean }) => {
   useScrollToHash();
   const { hash } = useLocation();
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -41,8 +42,11 @@ const BooksList = ({
   const isInitiallyOpened = useMemo(() => {
     const targetHashId = hash.replace('#', '');
 
-    return items?.some((book) => book._id === targetHashId);
-  }, [hash, items]);
+    const openByHash = items?.some((book) => book._id === targetHashId);
+    const openByFilter = Boolean(isFiltered && items && items.length > 0);
+
+    return Boolean(openByHash || openByFilter);
+  }, [hash, items, isFiltered]);
 
   const heading = useMemo(() => {
     return (

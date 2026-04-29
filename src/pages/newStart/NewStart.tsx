@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
 import { Pullquote } from 'alps-library/molecules/text/pullquote/Pullquote';
-import { Caption } from 'alps-library/atoms/text/Caption';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
@@ -76,6 +75,49 @@ const newStartPrinciples = [
   { letter: 'T', text: '- Доверие', color: '#E16BA8' }
 ];
 
+const benefits = [
+  {
+    title: 'Преодоляване на диабета',
+    img: '/img/health/newStart/1RD.svg'
+  },
+  {
+    title: 'Възстановяване от сърдечни заболявания',
+    img: '/img/health/newStart/2RHD.svg'
+  },
+  {
+    title: 'Обновяване на имунната система',
+    img: '/img/health/newStart/3RIS.svg'
+  },
+  {
+    title: 'Намаляване на теглото',
+    img: '/img/health/newStart/4WL.svg'
+  },
+  {
+    title: 'Облекчаване на невропатията',
+    img: '/img/health/newStart/5RN.svg'
+  },
+  {
+    title: 'Преодоляване на депресията',
+    img: '/img/health/newStart/6OD.svg'
+  },
+  {
+    title: 'Повишаване на енергията',
+    img: '/img/health/newStart/7IE.svg'
+  },
+  {
+    title: 'Понижаване на холестерола',
+    img: '/img/health/newStart/8LC.svg'
+  },
+  {
+    title: 'Повишаване на жизнеността',
+    img: '/img/health/newStart/9EV.svg'
+  },
+  {
+    title: 'Облекчаване на артрита',
+    img: '/img/health/newStart/10RA.svg'
+  }
+];
+
 const NewStart = (): JSX.Element => {
   useScrollToHash();
 
@@ -136,7 +178,7 @@ const NewStart = (): JSX.Element => {
         relatedPosts={relatedHealthCenters}
       >
         <section className="u-spacing--double">
-          <Caption>
+          <p className="text">
             Програма <b>NEW START</b> (НОВО НАЧАЛО) вече над 40 години се
             прилага с постоянен успех в профилактиката и лечението на значимите
             сьвременни заболявания. Освен в{' '}
@@ -153,9 +195,9 @@ const NewStart = (): JSX.Element => {
             хармония с човешката физиология, изцяло научно обосновани, без модни
             увлечения и съмнителни теории. Програма <b>NEW START</b> е официално
             призната от Световната ЗО.
-          </Caption>
+          </p>
 
-          <Caption>
+          <p className="text">
             Благотворното въздействие на всички тези естествени средства може да
             преживеете като посетите{' '}
             <a href={`#${relatedHealthCenters.id}`}>
@@ -163,7 +205,7 @@ const NewStart = (): JSX.Element => {
               здравно-възстановителните центрове
             </a>{' '}
             в България.
-          </Caption>
+          </p>
 
           <section className="new-start-principles">
             <div className="principles-columns">
@@ -206,6 +248,19 @@ const NewStart = (): JSX.Element => {
               quote="„Съвършената чистота, изобилието от слънчева светлина, внимателното отношение към хигиената във всеки детайл от домашния живот са от съществено значение за свободата от болести и за веселието и жизнеността на обитателите на дома.“"
               author="По стъпките на Великия лекар, стр. 276"
             />
+          </section>
+
+          <section className="benefits u-spacing">
+            <HeadingBlock title="NEW START може да помогне с:" />
+
+            <div className="benefits-grid">
+              {benefits.map((benefit, index) => (
+                <div key={index} className="benefit-item">
+                  <img src={benefit.img} />
+                  <p className="u-color--black">{benefit.title}</p>
+                </div>
+              ))}
+            </div>
           </section>
 
           <section className="eleven-principles u-spacing">

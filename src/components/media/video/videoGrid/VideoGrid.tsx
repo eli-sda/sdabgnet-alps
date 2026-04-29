@@ -62,7 +62,7 @@ const VideoGrid = ({
   };
 
   return (
-    <section className={`video-grid-container ${className}`}>
+    <section className={`video-grid-container ${className || ''}`}>
       {isPlaylistFirst && <VideoPlaylistList playlists={playlists} />}
 
       {videos.map(({ title, author, path, description }) => {

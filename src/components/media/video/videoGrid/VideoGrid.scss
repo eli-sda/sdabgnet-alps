@@ -1,6 +1,6 @@
 .video-grid-container {
   display: grid;
-  gap: 2rem;
+  gap: 2.5rem;
   grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
 
   @media (max-width: 400px) {
@@ -19,7 +19,7 @@
     float: none;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between; // to align the buttons
   }
 
   .media-playlist-list {

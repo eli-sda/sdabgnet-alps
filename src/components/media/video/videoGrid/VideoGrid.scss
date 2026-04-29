@@ -8,6 +8,7 @@
   }
 
   & > * {
+    width: 100%;
     max-width: 340px;
     margin-left: auto;
     margin-right: auto;
@@ -29,6 +30,7 @@
       width: 100%;
       padding-left: 0;
       padding-right: 0;
+
       .share-button {
         display: none;
       }
@@ -38,8 +40,11 @@
           aspect-ratio: 16 / 9;
           img {
             width: 100%;
+            height: auto;
+            object-fit: cover;
           }
         }
+
         &.is-current {
           .c-block__image {
             outline: none;

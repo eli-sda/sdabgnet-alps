@@ -161,10 +161,7 @@ const MediaPlaylistList = ({
     <>
       <section className={`media-playlist-list ${className}`}>
         {playlists.map((playlist) => (
-          <div
-            key={playlist._id}
-            className="playlist-item u-padding--sides u-space--double--bottom"
-          >
+          <div key={playlist._id} className="playlist-item u-padding--sides">
             <MediaPlaylist
               playlist={playlist}
               onPlaylistSelect={() => handleSelect(playlist)}

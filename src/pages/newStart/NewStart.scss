@@ -65,6 +65,10 @@
     padding-bottom: 2em;
     margin-left: 0;
 
+    .swiper-wrapper {
+      height: auto;
+    }
+
     .swiper-slide {
       width: 85%;
       height: auto;

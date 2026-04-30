@@ -1,7 +1,9 @@
 $itemW: 274px;
+$spacing: 2.5rem;
 
 .media-playlist-list {
   display: grid;
+  row-gap: $spacing;
   grid-template-columns: repeat(auto-fit, minmax($itemW, 1fr));
 
   .playlist-item {
@@ -13,6 +15,9 @@ $itemW: 274px;
 @media (max-width: 380px) {
   .media-playlist-list {
     display: block;
+    > * + * {
+      margin-top: $spacing;
+    }
     .playlist-item {
       width: 100%;
       max-width: 100%;

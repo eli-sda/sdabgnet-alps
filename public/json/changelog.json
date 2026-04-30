@@ -1,4 +1,31 @@
 [
+    {
+        "id": "2026-04-28",
+        "date": "2026-04-28",
+        "title": "Седмични подобрения – 28.04.2026",
+        "changes": [
+            {
+                "type": "feature",
+                "text": "Добавена е страницата [Програмата NEW START](/health/new-start) в менюто [Здраве](/health)."
+            },
+            {
+                "type": "improvement",
+                "text": "Добавена е книгата [Твоят приятел Светият Дух](/resources/books#b79dd512-3815-4993-b485-fdeda568a283)."
+            },
+            {
+                "type": "improvement",
+                "text":"Добавени са видеа към [Опитности](/church_life/testimonies?tab=videos)."
+            },
+            {
+                "type": "improvement",
+                "text": "Добавен е линк към [Отдел \"Образование - ЦАСД България\"](/media/institutions#otdel-obrazovanie-tsasd-balgariya)."
+            },
+            {
+                "type": "improvement",
+                "text": "Добавени са събития в [Календара със събития](/church_life/events)."
+            }
+        ]
+    },
      {
         "id": "2026-04-20",
         "date": "2026-04-20",

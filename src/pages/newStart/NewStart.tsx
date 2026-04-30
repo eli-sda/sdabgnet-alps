@@ -303,7 +303,7 @@ const NewStart = (): JSX.Element => {
         </Swiper>
       </section>
 
-      <section className="new-start-videos u-space--top u-spacing--double">
+      <section className="new-start-videos u-space--top u-spacing">
         <PageHeaderFeature2
           blockType="quarterSS"
           blocks={[

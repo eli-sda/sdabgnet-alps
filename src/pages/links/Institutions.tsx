@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import routes from 'src/routes';
+import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
 import { LinksData, MediaListSection } from './MediaLinksPage';
 
 const Institutions = (): JSX.Element => {
+  useScrollToHash();
   const breadcrumbsUrls = [routes.media(), routes.media('institutions')];
 
   const [institutions, setInstitutions] = useState<LinksData[]>([]);

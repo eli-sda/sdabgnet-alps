@@ -91,9 +91,9 @@ const Books = () => {
         <Caption>Няма намерени резултати.</Caption>
       ) : (
         <Accordion className="text">
-          {filteredBooks.map((book, i) => (
+          {filteredBooks.map((book) => (
             <BooksList
-              key={`${book._id || i}-${isFiltered ? 'filtered' : 'all'}`}
+              key={`${book._id}-${isFiltered ? 'filtered' : 'all'}`}
               isFiltered={isFiltered}
               {...book}
             />

@@ -63,7 +63,9 @@
   .eleven-principles .new-start-swiper {
     width: 100%;
     padding-bottom: 2em;
-
+    .swiper-wrapper {
+      height: auto;
+    }
     .swiper-slide {
       width: 85%;
       height: auto;

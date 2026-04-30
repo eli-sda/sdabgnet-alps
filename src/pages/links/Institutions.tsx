@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
-import { LinksData, MediaListSection } from './links/MediaLinksPage';
+import { LinksData, MediaListSection } from './MediaLinksPage';
 
 const Institutions = (): JSX.Element => {
   const breadcrumbsUrls = [routes.media(), routes.media('institutions')];

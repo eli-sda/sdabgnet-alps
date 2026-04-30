@@ -78,43 +78,43 @@ const newStartPrinciples = [
 const benefits = [
   {
     title: 'Преодоляване на диабета',
-    img: '/img/health/newStart/1RD.svg'
+    img: '/img/health/newStart/1RD.png'
   },
   {
     title: 'Възстановяване от сърдечни заболявания',
-    img: '/img/health/newStart/2RHD.svg'
+    img: '/img/health/newStart/2RHD.png'
   },
   {
     title: 'Обновяване на имунната система',
-    img: '/img/health/newStart/3RIS.svg'
+    img: '/img/health/newStart/3RIS.png'
   },
   {
     title: 'Намаляване на теглото',
-    img: '/img/health/newStart/4WL.svg'
+    img: '/img/health/newStart/4WL.png'
   },
   {
     title: 'Облекчаване на невропатията',
-    img: '/img/health/newStart/5RN.svg'
+    img: '/img/health/newStart/5RN.png'
   },
   {
     title: 'Преодоляване на депресията',
-    img: '/img/health/newStart/6OD.svg'
+    img: '/img/health/newStart/6OD.png'
   },
   {
     title: 'Повишаване на енергията',
-    img: '/img/health/newStart/7IE.svg'
+    img: '/img/health/newStart/7IE.png'
   },
   {
     title: 'Понижаване на холестерола',
-    img: '/img/health/newStart/8LC.svg'
+    img: '/img/health/newStart/8LC.png'
   },
   {
     title: 'Повишаване на жизнеността',
-    img: '/img/health/newStart/9EV.svg'
+    img: '/img/health/newStart/9EV.png'
   },
   {
     title: 'Облекчаване на артрита',
-    img: '/img/health/newStart/10RA.svg'
+    img: '/img/health/newStart/10RA.png'
   }
 ];
 
@@ -249,52 +249,59 @@ const NewStart = (): JSX.Element => {
               author="По стъпките на Великия лекар, стр. 276"
             />
           </section>
-
-          <section className="benefits u-spacing">
-            <HeadingBlock title="NEW START може да помогне с:" />
-
-            <div className="benefits-grid">
-              {benefits.map((benefit, index) => (
-                <div key={index} className="benefit-item">
-                  <img src={benefit.img} />
-                  <p className="u-color--black">{benefit.title}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="eleven-principles u-spacing">
-            <HeadingBlock title="11 принципа на здравето" />
-
-            <Swiper
-              slidesPerView={'auto'}
-              spaceBetween={10}
-              navigation
-              pagination={{ clickable: true }}
-              mousewheel
-              keyboard
-              centeredSlides
-              modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-              className="new-start-swiper"
-            >
-              {newStartItems.map((item) => (
-                <SwiperSlide key={item.id}>
-                  <div
-                    className="new-start-item"
-                    style={{ backgroundColor: item.color }}
-                  >
-                    <img src={item.image} />
-                    <section className="text-content u-padding u-spacing--quarter u-color--black">
-                      <h3>{item.title}</h3>
-                      <p>{newLinesWithLinks(item.description)}</p>
-                    </section>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </section>
         </section>
       </Page>
+
+      <section className="benefits full-page u-spacing">
+        <HeadingBlock title="NEW START може да помогне с:" />
+
+        <div className="benefits-grid">
+          {benefits.map((benefit, index) => (
+            <div key={index} className="benefit-item">
+              <span
+                className="benefit-icon"
+                style={{
+                  WebkitMaskImage: `url(${benefit.img})`,
+                  maskImage: `url(${benefit.img})`
+                }}
+                aria-hidden
+              />
+              <p className="u-color--black">{benefit.title}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="eleven-principles full-page u-spacing">
+        <HeadingBlock title="11 принципа на здравето" />
+
+        <Swiper
+          slidesPerView={'auto'}
+          spaceBetween={10}
+          navigation
+          pagination={{ clickable: true }}
+          mousewheel
+          keyboard
+          centeredSlides
+          modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+          className="new-start-swiper"
+        >
+          {newStartItems.map((item) => (
+            <SwiperSlide key={item.id}>
+              <div
+                className="new-start-item"
+                style={{ backgroundColor: item.color }}
+              >
+                <img src={item.image} />
+                <section className="text-content u-padding u-spacing--quarter u-color--black">
+                  <h3>{item.title}</h3>
+                  <p>{newLinesWithLinks(item.description)}</p>
+                </section>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </section>
 
       <section className="new-start-videos u-space--top u-spacing--double">
         <PageHeaderFeature2
@@ -309,7 +316,7 @@ const NewStart = (): JSX.Element => {
         <VideoGrid
           videos={videos}
           playlists={playlists}
-          className="u-space--right u-space--left"
+          className="full-page"
         />
       </section>
     </section>

@@ -412,3 +412,10 @@ $leftRightPaddingFullPageSmall: 5%;
 .c-block .c-cta-block__buttons {
   gap: 10px;
 }
+
+input.o-input__search[type='search'][name='search'] {
+  &::placeholder {
+    color: $grayColor;
+    opacity: 1;
+  }
+}

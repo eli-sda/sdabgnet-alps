@@ -252,72 +252,74 @@ const NewStart = (): JSX.Element => {
         </section>
       </Page>
 
-      <section className="benefits full-page u-spacing">
-        <HeadingBlock title="NEW START може да помогне с:" />
+      <section className="u-spacing--triple">
+        <section className="benefits full-page u-spacing">
+          <HeadingBlock title="NEW START може да помогне с:" />
 
-        <div className="benefits-grid">
-          {benefits.map((benefit, index) => (
-            <div key={index} className="benefit-item">
-              <span
-                className="benefit-icon"
-                style={{
-                  WebkitMaskImage: `url(${benefit.img})`,
-                  maskImage: `url(${benefit.img})`
-                }}
-                aria-hidden
-              />
-              <p className="u-color--black">{benefit.title}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="eleven-principles full-page u-spacing">
-        <HeadingBlock title="11 принципа на здравето" />
-
-        <Swiper
-          slidesPerView={'auto'}
-          spaceBetween={10}
-          navigation
-          pagination={{ clickable: true }}
-          mousewheel
-          keyboard
-          centeredSlides
-          modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-          className="new-start-swiper"
-        >
-          {newStartItems.map((item) => (
-            <SwiperSlide key={item.id}>
-              <div
-                className="new-start-item"
-                style={{ backgroundColor: item.color }}
-              >
-                <img src={item.image} />
-                <section className="text-content u-padding u-spacing--quarter u-color--black">
-                  <h3>{item.title}</h3>
-                  <p>{newLinesWithLinks(item.description)}</p>
-                </section>
+          <div className="benefits-grid">
+            {benefits.map((benefit, index) => (
+              <div key={index} className="benefit-item">
+                <span
+                  className="benefit-icon"
+                  style={{
+                    WebkitMaskImage: `url(${benefit.img})`,
+                    maskImage: `url(${benefit.img})`
+                  }}
+                  aria-hidden
+                />
+                <p className="u-color--black">{benefit.title}</p>
               </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </section>
+            ))}
+          </div>
+        </section>
 
-      <section className="new-start-videos u-space--top u-spacing">
-        <PageHeaderFeature2
-          blockType="quarterSS"
-          blocks={[
-            {
-              type: 'quarterSS',
-              title: 'Гледайте'
-            }
-          ]}
-        />
-        <VideoGrid
-          videos={videos}
-          playlists={playlists}
-          className="full-page"
-        />
+        <section className="eleven-principles full-page u-spacing">
+          <HeadingBlock title="11 принципа на здравето" />
+
+          <Swiper
+            slidesPerView={'auto'}
+            spaceBetween={10}
+            navigation
+            pagination={{ clickable: true }}
+            mousewheel
+            keyboard
+            centeredSlides
+            modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+            className="new-start-swiper"
+          >
+            {newStartItems.map((item) => (
+              <SwiperSlide key={item.id}>
+                <div
+                  className="new-start-item"
+                  style={{ backgroundColor: item.color }}
+                >
+                  <img src={item.image} />
+                  <section className="text-content u-padding u-spacing--quarter u-color--black">
+                    <h3>{item.title}</h3>
+                    <p>{newLinesWithLinks(item.description)}</p>
+                  </section>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </section>
+
+        <section className="new-start-videos u-spacing">
+          <PageHeaderFeature2
+            blockType="quarterSS"
+            blocks={[
+              {
+                type: 'quarterSS',
+                title: 'Гледайте'
+              }
+            ]}
+          />
+          <VideoGrid
+            videos={videos}
+            playlists={playlists}
+            className="full-page"
+          />
+        </section>
       </section>
     </section>
   );

@@ -38,8 +38,8 @@ export const SubNavItem = ({
   icon,
   reactIcon
 }: SubNavItemProps): JSX.Element => {
-  const { onToggle, openClass } = useToggle(false);
   const hasSubnav = Array.isArray(subnav) && subnav.length > 0;
+  const { onToggle, openClass } = useToggle(hasSubnav);
   const isTertiary = level === 'tertiary';
   const navLevel = isTertiary ? 'subnav__subnav' : 'subnav';
 

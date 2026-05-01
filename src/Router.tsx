@@ -57,11 +57,8 @@ const AudioBooksResources = lazy(
 );
 const Donations = lazy(() => import('./pages/Donations'));
 const AdventistsOnline = lazy(() => import('./pages/links/AdventistsOnline'));
-const Television = lazy(() => import('./pages/links/Television'));
-const Radio = lazy(() => import('./pages/links/Radio'));
-const ForeignLinks = lazy(() => import('./pages/links/ForeignLinks'));
-const Apps = lazy(() => import('./pages/links/Apps'));
-const Institutions = lazy(() => import('./pages/Institutions'));
+const Links = lazy(() => import('./pages/links/Links'));
+const Institutions = lazy(() => import('./pages/links/Institutions'));
 const SunsetCalendarPage = lazy(() => import('./pages/sunset/SunsetCalendar'));
 const Dictionary = lazy(() => import('./pages/Dictionary'));
 const Music = lazy(() => import('./pages/resources/music/Music'));
@@ -202,8 +199,14 @@ const Router = () => (
 
           {/* Медии */}
           <Route path={routes.media()} element={<Media />} />
-          <Route path={routes.media('radio')} element={<Radio />} />
-          <Route path={routes.media('tv')} element={<Television />} />
+          <Route
+            path={routes.media('radio')}
+            element={<Links jsonName="radio" mediaType="radio" />}
+          />
+          <Route
+            path={routes.media('tv')}
+            element={<Links jsonName="television" mediaType="tv" />}
+          />
           <Route
             path={routes.media('institutions')}
             element={<Institutions />}
@@ -212,8 +215,14 @@ const Router = () => (
             path={routes.media('bg-links')}
             element={<AdventistsOnline />}
           />
-          <Route path={routes.media('apps')} element={<Apps />} />
-          <Route path={routes.media('links')} element={<ForeignLinks />} />
+          <Route
+            path={routes.media('apps')}
+            element={<Links jsonName="apps" mediaType="apps" />}
+          />
+          <Route
+            path={routes.media('links')}
+            element={<Links jsonName="foreign-links" mediaType="links" />}
+          />
 
           {/* Ресурси */}
           <Route path={routes.resources()} element={<Resources />} />

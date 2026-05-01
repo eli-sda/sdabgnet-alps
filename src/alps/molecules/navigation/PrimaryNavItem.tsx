@@ -60,16 +60,11 @@ export const PrimaryNavItem = ({
   icon
 }: PrimaryNavItemProps): JSX.Element => {
   const id = useItemId(text, url);
-  const [isOpen, setIsOpen] = useState(
-    subnav ? statuses.open : statuses.closed
-  );
+  const [isOpen, setIsOpen] = useState(statuses.closed);
   const [openSubNav, setOpenSubNav] = useState<string | null>(null);
 
   const subnavClass = isOpen.menu ? 'this-is-active' : '';
-  const activeClass =
-    (!(isOpen.search || isOpen.menu) && active) || openSubNav === id
-      ? 'this-is-active'
-      : '';
+  const activeClass = active || openSubNav === id ? 'this-is-active' : '';
 
   const onArrowClick = useCallback(
     (e: React.MouseEvent) => {

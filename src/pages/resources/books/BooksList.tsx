@@ -92,7 +92,7 @@ const BooksList = ({
             let cleanDescription = book.description || '';
 
             const displayAuthor =
-              book.author && title === 'Други' ? `${book.author}` : ''; // set the author only if the book has one and the playlist title is 'Други'
+              book.author && title === 'Други' ? `${book.author}` : ''; // show the author only if the book is in 'Други' playlist, otherwise it is visible in the title of the playlist
 
             if (cleanDescription) {
               // Extract newLifeId and remove it from the description

@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { SubNavArrow } from 'alps-library/molecules/navigation/primaryNavItem/SubNavArrow';
 import { IconWrap } from 'alps-library/atoms/icons/IconWrap';
 import useClasses from 'alps-library/helpers/useClasses';
@@ -45,6 +45,20 @@ export interface PrimaryNavItemProps extends MenuItem {
   useNavLink?: boolean;
 }
 
+function isAnySubnavActive(
+  items: SubNavItemProps[] | undefined,
+  pathname: string
+): boolean {
+  if (!items) return false;
+  return items.some(
+    (item) =>
+      (!item.isExternal &&
+        item.url &&
+        (pathname === item.url || pathname.startsWith(item.url + '/'))) ||
+      isAnySubnavActive(item.subnav, pathname)
+  );
+}
+
 export const PrimaryNavItem = ({
   active = false,
   linkClass = '',
@@ -62,9 +76,12 @@ export const PrimaryNavItem = ({
   const id = useItemId(text, url);
   const [isOpen, setIsOpen] = useState(statuses.closed);
   const [openSubNav, setOpenSubNav] = useState<string | null>(null);
+  const { pathname } = useLocation();
+  const isSubnavActive = isAnySubnavActive(subnav, pathname);
 
   const subnavClass = isOpen.menu ? 'this-is-active' : '';
-  const activeClass = active || openSubNav === id ? 'this-is-active' : '';
+  const activeClass =
+    active || isSubnavActive || openSubNav === id ? 'this-is-active' : '';
 
   const onArrowClick = useCallback(
     (e: React.MouseEvent) => {

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LogoType } from 'alps-library/atoms/icons/library/LogoType';
-// import SDAbgNet from 'src/alps/atoms/images/logos/SDAbgNet';
 import { SITE_TITLE } from 'src/constants';
 import { NavLink } from 'react-router-dom';
 
@@ -44,7 +43,7 @@ export const Header = ({
   secondaryNav
 }: HeaderProps): JSX.Element => {
   const [menuIsOpen, setOpenMenu] = useState(false);
-  const [search, setSearch] = useState('');
+  // const [search, setSearch] = useState('');
 
   const updateMenuState = () => {
     setTimeout(() => {
@@ -99,7 +98,11 @@ export const Header = ({
           <div className="c-header__logo c-logo">
             <NavLink className={logoClass} to={logo.link || ''}>
               {/* {logo.element} */}
-              <img src={logo.url} title={SITE_TITLE} alt={`${SITE_TITLE} - лого`} />
+              <img
+                src={logo.url}
+                title={SITE_TITLE}
+                alt={`${SITE_TITLE} - лого`}
+              />
             </NavLink>
           </div>
           <div className="c-header__nav-primary">
@@ -111,20 +114,21 @@ export const Header = ({
         primaryNav={primaryNav}
         secondaryNav={secondaryNav}
         showDrawer={menuIsOpen}
-        search={{
-          placeholder: 'Търси...',
-          submitLabel: 'Търсене',
-          title: 'Търсене',
-          onSearch: (e: React.ChangeEvent<HTMLInputElement>) =>
-            setSearch(e.target.value.trim()),
-          onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
-            event.preventDefault();
-            alert('За съжаление, търсачката все още не работи!');
-            if (search && import.meta.env.DEV) {
-              console.log(`Търсене по: ${search}`);
-            }
-          }
-        }}
+        //TODO?
+        // search={{
+        //   placeholder: 'Търси...',
+        //   submitLabel: 'Търсене',
+        //   title: 'Търсене',
+        //   onSearch: (e: React.ChangeEvent<HTMLInputElement>) =>
+        //     setSearch(e.target.value.trim()),
+        //   onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
+        //     event.preventDefault();
+        //     alert('За съжаление, търсачката все още не работи!');
+        //     if (search && import.meta.env.DEV) {
+        //       console.log(`Търсене по: ${search}`);
+        //     }
+        //   }
+        // }}
         onClick={changeOpenMenu}
         {...drawer}
       />

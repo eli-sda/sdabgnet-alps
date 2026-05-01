@@ -109,15 +109,14 @@
       bottom: 0 !important;
 
       .swiper-pagination-bullet {
-        background-color: rgba($grayDarkColor, 0.6) !important;
-        opacity: 1 !important;
+        background-color: $mingDarkestColor !important; // as the swipper buttons
         width: 10px !important;
         height: 10px !important;
         margin: 0 5px !important;
         transition: all 0.3s ease !important;
 
         &.swiper-pagination-bullet-active {
-          background-color: $mingDarkestColor !important;
+          opacity: 1;
           width: 12px !important;
           height: 12px !important;
         }

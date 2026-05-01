@@ -91,7 +91,7 @@ const BooksList = ({
             let audioId = ''; // id to use as internal anchor to Аудио: /resources/audio#<audioId>
             let cleanDescription = book.description || '';
 
-            book.author =
+            const displayAuthor =
               book.author && title === 'Други' ? `${book.author}` : ''; // set the author only if the book has one and the playlist title is 'Други'
 
             if (cleanDescription) {
@@ -149,6 +149,7 @@ const BooksList = ({
               <DownloadListItem
                 key={book._id}
                 {...book}
+                author={displayAuthor}
                 description={cleanDescription} // Override the original description
                 additionalButtons={additionalButtons}
                 isActive={activeBookId === book._id}

@@ -14,8 +14,9 @@ const BooksList = ({
   title,
   description,
   imageUrl,
-  items
-}: PlaylistType) => {
+  items,
+  isFiltered
+}: PlaylistType & { isFiltered?: boolean }) => {
   useScrollToHash();
   const { hash } = useLocation();
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -41,8 +42,11 @@ const BooksList = ({
   const isInitiallyOpened = useMemo(() => {
     const targetHashId = hash.replace('#', '');
 
-    return items?.some((book) => book._id === targetHashId);
-  }, [hash, items]);
+    const openByHash = items?.some((book) => book._id === targetHashId);
+    const openByFilter = Boolean(isFiltered && items && items.length > 0);
+
+    return Boolean(openByHash || openByFilter);
+  }, [hash, items, isFiltered]);
 
   const heading = useMemo(() => {
     return (
@@ -87,8 +91,8 @@ const BooksList = ({
             let audioId = ''; // id to use as internal anchor to Аудио: /resources/audio#<audioId>
             let cleanDescription = book.description || '';
 
-            book.author =
-              book.author && title === 'Други' ? `${book.author}` : ''; // set the author only if the book has one and the playlist title is 'Други'
+            const displayAuthor =
+              book.author && title === 'Други' ? `${book.author}` : ''; // show the author only if the book is in 'Други' playlist, otherwise it is visible in the title of the playlist
 
             if (cleanDescription) {
               // Extract newLifeId and remove it from the description
@@ -145,6 +149,7 @@ const BooksList = ({
               <DownloadListItem
                 key={book._id}
                 {...book}
+                author={displayAuthor}
                 description={cleanDescription} // Override the original description
                 additionalButtons={additionalButtons}
                 isActive={activeBookId === book._id}

@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
 import { Pullquote } from 'alps-library/molecules/text/pullquote/Pullquote';
-import { Caption } from 'alps-library/atoms/text/Caption';
-import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { RelatedPosts } from 'src/alps/organisms/asides/RelatedPosts';
@@ -76,6 +74,49 @@ const newStartPrinciples = [
   { letter: 'T', text: '- Доверие', color: '#E16BA8' }
 ];
 
+const benefits = [
+  {
+    title: 'Преодоляване на диабета',
+    img: '/img/health/newStart/1RD.png'
+  },
+  {
+    title: 'Възстановяване от сърдечни заболявания',
+    img: '/img/health/newStart/2RHD.png'
+  },
+  {
+    title: 'Обновяване на имунната система',
+    img: '/img/health/newStart/3RIS.png'
+  },
+  {
+    title: 'Намаляване на теглото',
+    img: '/img/health/newStart/4WL.png'
+  },
+  {
+    title: 'Облекчаване на невропатията',
+    img: '/img/health/newStart/5RN.png'
+  },
+  {
+    title: 'Преодоляване на депресията',
+    img: '/img/health/newStart/6OD.png'
+  },
+  {
+    title: 'Повишаване на енергията',
+    img: '/img/health/newStart/7IE.png'
+  },
+  {
+    title: 'Понижаване на холестерола',
+    img: '/img/health/newStart/8LC.png'
+  },
+  {
+    title: 'Повишаване на жизнеността',
+    img: '/img/health/newStart/9EV.png'
+  },
+  {
+    title: 'Облекчаване на артрита',
+    img: '/img/health/newStart/10RA.png'
+  }
+];
+
 const NewStart = (): JSX.Element => {
   useScrollToHash();
 
@@ -136,7 +177,7 @@ const NewStart = (): JSX.Element => {
         relatedPosts={relatedHealthCenters}
       >
         <section className="u-spacing--double">
-          <Caption>
+          <p className="text">
             Програма <b>NEW START</b> (НОВО НАЧАЛО) вече над 40 години се
             прилага с постоянен успех в профилактиката и лечението на значимите
             сьвременни заболявания. Освен в{' '}
@@ -153,9 +194,9 @@ const NewStart = (): JSX.Element => {
             хармония с човешката физиология, изцяло научно обосновани, без модни
             увлечения и съмнителни теории. Програма <b>NEW START</b> е официално
             призната от Световната ЗО.
-          </Caption>
+          </p>
 
-          <Caption>
+          <p className="text">
             Благотворното въздействие на всички тези естествени средства може да
             преживеете като посетите{' '}
             <a href={`#${relatedHealthCenters.id}`}>
@@ -163,7 +204,7 @@ const NewStart = (): JSX.Element => {
               здравно-възстановителните центрове
             </a>{' '}
             в България.
-          </Caption>
+          </p>
 
           <section className="new-start-principles">
             <div className="principles-columns">
@@ -207,10 +248,49 @@ const NewStart = (): JSX.Element => {
               author="По стъпките на Великия лекар, стр. 276"
             />
           </section>
+        </section>
+      </Page>
 
-          <section className="eleven-principles u-spacing">
-            <HeadingBlock title="11 принципа на здравето" />
+      <section className="u-space--top u-spacing--triple">
+        <section className="benefits u-spacing">
+          <PageHeaderFeature2
+            blockType="quarterSS"
+            blocks={[
+              {
+                type: 'quarterSS',
+                title: 'NEW START може да помогне с:'
+              }
+            ]}
+          />
 
+          <div className="benefits-grid u-space--left u-space--right">
+            {benefits.map((benefit, index) => (
+              <div key={index} className="benefit-item">
+                <span
+                  className="benefit-icon"
+                  style={{
+                    WebkitMaskImage: `url(${benefit.img})`,
+                    maskImage: `url(${benefit.img})`
+                  }}
+                  aria-hidden
+                />
+                <p className="u-color--black">{benefit.title}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="eleven-principles u-spacing">
+          <PageHeaderFeature2
+            blockType="quarterSS"
+            blocks={[
+              {
+                type: 'quarterSS',
+                title: '11 принципа на здравето'
+              }
+            ]}
+          />
+          <section className="u-space--left u-space--right">
             <Swiper
               slidesPerView={'auto'}
               spaceBetween={10}
@@ -239,23 +319,23 @@ const NewStart = (): JSX.Element => {
             </Swiper>
           </section>
         </section>
-      </Page>
 
-      <section className="new-start-videos u-space--top u-spacing">
-        <PageHeaderFeature2
-          blockType="quarterSS"
-          blocks={[
-            {
-              type: 'quarterSS',
-              title: 'Гледайте'
-            }
-          ]}
-        />
-        <VideoGrid
-          videos={videos}
-          playlists={playlists}
-          className="u-space--right u-space--left"
-        />
+        <section className="new-start-videos u-spacing">
+          <PageHeaderFeature2
+            blockType="quarterSS"
+            blocks={[
+              {
+                type: 'quarterSS',
+                title: 'Гледайте'
+              }
+            ]}
+          />
+          <VideoGrid
+            videos={videos}
+            playlists={playlists}
+            className="u-space--left u-space--right"
+          />
+        </section>
       </section>
     </section>
   );

@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { SubNavArrow } from 'alps-library/molecules/navigation/primaryNavItem/SubNavArrow';
 import { IconWrap } from 'alps-library/atoms/icons/IconWrap';
 import useClasses from 'alps-library/helpers/useClasses';
@@ -45,6 +45,20 @@ export interface PrimaryNavItemProps extends MenuItem {
   useNavLink?: boolean;
 }
 
+function isAnySubnavActive(
+  items: SubNavItemProps[] | undefined,
+  pathname: string
+): boolean {
+  if (!items) return false;
+  return items.some(
+    (item) =>
+      (!item.isExternal &&
+        item.url &&
+        (pathname === item.url || pathname.startsWith(item.url + '/'))) ||
+      isAnySubnavActive(item.subnav, pathname)
+  );
+}
+
 export const PrimaryNavItem = ({
   active = false,
   linkClass = '',
@@ -59,26 +73,26 @@ export const PrimaryNavItem = ({
   faIconClass,
   icon
 }: PrimaryNavItemProps): JSX.Element => {
-  const [isOpen, setIsOpen] = useState(statuses.closed);
-  const [openSubNav, setOpenSubNav] = useState(null);
-
   const id = useItemId(text, url);
+  const [isOpen, setIsOpen] = useState(statuses.closed);
+  const [openSubNav, setOpenSubNav] = useState<string | null>(null);
+  const { pathname } = useLocation();
+  const isSubnavActive = isAnySubnavActive(subnav, pathname);
 
-  const openClass =
-    (!(isOpen.search || isOpen.menu) && active) || openSubNav === id
-      ? 'this-is-active'
-      : '';
+  const subnavClass = isOpen.menu ? 'this-is-active' : '';
+  const activeClass =
+    active || isSubnavActive || openSubNav === id ? 'this-is-active' : '';
 
   const onArrowClick = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation();
       e.preventDefault();
-      setIsOpen(isOpen ? statuses.closed : statuses.open);
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      setOpenSubNav(openSubNav !== id ? id : null);
+      setIsOpen((prev) =>
+        prev.menu || prev.search ? statuses.closed : statuses.open
+      );
+      setOpenSubNav((prev) => (prev !== id ? id : null));
     },
-    [id, isOpen, openSubNav]
+    [id]
   );
 
   const linkAttr = {
@@ -88,7 +102,7 @@ export const PrimaryNavItem = ({
     className: useClasses(
       `c-primary-nav__link u-font--primary-nav u-theme--link-hover--base u-theme--border-color--base u-color--gray--dark`,
       {
-        [openClass]: !!openClass,
+        [activeClass]: !!activeClass,
         withSvgIcon: !!icon,
         [linkClass]: !!linkClass,
         'is-priority': !!priority,
@@ -119,9 +133,7 @@ export const PrimaryNavItem = ({
 
   return (
     <li
-      className={`c-primary-nav__list-item ${
-        subnav ? 'has-subnav' : ''
-      } ${openClass}`}
+      className={`c-primary-nav__list-item ${subnav ? 'has-subnav' : ''} ${activeClass}`}
     >
       {isExternal ? (
         <a {...linkAttr} onClick={onClick}>
@@ -137,7 +149,9 @@ export const PrimaryNavItem = ({
       )}
 
       {subnav && <SubNavArrow onClick={onArrowClick} fill="gray" />}
-      {subnav && <SubNav items={subnav} className={openClass} type="primary" />}
+      {subnav && (
+        <SubNav items={subnav} className={subnavClass} type="primary" />
+      )}
     </li>
   );
 };

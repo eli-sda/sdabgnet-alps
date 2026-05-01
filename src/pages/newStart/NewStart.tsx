@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
 import { Pullquote } from 'alps-library/molecules/text/pullquote/Pullquote';
-import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { RelatedPosts } from 'src/alps/organisms/asides/RelatedPosts';
@@ -252,11 +251,19 @@ const NewStart = (): JSX.Element => {
         </section>
       </Page>
 
-      <section className="u-spacing--triple">
-        <section className="benefits full-page u-spacing">
-          <HeadingBlock title="NEW START може да помогне с:" />
+      <section className="u-space--top u-spacing--triple">
+        <section className="benefits u-spacing">
+          <PageHeaderFeature2
+            blockType="quarterSS"
+            blocks={[
+              {
+                type: 'quarterSS',
+                title: 'NEW START може да помогне с:'
+              }
+            ]}
+          />
 
-          <div className="benefits-grid">
+          <div className="benefits-grid u-space--left u-space--right">
             {benefits.map((benefit, index) => (
               <div key={index} className="benefit-item">
                 <span
@@ -273,35 +280,44 @@ const NewStart = (): JSX.Element => {
           </div>
         </section>
 
-        <section className="eleven-principles full-page u-spacing">
-          <HeadingBlock title="11 принципа на здравето" />
-
-          <Swiper
-            slidesPerView={'auto'}
-            spaceBetween={10}
-            navigation
-            pagination={{ clickable: true }}
-            mousewheel
-            keyboard
-            centeredSlides
-            modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-            className="new-start-swiper"
-          >
-            {newStartItems.map((item) => (
-              <SwiperSlide key={item.id}>
-                <div
-                  className="new-start-item"
-                  style={{ backgroundColor: item.color }}
-                >
-                  <img src={item.image} />
-                  <section className="text-content u-padding u-spacing--quarter u-color--black">
-                    <h3>{item.title}</h3>
-                    <p>{newLinesWithLinks(item.description)}</p>
-                  </section>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+        <section className="eleven-principles u-spacing">
+          <PageHeaderFeature2
+            blockType="quarterSS"
+            blocks={[
+              {
+                type: 'quarterSS',
+                title: '11 принципа на здравето'
+              }
+            ]}
+          />
+          <section className="u-space--left u-space--right">
+            <Swiper
+              slidesPerView={'auto'}
+              spaceBetween={10}
+              navigation
+              pagination={{ clickable: true }}
+              mousewheel
+              keyboard
+              centeredSlides
+              modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+              className="new-start-swiper"
+            >
+              {newStartItems.map((item) => (
+                <SwiperSlide key={item.id}>
+                  <div
+                    className="new-start-item"
+                    style={{ backgroundColor: item.color }}
+                  >
+                    <img src={item.image} />
+                    <section className="text-content u-padding u-spacing--quarter u-color--black">
+                      <h3>{item.title}</h3>
+                      <p>{newLinesWithLinks(item.description)}</p>
+                    </section>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </section>
         </section>
 
         <section className="new-start-videos u-spacing">
@@ -317,7 +333,7 @@ const NewStart = (): JSX.Element => {
           <VideoGrid
             videos={videos}
             playlists={playlists}
-            className="full-page"
+            className="u-space--left u-space--right"
           />
         </section>
       </section>

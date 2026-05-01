@@ -385,13 +385,23 @@ $leftRightPaddingFullPageSmall: 5%;
 }
 
 // lesson quarter header feature (with vertical images)
-.c-page-header.c-page-header__feature .c-block__quarterSS .c-block__image {
-  max-width: 240px;
-  @media (max-width: 501px) {
-    margin-left: auto;
-    margin-right: auto;
+.c-page-header.c-page-header__feature .c-block__quarterSS {
+  .c-block__image {
+    max-width: 240px;
+    @media (max-width: 501px) {
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 }
+
+//when no image in quarterSS header - make content full width
+.c-page-header.c-page-header__feature
+  .c-block__quarterSS
+  .c-block__content:first-child {
+  width: auto !important;
+}
+
 //Dialog
 @media (max-width: $SmallScreen) {
   .MuiDialog-root .MuiDialog-paper {

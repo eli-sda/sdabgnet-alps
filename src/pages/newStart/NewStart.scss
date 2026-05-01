@@ -63,7 +63,7 @@
   .eleven-principles .new-start-swiper {
     max-width: 700px;
     padding-bottom: 2em;
-    margin-left: 0;
+    margin-left: auto;
 
     .swiper-wrapper {
       height: auto;
@@ -155,6 +155,9 @@
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       align-items: center;
       gap: 2rem;
+      @media (min-width: 700px) {
+        grid-template-columns: repeat(4, 1fr);
+      }
 
       .benefit-item {
         display: flex;

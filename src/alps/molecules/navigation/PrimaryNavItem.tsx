@@ -80,8 +80,9 @@ export const PrimaryNavItem = ({
   const isSubnavActive = isAnySubnavActive(subnav, pathname);
 
   const subnavClass = isOpen.menu ? 'this-is-active' : '';
-  const activeClass =
+  const linkActiveClass =
     active || isSubnavActive || openSubNav === id ? 'this-is-active' : '';
+  const liActiveClass = active || openSubNav === id ? 'this-is-active' : '';
 
   const onArrowClick = useCallback(
     (e: React.MouseEvent) => {
@@ -102,7 +103,7 @@ export const PrimaryNavItem = ({
     className: useClasses(
       `c-primary-nav__link u-font--primary-nav u-theme--link-hover--base u-theme--border-color--base u-color--gray--dark`,
       {
-        [activeClass]: !!activeClass,
+        [linkActiveClass]: !!linkActiveClass,
         withSvgIcon: !!icon,
         [linkClass]: !!linkClass,
         'is-priority': !!priority,
@@ -133,7 +134,7 @@ export const PrimaryNavItem = ({
 
   return (
     <li
-      className={`c-primary-nav__list-item ${subnav ? 'has-subnav' : ''} ${activeClass}`}
+      className={`c-primary-nav__list-item ${subnav ? 'has-subnav' : ''} ${liActiveClass}`}
     >
       {isExternal ? (
         <a {...linkAttr} onClick={onClick}>

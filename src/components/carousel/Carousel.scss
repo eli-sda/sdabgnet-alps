@@ -33,7 +33,7 @@
     &-text {
       //.u-padding--bottom from alp class, as alps set 0
       padding-bottom: 15px !important;
-      
+
       @media (min-width: 901px) {
         padding-bottom: 1.25rem;
       }
@@ -59,62 +59,17 @@
     }
   }
 
-  .swiper-pagination {
-    left: auto !important;
-    width: auto !important;
+  .swiper-pagination .swiper-pagination-bullet {
+    width: 15px !important;
+    height: 15px !important;
+    border: 3px solid #fff !important;
+    background-color: transparent !important;
+    opacity: 1 !important;
+    margin: 0 6px !important;
+    transition: all 0.3s ease !important;
 
-    top: 15px !important;
-    right: 20px !important;
-
-    .swiper-pagination-bullet {
-      width: 15px !important;
-      height: 15px !important;
-      border: 3px solid #fff !important;
-      background-color: transparent !important;
-      opacity: 1 !important;
-      margin: 0 6px !important;
-      transition: all 0.3s ease !important;
-
-      &.swiper-pagination-bullet-active {
-        background-color: #fff !important;
-      }
-    }
-  }
-
-  .c-arrow-prev,
-  .c-arrow-next {
-    position: absolute;
-    top: 50%;
-    margin-top: calc(-1 * #{$arrowButtonSize} / 2);
-    z-index: 10;
-
-    color: #fff;
-    background-color: $mingDarkestColor;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition:
-      box-shadow 0.2s ease,
-      transform 0.15s ease;
-
-    @media (max-width: 500px) {
-      display: none;
-    }
-
-    &:hover {
-      transform: scale(1.08);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    }
-
-    &:after {
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
-
-    svg {
-      width: auto;
-      height: auto;
+    &.swiper-pagination-bullet-active {
+      background-color: #fff !important;
     }
   }
 
@@ -125,4 +80,6 @@
   .c-arrow-next {
     right: calc(-1 * #{$arrowButtonSize} / 2);
   }
+
+  @include swiper-controls;
 }

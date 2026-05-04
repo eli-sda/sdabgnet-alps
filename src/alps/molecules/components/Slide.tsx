@@ -110,7 +110,7 @@ export const Slide = ({
               {cta && url && (
                 <Button
                   as="a"
-                  className="c-carousel__item-cta"
+                  className="c-carousel__item-cta u-space--bottom"
                   label={cta}
                   url={url}
                   lighter

@@ -96,7 +96,7 @@ export const Slide = ({
     >
       {imgLink}
       {heading && (
-        <div className="c-carousel__item-text__wrap  l-grid">
+        <div className="c-carousel__item-text__wrap l-grid u-space--bottom">
           <div className={'l-grid-item'}>
             <div
               className={`c-carousel__item-text u-padding--double--left u-padding--double--right u-padding--half u-spacing--half ${textClass}`}
@@ -110,7 +110,7 @@ export const Slide = ({
               {cta && url && (
                 <Button
                   as="a"
-                  className="c-carousel__item-cta u-space--bottom"
+                  className="c-carousel__item-cta"
                   label={cta}
                   url={url}
                   lighter

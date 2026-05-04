@@ -59,27 +59,17 @@
     }
   }
 
-  .swiper-pagination .swiper-pagination-bullet {
-    width: 15px !important;
-    height: 15px !important;
-    border: 3px solid #fff !important;
-    background-color: transparent !important;
-    opacity: 1 !important;
-    margin: 0 6px !important;
-    transition: all 0.3s ease !important;
-
-    &.swiper-pagination-bullet-active {
-      background-color: #fff !important;
-    }
+  .swiper-pagination {
+    bottom: 10px !important;
   }
 
-  .c-arrow-prev {
+  .swiper-button-prev {
     left: calc(-1 * #{$arrowButtonSize} / 2);
   }
 
-  .c-arrow-next {
+  .swiper-button-next {
     right: calc(-1 * #{$arrowButtonSize} / 2);
   }
 
-  @include swiper-controls;
+  @include swiper-controls();
 }

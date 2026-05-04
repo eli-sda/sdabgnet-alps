@@ -87,8 +87,8 @@ export const AdsCarousel = () => {
           clickable: true
         }}
         navigation={{
-          prevEl: '.c-arrow-prev',
-          nextEl: '.c-arrow-next'
+          prevEl: '.swiper-button-prev',
+          nextEl: '.swiper-button-next'
         }}
         modules={[Autoplay, Pagination, Navigation, Mousewheel, Keyboard]}
         className="swiper-container"
@@ -102,8 +102,8 @@ export const AdsCarousel = () => {
         ))}
       </Swiper>
 
-      <div className="c-arrow-prev swiper-button-prev"></div>
-      <div className="c-arrow-next swiper-button-next"></div>
+      <div className="swiper-button-prev"></div>
+      <div className="swiper-button-next"></div>
     </div>
   ) : null;
 };

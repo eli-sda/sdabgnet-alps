@@ -76,10 +76,21 @@ a.c-secondary-nav__link {
 }
 
 .c-primary-nav__link,
+.c-secondary-nav__link,
 .c-subnav__link {
   &.active,
   &.this-is-active {
     color: $mingColor !important;
+  }
+}
+
+.c-drawer {
+  .c-primary-nav__link,
+  .c-secondary-nav__link {
+    &.active,
+    &.this-is-active {
+      color: $lighterMingColor !important;
+    }
   }
 }
 

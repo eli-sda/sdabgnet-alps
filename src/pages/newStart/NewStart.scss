@@ -61,11 +61,14 @@
   }
 
   .eleven-principles .new-start-swiper {
-    width: 100%;
+    max-width: 700px;
     padding-bottom: 2em;
+    margin-left: auto;
+
     .swiper-wrapper {
       height: auto;
     }
+
     .swiper-slide {
       width: 85%;
       height: auto;
@@ -106,15 +109,14 @@
       bottom: 0 !important;
 
       .swiper-pagination-bullet {
-        background-color: rgba($grayDarkColor, 0.6) !important;
-        opacity: 1 !important;
+        background-color: $mingDarkestColor !important; // as the swipper buttons
         width: 10px !important;
         height: 10px !important;
         margin: 0 5px !important;
         transition: all 0.3s ease !important;
 
         &.swiper-pagination-bullet-active {
-          background-color: $mingDarkestColor !important;
+          opacity: 1;
           width: 12px !important;
           height: 12px !important;
         }
@@ -143,6 +145,40 @@
     .o-citation {
       padding-left: 0;
       padding-right: 0;
+    }
+  }
+
+  .benefits {
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      align-items: center;
+      gap: 2rem;
+      @media (min-width: 700px) {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .benefit-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        height: 100%;
+        gap: 0.5rem;
+
+        .benefit-icon {
+          width: 56px;
+          height: 56px;
+          background-color: $mingColor;
+
+          mask-size: contain;
+          mask-repeat: no-repeat;
+          mask-position: center;
+          -webkit-mask-size: contain;
+          -webkit-mask-repeat: no-repeat;
+          -webkit-mask-position: center;
+        }
+      }
     }
   }
 }

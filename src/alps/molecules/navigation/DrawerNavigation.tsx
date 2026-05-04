@@ -52,13 +52,15 @@ export const DrawerNavigation = ({
         </div>
       </div>
       <GridItem className="c-drawer__container u-spacing l-grid-wrap l-grid-wrap--6-of-7 l-grid-item--s--6-col u-theme--background-color--darker">
-        <div className="c-drawer__search">
-          {renderSearchBox ? (
-            renderSearchBox(searchProps)
-          ) : (
-            <Search {...searchProps} />
-          )}
-        </div>
+        {(renderSearchBox || search) && (
+          <div className="c-drawer__search">
+            {renderSearchBox ? (
+              renderSearchBox(searchProps)
+            ) : (
+              <Search {...searchProps} />
+            )}
+          </div>
+        )}
         <div className="c-drawer__nav">
           <div className="c-drawer__nav-primary">
             <PrimaryNavigation {...primaryNav} />

@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { IconWrap } from 'alps-library/atoms/icons/IconWrap';
 import { SubNavArrow } from 'alps-library/molecules/navigation/primaryNavItem/SubNavArrow';
 import useToggle from 'alps-library/helpers/useToggle';
@@ -38,9 +38,20 @@ export const SubNavItem = ({
   icon,
   reactIcon
 }: SubNavItemProps): JSX.Element => {
-  const { onToggle, openClass } = useToggle(false);
   const hasSubnav = Array.isArray(subnav) && subnav.length > 0;
+  const { onToggle, openClass } = useToggle(hasSubnav);
   const isTertiary = level === 'tertiary';
+  const { pathname } = useLocation();
+  const isSubnavActive =
+    !active &&
+    hasSubnav &&
+    !!subnav?.some(
+      (child) =>
+        !child.isExternal &&
+        child.url &&
+        (pathname === child.url || pathname.startsWith(child.url + '/'))
+    );
+  const effectiveActive = active || isSubnavActive;
   const navLevel = isTertiary ? 'subnav__subnav' : 'subnav';
 
   const onArrowClick = useCallback(
@@ -57,7 +68,7 @@ export const SubNavItem = ({
     href: url || '',
     className: useClasses(`c-${type}-nav__${navLevel}__link c-subnav__link`, {
       withSvgIcon: !!icon || !!reactIcon,
-      active: active,
+      active: effectiveActive,
       [themeLinkHoverClass + '--lighter']: isTertiary,
       [themeLinkHoverClass + '--base']: !isTertiary,
       'u-color--gray--darker': type === 'primary'

@@ -1,9 +1,10 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { BaseSearch } from 'alps-library/molecules/forms/elements/BaseSearch';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
+import { filterSectionedData } from 'src/utils/filterHelpers';
 import { LinksData, MediaListSection } from './links/MediaLinksPage';
 
 const Churches = () => {
@@ -27,33 +28,6 @@ const Churches = () => {
         setFilteredChurchesLinks([]);
       });
   }, []);
-
-  const filterLinks = useCallback(
-    (query: string) => {
-      const q = query?.trim().toLowerCase() || '';
-      if (!q) {
-        setFilteredChurchesLinks(bgChurchesLinks);
-        return;
-      }
-
-      const filtered = bgChurchesLinks
-        .map((section) => {
-          const matchedItems = section.items.filter((item) => {
-            const title = (item.title || '').toLowerCase();
-
-            return title.includes(q);
-          });
-
-          return matchedItems.length > 0
-            ? { ...section, items: matchedItems }
-            : null;
-        })
-        .filter((s): s is LinksData => s !== null);
-
-      setFilteredChurchesLinks(filtered);
-    },
-    [bgChurchesLinks]
-  );
 
   return (
     <Page
@@ -79,7 +53,7 @@ const Churches = () => {
           hideSearchButton
           onSearch={(e: React.ChangeEvent<HTMLInputElement>) => {
             const v = e.target.value;
-            filterLinks(v);
+            setFilteredChurchesLinks(filterSectionedData(bgChurchesLinks, v));
           }}
           onSubmit={() => {
             return false;

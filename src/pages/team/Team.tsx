@@ -1,11 +1,11 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectCoverflow, Navigation } from 'swiper/modules';
+import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
 import 'swiper/css';
-import 'swiper/css/effect-coverflow';
 import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import './Team.scss';
 
 type TeamMember = {
@@ -80,31 +80,17 @@ const Team = () => {
       breadcrumbsUrls={breadcrumbsUrls}
     >
       <Swiper
-        effect="coverflow"
+        mousewheel
+        keyboard
         grabCursor
         watchSlidesProgress
         navigation
+        pagination
         loop
         centeredSlides
-        slidesPerView={3}
-        coverflowEffect={{
-          rotate: 50,
-          stretch: 0,
-          depth: 100,
-          modifier: 1,
-          slideShadows: false
-        }}
-        breakpoints={{
-          0: {
-            slidesPerView: 1,
-            centeredSlides: false
-          },
-          550: {
-            slidesPerView: 3,
-            centeredSlides: true
-          }
-        }}
-        modules={[EffectCoverflow, Navigation]}
+        spaceBetween={15}
+        slidesPerView="auto"
+        modules={[Navigation, Pagination, Mousewheel, Keyboard]}
         className="team-swiper"
       >
         {team.map((member) => (

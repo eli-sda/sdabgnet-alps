@@ -2,13 +2,17 @@
 @use '/src/styles/swiper-controls' as *;
 
 .team-swiper {
-  .swiper {
-    width: 100%;
-  }
+  width: 100%;
+  max-width: 700px;
+  padding-bottom: 2.5em;
 
   .swiper-slide {
+    width: 50%;
+    height: auto;
+    transition: opacity 0.3s ease;
+
     @media (max-width: 550px) {
-      width: 100%;
+      width: 80%;
     }
 
     .team-card {

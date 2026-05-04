@@ -51,10 +51,13 @@ a.c-secondary-nav__link {
   }
 }
 
-.c-header__nav-primary .c-primary-nav__subnav__subnav__list-item {
-  background-color: $grayDarkColor;
-  .c-subnav__link.active {
-    color: $lighterMingColor !important;
+.c-header__nav-primary,
+.c-drawer {
+  .c-primary-nav__subnav__subnav__list-item {
+    background-color: $grayDarkColor;
+    .c-subnav__link.active {
+      color: $lighterMingColor !important;
+    }
   }
 }
 
@@ -71,9 +74,11 @@ a.c-secondary-nav__link {
     white-space: nowrap !important;
   }
 }
+
 .c-primary-nav__link,
 .c-subnav__link {
-  &.active {
+  &.active,
+  &.this-is-active {
     color: $mingColor !important;
   }
 }

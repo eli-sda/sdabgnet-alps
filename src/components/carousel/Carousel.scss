@@ -31,11 +31,10 @@
     }
 
     &-text {
-      //.u-padding--bottom from alp class, as alps set 0
-      padding-bottom: 15px !important;
+      padding-bottom: 1.5rem !important;
 
-      @media (min-width: 901px) {
-        padding-bottom: 1.25rem;
+      @media (max-width: 500px) {
+        padding-bottom: 2.5rem !important;
       }
     }
 
@@ -60,7 +59,7 @@
   }
 
   .swiper-pagination {
-    bottom: 10px !important;
+    padding-bottom: 10px;
   }
 
   .swiper-button-prev {

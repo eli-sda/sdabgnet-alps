@@ -39,7 +39,7 @@ export const SubNavItem = ({
   reactIcon
 }: SubNavItemProps): JSX.Element => {
   const hasSubnav = Array.isArray(subnav) && subnav.length > 0;
-  const { onToggle, openClass } = useToggle(hasSubnav);
+  const { onToggle, openClass, open } = useToggle(hasSubnav);
   const isTertiary = level === 'tertiary';
   const { pathname } = useLocation();
   const isSubnavActive =
@@ -142,7 +142,9 @@ export const SubNavItem = ({
           isSubNav
         />
       )}
-      {hasSubnav && <SubNav items={subnav} level="tertiary" type={type} />}
+      {hasSubnav && open && (
+        <SubNav items={subnav} level="tertiary" type={type} />
+      )}
     </li>
   );
 };

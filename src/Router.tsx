@@ -189,7 +189,6 @@ const Router = () => (
           <Route path={routes.info()} element={<Info />} />
           <Route path={routes.info('bibles')} element={<Bibles />} />
           <Route path={routes.info('biblical')} element={<Biblical />} />
-          <Route path={routes.churches} element={<Churches />} />
           <Route path={routes.info('churches')} element={<Churches />} />
           <Route path={routes.info('dictionary')} element={<Dictionary />} />
           <Route

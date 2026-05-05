@@ -68,6 +68,7 @@ $sanityQuery = '*[_type == "page" && path.current == "' . addslashes($searchPath
     title,
     "path": path.current,
     description,
+    keyWords,
     "imageUrl": headerImage.asset->url,
     "imageWidth": headerImage.asset->metadata.dimensions.width,
     "imageHeight": headerImage.asset->metadata.dimensions.height
@@ -96,10 +97,35 @@ if ($response === false) {
 // Use default title if missing or blank (including only whitespace)
 $title = ($page['title'] && trim($page['title']) !== '') ? $page['title'] : $defTitle;
 $description = $page['description'] ?? $defDescription;
+$keywords = !empty($page['keyWords']) ? implode(', ', $page['keyWords']) : '';
 $imageUrl = $page['imageUrl'] ?? $defImage;
 $imageWidth = $page['imageWidth'] ?? 1200;
 $imageHeight = $page['imageHeight'] ?? 630;
 $ogUrl = $site . $path;
+$canonicalUrl = $canonicalSite . $path;
+
+// Section-specific title prefixes
+
+// Add 'Обяви' to the title if path starts with '/adver/' and not already present
+if (strpos($path, '/adver/') === 0 && mb_stripos($title, 'Обяви') === false) {
+    $title = 'Обяви - ' . $title;
+}
+
+if (strpos($path, '/health/') === 0 && mb_stripos($title, 'Здраве') === false) {
+    $title = 'Здраве - ' . $title;
+}
+if (strpos($path, '/info/') === 0 && mb_stripos($title, 'БГ Справочник') === false) {
+    $title = 'БГ Справочник - ' . $title;
+}
+
+if (strpos($path, '/resources/') === 0 && mb_stripos($title, 'Ресурси') === false) {
+    $title = 'Ресурси - ' . $title;
+}
+
+// Add site name to the end of the title for all pages except homepage, unless already present
+if ($path !== '/' && mb_stripos($title, $siteName) === false) {
+    $title .= ' | ' . $siteName;
+}
 
 // Build the full URL with query parameters (excluding 'path' and 'spa' parameters)
 if (!empty($_SERVER['QUERY_STRING'])) {
@@ -149,6 +175,9 @@ if ($playlistTitle) {
     <meta property="og:locale" content="bg_BG">
     <meta property="og:site_name" content="<?= htmlspecialchars($siteName) ?>" />
     <meta name="description" content="<?= htmlspecialchars($description) ?>" />
+    <?php if ($keywords): ?>
+    <meta name="keywords" content="<?= htmlspecialchars($keywords) ?>" />
+    <?php endif; ?>
     <meta property="og:title" content="<?= htmlspecialchars($title) ?>" />
     <meta property="og:description" content="<?= htmlspecialchars($description) ?>" />
     <meta property="og:image" content="<?= htmlspecialchars($imageUrl) ?>" />
@@ -162,6 +191,27 @@ if ($playlistTitle) {
     <meta name="twitter:title" content="<?= htmlspecialchars($title) ?>" />
     <meta name="twitter:description" content="<?= htmlspecialchars($description) ?>" />
     <meta name="twitter:image" content="<?= htmlspecialchars($imageUrl) ?>" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="<?= htmlspecialchars($canonicalUrl) ?>" />
+
+    <!-- JSON-LD structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": <?= json_encode($title, JSON_UNESCAPED_UNICODE) ?>,
+      "description": <?= json_encode($description, JSON_UNESCAPED_UNICODE) ?>,
+      "url": <?= json_encode($canonicalUrl, JSON_UNESCAPED_UNICODE) ?>,
+      "image": <?= json_encode($imageUrl, JSON_UNESCAPED_UNICODE) ?>,
+      "inLanguage": "bg",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Адвентната българска мреж@",
+        "url": "https://sdabg.net"
+      }
+    }
+    </script>
 </head>
 
 <body>
@@ -183,6 +233,9 @@ if ($playlistTitle) {
         exit;
     }
     ?>
+    <!-- Visible content for search engine indexing -->
+    <h1><?= htmlspecialchars($title) ?></h1>
+    <p><?= htmlspecialchars($description) ?></p>
 </body>
 
 </html>

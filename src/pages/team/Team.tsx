@@ -85,7 +85,9 @@ const Team = () => {
         grabCursor
         watchSlidesProgress
         navigation
-        pagination
+        pagination={{
+          clickable: true
+        }}
         loop
         centeredSlides
         spaceBetween={15}

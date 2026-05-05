@@ -1,8 +1,19 @@
 import { useEffect, useMemo } from 'react';
-import { Carousel } from 'alps-library/molecules/components/carousel/Carousel';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import {
+  Autoplay,
+  Pagination,
+  Navigation,
+  Mousewheel,
+  Keyboard
+} from 'swiper/modules';
 import { Slide } from 'src/alps/molecules/components/Slide';
 import { useCarouselAds } from 'src/hooks/useCarouselAds';
 import { getImage, ImageDimensions, VIEWPORT_MAX } from 'src/utils/ImageHelper';
+
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 import './Carousel.scss';
 
@@ -49,7 +60,7 @@ export const AdsCarousel = () => {
     if (!carouselAds) {
       void getCarouselAds();
     }
-  }, []);
+  }, [carouselAds, getCarouselAds]);
 
   const slides = useMemo(() => {
     return carouselAds?.map((ad) => ({
@@ -61,12 +72,38 @@ export const AdsCarousel = () => {
     }));
   }, [carouselAds]);
 
-  return slides ? (
-    <Carousel
-      slides={slides}
-      showArrows={true}
-      slideComponent={Slide}
-      autoplaySpeed={6000}
-    ></Carousel>
+  return slides && slides.length > 0 ? (
+    <div className="c-carousel">
+      <Swiper
+        mousewheel
+        keyboard
+        loop
+        autoplay={{
+          delay: 6000,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true
+        }}
+        pagination={{
+          clickable: true
+        }}
+        navigation={{
+          prevEl: '.swiper-button-prev',
+          nextEl: '.swiper-button-next'
+        }}
+        modules={[Autoplay, Pagination, Navigation, Mousewheel, Keyboard]}
+        className="swiper-container"
+      >
+        {slides.map((slideProps, index) => (
+          <SwiperSlide key={index}>
+            <div className="c-carousel__item">
+              <Slide {...slideProps} />
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
+      <div className="swiper-button-prev"></div>
+      <div className="swiper-button-next"></div>
+    </div>
   ) : null;
 };

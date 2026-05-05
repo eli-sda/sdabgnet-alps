@@ -96,7 +96,7 @@ export const Slide = ({
     >
       {imgLink}
       {heading && (
-        <div className="c-carousel__item-text__wrap  l-grid">
+        <div className="c-carousel__item-text__wrap l-grid">
           <div className={'l-grid-item'}>
             <div
               className={`c-carousel__item-text u-padding--double--left u-padding--double--right u-padding--half u-spacing--half ${textClass}`}

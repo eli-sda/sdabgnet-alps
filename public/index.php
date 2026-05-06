@@ -167,6 +167,11 @@ if ($playlistTitle) {
 
 <head>
     <meta charset="UTF-8" />
+    <link rel="icon" href="/img/favicon-ming.png" />
+    <link rel="icon" href="/img/favicon-ming_32x32.png" sizes="32x32" />
+    <link rel="icon" href="/img/favicon-ming_48x48.png" sizes="48x48" />
+    <link rel="icon" href="/img/favicon-ming_96x96.png" sizes="96x96" />
+    <link rel="icon" href="/img/favicon-ming_144x144.png" sizes="144x144" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?= htmlspecialchars($title) ?></title>
 

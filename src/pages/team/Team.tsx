@@ -1,11 +1,6 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
 import './Team.scss';
 
 type TeamMember = {
@@ -79,33 +74,19 @@ const Team = () => {
       title={getTitle(routes.about('team'))}
       breadcrumbsUrls={breadcrumbsUrls}
     >
-      <Swiper
-        mousewheel
-        keyboard
-        grabCursor
-        watchSlidesProgress
-        navigation
-        pagination={{
-          clickable: true
-        }}
-        loop
-        centeredSlides
-        spaceBetween={15}
-        slidesPerView="auto"
-        modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-        className="team-swiper"
-      >
+      <section className="team">
         {team.map((member) => (
-          <SwiperSlide key={member.id}>
-            <div className="team-card hyphens-auto u-spacing--quarter">
-              <img src={member.image} alt={member.name} />
-              <h3 className="u-theme--color--darker">{member.name}</h3>
-              <p className="u-color--black">{member.role}</p>
-              <p className="u-space--quarter--bottom">{member.description}</p>
-            </div>
-          </SwiperSlide>
+          <div
+            key={member.id}
+            className="team-card hyphens-auto u-spacing--quarter"
+          >
+            <img src={member.image} alt={member.name} />
+            <h3 className="u-theme--color--darker">{member.name}</h3>
+            <p className="u-color--black">{member.role}</p>
+            <p className="u-space--quarter--bottom">{member.description}</p>
+          </div>
         ))}
-      </Swiper>
+      </section>
     </Page>
   );
 };

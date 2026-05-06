@@ -1,29 +1,24 @@
-@use '/src/styles/colors.scss' as *;
-@use '/src/styles/swiper-controls' as *;
+.team {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr;
 
-.team-swiper {
-  width: 100%;
-  max-width: 700px;
-  padding-bottom: 2.5em;
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-  .swiper-slide {
-    width: 50%;
-    height: auto;
-    transition: opacity 0.3s ease;
+  @media (min-width: 976px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 
-    @media (max-width: 550px) {
-      width: 80%;
-    }
+  &-card {
+    display: flex;
+    flex-direction: column;
 
-    .team-card {
-      img {
-        display: block;
-        object-fit: cover;
-        aspect-ratio: 4 / 6;
-        margin: 0 auto;
-      }
+    img {
+      display: block;
+      object-fit: cover;
+      aspect-ratio: 4 / 6;
     }
   }
 }
-
-@include swiper-controls;

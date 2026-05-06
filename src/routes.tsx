@@ -57,7 +57,7 @@ const routes = {
       | 'institutions'
       | 'services'
   ) => `/health${item ? `/${item}` : ''}`,
-  about: (item?: 'team' | 'banner' | 'feedback') =>
+  about: (item?: 'team' | 'banner' | 'feedback' | 'site-guide') =>
     `/about${item ? `/${item}` : ''}`,
   kids: `${OLD_SITE}/page.php?id=kids`
 };

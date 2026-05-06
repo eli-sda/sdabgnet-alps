@@ -385,6 +385,12 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
     subnav: [
       {
         type: 'primary',
+        text: 'Ориентация в сайта',
+        url: routes.about('site-guide'),
+        faIconClass: 'fas fa-map-signs'
+      },
+      {
+        type: 'primary',
         text: 'Екип',
         url: routes.about('team'),
         faIconClass: 'fas fa-users'

@@ -82,7 +82,7 @@ const Team = () => {
           >
             <img src={member.image} alt={member.name} />
             <h3 className="u-theme--color--darker">{member.name}</h3>
-            <p className="u-color--black">{member.role}</p>
+            <p className="u-color--black u-text--strong">{member.role}</p>
             <p className="u-space--quarter--bottom">{member.description}</p>
           </div>
         ))}

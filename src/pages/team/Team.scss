@@ -1,19 +1,26 @@
+@use '/src/styles/const.scss' as *;
+
 .team {
   display: grid;
+  justify-items: center;
   gap: 2rem;
   grid-template-columns: 1fr;
 
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
+  @media (min-width: $XSmallScreen) {
+    grid-template-columns: 1fr;
   }
 
-  @media (min-width: 976px) {
+  @media (min-width: $SmallScreen) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (min-width: $LargeScreen) {
     grid-template-columns: repeat(3, 1fr);
   }
 
   &-card {
     display: flex;
     flex-direction: column;
+    max-width: 220px;
 
     img {
       display: block;

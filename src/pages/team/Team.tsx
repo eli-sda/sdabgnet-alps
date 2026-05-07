@@ -51,18 +51,18 @@ const team: TeamMember[] = [
   //   image: 'https://swiperjs.com/demos/images/nature-5.jpg'
   // },
   {
-    id: 6,
-    name: 'Светлозар Стефанов',
-    role: 'Издателство "Нов живот"',
-    description: 'Предоставя утринните бдения.',
-    image: '/img/team/svetlozar-stefanov.webp'
-  },
-  {
     id: 7,
     name: 'Живко Грушев',
     role: 'Религиозни материали',
     description: 'Подготвя и предоставя аудио ресурси и други материали.',
     image: '/img/team/jivko-grushev.webp'
+  },
+  {
+    id: 6,
+    name: 'Светлозар Стефанов',
+    role: 'Издателство "Нов живот"',
+    description: 'Предоставя утринните бдения.',
+    image: '/img/team/svetlozar-stefanov.webp'
   }
 ];
 
@@ -73,17 +73,22 @@ const Team = () => {
     <Page
       title={getTitle(routes.about('team'))}
       breadcrumbsUrls={breadcrumbsUrls}
+      blockType="wrap6"
     >
-      <section className="team">
+      <section className="team full-page">
         {team.map((member) => (
           <div
             key={member.id}
-            className="team-card hyphens-auto u-spacing--quarter"
+            className="team-card u-background-color--gray--light hyphens-auto"
           >
             <img src={member.image} alt={member.name} />
-            <h3 className="u-theme--color--darker">{member.name}</h3>
-            <p className="u-color--black u-text--strong">{member.role}</p>
-            <p className="u-space--quarter--bottom">{member.description}</p>
+            <div className="u-padding u-spacing--quarter">
+              <h2>{member.name}</h2>
+              <div className="u-text--strong u-font--secondary--m u-theme--color--dark">
+                {member.role}
+              </div>
+              <p className="team-card__text">{member.description}</p>
+            </div>
           </div>
         ))}
       </section>

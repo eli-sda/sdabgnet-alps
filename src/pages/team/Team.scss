@@ -1,16 +1,18 @@
 @use '/src/styles/const.scss' as *;
+$spacing: 2.5rem;
 
 .team {
   display: grid;
+  width: stretch;
   justify-items: center;
-  gap: 2rem;
+  gap: $spacing;
   grid-template-columns: 1fr;
 
-  @media (min-width: $XSmallScreen) {
+  @media (min-width: $SmallScreen) {
     grid-template-columns: 1fr;
   }
 
-  @media (min-width: $SmallScreen) {
+  @media (min-width: $MediumScreen) {
     grid-template-columns: repeat(2, 1fr);
   }
   @media (min-width: $LargeScreen) {
@@ -20,12 +22,37 @@
   &-card {
     display: flex;
     flex-direction: column;
-    max-width: 220px;
+    width: 100%;
+    align-items: center;
+    container-type: inline-size;
 
     img {
       display: block;
       object-fit: cover;
       aspect-ratio: 4 / 6;
+      width: stretch;
+      max-width: 220px;
+      // Add margin-top if container is wider than 220px
+      @container (min-width: 221px) {
+        margin-top: 1.25rem;
+      }
+    }
+    &__text {
+      font-size: 1.125rem;
+      line-height: 1.6;
+    }
+  }
+  // On very small screens make playlist items fluid (shrink with page)
+  @media (max-width: 380px) {
+    display: block;
+    > * + * {
+      margin-top: $spacing;
+    }
+    &-card {
+      width: 100%;
+      max-width: 100%;
+      margin-left: 0;
+      margin-right: 0;
     }
   }
 }

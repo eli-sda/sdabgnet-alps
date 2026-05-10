@@ -5,6 +5,13 @@ import svgr from 'vite-plugin-svgr';
 import { VitePWA } from 'vite-plugin-pwa';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { resolve } from 'path';
+import { HttpsProxyAgent } from 'https-proxy-agent';
+
+// When an HTTP proxy is configured in the environment (e.g. corporate/network proxy),
+// route Vite's dev server proxy requests through it so DNS resolves correctly.
+const proxyAgent = process.env.https_proxy || process.env.HTTPS_PROXY
+  ? new HttpsProxyAgent((process.env.https_proxy || process.env.HTTPS_PROXY) as string)
+  : undefined;
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,18 +20,21 @@ export default defineConfig({
       '/sdabg': {
         target: 'https://sdasofia.org',
         changeOrigin: true,
-        secure: false
+        secure: false,
+        ...(proxyAgent && { agent: proxyAgent })
       },
       '/rss': {
         target: 'https://api.sdabg.net',
         changeOrigin: true,
-        secure: false
+        secure: false,
+        ...(proxyAgent && { agent: proxyAgent })
       },
       '/api': {
         target: 'https://api.sdabg.net',
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => path.replace(/^\/api/, '')
+        rewrite: (path) => path.replace(/^\/api/, ''),
+        ...(proxyAgent && { agent: proxyAgent })
       }
     }
   },

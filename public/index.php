@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '/constants.php';
+require_once __DIR__ . '/constants.php';
 
 // If ?spa=1 is present, remove it from the URL (for clean navigation), serve SPA (index.html) and stop execution
 if (isset($_GET['spa'])) {
@@ -202,11 +202,6 @@ if (strpos($path, '/resources/') === 0 && mb_stripos($title, 'Ресурси') =
     $title = 'Ресурси - ' . $title;
 }
 
-// Add site name to the end of the title for all pages except homepage, unless already present
-if ($path !== '/' && mb_stripos($title, $siteName) === false) {
-    $title .= ' | ' . $siteName;
-}
-
 // Build the full URL with query parameters (excluding 'path' and 'spa' parameters)
 if (!empty($_SERVER['QUERY_STRING'])) {
     parse_str($_SERVER['QUERY_STRING'], $queryParams);
@@ -226,11 +221,8 @@ if ($playlistTitle) {
     // Decode the URL-encoded parameters
     $playlistTitle = urldecode($playlistTitle);
 
-    // Build custom title: <pageTitle> - <playlistTitle> - <title>
+    // Build custom title: <playlistTitle> - <itemTitle> - <pageTitle>
     $customTitleParts = [];
-    if ($title && trim($title) !== '') {
-        $customTitleParts[] = $title;
-    }
     $customTitleParts[] = $playlistTitle;
 
     if ($itemTitle) {
@@ -238,7 +230,16 @@ if ($playlistTitle) {
         $customTitleParts[] = $itemTitle;
     }
 
+    if ($title && trim($title) !== '') {
+        $customTitleParts[] = $title;
+    }
+
     $title = implode(' - ', $customTitleParts);
+}
+
+// Add site name to the end of the title for all pages except homepage, unless already present
+if ($path !== '/' && mb_stripos($title, $siteName) === false) {
+    $title .= ' | ' . $siteName;
 }
 ?>
 

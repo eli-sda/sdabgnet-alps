@@ -167,6 +167,9 @@ def main():
 
             lessons = []
             for lesson in lessons_raw:
+                lesson_id = lesson.get('id', '')
+                if not lesson_id.isdigit():
+                    continue  # Skip non-numeric IDs (e.g. 'introduction')
                 lessons.append({
                     'id': lesson.get('id', ''),
                     'title': lesson.get('title', ''),

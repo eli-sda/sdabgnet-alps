@@ -4414,12 +4414,6 @@
       "human_date": "Април · Май · Юни 2026",
       "lessons": [
         {
-          "id": "introduction",
-          "title": "Въведение",
-          "start_date": "28/03/2026",
-          "end_date": "28/03/2026"
-        },
-        {
           "id": "01",
           "title": "Любовта е дълготърпелива",
           "start_date": "28/03/2026",
@@ -4505,12 +4499,6 @@
       "cover": "https://sabbath-school-stage.adventech.io/api/v2/bg/quarterlies/2026-01-cc/cover.png",
       "human_date": "Януари · Февруари · Март 2026",
       "lessons": [
-        {
-          "id": "introduction",
-          "title": "Въведение",
-          "start_date": "27/12/2025",
-          "end_date": "27/12/2025"
-        },
         {
           "id": "01",
           "title": "Последни думи и свидетели",
@@ -4598,12 +4586,6 @@
       "human_date": "Октомври · Ноември · Декември 2025",
       "lessons": [
         {
-          "id": "introduction",
-          "title": "Въведение",
-          "start_date": "27/09/2025",
-          "end_date": "27/09/2025"
-        },
-        {
           "id": "01",
           "title": "Дръжте доброто!",
           "start_date": "27/09/2025",
@@ -4689,12 +4671,6 @@
       "cover": "https://sabbath-school-stage.adventech.io/api/v2/bg/quarterlies/2025-03-cc/cover.png",
       "human_date": "Юли · Август · Септември 2025",
       "lessons": [
-        {
-          "id": "introduction",
-          "title": "Въведение",
-          "start_date": "28/06/2025",
-          "end_date": "28/06/2025"
-        },
         {
           "id": "01",
           "title": "Винаги там",
@@ -4782,12 +4758,6 @@
       "human_date": "Април · Май · Юни 2025",
       "lessons": [
         {
-          "id": "introduction",
-          "title": "Въведение",
-          "start_date": "29/03/2025",
-          "end_date": "29/03/2025"
-        },
-        {
           "id": "01",
           "title": "Елате да видите!",
           "start_date": "29/03/2025",
@@ -4873,12 +4843,6 @@
       "cover": "https://sabbath-school-stage.adventech.io/api/v2/bg/quarterlies/2025-01-cc/cover.png",
       "human_date": "Януари · Февруари · Март 2025",
       "lessons": [
-        {
-          "id": "introduction",
-          "title": "Въведение",
-          "start_date": "28/12/2024",
-          "end_date": "28/12/2024"
-        },
         {
           "id": "01",
           "title": "Живата вест",

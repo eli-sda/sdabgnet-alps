@@ -17,7 +17,7 @@ import { DailyVerseType } from 'src/contexts/DailyVerseContext';
 import PopupContent from '../popupContent/PopupContent';
 import './DailyVerse.scss';
 
-const DailyVerseGray: FC<{ date: Moment }> = ({ date }) => {
+const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDate, setActiveDate] = useState<Moment>(date);
   const [data, setData] = useState<DailyVerseType | null>(null);
@@ -74,7 +74,7 @@ const DailyVerseGray: FC<{ date: Moment }> = ({ date }) => {
   }, [formattedDate, getDailyVerse]);
 
   return (
-    <div className={classes + moreClasses}>
+    <div id="daily-verse" className={classes + moreClasses}>
       <span className="c-block__meta u-font--secondary--xs u-theme--color--dark">
         Библейски стих за деня
       </span>
@@ -183,4 +183,4 @@ const DailyVerseGray: FC<{ date: Moment }> = ({ date }) => {
   );
 };
 
-export default DailyVerseGray;
+export default DailyVerse;

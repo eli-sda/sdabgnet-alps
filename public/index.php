@@ -188,18 +188,18 @@ if ($isLessonPath) {
 
 // Add 'Обяви' to the title if path starts with '/adver/' and not already present
 if (strpos($path, '/adver/') === 0 && mb_stripos($title, 'Обяви') === false) {
-    $title = 'Обяви - ' . $title;
+    $title = 'Обяви > ' . $title;
 }
 
 if (strpos($path, '/health/') === 0 && mb_stripos($title, 'Здраве') === false) {
-    $title = 'Здраве - ' . $title;
+    $title = 'Здраве > ' . $title;
 }
 if (strpos($path, '/info/') === 0 && mb_stripos($title, 'БГ Справочник') === false) {
-    $title = 'БГ Справочник - ' . $title;
+    $title = 'БГ Справочник > ' . $title;
 }
 
 if (strpos($path, '/resources/') === 0 && mb_stripos($title, 'Ресурси') === false) {
-    $title = 'Ресурси - ' . $title;
+    $title = 'Ресурси > ' . $title;
 }
 
 // Build the full URL with query parameters (excluding 'path' and 'spa' parameters)
@@ -213,28 +213,22 @@ if (!empty($_SERVER['QUERY_STRING'])) {
 }
 
 // Check for playlistTitle and title query parameters for custom sharing descriptions
-$playlistTitle = $_GET['playlistTitle'] ?? null;
-$itemTitle = $_GET['title'] ?? null;
+$playlistTitle = isset($_GET['playlistTitle']) ? strip_tags(urldecode($_GET['playlistTitle'])) : null;
+$itemTitle = isset($_GET['title']) ? strip_tags(urldecode($_GET['title'])) : null;
 
-// If playlistTitle is present, construct custom title for sharing
-if ($playlistTitle) {
-    // Decode the URL-encoded parameters
-    $playlistTitle = urldecode($playlistTitle);
+// Build custom title prefix for sharing
+if ($itemTitle && $playlistTitle) {
+    $prefix = $itemTitle . ' от "' . $playlistTitle . '"';
+} elseif ($itemTitle) {
+    $prefix = $itemTitle;
+} elseif ($playlistTitle) {
+    $prefix = $playlistTitle;
+} else {
+    $prefix = null;
+}
 
-    // Build custom title: <playlistTitle> - <itemTitle> - <pageTitle>
-    $customTitleParts = [];
-    $customTitleParts[] = $playlistTitle;
-
-    if ($itemTitle) {
-        $itemTitle = urldecode($itemTitle);
-        $customTitleParts[] = $itemTitle;
-    }
-
-    if ($title && trim($title) !== '') {
-        $customTitleParts[] = $title;
-    }
-
-    $title = implode(' - ', $customTitleParts);
+if ($prefix !== null) {
+    $title = $prefix . ($title && trim($title) !== '' ? ' - ' . $title : '');
 }
 
 // Add site name to the end of the title for all pages except homepage, unless already present

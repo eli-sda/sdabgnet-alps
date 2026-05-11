@@ -7776,7 +7776,8 @@ if (typeof window.Piwik !== 'object') {
 
                     if (iframe.contentWindow && isDefined(iframe.contentWindow.postMessage) && iframeHost === originHost) {
                         var jsonMessage = JSON.stringify(postMessage);
-                        iframe.contentWindow.postMessage(jsonMessage, '*');
+                        var iframeOrigin = (new URL(iframe.src)).origin;
+                        iframe.contentWindow.postMessage(jsonMessage, iframeOrigin);
                     }
                 }
             }

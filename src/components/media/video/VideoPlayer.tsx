@@ -32,7 +32,8 @@ const VideoPlayer = ({
   isVisible = true,
   initialIndex = 0
 }: VideoPlayerProps) => {
-  const { playlistTitle, playlistAuthor, playlistDescription, videoItems } = playlist;
+  const { playlistTitle, playlistAuthor, playlistDescription, videoItems } =
+    playlist;
 
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -94,20 +95,17 @@ const VideoPlayer = ({
   };
 
   const computeFinalUrl = (videoId: string, videoTitle: string) => {
-    const baseUrl = `${window.location.origin}${window.location.pathname}`;
-    const hash = '#' + playlist._id;
-
-    const params = new URLSearchParams();
+    const url = new URL(window.location.pathname, window.location.origin);
     const currentTab = new URLSearchParams(window.location.search).get('tab');
     if (currentTab) {
-      params.set('tab', currentTab);
+      url.searchParams.set('tab', currentTab);
     }
-    params.set('playlistId', playlist._id);
-    params.set('playId', videoId);
-    params.set('playlistTitle', playlistTitle);
-    params.set('title', videoTitle);
-
-    return `${baseUrl}?${params.toString()}${hash}`;
+    url.searchParams.set('playlistId', playlist._id);
+    url.searchParams.set('playId', videoId);
+    url.searchParams.set('playlistTitle', playlistTitle);
+    url.searchParams.set('title', videoTitle);
+    url.hash = playlist._id;
+    return url.href;
   };
 
   const playerDiv = (
@@ -179,13 +177,11 @@ const VideoPlayer = ({
           {playlistAuthor}
         </h3>
       )}
-      {
-        playlistDescription && (
-          <p className="text u-space--half--top">
-            {parseLinksMd(playlistDescription)}
-          </p>
-        )
-      }
+      {playlistDescription && (
+        <p className="text u-space--half--top">
+          {parseLinksMd(playlistDescription)}
+        </p>
+      )}
 
       <Group
         orientation={isVertical ? 'vertical' : 'horizontal'}

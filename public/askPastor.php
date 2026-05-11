@@ -30,12 +30,11 @@ $to = 'webmaster@sdabg.net';
 // Sanitize subject to prevent header injection
 $subject = sanitize_header("❔ [$DOMAIN] Въпрос към ПАСТОР ОНЛАЙН");
 
-// Additional HTML escaping for email body
-// All simple fields are sanitized with htmlspecialchars to prevent HTML injection
-// Question field preserves allowed HTML tags from strip_tags() whitelist
-$nameEscaped = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
-$emailEscaped = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
-// Question already has allowed HTML tags from strip_tags(), so don't escape it
+// Sanitize all fields at the sink — decode sanitize()'s encoding first to avoid double-encoding,
+// then strip tags and re-encode once. ENT_NOQUOTES used since content goes inside tag bodies, not attributes.
+$nameEscaped = htmlspecialchars(strip_tags(html_entity_decode($name, ENT_QUOTES | ENT_HTML5, 'UTF-8')), ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$emailEscaped = htmlspecialchars(strip_tags(html_entity_decode($email, ENT_QUOTES | ENT_HTML5, 'UTF-8')), ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
+// Question retains allowed HTML tags from strip_tags() whitelist — already bounded at input
 $questionEscaped = $question;
 
 $body = "<html><body>"

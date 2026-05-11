@@ -61,6 +61,7 @@ const DownloadList = ({
         }
         playlistName={title}
         setRefreshCounter={setRefreshCounter}
+        simpleCopyButton
       />
       {content}
     </AccordionItem>

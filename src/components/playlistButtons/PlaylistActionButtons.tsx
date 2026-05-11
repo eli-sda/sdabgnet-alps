@@ -12,6 +12,7 @@ type PlaylistActionButtonsProps = {
   fromTitle?: string;
   itemUrls?: string[];
   playlistName?: string;
+  simpleCopyButton?: boolean;
   setRefreshCounter?: React.Dispatch<React.SetStateAction<number>>;
   getCurrentTime?: () => number;
 };
@@ -38,8 +39,10 @@ const PlaylistActionButtons = ({
   itemUrls = [],
   playlistName = 'playlist',
   setRefreshCounter,
-  getCurrentTime
+  getCurrentTime,
+  simpleCopyButton = false
 }: PlaylistActionButtonsProps) => {
+  const [isCopied, setIsCopied] = useState(false);
   const [toShow, setToShow] = useState(false);
   const [fromCurrent, setFromCurrent] = useState(false);
   const [showCopyLabel, setShowCopyLabel] = useState(false);
@@ -111,9 +114,14 @@ const PlaylistActionButtons = ({
   const handleCopy = () => {
     if (!url) return;
     void navigator.clipboard.writeText(url).then(() => {
-      setShowCopyLabel(true);
-      setRefreshCounter?.((prev) => prev + 1);
-      setTimeout(() => setShowCopyLabel(false), 3000);
+      if (!simpleCopyButton) {
+        setShowCopyLabel(true);
+        setRefreshCounter?.((prev) => prev + 1);
+        setTimeout(() => setShowCopyLabel(false), 3000);
+      } else {
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 3000);
+      }
     });
   };
 
@@ -124,11 +132,14 @@ const PlaylistActionButtons = ({
           {shareUrl && (
             <Button
               className="share-button"
-              onClick={handleShare}
+              onClick={simpleCopyButton ? handleCopy : handleShare}
               small
-              label="Вземи линк"
-              icon="share"
-              iconSize="s"
+              label={simpleCopyButton && isCopied ? 'Копирано' : 'Вземи линк'}
+              faIconClass={
+                simpleCopyButton && isCopied
+                  ? 'fas fa-check'
+                  : 'fas fa-share-alt'
+              }
             />
           )}
 
@@ -143,7 +154,7 @@ const PlaylistActionButtons = ({
         </div>
       )}
 
-      {toShow && (
+      {!simpleCopyButton && toShow && (
         <div className={`share-fields${showCopyLabel ? ' withLabel' : ''}`}>
           <div className="share-link u-space--half--bottom">
             <TextField

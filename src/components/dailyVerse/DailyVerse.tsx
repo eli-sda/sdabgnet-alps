@@ -18,6 +18,7 @@ import PopupContent from '../popupContent/PopupContent';
 import './DailyVerse.scss';
 
 const DailyVerseGray: FC<{ date: Moment }> = ({ date }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [activeDate, setActiveDate] = useState<Moment>(date);
   const [data, setData] = useState<DailyVerseType | null>(null);
   const [loading, setLoading] = useState(true);
@@ -31,6 +32,11 @@ const DailyVerseGray: FC<{ date: Moment }> = ({ date }) => {
 
   const moreClasses =
     ' can-be--dark-dark u-clear-fix u-padding u-background-color--gray--light';
+
+  const fadeStyle = {
+    opacity: loading ? 0.5 : 1,
+    transition: 'opacity 0.2s ease-in-out'
+  };
 
   const minDate = useMemo(() => moment('2025-01-01', 'YYYY-MM-DD'), []);
   const maxDate = useMemo(() => moment().subtract(1, 'year'), []);
@@ -72,92 +78,107 @@ const DailyVerseGray: FC<{ date: Moment }> = ({ date }) => {
       <span className="c-block__meta u-font--secondary--xs u-theme--color--dark">
         Библейски стих за деня
       </span>
+      {/* Show the spinner without hiding the content */}
+      {loading && <i className="fas fa-spinner fa-pulse u-space--quarter"></i>}
 
-      {loading ? (
-        <i className="fas fa-spinner fa-pulse u-space--quarter"></i>
-      ) : data ? (
+      {/* Dim the content while loading for a smooth visual transition */}
+      {data ? (
         <>
           <h3
             className={`hyphens-auto ${getFontClass('primary', 's')} u-theme--color--darker`}
+            style={fadeStyle}
           >
             <strong>{data.title}</strong>
           </h3>
 
-          {data.text && <p className={'c-block__body'}>{data.text}</p>}
-          <span className="hyphens-auto c-block__meta u-font--secondary--xs u-theme--color--dark u-space--half--top">
+          {data.text && (
+            <p className="c-block__body" style={fadeStyle}>
+              {data.text}
+            </p>
+          )}
+
+          <span
+            className="hyphens-auto c-block__meta u-font--secondary--xs u-theme--color--dark u-space--half--top"
+            style={fadeStyle}
+          >
             {data.verse}
           </span>
-          <input type="hidden" name="date" value={formattedDate} />
-
-          <div className="u-space--top">
-            <LocalizationProvider
-              dateAdapter={AdapterMoment}
-              adapterLocale="bg"
-              localeText={{
-                datePickerToolbarTitle: 'Избрана дата'
-              }}
-            >
-              <DatePicker
-                label="Избери дата"
-                value={activeDate}
-                onChange={(newValue) => {
-                  if (newValue && newValue.isValid()) {
-                    setActiveDate(newValue);
-                  }
-                }}
-                minDate={minDate}
-                maxDate={maxDate}
-                format="DD.MM.YYYY"
-                className="daily-datepicker"
-                views={['day']}
-                closeOnSelect={true} // Force close since action buttons are hidden
-                slotProps={{
-                  textField: {
-                    size: 'small',
-                    fullWidth: true
-                  },
-                  popper: {
-                    className: 'daily-datepicker-popper'
-                  },
-                  mobilePaper: {
-                    className: 'daily-datepicker-popper'
-                  },
-                  calendarHeader: {
-                    format: 'MMMM'
-                  },
-                  actionBar: {
-                    actions: [] // Not showing any buttons
-                  },
-                  toolbar: {
-                    toolbarFormat: 'D MMMM'
-                  }
-                }}
-              />
-            </LocalizationProvider>
-          </div>
-
-          {data.comment && (
-            <PopupContent
-              title={data.title}
-              buttonLabel="Покажи коментара"
-              faIconClass="far fa-comment-dots"
-              iconPosition="right"
-              maxWidth="md"
-            >
-              <div className="hyphens-auto text u-spacing u-padding--top">
-                <CustomPortableText value={data.comment} />
-                {data.halfYear && (
-                  <div className="u-text-align--right u-space--half--top u-space--bottom">
-                    {data.halfYear.author}, <em>{data.halfYear.title}</em>
-                  </div>
-                )}
-              </div>
-            </PopupContent>
-          )}
         </>
       ) : (
-        <p className="u-space--half--top">{`Няма данни за ${activeDate.format('DD.MM.YYYY')}`}</p>
+        !loading && (
+          <p className="u-space--half--top">{`Няма данни за ${activeDate.format('DD.MM.YYYY')}`}</p>
+        )
       )}
+
+      {!loading && data && data.comment && (
+        <PopupContent
+          title={data.title}
+          buttonLabel="Покажи коментара"
+          faIconClass="far fa-comment-dots"
+          iconPosition="right"
+          maxWidth="md"
+        >
+          <div className="hyphens-auto text u-spacing u-padding--top">
+            <CustomPortableText value={data.comment} />
+            {data.halfYear && (
+              <div className="u-text-align--right u-space--half--top u-space--bottom">
+                {data.halfYear.author}, <em>{data.halfYear.title}</em>
+              </div>
+            )}
+          </div>
+        </PopupContent>
+      )}
+
+      <input type="hidden" name="date" value={formattedDate} />
+
+      <div className="u-space--top">
+        <LocalizationProvider
+          dateAdapter={AdapterMoment}
+          adapterLocale="bg"
+          localeText={{
+            datePickerToolbarTitle: 'Избрана дата'
+          }}
+        >
+          <DatePicker
+            open={isOpen}
+            onClose={() => setIsOpen(false)}
+            onOpen={() => setIsOpen(true)}
+            label="Избери дата"
+            value={activeDate}
+            onChange={(newValue) => {
+              if (newValue && newValue.isValid()) {
+                setActiveDate(newValue);
+              }
+            }}
+            minDate={minDate}
+            maxDate={maxDate}
+            format="DD.MM.YYYY"
+            className="daily-datepicker"
+            views={['day']}
+            closeOnSelect={true} // Force close since action buttons are hidden
+            slotProps={{
+              textField: {
+                size: 'small',
+                fullWidth: true,
+                readOnly: true,
+                onClick: () => setIsOpen(true)
+              },
+              popper: {
+                className: 'daily-datepicker-popper'
+              },
+              mobilePaper: {
+                className: 'daily-datepicker-popper'
+              },
+              actionBar: {
+                actions: [] // Not showing any buttons
+              },
+              toolbar: {
+                toolbarFormat: 'D MMMM'
+              }
+            }}
+          />
+        </LocalizationProvider>
+      </div>
     </div>
   );
 };

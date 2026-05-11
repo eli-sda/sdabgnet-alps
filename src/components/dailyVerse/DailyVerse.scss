@@ -1,26 +1,46 @@
 @use '/src/styles/colors.scss' as *;
 
 .daily-datepicker {
-  // the label ("Избери дата") color when focused
+  // Label color when focused
   .MuiInputLabel-root.Mui-focused {
     color: $mingDarkestColor !important;
   }
 
-  .MuiPickersOutlinedInput-root.Mui-focused fieldset,
-  .MuiPickersInputBase-root.Mui-focused fieldset {
-    border-color: $mingDarkestColor !important;
-  }
+  // Target the input container when it is focused
+  .MuiPickersOutlinedInput-root.Mui-focused,
+  .MuiPickersInputBase-root.Mui-focused {
+    fieldset {
+      border-color: $mingDarkestColor !important;
+    }
 
-  // the button-icon (the calendar icon)
-  .MuiIconButton-root {
-    &:hover {
-      background-color: $mingDarkestColor !important;
-
+    // Change icon color when the input is focused
+    .MuiIconButton-root {
       &,
       *,
       path,
       .MuiSvgIcon-root {
-        fill: #fff !important;
+        fill: $mingDarkestColor !important;
+      }
+    }
+  }
+
+  // The button-icon (the calendar icon)
+  .MuiIconButton-root {
+    background-color: transparent !important;
+
+    &,
+    *,
+    path,
+    .MuiSvgIcon-root {
+      fill: $mingColor !important;
+    }
+
+    &:hover {
+      &,
+      *,
+      path,
+      .MuiSvgIcon-root {
+        fill: $mingDarkestColor !important;
       }
     }
   }

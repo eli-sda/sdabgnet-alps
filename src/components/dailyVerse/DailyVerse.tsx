@@ -24,7 +24,7 @@ const DailyVerseGray: FC<{ date: Moment }> = ({ date }) => {
   const [loading, setLoading] = useState(true);
 
   const classes = useClasses(
-    'c-block c-block__text u-border--left u-spacing ' +
+    'daily-verse c-block c-block__text u-border--left u-spacing ' +
       themeBorderColorClass +
       '--darker',
     { 'c-block__text-expand': true }
@@ -79,7 +79,9 @@ const DailyVerseGray: FC<{ date: Moment }> = ({ date }) => {
         Библейски стих за деня
       </span>
       {/* Show the spinner without hiding the content */}
-      {loading && <i className="fas fa-spinner fa-pulse u-space--quarter"></i>}
+      {loading && (
+        <i className="fas fa-spinner fa-pulse fa-4x u-space--quarter"></i>
+      )}
 
       {/* Dim the content while loading for a smooth visual transition */}
       {data ? (

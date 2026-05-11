@@ -1,46 +1,54 @@
 @use '/src/styles/colors.scss' as *;
-
-.daily-datepicker {
-  // Label color when focused
-  .MuiInputLabel-root.Mui-focused {
-    color: $mingDarkestColor !important;
+.daily-verse {
+  position: relative;
+  i.fa-spinner.fa-4x {
+    position: absolute;
+    left: calc(50% - 32px);
+    top: calc(50% - 32px);
   }
 
-  // Target the input container when it is focused
-  .MuiPickersOutlinedInput-root.Mui-focused,
-  .MuiPickersInputBase-root.Mui-focused {
-    fieldset {
-      border-color: $mingDarkestColor !important;
+  .daily-datepicker {
+    // Label color when focused
+    .MuiInputLabel-root.Mui-focused {
+      color: $mingDarkestColor !important;
     }
 
-    // Change icon color when the input is focused
-    .MuiIconButton-root {
-      &,
-      *,
-      path,
-      .MuiSvgIcon-root {
-        fill: $mingDarkestColor !important;
+    // Target the input container when it is focused
+    .MuiPickersOutlinedInput-root.Mui-focused,
+    .MuiPickersInputBase-root.Mui-focused {
+      fieldset {
+        border-color: $mingDarkestColor !important;
+      }
+
+      // Change icon color when the input is focused
+      .MuiIconButton-root {
+        &,
+        *,
+        path,
+        .MuiSvgIcon-root {
+          fill: $mingDarkestColor !important;
+        }
       }
     }
-  }
 
-  // The button-icon (the calendar icon)
-  .MuiIconButton-root {
-    background-color: transparent !important;
+    // The button-icon (the calendar icon)
+    .MuiIconButton-root {
+      background-color: transparent !important;
 
-    &,
-    *,
-    path,
-    .MuiSvgIcon-root {
-      fill: $mingColor !important;
-    }
-
-    &:hover {
       &,
       *,
       path,
       .MuiSvgIcon-root {
-        fill: $mingDarkestColor !important;
+        fill: $mingColor !important;
+      }
+
+      &:hover {
+        &,
+        *,
+        path,
+        .MuiSvgIcon-root {
+          fill: $mingDarkestColor !important;
+        }
       }
     }
   }

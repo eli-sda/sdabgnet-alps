@@ -32,14 +32,13 @@ $to = 'webmaster@sdabg.net, gabi.ortova@gmail.com';
 // Sanitize subject to prevent header injection
 $subject = sanitize_header("💬 [$DOMAIN] Съобщение от контактната форма");
 
-// Additional HTML escaping for email body
-// All simple fields are sanitized with htmlspecialchars to prevent HTML injection
-// Message field preserves allowed HTML tags from strip_tags() whitelist
-$topicEscaped = htmlspecialchars($topic, ENT_QUOTES, 'UTF-8');
-$nameEscaped = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
-$phoneEscaped = htmlspecialchars($phone, ENT_QUOTES, 'UTF-8');
-$emailEscaped = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
-// Message already has allowed HTML tags from strip_tags(), so don't escape it
+// Sanitize all fields at the sink — decode sanitize()'s encoding first to avoid double-encoding,
+// then strip tags and re-encode once. ENT_NOQUOTES used since content goes inside tag bodies, not attributes.
+$topicEscaped = htmlspecialchars(strip_tags(html_entity_decode($topic, ENT_QUOTES | ENT_HTML5, 'UTF-8')), ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$nameEscaped = htmlspecialchars(strip_tags(html_entity_decode($name, ENT_QUOTES | ENT_HTML5, 'UTF-8')), ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$phoneEscaped = htmlspecialchars(strip_tags(html_entity_decode($phone, ENT_QUOTES | ENT_HTML5, 'UTF-8')), ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$emailEscaped = htmlspecialchars(strip_tags(html_entity_decode($email, ENT_QUOTES | ENT_HTML5, 'UTF-8')), ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
+// Message retains allowed HTML tags from strip_tags() whitelist — already bounded at input
 $messageEscaped = $message;
 
 $body = "<html><body>"

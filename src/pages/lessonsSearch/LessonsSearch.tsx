@@ -51,10 +51,13 @@ const LessonsSearch = () => {
   useEffect(() => {
     getAllLessonQuarters()
       .then((quarters) => {
-        const grouped = LESSON_TYPES.reduce((acc, type) => {
-          acc[type] = quarters.filter((q) => q.type === type);
-          return acc;
-        }, {} as Record<LessonType, QuarterObject[]>);
+        const grouped = LESSON_TYPES.reduce(
+          (acc, type) => {
+            acc[type] = quarters.filter((q) => q.type === type);
+            return acc;
+          },
+          {} as Record<LessonType, QuarterObject[]>
+        );
 
         setQuartersByType(grouped);
       })
@@ -103,10 +106,10 @@ const LessonsSearch = () => {
         (q.lessonQuarter === 1
           ? 'първо тримесечие'
           : q.lessonQuarter === 2
-          ? 'второ тримесечие'
-          : q.lessonQuarter === 3
-          ? 'трето тримесечие'
-          : 'четвърто тримесечие'),
+            ? 'второ тримесечие'
+            : q.lessonQuarter === 3
+              ? 'трето тримесечие'
+              : 'четвърто тримесечие'),
       value: q.lessonQuarter,
       cover: q.quarterlyCover
     }));
@@ -146,6 +149,7 @@ const LessonsSearch = () => {
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!lessonURL.startsWith('/') || /^\/\/|:/.test(lessonURL)) return;
     navigate(lessonURL);
   };
 
@@ -206,7 +210,7 @@ const LessonsSearch = () => {
                 type="feature"
                 kicker={quarterOption.text}
                 title={quarterOption.title}
-                url={lessonURL}
+                url={lessonURL.startsWith('/') && !/^\/\/|:/.test(lessonURL) ? lessonURL : undefined}
               />
             </div>
           )}

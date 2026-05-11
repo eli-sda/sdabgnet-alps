@@ -31,12 +31,13 @@ if (!is_valid_email($email)) {
 $to = 'webmaster@sdabg.net, gabi.ortova@gmail.com';
 $subject = sanitize_header("[$DOMAIN] Новото стихотворение: " . ($title));
 
-// Escape fields for HTML email body
-$authorEsc = htmlspecialchars($author, ENT_QUOTES, 'UTF-8');
-$emailEsc = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
-$titleEsc = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
-$dateEsc = htmlspecialchars($date, ENT_QUOTES, 'UTF-8');
-// textSanitized already has only allowed tags
+// Sanitize all fields at the sink — decode sanitize()'s encoding first to avoid double-encoding,
+// then strip tags and re-encode once. ENT_NOQUOTES used since content goes inside tag bodies, not attributes.
+$authorEsc = htmlspecialchars(strip_tags(html_entity_decode($author, ENT_QUOTES | ENT_HTML5, 'UTF-8')), ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$emailEsc = htmlspecialchars(strip_tags(html_entity_decode($email, ENT_QUOTES | ENT_HTML5, 'UTF-8')), ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$titleEsc = htmlspecialchars(strip_tags(html_entity_decode($title, ENT_QUOTES | ENT_HTML5, 'UTF-8')), ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$dateEsc = htmlspecialchars(strip_tags(html_entity_decode($date, ENT_QUOTES | ENT_HTML5, 'UTF-8')), ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
+// $text retains allowed HTML tags from strip_tags() whitelist — already bounded at input
 $textEsc = $text;
 
 $body = "<html><body>"

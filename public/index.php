@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '/constants.php';
+require_once __DIR__ . '/constants.php';
 
 // If ?spa=1 is present, remove it from the URL (for clean navigation), serve SPA (index.html) and stop execution
 if (isset($_GET['spa'])) {
@@ -63,8 +63,16 @@ if (preg_match('#(/church_life/lesson(?:-cq|-cc)?/\d+/\d+)/\d+$#', $path, $match
 }
 if ($debug) echo "<b>searchPath:</b> {$searchPath}<br>";
 
-// Construct the Sanity API query
-$sanityQuery = '*[_type == "page" && path.current == "' . addslashes($searchPath) . '"][0]{
+// Matches: /church_life/lesson, /church_life/lesson/, /church_life/lesson/2026/1, /church_life/lesson/26/1/3
+//          /church_life/lesson-cq/2025/2, /church_life/lesson-cc
+$isLessonPath = (bool)preg_match('#/church_life/lesson(?:-cq|-cc)?(/|$)#', $path);
+
+// Skip Sanity for lesson pages – data comes from ss-meta.json
+$page = [];
+if (!$isLessonPath) {
+
+    // Construct the Sanity API query
+    $sanityQuery = '*[_type == "page" && path.current == "' . addslashes($searchPath) . '"][0]{
     title,
     "path": path.current,
     description,
@@ -73,22 +81,20 @@ $sanityQuery = '*[_type == "page" && path.current == "' . addslashes($searchPath
     "imageWidth": headerImage.asset->metadata.dimensions.width,
     "imageHeight": headerImage.asset->metadata.dimensions.height
 }';
-$sanityUrl = 'https://tw3a1q78.apicdn.sanity.io/v2025-04-21/data/query/production?query=' . urlencode($sanityQuery);
+    $sanityUrl = 'https://tw3a1q78.apicdn.sanity.io/v2025-04-21/data/query/production?query=' . urlencode($sanityQuery);
 
-// Fetch the data from Sanity
-$response = @file_get_contents($sanityUrl);
-if ($response === false) {
-    error_log("Failed to fetch data from Sanity API: $sanityUrl");
-    $page = [];
-} else {
-    $data = json_decode($response, true);
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        error_log("JSON decode error: " . json_last_error_msg());
-        $page = [];
+    $response = @file_get_contents($sanityUrl);
+    if ($response === false) {
+        error_log("Failed to fetch data from Sanity API: $sanityUrl");
     } else {
-        $page = $data['result'] ?? [];
-        if (empty($page)) {
-            error_log("No data found for path: $path");
+        $data = json_decode($response, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            error_log("JSON decode error: " . json_last_error_msg());
+        } else {
+            $page = $data['result'] ?? [];
+            if (empty($page)) {
+                error_log("No data found for path: $path");
+            }
         }
     }
 }
@@ -98,33 +104,102 @@ if ($response === false) {
 $title = ($page['title'] && trim($page['title']) !== '') ? $page['title'] : $defTitle;
 $description = $page['description'] ?? $defDescription;
 $keywords = !empty($page['keyWords']) ? implode(', ', $page['keyWords']) : '';
+if ($isLessonPath) {
+    $keywords = 'съботно училище, уроци';
+}
 $imageUrl = $page['imageUrl'] ?? $defImage;
 $imageWidth = $page['imageWidth'] ?? 1200;
 $imageHeight = $page['imageHeight'] ?? 630;
 $ogUrl = $site . $path;
 $canonicalUrl = $canonicalSite . $path;
+if ($isLessonPath) {
+    // Common definitions for all lesson paths
+    $lessonTypeBucket = ['lesson' => 'adult', 'lesson-cq' => 'cq', 'lesson-cc' => 'cc'];
+    $lessonTypeLabel  = ['lesson' => 'възрастни', 'lesson-cq' => 'младежи', 'lesson-cc' => 'юноши'];
+    preg_match('#/church_life/(lesson(?:-cq|-cc)?)#', $path, $lm);
+    $lessonType = $lm[1] ?? 'lesson';
+    $bucket     = $lessonTypeBucket[$lessonType] ?? 'adult';
+    $audience   = $lessonTypeLabel[$lessonType] ?? 'възрастни';
+
+    $ssMetaFile = __DIR__ . '/json/ss-meta.json';
+    $ssMeta = null;
+    if (file_exists($ssMetaFile)) {
+        $raw = @file_get_contents($ssMetaFile);
+        if ($raw) $ssMeta = json_decode($raw, true);
+    }
+
+    if (preg_match('#^/church_life/(lesson(?:-cq|-cc)?)/?$#', $path)) {
+        // Root lesson page – no year/quarter – use current quarter
+        $currentYear    = (int)date('Y');
+        $currentQuarter = (int)ceil(date('n') / 3);
+        $currentKey     = $currentYear . '_' . str_pad($currentQuarter, 2, '0', STR_PAD_LEFT);
+        $quarterData    = $ssMeta[$bucket][$currentKey] ?? null;
+        $landscapeCover = $quarterData['landscape_cover'] ?? '';
+        $imageUrl    = $landscapeCover ? ($site . $landscapeCover) : ($quarterData['cover'] ?? $defImage);
+        $title       = 'Съботно училище за ' . $audience;
+        $description = 'Съботно-училищен урок за ' . $audience . ' за текущата седмица';
+    } elseif (preg_match('#/church_life/(lesson(?:-cq|-cc)?)/(\d+)/(\d+)(?:/(\d+))?#', $path, $lessonMatches)) {
+        // Specific quarter/lesson page
+        $lessonYear    = (int)$lessonMatches[2];
+        $lessonQuarter = (int)$lessonMatches[3];
+        $lessonNumber  = isset($lessonMatches[4]) ? (int)$lessonMatches[4] : null;
+        if ($lessonYear <= 99) $lessonYear += 2000;
+
+        $quarterKey  = $lessonYear . '_' . str_pad($lessonQuarter, 2, '0', STR_PAD_LEFT);
+        $quarterData = $ssMeta[$bucket][$quarterKey] ?? null;
+
+        if (!$quarterData) {
+            http_response_code(404);
+            echo '<h1>404 – Страницата не е намерена</h1>';
+            exit;
+        }
+
+        $quarterTitle = $quarterData['title'] ?? '';
+        $humanDate    = $quarterData['human_date'] ?? '';
+        $lessonTitle  = '';
+
+        if ($lessonNumber !== null && !empty($quarterData['lessons'])) {
+            foreach ($quarterData['lessons'] as $lesson) {
+                if ((int)($lesson['id'] ?? 0) === $lessonNumber) {
+                    $lessonTitle = $lesson['title'] ?? '';
+                    break;
+                }
+            }
+        }
+
+        $landscapeCover = $quarterData['landscape_cover'] ?? '';
+        $imageUrl = $landscapeCover ? ($site . $landscapeCover) : ($quarterData['cover'] ?? $defImage);
+
+        if ($lessonTitle) {
+            $title       = 'СУ урок № ' . $lessonNumber . ' ' . $lessonTitle;
+            $description = 'Съботно-училищен урок за ' . $audience
+                . ' от тримесечието "' . $quarterTitle . '"'
+                . ($humanDate ? ' (' . $humanDate . ')' : '');
+        } else {
+            $title       = $quarterTitle;
+            $description = 'Съботно-училищни уроци за ' . $audience
+                . ' — ' . $quarterTitle
+                . ($humanDate ? ' (' . $humanDate . ')' : '');
+        }
+    }
+}
 
 // Section-specific title prefixes
 
 // Add 'Обяви' to the title if path starts with '/adver/' and not already present
 if (strpos($path, '/adver/') === 0 && mb_stripos($title, 'Обяви') === false) {
-    $title = 'Обяви - ' . $title;
+    $title = 'Обяви > ' . $title;
 }
 
 if (strpos($path, '/health/') === 0 && mb_stripos($title, 'Здраве') === false) {
-    $title = 'Здраве - ' . $title;
+    $title = 'Здраве > ' . $title;
 }
 if (strpos($path, '/info/') === 0 && mb_stripos($title, 'БГ Справочник') === false) {
-    $title = 'БГ Справочник - ' . $title;
+    $title = 'БГ Справочник > ' . $title;
 }
 
 if (strpos($path, '/resources/') === 0 && mb_stripos($title, 'Ресурси') === false) {
-    $title = 'Ресурси - ' . $title;
-}
-
-// Add site name to the end of the title for all pages except homepage, unless already present
-if ($path !== '/' && mb_stripos($title, $siteName) === false) {
-    $title .= ' | ' . $siteName;
+    $title = 'Ресурси > ' . $title;
 }
 
 // Build the full URL with query parameters (excluding 'path' and 'spa' parameters)
@@ -138,27 +213,27 @@ if (!empty($_SERVER['QUERY_STRING'])) {
 }
 
 // Check for playlistTitle and title query parameters for custom sharing descriptions
-$playlistTitle = $_GET['playlistTitle'] ?? null;
-$itemTitle = $_GET['title'] ?? null;
+$playlistTitle = isset($_GET['playlistTitle']) ? strip_tags(urldecode($_GET['playlistTitle'])) : null;
+$itemTitle = isset($_GET['title']) ? strip_tags(urldecode($_GET['title'])) : null;
 
-// If playlistTitle is present, construct custom title for sharing
-if ($playlistTitle) {
-    // Decode the URL-encoded parameters
-    $playlistTitle = urldecode($playlistTitle);
+// Build custom title prefix for sharing
+if ($itemTitle && $playlistTitle) {
+    $prefix = $itemTitle . ' от "' . $playlistTitle . '"';
+} elseif ($itemTitle) {
+    $prefix = $itemTitle;
+} elseif ($playlistTitle) {
+    $prefix = $playlistTitle;
+} else {
+    $prefix = null;
+}
 
-    // Build custom title: <pageTitle> - <playlistTitle> - <title>
-    $customTitleParts = [];
-    if ($title && trim($title) !== '') {
-        $customTitleParts[] = $title;
-    }
-    $customTitleParts[] = $playlistTitle;
+if ($prefix !== null) {
+    $title = $prefix . ($title && trim($title) !== '' ? ' - ' . $title : '');
+}
 
-    if ($itemTitle) {
-        $itemTitle = urldecode($itemTitle);
-        $customTitleParts[] = $itemTitle;
-    }
-
-    $title = implode(' - ', $customTitleParts);
+// Add site name to the end of the title for all pages except homepage, unless already present
+if ($path !== '/' && mb_stripos($title, $siteName) === false) {
+    $title .= ' | ' . $siteName;
 }
 ?>
 
@@ -167,6 +242,11 @@ if ($playlistTitle) {
 
 <head>
     <meta charset="UTF-8" />
+    <link rel="icon" href="/img/favicon-ming.png" />
+    <link rel="icon" href="/img/favicon-ming_32x32.png" sizes="32x32" />
+    <link rel="icon" href="/img/favicon-ming_48x48.png" sizes="48x48" />
+    <link rel="icon" href="/img/favicon-ming_96x96.png" sizes="96x96" />
+    <link rel="icon" href="/img/favicon-ming_144x144.png" sizes="144x144" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?= htmlspecialchars($title) ?></title>
 
@@ -176,7 +256,7 @@ if ($playlistTitle) {
     <meta property="og:site_name" content="<?= htmlspecialchars($siteName) ?>" />
     <meta name="description" content="<?= htmlspecialchars($description) ?>" />
     <?php if ($keywords): ?>
-    <meta name="keywords" content="<?= htmlspecialchars($keywords) ?>" />
+        <meta name="keywords" content="<?= htmlspecialchars($keywords) ?>" />
     <?php endif; ?>
     <meta property="og:title" content="<?= htmlspecialchars($title) ?>" />
     <meta property="og:description" content="<?= htmlspecialchars($description) ?>" />
@@ -197,20 +277,20 @@ if ($playlistTitle) {
 
     <!-- JSON-LD structured data -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebPage",
-      "name": <?= json_encode($title, JSON_UNESCAPED_UNICODE) ?>,
-      "description": <?= json_encode($description, JSON_UNESCAPED_UNICODE) ?>,
-      "url": <?= json_encode($canonicalUrl, JSON_UNESCAPED_UNICODE) ?>,
-      "image": <?= json_encode($imageUrl, JSON_UNESCAPED_UNICODE) ?>,
-      "inLanguage": "bg",
-      "publisher": {
-        "@type": "Organization",
-        "name": "Адвентната българска мреж@",
-        "url": "https://sdabg.net"
-      }
-    }
+        {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": <?= json_encode($title, JSON_UNESCAPED_UNICODE) ?>,
+            "description": <?= json_encode($description, JSON_UNESCAPED_UNICODE) ?>,
+            "url": <?= json_encode($canonicalUrl, JSON_UNESCAPED_UNICODE) ?>,
+            "image": <?= json_encode($imageUrl, JSON_UNESCAPED_UNICODE) ?>,
+            "inLanguage": "bg",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Адвентната българска мреж@",
+                "url": "https://sdabg.net"
+            }
+        }
     </script>
 </head>
 

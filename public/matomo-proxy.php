@@ -89,8 +89,13 @@ if ($forwardedCt !== '') {
         echo $decoded !== null ? json_encode($decoded) : '{}';
     } elseif ($mime === 'text/plain') {
         echo htmlspecialchars($respBody, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    } elseif ($mime === 'text/javascript' || $mime === 'application/javascript') {
+        // Explicitly set nosniff to prevent MIME-type confusion attacks
+        header('X-Content-Type-Options: nosniff');
+        echo $respBody;
     } else {
-        // Binary types (image/gif, image/png) and text/javascript from trusted upstream
+        // Binary types (image/gif, image/png) — safe as raw bytes, force nosniff
+        header('X-Content-Type-Options: nosniff');
         echo $respBody;
     }
 }

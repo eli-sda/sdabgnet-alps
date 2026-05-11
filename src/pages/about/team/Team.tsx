@@ -1,11 +1,6 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectCoverflow, Navigation } from 'swiper/modules';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
-import 'swiper/css';
-import 'swiper/css/effect-coverflow';
-import 'swiper/css/navigation';
 import './Team.scss';
 
 type TeamMember = {
@@ -56,18 +51,18 @@ const team: TeamMember[] = [
   //   image: 'https://swiperjs.com/demos/images/nature-5.jpg'
   // },
   {
-    id: 6,
-    name: 'Светлозар Стефанов',
-    role: 'Издателство "Нов живот"',
-    description: 'Предоставя утринните бдения.',
-    image: '/img/team/svetlozar-stefanov.webp'
-  },
-  {
     id: 7,
     name: 'Живко Грушев',
     role: 'Религиозни материали',
     description: 'Подготвя и предоставя аудио ресурси и други материали.',
     image: '/img/team/jivko-grushev.webp'
+  },
+  {
+    id: 6,
+    name: 'Светлозар Стефанов',
+    role: 'Издателство "Нов живот"',
+    description: 'Предоставя утринните бдения.',
+    image: '/img/team/svetlozar-stefanov.webp'
   }
 ];
 
@@ -78,46 +73,25 @@ const Team = () => {
     <Page
       title={getTitle(routes.about('team'))}
       breadcrumbsUrls={breadcrumbsUrls}
+      blockType="wrap6"
     >
-      <Swiper
-        effect="coverflow"
-        grabCursor
-        watchSlidesProgress
-        navigation
-        loop
-        centeredSlides
-        slidesPerView={3}
-        coverflowEffect={{
-          rotate: 50,
-          stretch: 0,
-          depth: 100,
-          modifier: 1,
-          slideShadows: false
-        }}
-        breakpoints={{
-          0: {
-            slidesPerView: 1,
-            centeredSlides: false
-          },
-          550: {
-            slidesPerView: 3,
-            centeredSlides: true
-          }
-        }}
-        modules={[EffectCoverflow, Navigation]}
-        className="team-swiper"
-      >
+      <section className="team full-page">
         {team.map((member) => (
-          <SwiperSlide key={member.id}>
-            <div className="team-card hyphens-auto u-spacing--quarter">
-              <img src={member.image} alt={member.name} />
-              <h3 className="u-theme--color--darker">{member.name}</h3>
-              <p className="u-color--black">{member.role}</p>
-              <p className="u-space--quarter--bottom">{member.description}</p>
+          <div
+            key={member.id}
+            className="team-card u-background-color--gray--light"
+          >
+            <img src={member.image} alt={member.name} />
+            <div className="u-padding u-spacing--quarter">
+              <h2>{member.name}</h2>
+              <div className="u-text--strong u-font--secondary--m u-theme--color--dark">
+                {member.role}
+              </div>
+              <p className="team-card__text">{member.description}</p>
             </div>
-          </SwiperSlide>
+          </div>
         ))}
-      </Swiper>
+      </section>
     </Page>
   );
 };

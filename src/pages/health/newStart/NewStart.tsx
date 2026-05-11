@@ -129,6 +129,15 @@ const NewStart = (): JSX.Element => {
   const [videos, setVideos] = useState<LinkType[]>([]);
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
 
+  const isSafeImageUrl = (url: string): boolean => {
+    if (url.startsWith('/')) return true;
+    try {
+      return new URL(url).protocol === 'https:';
+    } catch {
+      return false;
+    }
+  };
+
   useEffect(() => {
     fetch('/json/new-start.json')
       .then((res) => res.json())
@@ -308,7 +317,7 @@ const NewStart = (): JSX.Element => {
                     className="new-start-item"
                     style={{ backgroundColor: item.color }}
                   >
-                    <img src={item.image} />
+                    <img src={isSafeImageUrl(item.image) ? item.image : ''} />
                     <section className="text-content u-padding u-spacing--quarter u-color--black">
                       <h3>{item.title}</h3>
                       <p>{newLinesWithLinks(item.description)}</p>

@@ -1,0 +1,127 @@
+@use '/src/styles/colors.scss' as *;
+.daily-verse {
+  position: relative;
+  i.fa-spinner.fa-4x {
+    position: absolute;
+    left: calc(50% - 32px);
+    top: calc(50% - 32px);
+  }
+
+  .daily-datepicker {
+    // Label color when focused
+    .MuiInputLabel-root.Mui-focused {
+      color: $mingDarkestColor !important;
+    }
+
+    // Target the input container when it is focused
+    .MuiPickersOutlinedInput-root.Mui-focused,
+    .MuiPickersInputBase-root.Mui-focused {
+      fieldset {
+        border-color: $mingDarkestColor !important;
+      }
+
+      // Change icon color when the input is focused
+      .MuiIconButton-root {
+        &,
+        *,
+        path,
+        .MuiSvgIcon-root {
+          fill: $mingDarkestColor !important;
+        }
+      }
+    }
+
+    // The button-icon (the calendar icon)
+    .MuiIconButton-root {
+      background-color: transparent !important;
+
+      &,
+      *,
+      path,
+      .MuiSvgIcon-root {
+        fill: $mingColor !important;
+      }
+
+      &:hover {
+        &,
+        *,
+        path,
+        .MuiSvgIcon-root {
+          fill: $mingDarkestColor !important;
+        }
+      }
+    }
+  }
+}
+
+.daily-datepicker-popper {
+  .MuiPickerDay-root {
+    color: $grayDarkerColor !important;
+    background-color: transparent !important;
+
+    &:hover,
+    &:focus,
+    &.Mui-selected {
+      background-color: $lighterMingColor !important;
+    }
+
+    &.Mui-disabled {
+      color: $grayColor !important;
+    }
+  }
+
+  .MuiPickersCalendarHeader-labelContainer,
+  .MuiDayCalendar-weekDayLabel {
+    color: $grayDarkerColor !important;
+  }
+
+  .MuiPickersArrowSwitcher-button {
+    color: $mingColor !important;
+    border: 1px solid $mingColor !important;
+    background-color: transparent !important;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: $mingDarkColor !important;
+      border-color: $mingDarkColor !important;
+
+      &,
+      *,
+      path,
+      .MuiSvgIcon-root {
+        fill: #fff !important;
+      }
+    }
+
+    &,
+    *,
+    path,
+    .MuiSvgIcon-root {
+      fill: $mingColor !important;
+    }
+
+    &.Mui-disabled {
+      color: $grayColor !important;
+      border-color: $grayColor !important;
+      background-color: transparent !important;
+
+      &,
+      *,
+      path,
+      .MuiSvgIcon-root {
+        fill: $grayColor !important;
+      }
+    }
+  }
+
+  .MuiPickersArrowSwitcher-previousIconButton {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-right: none !important;
+  }
+
+  .MuiPickersArrowSwitcher-nextIconButton {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+}

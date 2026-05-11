@@ -3,56 +3,41 @@ $spacing: 2.5rem;
 
 .team {
   display: grid;
-  width: stretch;
-  justify-items: center;
+  width: 100%;
   gap: $spacing;
   grid-template-columns: 1fr;
 
-  @media (min-width: $SmallScreen) {
-    grid-template-columns: 1fr;
-  }
-
-  @media (min-width: $MediumScreen) {
-    grid-template-columns: repeat(2, 1fr);
-  }
   @media (min-width: $LargeScreen) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 
   &-card {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: flex-start;
     width: 100%;
-    align-items: center;
-    container-type: inline-size;
+
+    @media (max-width: $SmallScreen) {
+      flex-direction: column;
+    }
 
     img {
       display: block;
       object-fit: cover;
       aspect-ratio: 4 / 6;
-      width: stretch;
+      width: 40%;
       max-width: 220px;
-      // Add margin-top if container is wider than 220px
-      @container (min-width: 221px) {
-        margin-top: 1.25rem;
+      flex-shrink: 0;
+
+      @media (max-width: $SmallScreen) {
+        width: 100%;
+        max-width: 100%;
       }
     }
+
     &__text {
       font-size: 1.125rem;
       line-height: 1.6;
-    }
-  }
-  // On very small screens make playlist items fluid (shrink with page)
-  @media (max-width: 380px) {
-    display: block;
-    > * + * {
-      margin-top: $spacing;
-    }
-    &-card {
-      width: 100%;
-      max-width: 100%;
-      margin-left: 0;
-      margin-right: 0;
     }
   }
 }

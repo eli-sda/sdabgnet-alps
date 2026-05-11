@@ -79,7 +79,7 @@ const Team = () => {
         {team.map((member) => (
           <div
             key={member.id}
-            className="team-card u-background-color--gray--light hyphens-auto"
+            className="team-card u-background-color--gray--light"
           >
             <img src={member.image} alt={member.name} />
             <div className="u-padding u-spacing--quarter">

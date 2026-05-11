@@ -46,8 +46,12 @@ if ($hasImage) {
         send_json_response(['error' => 'Изображението трябва да е до 1MB.'], 400);
     }
     $attachment = chunk_split(base64_encode(file_get_contents($_FILES['image']['tmp_name'])));
-    $attachmentName = $_FILES['image']['name'];
-    $attachmentType = $fileType;
+    // Sanitize filename to prevent MIME header injection — strip newlines and quotes
+    $attachmentName = sanitize_header(basename($_FILES['image']['name']));
+    $attachmentName = str_replace(['"', "'", '\\'], '', $attachmentName);
+    // Use server-validated MIME type from the allowlist, never trust the client-supplied value
+    $mimeMap = ['image/jpeg' => 'image/jpeg', 'image/png' => 'image/png', 'image/webp' => 'image/webp'];
+    $attachmentType = $mimeMap[$fileType] ?? 'application/octet-stream';
 }
 
 // Prepare email with or without attachment

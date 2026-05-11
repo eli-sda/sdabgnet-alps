@@ -79,9 +79,14 @@ const VideoGrid = ({
             ? description.match(/thumbnail:\s*(https?:\/\/[^\s]+)/i)?.[1]
             : undefined;
 
-        const shareUrl = `${window.location.origin}${window.location.pathname}${
-          tabParam ? `?tab=${tabParam}` : ''
-        }#${elementId}`;
+        const shareUrlObj = new URL(
+          window.location.pathname,
+          window.location.origin
+        );
+        if (tabParam) shareUrlObj.searchParams.set('tab', tabParam);
+        shareUrlObj.searchParams.set('title', title);
+        shareUrlObj.hash = elementId;
+        const shareUrl = shareUrlObj.href;
 
         return (
           <div key={videoId} id={elementId} className="single-video-item">

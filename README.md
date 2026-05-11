@@ -52,51 +52,32 @@ export default tseslint.config({
 If you want to view the bundle analysis after the build:
 ``npm run build``, you can manually open the generated [stats.html](stats.html) file in your browser.
 
-## Python Scripts
+## Project Scripts
 
-### Extract Missionary Stories Script
+The following npm scripts are available for working with Sabbath School data:
 
-The project includes a Python script to extract missionary stories from the Adventist Sabbath School API:
+### Extract Sabbath School Missionary Stories
 
-**Location:** `src/utils/python/extract_stories.py`
+- **Command:** `npm run update-ss-stories`
+- **Runs:** `python src/utils/python/extract_stories.py`
+- **Description:** Extracts missionary stories from the Adventech API and saves them to `public/json/stories-YYYY.json` and `public/json/stories-index.json`.
+- **Requirements:** Python 3.x (no extra packages needed)
 
-**What it does:**
-1. Fetches all adult quarterlies (without -cq and -cc suffix) from the Adventech API
-2. Filters only years from 2024 onwards
-3. For each quarterly, retrieves all lessons (sorted from newest to oldest)
-4. For each lesson, extracts the 8th day (index 7) - the missionary story
-5. Extracts data from each story: `date`, `bible`, `content`, `title`
-6. Saves stories in separate JSON files by year (e.g., `stories-2024.json`, `stories-2025.json`)
-7. Creates an index file `stories-index.json` with a list of all available years
-8. **Smart caching:** If a year's file already exists, it skips re-fetching the data
+### Update Sabbath School Metadata and Covers
 
-**Usage:**
+- **Command:** `npm run update-ss`
+- **Runs:** `python src/utils/python/update_ss.py`
+- **Description:**
+  1. Downloads and updates all Sabbath School metadata from the Adventech API into `public/json/ss-meta.json`.
+  2. Generates landscape (1200×630) Open Graph covers for each quarter in `public/img/ss-covers/`.
+  3. Auto-installs Pillow if missing.
+- **Requirements:** Python 3.x, Pillow (auto-installed if missing)
+
+You can run these scripts from the project root:
+
 ```bash
-# From the script directory
-cd src/utils/python
-python extract_stories.py
-
-# Or from project root
-python src/utils/python/extract_stories.py
+npm run update-ss-stories
+npm run update-ss
 ```
 
-**Requirements:** Python 3.x (uses only built-in libraries: `json`, `urllib`, `os`, `time`)
-
-**Output:** 
-- `public/json/stories-YYYY.json` - Stories for each year (2024+)
-- `public/json/stories-index.json` - Index file with metadata about all years
-
-**Index file structure:**
-```json
-{
-  "years": [
-    {
-      "year": "2025",
-      "file": "stories-2025.json",
-      "count": 52
-    }
-  ],
-  "total_years": 2,
-  "last_updated": "2026-01-25 12:30:45"
-}
-```
+The scripts will use your default Python interpreter. If you use a virtual environment, activate it first.

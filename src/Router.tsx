@@ -21,14 +21,14 @@ const LessonsSearch = lazy(() => import('./pages/lessonsSearch/LessonsSearch'));
 const Churches = lazy(() => import('./pages/Churches'));
 const Books = lazy(() => import('./pages/resources/books/Books'));
 const Events = lazy(() => import('./pages/events/Events'));
-const HealthInstitutions = lazy(() => import('./pages/HealthInstitutions'));
+const HealthInstitutions = lazy(() => import('./pages/health/HealthInstitutions'));
 const ChurchLife = lazy(() => import('./pages/ChurchLife'));
 const Info = lazy(() => import('./pages/Info'));
 const Commune = lazy(() => import('./pages/Commune'));
 const PastorOnline = lazy(() => import('./pages/pastorOnline/PastorOnline'));
 const Media = lazy(() => import('./pages/Media'));
 const Resources = lazy(() => import('./pages/resources/Resources'));
-const Health = lazy(() => import('./pages/Health'));
+const Health = lazy(() => import('./pages/health/Health'));
 const Advertisements = lazy(
   () => import('./pages/advertisement/Advertisements')
 );
@@ -67,13 +67,13 @@ const Bibles = lazy(() => import('./pages/bibles/Bibles'));
 const Testimonies = lazy(() => import('./pages/testimonies/Testimonies'));
 const Poetry = lazy(() => import('./pages/poetry/Poetry'));
 const About = lazy(() => import('./pages/About'));
-const Banner = lazy(() => import('./pages/banner/Banner'));
-const Feedback = lazy(() => import('./pages/feedback/Feedback'));
-const Team = lazy(() => import('./pages/team/Team'));
+const Banner = lazy(() => import('./pages/about/banner/Banner'));
+const Feedback = lazy(() => import('./pages/about/feedback/Feedback'));
+const Team = lazy(() => import('./pages/about/team/Team'));
 const Videoteka = lazy(() => import('./pages/videoteka/Videoteka'));
 const Recipes = lazy(() => import('./pages/health/Recipes'));
 const Changelog = lazy(() => import('./pages/changelog/Changelog'));
-const NewStart = lazy(() => import('./pages/newStart/NewStart'));
+const NewStart = lazy(() => import('./pages/health/newStart/NewStart'));
 
 // const theme = createTheme();
 

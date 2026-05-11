@@ -8,6 +8,7 @@ export type FeedListProps = {
   logoPath?: string;
   items?: FeedItemType[];
   kicker?: string;
+  rssFeedName?: string;
   feedListClassName?: string;
 };
 
@@ -17,6 +18,7 @@ export const FeedList = ({
   kicker,
   logoPath,
   items,
+  rssFeedName,
   feedListClassName = ''
 }: FeedListProps) => {
   const titleContent = (
@@ -24,7 +26,7 @@ export const FeedList = ({
   );
 
   return (
-    <section className="feed-section">
+    <section id={rssFeedName} className="feed-section">
       {titleLink ? (
         <a href={titleLink} target="_blank" rel="noopener noreferrer">
           {titleContent}

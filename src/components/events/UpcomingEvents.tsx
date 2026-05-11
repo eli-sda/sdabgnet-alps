@@ -27,7 +27,9 @@ const UpcomingEvents = () => {
             />
             {moment(event.start).format('DD.MM.YYYY')}
             <br />
-            {event.title}
+            <a href={event.link} target="_blank" rel="noopener noreferrer">
+              {event.title}
+            </a>
           </h3>
         ))}
 

@@ -20,6 +20,13 @@ if ($id === 'ss' && isset($_GET['year']) && isset($_GET['quarter']) && isset($_G
     exit;
 }
 
+// Special handling for 'adver' with subid parameter
+if ($id === 'adver' && isset($_GET['subid'])) {
+    $subid = $_GET['subid'];
+    header('Location: /adver/' . urlencode($subid), true, 301);
+    exit;
+}
+
 // Map old page IDs to new SPA routes
 $redirectMap = [
     'ss' => '/church_life/lesson',
@@ -39,9 +46,7 @@ $redirectMap = [
     'music' => '/resources/music',
     'present' => '/resources/presentation',
     // 'poetry' => '/church_life/poetry',
-    'answer' => '/commune/pastor-online',
-    //to the old version of the site:
-    'kids' => 'https://old.sdabg.net/page.php?id=kids',
+    'answer' => '/commune/pastor-online'
 ];
 
 // Check if we have a mapping for this ID
@@ -61,6 +66,6 @@ if (isset($redirectMap[$id])) {
     exit;
 }
 
-// If no mapping found, redirect to home page
-header('Location: /', true, 301);
+// If no mapping found, redirect to old site with same parameters
+header('Location: https://old.sdabg.net/page.php?' . http_build_query($_GET), true, 301);
 exit;

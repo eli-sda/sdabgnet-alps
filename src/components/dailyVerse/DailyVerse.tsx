@@ -22,7 +22,6 @@ const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
   const [activeDate, setActiveDate] = useState<Moment>(date);
   const [data, setData] = useState<DailyVerseType | null>(null);
   const [loading, setLoading] = useState(true);
-  const [midnightTrigger, setMidnightTrigger] = useState(0);
 
   const classes = useClasses(
     'daily-verse c-block c-block__text u-border--left u-spacing ' +
@@ -39,8 +38,12 @@ const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
     transition: 'opacity 0.2s ease-in-out'
   };
 
+  const parentDateStr = date.format('YYYY-MM-DD');
+
   const minDate = useMemo(() => moment('2025-01-01', 'YYYY-MM-DD'), []);
-  const maxDate = useMemo(() => moment().subtract(1, 'year'), []);
+  // Re-calculate maxDate when the parent date changes
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const maxDate = useMemo(() => moment().subtract(1, 'year'), [parentDateStr]);
 
   // Sync active date if the parent date prop changes
   useEffect(() => {
@@ -49,19 +52,6 @@ const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date]);
-
-  // Set up a timer to force a re-render exactly at midnight
-  useEffect(() => {
-    const now = moment();
-    const tomorrow = moment().add(1, 'days').startOf('day');
-    const msUntilMidnight = tomorrow.diff(now);
-
-    const timer = setTimeout(() => {
-      setMidnightTrigger((prev) => prev + 1);
-    }, msUntilMidnight + 1000);
-
-    return () => clearTimeout(timer);
-  }, [midnightTrigger]);
 
   const formattedDate = useMemo(
     () => activeDate.format('YYYY-MM-DD'), //date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
@@ -156,7 +146,7 @@ const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
           }}
         >
           <DatePicker
-            key={midnightTrigger}
+            key={parentDateStr}
             open={isOpen}
             onClose={() => setIsOpen(false)}
             onOpen={() => setIsOpen(true)}

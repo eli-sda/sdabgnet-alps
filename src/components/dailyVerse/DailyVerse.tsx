@@ -22,6 +22,7 @@ const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
   const [activeDate, setActiveDate] = useState<Moment>(date);
   const [data, setData] = useState<DailyVerseType | null>(null);
   const [loading, setLoading] = useState(true);
+  const [midnightTrigger, setMidnightTrigger] = useState(0);
 
   const classes = useClasses(
     'daily-verse c-block c-block__text u-border--left u-spacing ' +
@@ -48,6 +49,19 @@ const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date]);
+
+  // Set up a timer to force a re-render exactly at midnight
+  useEffect(() => {
+    const now = moment();
+    const tomorrow = moment().add(1, 'days').startOf('day');
+    const msUntilMidnight = tomorrow.diff(now);
+
+    const timer = setTimeout(() => {
+      setMidnightTrigger((prev) => prev + 1);
+    }, msUntilMidnight + 1000);
+
+    return () => clearTimeout(timer);
+  }, [midnightTrigger]);
 
   const formattedDate = useMemo(
     () => activeDate.format('YYYY-MM-DD'), //date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
@@ -142,6 +156,7 @@ const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
           }}
         >
           <DatePicker
+            key={midnightTrigger}
             open={isOpen}
             onClose={() => setIsOpen(false)}
             onOpen={() => setIsOpen(true)}

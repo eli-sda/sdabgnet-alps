@@ -139,8 +139,9 @@ const BooksList = ({
             const isCopied = copiedId === book._id;
 
             additionalButtons.push({
-              label: isCopied ? 'копирано' : 'сподели',
+              label: isCopied ? 'Линкът е копиран' : 'Вземи линк',
               as: 'button' as const,
+              disabled: copiedId === book._id,
               onClick: () => handleCopyLink(book._id, book.title),
               faIconClass: isCopied ? 'fas fa-check' : 'fas fa-share-alt'
             });

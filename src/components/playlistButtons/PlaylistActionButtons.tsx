@@ -3,6 +3,7 @@ import { TextField } from 'alps-library/molecules/forms/elements/TextField';
 import { Checkbox } from 'alps-library/molecules/forms/elements/Checkbox';
 import { Button } from 'src/alps/atoms/Button';
 import { RESOURCES_FOLDER } from 'src/constants';
+import ShareVideoButton from '../ShareVideoButton';
 import DownloadPlaylistButton from './DownloadPlaylistButton';
 import './PlaylistActionButtons.scss';
 
@@ -42,7 +43,6 @@ const PlaylistActionButtons = ({
   getCurrentTime,
   simpleCopyButton = false
 }: PlaylistActionButtonsProps) => {
-  const [isCopied, setIsCopied] = useState(false);
   const [toShow, setToShow] = useState(false);
   const [fromCurrent, setFromCurrent] = useState(false);
   const [showCopyLabel, setShowCopyLabel] = useState(false);
@@ -114,14 +114,9 @@ const PlaylistActionButtons = ({
   const handleCopy = () => {
     if (!url) return;
     void navigator.clipboard.writeText(url).then(() => {
-      if (!simpleCopyButton) {
-        setShowCopyLabel(true);
-        setRefreshCounter?.((prev) => prev + 1);
-        setTimeout(() => setShowCopyLabel(false), 3000);
-      } else {
-        setIsCopied(true);
-        setTimeout(() => setIsCopied(false), 3000);
-      }
+      setShowCopyLabel(true);
+      setRefreshCounter?.((prev) => prev + 1);
+      setTimeout(() => setShowCopyLabel(false), 3000);
     });
   };
 
@@ -129,19 +124,18 @@ const PlaylistActionButtons = ({
     <div className="playlist-action-buttons u-spacing--half">
       {(shareUrl || hasDownload) && (
         <div className="buttons">
-          {shareUrl && (
-            <Button
-              className="share-button"
-              onClick={simpleCopyButton ? handleCopy : handleShare}
-              small
-              label={simpleCopyButton && isCopied ? 'Копирано' : 'Вземи линк'}
-              faIconClass={
-                simpleCopyButton && isCopied
-                  ? 'fas fa-check'
-                  : 'fas fa-share-alt'
-              }
-            />
-          )}
+          {shareUrl &&
+            (!simpleCopyButton ? (
+              <Button
+                className="share-button"
+                onClick={handleShare}
+                small
+                label="Вземи линк"
+                faIconClass="fas fa-share-alt"
+              />
+            ) : (
+              <ShareVideoButton url={url} />
+            ))}
 
           {hasDownload && (
             <DownloadPlaylistButton
@@ -168,6 +162,7 @@ const PlaylistActionButtons = ({
             <Button
               className="copy-button"
               onClick={handleCopy}
+              disabled={showCopyLabel}
               simple
               faIconClass="far fa-copy fa-lg"
               title="Копирай линка"

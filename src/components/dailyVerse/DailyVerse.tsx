@@ -38,8 +38,12 @@ const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
     transition: 'opacity 0.2s ease-in-out'
   };
 
+  const parentDateStr = date.format('YYYY-MM-DD');
+
   const minDate = useMemo(() => moment('2025-01-01', 'YYYY-MM-DD'), []);
-  const maxDate = useMemo(() => moment().subtract(1, 'year'), []);
+  // Re-calculate maxDate when the parent date changes
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const maxDate = useMemo(() => moment().subtract(1, 'year'), [parentDateStr]);
 
   // Sync active date if the parent date prop changes
   useEffect(() => {
@@ -142,6 +146,7 @@ const DailyVerse: FC<{ date: Moment }> = ({ date }) => {
           }}
         >
           <DatePicker
+            key={parentDateStr}
             open={isOpen}
             onClose={() => setIsOpen(false)}
             onOpen={() => setIsOpen(true)}

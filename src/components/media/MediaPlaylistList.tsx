@@ -1,10 +1,51 @@
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import PlaylistActionButtons from '../playlistButtons/PlaylistActionButtons';
+import AudioDialog from './audio/AudioDialog';
 import MediaPlaylist from './MediaPlaylist';
 import './MediaPlaylistList.scss';
+
+const STORAGE_KEY = 'alps_last_played_media';
+
+interface LastPlayedData {
+  [playlistId: string]: {
+    itemId: string;
+    title: string;
+  };
+}
+
+const saveLastPlayedMedia = (
+  playlistId: string,
+  itemId: string,
+  title: string
+) => {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    const parsed = stored ? (JSON.parse(stored) as unknown) : {};
+    const data = parsed as LastPlayedData;
+
+    data[playlistId] = { itemId, title };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch (e) {
+    console.error('Error saving last played media to local storage', e);
+  }
+};
+
+const getLastPlayedMedia = (playlistId: string) => {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored) as unknown;
+      const data = parsed as LastPlayedData;
+      return data[playlistId] || null;
+    }
+  } catch (e) {
+    console.error('Error reading last played media from local storage', e);
+  }
+  return null;
+};
 
 interface MediaPlaylistListProps {
   mediaType: 'audio' | 'video';
@@ -35,11 +76,16 @@ const MediaPlaylistList = ({
   className = ''
 }: MediaPlaylistListProps) => {
   const { hash, search } = useLocation();
-  const searchParams = new URLSearchParams(search);
-  const playId = searchParams.get('playId');
-  const playlistIdFromSearch = searchParams.get('playlistId');
-  // Supports only time as seconds (integer)
-  const timeParam = searchParams.get('time');
+
+  const { playId, playlistIdFromSearch, timeParam } = useMemo(() => {
+    const searchParams = new URLSearchParams(search);
+    return {
+      playId: searchParams.get('playId'),
+      playlistIdFromSearch: searchParams.get('playlistId'),
+      // Supports only time as seconds (integer)
+      timeParam: searchParams.get('time')
+    };
+  }, [search]);
 
   const { getPlaylists } = usePlaylists();
   const [playlists, setPlaylists] = useState<PlaylistType[]>(
@@ -50,17 +96,53 @@ const MediaPlaylistList = ({
   );
   const [currentPlayIndex, setCurrentPlayIndex] = useState(0);
   const [initialTime, setInitialTime] = useState<number | undefined>(undefined);
+  const [resumePrompt, setResumePrompt] = useState<{
+    playlistId: string;
+    itemId: string;
+    title: string;
+    index: number;
+  } | null>(null);
 
-  const handleSelect = (playlist: PlaylistType) => {
-    if (selectedPlaylist?._id === playlist._id) {
+  const checkAndSetResumePrompt = useCallback(
+    (playlist: PlaylistType) => {
+      if (mediaType !== 'audio') return;
+
+      const lastPlayed = getLastPlayedMedia(playlist._id);
+      if (lastPlayed) {
+        const savedIndex = playlist.items?.findIndex(
+          (item) => item._id === lastPlayed.itemId
+        );
+        if (savedIndex !== undefined && savedIndex > 0) {
+          setResumePrompt({
+            playlistId: playlist._id,
+            itemId: lastPlayed.itemId,
+            title: lastPlayed.title,
+            index: savedIndex
+          });
+          return;
+        }
+      }
+      setResumePrompt(null);
+    },
+    [mediaType]
+  );
+
+  const handleSelect = useCallback(
+    (playlist: PlaylistType) => {
+      if (selectedPlaylist?._id === playlist._id) {
+        onPlaylistSelect?.(playlist);
+        return; // Do nothing if the same playlist is selected
+      }
+
+      setSelectedPlaylist(playlist);
+      setCurrentPlayIndex(0);
+      setInitialTime(undefined);
+
+      checkAndSetResumePrompt(playlist);
       onPlaylistSelect?.(playlist);
-      return; // Do nothing if the same playlist is selected
-    }
-    setSelectedPlaylist(playlist);
-    setCurrentPlayIndex(0);
-    setInitialTime(undefined);
-    onPlaylistSelect?.(playlist);
-  };
+    },
+    [selectedPlaylist?._id, onPlaylistSelect, checkAndSetResumePrompt]
+  );
 
   const setInitialPlaylists = useCallback(
     (playlistArr: PlaylistType[]) => {
@@ -68,8 +150,10 @@ const MediaPlaylistList = ({
       // support playlist selection from either hash (#<id>) or query ?playlistId=<id>
       const playlistId =
         playlistIdFromSearch || (hash ? hash.replace('#', '') : null);
+
       if (playlistId) {
         const matchedPlaylist = playlistArr.find((p) => p._id === playlistId);
+        let hasSetFromUrl = false;
 
         if (
           matchedPlaylist &&
@@ -83,21 +167,34 @@ const MediaPlaylistList = ({
 
           if (index !== -1) {
             setCurrentPlayIndex(index);
+            hasSetFromUrl = true;
           }
 
           if (timeParam && /^\d+$/.test(timeParam)) {
             // Parse initial time (integer) from URL
             setInitialTime(parseInt(timeParam, 10));
+            hasSetFromUrl = true;
           } else {
             setInitialTime(undefined);
           }
+        }
+
+        if (matchedPlaylist && !hasSetFromUrl) {
+          checkAndSetResumePrompt(matchedPlaylist);
         }
 
         setSelectedPlaylist(matchedPlaylist || null);
         if (matchedPlaylist) onPlaylistSelect?.(matchedPlaylist);
       }
     },
-    [hash, onPlaylistSelect, playId, playlistIdFromSearch, timeParam]
+    [
+      hash,
+      onPlaylistSelect,
+      playId,
+      playlistIdFromSearch,
+      timeParam,
+      checkAndSetResumePrompt
+    ]
   );
 
   useEffect(() => {
@@ -128,51 +225,69 @@ const MediaPlaylistList = ({
     // setInitialPlaylists - do not include to avoid infinite loop
   ]);
 
-  const getActionButtons = useCallback(
-    (playlist: PlaylistType): JSX.Element => {
-      const currentItem =
-        selectedPlaylist?._id === playlist._id
-          ? playlist.items?.[currentPlayIndex]
-          : undefined;
+  useEffect(() => {
+    if (mediaType === 'audio' && selectedPlaylist && !resumePrompt) {
+      const currentItem = selectedPlaylist.items?.[currentPlayIndex];
 
-      return (
-        <div className="u-space--half--top">
-          <PlaylistActionButtons
-            shareUrl={`${window.location.origin}${window.location.pathname}#${playlist._id}`}
-            fromPlayId={currentItem?._id}
-            fromTitle={currentItem?.title}
-            itemUrls={
-              showDownloadAll
-                ? playlist.items
-                    ?.map((item) => item.path)
-                    .filter((path): path is string => !!path) || []
-                : undefined
-            }
-            playlistName={playlist.title}
-            getCurrentTime={getCurrentTime}
-          />
-        </div>
-      );
-    },
-    [selectedPlaylist?._id, currentPlayIndex, showDownloadAll, getCurrentTime]
-  );
+      if (currentItem) {
+        saveLastPlayedMedia(
+          selectedPlaylist._id,
+          currentItem._id,
+          currentItem.title
+        );
+      }
+    }
+  }, [mediaType, selectedPlaylist, currentPlayIndex, resumePrompt]);
 
   return (
     <>
       <section className={`media-playlist-list ${className}`}>
-        {playlists.map((playlist) => (
-          <div key={playlist._id} className="playlist-item u-padding--sides">
-            <MediaPlaylist
-              playlist={playlist}
-              onPlaylistSelect={() => handleSelect(playlist)}
-              isCurrent={selectedPlaylist?._id === playlist._id}
-              isPlaying={selectedPlaylist?._id === playlist._id && isPlaying}
-              actionButtons={getActionButtons(playlist)}
-              type={mediaType}
-            />
-          </div>
-        ))}
+        {playlists.map((playlist) => {
+          const isCurrent = selectedPlaylist?._id === playlist._id;
+          const currentItem = isCurrent
+            ? playlist.items?.[currentPlayIndex]
+            : undefined;
+
+          return (
+            <div key={playlist._id} className="playlist-item u-padding--sides">
+              <MediaPlaylist
+                playlist={playlist}
+                onPlaylistSelect={() => handleSelect(playlist)}
+                isCurrent={isCurrent}
+                isPlaying={isCurrent && isPlaying}
+                type={mediaType}
+                actionButtons={
+                  <div className="u-space--half--top">
+                    <PlaylistActionButtons
+                      shareUrl={`${window.location.origin}${window.location.pathname}#${playlist._id}`}
+                      fromPlayId={currentItem?._id}
+                      fromTitle={currentItem?.title}
+                      itemUrls={
+                        showDownloadAll
+                          ? playlist.items
+                              ?.map((item) => item.path)
+                              .filter((path): path is string => !!path) || []
+                          : undefined
+                      }
+                      playlistName={playlist.title}
+                      getCurrentTime={getCurrentTime}
+                    />
+                  </div>
+                }
+              />
+            </div>
+          );
+        })}
       </section>
+
+      <AudioDialog
+        resumePrompt={resumePrompt}
+        onClose={() => setResumePrompt(null)}
+        onContinue={(index) => {
+          setCurrentPlayIndex(index);
+          setResumePrompt(null);
+        }}
+      />
 
       {renderPlayer?.(
         selectedPlaylist,

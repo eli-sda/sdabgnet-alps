@@ -11,6 +11,7 @@ type DownloadListProps = {
   title?: string;
   items?: LinkType[];
   initiallyOpen?: boolean;
+  activeItemId?: string | null;
 };
 
 const DownloadList = ({
@@ -18,7 +19,8 @@ const DownloadList = ({
   author,
   title,
   items,
-  initiallyOpen
+  initiallyOpen,
+  activeItemId
 }: DownloadListProps) => {
   const { hash } = useLocation();
   const [refreshCounter, setRefreshCounter] = useState(0);
@@ -31,11 +33,15 @@ const DownloadList = ({
     () => (
       <div className={`u-spacing--double u-space--half--bottom ${id ? 'u-space--top' : ''}`}>
         {items?.map((item, i) => (
-          <DownloadListItem key={i} {...item} />
+          <DownloadListItem
+            key={i}
+            {...item}
+            isActive={Boolean(activeItemId && item._id === activeItemId)}
+          />
         ))}
       </div>
     ),
-    [items, id]
+    [items, id, activeItemId]
   );
 
   return id ? (

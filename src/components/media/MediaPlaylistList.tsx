@@ -2,6 +2,7 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlaylists } from 'src/hooks/usePlaylists';
+import { generateShareUrl } from 'src/utils/urlUtils';
 import PlaylistActionButtons from '../playlistButtons/PlaylistActionButtons';
 import MediaPlaylist from './MediaPlaylist';
 import './MediaPlaylistList.scss';
@@ -138,7 +139,9 @@ const MediaPlaylistList = ({
       return (
         <div className="u-space--half--top">
           <PlaylistActionButtons
-            shareUrl={`${window.location.origin}${window.location.pathname}#${playlist._id}`}
+            shareUrl={generateShareUrl({
+              id: playlist._id
+            })}
             fromPlayId={currentItem?._id}
             fromTitle={currentItem?.title}
             itemUrls={

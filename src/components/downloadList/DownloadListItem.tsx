@@ -3,10 +3,13 @@ import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { Button, ButtonProps } from 'src/alps/atoms/Button';
 import { RESOURCES_SITE, RESOURCES_FOLDER } from 'src/constants';
 import { LinkType } from 'src/contexts/PlaylistsContext';
+import { generateShareUrl } from 'src/utils/urlUtils';
+import ShareVideoButton from '../ShareVideoButton';
 import './DownloadListItem.scss';
 
 interface DownloadListItemProps extends LinkType {
   additionalButtons?: ButtonProps[];
+  shareUrl?: string;
   isActive?: boolean; // highlight/animate download button
 }
 
@@ -18,6 +21,7 @@ const DownloadListItem = ({
   path,
   size,
   additionalButtons = [],
+  shareUrl,
   isActive = false
 }: DownloadListItemProps) => {
   const icon = useMemo(() => {
@@ -163,6 +167,16 @@ const DownloadListItem = ({
         {htmlContent && <div>{renderVideoContent}</div>}
         <div className="action-buttons">
           {downloadButton}
+          <ShareVideoButton
+            url={
+              shareUrl ||
+              generateShareUrl({
+                id: _id,
+                title
+              })
+            }
+            btnClassName="u-space--half--top"
+          />
           {additionalButtonsJsx}
         </div>
       </div>

@@ -7,7 +7,7 @@ import AudioDialog from './audio/AudioDialog';
 import MediaPlaylist from './MediaPlaylist';
 import './MediaPlaylistList.scss';
 
-const STORAGE_KEY = 'alps_last_played_media';
+const STORAGE_KEY = 'last_played_media';
 
 interface LastPlayedData {
   [playlistId: string]: {

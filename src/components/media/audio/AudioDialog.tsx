@@ -50,8 +50,8 @@ export const AudioDialog = ({
         </p>
       </DialogContent>
       <DialogActions>
-        <Button label="Отказ" simple onClick={handleClose} />
-        <Button label="Продължи" onClick={handleContinue} />
+        <Button label="Не" simple onClick={handleClose} />
+        <Button label="Да, продължи" onClick={handleContinue} />
       </DialogActions>
     </Dialog>
   );

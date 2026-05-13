@@ -3,6 +3,7 @@ import { FeedItemType, FeedItem } from './FeedItem';
 import './FeedList.scss';
 
 export type FeedListProps = {
+  id: string;
   title?: string;
   titleLink?: string;
   logoPath?: string;
@@ -12,6 +13,7 @@ export type FeedListProps = {
 };
 
 export const FeedList = ({
+  id,
   title,
   titleLink,
   kicker,
@@ -24,7 +26,7 @@ export const FeedList = ({
   );
 
   return (
-    <section className="feed-section">
+    <section id={id} className="feed-section">
       {titleLink ? (
         <a href={titleLink} target="_blank" rel="noopener noreferrer">
           {titleContent}

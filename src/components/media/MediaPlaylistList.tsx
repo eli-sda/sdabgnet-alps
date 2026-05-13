@@ -271,6 +271,7 @@ const MediaPlaylistList = ({
                       }
                       playlistName={playlist.title}
                       getCurrentTime={getCurrentTime}
+                      simpleCopyButton={mediaType === 'video'}
                     />
                   </div>
                 }

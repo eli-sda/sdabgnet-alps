@@ -3,6 +3,7 @@ import { TextField } from 'alps-library/molecules/forms/elements/TextField';
 import { Checkbox } from 'alps-library/molecules/forms/elements/Checkbox';
 import { Button } from 'src/alps/atoms/Button';
 import { RESOURCES_FOLDER } from 'src/constants';
+import ShareVideoButton from '../ShareVideoButton';
 import DownloadPlaylistButton from './DownloadPlaylistButton';
 import './PlaylistActionButtons.scss';
 
@@ -12,6 +13,7 @@ type PlaylistActionButtonsProps = {
   fromTitle?: string;
   itemUrls?: string[];
   playlistName?: string;
+  simpleCopyButton?: boolean;
   setRefreshCounter?: React.Dispatch<React.SetStateAction<number>>;
   getCurrentTime?: () => number;
 };
@@ -38,7 +40,8 @@ const PlaylistActionButtons = ({
   itemUrls = [],
   playlistName = 'playlist',
   setRefreshCounter,
-  getCurrentTime
+  getCurrentTime,
+  simpleCopyButton = false
 }: PlaylistActionButtonsProps) => {
   const [toShow, setToShow] = useState(false);
   const [fromCurrent, setFromCurrent] = useState(false);
@@ -121,16 +124,18 @@ const PlaylistActionButtons = ({
     <div className="playlist-action-buttons u-spacing--half">
       {(shareUrl || hasDownload) && (
         <div className="buttons">
-          {shareUrl && (
-            <Button
-              className="share-button"
-              onClick={handleShare}
-              small
-              label="Вземи линк"
-              icon="share"
-              iconSize="s"
-            />
-          )}
+          {shareUrl &&
+            (!simpleCopyButton ? (
+              <Button
+                className="share-button"
+                onClick={handleShare}
+                small
+                label="Вземи линк"
+                faIconClass="fas fa-share-alt"
+              />
+            ) : (
+              <ShareVideoButton url={url} />
+            ))}
 
           {hasDownload && (
             <DownloadPlaylistButton
@@ -143,7 +148,7 @@ const PlaylistActionButtons = ({
         </div>
       )}
 
-      {toShow && (
+      {!simpleCopyButton && toShow && (
         <div className={`share-fields${showCopyLabel ? ' withLabel' : ''}`}>
           <div className="share-link u-space--half--bottom">
             <TextField
@@ -157,6 +162,7 @@ const PlaylistActionButtons = ({
             <Button
               className="copy-button"
               onClick={handleCopy}
+              disabled={showCopyLabel}
               simple
               faIconClass="far fa-copy fa-lg"
               title="Копирай линка"

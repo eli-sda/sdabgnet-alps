@@ -73,7 +73,7 @@ export const AdsCarousel = () => {
   }, [carouselAds]);
 
   return slides && slides.length > 0 ? (
-    <div className="c-carousel">
+    <div id="ads-carousel" className="c-carousel">
       <Swiper
         mousewheel
         keyboard

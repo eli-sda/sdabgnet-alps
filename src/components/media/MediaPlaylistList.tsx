@@ -150,11 +150,18 @@ const MediaPlaylistList = ({
             }
             playlistName={playlist.title}
             getCurrentTime={getCurrentTime}
+            simpleCopyButton={mediaType === 'video'}
           />
         </div>
       );
     },
-    [selectedPlaylist?._id, currentPlayIndex, showDownloadAll, getCurrentTime]
+    [
+      selectedPlaylist?._id,
+      currentPlayIndex,
+      showDownloadAll,
+      getCurrentTime,
+      mediaType
+    ]
   );
 
   return (

@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import PlaylistActionButtons from '../playlistButtons/PlaylistActionButtons';
-import AudioDialog from './audio/AudioDialog';
+import AudioResumeDialog from './audio/AudioResumeDialog';
 import MediaPlaylist from './MediaPlaylist';
 import './MediaPlaylistList.scss';
 
@@ -153,7 +153,6 @@ const MediaPlaylistList = ({
 
       if (playlistId) {
         const matchedPlaylist = playlistArr.find((p) => p._id === playlistId);
-        let hasSetFromUrl = false;
 
         if (
           matchedPlaylist &&
@@ -167,34 +166,22 @@ const MediaPlaylistList = ({
 
           if (index !== -1) {
             setCurrentPlayIndex(index);
-            hasSetFromUrl = true;
           }
 
           if (timeParam && /^\d+$/.test(timeParam)) {
             // Parse initial time (integer) from URL
             setInitialTime(parseInt(timeParam, 10));
-            hasSetFromUrl = true;
+            // hasSetFromUrl = true;
           } else {
             setInitialTime(undefined);
           }
-        }
-
-        if (matchedPlaylist && !hasSetFromUrl) {
-          checkAndSetResumePrompt(matchedPlaylist);
         }
 
         setSelectedPlaylist(matchedPlaylist || null);
         if (matchedPlaylist) onPlaylistSelect?.(matchedPlaylist);
       }
     },
-    [
-      hash,
-      onPlaylistSelect,
-      playId,
-      playlistIdFromSearch,
-      timeParam,
-      checkAndSetResumePrompt
-    ]
+    [hash, onPlaylistSelect, playId, playlistIdFromSearch, timeParam]
   );
 
   useEffect(() => {
@@ -281,7 +268,7 @@ const MediaPlaylistList = ({
         })}
       </section>
 
-      <AudioDialog
+      <AudioResumeDialog
         resumePrompt={resumePrompt}
         onClose={() => setResumePrompt(null)}
         onContinue={(index) => {
@@ -291,7 +278,7 @@ const MediaPlaylistList = ({
       />
 
       {renderPlayer?.(
-        selectedPlaylist,
+        resumePrompt ? null : selectedPlaylist,
         setCurrentPlayIndex,
         currentPlayIndex,
         initialTime

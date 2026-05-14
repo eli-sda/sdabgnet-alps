@@ -14,17 +14,17 @@ type ResumePrompt = {
   index: number;
 } | null;
 
-type AudioDialogProps = {
+type AudioResumeDialogProps = {
   resumePrompt: ResumePrompt;
   onClose: () => void;
   onContinue: (index: number) => void;
 };
 
-export const AudioDialog = ({
+export const AudioResumeDialog = ({
   resumePrompt,
   onClose,
   onContinue
-}: AudioDialogProps) => {
+}: AudioResumeDialogProps) => {
   const handleClose = useCallback(() => {
     onClose();
   }, [onClose]);
@@ -57,4 +57,4 @@ export const AudioDialog = ({
   );
 };
 
-export default AudioDialog;
+export default AudioResumeDialog;

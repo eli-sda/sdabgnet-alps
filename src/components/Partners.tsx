@@ -36,7 +36,7 @@ const partnerLogos = [
 
 export const Partners = () => {
   return (
-    <section className="partners has-top-separator">
+    <section id="partners" className="partners has-top-separator">
       <Separator type="top" />
       <div className="partners-list u-padding--double">
         {partnerLogos.map(({ img, title, url }) => (

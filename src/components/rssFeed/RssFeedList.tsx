@@ -73,6 +73,7 @@ export const RssFeedList = ({
       kicker={feedProps.kicker}
       logoPath={feedProps.logoPath}
       items={items}
+      id={rssFeedName}
       feedListClassName={rssFeedName === 'newlife' ? 'books' : ''}
     />
   );

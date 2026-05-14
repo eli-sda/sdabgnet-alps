@@ -24,7 +24,7 @@ const ShareVideoButton = ({
       className={btnClassName}
       disabled={showCopyLabel}
       small
-      icon="share"
+      faIconClass={showCopyLabel ? 'fas fa-check' : 'fas fa-share-alt'}
       label={showCopyLabel ? 'Линкът е копиран' : 'Вземи линк'}
       title={showCopyLabel ? 'Линкът е копиран' : 'Копирай линка'}
     />

@@ -4,7 +4,7 @@ import './HomeEvents.scss';
 
 export const HomeEvents = () => {
   return (
-    <section className="home-events">
+    <section id="home-events" className="home-events">
       <div className="home-events-container">
         <UpcomingEvents />
         <OpenForRegistrationEvents />

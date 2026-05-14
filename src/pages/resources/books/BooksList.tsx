@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import GroupIcon from '@mui/icons-material/Group';
 import { SubNavArrow } from 'alps-library/molecules/navigation/primaryNavItem/SubNavArrow';
@@ -6,6 +6,7 @@ import { AccordionItem } from 'src/alps/molecules/components/accordion/Accordion
 import routes from 'src/routes';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
+import useHashActive from 'src/hooks/useHashActive';
 import DownloadListItem from 'src/components/downloadList/DownloadListItem';
 import './BooksList.scss';
 
@@ -20,23 +21,7 @@ const BooksList = ({
   useScrollToHash();
   const { hash } = useLocation();
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [activeBookId, setActiveBookId] = useState<string | null>(null);
-
-  // Animate icon when hash matches a book
-  useEffect(() => {
-    if (!hash) return;
-    const targetHashId = hash.replace('#', '');
-    setActiveBookId(null);
-    let resetTimeout: number;
-    const delay = window.setTimeout(() => {
-      setActiveBookId(targetHashId);
-      resetTimeout = window.setTimeout(() => setActiveBookId(null), 5000);
-    }, 1100);
-    return () => {
-      clearTimeout(delay);
-      clearTimeout(resetTimeout);
-    };
-  }, [hash]);
+  const activeBookId = useHashActive();
 
   // Determine if this accordion should be initially open based on the hash
   const isInitiallyOpened = useMemo(() => {
@@ -139,8 +124,9 @@ const BooksList = ({
             const isCopied = copiedId === book._id;
 
             additionalButtons.push({
-              label: isCopied ? 'копирано' : 'сподели',
+              label: isCopied ? 'Линкът е копиран' : 'Вземи линк',
               as: 'button' as const,
+              disabled: copiedId === book._id,
               onClick: () => handleCopyLink(book._id, book.title),
               faIconClass: isCopied ? 'fas fa-check' : 'fas fa-share-alt'
             });

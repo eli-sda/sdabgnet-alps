@@ -4,7 +4,7 @@ import { Button, ButtonProps } from 'src/alps/atoms/Button';
 import { RESOURCES_SITE, RESOURCES_FOLDER } from 'src/constants';
 import { LinkType } from 'src/contexts/PlaylistsContext';
 import { generateShareUrl } from 'src/utils/urlUtils';
-import ShareVideoButton from '../ShareVideoButton';
+import ShareItemButton from '../ShareItemButton';
 import './DownloadListItem.scss';
 
 interface DownloadListItemProps extends LinkType {
@@ -167,7 +167,7 @@ const DownloadListItem = ({
         {htmlContent && <div>{renderVideoContent}</div>}
         <div className="action-buttons">
           {downloadButton}
-          <ShareVideoButton
+          <ShareItemButton
             url={
               shareUrl ||
               generateShareUrl({

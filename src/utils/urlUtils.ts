@@ -4,14 +4,8 @@ interface ShareUrlParams {
   path?: string;
 }
 
-export const generateShareUrl = ({
-  id,
-  title,
-  path
-}: ShareUrlParams): string => {
-  const currentPath = path || window.location.pathname;
-  const baseUrl = `${window.location.origin}${currentPath}`;
-  const url = new URL(baseUrl);
+export const generateShareUrl = ({ id, title }: ShareUrlParams): string => {
+  const url = new URL(window.location.pathname, window.location.origin);
 
   if (title) {
     url.searchParams.set('title', title);

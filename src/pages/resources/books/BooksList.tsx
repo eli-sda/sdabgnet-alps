@@ -114,8 +114,7 @@ const BooksList = ({
                 additionalButtons={additionalButtons}
                 shareUrl={generateShareUrl({
                   id: book._id,
-                  title: book.title,
-                  path: routes.resources('books')
+                  title: book.title
                 })}
                 isActive={activeBookId === book._id}
               />

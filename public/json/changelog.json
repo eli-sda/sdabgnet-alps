@@ -6,7 +6,7 @@
     "changes": [
       {
         "type": "improvement",
-        "text": "Вече е възможно споделяне на отделни ресурси във [Видео](/resources/video), [Музика](/resources/music), [Презентации](/resources/presentation) и [Изображения](/resources/image)."
+        "text": "Вече е възможно споделяне на отделни ресурси във [Видео](/resources/video), [презентациите в Музика](/resources/music#5a9a97a9-f583-4989-955b-71097e4de0fb), [Презентации](/resources/presentation) и [Изображения](/resources/image)."
       },
       {
         "type": "fix",

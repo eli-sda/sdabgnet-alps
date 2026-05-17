@@ -16,6 +16,7 @@ import {
   ImageSizes,
   VIEWPORT_MAX
 } from 'src/utils/ImageHelper';
+import { urlFor } from 'src/sanityClient';
 import { useAdvertisements } from 'src/hooks/useAdvertisements';
 import { AdvertisementType } from 'src/contexts/AdvertisementsContext';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
@@ -91,7 +92,8 @@ const AdvertisementPage = ({ type }: { type: AdType }) => {
       hasViber: ad.hasViber,
       description: ad.text,
       date: ad.date,
-      image: img
+      image: img,
+      url: ad.image ? urlFor(ad.image, true).url() : undefined
     };
   });
   return (

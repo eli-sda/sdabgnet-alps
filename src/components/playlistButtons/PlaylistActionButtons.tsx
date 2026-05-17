@@ -3,7 +3,7 @@ import { TextField } from 'alps-library/molecules/forms/elements/TextField';
 import { Checkbox } from 'alps-library/molecules/forms/elements/Checkbox';
 import { Button } from 'src/alps/atoms/Button';
 import { RESOURCES_FOLDER } from 'src/constants';
-import ShareVideoButton from '../ShareVideoButton';
+import ShareItemButton from '../ShareItemButton';
 import DownloadPlaylistButton from './DownloadPlaylistButton';
 import './PlaylistActionButtons.scss';
 
@@ -134,7 +134,7 @@ const PlaylistActionButtons = ({
                 faIconClass="fas fa-share-alt"
               />
             ) : (
-              <ShareVideoButton url={url} />
+              <ShareItemButton url={url} />
             ))}
 
           {hasDownload && (

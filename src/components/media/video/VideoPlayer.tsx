@@ -4,7 +4,7 @@ import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import { Button } from 'src/alps/atoms/Button';
 import { parseLinksMd } from 'src/utils/Links';
-import ShareVideoButton from 'src/components/ShareVideoButton';
+import ShareItemButton from 'src/components/ShareItemButton';
 import './VideoPlayer.scss';
 
 export type VideoPlaylistType = {
@@ -119,7 +119,7 @@ const VideoPlayer = ({
             onVideoEnded={handleVideoEnded}
             isVisible={isVisible}
           />
-          <ShareVideoButton
+          <ShareItemButton
             url={computeFinalUrl(currentVideo._id, currentVideo.title)}
             btnClassName="share-video-button"
           />

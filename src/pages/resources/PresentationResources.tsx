@@ -7,7 +7,6 @@ import { Page } from 'src/organisms/Page';
 import { LinkType, PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
-import useHashActive from 'src/hooks/useHashActive';
 import { getTitle } from 'src/utils/Navigation';
 import DownloadList from 'src/components/downloadList/DownloadList';
 import songbookLink from './music/songbook-link.json';
@@ -25,7 +24,6 @@ const PresentationResources = () => {
   const [standalonePresentations, setStandalonePresentations] = useState<
     LinkType[]
   >([]);
-  const activePresentationId = useHashActive();
 
   useEffect(() => {
     getResourcePlaylists('presentations')
@@ -53,7 +51,7 @@ const PresentationResources = () => {
       )}
 
       <Text as="article" hasDropcap={false} spacing="double">
-        <DownloadList items={standalonePresentations} activeItemId={activePresentationId} />
+        <DownloadList items={standalonePresentations} />
 
         <Accordion>
           {playlists.map(({ _id, title, author, items }, i) => (

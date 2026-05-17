@@ -2,6 +2,8 @@ import { useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { AccordionItem } from 'src/alps/molecules/components/accordion/AccordionItem';
 import { LinkType } from 'src/contexts/PlaylistsContext';
+import { generateShareUrl, hasMatchingItemHash } from 'src/utils/urlUtils';
+import useHashActive from 'src/hooks/useHashActive';
 import PlaylistActionButtons from '../playlistButtons/PlaylistActionButtons';
 import DownloadListItem from './DownloadListItem';
 
@@ -11,7 +13,6 @@ type DownloadListProps = {
   title?: string;
   items?: LinkType[];
   initiallyOpen?: boolean;
-  activeItemId?: string | null;
 };
 
 const DownloadList = ({
@@ -19,24 +20,31 @@ const DownloadList = ({
   author,
   title,
   items,
-  initiallyOpen,
-  activeItemId
+  initiallyOpen
 }: DownloadListProps) => {
   const { hash } = useLocation();
+  const activeItemId = useHashActive();
   const [refreshCounter, setRefreshCounter] = useState(0);
 
   // derived state for open accordion
-  const isInitiallyOpened = initiallyOpen || (!!id && hash === `#${id}`);
+  const isInitiallyOpened = useMemo(() => {
+    const openByDefaultOrId = initiallyOpen || (!!id && hash === `#${id}`);
+    const openByItemHash = hasMatchingItemHash(items, hash);
+
+    return Boolean(openByDefaultOrId || openByItemHash);
+  }, [initiallyOpen, id, hash, items]);
 
   // Render playlist items
   const content = useMemo(
     () => (
-      <div className={`u-spacing--double u-space--half--bottom ${id ? 'u-space--top' : ''}`}>
+      <div
+        className={`u-spacing--double u-space--half--bottom ${id ? 'u-space--top' : ''}`}
+      >
         {items?.map((item, i) => (
           <DownloadListItem
             key={i}
             {...item}
-            isActive={Boolean(activeItemId && item._id === activeItemId)}
+            isActive={Boolean(activeItemId === item._id)}
           />
         ))}
       </div>
@@ -59,7 +67,9 @@ const DownloadList = ({
       refreshCounter={refreshCounter}
     >
       <PlaylistActionButtons
-        shareUrl={`${window.location.origin}${window.location.pathname}#${id}`}
+        shareUrl={generateShareUrl({
+          id
+        })}
         itemUrls={
           items
             ?.map((item) => item.path)

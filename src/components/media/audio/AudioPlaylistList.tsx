@@ -1,4 +1,4 @@
-import { memo, useRef, useState } from 'react';
+import { memo, ReactNode, useRef, useState } from 'react';
 import MediaPlaylistList from '../MediaPlaylistList';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import AudioPlayerProvider from 'src/providers/AudioPlayerProvider';
@@ -8,12 +8,14 @@ type AudioPlaylistListProps = {
   type?: string;
   playlists?: PlaylistType[];
   showDownloadAll?: boolean;
+  defaultImageIcon?: ReactNode;
 };
 
 const AudioPlaylistListComponent = ({
   type,
   playlists,
-  showDownloadAll = true
+  showDownloadAll = true,
+  defaultImageIcon 
 }: AudioPlaylistListProps) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const playerRef = useRef<AudioPlayerHandle | null>(null);
@@ -30,6 +32,7 @@ const AudioPlaylistListComponent = ({
         mediaPlaylists={playlists}
         mediaType={'audio'}
         showDownloadAll={showDownloadAll}
+        defaultImageIcon={defaultImageIcon}
         getCurrentTime={() => playerRef.current?.getCurrentTime() ?? 0}
         renderPlayer={(
           selectedPlaylist,

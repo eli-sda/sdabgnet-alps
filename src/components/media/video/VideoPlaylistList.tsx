@@ -19,6 +19,19 @@ const VideoPlaylistList = ({
       sanityType={sanityType}
       mediaPlaylists={playlists}
       mediaType="video"
+      defaultImageIcon={
+        <i
+          style={{
+            width: '234px',
+            height: '234px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '120px'
+          }}
+          className="fas fa-video u-background-color--gray--light u-color--black"
+        ></i>
+      }
       onPlaylistSelect={() => {
         setDialogOpen(true);
       }}

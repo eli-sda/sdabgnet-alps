@@ -1,3 +1,5 @@
+import { RiUserVoiceFill } from 'react-icons/ri';
+import { LuBookAudio } from 'react-icons/lu';
 import routes from 'src/routes';
 import { RelatedPostsProps } from 'src/alps/organisms/asides/RelatedPosts';
 import { Page } from 'src/organisms/Page';
@@ -11,6 +13,11 @@ type AudioPageProps = {
   type: 'audiobook' | 'seminars' | 'sermons';
   aside?: React.ReactNode;
   relatedPosts?: RelatedPostsProps;
+};
+
+const reactIconProps = {
+  size: 234,
+  className: 'u-background-color--gray--light u-padding--double u-color--black'
 };
 
 const AudioPage = ({ type, aside, relatedPosts }: AudioPageProps) => {
@@ -70,11 +77,19 @@ const AudioPage = ({ type, aside, relatedPosts }: AudioPageProps) => {
             .
           </h4>
         </div>
-        {type === 'audiobook' && <AudioPlaylistList type={type} />}
+        {type === 'audiobook' && (
+          <AudioPlaylistList
+            type={type}
+            defaultImageIcon={<LuBookAudio {...reactIconProps} />}
+          />
+        )}
       </Page>
 
       {(type === 'seminars' || type === 'sermons') && (
-        <AudioPlaylistList type={type} />
+        <AudioPlaylistList
+          type={type}
+          defaultImageIcon={<RiUserVoiceFill {...reactIconProps} />}
+        />
       )}
     </>
   );

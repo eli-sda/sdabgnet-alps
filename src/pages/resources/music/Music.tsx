@@ -12,6 +12,7 @@ import DownloadList from 'src/components/downloadList/DownloadList';
 import { AudioPlaylistList } from 'src/components/media/audio/AudioPlaylistList';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
 import { SUBPAGE_KICKER } from '../Resources';
+import { MusicIcon } from './MusicIcon';
 import songbookLink from './songbook-link.json';
 import '../audio/AudioPage.scss';
 
@@ -152,7 +153,10 @@ const MusicPage = () => {
             от нея.
           </h4>
         </div>
-        <AudioPlaylistList type="music" />
+        <AudioPlaylistList
+          type="music"
+          defaultImageIcon={<MusicIcon className="u-color--black u-background-color--gray--light" />}
+        />
       </section>
     </>
   );

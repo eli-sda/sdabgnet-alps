@@ -155,7 +155,7 @@ const MusicPage = () => {
         </div>
         <AudioPlaylistList
           type="music"
-          defaultImageIcon={<MusicIcon className="u-color--black u-background-color--gray--light" />}
+          defaultImageIcon={<MusicIcon className="u-color--black c-block__image" />}
         />
       </section>
     </>

@@ -22,14 +22,13 @@ const VideoPlaylistList = ({
       defaultImageIcon={
         <i
           style={{
-            width: '234px',
-            height: '234px',
+            aspectRatio: '1 / 1',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             fontSize: '120px'
           }}
-          className="fas fa-video u-background-color--gray--light u-color--black"
+          className="fas fa-video c-block__image u-color--black"
         ></i>
       }
       onPlaylistSelect={() => {

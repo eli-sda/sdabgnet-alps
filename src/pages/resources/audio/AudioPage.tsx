@@ -16,8 +16,8 @@ type AudioPageProps = {
 };
 
 const reactIconProps = {
-  size: 234,
-  className: 'u-background-color--gray--light u-padding--double u-color--black'
+  size: '100%',
+  className: 'c-block__image u-padding--double u-color--black'
 };
 
 const AudioPage = ({ type, aside, relatedPosts }: AudioPageProps) => {

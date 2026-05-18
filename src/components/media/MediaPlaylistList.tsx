@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlaylists } from 'src/hooks/usePlaylists';
@@ -63,6 +63,7 @@ interface MediaPlaylistListProps {
   ) => React.ReactNode;
   getCurrentTime?: () => number;
   className?: string;
+  defaultImageIcon?: ReactNode;
 }
 
 const MediaPlaylistList = ({
@@ -74,7 +75,8 @@ const MediaPlaylistList = ({
   onPlaylistSelect,
   renderPlayer,
   getCurrentTime,
-  className = ''
+  className = '',
+  defaultImageIcon
 }: MediaPlaylistListProps) => {
   const { hash, search } = useLocation();
 
@@ -244,6 +246,7 @@ const MediaPlaylistList = ({
                 isCurrent={isCurrent}
                 isPlaying={isCurrent && isPlaying}
                 type={mediaType}
+                defaultImageIcon={defaultImageIcon}
                 actionButtons={
                   <div className="u-space--half--top">
                     <PlaylistActionButtons

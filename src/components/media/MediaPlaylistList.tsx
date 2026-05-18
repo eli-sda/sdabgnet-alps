@@ -13,20 +13,27 @@ interface LastPlayedData {
   [playlistId: string]: {
     itemId: string;
     title: string;
+    time?: number;
   };
 }
 
 const saveLastPlayedMedia = (
   playlistId: string,
   itemId: string,
-  title: string
+  title: string,
+  time?: number
 ) => {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     const parsed = stored ? (JSON.parse(stored) as unknown) : {};
     const data = parsed as LastPlayedData;
 
-    data[playlistId] = { itemId, title };
+    // Prevent overwriting the saved time if auto-saving the same item without a specific time
+    const existing = data[playlistId];
+    const timeToSave =
+      time === undefined && existing?.itemId === itemId ? existing.time : time;
+
+    data[playlistId] = { itemId, title, time: timeToSave };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   } catch (e) {
     console.error('Error saving last played media to local storage', e);
@@ -101,7 +108,22 @@ const MediaPlaylistList = ({
     itemId: string;
     title: string;
     index: number;
+    time?: number;
   } | null>(null);
+
+  // Determine the track ID that was initially loaded from a shared URL
+  const urlTrackId = useMemo(() => {
+    const playlistId =
+      playlistIdFromSearch || (hash ? hash.replace('#', '') : null);
+    if (
+      !playlistId ||
+      !selectedPlaylist ||
+      selectedPlaylist._id !== playlistId
+    ) {
+      return null;
+    }
+    return playId || selectedPlaylist.items?.[0]?._id;
+  }, [playlistIdFromSearch, hash, playId, selectedPlaylist]);
 
   const checkAndSetResumePrompt = useCallback(
     (playlist: PlaylistType) => {
@@ -112,12 +134,16 @@ const MediaPlaylistList = ({
         const savedIndex = playlist.items?.findIndex(
           (item) => item._id === lastPlayed.itemId
         );
-        if (savedIndex !== undefined && savedIndex > 0) {
+        if (
+          savedIndex !== undefined &&
+          (savedIndex > 0 || (lastPlayed.time && lastPlayed.time > 0))
+        ) {
           setResumePrompt({
             playlistId: playlist._id,
             itemId: lastPlayed.itemId,
             title: lastPlayed.title,
-            index: savedIndex
+            index: savedIndex,
+            time: lastPlayed.time
           });
           return;
         }
@@ -217,6 +243,14 @@ const MediaPlaylistList = ({
       const currentItem = selectedPlaylist.items?.[currentPlayIndex];
 
       if (currentItem) {
+        // Skip auto-saving the initial URL track to preserve existing progress until the track is changed.
+        if (urlTrackId === currentItem._id) {
+          const existing = getLastPlayedMedia(selectedPlaylist._id);
+          if (existing && existing.itemId !== currentItem._id) {
+            return;
+          }
+        }
+
         saveLastPlayedMedia(
           selectedPlaylist._id,
           currentItem._id,
@@ -224,7 +258,7 @@ const MediaPlaylistList = ({
         );
       }
     }
-  }, [mediaType, selectedPlaylist, currentPlayIndex, resumePrompt]);
+  }, [mediaType, selectedPlaylist, currentPlayIndex, resumePrompt, urlTrackId]);
 
   return (
     <>
@@ -259,6 +293,20 @@ const MediaPlaylistList = ({
                       playlistName={playlist.title}
                       getCurrentTime={getCurrentTime}
                       simpleCopyButton={mediaType === 'video'}
+                      showSaveButton={Boolean(
+                        mediaType === 'audio' && isCurrent && currentItem
+                      )}
+                      onSaveAction={() => {
+                        if (currentItem) {
+                          const currentTime = getCurrentTime?.();
+                          saveLastPlayedMedia(
+                            playlist._id,
+                            currentItem._id,
+                            currentItem.title,
+                            currentTime
+                          );
+                        }
+                      }}
                     />
                   </div>
                 }
@@ -273,6 +321,9 @@ const MediaPlaylistList = ({
         onClose={() => setResumePrompt(null)}
         onContinue={(index) => {
           setCurrentPlayIndex(index);
+          if (resumePrompt?.time) {
+            setInitialTime(resumePrompt.time);
+          }
           setResumePrompt(null);
         }}
       />

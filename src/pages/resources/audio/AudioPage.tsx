@@ -68,6 +68,13 @@ const AudioPage = ({ type, aside, relatedPosts }: AudioPageProps) => {
             {type === 'sermons' &&
               'списък от проповеди или конкретно аудио от него'}
             .
+            <br />
+            Вашият напредък (кой запис слушате) се помни автоматично. Натиснете{' '}
+            <i className="fas fa-bookmark u-color--white u-background-color--ming u-padding--quarter"></i>, за да запазите точната секунда,
+            на която прекъсвате {type === 'audiobook' && 'аудиокнигата'}
+            {type === 'seminars' && 'семинара'}
+            {type === 'sermons' && 'проповедта'}. Щом започнете следващо аудио,
+            то автоматично ще стане вашето ново запомнено място.
           </h4>
         </div>
         {type === 'audiobook' && <AudioPlaylistList type={type} />}

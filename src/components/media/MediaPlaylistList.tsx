@@ -200,7 +200,6 @@ const MediaPlaylistList = ({
           if (timeParam && /^\d+$/.test(timeParam)) {
             // Parse initial time (integer) from URL
             setInitialTime(parseInt(timeParam, 10));
-            // hasSetFromUrl = true;
           } else {
             setInitialTime(undefined);
           }

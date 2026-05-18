@@ -5,20 +5,29 @@
     "title": "Подобрения – 18.05.2026",
     "changes": [
       {
-        "type": "improvement",
-        "text": "Вече е възможно споделяне на отделни ресурси във [Видео](/resources/video), [презентациите в Музика](/resources/music#5a9a97a9-f583-4989-955b-71097e4de0fb), [Презентации](/resources/presentation) и [Изображения](/resources/image)."
-      },
-      {
         "type": "fix",
         "text": "Корекция на блокираното скролиране при мобилни устройства във видео плеъра."
       },
       {
-        "type": "improvement",
-        "text": "Автоматично запомняне на последно слушаното аудио с опция за продължаване."
+        "type": "fix",
+        "text": "Снимките в обявите вече се отварят в оригинален размер."
       },
       {
         "type": "improvement",
         "text": "[Скорошните събития](/#home-events) на началната страница вече с линкове."
+      },
+      {
+        "type": "improvement",
+        "text": "Вече е възможно споделяне на отделни ресурси във [Видео](/resources/video), [презентациите в Музика](/resources/music#5a9a97a9-f583-4989-955b-71097e4de0fb), [Презентации](/resources/presentation) и [Изображения](/resources/image)."
+      },
+      {
+        "type": "improvement",
+        "text": "Автоматично запомняне на последно слушаното аудио с опция за продължаване и нов бутон „Запомни“ за запазване на точната секунда."
+      },
+
+      {
+        "type": "improvement",
+        "text": "Вече имат картинки всички поредици в [Музика](/resources/music), [Семинари](/resources/audio/seminars), [Проповеди](/resources/audio/sermons) и [Опитности](/church_life/testimonies?tab=videoPlaylists)."
       }
     ]
   },

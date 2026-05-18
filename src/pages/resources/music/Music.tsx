@@ -122,7 +122,7 @@ const MusicPage = () => {
       <section className="u-space--triple--top u-spacing--double">
         <div className="audio-page-instructions u-padding--sides">
           <h4 className="audio-page-caption">
-            Използвайте бутона{' '}
+            • Използвайте бутона{' '}
             <span className="audio-page-caption__icon-wrapper">
               <img
                 className="icon"
@@ -130,16 +130,15 @@ const MusicPage = () => {
                 alt="Аудио икона"
               />
             </span>
-            , за да слушате избран избран списък от песни.
-            <br />В отворения аудио плеър чрез бутона{' '}
+            , за да слушате избран списък от песни.
+            <br />• В отворения аудио плеър чрез бутона{' '}
             <img
               className="icon"
               src="/img/icons/playlist-icon.svg"
               alt="Плейлист икона"
             />{' '}
             можете да видите списъка с всички заглавия.
-            <br />
-            За да изтеглите всички аудио файлове от поредицата в архив
+            <br />• За да изтеглите всички аудио файлове от поредицата в архив
             (zip-формат), използвайте бутона &quot;Изтегли всички&quot;, а за да
             изтеглите текущия файл - използвайте иконата{' '}
             <img
@@ -148,14 +147,21 @@ const MusicPage = () => {
               alt="Изтегли икона"
             />{' '}
             от плеъра.
-            <br />
-            Можете да споделите линк към поредицата от песни или конкретно аудио
-            от нея.
+            <br />• Можете да споделите линк към поредицата от песни или
+            конкретно аудио от нея.
+            <br />• Вашият напредък (кой запис слушате) се помни автоматично.
+            Натиснете{' '}
+            <i className="fas fa-bookmark u-color--white u-background-color--ming u-padding--quarter"></i>
+            , за да запазите точната секунда, на която прекъсвате аудиото. Щом
+            започнете следващо аудио, то автоматично ще стане вашето ново
+            запомнено място.
           </h4>
         </div>
         <AudioPlaylistList
           type="music"
-          defaultImageIcon={<MusicIcon className="u-color--black c-block__image" />}
+          defaultImageIcon={
+            <MusicIcon className="u-color--black c-block__image" />
+          }
         />
       </section>
     </>

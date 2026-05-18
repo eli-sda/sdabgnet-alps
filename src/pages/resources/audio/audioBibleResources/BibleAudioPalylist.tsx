@@ -49,7 +49,7 @@ const BibleAudioPalylist = () => {
     <>
       <div className="audio-page-instructions u-space--double--top">
         <h4 className="audio-page-caption">
-          Използвайте бутона{' '}
+          • Използвайте бутона{' '}
           <span className="audio-page-caption__icon-wrapper">
             <img
               className="icon"
@@ -58,24 +58,28 @@ const BibleAudioPalylist = () => {
             />
           </span>
           , за да слушате аудио Библията.
-          <br />В отворения аудио плеър чрез бутона{' '}
+          <br />• В отворения аудио плеър чрез бутона{' '}
           <img
             className="icon"
             src="/img/icons/playlist-icon.svg"
             alt="Плейлист икона"
           />{' '}
           можете да видите списъка с всички глави на Библията.
-          <br />
-          За да изтеглите текущия файл, използвайте иконата{' '}
+          <br />• За да изтеглите текущия файл, използвайте иконата{' '}
           <img
             className="icon"
             src="/img/icons/download-icon.svg"
             alt="Изтегли икона"
           />{' '}
           от плеъра.
-          <br />
-          Можете да споделите линк към аудио Библията или конкретно аудио от
-          нея.
+          <br />• Можете да споделите линк към аудио Библията или конкретно
+          аудио от нея.
+          <br />• Вашият напредък (коя глава слушате) се помни автоматично.
+          Натиснете{' '}
+          <i className="fas fa-bookmark u-color--white u-background-color--ming u-padding--quarter"></i>
+          , за да запазите точната секунда, на която прекъсвате Библията. Щом
+          започнете следващата глава, тя автоматично ще стане вашето ново
+          запомнено място.
         </h4>
       </div>
 

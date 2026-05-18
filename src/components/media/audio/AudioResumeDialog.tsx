@@ -6,12 +6,14 @@ import {
   DialogActions
 } from '@mui/material';
 import { Button } from 'src/alps/atoms/Button';
+import { formatTime } from 'src/utils/formatTime';
 
 type ResumePrompt = {
   playlistId: string;
   itemId: string;
   title: string;
   index: number;
+  time?: number;
 } | null;
 
 type AudioResumeDialogProps = {
@@ -45,8 +47,14 @@ export const AudioResumeDialog = ({
       <DialogTitle>Възстановяване на възпроизвеждането</DialogTitle>
       <DialogContent>
         <p>
-          Последно сте слушали <strong>{resumePrompt?.title}</strong>. Искате ли
-          да продължите от там?
+          Последно сте слушали <strong>{resumePrompt?.title}</strong>
+          {resumePrompt?.time && resumePrompt.time > 0 && (
+            <span>
+              {' '}
+              до <strong>{formatTime(resumePrompt.time)}</strong>
+            </span>
+          )}
+          . Искате ли да продължите от там?
         </p>
       </DialogContent>
       <DialogActions>

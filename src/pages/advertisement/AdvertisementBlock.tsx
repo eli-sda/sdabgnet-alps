@@ -36,7 +36,8 @@ const AdvertisementBlock = ({
   phone,
   hasViber = false,
   image,
-  type
+  type,
+  url
 }: //archivePage, row
 AdvertisementBlockProps): JSX.Element => {
   type = 'archivePage';
@@ -62,7 +63,7 @@ AdvertisementBlockProps): JSX.Element => {
             className={`${'image' in preset ? preset.image : ''}`}
             asBackgroundImage={asBackgroundImage}
             image={image}
-            url={image.srcSet[1200]}
+            url={url}
           />
         )}
         <div

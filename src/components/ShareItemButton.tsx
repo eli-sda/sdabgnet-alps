@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from 'src/alps/atoms/Button';
 
-const ShareVideoButton = ({
+const ShareItemButton = ({
   url,
   btnClassName
 }: {
@@ -31,4 +31,4 @@ const ShareVideoButton = ({
   );
 };
 
-export default ShareVideoButton;
+export default ShareItemButton;

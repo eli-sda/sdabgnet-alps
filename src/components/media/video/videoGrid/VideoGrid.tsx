@@ -3,7 +3,7 @@ import { LinkType, PlaylistType } from 'src/contexts/PlaylistsContext';
 import { extractYouTubeId, extractRumbleId } from 'src/utils/extractVideoId';
 import VideoWithPreview from 'src/components/media/video/videoWithPreview/VideoWithPreview';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
-import ShareVideoButton from 'src/components/ShareVideoButton';
+import ShareItemButton from 'src/components/ShareItemButton';
 import './VideoGrid.scss';
 
 interface VideoGridProps {
@@ -98,7 +98,7 @@ const VideoGrid = ({
               onActivate={setActiveVideo}
               size="large"
             />
-            <ShareVideoButton url={shareUrl} />
+            <ShareItemButton url={shareUrl} />
           </div>
         );
       })}

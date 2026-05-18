@@ -40,7 +40,7 @@ const AudioPage = ({ type, aside, relatedPosts }: AudioPageProps) => {
       >
         <div className="audio-page-instructions">
           <h4 className="audio-page-caption">
-            Използвайте бутона{' '}
+            • Използвайте бутона{' '}
             <span className="audio-page-caption__icon-wrapper">
               <img
                 className="icon"
@@ -50,16 +50,15 @@ const AudioPage = ({ type, aside, relatedPosts }: AudioPageProps) => {
             </span>
             , за да слушате {type === 'audiobook' && 'избрана аудиокнига'}
             {type === 'seminars' && 'избран семинар'}
-            {type === 'sermons' && 'избран списък от проповеди'}.<br />В
-            отворения аудио плеър чрез бутона{' '}
+            {type === 'sermons' && 'избран списък от проповеди'}.
+            <br />• В отворения аудио плеър чрез бутона{' '}
             <img
               className="icon"
               src="/img/icons/playlist-icon.svg"
               alt="Плейлист икона"
             />{' '}
             можете да видите списъка с всички заглавия.
-            <br />
-            За да изтеглите всички аудио файлове от поредицата в архив
+            <br />• За да изтеглите всички аудио файлове от поредицата в архив
             (zip-формат), използвайте бутона &quot;Изтегли всички&quot;, а за да
             изтеглите текущия файл - използвайте иконата{' '}
             <img
@@ -68,17 +67,17 @@ const AudioPage = ({ type, aside, relatedPosts }: AudioPageProps) => {
               alt="Изтегли икона"
             />{' '}
             от плеъра.
-            <br />
-            Можете да споделите линк към{' '}
+            <br />• Можете да споделите линк към{' '}
             {type === 'audiobook' && 'аудиокнига или конкретно аудио от нея'}
             {type === 'seminars' && 'семинар или конкретно аудио от него'}
             {type === 'sermons' &&
               'списък от проповеди или конкретно аудио от него'}
             .
-            <br />
-            Вашият напредък (кой запис слушате) се помни автоматично. Натиснете{' '}
-            <i className="fas fa-bookmark u-color--white u-background-color--ming u-padding--quarter"></i>, за да запазите точната секунда,
-            на която прекъсвате {type === 'audiobook' && 'аудиокнигата'}
+            <br />• Вашият напредък (кой запис слушате) се помни автоматично.
+            Натиснете{' '}
+            <i className="fas fa-bookmark u-color--white u-background-color--ming u-padding--quarter"></i>
+            , за да запазите точната секунда, на която прекъсвате{' '}
+            {type === 'audiobook' && 'аудиокнигата'}
             {type === 'seminars' && 'семинара'}
             {type === 'sermons' && 'проповедта'}. Щом започнете следващо аудио,
             то автоматично ще стане вашето ново запомнено място.

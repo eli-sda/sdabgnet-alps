@@ -48,13 +48,11 @@ export const AudioResumeDialog = ({
       <DialogContent>
         <p>
           Последно сте слушали <strong>{resumePrompt?.title}</strong>
-          {resumePrompt?.time && resumePrompt.time > 0 ? (
+          {resumePrompt?.time && resumePrompt.time > 0 && (
             <span>
               {' '}
               до <strong>{formatTime(resumePrompt.time)}</strong>
             </span>
-          ) : (
-            ''
           )}
           . Искате ли да продължите от там?
         </p>

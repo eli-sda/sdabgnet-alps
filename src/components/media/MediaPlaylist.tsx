@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { MediaBlock } from 'src/alps/molecules/blocks/MediaBlock';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlayer } from 'src/contexts/AudioPlayerContext';
@@ -11,6 +12,7 @@ type MediaPlaylistProps = {
   isCurrent?: boolean;
   isPlaying?: boolean;
   actionButtons?: JSX.Element;
+  defaultImageIcon?: ReactNode;
 };
 
 const MediaPlaylist = ({
@@ -19,10 +21,15 @@ const MediaPlaylist = ({
   onPlaylistSelect,
   isCurrent,
   isPlaying,
-  actionButtons
+  actionButtons,
+  defaultImageIcon
 }: MediaPlaylistProps) => {
   const { author, title = '', imageUrl } = playlist;
-  const img = imageUrl ? getImageTypeByUrl(imageUrl) : getImage();
+  const img = imageUrl
+    ? getImageTypeByUrl(imageUrl)
+    : defaultImageIcon
+      ? undefined
+      : getImage();
 
   const ctx = usePlayer();
   const pauseAction = ctx.pause ?? (() => {});
@@ -39,6 +46,7 @@ const MediaPlaylist = ({
     >
       <MediaBlock
         image={img}
+        defaultImageIcon={defaultImageIcon}
         type="stacked"
         title={title}
         kicker={author}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-// Animate icon when hash matches a /playlist item
+// Animate icon when hash matches a playlist item
 const useHashActive = (delayMs = 1100, activeMs = 5000) => {
   const { hash } = useLocation();
   const [activeId, setActiveId] = useState<string | null>(null);

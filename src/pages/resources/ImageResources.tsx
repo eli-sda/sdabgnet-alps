@@ -5,10 +5,13 @@ import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { LinkType } from 'src/contexts/PlaylistsContext';
 import { usePlaylists } from 'src/hooks/usePlaylists';
+import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { getTitle } from 'src/utils/Navigation';
 import DownloadList from 'src/components/downloadList/DownloadList';
 
 const ImageResources = () => {
+  useScrollToHash();
+
   const breadcrumbsUrls = [routes.resources(), routes.resources('image')];
   const { getLinks } = usePlaylists();
   const [images, setImages] = useState<LinkType[]>([]);

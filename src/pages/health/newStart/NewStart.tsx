@@ -13,6 +13,8 @@ import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
 import { PageHeaderFeature2 } from 'src/organisms/sections/PageHeaderFeature2';
 import VideoGrid from 'src/components/media/video/videoGrid/VideoGrid';
+import NewStartQuiz, { QuizData } from './NewStartQuiz';
+import quizData from './newStartQuiz.json';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -342,6 +344,24 @@ const NewStart = (): JSX.Element => {
           <VideoGrid
             videos={videos}
             playlists={playlists}
+            className="u-space--left u-space--right"
+          />
+        </section>
+
+        <section className="u-spacing">
+          <PageHeaderFeature2
+            blockType="quarterSS"
+            blocks={[
+              {
+                type: 'quarterSS',
+                title: 'Тест върху принципите на NEW START',
+                kicker: 'Здравословен начин на живот - NEW START'
+              }
+            ]}
+          />
+
+          <NewStartQuiz
+            quizData={quizData as QuizData}
             className="u-space--left u-space--right"
           />
         </section>

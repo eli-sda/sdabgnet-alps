@@ -84,5 +84,25 @@
     "url": "https://www.facebook.com/centar.trapezata",
     "img": "/img/logos/center-trapezata.webp",
     "description": "„Център Трапезата“ е уютно място в Русе, близо до центъра. Освен приятно кътче за срещи, той е и пространство с мисия – предлага безплатни занимания и възможности да се включиш в инициативи за помощ и добри дела."
+  },
+  {
+    "title": "Детски център \"Слънчева страна\"",
+    "url": "https://www.facebook.com/profile.php?id=61561347756706",
+    "img": "/img/logos/children's-center-sunny-side.webp",
+    "description": "Работа с деца, лятна занималня, обучения, игри",
+    "buttons": [
+      {
+        "label": "Отвори страницата",
+        "url": "https://www.facebook.com/profile.php?id=61561347756706",
+        "isExternal": true,
+        "outline": true
+      },
+      {
+        "label": "Фондация \"Меден дом\"",
+        "url": "https://www.facebook.com/honeyhomelifestyle",
+        "isExternal": true,
+        "outline": true
+      }
+    ]
   }
 ]

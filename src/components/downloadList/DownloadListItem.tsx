@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
+import { parseLinksMdToHtml } from 'src/utils/Links';
 import { Button, ButtonProps } from 'src/alps/atoms/Button';
 import { RESOURCES_SITE, RESOURCES_FOLDER } from 'src/constants';
 import { LinkType } from 'src/contexts/PlaylistsContext';
@@ -135,22 +136,10 @@ const DownloadListItem = ({
           }
 
           if (part) {
-            // Convert markdown links to HTML string <a> tags
-            const parsedHtml = part.replace(
-              /\[([^\]]+)\]\(([^)]+)\)/g,
-              (_: string, linkText: string, linkUrl: string) => {
-                const isExternal = linkUrl.startsWith('http');
-                const targetAttr = isExternal
-                  ? ' target="_blank" rel="noopener noreferrer"'
-                  : '';
-                return `<a href="${linkUrl}" class="u-theme--link-hover--dark"${targetAttr}>${linkText}</a>`;
-              }
-            );
-
             return (
               <div
                 key={`text-${index}`}
-                dangerouslySetInnerHTML={{ __html: parsedHtml }}
+                dangerouslySetInnerHTML={{ __html: parseLinksMdToHtml(part) }}
               />
             );
           }

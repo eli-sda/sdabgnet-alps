@@ -38,9 +38,12 @@ export const generateId = (title: string): string =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
 
+/** Matches markdown-style links: [text](url) */
+const MD_LINK_REGEX = /\[([^\]]+)\]\(([^)]+)\)/g;
+
 /** Parses markdown-style links [text](url) in a string and renders them as <a> (external) or <NavLink> (internal). */
 export const parseLinksMd = (text: string): React.ReactNode[] => {
-  const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  const linkRegex = new RegExp(MD_LINK_REGEX.source, 'g');
   const parts: React.ReactNode[] = [];
   let lastIndex = 0;
   let match;
@@ -91,3 +94,16 @@ export const newLinesWithLinks = (text: string): React.ReactNode[] => {
     </React.Fragment>
   ));
 };
+
+/** Converts markdown-style links [text](url) in an HTML string to <a> tags, preserving existing HTML. */
+export const parseLinksMdToHtml = (html: string): string =>
+  html.replace(
+    new RegExp(MD_LINK_REGEX.source, 'g'),
+    (_, linkText: string, linkUrl: string) => {
+      const isExternal = linkUrl.startsWith('http');
+      const attrs = isExternal
+        ? ' target="_blank" rel="noopener noreferrer"'
+        : '';
+      return `<a href="${linkUrl}" class="u-theme--link-hover--dark"${attrs}>${linkText}</a>`;
+    }
+  );

@@ -1,4 +1,10 @@
-.new-start-quiz {
+@use '/src/styles/_dialog-title' as *;
+
+.quiz-dialog {
+  &-title.MuiTypography-root {
+    @include dialog-title;
+  }
+
   .quiz-answers {
     display: flex;
     flex-direction: column;
@@ -8,10 +14,5 @@
       display: flex;
       align-items: center;
     }
-  }
-
-  .quiz-navigation {
-    display: flex;
-    justify-content: space-between;
   }
 }

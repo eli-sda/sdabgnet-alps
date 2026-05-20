@@ -13,16 +13,17 @@ import VideoWithPreview from 'src/components/media/video/videoWithPreview/VideoW
 import { SUBPAGE_KICKER } from '../Resources';
 import BooksList from './BooksList';
 
+const booksPath = routes.resources('books');
 const Books = () => {
-  const breadcrumbsUrls = [routes.resources(), routes.resources('books')];
+  const breadcrumbsUrls = [routes.resources(), booksPath];
 
-  const { getResourcePlaylists } = usePlaylists();
+  const { getPagePlaylists } = usePlaylists();
   const [books, setBooks] = useState<PlaylistType[]>([]);
   const [filteredBooks, setFilteredBooks] = useState<PlaylistType[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    getResourcePlaylists('books', undefined, false)
+    getPagePlaylists(booksPath)
       // Други at the end of the list
       .then((data: PlaylistType[]) => {
         const sortedData = data.sort((a, b) => {
@@ -34,7 +35,7 @@ const Books = () => {
         setFilteredBooks(sortedData);
       })
       .catch((err) => console.error(err));
-  }, [getResourcePlaylists]);
+  }, [getPagePlaylists]);
 
   const [isPlayingAsideVideo, setIsPlayingAsideVideo] = useState(false);
 

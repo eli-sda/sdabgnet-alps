@@ -107,6 +107,34 @@ export const loadQuestions = async (): Promise<QuestionType[]> => {
   return questions;
 };
 
+export const loadPagePlaylists = async (
+  pagePath: string
+): Promise<PlaylistType[]> => {
+  const query = `*[_type == "page" && path.current == $pagePath][0] {
+    "playlists": items[]->{
+      _id,
+      author,
+      title,
+      description,
+      "imageUrl": image.asset -> url,
+      "items": items[_type == "reference"]->{
+        _id,
+        author,
+        title,
+        description,
+        "path": select(isResource == true => ^.slug.current + "/" + fileName, true => URL),
+        size,
+      }
+    }
+  }`;
+
+  const result: { playlists: PlaylistType[] } | null = await client.fetch(
+    query,
+    { pagePath }
+  );
+  return result?.playlists ?? [];
+};
+
 export const loadPlaylists = async (
   type: string,
   isResource?: boolean,

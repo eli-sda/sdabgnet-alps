@@ -7,6 +7,7 @@ import {
 } from 'src/contexts/PlaylistsContext';
 import {
   loadLinks,
+  loadPagePlaylists,
   loadPlaylists,
   loadSeminarRelatedPresentations,
   loadStandalonePresentations
@@ -132,6 +133,39 @@ export function usePlaylists() {
   );
 
   /**
+   * Retrieves playlists defined on a Sanity page document by its path.
+   * Caches by pagePath, refreshed once per day.
+   *
+   * @param pagePath The Sanity page path (e.g. "/resources/books").
+   * @returns A promise resolving to an array of playlists.
+   */
+  const getPagePlaylists = useCallback(
+    async (pagePath: string): Promise<PlaylistType[]> => {
+      const today = getTodayString();
+      const cacheKey = `page_${pagePath}`;
+
+      if (playlists[cacheKey] && lastLoaded[`playlist_${cacheKey}`] === today) {
+        return Promise.resolve(playlists[cacheKey]);
+      }
+
+      return await loadPagePlaylists(pagePath)
+        .then((loadedPlaylists) => {
+          const processedPlaylists = loadedPlaylists?.slice() || [];
+          setPlaylists(cacheKey, processedPlaylists);
+          setLastLoaded(`playlist_${cacheKey}`, today);
+          return Promise.resolve(processedPlaylists);
+        })
+        .catch((err) => {
+          console.error(
+            `Failed to fetch page playlists for "${pagePath}": ${err}`
+          );
+          return Promise.resolve([]);
+        });
+    },
+    [playlists, lastLoaded, setPlaylists, setLastLoaded]
+  );
+
+  /**
    * Retrieves links for a given type.
    * - If links of that type are cached and up-to-date (loaded today), returns the cached data.
    * - Otherwise, fetches them from the backend, updates the cache, and returns the new data.
@@ -240,6 +274,7 @@ export function usePlaylists() {
   return {
     getPlaylists,
     getResourcePlaylists,
+    getPagePlaylists,
     getLinks,
     getSeminarRelatedPresentations,
     getStandalonePresentations

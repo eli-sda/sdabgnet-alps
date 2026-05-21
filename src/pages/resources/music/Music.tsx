@@ -50,10 +50,12 @@ const musicLinks = {
   ]
 };
 
+const pagePath = routes.resources('music');
+
 const MusicPage = () => {
   useScrollToHash();
 
-  const breadcrumbsUrls = [routes.resources(), routes.resources('music')];
+  const breadcrumbsUrls = [routes.resources(), pagePath];
 
   const { getResourcePlaylists } = usePlaylists();
   const [musicPlaylist, setMusicPlaylist] = useState<PlaylistType[]>([]);
@@ -158,7 +160,7 @@ const MusicPage = () => {
           </h4>
         </div>
         <AudioPlaylistList
-          type="music"
+          pagePath={pagePath}
           defaultImageIcon={
             <MusicIcon className="u-color--black c-block__image" />
           }

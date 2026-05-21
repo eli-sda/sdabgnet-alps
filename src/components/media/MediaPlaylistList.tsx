@@ -1,4 +1,11 @@
-import { memo, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  memo,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+} from 'react';
 import { useLocation } from 'react-router-dom';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlaylists } from 'src/hooks/usePlaylists';
@@ -57,7 +64,7 @@ const getLastPlayedMedia = (playlistId: string) => {
 
 interface MediaPlaylistListProps {
   mediaType: 'audio' | 'video';
-  sanityType?: string;
+  pagePath?: string;
   mediaPlaylists?: PlaylistType[];
   showDownloadAll?: boolean;
   isPlaying?: boolean;
@@ -75,7 +82,7 @@ interface MediaPlaylistListProps {
 
 const MediaPlaylistList = ({
   mediaType,
-  sanityType,
+  pagePath,
   mediaPlaylists,
   showDownloadAll = false,
   isPlaying,
@@ -97,7 +104,7 @@ const MediaPlaylistList = ({
     };
   }, [search]);
 
-  const { getPlaylists } = usePlaylists();
+  const { getPagePlaylists } = usePlaylists();
   const [playlists, setPlaylists] = useState<PlaylistType[]>(
     mediaPlaylists || []
   );
@@ -219,8 +226,8 @@ const MediaPlaylistList = ({
       playlistsArr.push(...mediaPlaylists);
     }
 
-    if (sanityType) {
-      void getPlaylists(sanityType, mediaType === 'audio')
+    if (pagePath) {
+      void getPagePlaylists(pagePath)
         .then((sanityPl) => {
           playlistsArr.push(...sanityPl);
           setInitialPlaylists(playlistsArr);
@@ -235,7 +242,7 @@ const MediaPlaylistList = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     mediaPlaylists,
-    sanityType,
+    pagePath,
     mediaType
     // setInitialPlaylists - do not include to avoid infinite loop
   ]);

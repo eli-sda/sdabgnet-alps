@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Text } from 'alps-library/atoms/text/Text';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import { Accordion } from 'src/alps/molecules/components/accordion/Accordion';
 import { Page } from 'src/organisms/Page';
@@ -11,22 +10,24 @@ import { getTitle } from 'src/utils/Navigation';
 import DownloadList from 'src/components/downloadList/DownloadList';
 import { SUBPAGE_KICKER } from './Resources';
 
+const videoPath = routes.resources('video');
+
 const VideoResources = () => {
   useScrollToHash();
 
-  const breadcrumbsUrls = [routes.resources(), routes.resources('video')];
-  const { getResourcePlaylists } = usePlaylists();
+  const breadcrumbsUrls = [routes.resources(), videoPath];
+  const { getPagePlaylists } = usePlaylists();
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
 
   useEffect(() => {
-    getResourcePlaylists('video')
+    getPagePlaylists(videoPath)
       .then(setPlaylists)
       .catch((err) => console.error(err));
-  }, [getResourcePlaylists]);
+  }, [getPagePlaylists]);
 
   return (
     <Page
-      title={getTitle(routes.resources('video'))}
+      title={getTitle(videoPath)}
       kicker={SUBPAGE_KICKER}
       breadcrumbsUrls={breadcrumbsUrls}
       pageClassName="download-resources"
@@ -38,26 +39,24 @@ const VideoResources = () => {
         </div>
       )}
 
-      <Text as="article" hasDropcap={false} spacing="double">
-        <Accordion>
-          {/* Map playlists to DownloadList */}
-          {playlists.map(({ _id, title, author, items }, i) => (
-            <DownloadList
-              key={i}
-              id={_id}
-              title={title}
-              author={author}
-              items={items?.map(({ _id, title, description, size, path }) => ({
-                _id,
-                title,
-                description,
-                size,
-                path // for download
-              }))}
-            />
-          ))}
-        </Accordion>
-      </Text>
+      <Accordion className="text">
+        {/* Map playlists to DownloadList */}
+        {playlists.map(({ _id, title, author, items }, i) => (
+          <DownloadList
+            key={i}
+            id={_id}
+            title={title}
+            author={author}
+            items={items?.map(({ _id, title, description, size, path }) => ({
+              _id,
+              title,
+              description,
+              size,
+              path // for download
+            }))}
+          />
+        ))}
+      </Accordion>
     </Page>
   );
 };

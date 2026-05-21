@@ -23,16 +23,18 @@ const reactIconProps = {
 const AudioPage = ({ type, aside, relatedPosts }: AudioPageProps) => {
   useScrollToHash();
 
+  const pagePath = routes.resources('audio', type);
+
   const breadcrumbsUrls = [
     routes.resources(),
     routes.resources('audio'),
-    routes.resources('audio', type)
+    pagePath
   ];
 
   return (
     <>
       <Page
-        title={getTitle(routes.resources('audio', type))}
+        title={getTitle(pagePath)}
         kicker={SUBPAGE_KICKER}
         breadcrumbsUrls={breadcrumbsUrls}
         aside={aside}
@@ -85,7 +87,7 @@ const AudioPage = ({ type, aside, relatedPosts }: AudioPageProps) => {
         </div>
         {type === 'audiobook' && (
           <AudioPlaylistList
-            type={type}
+            pagePath={pagePath}
             defaultImageIcon={<LuBookAudio {...reactIconProps} />}
           />
         )}
@@ -93,7 +95,7 @@ const AudioPage = ({ type, aside, relatedPosts }: AudioPageProps) => {
 
       {(type === 'seminars' || type === 'sermons') && (
         <AudioPlaylistList
-          type={type}
+          pagePath={pagePath}
           defaultImageIcon={<RiUserVoiceFill {...reactIconProps} />}
         />
       )}

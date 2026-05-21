@@ -11,14 +11,16 @@ import { getTitle } from 'src/utils/Navigation';
 import DownloadList from 'src/components/downloadList/DownloadList';
 import songbookLink from './music/songbook-link.json';
 
+const presentationPath = routes.resources('presentation');
+
 const PresentationResources = () => {
   useScrollToHash();
 
   const breadcrumbsUrls = [
     routes.resources(),
-    routes.resources('presentation')
+    presentationPath
   ];
-  const { getResourcePlaylists, getStandalonePresentations } = usePlaylists();
+  const { getPagePlaylists, getStandalonePresentations } = usePlaylists();
 
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
   const [standalonePresentations, setStandalonePresentations] = useState<
@@ -26,18 +28,18 @@ const PresentationResources = () => {
   >([]);
 
   useEffect(() => {
-    getResourcePlaylists('presentations')
+    getPagePlaylists(presentationPath)
       .then(setPlaylists)
       .catch((err) => console.error(err));
 
     getStandalonePresentations()
       .then(setStandalonePresentations)
       .catch((err) => console.error(err));
-  }, [getResourcePlaylists, getStandalonePresentations]);
+  }, [getPagePlaylists, getStandalonePresentations]);
 
   return (
     <Page
-      title={getTitle(routes.resources('presentation'))}
+      title={getTitle(presentationPath)}
       kicker={getTitle(routes.resources())}
       breadcrumbsUrls={breadcrumbsUrls}
       pageClassName="download-resources"

@@ -118,10 +118,12 @@ const youTubeLinks = {
   ]
 };
 
+const biblicalPath = routes.info('biblical');
+
 const Biblical = () => {
   useScrollToHash();
 
-  const breadcrumbsUrls = [routes.info(), routes.info('biblical')];
+  const breadcrumbsUrls = [routes.info(), biblicalPath];
 
   const believeSections = believe28 as BelieveSection[];
 
@@ -233,7 +235,7 @@ const Biblical = () => {
               }
             ]}
           />
-          <VideoPlaylistList sanityType="bible_ref" />
+          <VideoPlaylistList pagePath={biblicalPath} />
         </section>
 
         <section className="u-spacing">

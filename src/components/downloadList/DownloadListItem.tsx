@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
+import { parseLinksMdToHtml } from 'src/utils/Links';
 import { Button, ButtonProps } from 'src/alps/atoms/Button';
 import { RESOURCES_SITE, RESOURCES_FOLDER } from 'src/constants';
 import { LinkType } from 'src/contexts/PlaylistsContext';
@@ -36,6 +38,8 @@ const DownloadListItem = ({
       return 'file-video';
     return 'file';
   }, [path]);
+
+  const navigate = useNavigate();
 
   const [downloading, setDownloading] = useState(false);
 
@@ -99,7 +103,21 @@ const DownloadListItem = ({
 
   const renderVideoContent = useMemo(() => {
     return (
-      <div className="u-spacing">
+      <div
+        className="u-spacing"
+        onClick={(e) => {
+          // Intercept clicks on internal links to act like <NavLink>
+          const target = e.target as HTMLElement;
+          const anchor = target.closest('a');
+          if (anchor) {
+            const href = anchor.getAttribute('href');
+            if (href && !href.startsWith('http')) {
+              e.preventDefault();
+              navigate(href);
+            }
+          }
+        }}
+      >
         {htmlContent.split(/(__VIDEO_\d+__)/g).map((part, index) => {
           const videoMatch = part.match(/^__VIDEO_(\d+)__$/);
 
@@ -117,16 +135,20 @@ const DownloadListItem = ({
             ) : null;
           }
 
-          return part ? (
-            <div
-              key={`text-${index}`}
-              dangerouslySetInnerHTML={{ __html: part }}
-            />
-          ) : null;
+          if (part) {
+            return (
+              <div
+                key={`text-${index}`}
+                dangerouslySetInnerHTML={{ __html: parseLinksMdToHtml(part) }}
+              />
+            );
+          }
+
+          return null;
         })}
       </div>
     );
-  }, [htmlContent, videos]);
+  }, [htmlContent, videos, navigate]);
 
   const downloadButton = (
     <Button

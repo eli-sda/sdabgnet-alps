@@ -1,34 +1,52 @@
 export const filterSectionedData = <
   ItemType extends Record<string, unknown>,
-  SectionType extends { items?: ItemType[] }
+  SectionType extends Record<string, unknown>
 >(
   data: SectionType[],
   query: string,
-  searchKeys: (keyof ItemType)[] = ['title' as keyof ItemType]
+  searchKeys: string[] = ['title'],
+  childrenKey: string = 'items'
 ): SectionType[] => {
   const q = query?.trim().toLowerCase() || '';
 
   if (!q) return data;
 
-  const mapped = data
-    .map((section) => {
-      const items: ItemType[] = section.items ?? [];
-      const matchedItems = items.filter((item) => {
-        // Check if any of the provided keys match the query
-        return searchKeys.some((key) => {
-          const raw = item[key];
-          const val = String(raw ?? '').toLowerCase();
-          return val.includes(q);
-        });
-      });
+  return data.reduce<SectionType[]>((acc, item) => {
+    // Check if the parent object matches the query
+    const itemMatches = searchKeys.some((key) => {
+      const rawVal = item[key];
+      // Only perform string search on primitives (strings or numbers)
+      if (typeof rawVal === 'string' || typeof rawVal === 'number') {
+        return String(rawVal).toLowerCase().includes(q);
+      }
+      return false;
+    });
 
-      return matchedItems.length > 0
-        ? ({ ...section, items: matchedItems } as SectionType & {
-            items: ItemType[];
-          })
-        : null;
-    })
-    .filter((s): s is SectionType & { items: ItemType[] } => s !== null);
+    // Extract and safely type-cast the nested children array
+    const rawChildren = item[childrenKey];
+    const children = Array.isArray(rawChildren)
+      ? (rawChildren as ItemType[])
+      : [];
 
-  return mapped as SectionType[];
+    // Filter the nested children using the same search keys
+    const matchedChildren = children.filter((child) =>
+      searchKeys.some((key) => {
+        const rawVal = child[key];
+        // Only perform string search on primitives (strings or numbers)
+        if (typeof rawVal === 'string' || typeof rawVal === 'number') {
+          return String(rawVal).toLowerCase().includes(q);
+        }
+        return false;
+      })
+    );
+
+    // Keep the entire item if it matches, or keep it with only the matching children
+    if (itemMatches) {
+      acc.push(item);
+    } else if (matchedChildren.length > 0) {
+      acc.push({ ...item, [childrenKey]: matchedChildren } as SectionType);
+    }
+
+    return acc;
+  }, []);
 };

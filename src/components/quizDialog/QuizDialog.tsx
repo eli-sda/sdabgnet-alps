@@ -37,7 +37,7 @@ const QuizDialog = ({ quizData, open, onClose }: QuizDialogProps) => {
   const isMultiple = currentQuestion?.questionType === 'multiple';
   const quizLength = quizData.questions.length;
   const progress = useMemo(
-    () => (currentStep / quizLength) * 100,
+    () => ((currentStep + 1) / quizLength) * 100,
     [currentStep, quizLength]
   );
 

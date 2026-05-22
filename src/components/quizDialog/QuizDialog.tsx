@@ -26,11 +26,7 @@ interface QuizDialogProps {
   onClose: () => void;
 }
 
-const QuizDialog = ({
-  quizData,
-  open,
-  onClose
-}: QuizDialogProps) => {
+const QuizDialog = ({ quizData, open, onClose }: QuizDialogProps) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [userAnswers, setUserAnswers] = useState<
     Record<number, string | string[]>
@@ -92,6 +88,18 @@ const QuizDialog = ({
     setShowResults(false);
   };
 
+  const handleClose = (
+    _event: unknown,
+    reason?: 'backdropClick' | 'escapeKeyDown'
+  ) => {
+    if (reason === 'backdropClick') {
+      return;
+    }
+
+    handleReset();
+    onClose();
+  };
+
   // Calculate the final score
   const score = useMemo(() => {
     if (!showResults) return 0;
@@ -127,7 +135,7 @@ const QuizDialog = ({
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       maxWidth="md"
       fullWidth
       className="quiz-dialog"
@@ -141,7 +149,7 @@ const QuizDialog = ({
             iconPosition="right"
             title="Затвори"
             simple
-            onClick={onClose}
+            onClick={handleClose}
           />
         </div>
       </DialogTitle>

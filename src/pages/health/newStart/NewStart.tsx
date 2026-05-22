@@ -350,7 +350,7 @@ const NewStart = (): JSX.Element => {
           />
         </section>
 
-        <section className="u-spacing u-background-color--gray--light">
+        <section className="u-spacing u-background-color--gray--light" id="new-start-quiz">
           <PageHeaderFeature2
             blockType="quarterSS"
             blocks={[
@@ -362,9 +362,9 @@ const NewStart = (): JSX.Element => {
           />
 
           <div className="u-space--left u-space--right">
-            <h2 className="u-font--primary--l u-theme--color--darker">
+            <h3 className="u-theme--color--darker">
               <strong>Смяташ, че познаваш здравните принципи?</strong>
-            </h2>
+            </h3>
 
             <p className="u-font--secondary--m">Провери знанията си</p>
 

@@ -130,6 +130,8 @@ const MusicPage = () => {
                 className="icon"
                 src="/images/icons/o-icon__audio.svg"
                 alt="Аудио икона"
+                width="20"
+                height="20"
               />
             </span>
             , за да слушате избран списък от песни.
@@ -138,6 +140,8 @@ const MusicPage = () => {
               className="icon"
               src="/img/icons/playlist-icon.svg"
               alt="Плейлист икона"
+              width="20"
+              height="20"
             />{' '}
             можете да видите списъка с всички заглавия.
             <br />• За да изтеглите всички аудио файлове от поредицата в архив
@@ -147,6 +151,8 @@ const MusicPage = () => {
               className="icon"
               src="/img/icons/download-icon.svg"
               alt="Изтегли икона"
+              width="20"
+              height="20"
             />{' '}
             от плеъра.
             <br />• Можете да споделите линк към поредицата от песни или

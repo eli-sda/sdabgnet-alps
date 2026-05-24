@@ -72,7 +72,19 @@ export const AdsCarousel = () => {
     }));
   }, [carouselAds]);
 
-  return slides && slides.length > 0 ? (
+  // While loading (carouselAds is undefined), reserve the space with a skeleton
+  // so the daily-verse block doesn't shift when the carousel appears.
+  // The skeleton mirrors the real slide structure: image (16:9) + text section below.
+  if (slides === undefined) {
+    return (
+      <div id="ads-carousel" className="c-carousel c-carousel--skeleton" aria-hidden="true">
+        <div className="c-carousel--skeleton__image" />
+        <div className="c-carousel--skeleton__text" />
+      </div>
+    );
+  }
+
+  return slides.length > 0 ? (
     <div id="ads-carousel" className="c-carousel">
       <Swiper
         mousewheel

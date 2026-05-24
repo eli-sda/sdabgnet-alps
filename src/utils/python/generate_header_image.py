@@ -1,5 +1,5 @@
 """
-Script to generate landscape header banners from any local image.
+Script to generate landscape header banners from any local image (jpg, png or webP format).
 Creates a blurred and darkened background clone to fill the aspect ratio nicely.
 Ensures the original image is fully visible without cropping.
 
@@ -49,8 +49,14 @@ def process_header_image(input_path: str, output_path: str, width: int, height: 
         y = (height - fg.height) // 2
         canvas.paste(fg, (x, y))
 
-        # Save the final optimized JPEG image
-        canvas.save(output_path, 'JPEG', quality=90, optimize=True)
+        # Save the final image in the format matching the output file extension
+        ext = os.path.splitext(output_path)[1].lower()
+        if ext == '.webp':
+            canvas.save(output_path, 'WEBP', quality=90, method=6)
+        elif ext == '.png':
+            canvas.save(output_path, 'PNG', optimize=True)
+        else:
+            canvas.save(output_path, 'JPEG', quality=90, optimize=True)
         print(f"✓ Successfully generated header: '{output_path}' ({width}x{height})")
 
     except Exception as e:
@@ -60,7 +66,7 @@ def process_header_image(input_path: str, output_path: str, width: int, height: 
 def main():
     parser = argparse.ArgumentParser(description="Generate blurred background header images.")
     parser.add_argument("input_image", help="Path to the local source image file")
-    parser.add_argument("-o", "--output", help="Path to save the output image", default="header_output.jpg")
+    parser.add_argument("-o", "--output", help="Path to save the output image (format inferred from extension: .jpg, .webp, etc.)", default="header_output.jpg")
     parser.add_argument("--width", type=int, default=DEFAULT_WIDTH, help="Output image width")
     parser.add_argument("--height", type=int, default=DEFAULT_HEIGHT, help="Output image height")
 

@@ -49,8 +49,6 @@ export type PlaylistsContextType = {
   setSeminarRelatedPresentations: (
     presentations: SeminarRelatedPresentationsType[]
   ) => void;
-  standalonePresentations: LinkType[];
-  setStandalonePresentations: (presentations: LinkType[]) => void;
   lastLoaded: { [type: string]: string };
   setLastLoaded: (type: string, date: string) => void;
 };
@@ -62,8 +60,6 @@ export const PlaylistsContext = createContext<PlaylistsContextType>({
   setLinks: () => {},
   seminarRelatedPresentations: [],
   setSeminarRelatedPresentations: () => {},
-  standalonePresentations: [],
-  setStandalonePresentations: () => {},
   lastLoaded: {},
   setLastLoaded: () => {}
 });

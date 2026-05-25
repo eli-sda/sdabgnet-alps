@@ -9,8 +9,7 @@ import {
   loadLinks,
   loadPagePlaylists,
   loadPlaylists,
-  loadSeminarRelatedPresentations,
-  loadStandalonePresentations
+  loadSeminarRelatedPresentations
 } from 'src/utils/FetchHelper';
 import { getTodayString } from 'src/utils/getTodayString';
 
@@ -27,8 +26,6 @@ export function usePlaylists() {
     setLinks,
     seminarRelatedPresentations,
     setSeminarRelatedPresentations,
-    standalonePresentations,
-    setStandalonePresentations,
     lastLoaded,
     setLastLoaded
   } = usePlaylistsContext();

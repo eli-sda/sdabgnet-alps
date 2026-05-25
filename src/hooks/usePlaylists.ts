@@ -9,8 +9,7 @@ import {
   loadLinks,
   loadPagePlaylists,
   loadPlaylists,
-  loadSeminarRelatedPresentations,
-  loadStandalonePresentations
+  loadSeminarRelatedPresentations
 } from 'src/utils/FetchHelper';
 import { getTodayString } from 'src/utils/getTodayString';
 
@@ -27,8 +26,6 @@ export function usePlaylists() {
     setLinks,
     seminarRelatedPresentations,
     setSeminarRelatedPresentations,
-    standalonePresentations,
-    setStandalonePresentations,
     lastLoaded,
     setLastLoaded
   } = usePlaylistsContext();
@@ -235,48 +232,11 @@ export function usePlaylists() {
     setLastLoaded
   ]);
 
-  /**
-   * Retrieves standalone presentations.
-   * - If standalone presentations are cached and have been loaded today, returns the cached data.
-   * - Otherwise, fetches them from the backend, updates the cache, and returns the newly loaded data.
-   * @returns A promise resolving to an array of standalone presentations.
-   */
-  const getStandalonePresentations = useCallback(async (): Promise<
-    LinkType[]
-  > => {
-    const today = getTodayString();
-
-    if (
-      standalonePresentations &&
-      lastLoaded['standalonePresentations'] === today
-    ) {
-      return Promise.resolve(standalonePresentations);
-    }
-
-    // Otherwise, fetch from backend and update cache
-    return await loadStandalonePresentations()
-      .then((loadedPresentations) => {
-        setStandalonePresentations(loadedPresentations);
-        setLastLoaded('standalonePresentations', today);
-        return Promise.resolve(loadedPresentations);
-      })
-      .catch((err) => {
-        console.error(`Failed to fetch standalone presentations: ${err}`);
-        return Promise.resolve([]);
-      });
-  }, [
-    lastLoaded,
-    setLastLoaded,
-    setStandalonePresentations,
-    standalonePresentations
-  ]);
-
   return {
     getPlaylists,
     getResourcePlaylists,
     getPagePlaylists,
     getLinks,
-    getSeminarRelatedPresentations,
-    getStandalonePresentations
+    getSeminarRelatedPresentations
   };
 }

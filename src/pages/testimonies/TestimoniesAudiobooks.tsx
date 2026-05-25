@@ -1,32 +1,16 @@
-import { useEffect, useState } from 'react';
 import routes from 'src/routes';
 import { RelatedPosts } from 'src/alps/organisms/asides/RelatedPosts';
 import { getTitle } from 'src/utils/Navigation';
-import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
 
+const testimoniesAudiobooksPath = '/church_life/testimonies?tab=audiobooks';
+
 const TestimoniesAudiobooks = () => {
-  const [testimoniesAudiobooks, setTestimoniesAudiobooks] = useState<
-    PlaylistType[]
-  >([]);
-
-  useEffect(() => {
-    fetch('/json/testimonies-audiobooks.json')
-      .then((res) => res.json())
-      .then((data: PlaylistType[]) => {
-        setTestimoniesAudiobooks(data);
-      })
-      .catch((err) => {
-        console.error('Failed to load testimoniesAudiobooks.json', err);
-        setTestimoniesAudiobooks([]);
-      });
-  }, []);
-
   return (
     <section className="l-main__content u-padding--zero--sides u-spacing--double--until-large l-grid l-grid--7-col l-grid-wrap l-grid-wrap--6-of-7">
       <section className="page_cont c-article l-grid-item l-grid-item--l--4-col l-grid-item--xl--3-col">
         <div className="c-article__body">
-          <VideoPlaylistList playlists={testimoniesAudiobooks} />
+          <VideoPlaylistList pagePath={testimoniesAudiobooksPath} />
         </div>
       </section>
       <div className="c-sidebar u-spacing--double l-grid-item l-grid-item--l--2-col l-grid-item--xl--2-col">

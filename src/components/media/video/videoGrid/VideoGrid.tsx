@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LinkType, PlaylistType } from 'src/contexts/PlaylistsContext';
+import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { extractYouTubeId, extractRumbleId } from 'src/utils/extractVideoId';
 import VideoWithPreview from 'src/components/media/video/videoWithPreview/VideoWithPreview';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
@@ -7,22 +7,25 @@ import ShareItemButton from 'src/components/ShareItemButton';
 import './VideoGrid.scss';
 
 interface VideoGridProps {
-  playlists: PlaylistType[];
-  videos: LinkType[];
+  items: PlaylistType[];
   isPlaylistFirst?: boolean;
   tabParam?: string;
   className?: string;
 }
 
 const VideoGrid = ({
-  playlists,
-  videos,
+  items,
   isPlaylistFirst = false,
   tabParam,
   className
 }: VideoGridProps) => {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const videoIdPrefix = 'video-';
+
+  const singlePlaylist = items.find((item) => item.title?.includes('SINGLE'));
+  const videos = singlePlaylist?.items || [];
+
+  const playlists = items.filter((item) => !item.title?.includes('SINGLE'));
 
   const handleHashChange = () => {
     const hash = window.location.hash.slice(1);

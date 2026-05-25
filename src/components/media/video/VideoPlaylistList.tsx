@@ -4,19 +4,19 @@ import MediaPlaylistList from 'src/components/media/MediaPlaylistList';
 import { VideoPlayerDialog } from './VideoPlayerDialog';
 
 type VideoPlaylistListProps = {
-  sanityType?: string;
+  pagePath?: string;
   playlists?: PlaylistType[];
 };
 
 const VideoPlaylistList = ({
-  sanityType,
+  pagePath,
   playlists
 }: VideoPlaylistListProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   return (
     <MediaPlaylistList
-      sanityType={sanityType}
+      pagePath={pagePath}
       mediaPlaylists={playlists}
       mediaType="video"
       defaultImageIcon={

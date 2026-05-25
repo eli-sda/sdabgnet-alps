@@ -6,7 +6,7 @@ import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { RelatedPosts } from 'src/alps/organisms/asides/RelatedPosts';
 import { Button } from 'src/alps/atoms/Button';
-import { LinkType, PlaylistType } from 'src/contexts/PlaylistsContext';
+import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { getTitle } from 'src/utils/Navigation';
 import { newLinesWithLinks } from 'src/utils/Links';
 import { usePlaylists } from 'src/hooks/usePlaylists';
@@ -120,16 +120,17 @@ const benefits = [
   }
 ];
 
+const newStartPath = routes.health('new-start');
+
 const NewStart = (): JSX.Element => {
   useScrollToHash();
 
-  const breadcrumbsUrls = [routes.health(), routes.health('new-start')];
+  const breadcrumbsUrls = [routes.health(), newStartPath];
   const { pageBackground } = usePagesMeta();
 
   const [newStartItems, setNewStartItems] = useState<newStartItem[]>([]);
 
-  const { getPlaylists } = usePlaylists();
-  const [videos, setVideos] = useState<LinkType[]>([]);
+  const { getPagePlaylists } = usePlaylists();
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
   const [isQuizOpen, setIsQuizOpen] = useState(false);
 
@@ -155,22 +156,7 @@ const NewStart = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    getPlaylists('video', false, 'SINGLE new_start_videos')
-      .then((data: PlaylistType[]) => {
-        if (data.length > 0 && data[0].items) {
-          setVideos(data[0].items);
-        } else {
-          setVideos([]);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        setVideos([]);
-      });
-  }, [getPlaylists]);
-
-  useEffect(() => {
-    getPlaylists('video', false, 'Как да сме здрави - Божията рецепта')
+    getPagePlaylists(newStartPath)
       .then((data: PlaylistType[]) => {
         setPlaylists(data);
       })
@@ -178,12 +164,12 @@ const NewStart = (): JSX.Element => {
         console.error(err);
         setPlaylists([]);
       });
-  }, [getPlaylists]);
+  }, [getPagePlaylists]);
 
   return (
     <section className="new-start-page u-spacing--double">
       <Page
-        title={getTitle(routes.health('new-start'))}
+        title={getTitle(newStartPath)}
         background={pageBackground}
         breadcrumbsUrls={breadcrumbsUrls}
         aside={asideContent}
@@ -344,8 +330,7 @@ const NewStart = (): JSX.Element => {
             ]}
           />
           <VideoGrid
-            videos={videos}
-            playlists={playlists}
+            items={playlists}
             className="u-space--left u-space--right"
           />
         </section>

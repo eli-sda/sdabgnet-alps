@@ -1,45 +1,32 @@
 import { useEffect, useState } from 'react';
-import { LinkType, PlaylistType } from 'src/contexts/PlaylistsContext';
+import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import VideoGrid from 'src/components/media/video/videoGrid/VideoGrid';
 
+const testimonyVideosPath = '/church_life/testimonies';
+
 const TestimoniesVideos = () => {
   useScrollToHash();
 
-  const { getPlaylists } = usePlaylists();
+  const { getPagePlaylists } = usePlaylists();
 
-  const [videos, setVideos] = useState<LinkType[]>([]);
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
 
   useEffect(() => {
-    getPlaylists('testimony_video', false)
+    getPagePlaylists(testimonyVideosPath)
       .then((data: PlaylistType[]) => {
-        // Find the playlist that contains 'SINGLE' in its title
-        const singlePlaylist = data.find((p) => p.title?.includes('SINGLE'));
-
-        if (singlePlaylist && singlePlaylist.items) {
-          // Set its videos to the videos state
-          setVideos(singlePlaylist.items);
-        } else {
-          setVideos([]);
-        }
-
-        // Filter out the 'SINGLE' playlist to keep the rest clean
-        const regularPlaylists = data.filter(
-          (p) => !p.title?.includes('SINGLE')
-        );
-        setPlaylists(regularPlaylists);
+        setPlaylists(data);
       })
       .catch((err) => {
         console.error(err);
-        setVideos([]);
+
         setPlaylists([]);
       });
-  }, [getPlaylists]);
+  }, [getPagePlaylists]);
 
   return (
-    <VideoGrid videos={videos} playlists={playlists} tabParam='videos' isPlaylistFirst={true} />
+    <VideoGrid items={playlists} tabParam="videos" isPlaylistFirst={true} />
   );
 };
 

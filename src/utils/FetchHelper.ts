@@ -268,24 +268,6 @@ export const loadSeminarRelatedPresentations = async (): Promise<
   return await client.fetch(presentationsQuery);
 };
 
-export const loadStandalonePresentations = async (): Promise<LinkType[]> => {
-  const presentationsQuery = `*[
-    _type == "link" 
-    && isResource == true 
-    && type == "presentation"
-    && !(_id in *[_type == "playlist" && type == "presentations"].items[]._ref)
-  ] | order(_createdAt desc) {
-    _id,
-    author,
-    title,
-    description,
-    size,
-    "path": "presentations/" + fileName
-  }`;
-
-  return await client.fetch(presentationsQuery);
-};
-
 export const loadPoetry = async (): Promise<PoetryType[]> => {
   const poetryQuery = `*[_type == "poetry"] | order(_createdAt desc) {
   title,

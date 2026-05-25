@@ -3,28 +3,30 @@ import { Caption } from 'alps-library/atoms/text/Caption';
 import { Text } from 'alps-library/atoms/text/Text';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
-import { LinkType } from 'src/contexts/PlaylistsContext';
+import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { getTitle } from 'src/utils/Navigation';
 import DownloadList from 'src/components/downloadList/DownloadList';
 
+const imagePath = routes.resources('image');
+
 const ImageResources = () => {
   useScrollToHash();
 
-  const breadcrumbsUrls = [routes.resources(), routes.resources('image')];
-  const { getLinks } = usePlaylists();
-  const [images, setImages] = useState<LinkType[]>([]);
+  const breadcrumbsUrls = [routes.resources(), imagePath];
+  const { getPagePlaylists } = usePlaylists();
+  const [images, setImages] = useState<PlaylistType[]>([]);
 
   useEffect(() => {
-    getLinks('image')
+    getPagePlaylists(imagePath)
       .then(setImages)
       .catch((err) => console.error(err));
-  }, [getLinks]);
+  }, [getPagePlaylists]);
 
   return (
     <Page
-      title={getTitle(routes.resources('image'))}
+      title={getTitle(imagePath)}
       kicker={getTitle(routes.resources())}
       breadcrumbsUrls={breadcrumbsUrls}
       pageClassName="download-resources"
@@ -35,7 +37,7 @@ const ImageResources = () => {
       )}
 
       <Text as="article" hasDropcap={false} spacing="double">
-        <DownloadList items={images} />
+        <DownloadList items={images[0]?.items} />
       </Text>
     </Page>
   );

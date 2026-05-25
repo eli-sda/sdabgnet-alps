@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Footer as AlpsFooter } from 'alps-library/organisms/global/footer/Footer';
 import { FooterPrimaryNavigationProps } from 'alps-library/molecules/navigation/footerPrimaryNavigation/FooterPrimaryNavigation';
 import { OLD_SITE, SITE_TITLE } from 'src/constants';
@@ -31,8 +31,6 @@ const loadScript = (url: string, id: string) => {
 };
 
 const Footer = () => {
-  const [loaded, setLoaded] = useState(false);
-
   useEffect(() => {
     async function loadScripts() {
       await Promise.all(
@@ -41,10 +39,7 @@ const Footer = () => {
         )
       );
     }
-    if (!loaded) {
-      setLoaded(true);
-      loadScripts().catch((e) => console.log(e));
-    }
+    loadScripts().catch((e) => console.log(e));
   }, []);
   const primaryNav: FooterPrimaryNavigationProps = {
     items: [

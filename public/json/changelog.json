@@ -1,5 +1,20 @@
 [
   {
+    "id": "2026-05-25",
+    "date": "2026-05-25",
+    "title": "Подобрения – 25.05.2026",
+    "changes": [
+      {
+        "type": "improvement",
+        "text": "Добавена е търсачка в [Адвентисти онлайн](/media/bg-links)."
+      },
+      {
+        "type": "improvement",
+        "text": "Добавен е [тест в NEW START](/health/new-start#new-start-quiz)."
+      }
+    ]
+  },
+  {
     "id": "2026-05-18",
     "date": "2026-05-18",
     "title": "Подобрения – 18.05.2026",

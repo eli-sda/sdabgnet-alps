@@ -5,6 +5,7 @@ import { Pullquote } from 'alps-library/molecules/text/pullquote/Pullquote';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { RelatedPosts } from 'src/alps/organisms/asides/RelatedPosts';
+import { Button } from 'src/alps/atoms/Button';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { getTitle } from 'src/utils/Navigation';
 import { newLinesWithLinks } from 'src/utils/Links';
@@ -13,6 +14,8 @@ import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
 import { PageHeaderFeature2 } from 'src/organisms/sections/PageHeaderFeature2';
 import VideoGrid from 'src/components/media/video/videoGrid/VideoGrid';
+import QuizDialog, { QuizDataType } from 'src/components/quizDialog/QuizDialog';
+import quizData from './newStartQuiz.json';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -129,6 +132,7 @@ const NewStart = (): JSX.Element => {
 
   const { getPagePlaylists } = usePlaylists();
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
+  const [isQuizOpen, setIsQuizOpen] = useState(false);
 
   const isSafeImageUrl = (url: string): boolean => {
     if (url.startsWith('/')) return true;
@@ -329,6 +333,39 @@ const NewStart = (): JSX.Element => {
             items={playlists}
             className="u-space--left u-space--right"
           />
+        </section>
+
+        <section className="u-spacing u-background-color--gray--light" id="new-start-quiz">
+          <PageHeaderFeature2
+            blockType="quarterSS"
+            blocks={[
+              {
+                type: 'quarterSS',
+                title: quizData.quizTitle
+              }
+            ]}
+          />
+
+          <div className="u-space--left u-space--right">
+            <h3 className="u-theme--color--darker">
+              <strong>Смяташ, че познаваш здравните принципи?</strong>
+            </h3>
+
+            <p className="u-font--secondary--m">Провери знанията си</p>
+
+            <Button
+              onClick={() => setIsQuizOpen(true)}
+              className="u-space--top u-space--bottom"
+              label="Започни теста"
+              faIconClass="fas fa-play"
+            />
+
+            <QuizDialog
+              quizData={quizData as QuizDataType}
+              open={isQuizOpen}
+              onClose={() => setIsQuizOpen(false)}
+            />
+          </div>
         </section>
       </section>
     </section>

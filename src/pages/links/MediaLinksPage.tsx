@@ -14,6 +14,7 @@ interface MediaLinksPageProps {
   asideJson?: LinkGroup[] | LinksData[];
   relatedPosts?: RelatedPostsProps;
   isDoubleSpacing?: boolean;
+  children?: React.ReactNode;
 }
 
 export type LinkGroup = {
@@ -106,7 +107,8 @@ const MediaLinksPage = ({
   linksJson,
   asideJson = [],
   relatedPosts,
-  isDoubleSpacing = false
+  isDoubleSpacing = false,
+  children
 }: MediaLinksPageProps): JSX.Element => {
   const breadcrumbsUrls = [routes.media(), routes.media(mediaType)];
 
@@ -139,6 +141,8 @@ const MediaLinksPage = ({
       relatedPosts={relatedPosts}
     >
       <section className="u-spacing--double">
+        {children}
+
         <MediaListSection
           sections={mainSections}
           doubleSpace={isDoubleSpacing}

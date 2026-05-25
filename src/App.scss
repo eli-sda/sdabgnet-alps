@@ -402,6 +402,13 @@ $leftRightPaddingFullPageSmall: 5%;
   width: auto !important;
 }
 
+//smaller height of the header with background image to look good on mobile
+.c-page-header__long.has-background {
+  @media (max-width: 550px) {
+    padding-top: 0 !important;
+  }
+}
+
 //Dialog
 @media (max-width: $SmallScreen) {
   .MuiDialog-root .MuiDialog-paper {

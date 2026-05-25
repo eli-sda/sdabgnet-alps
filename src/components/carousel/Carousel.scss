@@ -1,6 +1,8 @@
 @use '/src/styles/colors.scss' as *;
 @use '/src/styles/swiper-controls' as *;
 
+$sliderBgr: rgba(255, 255, 255, 0.4);
+$pictureBottomBorder: 2px solid rgb($mingDarkestColor, 0.7);
 .c-carousel {
   position: relative;
   width: 100%;
@@ -8,13 +10,30 @@
 
   $arrowButtonSize: 2.8125rem; // from alp class .c-carousel__arrow
 
+  // Skeleton shown while carousel data loads – prevents CLS by reserving
+  // the same space the carousel will occupy: image (16:9) + text section below.
+  &.c-carousel--skeleton {
+    background-color: $sliderBgr;
+    .c-carousel--skeleton__image {
+      aspect-ratio: 16 / 9;
+      border-bottom: $pictureBottomBorder;
+    }
+
+    // heading + dek + button + padding-bottom (30px) of .c-carousel__item-text
+    .c-carousel--skeleton__text {
+      height: 187px;
+      @media only screen and (max-width: 976px) {
+        height: 230px;
+      }
+    }
+  }
   .swiper-container {
     width: 100%;
 
     .swiper-slide {
       width: 100% !important;
       height: auto !important;
-      background-color: rgb(255, 255, 255, 0.4);
+      background-color: $sliderBgr;
       transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
   }
@@ -43,7 +62,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border-bottom: 2px solid rgb($mingDarkestColor, 0.7);
+      border-bottom: $pictureBottomBorder;
 
       img {
         max-width: 100%;

@@ -27,5 +27,11 @@ $space: 5%;
     flex: 1 1 40%;
     width: 100%;
     box-sizing: border-box;
+    // Prevent CLS on mobile (column layout): reserve space while DailyVerse data loads.
+    // Measured: 104px while loading → ~360px when loaded.
+    // On desktop the carousel (flex row) is always taller, so no min-height needed there.
+    @media only screen and (max-width: 976px) {
+      min-height: 360px;
+    }
   }
 }

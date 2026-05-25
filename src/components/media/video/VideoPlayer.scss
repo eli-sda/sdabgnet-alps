@@ -18,16 +18,26 @@ $shareBtnSwitch: 380px;
       flex-direction: column;
       height: auto !important;
       overflow: visible !important;
+      display: block !important; /* Overrides the flex container of the Group component to stack items naturally */
+
+      .playlist-container {
+        margin-top: 24px !important;
+      }
 
       /* Allow react-resizable-panels to size to content in vertical mode */
       [data-panel] {
-        flex-basis: auto !important;
+        display: block !important;
+        flex: none !important;
+        width: 100% !important;
+        height: auto !important;
         overflow: visible !important;
         min-height: 0;
+
         &:hover {
           cursor: default !important;
         }
       }
+
       &:hover {
         cursor: default !important;
       }

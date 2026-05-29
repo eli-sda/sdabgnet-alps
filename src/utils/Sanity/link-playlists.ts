@@ -571,3 +571,112 @@ export async function linkBookPlaylistsToItems() {
     console.error('❌ Error in linkBookPlaylistsToItems:', error);
   }
 }
+
+export async function linkHealthPlaylistsToItems() {
+  console.log('Starting to link health playlists to their items...');
+  let totalUpdated = 0;
+
+  try {
+    const targetPagePath = '/health/video';
+
+    // Fetch the page document using path.current and extract the IDs of referenced playlists
+    const pageQuery = `*[_type == "page" && path.current == "${targetPagePath}"][0] {
+      "playlistIds": items[@._type == "reference"]._ref
+    }`;
+
+    const pageData = await client.fetch<{ playlistIds: string[] } | null>(pageQuery);
+
+    if (!pageData || !pageData.playlistIds || pageData.playlistIds.length === 0) {
+      console.warn(`No page found with path.current == "${targetPagePath}" or it has no referenced items.`);
+      return;
+    }
+
+    const playlistIdsOnPage = pageData.playlistIds;
+    console.log(`Found ${playlistIdsOnPage.length} playlist references on page ${targetPagePath}`);
+
+    // Fetch only the empty playlists that are referenced on this specific page
+    const playlists = await client.fetch<PlaylistDocument[]>(
+      `*[_type == "playlist" && _id in $playlistIdsOnPage && (items == null || count(items) == 0)] {
+        _id,
+        _type,
+        title,
+        items
+    }`,
+      { playlistIdsOnPage }
+    );
+
+    if (!playlists || playlists.length === 0) {
+      console.log('No empty playlists found on the target page that need updating.');
+      return;
+    }
+
+    const playlistTitles = playlists.map((p) => p.title);
+
+    // Fetch matching links
+    const links = await client.fetch<LinkDocument[]>(
+      `*[_type == "link" && keyWords[0] in $playlistTitles]{
+        _id,
+        _type,
+        title,
+        author,
+        fileName,
+        keyWords
+      }`,
+      { playlistTitles }
+    );
+
+    console.log(
+      `Found ${playlists.length} empty playlists on page and ${links.length} potential matching links.`
+    );
+
+    // Match links to playlists and update in Sanity
+    for (const playlist of playlists) {
+      const matchingLinks = links.filter((link) => {
+        return link.keyWords && link.keyWords[0] === playlist.title;
+      });
+
+      if (matchingLinks.length === 0) {
+        console.warn(`No matching links found for playlist: ${playlist.title}`);
+        continue;
+      }
+
+      // Sort links by keyWords[1]
+      const sortedMatchingLinks = sortLinksByKeyWords(matchingLinks);
+
+      console.log(`\n📂 Playlist: "${playlist.title}"`);
+      sortedMatchingLinks.forEach((link, idx) => {
+        console.log(
+          `      ${idx + 1}. "${link.title}" (keyWords[1]: ${link.keyWords[1]})`
+        );
+      });
+
+      // Create references
+      const itemReferences = sortedMatchingLinks.map((link) => ({
+        _type: 'reference' as const,
+        _ref: link._id,
+        _key: `ref-${link._id}`
+      }));
+
+      // Patch the playlist document
+      try {
+        await client
+          .patch(playlist._id)
+          .set({ items: itemReferences })
+          .commit();
+
+        console.log(
+          `✅ Updated playlist "${playlist.title}" with ${sortedMatchingLinks.length} items`
+        );
+        totalUpdated++;
+      } catch (error) {
+        console.error(`❌ Failed to update playlist ${playlist._id}:`, error);
+      }
+    }
+
+    console.log(
+      `\n🎉 Successfully updated ${totalUpdated} playlists out of ${playlists.length}`
+    );
+  } catch (error) {
+    console.error('❌ Error in linkHealthPlaylistsToItems:', error);
+  }
+}

@@ -3,7 +3,7 @@ import { Panel, Group, Separator } from 'react-resizable-panels';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import { Button } from 'src/alps/atoms/Button';
-import { parseLinksMd } from 'src/utils/Links';
+import { newLinesWithLinks } from 'src/utils/Links';
 import ShareItemButton from 'src/components/ShareItemButton';
 import './VideoPlayer.scss';
 
@@ -113,7 +113,7 @@ const VideoPlayer = ({
       {currentVideo ? (
         <>
           <Figure
-            caption={`${currentVideo.title}${currentVideo.author ? ' | ' + currentVideo.author : ''}\n\n${currentVideo.description || ''}`}
+            caption={`${currentVideo.title}${currentVideo.author && currentVideo.author !== playlistAuthor ? ' | ' + currentVideo.author : ''}\n\n${currentVideo.description || ''}`}
             size="large"
             videoSrc={`https://www.youtube.com/embed/${currentVideo.videoId}?autoplay=1`}
             onVideoEnded={handleVideoEnded}
@@ -179,7 +179,7 @@ const VideoPlayer = ({
       )}
       {playlistDescription && (
         <p className="text u-space--half--top">
-          {parseLinksMd(playlistDescription)}
+          {newLinesWithLinks(playlistDescription)}
         </p>
       )}
 

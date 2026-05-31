@@ -2,6 +2,37 @@
 
 .playlist-card {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  .c-media-block {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    .c-block__content {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+
+      .c-block__group {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+
+        > div {
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+
+          > div:has(.playlist-action-buttons) {
+            margin-top: auto;
+          }
+        }
+      }
+    }
+  }
   .c-block__image {
     background-color: $lightGrayColor;
   }

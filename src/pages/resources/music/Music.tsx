@@ -12,6 +12,7 @@ import DownloadList from 'src/components/downloadList/DownloadList';
 import { AudioPlaylistList } from 'src/components/media/audio/AudioPlaylistList';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
 import { SUBPAGE_KICKER } from '../Resources';
+import { MusicIcon } from './MusicIcon';
 import songbookLink from './songbook-link.json';
 import '../audio/AudioPage.scss';
 
@@ -49,10 +50,12 @@ const musicLinks = {
   ]
 };
 
+const pagePath = routes.resources('music');
+
 const MusicPage = () => {
   useScrollToHash();
 
-  const breadcrumbsUrls = [routes.resources(), routes.resources('music')];
+  const breadcrumbsUrls = [routes.resources(), pagePath];
 
   const { getResourcePlaylists } = usePlaylists();
   const [musicPlaylist, setMusicPlaylist] = useState<PlaylistType[]>([]);
@@ -121,38 +124,53 @@ const MusicPage = () => {
       <section className="u-space--triple--top u-spacing--double">
         <div className="audio-page-instructions u-padding--sides">
           <h4 className="audio-page-caption">
-            Използвайте бутона{' '}
+            • Използвайте бутона{' '}
             <span className="audio-page-caption__icon-wrapper">
               <img
                 className="icon"
                 src="/images/icons/o-icon__audio.svg"
                 alt="Аудио икона"
+                width="20"
+                height="20"
               />
             </span>
-            , за да слушате избран избран списък от песни.
-            <br />В отворения аудио плеър чрез бутона{' '}
+            , за да слушате избран списък от песни.
+            <br />• В отворения аудио плеър чрез бутона{' '}
             <img
               className="icon"
               src="/img/icons/playlist-icon.svg"
               alt="Плейлист икона"
+              width="20"
+              height="20"
             />{' '}
             можете да видите списъка с всички заглавия.
-            <br />
-            За да изтеглите всички аудио файлове от поредицата в архив
+            <br />• За да изтеглите всички аудио файлове от поредицата в архив
             (zip-формат), използвайте бутона &quot;Изтегли всички&quot;, а за да
             изтеглите текущия файл - използвайте иконата{' '}
             <img
               className="icon"
               src="/img/icons/download-icon.svg"
               alt="Изтегли икона"
+              width="20"
+              height="20"
             />{' '}
             от плеъра.
-            <br />
-            Можете да споделите линк към поредицата от песни или конкретно аудио
-            от нея.
+            <br />• Можете да споделите линк към поредицата от песни или
+            конкретно аудио от нея.
+            <br />• Вашият напредък (кой запис слушате) се помни автоматично.
+            Натиснете{' '}
+            <i className="fas fa-bookmark u-color--white u-background-color--ming u-padding--quarter"></i>
+            , за да запазите точната секунда, на която прекъсвате аудиото. Щом
+            започнете следващо аудио, то автоматично ще стане вашето ново
+            запомнено място.
           </h4>
         </div>
-        <AudioPlaylistList type="music" />
+        <AudioPlaylistList
+          pagePath={pagePath}
+          defaultImageIcon={
+            <MusicIcon className="u-color--black c-block__image" />
+          }
+        />
       </section>
     </>
   );

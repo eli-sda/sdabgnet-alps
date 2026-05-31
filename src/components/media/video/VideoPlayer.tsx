@@ -3,13 +3,15 @@ import { Panel, Group, Separator } from 'react-resizable-panels';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import { Button } from 'src/alps/atoms/Button';
-import ShareVideoButton from 'src/components/ShareVideoButton';
+import { parseLinksMd } from 'src/utils/Links';
+import ShareItemButton from 'src/components/ShareItemButton';
 import './VideoPlayer.scss';
 
 export type VideoPlaylistType = {
   _id: string;
   playlistTitle: string;
   playlistAuthor?: string;
+  playlistDescription?: string;
   videoItems: {
     _id: string;
     videoId: string;
@@ -30,7 +32,8 @@ const VideoPlayer = ({
   isVisible = true,
   initialIndex = 0
 }: VideoPlayerProps) => {
-  const { playlistTitle, playlistAuthor, videoItems } = playlist;
+  const { playlistTitle, playlistAuthor, playlistDescription, videoItems } =
+    playlist;
 
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -92,20 +95,17 @@ const VideoPlayer = ({
   };
 
   const computeFinalUrl = (videoId: string, videoTitle: string) => {
-    const baseUrl = `${window.location.origin}${window.location.pathname}`;
-    const hash = '#' + playlist._id;
-
-    const params = new URLSearchParams();
+    const url = new URL(window.location.pathname, window.location.origin);
     const currentTab = new URLSearchParams(window.location.search).get('tab');
     if (currentTab) {
-      params.set('tab', currentTab);
+      url.searchParams.set('tab', currentTab);
     }
-    params.set('playlistId', playlist._id);
-    params.set('playId', videoId);
-    params.set('playlistTitle', playlistTitle);
-    params.set('title', videoTitle);
-
-    return `${baseUrl}?${params.toString()}${hash}`;
+    url.searchParams.set('playlistId', playlist._id);
+    url.searchParams.set('playId', videoId);
+    url.searchParams.set('playlistTitle', playlistTitle);
+    url.searchParams.set('title', videoTitle);
+    url.hash = playlist._id;
+    return url.href;
   };
 
   const playerDiv = (
@@ -119,7 +119,7 @@ const VideoPlayer = ({
             onVideoEnded={handleVideoEnded}
             isVisible={isVisible}
           />
-          <ShareVideoButton
+          <ShareItemButton
             url={computeFinalUrl(currentVideo._id, currentVideo.title)}
             btnClassName="share-video-button"
           />
@@ -171,23 +171,30 @@ const VideoPlayer = ({
   );
 
   return (
-    <div className="videoPlayer u-spacing" ref={playerRef}>
+    <div className="videoPlayer" ref={playerRef}>
       {playlistAuthor && (
         <h3 className="u-font--secondary--m u-theme--color--darker u-space--half--top">
           {playlistAuthor}
         </h3>
       )}
+      {playlistDescription && (
+        <p className="text u-space--half--top">
+          {parseLinksMd(playlistDescription)}
+        </p>
+      )}
 
+      {/* Always render Group to prevent React from unmounting the iframe during layout switch */}
       <Group
-        orientation={isVertical ? 'vertical' : 'horizontal'}
+        orientation="horizontal"
         className={`videoPlayer-layout ${isVertical ? 'is-vertical' : 'is-horizontal'}`}
       >
         {/* VIDEO PANEL */}
         <Panel defaultSize="70%" minSize="40%">
           {playerDiv}
         </Panel>
-        {/* RESIZE HANDLE - hidden on small screens */}
-        {isVertical || (
+
+        {/* Mount separator only on desktop */}
+        {!isVertical && (
           <Separator className="separator">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -200,6 +207,7 @@ const VideoPlayer = ({
             </svg>
           </Separator>
         )}
+
         {/* PLAYLIST PANEL */}
         <Panel className="playlist-container" defaultSize="30%" minSize="20%">
           {playlistDiv}

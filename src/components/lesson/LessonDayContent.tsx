@@ -47,38 +47,35 @@ export const LessonDayContent = ({
   const [imageExists, setImageExists] = useState<boolean | null>(null);
 
   React.useEffect(() => {
-    if (!shouldShowImg) {
+    if (!shouldShowImg || !storyImageUrl) {
       setImageExists(null);
       return;
     }
 
-    const checkImageExists = () => {
-      const img = new Image();
-      img.onload = () => {
-        setImageExists(true);
-      };
-      img.onerror = () => {
-        console.warn('Image failed to load:', storyImageUrl);
-        setImageExists(false);
-      };
-      img.src = storyImageUrl ?? '';
+    // Reset when the URL changes so we don't briefly show stale state
+    setImageExists(null);
+    const img = new Image();
+    img.onload = () => setImageExists(true);
+    img.onerror = () => {
+      console.warn('Image failed to load:', storyImageUrl);
+      setImageExists(false);
     };
-
-    checkImageExists();
+    img.src = storyImageUrl;
   }, [shouldShowImg, storyImageUrl]);
 
   const imgComponent = useMemo(() => {
-    return shouldShowImg && imageExists ? (
+    if (!shouldShowImg || !imageExists) return null;
+    return (
       <img
         src={storyImageUrl}
         className="story-image u-space--right u-space--bottom"
       />
-    ) : null;
+    );
   }, [shouldShowImg, imageExists, storyImageUrl]);
 
   // Split content to insert image after first two elements
   const contentParts = useMemo(() => {
-    if (!day.content || !shouldShowImg || !imageExists) {
+    if (!day.content || !imageExists) {
       return { beforeImg: day.content || '', afterImg: '' };
     }
 
@@ -91,21 +88,17 @@ export const LessonDayContent = ({
     const container = doc.querySelector('div');
 
     if (container && container.children.length >= 2) {
-      // Get HTML of first two children
-      const firstChild = container.children[0];
-      const secondChild = container.children[1];
-
-      const beforeImg = firstChild.outerHTML + secondChild.outerHTML;
+      const beforeImg =
+        container.children[0].outerHTML + container.children[1].outerHTML;
       const afterImg = Array.from(container.children)
         .slice(2)
         .map((child) => child.outerHTML)
         .join('');
-
       return { beforeImg, afterImg };
     }
 
     return { beforeImg: day.content, afterImg: '' };
-  }, [day.content, shouldShowImg, imageExists]);
+  }, [day.content, imageExists]);
 
   if (!day.content) return null;
 

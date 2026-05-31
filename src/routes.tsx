@@ -3,7 +3,6 @@ import { OLD_SITE, AdType, MediaType } from './constants';
 const routes = {
   home: '/',
 
-  churches: '/churches',
   contact: '/contact',
   changelog: '/changelog',
 

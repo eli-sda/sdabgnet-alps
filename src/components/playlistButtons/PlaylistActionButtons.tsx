@@ -3,6 +3,8 @@ import { TextField } from 'alps-library/molecules/forms/elements/TextField';
 import { Checkbox } from 'alps-library/molecules/forms/elements/Checkbox';
 import { Button } from 'src/alps/atoms/Button';
 import { RESOURCES_FOLDER } from 'src/constants';
+import { formatTime } from 'src/utils/formatTime';
+import ShareItemButton from '../ShareItemButton';
 import DownloadPlaylistButton from './DownloadPlaylistButton';
 import './PlaylistActionButtons.scss';
 
@@ -12,24 +14,12 @@ type PlaylistActionButtonsProps = {
   fromTitle?: string;
   itemUrls?: string[];
   playlistName?: string;
+  simpleCopyButton?: boolean;
   setRefreshCounter?: React.Dispatch<React.SetStateAction<number>>;
   getCurrentTime?: () => number;
+  showSaveButton?: boolean;
+  onSaveAction?: () => void;
 };
-
-// Helper to format seconds as 0:35, 2:01 etc.
-function formatTime(seconds: number) {
-  const s = Math.floor(seconds || 0);
-  const h = Math.floor(s / 3600);
-  const m = Math.floor((s % 3600) / 60);
-  const sec = s % 60;
-  if (h > 0) {
-    return `${h}:${m.toString().padStart(2, '0')}:${sec
-      .toString()
-      .padStart(2, '0')}`;
-  } else {
-    return `${m}:${sec.toString().padStart(2, '0')}`;
-  }
-}
 
 const PlaylistActionButtons = ({
   shareUrl,
@@ -38,18 +28,21 @@ const PlaylistActionButtons = ({
   itemUrls = [],
   playlistName = 'playlist',
   setRefreshCounter,
-  getCurrentTime
+  getCurrentTime,
+  simpleCopyButton = false,
+  showSaveButton = false,
+  onSaveAction
 }: PlaylistActionButtonsProps) => {
   const [toShow, setToShow] = useState(false);
   const [fromCurrent, setFromCurrent] = useState(false);
   const [showCopyLabel, setShowCopyLabel] = useState(false);
   const [withTime, setWithTime] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   const hasDownload = itemUrls && itemUrls.length > 0;
   const playlistID = shareUrl?.split('#')[1];
 
   // Generate the final share URL with all query parameters
-
   const url = useMemo(() => {
     if (!shareUrl) return '';
 
@@ -117,20 +110,30 @@ const PlaylistActionButtons = ({
     });
   };
 
+  const handleSave = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onSaveAction) {
+      onSaveAction();
+    }
+    setIsSaved(true);
+    setTimeout(() => setIsSaved(false), 3000);
+  };
+
   return (
     <div className="playlist-action-buttons u-spacing--half">
-      {(shareUrl || hasDownload) && (
+      {(shareUrl || hasDownload || showSaveButton) && (
         <div className="buttons">
-          {shareUrl && (
-            <Button
-              className="share-button"
-              onClick={handleShare}
-              small
-              label="Вземи линк"
-              icon="share"
-              iconSize="s"
-            />
-          )}
+          {shareUrl &&
+            (!simpleCopyButton ? (
+              <Button
+                onClick={handleShare}
+                small
+                label="Вземи линк"
+                faIconClass="fas fa-share-alt"
+              />
+            ) : (
+              <ShareItemButton url={url} />
+            ))}
 
           {hasDownload && (
             <DownloadPlaylistButton
@@ -140,10 +143,23 @@ const PlaylistActionButtons = ({
               playlistName={playlistName}
             />
           )}
+
+          {showSaveButton && (
+            <Button
+              onClick={handleSave}
+              label={isSaved ? 'Запомнено' : 'Запомни'}
+              title={
+                isSaved ? 'Успешно запазено' : 'Запомни докъде съм стигнал'
+              }
+              faIconClass={isSaved ? 'fas fa-check' : 'fas fa-bookmark'}
+              disabled={isSaved}
+              small
+            />
+          )}
         </div>
       )}
 
-      {toShow && (
+      {!simpleCopyButton && toShow && (
         <div className={`share-fields${showCopyLabel ? ' withLabel' : ''}`}>
           <div className="share-link u-space--half--bottom">
             <TextField
@@ -157,6 +173,7 @@ const PlaylistActionButtons = ({
             <Button
               className="copy-button"
               onClick={handleCopy}
+              disabled={showCopyLabel}
               simple
               faIconClass="far fa-copy fa-lg"
               title="Копирай линка"

@@ -20,16 +20,21 @@ export interface RelatedPostsProps {
    * Specify the url of your RelatedPosts
    */
   url?: string;
+  /**
+   * Specify the id of your RelatedPosts
+   */
+  id?: string;
 }
 
 export const RelatedPosts = ({
   blocks = [],
   heading = 'Heading',
   linkText,
-  url
+  url,
+  id
 }: RelatedPostsProps): JSX.Element => {
   return (
-    <div className="c-related-posts u-spacing">
+    <div className="c-related-posts u-spacing" id={id}>
       <HeadingBlock title={heading} linkText={linkText} url={url} />
       <div className="c-related-posts__content u-spacing">
         {renderItems(blocks, MediaBlock, { type: 'relatedPost' })}

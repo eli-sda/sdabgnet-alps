@@ -149,7 +149,7 @@ export const AdvertisementsPreview = () => {
   }, [firstAdsByType]);
 
   return (
-    <section className="u-spacing">
+    <section id="advertisements-preview" className="u-spacing">
       <HeadingBlock title="Последни обяви по категории" />
       <div className="advertisements-preview">{renderedItems}</div>
     </section>

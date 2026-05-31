@@ -24,7 +24,6 @@ export type MediaType =
   | 'radio'
   | 'tv'
   | 'links'
-  | 'courses'
   | 'bg-links'
   | 'apps'
   | 'institutions';

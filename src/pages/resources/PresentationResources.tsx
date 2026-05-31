@@ -1,43 +1,47 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Accordion } from 'alps-library/molecules/components/accordion/Accordion';
 import { Text } from 'alps-library/atoms/text/Text';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
-import { LinkType, PlaylistType } from 'src/contexts/PlaylistsContext';
+import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { getTitle } from 'src/utils/Navigation';
 import DownloadList from 'src/components/downloadList/DownloadList';
 import songbookLink from './music/songbook-link.json';
 
+const presentationPath = routes.resources('presentation');
+
 const PresentationResources = () => {
   useScrollToHash();
 
-  const breadcrumbsUrls = [
-    routes.resources(),
-    routes.resources('presentation')
-  ];
-  const { getResourcePlaylists, getStandalonePresentations } = usePlaylists();
+  const breadcrumbsUrls = [routes.resources(), presentationPath];
+  const { getPagePlaylists } = usePlaylists();
 
-  const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
-  const [standalonePresentations, setStandalonePresentations] = useState<
-    LinkType[]
-  >([]);
+  const [allPlaylists, setAllPlaylists] = useState<PlaylistType[]>([]);
 
   useEffect(() => {
-    getResourcePlaylists('presentations')
-      .then(setPlaylists)
+    getPagePlaylists(presentationPath)
+      .then(setAllPlaylists)
       .catch((err) => console.error(err));
+  }, [getPagePlaylists]);
 
-    getStandalonePresentations()
-      .then(setStandalonePresentations)
-      .catch((err) => console.error(err));
-  }, [getResourcePlaylists, getStandalonePresentations]);
+  const playlists = useMemo(() => {
+    return allPlaylists.filter(
+      (playlist) => !playlist.title?.toUpperCase().includes('SINGLE')
+    );
+  }, [allPlaylists]);
+
+  const standalonePresentations = useMemo(() => {
+    return allPlaylists.filter((playlist) =>
+      playlist.title?.toUpperCase().includes('SINGLE')
+    );
+  }, [allPlaylists]);
 
   return (
     <Page
-      title={getTitle(routes.resources('presentation'))}
+      title={getTitle(presentationPath)}
       kicker={getTitle(routes.resources())}
       breadcrumbsUrls={breadcrumbsUrls}
       pageClassName="download-resources"
@@ -51,7 +55,7 @@ const PresentationResources = () => {
       )}
 
       <Text as="article" hasDropcap={false} spacing="double">
-        <DownloadList items={standalonePresentations} />
+          <DownloadList items={standalonePresentations[0]?.items || []} />
 
         <Accordion>
           {playlists.map(({ _id, title, author, items }, i) => (

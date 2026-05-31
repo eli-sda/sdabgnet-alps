@@ -116,6 +116,10 @@ export interface MediaBlockProps {
    * * If true, will use <a> for link, otherwise NavLink
    */
   useLinkAsA?: boolean;
+  /**
+   * * Default image icon to use if no image is provided in the playlist item (for MediaPlaylist component)
+   */
+  defaultImageIcon?: React.ReactNode;
 }
 
 /**
@@ -150,7 +154,8 @@ export const MediaBlock = ({
   video,
   url,
   expandable = false,
-  useLinkAsA = false
+  useLinkAsA = false,
+  defaultImageIcon
 }: MediaBlockProps): JSX.Element => {
   // Get preset props current type
 
@@ -180,26 +185,26 @@ export const MediaBlock = ({
       className={`${wrapClasses} ${'block' in preset ? preset.block : ''}`}
       {...blockProps}
     >
-      {image && (
-        <>
-          <MediaImage
-            className={`${'image' in preset ? preset.image : ''}`}
-            icon={!mediaIconAction ? icon : undefined}
-            asBackgroundImage={asBackgroundImage}
-            caption={imageCaption}
-            image={image}
-            url={url}
-          />
-          {mediaIconAction && (
-            <div className="media-icon-button-container">
-              <button
-                className={`media-icon-button icon--${icon} o-button u-space--half--left u-space--half--bottom`}
-                onClick={mediaIconAction}
-                title={mediaIconTitle}
-              ></button>
-            </div>
-          )}
-        </>
+      {image ? (
+        <MediaImage
+          className={`${'image' in preset ? preset.image : ''}`}
+          icon={!mediaIconAction ? icon : undefined}
+          asBackgroundImage={asBackgroundImage}
+          caption={imageCaption}
+          image={image}
+          url={url}
+        />
+      ) : (
+        defaultImageIcon
+      )}
+      {mediaIconAction && (
+        <div className="media-icon-button-container">
+          <button
+            className={`media-icon-button icon--${icon} o-button u-space--half--left u-space--half--bottom`}
+            onClick={mediaIconAction}
+            title={mediaIconTitle}
+          ></button>
+        </div>
       )}
       {video && (
         <div className="c-block__image-wrap">

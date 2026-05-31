@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import GroupIcon from '@mui/icons-material/Group';
 import { SubNavArrow } from 'alps-library/molecules/navigation/primaryNavItem/SubNavArrow';
@@ -6,6 +6,8 @@ import { AccordionItem } from 'src/alps/molecules/components/accordion/Accordion
 import routes from 'src/routes';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
+import useHashActive from 'src/hooks/useHashActive';
+import { generateShareUrl, hasMatchingItemHash } from 'src/utils/urlUtils';
 import DownloadListItem from 'src/components/downloadList/DownloadListItem';
 import './BooksList.scss';
 
@@ -14,35 +16,20 @@ const BooksList = ({
   title,
   description,
   imageUrl,
-  items
-}: PlaylistType) => {
+  items,
+  isFiltered
+}: PlaylistType & { isFiltered?: boolean }) => {
   useScrollToHash();
   const { hash } = useLocation();
-  const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [activeBookId, setActiveBookId] = useState<string | null>(null);
+  const activeBookId = useHashActive();
 
-  // Animate icon when hash matches a book
-  useEffect(() => {
-    if (!hash) return;
-    const targetHashId = hash.replace('#', '');
-    setActiveBookId(null);
-    let resetTimeout: number;
-    const delay = window.setTimeout(() => {
-      setActiveBookId(targetHashId);
-      resetTimeout = window.setTimeout(() => setActiveBookId(null), 5000);
-    }, 1100);
-    return () => {
-      clearTimeout(delay);
-      clearTimeout(resetTimeout);
-    };
-  }, [hash]);
-
-  // Determine if this accordion should be initially open based on the hash
+  // Determine if this accordion should be initially open
   const isInitiallyOpened = useMemo(() => {
-    const targetHashId = hash.replace('#', '');
+    const openByHash = hasMatchingItemHash(items, hash);
+    const openByFilter = Boolean(isFiltered && items && items.length > 0);
 
-    return items?.some((book) => book._id === targetHashId);
-  }, [hash, items]);
+    return openByHash || openByFilter;
+  }, [hash, items, isFiltered]);
 
   const heading = useMemo(() => {
     return (
@@ -61,20 +48,6 @@ const BooksList = ({
     );
   }, [_id, imageUrl, title]);
 
-  const handleCopyLink = useCallback((bookId: string, bookTitle: string) => {
-    const baseUrl = `${window.location.origin}${routes.resources('books')}`;
-    const params = new URLSearchParams();
-
-    params.set('title', bookTitle);
-
-    const finalUrl = `${baseUrl}?${params.toString()}#${bookId}`;
-
-    void navigator.clipboard.writeText(finalUrl).then(() => {
-      setCopiedId(bookId);
-      setTimeout(() => setCopiedId(null), 3000);
-    });
-  }, []);
-
   const content = useMemo(
     () => (
       <div className="u-spacing u-space--half--bottom">
@@ -86,6 +59,9 @@ const BooksList = ({
             let newLifeId = ''; // id in https://newlife-bg.com/
             let audioId = ''; // id to use as internal anchor to Аудио: /resources/audio#<audioId>
             let cleanDescription = book.description || '';
+
+            const displayAuthor =
+              book.author && title === 'Други' ? `${book.author}` : ''; // show the author only if the book is in 'Други' playlist, otherwise it is visible in the title of the playlist
 
             if (cleanDescription) {
               // Extract newLifeId and remove it from the description
@@ -129,21 +105,17 @@ const BooksList = ({
               });
             }
 
-            const isCopied = copiedId === book._id;
-
-            additionalButtons.push({
-              label: isCopied ? 'копирано' : 'сподели',
-              as: 'button' as const,
-              onClick: () => handleCopyLink(book._id, book.title),
-              faIconClass: isCopied ? 'fas fa-check' : 'fas fa-share-alt'
-            });
-
             return (
               <DownloadListItem
                 key={book._id}
                 {...book}
+                author={displayAuthor}
                 description={cleanDescription} // Override the original description
                 additionalButtons={additionalButtons}
+                shareUrl={generateShareUrl({
+                  id: book._id,
+                  title: book.title
+                })}
                 isActive={activeBookId === book._id}
               />
             );
@@ -151,7 +123,7 @@ const BooksList = ({
         </div>
       </div>
     ),
-    [items, description, copiedId, handleCopyLink, activeBookId]
+    [description, items, title, activeBookId]
   );
 
   return (

@@ -4,21 +4,33 @@ import MediaPlaylistList from 'src/components/media/MediaPlaylistList';
 import { VideoPlayerDialog } from './VideoPlayerDialog';
 
 type VideoPlaylistListProps = {
-  sanityType?: string;
+  pagePath?: string;
   playlists?: PlaylistType[];
 };
 
 const VideoPlaylistList = ({
-  sanityType,
+  pagePath,
   playlists
 }: VideoPlaylistListProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   return (
     <MediaPlaylistList
-      sanityType={sanityType}
+      pagePath={pagePath}
       mediaPlaylists={playlists}
       mediaType="video"
+      defaultImageIcon={
+        <i
+          style={{
+            aspectRatio: '1 / 1',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '120px'
+          }}
+          className="fas fa-video c-block__image u-color--black"
+        ></i>
+      }
       onPlaylistSelect={() => {
         setDialogOpen(true);
       }}

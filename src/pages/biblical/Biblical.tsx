@@ -118,10 +118,12 @@ const youTubeLinks = {
   ]
 };
 
+const biblicalPath = routes.info('biblical');
+
 const Biblical = () => {
   useScrollToHash();
 
-  const breadcrumbsUrls = [routes.info(), routes.info('biblical')];
+  const breadcrumbsUrls = [routes.info(), biblicalPath];
 
   const believeSections = believe28 as BelieveSection[];
 
@@ -214,7 +216,7 @@ const Biblical = () => {
           </LinksBlock>
         </section>
 
-        <section className="u-space--double--bottom">
+        <section className="u-space--bottom">
           <MediaListSection
             sections={biblicalJson as LinksData[]}
             doubleSpace={false}
@@ -222,8 +224,8 @@ const Biblical = () => {
         </section>
       </Page>
 
-      <section className="biblical full-section u-space--top">
-        <section className="u-spacing--double">
+      <section className="biblical full-section u-space--top u-spacing--triple">
+        <section className="u-spacing">
           <PageHeaderFeature2
             blockType="quarterSS"
             blocks={[
@@ -233,10 +235,10 @@ const Biblical = () => {
               }
             ]}
           />
-          <VideoPlaylistList sanityType="bible_ref" />
+          <VideoPlaylistList pagePath={biblicalPath} />
         </section>
 
-        <div className="u-space--top u-space--double--bottom">
+        <section className="u-spacing">
           <PageHeaderFeature2
             blockType="quarterSS"
             blocks={[
@@ -248,37 +250,37 @@ const Biblical = () => {
               }
             ]}
           />
-        </div>
 
-        <div className="believe-grid">
-          {believeSections.map((sectionData, sIndex) => (
-            <div key={sIndex} className="believe-grid__col">
-              <h3 className="believe-section-title u-space--left u-font--primary--m u-theme--color--darker">
-                <strong>{sectionData.section}</strong>
-              </h3>
-              <ul>
-                {sectionData.items.map((item, iIndex) => (
-                  <li
-                    key={iIndex}
-                    className="c-block__title hyphens-auto u-space u-theme--color--dark u-theme--link-hover--darker"
-                  >
-                    <a
-                      href={`${MAIN_RESOURCES_FOLDER}/books/${item.path}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
+          <div className="believe-grid">
+            {believeSections.map((sectionData, sIndex) => (
+              <div key={sIndex} className="u-spacing">
+                <h3 className="believe-section-title u-font--primary--m u-theme--color--darker">
+                  <strong>{sectionData.section}</strong>
+                </h3>
+                <ul className="u-spacing">
+                  {sectionData.items.map((item, iIndex) => (
+                    <li
+                      key={iIndex}
+                      className="c-block__title hyphens-auto u-theme--color--dark u-theme--link-hover--darker"
                     >
-                      <i
-                        className={'far fa-file-pdf u-space--half--right'}
-                        aria-hidden="true"
-                      ></i>
-                      {item.title}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+                      <a
+                        href={`${MAIN_RESOURCES_FOLDER}/books/${item.path}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <i
+                          className={'far fa-file-pdf u-space--half--right'}
+                          aria-hidden="true"
+                        ></i>
+                        {item.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
       </section>
     </>
   );

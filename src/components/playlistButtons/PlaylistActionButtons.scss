@@ -1,21 +1,26 @@
 .playlist-action-buttons {
   .buttons {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto auto;
     justify-content: space-between;
-    align-items: flex-start;
-    & > * {
-      max-width: 47%;
+    column-gap: 6%;
+    row-gap: 5px;
+    align-items: start;
+
+    & > *:nth-child(3) {
+      grid-column: 1 / -1;
+      justify-self: start;
     }
 
     @media (max-width: 380px) {
-      flex-direction: column;
+      grid-template-columns: 1fr;
+      row-gap: 5px;
       width: 100%;
-      max-width: 100%;
 
-      .share-button {
+      & > * {
         width: 100%;
         max-width: 100%;
-        margin-bottom: 5px;
+        justify-self: stretch;
       }
     }
   }

@@ -1,0 +1,45 @@
+@use '/src/styles/colors.scss' as *;
+
+@mixin swiper-controls() {
+  .swiper-button-prev,
+  .swiper-button-next {
+    color: #fff;
+    background-color: $mingDarkestColor;
+    border-radius: 50%;
+    transition:
+      box-shadow 0.2s ease,
+      transform 0.15s ease;
+
+    @media (max-width: 500px) {
+      display: none;
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover {
+      transform: scale(1.08);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  .swiper-pagination {
+    bottom: 0 !important;
+
+    .swiper-pagination-bullet {
+      background-color: $mingDarkestColor !important; // as the swipper buttons
+      width: 12px !important;
+      height: 12px !important;
+      margin: 0 5px !important;
+      transition: all 0.3s ease !important;
+
+      &.swiper-pagination-bullet-active {
+        opacity: 1;
+        width: 15px !important;
+        height: 15px !important;
+      }
+    }
+  }
+}

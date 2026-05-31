@@ -111,7 +111,17 @@
         "image40": "/img/logos/40/children's-ministry-CASD.png",
         "links": [
           {
-            "url": "https://www.facebook.com/Детско-служене-ЦАСД-873514049431759/",
+            "url": "https://www.facebook.com/Детско-служене-ЦАСД-873514049431759",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "Отдел \"Образование - ЦАСД България\"",
+        "image40": "/img/logos/40/edu.png",
+        "links": [
+          {
+            "url": "https://www.facebook.com/profile.php?id=61580093601907",
             "type": "facebook"
           }
         ]

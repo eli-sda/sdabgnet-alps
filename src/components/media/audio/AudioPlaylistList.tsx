@@ -1,35 +1,34 @@
-import { memo, useRef, useState } from 'react';
-import MediaPlaylistList from '../MediaPlaylistList';
+import { memo, ReactNode, useRef, useState } from 'react';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import AudioPlayerProvider from 'src/providers/AudioPlayerProvider';
+import MediaPlaylistList from '../MediaPlaylistList';
 import AudioPlayer, { AudioPlayerHandle } from './AudioPlayer';
 
 type AudioPlaylistListProps = {
-  type?: string;
+  pagePath?: string;
   playlists?: PlaylistType[];
   showDownloadAll?: boolean;
+  defaultImageIcon?: ReactNode;
 };
 
 const AudioPlaylistListComponent = ({
-  type,
+  pagePath,
   playlists,
-  showDownloadAll = true
+  showDownloadAll = true,
+  defaultImageIcon 
 }: AudioPlaylistListProps) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const playerRef = useRef<AudioPlayerHandle | null>(null);
-
-  if (type === 'audiobook') {
-    type = 'audio-book';
-  }
 
   return (
     <AudioPlayerProvider playerRef={playerRef}>
       <MediaPlaylistList
         className="u-space--top"
-        sanityType={type}
+        pagePath={pagePath}
         mediaPlaylists={playlists}
         mediaType={'audio'}
         showDownloadAll={showDownloadAll}
+        defaultImageIcon={defaultImageIcon}
         getCurrentTime={() => playerRef.current?.getCurrentTime() ?? 0}
         renderPlayer={(
           selectedPlaylist,

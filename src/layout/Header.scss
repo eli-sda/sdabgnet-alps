@@ -4,6 +4,15 @@ a.c-secondary-nav__link {
   cursor: pointer;
 }
 
+// Prevent CLS: tell the browser the logo's aspect ratio before the SVG loads
+// so it can reserve the correct space. The ALPS CSS still controls the actual size.
+// (250 / 128 ≈ 1.95 matches the SVG viewBox ratio; the browser uses this only
+// to calculate height = width ÷ ratio, never to force a 250 px width.)
+.c-header__logo img {
+  aspect-ratio: 250 / 128;
+  height: auto;
+}
+
 @media (max-width: 500px) {
   .c-header__logo svg {
     width: 100%;
@@ -51,10 +60,13 @@ a.c-secondary-nav__link {
   }
 }
 
-.c-header__nav-primary .c-primary-nav__subnav__subnav__list-item {
-  background-color: $grayDarkColor;
-  .c-subnav__link.active {
-    color: $lighterMingColor !important;
+.c-header__nav-primary,
+.c-drawer {
+  .c-primary-nav__subnav__subnav__list-item {
+    background-color: $grayDarkColor;
+    .c-subnav__link.active {
+      color: $lighterMingColor !important;
+    }
   }
 }
 
@@ -71,10 +83,23 @@ a.c-secondary-nav__link {
     white-space: nowrap !important;
   }
 }
+
 .c-primary-nav__link,
+.c-secondary-nav__link,
 .c-subnav__link {
-  &.active {
+  &.active,
+  &.this-is-active {
     color: $mingColor !important;
+  }
+}
+
+.c-drawer {
+  .c-primary-nav__link,
+  .c-secondary-nav__link {
+    &.active,
+    &.this-is-active {
+      color: $lighterMingColor !important;
+    }
   }
 }
 

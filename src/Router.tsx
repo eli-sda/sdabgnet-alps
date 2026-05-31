@@ -21,14 +21,14 @@ const LessonsSearch = lazy(() => import('./pages/lessonsSearch/LessonsSearch'));
 const Churches = lazy(() => import('./pages/Churches'));
 const Books = lazy(() => import('./pages/resources/books/Books'));
 const Events = lazy(() => import('./pages/events/Events'));
-const HealthInstitutions = lazy(() => import('./pages/HealthInstitutions'));
+const HealthInstitutions = lazy(() => import('./pages/health/HealthInstitutions'));
 const ChurchLife = lazy(() => import('./pages/ChurchLife'));
 const Info = lazy(() => import('./pages/Info'));
 const Commune = lazy(() => import('./pages/Commune'));
 const PastorOnline = lazy(() => import('./pages/pastorOnline/PastorOnline'));
 const Media = lazy(() => import('./pages/Media'));
 const Resources = lazy(() => import('./pages/resources/Resources'));
-const Health = lazy(() => import('./pages/Health'));
+const Health = lazy(() => import('./pages/health/Health'));
 const Advertisements = lazy(
   () => import('./pages/advertisement/Advertisements')
 );
@@ -57,11 +57,8 @@ const AudioBooksResources = lazy(
 );
 const Donations = lazy(() => import('./pages/Donations'));
 const AdventistsOnline = lazy(() => import('./pages/links/AdventistsOnline'));
-const Television = lazy(() => import('./pages/links/Television'));
-const Radio = lazy(() => import('./pages/links/Radio'));
-const ForeignLinks = lazy(() => import('./pages/links/ForeignLinks'));
-const Apps = lazy(() => import('./pages/links/Apps'));
-const Institutions = lazy(() => import('./pages/Institutions'));
+const Links = lazy(() => import('./pages/links/Links'));
+const Institutions = lazy(() => import('./pages/links/Institutions'));
 const SunsetCalendarPage = lazy(() => import('./pages/sunset/SunsetCalendar'));
 const Dictionary = lazy(() => import('./pages/Dictionary'));
 const Music = lazy(() => import('./pages/resources/music/Music'));
@@ -70,12 +67,13 @@ const Bibles = lazy(() => import('./pages/bibles/Bibles'));
 const Testimonies = lazy(() => import('./pages/testimonies/Testimonies'));
 const Poetry = lazy(() => import('./pages/poetry/Poetry'));
 const About = lazy(() => import('./pages/About'));
-const Banner = lazy(() => import('./pages/banner/Banner'));
-const Feedback = lazy(() => import('./pages/feedback/Feedback'));
-const Team = lazy(() => import('./pages/team/Team'));
+const Banner = lazy(() => import('./pages/about/banner/Banner'));
+const Feedback = lazy(() => import('./pages/about/feedback/Feedback'));
+const Team = lazy(() => import('./pages/about/team/Team'));
 const Videoteka = lazy(() => import('./pages/videoteka/Videoteka'));
 const Recipes = lazy(() => import('./pages/health/Recipes'));
 const Changelog = lazy(() => import('./pages/changelog/Changelog'));
+const NewStart = lazy(() => import('./pages/health/newStart/NewStart'));
 
 // const theme = createTheme();
 
@@ -191,7 +189,6 @@ const Router = () => (
           <Route path={routes.info()} element={<Info />} />
           <Route path={routes.info('bibles')} element={<Bibles />} />
           <Route path={routes.info('biblical')} element={<Biblical />} />
-          <Route path={routes.churches} element={<Churches />} />
           <Route path={routes.info('churches')} element={<Churches />} />
           <Route path={routes.info('dictionary')} element={<Dictionary />} />
           <Route
@@ -201,8 +198,14 @@ const Router = () => (
 
           {/* Медии */}
           <Route path={routes.media()} element={<Media />} />
-          <Route path={routes.media('radio')} element={<Radio />} />
-          <Route path={routes.media('tv')} element={<Television />} />
+          <Route
+            path={routes.media('radio')}
+            element={<Links jsonName="radio" mediaType="radio" />}
+          />
+          <Route
+            path={routes.media('tv')}
+            element={<Links jsonName="television" mediaType="tv" />}
+          />
           <Route
             path={routes.media('institutions')}
             element={<Institutions />}
@@ -211,8 +214,14 @@ const Router = () => (
             path={routes.media('bg-links')}
             element={<AdventistsOnline />}
           />
-          <Route path={routes.media('apps')} element={<Apps />} />
-          <Route path={routes.media('links')} element={<ForeignLinks />} />
+          <Route
+            path={routes.media('apps')}
+            element={<Links jsonName="apps" mediaType="apps" />}
+          />
+          <Route
+            path={routes.media('links')}
+            element={<Links jsonName="foreign-links" mediaType="links" />}
+          />
 
           {/* Ресурси */}
           <Route path={routes.resources()} element={<Resources />} />
@@ -255,6 +264,7 @@ const Router = () => (
 
           {/* Здраве */}
           <Route path={routes.health()} element={<Health />} />
+          <Route path={routes.health('new-start')} element={<NewStart />} />
           <Route path={routes.health('recipes')} element={<Recipes />} />
           <Route
             path={routes.health('institutions')}

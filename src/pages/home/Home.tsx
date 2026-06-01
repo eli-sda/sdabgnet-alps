@@ -20,6 +20,7 @@ import { CallForHelp } from 'src/components/CallForHelp';
 //   // linkBibleVideoPlaylistsToItems,
 //   linkTestimoniesVideoPlaylistsToItems
 // linkBookPlaylistsToItems
+  // linkHealthPlaylistsToItems
 // } from 'src/utils/Sanity/link-playlists';
 // import { deleteAllAudioLinks } from 'src/utils/Sanity/delete-audio-links';
 // import { cleanupPlaylistItems } from 'src/utils/Sanity/cleanup-playlist-items';
@@ -126,6 +127,11 @@ const Home = () => {
       {/* <div className="u-spacing--double">
         <Button onClick={() => void linkBookPlaylistsToItems()}>
           Fill Book Playlists
+        </Button>
+      </div> */}
+      {/* <div>
+        <Button onClick={void linkHealthPlaylistsToItems()}>
+          Fill Health Playlists
         </Button>
       </div> */}
 

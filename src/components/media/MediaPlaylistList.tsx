@@ -288,7 +288,7 @@ const MediaPlaylistList = ({
                 type={mediaType}
                 defaultImageIcon={defaultImageIcon}
                 actionButtons={
-                  <div className="u-space--half--top">
+                  <div className="u-padding--half--top">
                     <PlaylistActionButtons
                       shareUrl={generateShareUrl({
                         id: playlist._id

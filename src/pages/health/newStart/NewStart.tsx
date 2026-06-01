@@ -37,11 +37,6 @@ const asideContent = (
         title: 'Ново начало (NEW START) - здравословен стил на живот',
         url: 'https://novo-nachalo-bg.blogspot.com/',
         category: 'novo-nachalo-bg.blogspot.com'
-      },
-      {
-        title: '8 стъпки на здравето',
-        url: 'http://youtube.com/playlist?list=PLIeXbN0nkX1W7OKodGfYn9yJuEer2ErwO',
-        category: 'youtube плейлист'
       }
     ]}
   />
@@ -335,7 +330,10 @@ const NewStart = (): JSX.Element => {
           />
         </section>
 
-        <section className="u-spacing u-background-color--gray--light" id="new-start-quiz">
+        <section
+          className="u-spacing u-background-color--gray--light"
+          id="new-start-quiz"
+        >
           <PageHeaderFeature2
             blockType="quarterSS"
             blocks={[

@@ -2,6 +2,7 @@ import { memo, useState } from 'react';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import MediaPlaylistList from 'src/components/media/MediaPlaylistList';
 import { VideoPlayerDialog } from './VideoPlayerDialog';
+import './VideoPlaylistList.scss';
 
 type VideoPlaylistListProps = {
   pagePath?: string;
@@ -20,16 +21,7 @@ const VideoPlaylistList = ({
       mediaPlaylists={playlists}
       mediaType="video"
       defaultImageIcon={
-        <i
-          style={{
-            aspectRatio: '1 / 1',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '120px'
-          }}
-          className="fas fa-video c-block__image u-color--black"
-        ></i>
+        <i className="fas fa-video c-block__image u-color--black video-playlist-default-icon"></i>
       }
       onPlaylistSelect={() => {
         setDialogOpen(true);

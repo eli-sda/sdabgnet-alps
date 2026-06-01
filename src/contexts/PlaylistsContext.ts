@@ -16,7 +16,6 @@ export type LinkType = {
   size?: number;
   keyWords?: string[] | null;
   playlistId?: string; // extracted by keyWords[0] matching a playlist title
-  playlistType?: string; // type extracted from the matched playlist
   topics?: TopicType[] | null;
   path: string;
 };

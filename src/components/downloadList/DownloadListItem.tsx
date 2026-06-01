@@ -27,6 +27,7 @@ const DownloadListItem = ({
   isActive = false
 }: DownloadListItemProps) => {
   const icon = useMemo(() => {
+    if (!path) return 'file';
     if (path.endsWith('.pdf')) return 'file-pdf';
     if (path.endsWith('.doc') || path.endsWith('.docx')) return 'file-word';
     if (path.endsWith('.xls') || path.endsWith('.xlsx')) return 'file-excel';
@@ -71,6 +72,7 @@ const DownloadListItem = ({
   }, [description]);
 
   const url = useMemo(() => {
+    if (!path) return '';
     if (path.startsWith('http://') || path.startsWith('https://')) {
       return path;
     }

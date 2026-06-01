@@ -2,7 +2,15 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 export type LinkItem = {
   url: string;
-  type: 'сайт' | 'facebook' | 'youtube' | 'instagram' | 'google play' | 'app store' | 'tik tok' | 'telegram';
+  type:
+    | 'сайт'
+    | 'facebook'
+    | 'youtube'
+    | 'instagram'
+    | 'google play'
+    | 'app store'
+    | 'tik tok'
+    | 'telegram';
 };
 
 const faIconClasses: Record<string, string> = {
@@ -21,14 +29,71 @@ export const getFaIconClass = (type: string) => faIconClasses[type];
 /** Transliterates Cyrillic characters to Latin equivalents. */
 function cyrillicToLatin(text: string): string {
   const map: Record<string, string> = {
-    а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ж: 'zh', з: 'z', и: 'i', й: 'y',
-    к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u',
-    ф: 'f', х: 'h', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'sht', ъ: 'a', ь: '', ю: 'yu', я: 'ya',
-    А: 'A', Б: 'B', В: 'V', Г: 'G', Д: 'D', Е: 'E', Ж: 'Zh', З: 'Z', И: 'I', Й: 'Y',
-    К: 'K', Л: 'L', М: 'M', Н: 'N', О: 'O', П: 'P', Р: 'R', С: 'S', Т: 'T', У: 'U',
-    Ф: 'F', Х: 'H', Ц: 'Ts', Ч: 'Ch', Ш: 'Sh', Щ: 'Sht', Ъ: 'A', Ь: '', Ю: 'Yu', Я: 'Ya'
+    а: 'a',
+    б: 'b',
+    в: 'v',
+    г: 'g',
+    д: 'd',
+    е: 'e',
+    ж: 'zh',
+    з: 'z',
+    и: 'i',
+    й: 'y',
+    к: 'k',
+    л: 'l',
+    м: 'm',
+    н: 'n',
+    о: 'o',
+    п: 'p',
+    р: 'r',
+    с: 's',
+    т: 't',
+    у: 'u',
+    ф: 'f',
+    х: 'h',
+    ц: 'ts',
+    ч: 'ch',
+    ш: 'sh',
+    щ: 'sht',
+    ъ: 'a',
+    ь: '',
+    ю: 'yu',
+    я: 'ya',
+    А: 'A',
+    Б: 'B',
+    В: 'V',
+    Г: 'G',
+    Д: 'D',
+    Е: 'E',
+    Ж: 'Zh',
+    З: 'Z',
+    И: 'I',
+    Й: 'Y',
+    К: 'K',
+    Л: 'L',
+    М: 'M',
+    Н: 'N',
+    О: 'O',
+    П: 'P',
+    Р: 'R',
+    С: 'S',
+    Т: 'T',
+    У: 'U',
+    Ф: 'F',
+    Х: 'H',
+    Ц: 'Ts',
+    Ч: 'Ch',
+    Ш: 'Sh',
+    Щ: 'Sht',
+    Ъ: 'A',
+    Ь: '',
+    Ю: 'Yu',
+    Я: 'Ya'
   };
-  return text.split('').map(c => map[c] || c).join('');
+  return text
+    .split('')
+    .map((c) => map[c] || c)
+    .join('');
 }
 
 /** Generates a valid HTML id from a title (supports Cyrillic). */
@@ -107,3 +172,7 @@ export const parseLinksMdToHtml = (html: string): string =>
       return `<a href="${linkUrl}" class="u-theme--link-hover--dark"${attrs}>${linkText}</a>`;
     }
   );
+
+//to remove thumbnail from description if it exists (for rumble videos we put the thumbnail in the description)
+export const cleanedDescription = (description: string): string =>
+  description.replace(/thumbnail:\s*https?:\/\/[^\s]+/i, '').trim();

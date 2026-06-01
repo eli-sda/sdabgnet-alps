@@ -1,16 +1,39 @@
 @use '/src/styles/colors.scss' as *;
 .video-link-block {
+  transition: background-color 0.15s;
+  &.is-selected {
+    background-color: rgba($mingColor, 0.08);
+  }
   .fa-youtube {
     color: $youtubeRedColor;
   }
   .video-block-topics {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px;
   }
   .chip-no-bg {
     background: none !important;
     border: 1px solid $lightGrayColor;
     color: inherit;
+  }
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  &__content {
+    flex: 1;
+    min-width: 0;
+  }
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+  &__playlist {
+    font-size: 0.85em;
+    color: $grayColor;
   }
 }

@@ -1,22 +1,97 @@
-.videoteka-search-wrapper {
+@use '/src/styles/colors.scss' as *;
+
+.videoteka-playlist-group {
+  border-top: 2px solid $lightGrayColor;
+
+  &:first-of-type {
+    border-top: none;
+  }
+}
+
+.videoteka-group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-weight: bold;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid $lightGrayColor;
+
+  > span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 600px) {
+    flex-wrap: wrap;
+
+    > span {
+      white-space: normal;
+      overflow: visible;
+      text-overflow: unset;
+    }
+  }
+
+  .videoteka-group-count {
+    font-weight: normal;
+    font-size: 0.9em;
+    opacity: 0.7;
+  }
+
+  .o-button {
+    margin: 0;
+    flex-shrink: 0;
+  }
+}
+
+.videoteka-youtube-header {
   display: flex;
   align-items: center;
   gap: 1rem;
-  @media (max-width: 501px) {
-    flex-direction: column;
-    align-items: stretch;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.videoteka-search-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .videoteka-filters-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+
+    @media (max-width: 600px) {
+      flex-direction: column;
+      align-items: stretch;
+    }
   }
-  .MuiAutocomplete-root {
+
+  .videoteka-field {
     flex: 1;
-    .MuiInputLabel-root:not(.MuiInputLabel-shrink) {
-      max-width: calc(100% - 60px);
+
+    // Custom label above MUI Autocomplete (not an ALPS FormLabel)
+    &__label {
+      display: block;
+      margin-bottom: 0.25rem;
     }
-    .MuiInputBase-input {
-      margin-right: 6px;
-    }
-    .MuiAutocomplete-endAdornment {
-      .MuiAutocomplete-clearIndicator {
-        margin-right: 4px !important;
+
+    .MuiAutocomplete-root {
+      width: 100%; // MUI doesn't stretch by default in flex
+
+      .MuiInputLabel-root:not(.MuiInputLabel-shrink) {
+        max-width: calc(100% - 60px);
+      }
+      .MuiAutocomplete-endAdornment {
+        .MuiAutocomplete-clearIndicator {
+          margin-right: 4px !important;
+        }
+      }
+      .MuiInputBase-input {
+        margin-right: 6px;
       }
     }
   }
@@ -24,5 +99,6 @@
   .o-button {
     white-space: nowrap;
     margin: 0;
+    align-self: flex-start;
   }
 }

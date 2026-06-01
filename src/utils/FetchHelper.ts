@@ -220,7 +220,7 @@ export const loadAllTopics = async (): Promise<
 };
 
 /**
- * Load videos filtered by topic _ids (references) OR legacy keyWords strings.
+ * Load videos (non-resource) filtered by topic _ids (references) OR legacy keyWords strings.
  * Pass topic._id values from loadAllTopics().
  */
 export const loadLinksByTopics = async (
@@ -229,6 +229,7 @@ export const loadLinksByTopics = async (
   const linkQuery = `*[
     _type == "link"
     && type == "video"
+    && (isResource == null || isResource == false)
     && count(topics[_ref in $topicIds]) > 0
   ] | order(title asc) {
     _id,
@@ -240,14 +241,91 @@ export const loadLinksByTopics = async (
     description,
     "topics": topics[]->{ _id, title },
     "playlistId": *[_type == 'playlist' && defined(^.keyWords[0]) && title == ^.keyWords[0]][0]._id,
-    "playlistType": *[_type == 'playlist' && defined(^.keyWords[0]) && title == ^.keyWords[0]][0].type,
-    "path": select(isResource == true => "images/" + fileName, 
-    true => URL
-    )
+    "path": URL
   }`;
 
   const results: LinkType[] = await client.fetch(linkQuery, { topicIds });
   // Use helper to clean keyWords and keep null when none left
+  return results.map((link) => {
+    const filtered = filterTags(link.keyWords as string[] | null);
+    return {
+      ...link,
+      keyWords: filtered.length ? filtered : null
+    } as LinkType;
+  });
+};
+
+const TITLE_PREFIX_RE = /^(д-р|п-р|проф\.|професор)\s+/i;
+
+const stripTitlePrefix = (name: string) =>
+  name.replace(TITLE_PREFIX_RE, '').trim();
+
+const normalizeAuthor = (name: string): string => {
+  const match = name.match(TITLE_PREFIX_RE);
+  if (!match) return name;
+  const prefix = match[1].toLowerCase().replace('професор', 'проф.');
+  const canonicalPrefix = prefix.charAt(0).toUpperCase() + prefix.slice(1);
+  return `${canonicalPrefix} ${stripTitlePrefix(name)}`;
+};
+
+export const loadAllVideoAuthors = async (): Promise<string[]> => {
+  const query = `array::unique(*[_type == "link" && type == "video" && defined(author) && author != ""].author)`;
+  const authors: string[] = await client.fetch(query);
+  // Normalize prefix casing and deduplicate (e.g. "д-р X" and "Д-р X" → "Д-р X")
+  const seen = new Map<string, string>();
+  for (const a of authors) {
+    const normalized = normalizeAuthor(a);
+    const key = normalized.toLowerCase();
+    if (!seen.has(key)) seen.set(key, normalized);
+  }
+  return [...seen.values()].sort((a, b) =>
+    stripTitlePrefix(a).localeCompare(stripTitlePrefix(b), 'bg')
+  );
+};
+
+export const loadVideosByFilters = async (
+  topicIds: string[],
+  author: string,
+  text: string
+): Promise<LinkType[]> => {
+  const filterParts: string[] = [
+    '_type == "link"',
+    'type == "video"',
+    '(isResource == null || isResource == false)'
+  ];
+  const params: Record<string, unknown> = {};
+
+  if (topicIds.length > 0) {
+    filterParts.push('count(topics[_ref in $topicIds]) > 0');
+    params.topicIds = topicIds;
+  }
+  if (author) {
+    filterParts.push('lower(coalesce(author, "")) == lower($author)');
+    params.author = author;
+  }
+  if (text) {
+    filterParts.push(
+      '(lower(coalesce(title, "")) match $textPattern || lower(coalesce(description, "")) match $textPattern)'
+    );
+    params.textPattern = `*${text.toLowerCase()}*`;
+  }
+
+  const linkQuery = `*[
+    ${filterParts.join('\n    && ')}
+  ] | order(title asc) {
+    _id,
+    title,
+    size,
+    isResource,
+    keyWords,
+    author,
+    description,
+    "topics": topics[]->{ _id, title },
+    "playlistId": *[_type == 'playlist' && defined(^.keyWords[0]) && title == ^.keyWords[0]][0]._id,
+    "path": URL
+  }`;
+
+  const results: LinkType[] = await client.fetch(linkQuery, params);
   return results.map((link) => {
     const filtered = filterTags(link.keyWords as string[] | null);
     return {

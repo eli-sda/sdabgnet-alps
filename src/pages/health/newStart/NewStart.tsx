@@ -314,7 +314,7 @@ const NewStart = (): JSX.Element => {
           </section>
         </section>
 
-        <section className="new-start-videos u-spacing">
+        <section className="new-start-videos u-spacing" id="new-start-videos">
           <PageHeaderFeature2
             blockType="quarterSS"
             blocks={[

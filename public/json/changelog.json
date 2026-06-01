@@ -7,6 +7,10 @@
       {
         "type": "feature",
         "text": "Добавена е страницата [Видео лекции, предавания](/health/video) в менюто [Здраве](/health)."
+      },
+      {
+        "type": "improvement",
+        "text": "Добавени са видео материали към [Програмата NEW START](/health/new-start#new-start-videos)."
       }
 ]
   },

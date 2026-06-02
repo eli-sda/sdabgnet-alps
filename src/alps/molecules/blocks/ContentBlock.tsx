@@ -78,6 +78,10 @@ export interface ContentBlockProps {
    * Array of button properties to render multiple buttons
    */
   buttons?: ButtonProps[];
+  /**
+   * Specify whether the ContentBlock should have a gray background
+   */
+  grayBackground?: boolean;
 }
 
 export const ContentBlock = ({
@@ -96,7 +100,8 @@ export const ContentBlock = ({
   category = '',
   more = '',
   image,
-  buttons
+  buttons,
+  grayBackground = true
 }: ContentBlockProps): JSX.Element => {
   const { onToggle, openClass } = useToggle();
 
@@ -104,7 +109,7 @@ export const ContentBlock = ({
     'c-block c-block__text u-border--left u-clear-fix ' +
       themeBorderColorClass +
       '--darker ' +
-      'u-padding u-background-color--gray--light', //added this to have a background color
+      `u-padding${grayBackground ? ' u-background-color--gray--light' : ''}`,
     {
       'c-block__text-expand': more,
       'has-image': image !== undefined

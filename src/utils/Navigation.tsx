@@ -357,9 +357,8 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       },
       {
         type: 'primary',
-        text: 'Книги',
+        text: 'Здравни книги',
         url: routes.health('books'),
-        isDisabled: true
       },
       {
         type: 'primary',

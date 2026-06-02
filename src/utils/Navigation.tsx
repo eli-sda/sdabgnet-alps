@@ -352,8 +352,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Видео лекции, предавания',
-        url: routes.health('video'),
-        isDisabled: true
+        url: routes.health('video')
       },
       {
         type: 'primary',

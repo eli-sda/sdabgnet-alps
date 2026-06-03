@@ -3,6 +3,7 @@ import { createContext, useContext } from 'react';
 export type EventType = {
   title: string;
   start: string;
+  end?: string;
   endRegistration?: string;
   link?: string;
 };

@@ -128,11 +128,14 @@ export const loadPagePlaylists = async (
     }
   }`;
 
-  const result: { playlists: PlaylistType[] } | null = await client.fetch(
-    query,
-    { pagePath }
-  );
-  return result?.playlists ?? [];
+  const result: { playlists: (PlaylistType | null)[] } | null =
+    await client.fetch(query, { pagePath });
+  const playlists =
+    result?.playlists?.filter((p): p is PlaylistType => p != null) ?? [];
+  return playlists.map((p) => ({
+    ...p,
+    items: p.items?.filter((item) => item != null)
+  }));
 };
 
 export const loadPlaylists = async (
@@ -175,7 +178,14 @@ export const loadPlaylists = async (
     }
   }`;
 
-  return await client.fetch(playlistQuery);
+  const rawPlaylists: (PlaylistType | null)[] =
+    await client.fetch(playlistQuery);
+  return rawPlaylists
+    .filter((p): p is PlaylistType => p != null)
+    .map((p) => ({
+      ...p,
+      items: p.items?.filter((item) => item != null)
+    }));
 };
 
 export const loadLinks = async (type: string): Promise<LinkType[]> => {

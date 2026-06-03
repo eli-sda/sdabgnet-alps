@@ -1,17 +1,15 @@
 // Service Worker: Workbox injectManifest entry
 // This file uses Workbox globals injected at build time. Do not use import/export here.
 
-// Activate new SW immediately
-self.skipWaiting && self.skipWaiting();
-// Take control of clients if available (Workbox injects this in some builds, but not always)
-if (typeof self.clientsClaim === 'function') {
-  self.clientsClaim();
-}
+// Activate new SW immediately and take control of all clients
+self.skipWaiting();
+clientsClaim();
 
-// Clean up outdated caches if available
-if (typeof cleanupOutdatedCaches === 'function') {
-  cleanupOutdatedCaches();
-}
+// Register precache routes from the injected manifest (REQUIRED for autoUpdate to work)
+precacheAndRoute(self.__WB_MANIFEST);
+
+// Clean up outdated caches
+cleanupOutdatedCaches();
 
 // Exclude PHP files from all service worker handling
 if (
@@ -36,6 +34,21 @@ if (
   registerRoute(
     ({ url }) => url.pathname.startsWith('/img/'),
     new workbox.strategies.NetworkOnly()
+  );
+}
+
+// Use NetworkFirst for /json/ so updates are always picked up
+if (
+  typeof registerRoute === 'function' &&
+  typeof workbox !== 'undefined' &&
+  workbox.strategies &&
+  workbox.strategies.NetworkFirst
+) {
+  registerRoute(
+    ({ url }) => url.pathname.startsWith('/json/'),
+    new workbox.strategies.NetworkFirst({
+      cacheName: 'json-cache'
+    })
   );
 }
 

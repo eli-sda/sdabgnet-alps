@@ -59,6 +59,31 @@ if ('serviceWorker' in navigator) {
     'message',
     handleServiceWorkerMessage
   );
+
+  // Auto-reload when a new SW takes control (after skipWaiting + clientsClaim on deploy)
+  // Wait for the next in-app navigation so we don't interrupt audio/video playback
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (isReloading) return;
+
+    const reloadOnNavigation = () => {
+      if (!isReloading) {
+        isReloading = true;
+        window.location.reload();
+      }
+    };
+
+    // Intercept React Router (pushState) navigation
+    const originalPushState = history.pushState.bind(history);
+    history.pushState = function (
+      ...args: Parameters<typeof history.pushState>
+    ) {
+      originalPushState(...args);
+      reloadOnNavigation();
+    };
+
+    // Also handle back/forward browser navigation
+    window.addEventListener('popstate', reloadOnNavigation, { once: true });
+  });
 }
 
 createRoot(document.getElementById('root')!).render(

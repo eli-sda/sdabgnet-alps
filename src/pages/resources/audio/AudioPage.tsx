@@ -103,6 +103,7 @@ const AudioPage = ({ type, aside, relatedPosts }: AudioPageProps) => {
         <AudioPlaylistList
           pagePath={pagePath}
           defaultImageIcon={<RiUserVoiceFill {...reactIconProps} />}
+          withListPadding={true}
         />
       )}
     </>

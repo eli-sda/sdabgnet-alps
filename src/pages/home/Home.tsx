@@ -20,7 +20,7 @@ import { CallForHelp } from 'src/components/CallForHelp';
 //   // linkBibleVideoPlaylistsToItems,
 //   linkTestimoniesVideoPlaylistsToItems
 // linkBookPlaylistsToItems
-  // linkHealthPlaylistsToItems
+// linkHealthPlaylistsToItems
 // } from 'src/utils/Sanity/link-playlists';
 // import { deleteAllAudioLinks } from 'src/utils/Sanity/delete-audio-links';
 // import { cleanupPlaylistItems } from 'src/utils/Sanity/cleanup-playlist-items';
@@ -72,16 +72,11 @@ const Home = () => {
         <DailyVerse date={moment('2025-12-23')}></DailyVerse>
       </section> */}
 
-      <section className="full-page">
+      <section className="u-spacing--triple full-page">
         <HomeEvents />
-      </section>
-
-      <section className="full-page">
         <CallForHelp />
-      </section>
-
-      <section className="full-page">
         <AdvertisementsPreview />
+        <RssFeeds />
       </section>
 
       {/* <section className="u-spacing--double"> */}
@@ -123,7 +118,7 @@ const Home = () => {
         <Button onClick={() => void cleanupPlaylistItems('testimony', 'СРЕЩИ')}>
           Изтрий видеата от плейлист СРЕЩИ
         </Button>
-      </div> */} 
+      </div> */}
       {/* <div className="u-spacing--double">
         <Button onClick={() => void linkBookPlaylistsToItems()}>
           Fill Book Playlists
@@ -135,12 +130,11 @@ const Home = () => {
         </Button>
       </div> */}
 
-      <section className="full-page u-spacing--triple">
-        {/* <VideoDemo /> */}
-        {/* <FeedDemo /> */}
-        {/* <LatestAdvertisementsDemo /> */}
-        <RssFeeds />
-      </section>
+      {/* <section className="full-page u-spacing--triple"> */}
+      {/* <VideoDemo /> */}
+      {/* <FeedDemo /> */}
+      {/* <LatestAdvertisementsDemo /> */}
+      {/* </section> */}
 
       <Partners />
     </section>

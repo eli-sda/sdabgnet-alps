@@ -15,9 +15,7 @@ const HealthVideos = (): JSX.Element => {
       blockType="wrap6"
       pageClassName="full-page"
     >
-      <div className="u-width--100p u-padding--zero--sides">
-        <VideoPlaylistList pagePath={healthVideosPath} />
-      </div>
+      <VideoPlaylistList pagePath={healthVideosPath} />
     </Page>
   );
 };

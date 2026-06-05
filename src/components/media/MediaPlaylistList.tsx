@@ -279,7 +279,7 @@ const MediaPlaylistList = ({
             : undefined;
 
           return (
-            <div key={playlist._id} className="playlist-item u-padding--sides">
+            <div key={playlist._id} className="playlist-item">
               <MediaPlaylist
                 playlist={playlist}
                 onPlaylistSelect={() => handleSelect(playlist)}

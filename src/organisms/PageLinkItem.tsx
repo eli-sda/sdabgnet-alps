@@ -37,9 +37,7 @@ export const PageLinkItem = ({
   return (
     <>
       <GridItem
-        className={
-          'u-padding--sides u-space--triple--bottom l-grid-item page-link-item'
-        }
+        className={'u-space--triple--bottom l-grid-item page-link-item'}
         sizeAtM={sizeAtM}
         sizeAtXL={sizeAtXL}
       >

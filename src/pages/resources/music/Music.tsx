@@ -121,8 +121,8 @@ const MusicPage = () => {
 
         <VideoPlaylistList playlists={musicVideos} />
       </Page>
-      <section className="u-space--triple--top u-spacing--double">
-        <div className="audio-page-instructions u-padding--sides">
+      <section className="u-space--triple--top u-spacing--double u-padding--sides">
+        <div className="audio-page-instructions">
           <h4 className="audio-page-caption">
             • Използвайте бутона{' '}
             <span className="audio-page-caption__icon-wrapper">

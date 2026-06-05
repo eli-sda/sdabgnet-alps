@@ -350,17 +350,26 @@ $leftRightPaddingFullPageSmall: 5%;
 .full-page {
   margin-left: $leftRightPaddingFullPage;
   margin-right: $leftRightPaddingFullPage;
-  $allColsWidth: calc(100% - 2 * #{$leftRightPaddingFullPage});
+  &.l-grid-wrap--6-of-7 {
+    width: calc(100% - 2 * #{$leftRightPaddingFullPage});
+  }
 
   @media (max-width: 500px) {
     margin-left: $leftRightPaddingFullPageSmall;
     margin-right: $leftRightPaddingFullPageSmall;
+    &.l-grid-wrap--6-of-7 {
+      width: calc(100% - 2 * #{$leftRightPaddingFullPageSmall});
+    }
   }
 
-  &.l-grid-wrap--6-of-7 {
-    width: $allColsWidth;
-  }
   &.l-grid--7-col {
+    > * {
+      width: 100%;
+      &:not(.l-grid-item) {
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
     @media (min-width: 701px) {
       .l-grid-item--m {
         &--3-col {

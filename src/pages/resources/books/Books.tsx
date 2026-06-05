@@ -60,6 +60,13 @@ const Books = () => {
         title: 'Четете книгите на Елън Уайт онлайн',
         url: 'https://m.egwwritings.org/bg/folders/1344',
         image: getImageTypeByUrl('/img/logos/whiteestate-logo.png')
+      },
+      {
+        title: '"Между редовете"',
+        description: 'Предаване за книгите на издателство "Нов живот", съвместно с "Hope Channel Bulgaria"',
+        category: 'YouTube плейлист',
+        url: 'https://www.youtube.com/playlist?list=PLs0blo5nifQ_5b3I9F6eXrdzYqLtcYzmJ',
+        image: getImageTypeByUrl('/img/logos/between-the-lines.webp')
       }
     ]
   };

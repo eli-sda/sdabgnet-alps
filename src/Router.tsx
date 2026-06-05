@@ -75,7 +75,7 @@ const Recipes = lazy(() => import('./pages/health/Recipes'));
 const Changelog = lazy(() => import('./pages/changelog/Changelog'));
 const NewStart = lazy(() => import('./pages/health/newStart/NewStart'));
 const HealthVideos = lazy(() => import('./pages/health/HealthVideos'));
-const HealthBooks = lazy(() => import('./pages/health/healthBooks/HealthBooks'));
+const HealthBooks = lazy(() => import('./pages/health/HealthBooks'));
 
 // const theme = createTheme();
 

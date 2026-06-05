@@ -1,12 +1,10 @@
 import routes from 'src/routes';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import { ContentBlock } from 'src/alps/molecules/blocks/ContentBlock';
-import { Button } from 'src/alps/atoms/Button';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
 import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
-import './HealthBooks.scss';
 
 const onlineBooksBlocks = [
   {
@@ -62,6 +60,31 @@ const relatedBooks = {
   ]
 };
 
+type BookItem = {
+  url: string;
+  title: string;
+  cta: string;
+  img: string;
+  description?: string;
+};
+
+const BookGroup = ({ title, books }: { title: string; books: BookItem[] }) => (
+  <div className="u-spacing">
+    <HeadingBlock title={title} />
+    {books.map((book) => (
+      <ContentBlock
+        key={book.url}
+        title={book.title}
+        cta={book.cta}
+        url={book.url}
+        image={getImageTypeByUrl(book.img)}
+        grayBackground={false}
+        description={book.description}
+      />
+    ))}
+  </div>
+);
+
 const healthBooksPath = routes.health('books');
 
 const HealthBooks = (): JSX.Element => {
@@ -80,58 +103,16 @@ const HealthBooks = (): JSX.Element => {
         </section>
 
         <section className="u-spacing--double health-books-list">
-          <div className="u-spacing">
-            <HeadingBlock title="Четете онлайн" />
-            {onlineBooksBlocks.map((book) => (
-              <ContentBlock
-                key={book.url}
-                title={book.title}
-                cta={book.cta}
-                url={book.url}
-                image={getImageTypeByUrl(book.img)}
-                grayBackground={false}
-                description={book.description}
-              />
-            ))}
-          </div>
+          <BookGroup title="Четете онлайн" books={onlineBooksBlocks} />
+          <BookGroup title="Купи книга" books={buyBooksBlocks} />
 
-          <div className="u-spacing">
-            <HeadingBlock title="Купи книга" />
-            {buyBooksBlocks.map((book) => (
-              <ContentBlock
-                key={book.url}
-                title={book.title}
-                cta={book.cta}
-                url={book.url}
-                image={getImageTypeByUrl(book.img)}
-                grayBackground={false}
-                description={book.description}
-              />
-            ))}
-          </div>
-        </section>
-
-        <section className="new-life-ad u-spacing">
-          <div className="new-life-ad-content">
-            <img
-              src="/img/logos/new-life_color.svg"
-              className="new-life-logo u-space--right"
-            />
-
-            <p className="u-theme--color--darker u-font--secondary--m">
-              Издателство &quot;Нов живот&quot; предлага книги на теми като
-              здравословен начин на живот, диета и хранене, алтернативни методи
-              на лечение и други. Виж предложенията им и се погрижи за своето
-              здраве!
-            </p>
-          </div>
-
-          <Button
-            as="a"
+          <ContentBlock
+            title='Издателство "Нов живот"'
+            cta="Към онлайн книжарницата"
             url="https://newlife-bg.com/product-category/health/"
-            label="Отвори страницата"
-            isExternal
-            outline
+            image={getImageTypeByUrl('/img/logos/new-life_color.svg')}
+            grayBackground={false}
+            description="Предлага книги на теми като здравословен начин на живот, диета и хранене, алтернативни методи на лечение и други. Виж предложенията им и се погрижи за своето здраве!"
           />
         </section>
       </section>

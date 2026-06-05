@@ -10,7 +10,7 @@ export async function updateVideoTopics() {
   const targets = [
     {
       name: 'All Health Pages',
-      condition: 'path.current match "*health*"',
+      condition: 'path.current match "*/health*"',
       tag: 'здраве'
     },
     {

@@ -11,7 +11,7 @@ import { Partners } from 'src/components/Partners';
 import { CallForHelp } from 'src/components/CallForHelp';
 
 // for Sanity update
-// import { Button } from '@mui/material';
+import { Button } from '@mui/material';
 // import { deleteAllLinks } from 'src/utils/DelteSanityDocuments';
 // import { fixSlugs } from 'src/utils/Sanity/fix-slug';
 // import {
@@ -20,10 +20,11 @@ import { CallForHelp } from 'src/components/CallForHelp';
 //   // linkBibleVideoPlaylistsToItems,
 //   linkTestimoniesVideoPlaylistsToItems
 // linkBookPlaylistsToItems
-  // linkHealthPlaylistsToItems
+// linkHealthPlaylistsToItems
 // } from 'src/utils/Sanity/link-playlists';
 // import { deleteAllAudioLinks } from 'src/utils/Sanity/delete-audio-links';
 // import { cleanupPlaylistItems } from 'src/utils/Sanity/cleanup-playlist-items';
+import { updateVideoTopics } from 'src/utils/Sanity/updateVideoTopics';
 
 // for DEMO:
 // import { TestLinks } from 'src/components/TestLinks';
@@ -123,17 +124,22 @@ const Home = () => {
         <Button onClick={() => void cleanupPlaylistItems('testimony', 'СРЕЩИ')}>
           Изтрий видеата от плейлист СРЕЩИ
         </Button>
-      </div> */} 
+      </div> */}
       {/* <div className="u-spacing--double">
         <Button onClick={() => void linkBookPlaylistsToItems()}>
           Fill Book Playlists
         </Button>
       </div> */}
       {/* <div>
-        <Button onClick={void linkHealthPlaylistsToItems()}>
+        <Button onClick={() => void linkHealthPlaylistsToItems()}>
           Fill Health Playlists
         </Button>
       </div> */}
+      <div>
+        <Button onClick={() => void updateVideoTopics()}>
+          Update video topics
+        </Button>
+      </div>
 
       <section className="full-page u-spacing--triple">
         {/* <VideoDemo /> */}

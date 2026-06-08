@@ -26,8 +26,8 @@ export const client = createClient({
   dataset: import.meta.env.VITE_SANITY_DATASET as string,
   apiVersion: '2025-11-21',
   useCdn: !import.meta.env.DEV, // `true` for fast, cached responses
-  token,
-  perspective: 'previewDrafts' // Enables drafts (with token & useCdn: false, e.g. in DEV)
+  token
+  // perspective: 'previewDrafts' // Enables drafts (with token & useCdn: false, e.g. in DEV)
 });
 
 const builder = imageUrlBuilder(client);

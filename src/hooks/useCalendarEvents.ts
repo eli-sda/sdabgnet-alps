@@ -34,7 +34,9 @@ export function useCalendarEvents() {
     return Promise.allSettled(
       years.map((year) =>
         fetch(`/json/calendar-${year}.json`).then((res) =>
-          res.ok ? res.json() : []
+          res.ok && res.headers.get('content-type')?.includes('application/json')
+            ? res.json()
+            : []
         )
       )
     ).then((results) =>

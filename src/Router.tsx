@@ -75,6 +75,7 @@ const Recipes = lazy(() => import('./pages/health/Recipes'));
 const Changelog = lazy(() => import('./pages/changelog/Changelog'));
 const NewStart = lazy(() => import('./pages/health/newStart/NewStart'));
 const HealthVideos = lazy(() => import('./pages/health/HealthVideos'));
+const HealthBooks = lazy(() => import('./pages/health/HealthBooks'));
 
 // const theme = createTheme();
 
@@ -267,6 +268,7 @@ const Router = () => (
           <Route path={routes.health()} element={<Health />} />
           <Route path={routes.health('new-start')} element={<NewStart />} />
           <Route path={routes.health('video')} element={<HealthVideos />} />
+          <Route path={routes.health('books')} element={<HealthBooks />} />
           <Route path={routes.health('recipes')} element={<Recipes />} />
           <Route
             path={routes.health('institutions')}

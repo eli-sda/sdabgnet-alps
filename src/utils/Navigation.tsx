@@ -347,28 +347,32 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Програмата NEW START',
-        url: routes.health('new-start')
+        url: routes.health('new-start'),
+        faIconClass: 'fas fa-seedling'
       },
       {
         type: 'primary',
         text: 'Видео лекции, предавания',
-        url: routes.health('video')
+        url: routes.health('video'),
+        faIconClass: 'fas fa-video'
       },
       {
         type: 'primary',
-        text: 'Книги',
+        text: 'Здравни книги',
         url: routes.health('books'),
-        isDisabled: true
+        faIconClass: 'fas fa-book-medical' 
       },
       {
         type: 'primary',
         text: 'Рецепти',
-        url: routes.health('recipes')
+        url: routes.health('recipes'),
+        faIconClass: 'fas fa-utensils'
       },
       {
         type: 'primary',
         text: 'Здравни институции',
-        url: routes.health('institutions')
+        url: routes.health('institutions'),
+        faIconClass: 'fas fa-medkit',
       },
       {
         type: 'primary',

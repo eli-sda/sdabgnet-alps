@@ -17,3 +17,8 @@ export interface PlaylistDocument extends SanityDocument {
   slug: string;
   image?: string | object | null;
 }
+export type SanityReference = {
+  _type: 'reference';
+  _ref: string;
+  _key: string;
+};

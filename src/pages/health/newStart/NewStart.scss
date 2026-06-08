@@ -5,7 +5,8 @@
   .new-start-principles {
     display: flex;
     align-items: center;
-    gap: 4rem; // Space between list and banner
+    column-gap: 4rem; // Space between list and banner
+    row-gap: 2rem; // Space on smaller screens
 
     @media (max-width: 900px) {
       flex-direction: column-reverse;
@@ -116,12 +117,14 @@
 
   // Pullquotes styling
   .pullquotes {
-    max-width: 1000px;
-
-    .pullquote:first-of-type p:first-child {
-      padding-top: 0;
+    @media (min-width: 901px) {
+      display: grid;
+      grid-auto-flow: column;
+      column-gap: 2rem;
+      blockquote {
+        padding: 0 !important;
+      }
     }
-
     p,
     .o-citation {
       padding-left: 0;

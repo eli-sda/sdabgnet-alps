@@ -129,7 +129,7 @@ const Home = () => {
         <Button onClick={() => void linkHealthPlaylistsToItems()}>
           Fill Health Playlists
         </Button>
-      </div> 
+      </div>
       <div>
         <Button onClick={() => void updateVideoTopics()}>
           Update video topics

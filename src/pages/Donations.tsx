@@ -51,7 +51,7 @@ const Donations = () => {
         />
       </section>
 
-      <section>
+      <>
         {donations.map(({ url, title, description, img, buttons }, idx) => (
           <PageLinkItem
             key={idx}
@@ -64,7 +64,7 @@ const Donations = () => {
             sizeAtXL="3"
           />
         ))}
-      </section>
+      </>
 
       <section>
         <Pullquote

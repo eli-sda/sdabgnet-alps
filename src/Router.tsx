@@ -21,7 +21,9 @@ const LessonsSearch = lazy(() => import('./pages/lessonsSearch/LessonsSearch'));
 const Churches = lazy(() => import('./pages/Churches'));
 const Books = lazy(() => import('./pages/resources/books/Books'));
 const Events = lazy(() => import('./pages/events/Events'));
-const HealthInstitutions = lazy(() => import('./pages/health/HealthInstitutions'));
+const HealthInstitutions = lazy(
+  () => import('./pages/health/HealthInstitutions')
+);
 const ChurchLife = lazy(() => import('./pages/ChurchLife'));
 const Info = lazy(() => import('./pages/Info'));
 const Commune = lazy(() => import('./pages/Commune'));
@@ -286,7 +288,7 @@ const Router = () => (
           {/* Какво ново */}
           <Route path={routes.changelog} element={<Changelog />} />
 
-          {/* 
+          {/*
           <Route path="teams" element={<Teams />}>
             <Route path=":teamId" element={<Team />} />
             <Route path="new" element={<NewTeamForm />} />

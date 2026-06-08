@@ -36,31 +36,28 @@ const HealthInstitutions = () => {
       blockType="wrap6"
       pageClassName="full-page"
     >
-      {/* wrap in section so the items to layout in 1 column */}
-      <section>
-        {links.map(({ url, title, description, img, links }, idx) => {
-          const buttons = links?.map(({ url, type }) => ({
-            label: type,
-            url,
-            faIconClass: `${getFaIconClass(type)} fa-lg`,
-            hideExternalIcon: true,
-            outline: true,
-            isExternal: true
-          }));
-          return (
-            <PageLinkItem
-              key={idx}
-              url={url}
-              title={title}
-              description={description}
-              img={getImageTypeByUrl(img)}
-              buttons={buttons}
-              sizeAtM="6"
-              sizeAtXL="6"
-            />
-          );
-        })}
-      </section>
+      {links.map(({ url, title, description, img, links }, idx) => {
+        const buttons = links?.map(({ url, type }) => ({
+          label: type,
+          url,
+          faIconClass: `${getFaIconClass(type)} fa-lg`,
+          hideExternalIcon: true,
+          outline: true,
+          isExternal: true
+        }));
+        return (
+          <PageLinkItem
+            key={idx}
+            url={url}
+            title={title}
+            description={description}
+            img={getImageTypeByUrl(img)}
+            buttons={buttons}
+            sizeAtM="6"
+            sizeAtXL="3"
+          />
+        );
+      })}
     </Page>
   );
 };

@@ -387,6 +387,14 @@ $leftRightPaddingFullPageSmall: 5%;
         }
         &--3-col {
           width: calc((100% / 6) * 3 - 0.01px);
+          .c-block__text {
+            .c-block__image {
+              width: 33% !important;
+            }
+            &.has-image > *:not(.c-block__image) {
+              margin-left: 33% !important;
+            }
+          }
         }
       }
     }
@@ -444,4 +452,9 @@ input.o-input__search[type='search'][name='search'] {
     color: $grayColor;
     opacity: 1;
   }
+}
+
+// use for figure in DownloadListItem or other
+.max_600px {
+  max-width: 600px;
 }

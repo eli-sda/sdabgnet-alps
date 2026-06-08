@@ -112,7 +112,7 @@ const HealthBooks = (): JSX.Element => {
             url="https://newlife-bg.com/product-category/health/"
             image={getImageTypeByUrl('/img/logos/new-life_color.svg')}
             grayBackground={false}
-            description="Предлага книги на теми като здравословен начин на живот, диета и хранене, алтернативни методи на лечение и други. Виж предложенията им и се погрижи за своето здраве!"
+            description="Предлага християнска литератира, както и книги на теми като здравословен начин на живот, диета и хранене, алтернативни методи на лечение и други. Виж предложенията им и се погрижи за своето здраве!"
           />
         </section>
       </section>

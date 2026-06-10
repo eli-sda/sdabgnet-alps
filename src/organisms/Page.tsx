@@ -17,7 +17,7 @@ export interface PageProps {
   relatedPosts?: RelatedPostsProps;
   background?: SourceSet;
   blockType?: PageSectionBlockType;
-  pageClassName?: string; 
+  pageClassName?: string;
 }
 
 export const Page = ({

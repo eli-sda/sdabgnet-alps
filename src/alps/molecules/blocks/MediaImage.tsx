@@ -76,7 +76,7 @@ export const MediaImage = ({
 
           {(caption || image.caption) && (
             <div
-              className={`c-block__caption u-color--white-transparent u-padding--top u-padding--bottom 
+              className={`c-block__caption u-color--white-transparent u-padding--top u-padding--bottom
                             ${type ? 'u-padding--quad' : ''}
                             ${'u-padding--right--' + type}
                             ${'u-padding--left--' + type}

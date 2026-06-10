@@ -7,11 +7,13 @@ import './VideoPlaylistList.scss';
 type VideoPlaylistListProps = {
   pagePath?: string;
   playlists?: PlaylistType[];
+  withListPadding?: boolean;
 };
 
 const VideoPlaylistList = ({
   pagePath,
-  playlists
+  playlists,
+  withListPadding = false
 }: VideoPlaylistListProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -19,6 +21,7 @@ const VideoPlaylistList = ({
     <MediaPlaylistList
       pagePath={pagePath}
       mediaPlaylists={playlists}
+      className={withListPadding ? 'u-padding--sides' : ''}
       mediaType="video"
       defaultImageIcon={
         <i className="fas fa-video c-block__image u-color--black video-playlist-default-icon"></i>

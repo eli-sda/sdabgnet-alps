@@ -131,6 +131,7 @@ const DownloadListItem = ({
                 caption={video.caption}
                 size="large"
                 videoSrc={video.url}
+                className="max_600px"
               />
             ) : null;
           }

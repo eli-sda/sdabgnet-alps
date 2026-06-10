@@ -1,16 +1,22 @@
-$itemW: 274px;
+$itemW: 252px; //274px;
 $spacing: 2.5rem;
 
 .media-playlist-list {
   display: grid;
   row-gap: $spacing;
+  column-gap: 1.8rem;
   grid-template-columns: repeat(auto-fit, minmax($itemW, 1fr));
+  justify-items: center;
 
   .playlist-item {
-    width: $itemW;
+    max-width: $itemW;
     height: 100%;
     display: flex;
     flex-direction: column;
+
+    &:only-child {
+      justify-self: start;
+    }
   }
 }
 
@@ -23,7 +29,6 @@ $spacing: 2.5rem;
     }
     .playlist-item {
       width: 100%;
-      max-width: 100%;
       height: auto;
       margin-left: 0;
       margin-right: 0;

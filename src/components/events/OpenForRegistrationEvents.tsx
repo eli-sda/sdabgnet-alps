@@ -17,7 +17,7 @@ const OpenForRegistrationEvents = () => {
             className="c-block__title hyphens-auto u-font--primary--s u-space--half u-theme--color--dark"
           >
             <i
-              className="far fa-clock u-space--half--right"
+              className="fas fa-hourglass-half u-space--half--right"
               aria-hidden="true"
             />
             до {moment(event.endRegistration).format('DD.MM.YYYY')}

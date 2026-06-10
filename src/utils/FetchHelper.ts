@@ -205,7 +205,7 @@ export const loadLinks = async (type: string): Promise<LinkType[]> => {
     size,
     // keyWords,
     // image,
-    "path": select(isResource == true => "images/" + fileName, 
+    "path": select(isResource == true => "images/" + fileName,
     true => URL
     )
   }`;
@@ -247,7 +247,7 @@ export const loadLinksByTopics = async (
     isResource,
     keyWords,
     "topics": topics[]->{ _id, title },
-    "path": select(isResource == true => "images/" + fileName, 
+    "path": select(isResource == true => "images/" + fileName,
     true => URL
     )
   }`;
@@ -267,8 +267,8 @@ export const loadSeminarRelatedPresentations = async (): Promise<
   SeminarRelatedPresentationsType[]
 > => {
   const presentationsQuery = `*[
-      _type == "playlist" 
-      && type == "presentations" 
+      _type == "playlist"
+      && type == "presentations"
       && title in *[_type == "playlist" && type == "seminars"].title
     ]{
       _id,

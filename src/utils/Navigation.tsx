@@ -360,7 +360,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
         type: 'primary',
         text: 'Здравни книги',
         url: routes.health('books'),
-        faIconClass: 'fas fa-book-medical' 
+        faIconClass: 'fas fa-book-medical'
       },
       {
         type: 'primary',
@@ -372,7 +372,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
         type: 'primary',
         text: 'Здравни институции',
         url: routes.health('institutions'),
-        faIconClass: 'fas fa-medkit',
+        faIconClass: 'fas fa-medkit'
       },
       {
         type: 'primary',

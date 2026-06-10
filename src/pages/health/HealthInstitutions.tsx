@@ -34,7 +34,7 @@ const HealthInstitutions = () => {
       title={title}
       breadcrumbsUrls={breadcrumbsUrls}
       blockType="wrap6"
-      // pageClassName="full-page"
+      pageClassName="full-page"
     >
       {links.map(({ url, title, description, img, links }, idx) => {
         const buttons = links?.map(({ url, type }) => ({

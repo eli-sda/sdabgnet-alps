@@ -35,9 +35,9 @@ const Donations = () => {
       title={title}
       breadcrumbsUrls={breadcrumbsUrls}
       blockType="wrap6"
-      // pageClassName="full-page"
+      pageClassName="full-page"
     >
-      <section className="l-grid-item l-grid-item--7-col u-space--bottom">
+      <section className="u-space--bottom">
         <div className="u-space--half--bottom">
           <HeadingBlock title="Подкрепете с дарение или участие следните адвентни институции и проекти" />
         </div>
@@ -51,20 +51,22 @@ const Donations = () => {
         />
       </section>
 
-      {donations.map(({ url, title, description, img, buttons }, idx) => (
-        <PageLinkItem
-          key={idx}
-          url={url}
-          title={title}
-          description={description}
-          img={getImageTypeByUrl(img, title)}
-          buttons={buttons}
-          sizeAtM="6"
-          sizeAtXL="3"
-        />
-      ))}
+      <>
+        {donations.map(({ url, title, description, img, buttons }, idx) => (
+          <PageLinkItem
+            key={idx}
+            url={url}
+            title={title}
+            description={description}
+            img={getImageTypeByUrl(img, title)}
+            buttons={buttons}
+            sizeAtM="6"
+            sizeAtXL="3"
+          />
+        ))}
+      </>
 
-      <section className="l-grid-item l-grid-item--7-col">
+      <section>
         <Pullquote
           quote="Сега е времето да работим за спасението на нашите ближни. Някои мислят, че всичко, което се изисква от тях, се изчерпва с даряването на пари за каузата на Христос. Скъпоценното време, в което биха могли да извършат лично служене за Него, отминава неизползвано. Но привилегия и задължение на всички, които имат здраве и сили, е да се отплатят на Бога с активна служба. Трябва да работим за печеленето на души за Христос. Финансовите даренията не могат да заместят това начинание."
           author="Елън Уайт, Притчи Христови"

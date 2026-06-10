@@ -350,17 +350,26 @@ $leftRightPaddingFullPageSmall: 5%;
 .full-page {
   margin-left: $leftRightPaddingFullPage;
   margin-right: $leftRightPaddingFullPage;
-  $allColsWidth: calc(100% - 2 * #{$leftRightPaddingFullPage});
+  &.l-grid-wrap--6-of-7 {
+    width: calc(100% - 2 * #{$leftRightPaddingFullPage});
+  }
 
   @media (max-width: 500px) {
     margin-left: $leftRightPaddingFullPageSmall;
     margin-right: $leftRightPaddingFullPageSmall;
+    &.l-grid-wrap--6-of-7 {
+      width: calc(100% - 2 * #{$leftRightPaddingFullPageSmall});
+    }
   }
 
-  &.l-grid-wrap--6-of-7 {
-    width: $allColsWidth;
-  }
   &.l-grid--7-col {
+    > * {
+      width: 100%;
+      &:not(.l-grid-item) {
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
     @media (min-width: 701px) {
       .l-grid-item--m {
         &--3-col {
@@ -378,6 +387,14 @@ $leftRightPaddingFullPageSmall: 5%;
         }
         &--3-col {
           width: calc((100% / 6) * 3 - 0.01px);
+          .c-block__text {
+            .c-block__image {
+              width: 33% !important;
+            }
+            &.has-image > *:not(.c-block__image) {
+              margin-left: 33% !important;
+            }
+          }
         }
       }
     }
@@ -435,4 +452,9 @@ input.o-input__search[type='search'][name='search'] {
     color: $grayColor;
     opacity: 1;
   }
+}
+
+// use for figure in DownloadListItem or other
+.max_600px {
+  max-width: 600px;
 }

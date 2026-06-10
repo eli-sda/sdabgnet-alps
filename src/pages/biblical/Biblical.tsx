@@ -235,7 +235,7 @@ const Biblical = () => {
               }
             ]}
           />
-          <VideoPlaylistList pagePath={biblicalPath} />
+          <VideoPlaylistList pagePath={biblicalPath} withListPadding={true} />
         </section>
 
         <section className="u-spacing">

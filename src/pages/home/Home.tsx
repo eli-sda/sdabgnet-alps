@@ -11,17 +11,18 @@ import { Partners } from 'src/components/Partners';
 import { CallForHelp } from 'src/components/CallForHelp';
 
 // for Sanity update
-// import { Button } from '@mui/material';
+import { Button } from '@mui/material';
 // import { deleteAllLinks } from 'src/utils/DelteSanityDocuments';
 // import { fixSlugs } from 'src/utils/Sanity/fix-slug';
-// import {
-//   // linkPlaylistsToItems,
-//   // linkMusicPlaylistsToItems,
-//   // linkBibleVideoPlaylistsToItems,
-//   linkTestimoniesVideoPlaylistsToItems
-// linkBookPlaylistsToItems
-// linkHealthPlaylistsToItems
-// } from 'src/utils/Sanity/link-playlists';
+import {
+  //   // linkPlaylistsToItems,
+  //   // linkMusicPlaylistsToItems,
+  //   // linkBibleVideoPlaylistsToItems,
+  //   linkTestimoniesVideoPlaylistsToItems
+  // linkBookPlaylistsToItems
+  // linkHealthPlaylistsToItems
+  linkVideosPlaylistsToItems
+} from 'src/utils/Sanity/link-playlists';
 // import { deleteAllAudioLinks } from 'src/utils/Sanity/delete-audio-links';
 // import { cleanupPlaylistItems } from 'src/utils/Sanity/cleanup-playlist-items';
 // import { updateVideoTopics } from 'src/utils/Sanity/updateVideoTopics';
@@ -135,6 +136,19 @@ const Home = () => {
           Update video topics
         </Button>
       </div>*/}
+
+      <div>
+        <Button onClick={() => void linkVideosPlaylistsToItems('Произход*')}>
+          Fill &quot;Произход&quot; playlists
+        </Button>
+        <Button
+          onClick={() =>
+            void linkVideosPlaylistsToItems('От корица до корица*')
+          }
+        >
+          Fill &quot;От корица до корица&quot; playlists
+        </Button>
+      </div>
 
       {/* <section className="full-page u-spacing--triple"> */}
       {/* <VideoDemo /> */}

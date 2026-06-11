@@ -680,3 +680,100 @@ export async function linkHealthPlaylistsToItems() {
     console.error('❌ Error in linkHealthPlaylistsToItems:', error);
   }
 }
+
+export async function linkVideosPlaylistsToItems(playlistFilter: string) {
+  console.log(
+    `Starting to link video playlists to their items with filter: "${playlistFilter}"...`
+  );
+  let totalUpdated = 0;
+
+  try {
+    // Fetch only the empty playlists that match the provided filter in their title
+    const playlists = await client.fetch<PlaylistDocument[]>(
+      `*[_type == "playlist" && title match $playlistFilter && (items == null || count(items) == 0)] {
+        _id,
+        _type,
+        title,
+        items
+      }`,
+      { playlistFilter }
+    );
+
+    if (!playlists || playlists.length === 0) {
+      console.log(
+        `No empty playlists found matching the filter "${playlistFilter}".`
+      );
+      return;
+    }
+
+    const playlistTitles = playlists.map((p) => p.title);
+    console.log(
+      `Found ${playlists.length} empty playlists matching the filter.`
+    );
+
+    // Fetch matching links
+    const links = await client.fetch<LinkDocument[]>(
+      `*[_type == "link" && keyWords[0] in $playlistTitles]{
+        _id,
+        _type,
+        title,
+        author,
+        fileName,
+        keyWords
+      }`,
+      { playlistTitles }
+    );
+
+    console.log(`Found ${links.length} potential matching links.`);
+
+    // Match links to playlists and update in Sanity
+    for (const playlist of playlists) {
+      const matchingLinks = links.filter((link) => {
+        return link.keyWords && link.keyWords[0] === playlist.title;
+      });
+
+      if (matchingLinks.length === 0) {
+        console.warn(`No matching links found for playlist: ${playlist.title}`);
+        continue;
+      }
+
+      // Sort links by keyWords[1]
+      const sortedMatchingLinks = sortLinksByKeyWords(matchingLinks);
+
+      console.log(`\n📂 Playlist: "${playlist.title}"`);
+      sortedMatchingLinks.forEach((link, idx) => {
+        console.log(
+          `      ${idx + 1}. "${link.title}" (keyWords[1]: ${link.keyWords[1]})`
+        );
+      });
+
+      // Create references
+      const itemReferences = sortedMatchingLinks.map((link) => ({
+        _type: 'reference' as const,
+        _ref: link._id,
+        _key: `ref-${link._id}`
+      }));
+
+      // Patch the playlist document
+      try {
+        await client
+          .patch(playlist._id)
+          .set({ items: itemReferences })
+          .commit();
+
+        console.log(
+          `✅ Updated playlist "${playlist.title}" with ${sortedMatchingLinks.length} items`
+        );
+        totalUpdated++;
+      } catch (error) {
+        console.error(`❌ Failed to update playlist ${playlist._id}:`, error);
+      }
+    }
+
+    console.log(
+      `\n🎉 Successfully updated ${totalUpdated} playlists out of ${playlists.length}`
+    );
+  } catch (error) {
+    console.error('❌ Error in linkVideosPlaylistsToItems:', error);
+  }
+}

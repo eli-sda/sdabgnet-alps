@@ -85,24 +85,9 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
           },
           {
             type: 'primary',
-            text: 'Молитвена група',
-            url: 'https://www.facebook.com/groups/188820787814459/',
-            faIconClass: 'fab fa-facebook-f',
-            isExternal: true
-          },
-          {
-            type: 'primary',
-            text: 'Адвентна българска мрежа',
-            url: 'https://www.facebook.com/groups/sdabg.net',
-            faIconClass: 'fab fa-facebook-f',
-            isExternal: true
-          },
-          {
-            type: 'primary',
-            text: 'Адвентен форум',
-            url: 'https://www.facebook.com/groups/AdventistDiscussions',
-            faIconClass: 'fab fa-facebook-f',
-            isExternal: true
+            text: 'Нашите общности',
+            url: routes.commune('communities'),
+            faIconClass: 'fab fa-facebook-f'
           }
         ]
       },

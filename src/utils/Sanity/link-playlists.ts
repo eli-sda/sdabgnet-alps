@@ -690,7 +690,7 @@ export async function linkVideosPlaylistsToItems(playlistFilter: string) {
   try {
     // Fetch only the empty playlists that match the provided filter in their title
     const playlists = await client.fetch<PlaylistDocument[]>(
-      `*[_type == "playlist" && title match $playlistFilter && (items == null || count(items) == 0)] {
+      `*[_type == "playlist" && type=="video" && title match $playlistFilter && (items == null || count(items) == 0)] {
         _id,
         _type,
         title,

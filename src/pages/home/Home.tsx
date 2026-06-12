@@ -139,12 +139,12 @@ const Home = () => {
       </div>*/}
 
       {/* <div>
-        <Button onClick={() => void linkVideosPlaylistsToItems('Произход*')}>
+        <Button onClick={() => void linkVideosPlaylistsToItems('title match "Произход*"')}>
           Fill &quot;Произход&quot; playlists
         </Button>
         <Button
           onClick={() =>
-            void linkVideosPlaylistsToItems('От корица до корица*')
+            void linkVideosPlaylistsToItems('title match "От корица до корица*"')
           }
         >
           Fill &quot;От корица до корица&quot; playlists

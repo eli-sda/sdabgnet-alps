@@ -78,7 +78,7 @@ const Changelog = lazy(() => import('./pages/changelog/Changelog'));
 const NewStart = lazy(() => import('./pages/health/newStart/NewStart'));
 const HealthVideos = lazy(() => import('./pages/health/HealthVideos'));
 const HealthBooks = lazy(() => import('./pages/health/HealthBooks'));
-const Communities = lazy(() => import('./pages/Communities'));
+const FacebookGroups = lazy(() => import('./pages/FacebookGroups'));
 
 // const theme = createTheme();
 
@@ -174,8 +174,8 @@ const Router = () => (
             element={<PastorOnline />}
           />
           <Route
-            path={routes.commune('communities')}
-            element={<Communities />}
+            path={routes.commune('facebook-groups')}
+            element={<FacebookGroups />}
           />
           <Route path={routes.churchLife('poetry')} element={<Poetry />} />
           {/* Църковен живот - Обяви*/}

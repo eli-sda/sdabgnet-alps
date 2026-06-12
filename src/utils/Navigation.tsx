@@ -85,8 +85,8 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
           },
           {
             type: 'primary',
-            text: 'Нашите общности',
-            url: routes.commune('communities'),
+            text: 'Фейсбук групи',
+            url: routes.commune('facebook-groups'),
             faIconClass: 'fab fa-facebook-f'
           }
         ]

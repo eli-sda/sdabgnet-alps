@@ -25,6 +25,7 @@ import { CallForHelp } from 'src/components/CallForHelp';
 // import { deleteAllAudioLinks } from 'src/utils/Sanity/delete-audio-links';
 // import { cleanupPlaylistItems } from 'src/utils/Sanity/cleanup-playlist-items';
 // import { updateVideoTopics } from 'src/utils/Sanity/updateVideoTopics';
+// import { formatEpisodeTitles } from 'src/utils/Sanity/formatEpisodeTitles';
 
 // for DEMO:
 // import { TestLinks } from 'src/components/TestLinks';
@@ -135,6 +136,10 @@ const Home = () => {
           Update video topics
         </Button>
       </div>*/}
+
+      {/* <Button onClick={() => void formatEpisodeTitles('Произход - сезон 1')}>
+          Format Episode Titles
+        </Button> */}
 
       {/* <section className="full-page u-spacing--triple"> */}
       {/* <VideoDemo /> */}

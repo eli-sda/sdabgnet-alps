@@ -1,0 +1,52 @@
+[
+  {
+    "section": "",
+    "id": "communities",
+    "items": [
+      {
+        "title": "Молитвена група",
+        "description": "Място за подкрепа, споделяне и молитва.",
+        "image": "/img/logos/molitvena-grupa.webp",
+        "links": [
+          {
+            "url": "https://www.facebook.com/groups/188820787814459/",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "Адвентна българска мрежа",
+        "description": "Официална затворена фейсбук група, само за членове на ЦАСД. По преценка на администраторите могат да бъдат приемани приятели на църквата, включително младежи и деца.",
+        "image": "/img/logos/sda.webp",
+        "links": [
+          {
+            "url": "https://www.facebook.com/groups/sdabg.net",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "Адвентен форум",
+        "description": "Дискусионен форум за редовни членове на ЦАСД. В него се излагат убеждения, мнения и конструктивни дебати по въпроси, които занимават братята и сестрите в ЦАСД по целия свят.",
+        "image": "/img/logos/adventen-forum.webp",
+        "links": [
+          {
+            "url": "https://www.facebook.com/groups/AdventistDiscussions",
+            "type": "facebook"
+          }
+        ]
+      },
+      {
+        "title": "Комуникации СЦАСД",
+        "description": "Групата е предназначена за обмяна на опит, съдържание и идеи на хората в СЦАСД, които се занимават с комуникации. В нея се споделят съвети, нови тенденции в социалните мрежи, съдържание, дигитални инструменти и идеи за сътрудничество.",
+        "image": "/img/logos/comunications.webp",
+        "links": [
+          {
+            "url": "https://www.facebook.com/groups/179358841542667",
+            "type": "facebook"
+          }
+        ]
+      }
+    ]
+  }
+]

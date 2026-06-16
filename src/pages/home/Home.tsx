@@ -15,16 +15,18 @@ import { CallForHelp } from 'src/components/CallForHelp';
 // import { deleteAllLinks } from 'src/utils/DelteSanityDocuments';
 // import { fixSlugs } from 'src/utils/Sanity/fix-slug';
 // import {
-//   // linkPlaylistsToItems,
-//   // linkMusicPlaylistsToItems,
-//   // linkBibleVideoPlaylistsToItems,
-//   linkTestimoniesVideoPlaylistsToItems
+// linkPlaylistsToItems,
+// linkMusicPlaylistsToItems,
+// linkBibleVideoPlaylistsToItems,
+// linkTestimoniesVideoPlaylistsToItems
 // linkBookPlaylistsToItems
 // linkHealthPlaylistsToItems
+// linkVideosPlaylistsToItems
 // } from 'src/utils/Sanity/link-playlists';
 // import { deleteAllAudioLinks } from 'src/utils/Sanity/delete-audio-links';
 // import { cleanupPlaylistItems } from 'src/utils/Sanity/cleanup-playlist-items';
 // import { updateVideoTopics } from 'src/utils/Sanity/updateVideoTopics';
+// import { cleanNumericKeywords } from 'src/utils/Sanity/cleanNumericKeywords';
 // import { formatEpisodeTitles } from 'src/utils/Sanity/formatEpisodeTitles';
 
 // for DEMO:
@@ -137,6 +139,28 @@ const Home = () => {
         </Button>
       </div>*/}
 
+      {/* <div>
+        <Button onClick={() => void linkVideosPlaylistsToItems('title match "Произход*"')}>
+          Fill &quot;Произход&quot; playlists
+        </Button>
+        <Button
+          onClick={() =>
+            void linkVideosPlaylistsToItems('title match "От корица до корица*"')
+          }
+        >
+          Fill &quot;От корица до корица&quot; playlists
+        </Button>
+      </div> */}
+
+      {/* <Button
+        onClick={() =>
+          void cleanNumericKeywords(
+            'Произход - сезон 1'
+          )
+        }
+      >
+        Clean Numeric Keywords
+      </Button> */}
       {/* <Button onClick={() => void formatEpisodeTitles('Произход - сезон 1')}>
           Format Episode Titles
         </Button> */}

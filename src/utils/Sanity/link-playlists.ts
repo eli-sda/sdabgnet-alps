@@ -25,6 +25,56 @@ function loadMusicLinksOrder() {
   );
 }
 
+// Helper function to match and update playlists with their corresponding links
+export async function populatePlaylistsWithLinks(
+  playlists: PlaylistDocument[],
+  links: LinkDocument[]
+): Promise<number> {
+  let totalUpdated = 0;
+
+  for (const playlist of playlists) {
+    const matchingLinks = links.filter((link) => {
+      return link.keyWords && link.keyWords[0] === playlist.title;
+    });
+
+    if (matchingLinks.length === 0) {
+      console.warn(`No matching links found for playlist: ${playlist.title}`);
+      continue;
+    }
+
+    // Sort links by keyWords[1]
+    const sortedMatchingLinks = sortLinksByKeyWords(matchingLinks);
+
+    console.log(`\n📂 Playlist: "${playlist.title}"`);
+    sortedMatchingLinks.forEach((link, idx) => {
+      console.log(
+        `      ${idx + 1}. "${link.title}" (keyWords[1]: ${link.keyWords[1]})`
+      );
+    });
+
+    // Create references
+    const itemReferences = sortedMatchingLinks.map((link) => ({
+      _type: 'reference' as const,
+      _ref: link._id,
+      _key: `ref-${link._id}`
+    }));
+
+    // Patch the playlist document
+    try {
+      await client.patch(playlist._id).set({ items: itemReferences }).commit();
+
+      console.log(
+        `✅ Updated playlist "${playlist.title}" with ${sortedMatchingLinks.length} items`
+      );
+      totalUpdated++;
+    } catch (error) {
+      console.error(`❌ Failed to update playlist ${playlist._id}:`, error);
+    }
+  }
+
+  return totalUpdated;
+}
+
 export interface PlaylistDocument extends SanityDocument {
   _type: 'playlist';
   title: string;
@@ -410,55 +460,8 @@ async function linkVideoPlaylistsToItems(playlistType: string) {
       `Found ${playlists.length} playlists and ${links.length} links`
     );
 
-    // Process each playlist
-    for (const playlist of playlists) {
-      // Find matching links for this playlist
-      const matchingLinks = links.filter((link) => {
-        // Check if first keyWord matches the playlist title exactly
-        if (link.keyWords[0] === playlist.title) {
-          return true;
-        }
-      });
-
-      if (matchingLinks.length === 0) {
-        console.warn(`No matching links found for playlist: ${playlist.title}`);
-        continue;
-      }
-
-      // Sort links by keyWords[1] (numeric order)
-      const sortedMatchingLinks = sortLinksByKeyWords(matchingLinks);
-      console.log(`📂 Playlist: "${playlist.title}"`);
-      console.log(`   Found ${sortedMatchingLinks.length} matching links:`);
-      sortedMatchingLinks.forEach((link, idx) => {
-        console.log(
-          `      ${idx + 1}. "${link.title}" (keyWords[1]: ${link.keyWords[1]})`
-        );
-      });
-
-      // Create references to the matching links
-      const itemReferences = sortedMatchingLinks.map((link) => ({
-        _type: 'reference' as const,
-        _ref: link._id,
-        _key: `ref-${link._id}`
-      }));
-
-      // Update the playlist with the item references
-      try {
-        await client
-          .patch(playlist._id)
-          .set({
-            items: itemReferences
-          })
-          .commit();
-
-        console.log(
-          `✅ Updated playlist "${playlist.title}" with ${sortedMatchingLinks.length} items`
-        );
-        totalUpdated++;
-      } catch (error) {
-        console.error(`❌ Failed to update playlist ${playlist._id}:`, error);
-      }
-    }
+    // Match links to playlists and update in Sanity
+    totalUpdated = await populatePlaylistsWithLinks(playlists, links);
 
     console.log(
       `\n🎉 Successfully updated ${totalUpdated} playlists out of ${playlists.length}`
@@ -515,54 +518,8 @@ export async function linkBookPlaylistsToItems() {
       `Found ${playlists.length} playlists and ${links.length} links`
     );
 
-    // Process each playlist
-    for (const playlist of playlists) {
-      // Find matching links for this playlist
-      const matchingLinks = links.filter(
-        (link) => link.keyWords[0] === playlist.title
-      );
-
-      if (matchingLinks.length === 0) {
-        console.warn(`No matching links found for playlist: ${playlist.title}`);
-        continue;
-      }
-
-      // Sort links by keyWords[1] (numeric order)
-      const sortedMatchingLinks = sortLinksByKeyWords(matchingLinks);
-
-      console.log(`📂 Playlist: "${playlist.title}"`);
-      console.log(`   Found ${sortedMatchingLinks.length} matching links:`);
-
-      sortedMatchingLinks.forEach((link, idx) => {
-        console.log(
-          `      ${idx + 1}. "${link.title}" (keyWords[1]: ${link.keyWords[1]})`
-        );
-      });
-
-      // Create references to the matching links
-      const itemReferences = sortedMatchingLinks.map((link) => ({
-        _type: 'reference' as const,
-        _ref: link._id,
-        _key: `ref-${link._id}`
-      }));
-
-      // Update the playlist with the item references
-      try {
-        await client
-          .patch(playlist._id)
-          .set({
-            items: itemReferences
-          })
-          .commit();
-
-        console.log(
-          `✅ Updated playlist "${playlist.title}" with ${sortedMatchingLinks.length} items`
-        );
-        totalUpdated++;
-      } catch (error) {
-        console.error(`❌ Failed to update playlist ${playlist._id}:`, error);
-      }
-    }
+    // Match links to playlists and update in Sanity
+    totalUpdated = await populatePlaylistsWithLinks(playlists, links);
 
     console.log(
       `\n🎉 Successfully updated ${totalUpdated} playlists out of ${playlists.length}`
@@ -630,53 +587,66 @@ export async function linkHealthPlaylistsToItems() {
     );
 
     // Match links to playlists and update in Sanity
-    for (const playlist of playlists) {
-      const matchingLinks = links.filter((link) => {
-        return link.keyWords && link.keyWords[0] === playlist.title;
-      });
-
-      if (matchingLinks.length === 0) {
-        console.warn(`No matching links found for playlist: ${playlist.title}`);
-        continue;
-      }
-
-      // Sort links by keyWords[1]
-      const sortedMatchingLinks = sortLinksByKeyWords(matchingLinks);
-
-      console.log(`\n📂 Playlist: "${playlist.title}"`);
-      sortedMatchingLinks.forEach((link, idx) => {
-        console.log(
-          `      ${idx + 1}. "${link.title}" (keyWords[1]: ${link.keyWords[1]})`
-        );
-      });
-
-      // Create references
-      const itemReferences = sortedMatchingLinks.map((link) => ({
-        _type: 'reference' as const,
-        _ref: link._id,
-        _key: `ref-${link._id}`
-      }));
-
-      // Patch the playlist document
-      try {
-        await client
-          .patch(playlist._id)
-          .set({ items: itemReferences })
-          .commit();
-
-        console.log(
-          `✅ Updated playlist "${playlist.title}" with ${sortedMatchingLinks.length} items`
-        );
-        totalUpdated++;
-      } catch (error) {
-        console.error(`❌ Failed to update playlist ${playlist._id}:`, error);
-      }
-    }
+    totalUpdated = await populatePlaylistsWithLinks(playlists, links);
 
     console.log(
       `\n🎉 Successfully updated ${totalUpdated} playlists out of ${playlists.length}`
     );
   } catch (error) {
     console.error('❌ Error in linkHealthPlaylistsToItems:', error);
+  }
+}
+
+export async function linkVideosPlaylistsToItems(playlistFilter: string) {
+  console.log(
+    `Starting to link video playlists to their items with filter: "${playlistFilter}"...`
+  );
+  let totalUpdated = 0;
+
+  try {
+    // Inject the raw GROQ filter clause directly into the query string
+    const playlists = await client.fetch<PlaylistDocument[]>(
+      `*[_type == "playlist" && type == "video" && ${playlistFilter} && (items == null || count(items) == 0)] {
+        _id,
+        _type,
+        title,
+        items
+      }`
+    );
+
+    if (!playlists || playlists.length === 0) {
+      console.log(
+        `No empty playlists found matching the filter "${playlistFilter}".`
+      );
+      return;
+    }
+
+    const playlistTitles = playlists.map((p) => p.title);
+    console.log(
+      `Found ${playlists.length} empty playlists matching the filter.`
+    );
+
+    // Fetch matching links
+    const links = await client.fetch<LinkDocument[]>(
+      `*[_type == "link" && keyWords[0] in $playlistTitles]{
+        _id,
+        _type,
+        title,
+        author,
+        fileName,
+        keyWords
+      }`,
+      { playlistTitles }
+    );
+
+    console.log(`Found ${links.length} potential matching links.`);
+
+    totalUpdated = await populatePlaylistsWithLinks(playlists, links);
+
+    console.log(
+      `\n🎉 Successfully updated ${totalUpdated} playlists out of ${playlists.length}`
+    );
+  } catch (error) {
+    console.error('❌ Error in linkVideosPlaylistsToItems:', error);
   }
 }

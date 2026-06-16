@@ -12,7 +12,12 @@ const formatEventDateRange = (start: string, end?: string) => {
     return startDate.format('DD.MM.YYYY');
   }
 
-  const endDate = moment(end);
+  let endDate = moment(end);
+
+  // If the end date string doesn't contain a time component ('T'), subtract 1 day
+  if (!end.includes('T')) {
+    endDate = endDate.subtract(1, 'days');
+  }
 
   // If start and end are on the exact same day
   if (startDate.isSame(endDate, 'day')) {

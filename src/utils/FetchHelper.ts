@@ -17,6 +17,7 @@ import { DailyVerseType } from 'src/contexts/DailyVerseContext';
 import { SunsetEvent } from 'src/contexts/SunsetContext';
 import { CarouselAdType } from 'src/contexts/CarouselAdsContext';
 import { PoetryType } from 'src/contexts/PoetryContext';
+import { DictionaryType } from 'src/contexts/DictionaryContext';
 
 export const loadPagesMeta = async (): Promise<PageMetaMap> => {
   const query = `*[_type == "page"] {
@@ -318,6 +319,17 @@ export const loadDailyVerse = async (date: string): Promise<DailyVerseType> => {
   }`;
 
   return await clientVreses.fetch(dailyVerseQuery, { date });
+};
+
+export const loadDictionary = async (): Promise<DictionaryType[]> => {
+  const dictionaryQuery = `*[_type == "dictionary"] {
+    _id,
+    topic,
+    EGW_comments,
+    verses
+}`;
+
+  return await clientVreses.fetch(dictionaryQuery);
 };
 
 /**

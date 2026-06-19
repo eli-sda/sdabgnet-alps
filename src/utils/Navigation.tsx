@@ -193,7 +193,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
         type: 'primary',
         text: 'Речник',
         url: routes.info('dictionary'),
-        isDisabled: true
+        faIconClass: 'fas fa-spell-check'
       },
       // {
       //   type: 'primary',

@@ -145,7 +145,7 @@ export const loadPlaylists = async (
     isResource === true
       ? '&& isResource == true'
       : isResource === false
-        ? '&& (isResource == null || isResource == false)'
+        ? '&& (isResource != true)'
         : '';
 
   const playlistQuery = `*[
@@ -185,10 +185,8 @@ export const loadLinks = async (type: string): Promise<LinkType[]> => {
     && type == "${type}"
   ] | order(_createdAt desc) {
     _id,
-    // isResource,
     // type,
     // isResource,
-    // type,
     author,
     title,
     description,
@@ -217,42 +215,6 @@ export const loadAllTopics = async (): Promise<
 > => {
   const query = `*[_type == "topic"] | order(title asc) { _id, title }`;
   return await client.fetch(query);
-};
-
-/**
- * Load videos (non-resource) filtered by topic _ids (references) OR legacy keyWords strings.
- * Pass topic._id values from loadAllTopics().
- */
-export const loadLinksByTopics = async (
-  topicIds: string[]
-): Promise<LinkType[]> => {
-  const linkQuery = `*[
-    _type == "link"
-    && type == "video"
-    && (isResource == null || isResource == false)
-    && count(topics[_ref in $topicIds]) > 0
-  ] | order(title asc) {
-    _id,
-    title,
-    size,
-    isResource,
-    keyWords,
-    author,
-    description,
-    "topics": topics[]->{ _id, title },
-    "playlistId": *[_type == 'playlist' && defined(^.keyWords[0]) && title == ^.keyWords[0]][0]._id,
-    "path": URL
-  }`;
-
-  const results: LinkType[] = await client.fetch(linkQuery, { topicIds });
-  // Use helper to clean keyWords and keep null when none left
-  return results.map((link) => {
-    const filtered = filterTags(link.keyWords as string[] | null);
-    return {
-      ...link,
-      keyWords: filtered.length ? filtered : null
-    } as LinkType;
-  });
 };
 
 const TITLE_PREFIX_RE = /^(д-р|п-р|проф\.|професор)\s+/i;
@@ -291,7 +253,7 @@ export const loadVideosByFilters = async (
   const filterParts: string[] = [
     '_type == "link"',
     'type == "video"',
-    '(isResource == null || isResource == false)'
+    'isResource != true'
   ];
   const params: Record<string, unknown> = {};
 

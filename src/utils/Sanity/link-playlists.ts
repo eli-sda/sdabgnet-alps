@@ -395,7 +395,7 @@ async function linkVideoPlaylistsToItems(playlistType: string) {
 
     // Fetch video links with isResource == null where first keyWord matches one of the playlist titles
     const links: LinkDocument[] = await client.fetch(
-      `*[_type == "link" && type == "video" && isResource == null && keyWords[0] in $playlistTitles]{
+      `*[_type == "link" && type == "video" && isResource != true && keyWords[0] in $playlistTitles]{
         _id,
         _type,
         title,

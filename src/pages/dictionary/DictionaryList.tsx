@@ -30,9 +30,10 @@ const renderEgwComments = (text: string) => {
 };
 
 const getBibleGatewayLink = (searchQuery: string) => {
-  return `https://www.biblegateway.com/passage/?search=${encodeURIComponent(
-    searchQuery
-  )}&version=BPB`;
+  const url = new URL('https://www.biblegateway.com/passage/');
+  url.searchParams.set('search', searchQuery);
+  url.searchParams.set('version', 'BPB');
+  return url.toString();
 };
 
 export const DictionaryList = ({ items }: DictionaryListProps): JSX.Element => {

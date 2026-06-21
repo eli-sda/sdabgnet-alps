@@ -73,13 +73,25 @@ const Dictionary = (): JSX.Element => {
     setCurrentPage(1);
   };
 
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    //scroll to the top of the dictionary list when changing pages
+    const element = document.getElementById('dictionary-tabs');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <Page
       title={getTitle(routes.info('dictionary'))}
       breadcrumbsUrls={breadcrumbsUrls}
     >
       <div className="dictionary-page">
-        <div className="dictionary-tabs u-padding u-space--bottom">
+        <div
+          id="dictionary-tabs"
+          className="dictionary-tabs u-padding u-space--bottom"
+        >
           <Button
             onClick={() => handleLetterClick(null)}
             className={`dictionary-tab-btn ${selectedLetter === null ? 'is-active' : ''}`}
@@ -101,14 +113,13 @@ const Dictionary = (): JSX.Element => {
           <Pagination
             page={currentPage}
             total={totalPages}
-            onPageClick={() => {}}
-            onNextClick={() => {}}
-            onPrevClick={() => {}}
+            onPageClick={handlePageChange}
+            onNextClick={() => handlePageChange(currentPage + 1)}
+            onPrevClick={() => handlePageChange(currentPage - 1)}
             nextLabel="Следваща"
             prevLabel="Предишна"
-            onPageSelect={(pageNumber: number) => setCurrentPage(pageNumber)}
-            setUrl={(pageNumber: number) => `?page=${pageNumber}`}
-            surrounding={0}
+            setUrl={(_pageNumber: number) => `#${_pageNumber}`}
+            surrounding={1}
             className="u-space--top"
           />
         )}

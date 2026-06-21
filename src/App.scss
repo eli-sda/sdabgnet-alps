@@ -458,3 +458,8 @@ input.o-input__search[type='search'][name='search'] {
 .max_600px {
   max-width: 600px;
 }
+
+// fix pagination layout
+.pagination {
+  display: flex !important;
+}

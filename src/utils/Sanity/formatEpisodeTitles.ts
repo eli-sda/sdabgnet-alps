@@ -7,17 +7,20 @@ export async function formatEpisodeTitles(playlistName: string) {
   let totalUpdated = 0;
 
   try {
-    // Fetch the playlist by title and get the IDs of its referenced items
-    const playlistQuery = `*[_type == "playlist" && title == $playlistName][0] {
+    // Fetch the playlist by title and resolve its referenced items directly
+    const playlistQuery = `*[_type == "playlist" && type == "video" && title == $playlistName][0] {
       _id,
       title,
-      "videoIds": items[@._type == "reference"]._ref
+      "videos": items[@._type == "reference"]->{
+        _id,
+        title
+      }
     }`;
 
     const playlist = await client.fetch<{
       _id: string;
       title: string;
-      videoIds: string[];
+      videos: { _id: string; title: string }[];
     } | null>(playlistQuery, {
       playlistName
     });
@@ -27,41 +30,21 @@ export async function formatEpisodeTitles(playlistName: string) {
       return;
     }
 
-    if (!playlist.videoIds || playlist.videoIds.length === 0) {
-      console.log(`Playlist "${playlistName}" has no items.`);
-      return;
-    }
-
-    console.log(
-      `Found playlist "${playlist.title}" with ${playlist.videoIds.length} items. Fetching videos...`
-    );
-
-    // Fetch only the link documents (videos) that are part of this playlist
-    const videosQuery = `*[_type == "link" && type == "video" && _id in $videoIds] {
-      _id,
-      title
-    }`;
-
-    const videos = await client.fetch<{ _id: string; title: string }[]>(
-      videosQuery,
-      { videoIds: playlist.videoIds }
-    );
-
-    if (!videos || videos.length === 0) {
+    if (!playlist.videos || playlist.videos.length === 0) {
       console.log(
-        `No valid video documents found for the references in the playlist.`
+        `Playlist "${playlistName}" has no items or no valid video references.`
       );
       return;
     }
 
     console.log(
-      `Fetched ${videos.length} videos. Checking for matching titles...`
+      `Found playlist "${playlist.title}" with ${playlist.videos.length} videos. Checking for matching titles...`
     );
 
     // Regular expression to match titles ending in "- епизод XX"
     const regex = /^(.+?)\s*[-–—]\s*[eе]пизод\s*(\d+)\s*$/i;
 
-    for (const video of videos) {
+    for (const video of playlist.videos) {
       if (!video.title) continue;
 
       const match = video.title.match(regex);

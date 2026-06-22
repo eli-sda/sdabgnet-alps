@@ -73,6 +73,11 @@ const relatedAudio = {
   heading: 'Други аудиокниги',
   blocks: [
     {
+      title: 'Аудиокниги в Опитности',
+      url: '/church_life/testimonies?tab=audiobooks',
+      category: 'Опитности от цял свят'
+    },
+    {
       title: 'Срещи с Христос',
       url: 'https://3-16.bg/sreshti-s-hristos/',
       category: '3-16.br'
@@ -81,11 +86,6 @@ const relatedAudio = {
       title: 'Направен, за да устои - Дуайт Нелсън',
       url: 'https://www.youtube.com/playlist?list=PLfCTd97jVbHXWPMYdbEfB8q85fPnuLjL3',
       category: 'youtube плейлист'
-    },
-    {
-      title: 'Аудиокниги в Опитности',
-      url: '/church_life/testimonies?tab=audiobooks',
-      category: 'Опитности от цял свят'
     }
   ]
 };

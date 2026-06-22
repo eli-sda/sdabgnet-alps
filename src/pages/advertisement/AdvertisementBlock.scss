@@ -1,8 +1,23 @@
+@use '/src/styles/const.scss' as *;
+
 .advertisement {
   a:has(picture) {
     cursor: zoom-in;
   }
   .c-block__content:first-child {
     padding-left: 0 !important;
+  }
+
+  @media (max-width: $MediumScreen) {
+    flex-direction: column;
+    gap: 15px;
+
+    .c-block__content {
+      padding-left: 0;
+    }
+
+    .c-block__image {
+      width: 50%;
+    }
   }
 }

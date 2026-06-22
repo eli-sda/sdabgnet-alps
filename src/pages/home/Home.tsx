@@ -27,6 +27,7 @@ import { CallForHelp } from 'src/components/CallForHelp';
 // import { cleanupPlaylistItems } from 'src/utils/Sanity/cleanup-playlist-items';
 // import { updateVideoTopics } from 'src/utils/Sanity/updateVideoTopics';
 // import { cleanNumericKeywords } from 'src/utils/Sanity/cleanNumericKeywords';
+// import { formatEpisodeTitles } from 'src/utils/Sanity/formatEpisodeTitles';
 
 // for DEMO:
 // import { TestLinks } from 'src/components/TestLinks';
@@ -160,6 +161,9 @@ const Home = () => {
       >
         Clean Numeric Keywords
       </Button> */}
+      {/* <Button onClick={() => void formatEpisodeTitles('Произход - сезон 1')}>
+          Format Episode Titles
+        </Button> */}
 
       {/* <section className="full-page u-spacing--triple"> */}
       {/* <VideoDemo /> */}

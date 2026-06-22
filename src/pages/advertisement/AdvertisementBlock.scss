@@ -1,5 +1,7 @@
 @use '/src/styles/const.scss' as *;
 
+$maxAdImageWidth: 366px;
+
 .advertisement {
   a:has(picture) {
     cursor: zoom-in;
@@ -17,7 +19,8 @@
     }
 
     .c-block__image {
-      width: 50%;
+      width: auto;
+      max-width: $maxAdImageWidth;
     }
   }
 }

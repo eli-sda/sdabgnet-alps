@@ -81,6 +81,11 @@ const relatedAudio = {
       title: 'Направен, за да устои - Дуайт Нелсън',
       url: 'https://www.youtube.com/playlist?list=PLfCTd97jVbHXWPMYdbEfB8q85fPnuLjL3',
       category: 'youtube плейлист'
+    },
+    {
+      title: 'Аудиокниги в Опитности',
+      url: '/church_life/testimonies?tab=audiobooks',
+      category: 'Опитности от цял свят'
     }
   ]
 };

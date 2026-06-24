@@ -3,6 +3,7 @@ import { AdType } from 'src/constants';
 import {
   AdvertisementsContext,
   AdvertisementsMap,
+  AdvertisementType,
   LatestAdvertisementItem
 } from 'src/contexts/AdvertisementsContext';
 
@@ -13,8 +14,11 @@ export const AdvertisementsProvider = ({
 }) => {
   const [advertisements, setAdvertisements] = useState<AdvertisementsMap>();
   const [lastLoaded, setLastLoaded] = useState<string>();
-  const [latestAdvertisements, setLatestAdvertisements] = useState<Partial<Record<AdType, LatestAdvertisementItem>>>();
+  const [latestAdvertisements, setLatestAdvertisements] =
+    useState<Partial<Record<AdType, LatestAdvertisementItem>>>();
   const [lastLatestLoaded, setLastLatestLoaded] = useState<string>();
+  const [healthAdvertisements, setHealthAdvertisements] = useState<AdvertisementType[]>();
+  const [lastHealtLoaded, setLastHealtLoaded] = useState<string>();
   return (
     <AdvertisementsContext.Provider
       value={{
@@ -25,7 +29,11 @@ export const AdvertisementsProvider = ({
         latestAdvertisements,
         setLatestAdvertisements,
         lastLatestLoaded,
-        setLastLatestLoaded
+        setLastLatestLoaded,
+        healthAdvertisements,
+        setHealthAdvertisements,
+        lastHealtLoaded,
+        setLastHealtLoaded
       }}
     >
       {children}

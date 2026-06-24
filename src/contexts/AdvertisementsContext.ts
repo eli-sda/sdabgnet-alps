@@ -37,6 +37,10 @@ export type AdvertisementsContextType = {
   ) => void;
   lastLatestLoaded: string | undefined;
   setLastLatestLoaded: (date: string) => void;
+  healthAdvertisements: AdvertisementType[] | undefined;
+  setHealthAdvertisements: (healthAdvertisements: AdvertisementType[]) => void;
+  lastHealtLoaded: string | undefined;
+  setLastHealtLoaded: (date: string) => void;
 };
 
 export const AdvertisementsContext = createContext<AdvertisementsContextType>({
@@ -47,7 +51,11 @@ export const AdvertisementsContext = createContext<AdvertisementsContextType>({
   latestAdvertisements: undefined,
   setLatestAdvertisements: () => {},
   lastLatestLoaded: undefined,
-  setLastLatestLoaded: () => {}
+  setLastLatestLoaded: () => {},
+  healthAdvertisements: undefined,
+  setHealthAdvertisements: () => {},
+  lastHealtLoaded: undefined,
+  setLastHealtLoaded: () => {}
 });
 
 export function useAdvertisementsContext() {

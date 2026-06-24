@@ -95,6 +95,30 @@ export const loadLatestAdvertisement = async (
   return filtered;
 };
 
+export const loadHealthAdvertisements = async (): Promise<
+  AdvertisementType[]
+> => {
+  const adQuery = `*[_type == "advertisement" && references(*[_type == "topic" && title == $topicTitle]._id)] | order(date desc) {
+    _id,
+    type,
+    date,
+    name,
+    place,
+    email,
+    phone,
+    hasViber,
+    text,
+    image
+}`;
+
+  const healthAdvertisements: AdvertisementType[] = await clientVreses.fetch(
+    adQuery,
+    { topicTitle: 'здраве' }
+  );
+
+  return healthAdvertisements;
+};
+
 export const loadQuestions = async (): Promise<QuestionType[]> => {
   const questionsQuery = `*[_type == "questionAnswer"] | order(_createdAt desc) {
    name,

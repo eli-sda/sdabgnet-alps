@@ -363,7 +363,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
         type: 'primary',
         text: 'Услуги',
         url: routes.health('services'),
-        isDisabled: true
+        faIconClass: 'fas fa-hand-holding-medical'
       }
     ]
   },

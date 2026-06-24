@@ -79,6 +79,7 @@ const NewStart = lazy(() => import('./pages/health/newStart/NewStart'));
 const HealthVideos = lazy(() => import('./pages/health/HealthVideos'));
 const HealthBooks = lazy(() => import('./pages/health/HealthBooks'));
 const FacebookGroups = lazy(() => import('./pages/FacebookGroups'));
+const Services = lazy(() => import('./pages/health/Services'));
 
 // const theme = createTheme();
 
@@ -281,6 +282,7 @@ const Router = () => (
             path={routes.health('institutions')}
             element={<HealthInstitutions />}
           />
+          <Route path={routes.health('services')} element={<Services />} />
 
           {/* За нас */}
           <Route path={routes.about()} element={<About />} />

@@ -8,9 +8,9 @@ export type PoetryType = {
 };
 
 export type PoetryContextType = {
-  poetry: PoetryType[] | undefined;
+  poetry?: PoetryType[];
   setPoetry: (poetry: PoetryType[]) => void;
-  lastLoaded: string | undefined;
+  lastLoaded?: string;
   setLastLoaded: (date: string) => void;
 };
 

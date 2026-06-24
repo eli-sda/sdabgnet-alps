@@ -8,9 +8,9 @@ export type DictionaryType = {
 };
 
 export type DictionaryContextType = {
-  dictionary: DictionaryType[] | undefined;
+  dictionary?: DictionaryType[];
   setDictionary: (dictionary: DictionaryType[]) => void;
-  lastLoaded: string | undefined;
+  lastLoaded?: string;
   setLastLoaded: (date: string) => void;
 };
 

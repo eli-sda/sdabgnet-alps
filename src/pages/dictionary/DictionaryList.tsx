@@ -1,89 +1,62 @@
-import { Pullquote } from 'alps-library/molecules/text/pullquote/Pullquote';
+import { useState, useMemo } from 'react';
 import { Caption } from 'alps-library/atoms/text/Caption';
+import { Pagination } from 'alps-library/molecules/navigation/pagination/Pagination';
 import { Accordion } from 'src/alps/molecules/components/accordion/Accordion';
-import { AccordionItem } from 'src/alps/molecules/components/accordion/AccordionItem';
 import { DictionaryType } from 'src/contexts/DictionaryContext';
+import { DictionaryListItem } from './DictionaryListItem';
 import './DictionaryList.scss';
 
-type DictionaryListProps = {
+const ITEMS_PER_PAGE = 20;
+
+export const DictionaryList = ({
+  items
+}: {
   items: DictionaryType[];
-};
+}): JSX.Element => {
+  const [currentPage, setCurrentPage] = useState(1);
 
-const renderEgwComments = (text: string) => {
-  const lines = text.split('\n').filter((p) => p.trim() !== '');
+  const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE);
 
-  let author: string | undefined = undefined;
-  const quoteTextLines: string[] = [];
+  const paginatedItems = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return items.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [items, currentPage]);
 
-  lines.forEach((line) => {
-    const match = line.match(/^::(.*)::$/);
-    if (match) {
-      author = match[1];
-    } else {
-      quoteTextLines.push(line);
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    //scroll to the top of the dictionary list when changing pages
+    const element = document.getElementById('dictionary-tabs');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  });
+  };
 
-  const finalQuote = quoteTextLines.join('\n');
-
-  return <Pullquote author={author} quote={finalQuote || undefined} />;
-};
-
-const getBibleGatewayLink = (searchQuery: string) => {
-  const url = new URL('https://www.biblegateway.com/passage/');
-  url.searchParams.set('search', searchQuery);
-  url.searchParams.set('version', 'BPB');
-  return url.toString();
-};
-
-export const DictionaryList = ({ items }: DictionaryListProps): JSX.Element => {
   if (items.length === 0) {
     return <Caption>Няма намерени теми.</Caption>;
   }
 
   return (
-    <Accordion className="dictionary-list text">
-      {items.map((item) => (
-        <AccordionItem
-          key={item._id}
-          id={item.topic}
-          faIconClass="fas fa-pen-fancy"
-          heading={<h3>{item.topic}</h3>}
-        >
-          <div className="u-spacing u-space--half--bottom">
-            <div>{renderEgwComments(item.EGW_comments)}</div>
+    <>
+      <Accordion className="dictionary-list text">
+        {paginatedItems.map((item) => (
+          <DictionaryListItem key={item.topic} item={item} />
+        ))}
+      </Accordion>
 
-            {item.verses && item.verses.length > 0 && (
-              <section>
-                <h4 className="u-text--strong">Какво казва Библията:</h4>
-
-                <div className="u-spacing--half">
-                  {item.verses.map((verse, verseIdx) => (
-                    <a
-                      key={verseIdx}
-                      href={getBibleGatewayLink(verse)}
-                      className="u-display--inline-block u-space--right"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {verse}
-                    </a>
-                  ))}
-                </div>
-
-                <a
-                  href={getBibleGatewayLink(item.verses.join('; '))}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="u-display--inline-block u-space--half--top"
-                >
-                  Виж всички стихове заедно
-                </a>
-              </section>
-            )}
-          </div>
-        </AccordionItem>
-      ))}
-    </Accordion>
+      {totalPages > 1 && (
+        <Pagination
+          page={currentPage}
+          total={totalPages}
+          onPageClick={handlePageChange}
+          onNextClick={() => handlePageChange(currentPage + 1)}
+          onPrevClick={() => handlePageChange(currentPage - 1)}
+          nextLabel="Следваща"
+          prevLabel="Предишна"
+          setUrl={(_pageNumber: number) => `#${_pageNumber}`}
+          surrounding={1}
+          className="u-space--top"
+        />
+      )}
+    </>
   );
 };

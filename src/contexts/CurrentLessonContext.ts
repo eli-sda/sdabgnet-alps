@@ -6,9 +6,9 @@ import {
 } from 'src/utils/LessonUtils';
 
 type CurrentQuarterContextType = {
-  currentAdultQuarter: QuarterObject | undefined;
-  currentInverseQuarter: QuarterObject | undefined;
-  currentCCQuarter: QuarterObject | undefined; //Cornerstone Connections
+  currentAdultQuarter?: QuarterObject;
+  currentInverseQuarter?: QuarterObject;
+  currentCCQuarter?: QuarterObject; //Cornerstone Connections
   setCurrentQuarter: (qObject: QuarterObject) => void;
   getLessonFromCurrentQuarter: (
     type: LessonType,

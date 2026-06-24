@@ -1,17 +1,7 @@
 @use '/src/styles/colors.scss' as *;
+@use '/src/styles/const.scss' as *;
 
 .dictionary-page {
-  .pagination-controls {
-    display: flex;
-    justify-content: center;
-
-    .is-active {
-      color: $mingDarkestColor;
-    }
-  }
-
-  $btnBorderRadius: 3.125rem;
-
   .dictionary-tabs {
     display: flex;
     flex-wrap: wrap;

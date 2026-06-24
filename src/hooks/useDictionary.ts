@@ -14,18 +14,23 @@ export function useDictionary() {
    */
   const getDictionary = useCallback(async () => {
     const today = getTodayString();
-    
+
     if (dictionary && lastLoaded === today) {
       return Promise.resolve(dictionary);
     }
+
     return loadDictionary()
       .then((loadedDictionary) => {
-        setDictionary(loadedDictionary);
+        const sortedDictionary = loadedDictionary.sort((a, b) =>
+          a.topic.localeCompare(b.topic, 'bg')
+        );
+
+        setDictionary(sortedDictionary);
         setLastLoaded(today);
-        return Promise.resolve(loadedDictionary);
+        return Promise.resolve(sortedDictionary);
       })
       .catch();
   }, [dictionary, lastLoaded, setDictionary, setLastLoaded]);
 
-  return { dictionary, getDictionary };
+  return { getDictionary };
 }

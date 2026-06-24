@@ -1,5 +1,4 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Pagination } from 'alps-library/molecules/navigation/pagination/Pagination';
 import { Button } from 'src/alps/atoms/Button';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
@@ -9,14 +8,11 @@ import { useDictionary } from 'src/hooks/useDictionary';
 import { DictionaryList } from './DictionaryList';
 import './Dictionary.scss';
 
-const ITEMS_PER_PAGE = 20;
-
 const Dictionary = (): JSX.Element => {
   const breadcrumbsUrls = [routes.info(), routes.info('dictionary')];
 
   const [dictionaryData, setDictionaryData] = useState<DictionaryType[]>([]);
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
 
   const { getDictionary } = useDictionary();
 
@@ -30,18 +26,6 @@ const Dictionary = (): JSX.Element => {
       });
   }, [getDictionary]);
 
-  // useEffect(() => {
-  //   fetch('/json/dictionary.json')
-  //     .then((res) => res.json())
-  //     .then((data: DictionaryType[]) => {
-  //       setDictionaryData(data);
-  //     })
-  //     .catch((err) => {
-  //       console.error('Failed to load dictionary.json', err);
-  //       setDictionaryData([]);
-  //     });
-  // }, []);
-
   const availableLetters = useMemo(() => {
     const letters = new Set(
       dictionaryData.map((item) => item.topic.charAt(0).toUpperCase())
@@ -50,36 +34,17 @@ const Dictionary = (): JSX.Element => {
   }, [dictionaryData]);
 
   const filteredTopics = useMemo(() => {
-    let result = [...dictionaryData];
-
-    if (selectedLetter) {
-      result = result.filter((item) =>
-        item.topic.toUpperCase().startsWith(selectedLetter)
-      );
+    if (!selectedLetter) {
+      return dictionaryData;
     }
 
-    return result.sort((a, b) => a.topic.localeCompare(b.topic, 'bg'));
+    return dictionaryData.filter((item) =>
+      item.topic.toUpperCase().startsWith(selectedLetter)
+    );
   }, [dictionaryData, selectedLetter]);
-
-  const totalPages = Math.ceil(filteredTopics.length / ITEMS_PER_PAGE);
-
-  const paginatedTopics = useMemo(() => {
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    return filteredTopics.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-  }, [filteredTopics, currentPage]);
 
   const handleLetterClick = (letter: string | null) => {
     setSelectedLetter(letter);
-    setCurrentPage(1);
-  };
-
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-    //scroll to the top of the dictionary list when changing pages
-    const element = document.getElementById('dictionary-tabs');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
   };
 
   return (
@@ -88,6 +53,16 @@ const Dictionary = (): JSX.Element => {
       breadcrumbsUrls={breadcrumbsUrls}
     >
       <div className="dictionary-page">
+        <p className='u-color--black'>
+          В Библията „Духът на пророчеството“ е посочен като един от специалните
+          дарове, чрез които Бог ръководи, насърчава и предпазва Своя народ.
+          Писанията на Елън Г. Уайт не заместват Свещеното Писание, а служат
+          като светлина, която ни води обратно към него. В този списък ще
+          откриете вдъхновени мисли и коментари по ключови библейски теми, чиято
+          цел е да обогатят личното ви изследване и да ви дадат практични насоки
+          за вярата в ежедневието.
+        </p>
+
         <div
           id="dictionary-tabs"
           className="dictionary-tabs u-padding u-space--bottom"
@@ -107,22 +82,7 @@ const Dictionary = (): JSX.Element => {
           ))}
         </div>
 
-        <DictionaryList items={paginatedTopics} />
-
-        {totalPages > 1 && (
-          <Pagination
-            page={currentPage}
-            total={totalPages}
-            onPageClick={handlePageChange}
-            onNextClick={() => handlePageChange(currentPage + 1)}
-            onPrevClick={() => handlePageChange(currentPage - 1)}
-            nextLabel="Следваща"
-            prevLabel="Предишна"
-            setUrl={(_pageNumber: number) => `#${_pageNumber}`}
-            surrounding={1}
-            className="u-space--top"
-          />
-        )}
+        <DictionaryList key={selectedLetter || 'all'} items={filteredTopics} />
       </div>
     </Page>
   );

@@ -35,6 +35,7 @@ import { HomeTopContainer } from './HomeTopContainer';
 // import { VideoDemo } from '../components/media/video/demo/VideoDemo';
 // import { FeedDemo } from 'src/components/rssFeed/demo/FeedDemo';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
+import { DictionaryDemo } from '../dictionary/DictionaryDemo';
 
 // import LatestAdvertisementsDemo from '../advertisement/LatestAdvertisementsDemo';
 
@@ -142,6 +143,8 @@ const Home = () => {
       {/* <LatestAdvertisementsDemo /> */}
       {/* </section> */}
 
+      <DictionaryDemo />
+      
       <Partners />
     </section>
   );

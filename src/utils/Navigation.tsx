@@ -106,12 +106,12 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
           }
         ]
       },
-      {
-        type: 'primary',
-        text: 'Проповеди, Статии',
-        url: routes.churchLife('topics'),
-        isDisabled: true
-      },
+      // {
+      //   type: 'primary',
+      //   text: 'Проповеди, Статии',
+      //   url: routes.churchLife('topics'),
+      //   isDisabled: true
+      // },
       {
         type: 'primary',
         text: 'Поезия',
@@ -152,12 +152,12 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
         url: routes.churchLife('testimonies'),
         faIconClass: 'fas fa-globe'
       },
-      {
-        type: 'primary',
-        text: 'Хумор',
-        url: routes.churchLife('humor'),
-        isDisabled: true
-      },
+      // {
+      //   type: 'primary',
+      //   text: 'Хумор',
+      //   url: routes.churchLife('humor'),
+      //   isDisabled: true
+      // },
       {
         type: 'primary',
         text: 'Дарения за каузи',

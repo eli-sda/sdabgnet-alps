@@ -78,15 +78,16 @@ const AdvertisementPage = ({ type }: { type: AdType }) => {
       pageClassName="page-aside-top"
     >
       {adBlocks && (
-        <section id="ads" className="u-spacing">
-          <HeadingBlock title="Обяви" />
-
+        <>
+          <section id="ads">
+            <HeadingBlock title="Обяви" />
+          </section>
           <BlockFeed
             blocks={adBlocks}
             blocksType="archivePage"
             mediaBlockComponent="AdvertisementBlock"
           />
-        </section>
+        </>
       )}
     </Page>
   );

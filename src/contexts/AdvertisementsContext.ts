@@ -37,9 +37,9 @@ export type AdvertisementsContextType = {
   ) => void;
   lastLatestLoaded: string | undefined;
   setLastLatestLoaded: (date: string) => void;
-  healthAdvertisements: AdvertisementType[] | undefined;
+  healthAdvertisements?: AdvertisementType[];
   setHealthAdvertisements: (healthAdvertisements: AdvertisementType[]) => void;
-  lastHealtLoaded: string | undefined;
+  lastHealtLoaded?: string;
   setLastHealtLoaded: (date: string) => void;
 };
 

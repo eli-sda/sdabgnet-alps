@@ -15,7 +15,19 @@ const Services = (): JSX.Element => {
   const { healthAdvertisements, getHealthAdvertisements } = useAdvertisements();
 
   useEffect(() => {
-    fetch('/json/services.json')
+    fetch('/json/healthServices.json')
+      // to add later after approve in the json file:
+      //   {
+      //     "title": "МЕДЕН ДОМ - микро здравен център",
+      //     "description": "Намира се в село Медово, общ. Братя Даскалови и е в съседство с един от пчелините за производството на здравословен мед „МАННА”, като неговата роля е да гарантира финансовата стабилност на здравния център.",
+      //     "image": "/img/health/honeyhomelifestyle.webp",
+      //     "links": [
+      //       {
+      //         "url": "https://www.facebook.com/honeyhomelifestyle/",
+      //         "type": "facebook"
+      //       }
+      //     ]
+      //   }
       .then((res) => res.json())
       .then((data: LinksData[]) => setServices(data))
       .catch((err) => {
@@ -44,11 +56,11 @@ const Services = (): JSX.Element => {
       title={getTitle(routes.health('services'))}
       breadcrumbsUrls={breadcrumbsUrls}
     >
-      <section className='u-spacing--double'>
+      <section className="u-spacing--double">
         <MediaListSection sections={services} doubleSpace />
 
         {adBlocks && adBlocks.length > 0 && (
-          <section id="health-ads" className='u-spacing'>
+          <section id="health-ads" className="u-spacing">
             <HeadingBlock title="Здравни обяви" />
 
             <BlockFeed

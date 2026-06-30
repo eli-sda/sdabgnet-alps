@@ -2,25 +2,46 @@ import { useState, useMemo } from 'react';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import { Pagination } from 'alps-library/molecules/navigation/pagination/Pagination';
 import { Accordion } from 'src/alps/molecules/components/accordion/Accordion';
+import { Button } from 'src/alps/atoms/Button';
 import { DictionaryType } from 'src/contexts/DictionaryContext';
 import { DictionaryListItem } from './DictionaryListItem';
 import './DictionaryList.scss';
 
-const ITEMS_PER_PAGE = 20;
-
 export const DictionaryList = ({
-  items
+  items,
+  itemsPerPage = 20
 }: {
   items: DictionaryType[];
+  itemsPerPage?: number;
 }): JSX.Element => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
 
-  const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE);
+  const availableLetters = useMemo(() => {
+    const letters = new Set(
+      items.map((item) => item.topic.charAt(0).toUpperCase())
+    );
+    return Array.from(letters).sort((a, b) => a.localeCompare(b, 'bg'));
+  }, [items]);
+
+  const filteredItems = useMemo(() => {
+    if (!selectedLetter) return items;
+    return items.filter((item) =>
+      item.topic.toUpperCase().startsWith(selectedLetter)
+    );
+  }, [items, selectedLetter]);
+
+  const handleLetterClick = (letter: string | null) => {
+    setSelectedLetter(letter);
+    setCurrentPage(1);
+  };
+
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
 
   const paginatedItems = useMemo(() => {
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    return items.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-  }, [items, currentPage]);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredItems.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredItems, currentPage, itemsPerPage]);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -37,6 +58,25 @@ export const DictionaryList = ({
 
   return (
     <>
+      <div
+        id="dictionary-tabs"
+        className="dictionary-tabs u-padding u-space--bottom"
+      >
+        <Button
+          onClick={() => handleLetterClick(null)}
+          className={`dictionary-tab-btn ${selectedLetter === null ? 'is-active' : ''}`}
+          label="Всички"
+        />
+        {availableLetters.map((letter) => (
+          <Button
+            key={letter}
+            onClick={() => handleLetterClick(letter)}
+            className={`dictionary-tab-btn ${selectedLetter === letter ? 'is-active' : ''}`}
+            label={letter}
+          />
+        ))}
+      </div>
+
       <Accordion className="dictionary-list text">
         {paginatedItems.map((item) => (
           <DictionaryListItem key={item.topic} item={item} />

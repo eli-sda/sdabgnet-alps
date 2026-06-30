@@ -35,7 +35,7 @@ export const DictionaryListItem = ({
   };
 
   return (
-    <AccordionItem key={item._id} heading={<h3>{item.topic}</h3>}>
+    <AccordionItem heading={<h3>{item.topic}</h3>}>
       <div className="u-spacing u-space--half--bottom">
         <div>{renderEgwComments(item.EGW_comments)}</div>
 

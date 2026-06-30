@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 import { DictionaryType } from 'src/contexts/DictionaryContext';
 import { DictionaryList } from './DictionaryList';
 
@@ -9,6 +10,7 @@ export const DictionaryDemo = (): JSX.Element => {
     fetch('/json/dictionary.json')
       .then((res) => res.json())
       .then((data: DictionaryType[]) => {
+        data.sort((a, b) => a.topic.localeCompare(b.topic, 'bg'));
         setDictionaryData(data);
       })
       .catch((err) => {
@@ -17,5 +19,10 @@ export const DictionaryDemo = (): JSX.Element => {
       });
   }, []);
 
-  return <DictionaryList items={dictionaryData} />;
+  return (
+    <section id="dictionary-demo" className="u-spacing">
+      <HeadingBlock title="Демо Речник" />
+      <DictionaryList items={dictionaryData} itemsPerPage={10} />
+    </section>
+  );
 };

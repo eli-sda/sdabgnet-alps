@@ -21,7 +21,7 @@ export const DictionaryDemo = (): JSX.Element => {
 
   return (
     <section id="dictionary-demo" className="u-spacing">
-      <HeadingBlock title="Демо Речник" />
+      <HeadingBlock title="Демо - Тематичен справочник" />
       <DictionaryList items={dictionaryData} itemsPerPage={10} />
     </section>
   );

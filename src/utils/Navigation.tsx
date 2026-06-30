@@ -191,9 +191,9 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       },
       {
         type: 'primary',
-        text: 'Речник',
+        text: 'Тематичен справочник',
         url: routes.info('dictionary'),
-        faIconClass: 'fas fa-spell-check'
+        faIconClass: 'fas fa-scroll'
       },
       // {
       //   type: 'primary',

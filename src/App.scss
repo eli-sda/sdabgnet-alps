@@ -463,3 +463,15 @@ input.o-input__search[type='search'][name='search'] {
 .pagination {
   display: flex !important;
 }
+
+// set smaller space between description and title in related posts (see /info/biblical)
+.c-related-posts .c-media-block {
+  // from .u-spacing--half
+  .c-block__description-wrapper {
+    margin-top: calc(0.625rem / 2 * 1.5);
+
+    @media (min-width: 901px) {
+      margin-top: 0.625rem;
+    }
+  }
+}

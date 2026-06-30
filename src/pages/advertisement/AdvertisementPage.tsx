@@ -1,35 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 import { isEqual } from 'lodash';
+import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
+import { MediaBlockProps } from 'src/alps/molecules/blocks/MediaBlock';
 import routes from 'src/routes';
-import { AD_TYPES, AdType } from 'src/constants';
 import { Page } from 'src/organisms/Page';
+import { BlockFeed } from 'src/organisms/sections/BlockFeed';
+import { AD_TYPES, AdType } from 'src/constants';
 import { getTitle } from 'src/utils/Navigation';
-import AdvertisementForm from './AdvertisementForm';
+import { getImage, asideImageSizes } from 'src/utils/ImageHelper';
+import { createAdBlocks } from 'src/utils/advertisementHelper';
+import { AdvertisementType } from 'src/contexts/AdvertisementsContext';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
-import { MediaBlockProps } from 'src/alps/molecules/blocks/MediaBlock';
-import { AdvertisementBlockProps } from './AdvertisementBlock';
-import { BlockFeed } from 'src/organisms/sections/BlockFeed';
-import {
-  getImage,
-  asideImageSizes,
-  ImageSizes,
-  VIEWPORT_MAX
-} from 'src/utils/ImageHelper';
-import { urlFor } from 'src/sanityClient';
 import { useAdvertisements } from 'src/hooks/useAdvertisements';
-import { AdvertisementType } from 'src/contexts/AdvertisementsContext';
-import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
-
-const maxAdImageWidth = 366; // in AdvertisementBlock.scss
-// Advertisement images layout (c-block__row in archivePage)
-// Image occupies 6/7 viewport (<701px), 1/7 viewport (≥701px)
-const advertisementImageSizes: ImageSizes = {
-  default: Math.min(Math.round((VIEWPORT_MAX.MOBILE * 6) / 7), maxAdImageWidth),
-  sm: Math.min(Math.round((VIEWPORT_MAX.SMALL * 6) / 7), maxAdImageWidth),
-  md: Math.round((VIEWPORT_MAX.MEDIUM * 1) / 7), // = 171px
-  lg: Math.round((VIEWPORT_MAX.XLARGE * 1) / 7) // = 365px
-};
+import AdvertisementForm from './AdvertisementForm';
 
 const AdvertisementPage = ({ type }: { type: AdType }) => {
   useScrollToHash();
@@ -80,23 +64,8 @@ const AdvertisementPage = ({ type }: { type: AdType }) => {
     routes.advertisement(type)
   ];
 
-  const adBlocks: AdvertisementBlockProps[] = ads.map((ad) => {
-    const img = ad.image
-      ? getImage(ad.image, '', true, advertisementImageSizes)
-      : undefined;
+  const adBlocks = createAdBlocks(ads);
 
-    return {
-      name: ad.name,
-      place: ad.place,
-      email: ad.email,
-      phone: ad.phone,
-      hasViber: ad.hasViber,
-      description: ad.text,
-      date: ad.date,
-      image: img,
-      url: ad.image ? urlFor(ad.image, true).url() : undefined
-    };
-  });
   return (
     <Page
       title={title}

@@ -109,13 +109,19 @@ const youTubeLinks = {
   blocks: [
     {
       title: '🎞️ Триединството (плейлист)',
-      url: 'https://www.youtube.com/playlist?list=PLVYPzB4Uygi9JXqscXn9D4HZLx-MjRgbX'
+      url: 'https://www.youtube.com/playlist?list=PLVYPzB4Uygi9JXqscXn9D4HZLx-MjRgbX',
+      description: 'Тук са събрани над 90 видоклипа от различни автори.'
     },
     {
       title: '🎞️ Седмият Ден (плейлист)',
       url: 'https://www.youtube.com/playlist?list=PLdkD_M036WsQjnM1tOoOyY6FV2-P62KwU',
       description:
         '„Седмият ден“ е мащабен, научно документиран сериал, представящ авторитетния исторически и теологичен спор между съботата и неделята като християнски дни за поклонение.'
+    },
+    {
+      title: '🎞️ Десетте заповеди (плейлист)',
+      url: 'https://www.youtube.com/playlist?list=PLIeXbN0nkX1WzPk4dp6W0txeXGvHNUZ6T',
+      description: 'Кратки видеоклипове, разглеждащи десетте Божии заповеди.'
     },
     {
       title: '🎞️ Писмо на надежда - сезон 1 (плейлист)',

@@ -37,9 +37,10 @@ import { HomeTopContainer } from './HomeTopContainer';
 // import DailyVerseDark from 'src/components/dailyVerse/DailyVerseDark';
 // import { VideoDemo } from '../components/media/video/demo/VideoDemo';
 // import { FeedDemo } from 'src/components/rssFeed/demo/FeedDemo';
-import { useScrollToHash } from 'src/hooks/useScrollToHash';
-
 // import LatestAdvertisementsDemo from '../advertisement/LatestAdvertisementsDemo';
+// import { DictionaryDemo } from '../dictionary/DictionaryDemo';
+
+import { useScrollToHash } from 'src/hooks/useScrollToHash';
 
 const Home = () => {
   const [currentDate, setCurrentDate] = useState(() => moment());
@@ -169,6 +170,7 @@ const Home = () => {
       {/* <VideoDemo /> */}
       {/* <FeedDemo /> */}
       {/* <LatestAdvertisementsDemo /> */}
+      {/* <DictionaryDemo /> */}
       {/* </section> */}
 
       <Partners />

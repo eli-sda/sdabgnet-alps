@@ -2,10 +2,10 @@ import { createContext, useContext } from 'react';
 import { QuarterObject, LessonDetails } from 'src/utils/LessonUtils';
 
 type LessonQuarterContextType = {
-  quarterObject: QuarterObject | undefined;
-  qLesson: LessonDetails | undefined;
+  quarterObject?: QuarterObject;
+  qLesson?: LessonDetails;
   setQuarter: (quarterObject: QuarterObject) => void;
-  setLessonDetails: (lesson: LessonDetails | undefined) => void;
+  setLessonDetails: (lesson?: LessonDetails) => void;
   lessonDateRange: string;
 };
 

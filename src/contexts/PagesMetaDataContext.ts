@@ -2,7 +2,7 @@ import { createContext, useContext } from 'react';
 import { PageMetaMap } from 'src/utils/PageMeta';
 
 type PagesMetaDataContextType = {
-  pagesMeta: PageMetaMap | undefined;
+  pagesMeta?: PageMetaMap;
   setPagesMeta: (pagesMeta: PageMetaMap) => void;
 };
 

@@ -1,6 +1,5 @@
 @use '/src/styles/colors.scss' as *;
-
-$btnBorderRadius: 3.125rem;
+@use '/src/styles/const.scss' as *;
 
 .testimonies-stories {
   .year-buttons {

@@ -1,6 +1,11 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SITE, EMAIL_REGEX, ERROR_SENDING_MESSAGE } from 'src/constants';
+import {
+  SITE,
+  EMAIL_REGEX,
+  ERROR_SENDING_MESSAGE,
+  PARTICIPATE_FORM_URL
+} from 'src/constants';
 import { Page } from 'src/organisms/Page';
 import routes from 'src/routes';
 import { getTitle } from 'src/utils/Navigation';
@@ -135,12 +140,9 @@ const Contact = () => {
         </OptionGroup>
 
         {topic === 'participate' ? (
-          <h4 className='text'>
+          <h4 className="text">
             Моля, попълнете този{' '}
-            <a
-              href="https://docs.google.com/forms/d/e/1FAIpQLScuGmqB24Pq1YZtmgJ6wn-iqOY48enerD_9jHqtngh5ykpE9Q/viewform"
-              target="blanck"
-            >
+            <a href={PARTICIPATE_FORM_URL} target="blanck">
               Google формуляр
             </a>
             , за да се включите в проекта &quot;Нова версия на Адвентната

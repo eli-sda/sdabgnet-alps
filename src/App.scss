@@ -459,6 +459,11 @@ input.o-input__search[type='search'][name='search'] {
   max-width: 600px;
 }
 
+// fix pagination layout
+.pagination {
+  display: flex !important;
+}
+
 // set smaller space between description and title in related posts (see /info/biblical)
 .c-related-posts .c-media-block {
   // from .u-spacing--half

@@ -25,17 +25,15 @@ export type LatestAdvertisementItem = {
 };
 
 export type AdvertisementsContextType = {
-  advertisements: AdvertisementsMap | undefined;
+  advertisements?: AdvertisementsMap;
   setAdvertisements: (advertisements: AdvertisementsMap) => void;
-  lastLoaded: string | undefined;
+  lastLoaded?: string;
   setLastLoaded: (date: string) => void;
-  latestAdvertisements:
-    | Partial<Record<AdType, LatestAdvertisementItem>>
-    | undefined;
+  latestAdvertisements?: Partial<Record<AdType, LatestAdvertisementItem>>;
   setLatestAdvertisements: (
     advertisements: Partial<Record<AdType, LatestAdvertisementItem>>
   ) => void;
-  lastLatestLoaded: string | undefined;
+  lastLatestLoaded?: string;
   setLastLatestLoaded: (date: string) => void;
 };
 

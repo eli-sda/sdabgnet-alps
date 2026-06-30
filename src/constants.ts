@@ -17,6 +17,9 @@ export const MAIN_RESOURCES_FOLDER = `${RESOURCES_SITE}${RESOURCES_FOLDER}`; // 
 
 export const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
+export const PARTICIPATE_FORM_URL =
+  'https://docs.google.com/forms/d/e/1FAIpQLScuGmqB24Pq1YZtmgJ6wn-iqOY48enerD_9jHqtngh5ykpE9Q/viewform';
+
 export type AdType = 'services' | 'buySell' | 'other';
 export const AD_TYPES: AdType[] = ['services', 'buySell', 'other'];
 

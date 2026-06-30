@@ -62,7 +62,7 @@ const AdventistsOnline = lazy(() => import('./pages/links/AdventistsOnline'));
 const Links = lazy(() => import('./pages/links/Links'));
 const Institutions = lazy(() => import('./pages/links/Institutions'));
 const SunsetCalendarPage = lazy(() => import('./pages/sunset/SunsetCalendar'));
-const Dictionary = lazy(() => import('./pages/Dictionary'));
+const Dictionary = lazy(() => import('./pages/dictionary/Dictionary'));
 const Music = lazy(() => import('./pages/resources/music/Music'));
 const Biblical = lazy(() => import('./pages/biblical/Biblical'));
 const Bibles = lazy(() => import('./pages/bibles/Bibles'));

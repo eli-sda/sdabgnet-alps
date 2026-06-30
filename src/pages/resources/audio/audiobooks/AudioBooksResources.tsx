@@ -73,6 +73,11 @@ const relatedAudio = {
   heading: 'Други аудиокниги',
   blocks: [
     {
+      title: 'Аудиокниги в Опитности',
+      url: '/church_life/testimonies?tab=audiobooks',
+      category: 'Опитности от цял свят'
+    },
+    {
       title: 'Срещи с Христос',
       url: 'https://3-16.bg/sreshti-s-hristos/',
       category: '3-16.br'

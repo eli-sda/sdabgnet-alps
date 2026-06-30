@@ -21,11 +21,12 @@ import { useAdvertisements } from 'src/hooks/useAdvertisements';
 import { AdvertisementType } from 'src/contexts/AdvertisementsContext';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
 
+const maxAdImageWidth = 366; // in AdvertisementBlock.scss
 // Advertisement images layout (c-block__row in archivePage)
-// Image occupies 2/7 viewport (<701px), 1/7 viewport (≥701px)
+// Image occupies 6/7 viewport (<701px), 1/7 viewport (≥701px)
 const advertisementImageSizes: ImageSizes = {
-  default: Math.round((VIEWPORT_MAX.MOBILE * 2) / 7), // = 143px
-  sm: Math.round((VIEWPORT_MAX.SMALL * 2) / 7), // = 200px
+  default: Math.min(Math.round((VIEWPORT_MAX.MOBILE * 6) / 7), maxAdImageWidth),
+  sm: Math.min(Math.round((VIEWPORT_MAX.SMALL * 6) / 7), maxAdImageWidth),
   md: Math.round((VIEWPORT_MAX.MEDIUM * 1) / 7), // = 171px
   lg: Math.round((VIEWPORT_MAX.XLARGE * 1) / 7) // = 365px
 };

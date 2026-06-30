@@ -113,7 +113,21 @@ const youTubeLinks = {
     },
     {
       title: '🎞️ Седмият Ден (плейлист)',
-      url: 'https://www.youtube.com/playlist?list=PLdkD_M036WsQjnM1tOoOyY6FV2-P62KwU'
+      url: 'https://www.youtube.com/playlist?list=PLdkD_M036WsQjnM1tOoOyY6FV2-P62KwU',
+      description:
+        '„Седмият ден“ е мащабен, научно документиран сериал, представящ авторитетния исторически и теологичен спор между съботата и неделята като християнски дни за поклонение.'
+    },
+    {
+      title: '🎞️ Писмо на надежда - сезон 1 (плейлист)',
+      url: 'https://www.youtube.com/playlist?list=PLtKXLzSB_hV2i9hkokryybPA9aTnH_YoF',
+      description:
+        'Предаването на Hope Channel "Писмо на надежда" ви пренася в света на Библията и истините, които се крият между нейните корици.'
+    },
+    {
+      title: '🎞️ Писмо на надежда - сезон 2 (плейлист)',
+      url: 'https://www.youtube.com/playlist?list=PLtKXLzSB_hV1-kQfKzmPBHJSpRCps8JAI',
+      description:
+        'Изборът да кажеш „Да“ на Бога и да погледнеш в Библията отвъд клишетата може да се окаже най-смелото и разумно решение, което преобръща представите за любов, смирение и справедливост в живота ти.'
     }
   ]
 };

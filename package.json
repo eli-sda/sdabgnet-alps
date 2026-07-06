@@ -71,6 +71,8 @@
   },
   "overrides": {
     "serialize-javascript": "^7.0.5",
-    "brace-expansion": "^2.0.1"
+    "eslint-plugin-react": {
+      "brace-expansion": "^2.0.1"
+    }
   }
 }

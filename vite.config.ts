@@ -54,9 +54,22 @@ export default defineConfig({
       configureServer(server) {
         server.middlewares.use((req, res, next) => {
           if (req.url && /\.(json|xml|txt|pdf|csv)([?#].*)?$/.test(req.url)) {
+            // Skip Vite-internal requests: source file transforms, HMR, etc.
+            if (
+              req.url.startsWith('/src/') ||
+              req.url.startsWith('/@') ||
+              req.url.includes('?import') ||
+              req.url.includes('?v=') ||
+              req.url.includes('?t=')
+            ) {
+              return next();
+            }
             const cleanPath = req.url.split('?')[0].split('#')[0];
-            const filePath = resolve(__dirname, 'public', cleanPath.slice(1));
-            if (!existsSync(filePath)) {
+            const rel = cleanPath.slice(1);
+            // Check both public/ and project root (e.g. manifest.json lives at root)
+            const inPublic = resolve(__dirname, 'public', rel);
+            const inRoot = resolve(__dirname, rel);
+            if (!existsSync(inPublic) && !existsSync(inRoot)) {
               res.statusCode = 404;
               res.end();
               return;

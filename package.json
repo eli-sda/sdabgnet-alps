@@ -24,7 +24,6 @@
     "@react-icons/all-files": "^4.1.0",
     "@sanity/client": "^6.29.1",
     "@sanity/image-url": "^1.1.0",
-    "eslint-plugin-react": "^7.37.2",
     "fflate": "^0.8.2",
     "file-saver": "^2.0.5",
     "lodash": "^4.17.23",
@@ -55,6 +54,7 @@
     "baseline-browser-mapping": "^2.9.16",
     "classnames": "^2.5.1",
     "eslint": "^9.11.1",
+    "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.12",
     "globals": "^15.9.0",
@@ -70,6 +70,9 @@
     "vite-tsconfig-paths": "^5.0.1"
   },
   "overrides": {
-    "serialize-javascript": "^7.0.3"
+    "serialize-javascript": "^7.0.5",
+    "eslint-plugin-react": {
+      "brace-expansion": "^2.0.1"
+    }
   }
 }

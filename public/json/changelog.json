@@ -7,7 +7,16 @@
       {
         "type": "improvement",
         "text": "добавени са [рецепти от \"Център за здраве\", с. Баня](/health/recipes#reels-Banya)."
+      },
+      {
+        "type": "improvement",
+        "text": "Добавено е приложението [Bible Memory](/media/apps#bible-memory)."
+      },
+      {
+        "type": "fix",
+        "text": "Видео плейърът вече спира при затваряне на прозореца, дори ако е все още в зареждане."
       }
+      
     ]
   },
   {

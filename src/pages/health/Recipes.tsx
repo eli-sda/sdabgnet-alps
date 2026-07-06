@@ -12,7 +12,6 @@ import { useScrollToHash } from 'src/hooks/useScrollToHash';
 interface ReelRecipe {
   id: string;
   title: string;
-  description?: string;
   image: string;
   reelUrl: string;
 }
@@ -35,11 +34,11 @@ const Recipes = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    fetch('/json/recipes-reels.json')
+    fetch('/json/recipes-reels-Banya.json')
       .then((res) => res.json())
       .then((data: ReelRecipe[]) => setReels(data))
       .catch((err) => {
-        console.error('Failed to load recipes-reels.json', err);
+        console.error('Failed to load recipes-reels-Banya.json', err);
         setReels([]);
       });
   }, []);
@@ -62,9 +61,12 @@ const Recipes = (): JSX.Element => {
               id="reels"
               heading={
                 <div>
-                  <h3>Рецепти от фейсбук ленти</h3>
+                  <h3>Рецепти от &quot;Център за здраве&quot;, с. Баня</h3>
                   <h4>
-                    <em>Рецептите са долу в описанието на всяко видеото</em>
+                    <em>
+                      Рецептата е в описанието — натиснете &quot;Вижте
+                      повече&quot; под всяко видео
+                    </em>
                   </h4>
                 </div>
               }
@@ -75,7 +77,6 @@ const Recipes = (): JSX.Element => {
                     key={reel.id}
                     title={reel.title}
                     picture={reel.image}
-                    colorDescription={reel.description}
                     buttons={[
                       {
                         label: 'Виж рецептата',

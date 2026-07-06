@@ -35,7 +35,7 @@ export const ResourceUnavailableNotice = () => {
     );
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [url]);
 
   if (!isUnavailable) return null;
 

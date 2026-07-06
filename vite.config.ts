@@ -5,13 +5,17 @@ import svgr from 'vite-plugin-svgr';
 import { VitePWA } from 'vite-plugin-pwa';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { resolve } from 'path';
+import { existsSync } from 'fs';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 
 // When an HTTP proxy is configured in the environment (e.g. corporate/network proxy),
 // route Vite's dev server proxy requests through it so DNS resolves correctly.
-const proxyAgent = process.env.https_proxy || process.env.HTTPS_PROXY
-  ? new HttpsProxyAgent((process.env.https_proxy || process.env.HTTPS_PROXY) as string)
-  : undefined;
+const proxyAgent =
+  process.env.https_proxy || process.env.HTTPS_PROXY
+    ? new HttpsProxyAgent(
+        (process.env.https_proxy || process.env.HTTPS_PROXY) as string
+      )
+    : undefined;
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -44,6 +48,24 @@ export default defineConfig({
     tsconfigPaths(), // This plugin will use the paths defined in your tsconfig.json
     svgr(),
 
+    // Return 404 for missing static files instead of falling back to index.html
+    {
+      name: 'static-file-404',
+      configureServer(server) {
+        server.middlewares.use((req, res, next) => {
+          if (req.url && /\.(json|xml|txt|pdf|csv)([?#].*)?$/.test(req.url)) {
+            const cleanPath = req.url.split('?')[0].split('#')[0];
+            const filePath = resolve(__dirname, 'public', cleanPath.slice(1));
+            if (!existsSync(filePath)) {
+              res.statusCode = 404;
+              res.end();
+              return;
+            }
+          }
+          next();
+        });
+      }
+    },
     visualizer({ open: false }), // Generate bundle analysis report without auto-opening
     VitePWA({
       registerType: 'autoUpdate',

@@ -38,7 +38,12 @@ class ErrorBoundary extends Component<Props, State> {
     try {
       const cacheNames = await caches.keys();
       await Promise.all(cacheNames.map((name) => caches.delete(name)));
-      console.log('Cleared all caches due to chunk loading error');
+      // Unregister the service worker so the next load fetches fresh files from network
+      if ('serviceWorker' in navigator) {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(registrations.map((r) => r.unregister()));
+      }
+      console.log('Cleared all caches and unregistered SW due to chunk loading error');
     } catch (cacheError) {
       console.error('Error clearing caches:', cacheError);
     } finally {
@@ -77,7 +82,7 @@ class ErrorBoundary extends Component<Props, State> {
           <p>
             Моля, опреснете страницата или опитайте отново след няколко секунди.
           </p>
-          <button onClick={() => window.location.reload()}>
+          <button onClick={() => void this.clearCachesAndReload()}>
             Опресни страницата
           </button>
           {import.meta.env.DEV && this.state.error && (

@@ -6,18 +6,13 @@ import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { AudioPlaylistList } from 'src/components/media/audio/AudioPlaylistList';
+import { reactIconProps } from 'src/components/media/MediaPlaylistListDefReactIcon';
 import { SUBPAGE_KICKER } from './AudioResources';
 import './AudioPage.scss';
-
 type AudioPageProps = {
   type: 'audiobook' | 'seminars' | 'sermons';
   aside?: React.ReactNode;
   relatedPosts?: RelatedPostsProps;
-};
-
-const reactIconProps = {
-  size: '100%',
-  className: 'c-block__image u-padding--double u-color--black'
 };
 
 const AudioPage = ({ type, aside, relatedPosts }: AudioPageProps) => {

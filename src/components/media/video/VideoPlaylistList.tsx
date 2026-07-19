@@ -1,7 +1,9 @@
 import { memo, useState } from 'react';
+import { FaVideo } from 'react-icons/fa';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import MediaPlaylistList from 'src/components/media/MediaPlaylistList';
 import { VideoPlayerDialog } from './VideoPlayerDialog';
+import { reactIconProps } from '../MediaPlaylistListDefReactIcon';
 import './VideoPlaylistList.scss';
 
 type VideoPlaylistListProps = {
@@ -23,9 +25,7 @@ const VideoPlaylistList = ({
       mediaPlaylists={playlists}
       className={withListPadding ? 'u-padding--sides' : ''}
       mediaType="video"
-      defaultImageIcon={
-        <i className="fas fa-video c-block__image u-color--black video-playlist-default-icon"></i>
-      }
+      defaultImageIcon={<FaVideo {...reactIconProps} />}
       onPlaylistSelect={() => {
         setDialogOpen(true);
       }}

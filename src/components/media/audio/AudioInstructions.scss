@@ -1,14 +1,15 @@
 @use '/src/styles/colors.scss' as *;
-.audio-page-instructions {
-  .audio-page-caption {
-    .audio-page-caption__icon-wrapper {
+.audio-instructions {
+  &__caption {
+    &__icon-wrapper {
       background: $mingColor;
       border-radius: 50%;
       padding: 3px;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       width: 28px;
       height: 28px;
-      text-align: center;
       vertical-align: middle;
     }
 
@@ -16,5 +17,9 @@
       vertical-align: middle;
       height: 20px;
     }
+  }
+  &.c-block__expand .c-block__toggle {
+    width: auto;
+    margin-left: calc(0.625rem / 2 * 1.5);
   }
 }

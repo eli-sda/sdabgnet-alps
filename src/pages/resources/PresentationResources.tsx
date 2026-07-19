@@ -9,9 +9,14 @@ import { usePlaylists } from 'src/hooks/usePlaylists';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { getTitle } from 'src/utils/Navigation';
 import DownloadList from 'src/components/downloadList/DownloadList';
-import songbookLink from './music/songbook-link.json';
+import musicLinks from './music/music-links.json';
 
 const presentationPath = routes.resources('presentation');
+
+const asideLinks = {
+  ...musicLinks,
+  blocks: musicLinks.blocks.filter((b) => b.category !== 'презентации')
+};
 
 const PresentationResources = () => {
   useScrollToHash();
@@ -45,7 +50,7 @@ const PresentationResources = () => {
       kicker={getTitle(routes.resources())}
       breadcrumbsUrls={breadcrumbsUrls}
       pageClassName="download-resources"
-      relatedPosts={songbookLink}
+      relatedPosts={asideLinks}
     >
       {/* Show message if no playlists */}
       {(!playlists || playlists.length === 0) && (
@@ -55,7 +60,7 @@ const PresentationResources = () => {
       )}
 
       <Text as="article" hasDropcap={false} spacing="double">
-          <DownloadList items={standalonePresentations[0]?.items || []} />
+        <DownloadList items={standalonePresentations[0]?.items || []} />
 
         <Accordion>
           {playlists.map(({ _id, title, author, items }, i) => (

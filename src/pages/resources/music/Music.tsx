@@ -1,20 +1,18 @@
 import { useEffect, useState } from 'react';
+import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
+import { AudioInstructions } from 'src/components/media/audio/AudioInstructions';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
-import { Accordion } from 'alps-library/molecules/components/accordion/Accordion';
-import { Text } from 'alps-library/atoms/text/Text';
 import { RelatedPosts } from 'src/alps/organisms/asides/RelatedPosts';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import { getTitle } from 'src/utils/Navigation';
-import DownloadList from 'src/components/downloadList/DownloadList';
 import { AudioPlaylistList } from 'src/components/media/audio/AudioPlaylistList';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
 import { SUBPAGE_KICKER } from '../Resources';
 import { MusicIcon } from './MusicIcon';
-import songbookLink from './songbook-link.json';
-import '../audio/AudioPage.scss';
+import asideLinks from './music-links.json';
 
 const musicLinks = {
   heading: 'Слушайте в YouTube',
@@ -57,8 +55,7 @@ const MusicPage = () => {
 
   const breadcrumbsUrls = [routes.resources(), pagePath];
 
-  const { getResourcePlaylists, getPlaylists } = usePlaylists();
-  const [musicPlaylist, setMusicPlaylist] = useState<PlaylistType[]>([]);
+  const { getPlaylists } = usePlaylists();
   const [musicVideos, setMusicVideos] = useState<PlaylistType[]>([]);
   const [videoPlaylist, setVideoPlaylist] = useState<PlaylistType[]>([]);
 
@@ -75,16 +72,6 @@ const MusicPage = () => {
   }, []);
 
   useEffect(() => {
-    getResourcePlaylists(
-      'presentations',
-      'Духовни песни - презентации с музика'
-    )
-      .then(setMusicPlaylist)
-      .catch((err) => console.error(err));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     getPlaylists('video', false, 'За музиката')
       .then(setVideoPlaylist)
       .catch((err) => console.error(err));
@@ -97,81 +84,18 @@ const MusicPage = () => {
         kicker={SUBPAGE_KICKER}
         breadcrumbsUrls={breadcrumbsUrls}
         relatedPosts={musicLinks}
-        aside={<RelatedPosts {...songbookLink} />}
+        aside={<RelatedPosts {...asideLinks} />}
       >
-        <Text
-          as="article"
-          hasDropcap={false}
-          spacing="double"
-          className="u-space--double--bottom"
-        >
-          <Accordion>
-            {musicPlaylist.map(({ _id, title, author, items }, i) => (
-              <DownloadList
-                key={i}
-                id={_id}
-                title={title}
-                author={author}
-                items={items?.map(
-                  ({ _id, title, description, size, path }) => ({
-                    _id,
-                    title,
-                    description,
-                    size,
-                    path // for download
-                  })
-                )}
-              />
-            ))}
-          </Accordion>
-        </Text>
-
-        <VideoPlaylistList playlists={[...(musicVideos ?? []), ...(videoPlaylist ?? [])]} />
+        <section className="u-spacing">
+          <HeadingBlock title="Гледайте" />
+          <VideoPlaylistList
+            playlists={[...(musicVideos ?? []), ...(videoPlaylist ?? [])]}
+          />
+        </section>
       </Page>
+
       <section className="u-space--triple--top u-spacing--double u-padding--sides">
-        <div className="audio-page-instructions">
-          <h4 className="audio-page-caption">
-            • Използвайте бутона{' '}
-            <span className="audio-page-caption__icon-wrapper">
-              <img
-                className="icon"
-                src="/images/icons/o-icon__audio.svg"
-                alt="Аудио икона"
-                width="20"
-                height="20"
-              />
-            </span>
-            , за да слушате избран списък от песни.
-            <br />• В отворения аудио плеър чрез бутона{' '}
-            <img
-              className="icon"
-              src="/img/icons/playlist-icon.svg"
-              alt="Плейлист икона"
-              width="20"
-              height="20"
-            />{' '}
-            можете да видите списъка с всички заглавия.
-            <br />• За да изтеглите всички аудио файлове от поредицата в архив
-            (zip-формат), използвайте бутона &quot;Изтегли всички&quot;, а за да
-            изтеглите текущия файл - използвайте иконата{' '}
-            <img
-              className="icon"
-              src="/img/icons/download-icon.svg"
-              alt="Изтегли икона"
-              width="20"
-              height="20"
-            />{' '}
-            от плеъра.
-            <br />• Можете да споделите линк към поредицата от песни или
-            конкретно аудио от нея.
-            <br />• Вашият напредък (кой запис слушате) се помни автоматично.
-            Натиснете{' '}
-            <i className="fas fa-bookmark u-color--white u-background-color--ming u-padding--quarter"></i>
-            , за да запазите точната секунда, на която прекъсвате аудиото. Щом
-            започнете следващо аудио, то автоматично ще стане вашето ново
-            запомнено място.
-          </h4>
-        </div>
+        <AudioInstructions type="music" />
         <AudioPlaylistList
           pagePath={pagePath}
           defaultImageIcon={

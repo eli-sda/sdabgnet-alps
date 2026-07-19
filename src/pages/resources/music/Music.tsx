@@ -57,9 +57,10 @@ const MusicPage = () => {
 
   const breadcrumbsUrls = [routes.resources(), pagePath];
 
-  const { getResourcePlaylists } = usePlaylists();
+  const { getResourcePlaylists, getPlaylists } = usePlaylists();
   const [musicPlaylist, setMusicPlaylist] = useState<PlaylistType[]>([]);
   const [musicVideos, setMusicVideos] = useState<PlaylistType[]>([]);
+  const [videoPlaylist, setVideoPlaylist] = useState<PlaylistType[]>([]);
 
   useEffect(() => {
     fetch('/json/music-videos.json')
@@ -83,6 +84,12 @@ const MusicPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    getPlaylists('video', false, 'За музиката')
+      .then(setVideoPlaylist)
+      .catch((err) => console.error(err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
       <Page
@@ -119,7 +126,7 @@ const MusicPage = () => {
           </Accordion>
         </Text>
 
-        <VideoPlaylistList playlists={musicVideos} />
+        <VideoPlaylistList playlists={[...(musicVideos ?? []), ...(videoPlaylist ?? [])]} />
       </Page>
       <section className="u-space--triple--top u-spacing--double u-padding--sides">
         <div className="audio-page-instructions">

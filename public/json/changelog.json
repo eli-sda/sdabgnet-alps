@@ -6,7 +6,7 @@
     "changes": [
       {
         "type": "feature",
-        "text": "Добавена плейлиста \"За музиката\" в страницата [Музика](http://localhost:5173/resources/music?playlistTitle=За%20музиката#9b871741-8259-43a0-ac68-4191be0c67e1)."
+        "text": "Добавена е плейлиста [\"За музиката\"](/resources/music?playlistTitle=За%20музиката#9b871741-8259-43a0-ac68-4191be0c67e1) в страницата \"Музика\"."
       }
     ]
     },

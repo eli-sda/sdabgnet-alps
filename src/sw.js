@@ -1,14 +1,10 @@
 // Service Worker: Workbox injectManifest entry
 // This file uses Workbox globals injected at build time. Do not use import/export here.
 
-// Activate new SW immediately
+// Activate new SW immediately (required for autoUpdate mode)
 self.skipWaiting && self.skipWaiting();
-// Take control of clients if available (Workbox injects this in some builds, but not always)
-if (typeof self.clientsClaim === 'function') {
-  self.clientsClaim();
-}
 
-// Clean up outdated caches if available
+// Clean up outdated precache entries from previous builds
 if (typeof cleanupOutdatedCaches === 'function') {
   cleanupOutdatedCaches();
 }
@@ -123,7 +119,13 @@ if (typeof precacheAndRoute === 'function') {
   precacheAndRoute(self.__WB_MANIFEST || []);
 }
 
-// Clean activation - take control immediately
+// Clean activation - clear stale navigation cache and take control.
+// Deleting navigation-cache ensures the reloaded page gets a fresh index.html
+// with the correct hashed asset references from the new build.
 self.addEventListener('activate', (event) => {
-  event.waitUntil(self.clients.claim());
+  event.waitUntil(
+    caches
+      .delete('navigation-cache')
+      .then(() => self.clients.claim())
+  );
 });

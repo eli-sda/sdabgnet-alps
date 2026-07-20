@@ -22,16 +22,6 @@ class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('ErrorBoundary caught an error:', error, errorInfo);
-
-    // Check if this is a chunk loading error
-    const isChunkError =
-      error.message.includes('Loading chunk') ||
-      error.message.includes('Failed to load module script');
-
-    if (isChunkError) {
-      // Clear caches and reload
-      void this.clearCachesAndReload();
-    }
   }
 
   private async clearCachesAndReload() {

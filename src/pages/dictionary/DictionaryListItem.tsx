@@ -1,4 +1,4 @@
-import { AccordionItem } from 'alps-library/molecules/components/accordion/AccordionItem';
+import { AccordionItem } from 'src/alps/molecules/components/accordion/AccordionItem';
 import { Pullquote } from 'alps-library/molecules/text/pullquote/Pullquote';
 import { DictionaryType } from 'src/contexts/DictionaryContext';
 

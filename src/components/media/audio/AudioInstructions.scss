@@ -17,6 +17,18 @@
       vertical-align: middle;
       height: 20px;
     }
+
+    &__bookmark-btn-wrap {
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+
+      .o-button--small {
+        pointer-events: none;
+        padding: 0.5rem;
+        font-size: 0.65rem;
+      }
+    }
   }
   &.c-block__expand .c-block__toggle {
     width: auto;

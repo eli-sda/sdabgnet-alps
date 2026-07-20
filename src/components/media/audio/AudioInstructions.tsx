@@ -120,8 +120,10 @@ export const AudioInstructions = ({
         <br />• Можете да споделите линк към {share}.
         <br />• Вашият напредък ({progressUnit} слушате) се помни автоматично.
         Натиснете{' '}
-        <span style={{ whiteSpace: 'nowrap' }}>
-          <i className="fas fa-bookmark u-color--white u-background-color--ming u-padding--quarter"></i>
+        <span className="audio-instructions__caption__bookmark-btn-wrap">
+          <button className="o-button o-button--small">
+            <i className="fas fa-bookmark u-space--quarter--right"></i>Запомни
+          </button>
           ,
         </span>{' '}
         за да запазите точната секунда, на която прекъсвате {item}. Щом

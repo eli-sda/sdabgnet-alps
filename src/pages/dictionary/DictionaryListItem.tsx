@@ -1,4 +1,4 @@
-import { AccordionItem } from 'alps-library/molecules/components/accordion/AccordionItem';
+import { AccordionItem } from 'src/alps/molecules/components/accordion/AccordionItem';
 import { Pullquote } from 'alps-library/molecules/text/pullquote/Pullquote';
 import { DictionaryType } from 'src/contexts/DictionaryContext';
 
@@ -8,23 +8,35 @@ export const DictionaryListItem = ({
   item: DictionaryType;
 }): JSX.Element => {
   const renderEgwComments = (text: string) => {
-    const lines = text.split('\n').filter((p) => p.trim() !== '');
-
-    let author: string | undefined = undefined;
-    const quoteTextLines: string[] = [];
+    const lines = text.split('\n');
+    const segments: { text: string; author?: string }[] = [];
+    let currentLines: string[] = [];
 
     lines.forEach((line) => {
       const match = line.match(/^::(.*)::$/);
       if (match) {
-        author = match[1];
+        const segText = currentLines.join('\n').trim();
+        if (segText) {
+          segments.push({ text: segText, author: match[1] });
+        }
+        currentLines = [];
       } else {
-        quoteTextLines.push(line);
+        currentLines.push(line);
       }
     });
 
-    const finalQuote = quoteTextLines.join('\n');
+    const remaining = currentLines.join('\n').trim();
+    if (remaining) {
+      segments.push({ text: remaining });
+    }
 
-    return <Pullquote author={author} quote={finalQuote || undefined} />;
+    return (
+      <>
+        {segments.map((seg, i) => (
+          <Pullquote key={i} author={seg.author} quote={seg.text} />
+        ))}
+      </>
+    );
   };
 
   const getBibleGatewayLink = (searchQuery: string) => {
@@ -37,7 +49,9 @@ export const DictionaryListItem = ({
   return (
     <AccordionItem heading={<h3>{item.topic}</h3>}>
       <div className="u-spacing u-space--half--bottom">
-        <div>{renderEgwComments(item.EGW_comments)}</div>
+        <div className="u-spacing--half">
+          {renderEgwComments(item.EGW_comments)}
+        </div>
 
         {item.verses && item.verses.length > 0 && (
           <section>

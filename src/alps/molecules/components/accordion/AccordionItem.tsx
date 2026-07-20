@@ -51,21 +51,53 @@ export const AccordionItem = ({
   const [marginTop, setMarginTop] = useState('1rem');
 
   useEffect(() => {
-    const setAccordionHeight = () => {
-      if (open && contentRef.current) {
-        setMaxHeight(contentRef.current.scrollHeight + 'px');
-        setMarginTop('1rem'); // Open state margin
-      } else {
-        setMaxHeight('0px');
-        setMarginTop('0'); // Closed state margin
+    let frame1: number;
+    let frame2: number;
+
+    if (open) {
+      frame1 = requestAnimationFrame(() => {
+        if (contentRef.current) {
+          setMaxHeight(contentRef.current.scrollHeight + 'px');
+          setMarginTop('1rem'); // Open state margin
+        }
+      });
+    } else {
+      frame1 = requestAnimationFrame(() => {
+        if (contentRef.current) {
+          // Snap to measured height first (in case maxHeight is 'none'), then animate to 0
+          setMaxHeight(contentRef.current.scrollHeight + 'px');
+          frame2 = requestAnimationFrame(() => {
+            setMaxHeight('0px');
+            setMarginTop('0'); // Closed state margin
+          });
+        } else {
+          setMaxHeight('0px');
+          setMarginTop('0'); // Closed state margin
+        }
+      });
+    }
+
+    return () => {
+      cancelAnimationFrame(frame1);
+      cancelAnimationFrame(frame2);
+    };
+  }, [open, content, children, refreshCounter]);
+
+  // After the open animation completes, remove max-height constraint so content
+  // can grow freely on window resize without being clipped.
+  useEffect(() => {
+    const el = contentRef.current;
+    if (!el || !open) return;
+
+    const handleTransitionEnd = (e: TransitionEvent) => {
+      if (e.propertyName === 'max-height') {
+        setMaxHeight('none');
       }
     };
-    requestAnimationFrame(setAccordionHeight);
 
-    // also update on resize
-    window.addEventListener('resize', setAccordionHeight);
-    return () => window.removeEventListener('resize', setAccordionHeight);
-  }, [open, content, children, refreshCounter]);
+    el.addEventListener('transitionend', handleTransitionEnd);
+    return () => el.removeEventListener('transitionend', handleTransitionEnd);
+  }, [open]);
 
   // Render leading icon
   const renderLeadingIcon = () => {

@@ -142,11 +142,19 @@ const Videoteka = () => {
 
   const groupedVideos = useMemo((): VideoGroup[] => {
     const map = new Map<string | null, LinkType[]>();
+
     for (const video of youtubeVideos) {
-      const key = video.playlistId ?? null;
-      if (!map.has(key)) map.set(key, []);
-      map.get(key)!.push(video);
+      const key: string | null = video.playlistId ?? null;
+
+      let videos = map.get(key);
+      if (!videos) {
+        videos = [];
+        map.set(key, videos);
+      }
+
+      videos.push(video);
     }
+
     const result: VideoGroup[] = [];
     for (const [id, vids] of map) {
       if (id !== null) {
@@ -326,6 +334,16 @@ const Videoteka = () => {
           </div>
         )}
       </div>
+
+      {selectedIds.size > 0 && (
+        <div className="videoteka-sticky-bar">
+          <Button
+            faIconClass="fas fa-play-circle"
+            label={`Пусни избраните (${selectedIds.size})`}
+            onClick={openSelected}
+          />
+        </div>
+      )}
 
       <VideoPlayerDialog
         isOpen={dialogPlaylist !== null}

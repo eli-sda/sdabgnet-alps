@@ -265,8 +265,9 @@ const normalizeAuthor = (name: string): string => {
   return `${canonicalPrefix} ${stripTitlePrefix(name)}`;
 };
 
+// load authors of not resource videos
 export const loadAllVideoAuthors = async (): Promise<string[]> => {
-  const query = `array::unique(*[_type == "link" && type == "video" && defined(author) && author != ""].author)`;
+  const query = `array::unique(*[_type == "link" && type == "video" && isResource != true && defined(author) && author != ""].author)`;
   const authors: string[] = await client.fetch(query);
   // Normalize prefix casing and deduplicate (e.g. "д-р X" and "Д-р X" → "Д-р X")
   const seen = new Map<string, string>();
@@ -279,6 +280,11 @@ export const loadAllVideoAuthors = async (): Promise<string[]> => {
     stripTitlePrefix(a).localeCompare(stripTitlePrefix(b), 'bg')
   );
 };
+
+const collator = new Intl.Collator('bg', {
+  numeric: true,
+  sensitivity: 'base'
+});
 
 export const loadVideosByFilters = async (
   topicIds: string[],
@@ -323,13 +329,15 @@ export const loadVideosByFilters = async (
   }`;
 
   const results: LinkType[] = await client.fetch(linkQuery, params);
-  return results.map((link) => {
-    const filtered = filterTags(link.keyWords as string[] | null);
-    return {
-      ...link,
-      keyWords: filtered.length ? filtered : null
-    } as LinkType;
-  });
+  return results
+    .map((link) => {
+      const filtered = filterTags(link.keyWords as string[] | null);
+      return {
+        ...link,
+        keyWords: filtered.length ? filtered : null
+      } as LinkType;
+    })
+    .sort((a, b) => collator.compare(a.title, b.title));
 };
 
 export const loadSeminarRelatedPresentations = async (): Promise<

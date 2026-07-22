@@ -46,6 +46,18 @@
   }
 }
 
+.videoteka-sticky-bar {
+  position: fixed;
+  bottom: 1.5rem;
+  left: calc(100vw * 3 / 7);
+  transform: translateX(-50%);
+  z-index: 100;
+
+  .o-button {
+    margin: 0;
+  }
+}
+
 .videoteka-youtube-header {
   display: flex;
   align-items: center;

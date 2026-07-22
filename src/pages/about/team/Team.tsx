@@ -74,8 +74,9 @@ const Team = () => {
       title={getTitle(routes.about('team'))}
       breadcrumbsUrls={breadcrumbsUrls}
       blockType="wrap6"
+      pageClassName="full-page"
     >
-      <section className="team full-page">
+      <section className="team">
         {team.map((member) => (
           <div
             key={member.id}

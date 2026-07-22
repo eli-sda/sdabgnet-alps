@@ -17,6 +17,7 @@ import { DailyVerseType } from 'src/contexts/DailyVerseContext';
 import { SunsetEvent } from 'src/contexts/SunsetContext';
 import { CarouselAdType } from 'src/contexts/CarouselAdsContext';
 import { PoetryType } from 'src/contexts/PoetryContext';
+import { DictionaryType } from 'src/contexts/DictionaryContext';
 
 export const loadPagesMeta = async (): Promise<PageMetaMap> => {
   const query = `*[_type == "page"] {
@@ -95,6 +96,30 @@ export const loadLatestAdvertisement = async (
   return filtered;
 };
 
+export const loadHealthAdvertisements = async (): Promise<
+  AdvertisementType[]
+> => {
+  const adQuery = `*[_type == "advertisement" && references(*[_type == "topic" && title == $topicTitle]._id)] | order(date desc) {
+    _id,
+    type,
+    date,
+    name,
+    place,
+    email,
+    phone,
+    hasViber,
+    text,
+    image
+}`;
+
+  const healthAdvertisements: AdvertisementType[] = await clientVreses.fetch(
+    adQuery,
+    { topicTitle: 'здраве' }
+  );
+
+  return healthAdvertisements;
+};
+
 export const loadQuestions = async (): Promise<QuestionType[]> => {
   const questionsQuery = `*[_type == "questionAnswer"] | order(_createdAt desc) {
    name,
@@ -128,11 +153,14 @@ export const loadPagePlaylists = async (
     }
   }`;
 
-  const result: { playlists: PlaylistType[] } | null = await client.fetch(
-    query,
-    { pagePath }
-  );
-  return result?.playlists ?? [];
+  const result: { playlists: (PlaylistType | null)[] } | null =
+    await client.fetch(query, { pagePath });
+  const playlists =
+    result?.playlists?.filter((p): p is PlaylistType => p != null) ?? [];
+  return playlists.map((p) => ({
+    ...p,
+    items: p.items?.filter((item) => item != null)
+  }));
 };
 
 export const loadPlaylists = async (
@@ -175,7 +203,14 @@ export const loadPlaylists = async (
     }
   }`;
 
-  return await client.fetch(playlistQuery);
+  const rawPlaylists: (PlaylistType | null)[] =
+    await client.fetch(playlistQuery);
+  return rawPlaylists
+    .filter((p): p is PlaylistType => p != null)
+    .map((p) => ({
+      ...p,
+      items: p.items?.filter((item) => item != null)
+    }));
 };
 
 export const loadLinks = async (type: string): Promise<LinkType[]> => {
@@ -193,7 +228,7 @@ export const loadLinks = async (type: string): Promise<LinkType[]> => {
     size,
     // keyWords,
     // image,
-    "path": select(isResource == true => "images/" + fileName, 
+    "path": select(isResource == true => "images/" + fileName,
     true => URL
     )
   }`;
@@ -301,8 +336,8 @@ export const loadSeminarRelatedPresentations = async (): Promise<
   SeminarRelatedPresentationsType[]
 > => {
   const presentationsQuery = `*[
-      _type == "playlist" 
-      && type == "presentations" 
+      _type == "playlist"
+      && type == "presentations"
       && title in *[_type == "playlist" && type == "seminars"].title
     ]{
       _id,
@@ -352,6 +387,17 @@ export const loadDailyVerse = async (date: string): Promise<DailyVerseType> => {
   }`;
 
   return await clientVreses.fetch(dailyVerseQuery, { date });
+};
+
+export const loadDictionary = async (): Promise<DictionaryType[]> => {
+  const dictionaryQuery = `*[_type == "dictionary"] {
+    _id,
+    topic,
+    EGW_comments,
+    verses
+}`;
+
+  return await clientVreses.fetch(dictionaryQuery);
 };
 
 /**

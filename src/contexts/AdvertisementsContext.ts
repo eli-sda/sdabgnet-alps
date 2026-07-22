@@ -25,18 +25,20 @@ export type LatestAdvertisementItem = {
 };
 
 export type AdvertisementsContextType = {
-  advertisements: AdvertisementsMap | undefined;
+  advertisements?: AdvertisementsMap;
   setAdvertisements: (advertisements: AdvertisementsMap) => void;
-  lastLoaded: string | undefined;
+  lastLoaded?: string;
   setLastLoaded: (date: string) => void;
-  latestAdvertisements:
-    | Partial<Record<AdType, LatestAdvertisementItem>>
-    | undefined;
+  latestAdvertisements?: Partial<Record<AdType, LatestAdvertisementItem>>;
   setLatestAdvertisements: (
     advertisements: Partial<Record<AdType, LatestAdvertisementItem>>
   ) => void;
-  lastLatestLoaded: string | undefined;
+  lastLatestLoaded?: string;
   setLastLatestLoaded: (date: string) => void;
+  healthAdvertisements?: AdvertisementType[];
+  setHealthAdvertisements: (healthAdvertisements: AdvertisementType[]) => void;
+  lastHealtLoaded?: string;
+  setLastHealtLoaded: (date: string) => void;
 };
 
 export const AdvertisementsContext = createContext<AdvertisementsContextType>({
@@ -47,7 +49,11 @@ export const AdvertisementsContext = createContext<AdvertisementsContextType>({
   latestAdvertisements: undefined,
   setLatestAdvertisements: () => {},
   lastLatestLoaded: undefined,
-  setLastLatestLoaded: () => {}
+  setLastLatestLoaded: () => {},
+  healthAdvertisements: undefined,
+  setHealthAdvertisements: () => {},
+  lastHealtLoaded: undefined,
+  setLastHealtLoaded: () => {}
 });
 
 export function useAdvertisementsContext() {

@@ -8,9 +8,9 @@ export type QuestionType = {
 };
 
 export type QuestionsContextType = {
-  questions: QuestionType[] | undefined;
+  questions?: QuestionType[];
   setQuestions: (questions: QuestionType[]) => void;
-  lastLoaded: string | undefined;
+  lastLoaded?: string;
   setLastLoaded: (date: string) => void;
 };
 

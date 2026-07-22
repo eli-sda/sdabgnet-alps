@@ -10,9 +10,9 @@ export type CarouselAdType = {
 };
 
 export type CarouselAdContextType = {
-  carouselAds: CarouselAdType[] | undefined;
+  carouselAds?: CarouselAdType[];
   setCarouselAds: (carouselAds: CarouselAdType[]) => void;
-  lastLoaded: string | undefined;
+  lastLoaded?: string;
   setLastLoaded: (date: string) => void;
 };
 

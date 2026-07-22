@@ -279,7 +279,7 @@ const MediaPlaylistList = ({
             : undefined;
 
           return (
-            <div key={playlist._id} className="playlist-item u-padding--sides">
+            <div key={playlist._id} className="playlist-item">
               <MediaPlaylist
                 playlist={playlist}
                 onPlaylistSelect={() => handleSelect(playlist)}
@@ -288,7 +288,7 @@ const MediaPlaylistList = ({
                 type={mediaType}
                 defaultImageIcon={defaultImageIcon}
                 actionButtons={
-                  <div className="u-space--half--top">
+                  <div className="u-padding--half--top">
                     <PlaylistActionButtons
                       shareUrl={generateShareUrl({
                         id: playlist._id

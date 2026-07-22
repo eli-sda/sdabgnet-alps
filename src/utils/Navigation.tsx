@@ -85,33 +85,18 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
           },
           {
             type: 'primary',
-            text: 'Молитвена група',
-            url: 'https://www.facebook.com/groups/188820787814459/',
-            faIconClass: 'fab fa-facebook-f',
-            isExternal: true
-          },
-          {
-            type: 'primary',
-            text: 'Адвентна българска мрежа',
-            url: 'https://www.facebook.com/groups/sdabg.net',
-            faIconClass: 'fab fa-facebook-f',
-            isExternal: true
-          },
-          {
-            type: 'primary',
-            text: 'Адвентен форум',
-            url: 'https://www.facebook.com/groups/AdventistDiscussions',
-            faIconClass: 'fab fa-facebook-f',
-            isExternal: true
+            text: 'Фейсбук групи',
+            url: routes.commune('facebook-groups'),
+            faIconClass: 'fab fa-facebook-f'
           }
         ]
       },
-      {
-        type: 'primary',
-        text: 'Проповеди, Статии',
-        url: routes.churchLife('topics'),
-        isDisabled: true
-      },
+      // {
+      //   type: 'primary',
+      //   text: 'Проповеди, Статии',
+      //   url: routes.churchLife('topics'),
+      //   isDisabled: true
+      // },
       {
         type: 'primary',
         text: 'Поезия',
@@ -152,12 +137,12 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
         url: routes.churchLife('testimonies'),
         faIconClass: 'fas fa-globe'
       },
-      {
-        type: 'primary',
-        text: 'Хумор',
-        url: routes.churchLife('humor'),
-        isDisabled: true
-      },
+      // {
+      //   type: 'primary',
+      //   text: 'Хумор',
+      //   url: routes.churchLife('humor'),
+      //   isDisabled: true
+      // },
       {
         type: 'primary',
         text: 'Дарения за каузи',
@@ -191,9 +176,9 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       },
       {
         type: 'primary',
-        text: 'Речник',
+        text: 'Тематичен справочник',
         url: routes.info('dictionary'),
-        isDisabled: true
+        faIconClass: 'fas fa-scroll'
       },
       // {
       //   type: 'primary',
@@ -347,35 +332,38 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       {
         type: 'primary',
         text: 'Програмата NEW START',
-        url: routes.health('new-start')
+        url: routes.health('new-start'),
+        faIconClass: 'fas fa-seedling'
       },
       {
         type: 'primary',
         text: 'Видео лекции, предавания',
         url: routes.health('video'),
-        isDisabled: true
+        faIconClass: 'fas fa-video'
       },
       {
         type: 'primary',
-        text: 'Книги',
+        text: 'Здравни книги',
         url: routes.health('books'),
-        isDisabled: true
+        faIconClass: 'fas fa-book-medical'
       },
       {
         type: 'primary',
         text: 'Рецепти',
-        url: routes.health('recipes')
+        url: routes.health('recipes'),
+        faIconClass: 'fas fa-utensils'
       },
       {
         type: 'primary',
         text: 'Здравни институции',
-        url: routes.health('institutions')
+        url: routes.health('institutions'),
+        faIconClass: 'fas fa-medkit'
       },
       {
         type: 'primary',
         text: 'Услуги',
         url: routes.health('services'),
-        isDisabled: true
+        faIconClass: 'fas fa-hand-holding-medical'
       }
     ]
   },

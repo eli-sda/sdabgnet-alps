@@ -12,7 +12,7 @@ import { newLinesWithLinks } from 'src/utils/Links';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
-import { PageHeaderFeature2 } from 'src/organisms/sections/PageHeaderFeature2';
+import { DarkTitle } from 'src/components/DarkTitle';
 import VideoGrid from 'src/components/media/video/videoGrid/VideoGrid';
 import QuizDialog, { QuizDataType } from 'src/components/quizDialog/QuizDialog';
 import quizData from './newStartQuiz.json';
@@ -29,38 +29,22 @@ type newStartItem = {
   color: string;
 };
 
-const asideContent = (
+const relatedHealthCenters = (
   <RelatedPosts
-    heading="Полезно"
+    heading="Здравни центрове"
+    id="health-centers"
     blocks={[
       {
-        title: 'Ново начало (NEW START) - здравословен стил на живот',
-        url: 'https://novo-nachalo-bg.blogspot.com/',
-        category: 'novo-nachalo-bg.blogspot.com'
+        title: 'Център за здраве в с. Баня',
+        url: 'https://lifeinhope.com/bg/'
       },
       {
-        title: '8 стъпки на здравето',
-        url: 'http://youtube.com/playlist?list=PLIeXbN0nkX1W7OKodGfYn9yJuEer2ErwO',
-        category: 'youtube плейлист'
+        title: 'Център за здраве в с. Медово',
+        url: 'https://zdravencentarmedovo.com/'
       }
     ]}
   />
 );
-
-const relatedHealthCenters = {
-  heading: 'Здравни центрове',
-  id: 'health-centers',
-  blocks: [
-    {
-      title: 'Център за здраве в с. Баня',
-      url: 'https://lifeinhope.com/bg/'
-    },
-    {
-      title: 'Център за здраве в с. Медово',
-      url: 'https://zdravencentarmedovo.com/'
-    }
-  ]
-};
 
 const newStartPrinciples = [
   { letter: 'N', text: '- Хранене', color: '#AA62A7' },
@@ -167,15 +151,15 @@ const NewStart = (): JSX.Element => {
   }, [getPagePlaylists]);
 
   return (
-    <section className="new-start-page u-spacing--double">
-      <Page
-        title={getTitle(newStartPath)}
-        background={pageBackground}
-        breadcrumbsUrls={breadcrumbsUrls}
-        aside={asideContent}
-        relatedPosts={relatedHealthCenters}
-      >
-        <section className="u-spacing--double">
+    <Page
+      title={getTitle(newStartPath)}
+      background={pageBackground}
+      breadcrumbsUrls={breadcrumbsUrls}
+      blockType="wrap6"
+      pageClassName="full-page new-start-page u-spacing--double"
+    >
+      <section className="u-spacing--double">
+        <section className="u-spacing" id="intro">
           <p className="text">
             Програма <b>NEW START</b> (НОВО НАЧАЛО) вече над 40 години се
             прилага с постоянен успех в профилактиката и лечението на значимите
@@ -197,72 +181,61 @@ const NewStart = (): JSX.Element => {
 
           <p className="text">
             Благотворното въздействие на всички тези естествени средства може да
-            преживеете като посетите{' '}
-            <a href={`#${relatedHealthCenters.id}`}>
-              {' '}
-              здравно-възстановителните центрове
-            </a>{' '}
-            в България.
+            преживеете като посетите здравно-възстановителните центрове в
+            България.
           </p>
-
-          <section className="new-start-principles">
-            <div className="principles-columns">
-              {[
-                newStartPrinciples.slice(0, 3), // N E W
-                newStartPrinciples.slice(3) // S T A R T
-              ].map((column, colIndex) => (
-                <ul key={`col-${colIndex}`} className="principles-list">
-                  {column.map((item, index) => (
-                    <li
-                      key={`item-${colIndex}-${index}`}
-                      className="principle-item"
-                    >
-                      <span
-                        className="letter-bg"
-                        style={{ backgroundColor: item.color }}
-                      >
-                        {item.letter}
-                      </span>
-                      <span className="principle-text">{item.text}</span>
-                    </li>
-                  ))}
-                </ul>
-              ))}
-            </div>
-
-            <img
-              className="new-start-banner"
-              src="/img/health/newStart/new-start-banner.svg"
-            />
-          </section>
-
-          <section className="pullquotes">
-            <Pullquote
-              quote="„Чист въздух, слънчева светлина, въздържание, почивка, упражнения, правилно хранене, употреба на вода, доверие в божествената сила — това са истинските средства за лечение.“"
-              author="По стъпките на Великия лекар, стр. 127"
-            />
-
-            <Pullquote
-              quote="„Съвършената чистота, изобилието от слънчева светлина, внимателното отношение към хигиената във всеки детайл от домашния живот са от съществено значение за свободата от болести и за веселието и жизнеността на обитателите на дома.“"
-              author="По стъпките на Великия лекар, стр. 276"
-            />
-          </section>
+          {relatedHealthCenters}
         </section>
-      </Page>
 
-      <section className="u-space--top u-spacing--triple">
-        <section className="benefits u-spacing">
-          <PageHeaderFeature2
-            blockType="quarterSS"
-            blocks={[
-              {
-                type: 'quarterSS',
-                title: 'NEW START може да помогне с:'
-              }
-            ]}
+        <section className="new-start-principles">
+          <div className="principles-columns">
+            {[
+              newStartPrinciples.slice(0, 3), // N E W
+              newStartPrinciples.slice(3) // S T A R T
+            ].map((column, colIndex) => (
+              <ul key={`col-${colIndex}`} className="principles-list">
+                {column.map((item, index) => (
+                  <li
+                    key={`item-${colIndex}-${index}`}
+                    className="principle-item"
+                  >
+                    <span
+                      className="letter-bg"
+                      style={{ backgroundColor: item.color }}
+                    >
+                      {item.letter}
+                    </span>
+                    <span className="principle-text">{item.text}</span>
+                  </li>
+                ))}
+              </ul>
+            ))}
+          </div>
+
+          <img
+            className="new-start-banner"
+            src="/img/health/newStart/new-start-banner.svg"
+          />
+        </section>
+
+        <section className="pullquotes">
+          <Pullquote
+            quote="„Чист въздух, слънчева светлина, въздържание, почивка, упражнения, правилно хранене, употреба на вода, доверие в божествената сила — това са истинските средства за лечение.“"
+            author="По стъпките на Великия лекар, стр. 127"
           />
 
-          <div className="benefits-grid u-space--left u-space--right">
+          <Pullquote
+            quote="„Съвършената чистота, изобилието от слънчева светлина, внимателното отношение към хигиената във всеки детайл от домашния живот са от съществено значение за свободата от болести и за веселието и жизнеността на обитателите на дома.“"
+            author="По стъпките на Великия лекар, стр. 276"
+          />
+        </section>
+      </section>
+
+      <section className="u-space--top u-spacing--triple">
+        <section className="benefits u-spacing" id="benefits">
+          <DarkTitle title="NEW START може да помогне с:" />
+
+          <div className="benefits-grid">
             {benefits.map((benefit, index) => (
               <div key={index} className="benefit-item">
                 <span
@@ -279,72 +252,46 @@ const NewStart = (): JSX.Element => {
           </div>
         </section>
 
-        <section className="eleven-principles u-spacing">
-          <PageHeaderFeature2
-            blockType="quarterSS"
-            blocks={[
-              {
-                type: 'quarterSS',
-                title: '11 принципа на здравето'
-              }
-            ]}
-          />
-          <section className="u-space--left u-space--right">
-            <Swiper
-              slidesPerView={'auto'}
-              spaceBetween={10}
-              navigation
-              pagination={{ clickable: true }}
-              mousewheel
-              keyboard
-              centeredSlides
-              modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-              className="new-start-swiper"
-            >
-              {newStartItems.map((item) => (
-                <SwiperSlide key={item.id}>
-                  <div
-                    className="new-start-item"
-                    style={{ backgroundColor: item.color }}
-                  >
-                    <img src={isSafeImageUrl(item.image) ? item.image : ''} />
-                    <section className="text-content u-padding u-spacing--quarter u-color--black">
-                      <h3>{item.title}</h3>
-                      <p>{newLinesWithLinks(item.description)}</p>
-                    </section>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </section>
+        <section className="eleven-principles u-spacing" id="eleven-principles">
+          <DarkTitle title="11 принципа на здравето" />
+          <Swiper
+            slidesPerView={'auto'}
+            spaceBetween={10}
+            navigation
+            pagination={{ clickable: true }}
+            mousewheel
+            keyboard
+            centeredSlides
+            modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+            className="new-start-swiper"
+          >
+            {newStartItems.map((item) => (
+              <SwiperSlide key={item.id}>
+                <div
+                  className="new-start-item"
+                  style={{ backgroundColor: item.color }}
+                >
+                  <img src={isSafeImageUrl(item.image) ? item.image : ''} />
+                  <section className="text-content u-padding u-spacing--quarter u-color--black">
+                    <h3>{item.title}</h3>
+                    <p>{newLinesWithLinks(item.description)}</p>
+                  </section>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </section>
 
-        <section className="new-start-videos u-spacing">
-          <PageHeaderFeature2
-            blockType="quarterSS"
-            blocks={[
-              {
-                type: 'quarterSS',
-                title: 'Гледайте'
-              }
-            ]}
-          />
-          <VideoGrid
-            items={playlists}
-            className="u-space--left u-space--right"
-          />
+        <section className="new-start-videos u-spacing" id="new-start-videos">
+          <DarkTitle title="Гледайте" />
+          <VideoGrid items={playlists} />
         </section>
 
-        <section className="u-spacing u-background-color--gray--light" id="new-start-quiz">
-          <PageHeaderFeature2
-            blockType="quarterSS"
-            blocks={[
-              {
-                type: 'quarterSS',
-                title: quizData.quizTitle
-              }
-            ]}
-          />
+        <section
+          className="u-spacing u-background-color--gray--light"
+          id="new-start-quiz"
+        >
+          <DarkTitle title={quizData.quizTitle} />
 
           <div className="u-space--left u-space--right">
             <h3 className="u-theme--color--darker">
@@ -368,7 +315,7 @@ const NewStart = (): JSX.Element => {
           </div>
         </section>
       </section>
-    </section>
+    </Page>
   );
 };
 

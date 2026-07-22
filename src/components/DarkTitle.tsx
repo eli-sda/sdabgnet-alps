@@ -14,19 +14,19 @@ export const DarkTitle = ({
   maxImageWidth
 }: DarkTitleProps) => (
   <div className="dark-title c-media-block c-block c-block__inline can-be--dark-dark u-padding u-spacing--until-medium u-theme--background-color--darker">
-    <div className="c-block__image">
-      <div className="c-block__image-outer-wrap">
-        <div className="c-block__image-wrap">
-          <div>
-            <picture className="picture">
-              {imageUrl && (
+    {imageUrl && (
+      <div className="c-block__image">
+        <div className="c-block__image-outer-wrap">
+          <div className="c-block__image-wrap">
+            <div>
+              <picture className="picture">
                 <img src={imageUrl} style={{ maxWidth: maxImageWidth }} />
-              )}
-            </picture>
+              </picture>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    )}
     <div className="c-block__content u-spacing u-border--left u-theme--border-color--light--left u-theme--color--lighter ">
       <div className="c-block__group u-spacing ">
         <div className="u-width--100p u-spacing">

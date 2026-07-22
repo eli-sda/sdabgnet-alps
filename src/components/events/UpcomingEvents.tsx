@@ -4,6 +4,40 @@ import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/Heading
 import { Button } from 'src/alps/atoms/Button';
 import { useCalendarEvents } from 'src/hooks/useCalendarEvents';
 
+const formatEventDateRange = (start: string, end?: string) => {
+  const startDate = moment(start);
+
+  // If there is no end date, return just the start date
+  if (!end) {
+    return startDate.format('DD.MM.YYYY');
+  }
+
+  let endDate = moment(end);
+
+  // If the end date string doesn't contain a time component ('T'), subtract 1 day
+  if (!end.includes('T')) {
+    endDate = endDate.subtract(1, 'days');
+  }
+
+  // If start and end are on the exact same day
+  if (startDate.isSame(endDate, 'day')) {
+    return startDate.format('DD.MM.YYYY');
+  }
+
+  // If they are in the same month and year (e.g., 22 - 25.07.2026)
+  if (startDate.isSame(endDate, 'month')) {
+    return `${startDate.format('DD')} - ${endDate.format('DD.MM.YYYY')}`;
+  }
+
+  // If they are in the same year, but different months (e.g., 28.06 - 26.07.2026)
+  if (startDate.isSame(endDate, 'year')) {
+    return `${startDate.format('DD.MM')} - ${endDate.format('DD.MM.YYYY')}`;
+  }
+
+  // If they are in completely different years (e.g., 30.12.2026 - 03.02.2027)
+  return `${startDate.format('DD.MM.YYYY')} - ${endDate.format('DD.MM.YYYY')}`;
+};
+
 const UpcomingEvents = () => {
   const { upcoming, openForRegistration } = useCalendarEvents();
   const events = useMemo(() => {
@@ -25,7 +59,7 @@ const UpcomingEvents = () => {
               className="far fa-calendar-alt u-space--half--right"
               aria-hidden="true"
             />
-            {moment(event.start).format('DD.MM.YYYY')}
+            {formatEventDateRange(event.start, event.end)}
             <br />
             {event.link ? (
               <a href={event.link} target="_blank" rel="noopener noreferrer">

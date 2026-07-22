@@ -22,23 +22,18 @@ class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('ErrorBoundary caught an error:', error, errorInfo);
-
-    // Check if this is a chunk loading error
-    const isChunkError =
-      error.message.includes('Loading chunk') ||
-      error.message.includes('Failed to load module script');
-
-    if (isChunkError) {
-      // Clear caches and reload
-      void this.clearCachesAndReload();
-    }
   }
 
   private async clearCachesAndReload() {
     try {
       const cacheNames = await caches.keys();
       await Promise.all(cacheNames.map((name) => caches.delete(name)));
-      console.log('Cleared all caches due to chunk loading error');
+      // Unregister the service worker so the next load fetches fresh files from network
+      if ('serviceWorker' in navigator) {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(registrations.map((r) => r.unregister()));
+      }
+      console.log('Cleared all caches and unregistered SW due to chunk loading error');
     } catch (cacheError) {
       console.error('Error clearing caches:', cacheError);
     } finally {
@@ -77,7 +72,7 @@ class ErrorBoundary extends Component<Props, State> {
           <p>
             Моля, опреснете страницата или опитайте отново след няколко секунди.
           </p>
-          <button onClick={() => window.location.reload()}>
+          <button onClick={() => void this.clearCachesAndReload()}>
             Опресни страницата
           </button>
           {import.meta.env.DEV && this.state.error && (

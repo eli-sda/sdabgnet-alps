@@ -1,3 +1,6 @@
+$videoAspectRatio: #{16}/#{9};
+$maxItemWidth: 340px;
+
 .video-grid-container {
   display: grid;
   gap: 2.5rem;
@@ -9,25 +12,30 @@
 
   & > * {
     width: 100%;
-    max-width: 340px;
+    max-width: $maxItemWidth;
     margin-left: auto;
     margin-right: auto;
     min-width: 0;
   }
 
+  .video-playlist-default-icon {
+    aspect-ratio: $videoAspectRatio;
+  }
+
   .single-video-item {
-    float: none;
     display: flex;
     flex-direction: column;
     justify-content: space-between; // to align the buttons
   }
 
   .media-playlist-list {
-    margin-top: 0;
-    display: block;
+    display: contents;
 
     .playlist-item {
       width: 100%;
+      max-width: $maxItemWidth;
+      margin-left: auto;
+      margin-right: auto;
       padding-left: 0;
       padding-right: 0;
 
@@ -37,7 +45,7 @@
 
       .playlist-card {
         picture {
-          aspect-ratio: 16 / 9;
+          aspect-ratio: $videoAspectRatio;
           img {
             width: 100%;
             height: auto;

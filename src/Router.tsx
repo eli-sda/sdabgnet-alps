@@ -21,7 +21,9 @@ const LessonsSearch = lazy(() => import('./pages/lessonsSearch/LessonsSearch'));
 const Churches = lazy(() => import('./pages/Churches'));
 const Books = lazy(() => import('./pages/resources/books/Books'));
 const Events = lazy(() => import('./pages/events/Events'));
-const HealthInstitutions = lazy(() => import('./pages/health/HealthInstitutions'));
+const HealthInstitutions = lazy(
+  () => import('./pages/health/HealthInstitutions')
+);
 const ChurchLife = lazy(() => import('./pages/ChurchLife'));
 const Info = lazy(() => import('./pages/Info'));
 const Commune = lazy(() => import('./pages/Commune'));
@@ -60,7 +62,7 @@ const AdventistsOnline = lazy(() => import('./pages/links/AdventistsOnline'));
 const Links = lazy(() => import('./pages/links/Links'));
 const Institutions = lazy(() => import('./pages/links/Institutions'));
 const SunsetCalendarPage = lazy(() => import('./pages/sunset/SunsetCalendar'));
-const Dictionary = lazy(() => import('./pages/Dictionary'));
+const Dictionary = lazy(() => import('./pages/dictionary/Dictionary'));
 const Music = lazy(() => import('./pages/resources/music/Music'));
 const Biblical = lazy(() => import('./pages/biblical/Biblical'));
 const Bibles = lazy(() => import('./pages/bibles/Bibles'));
@@ -74,6 +76,10 @@ const Videoteka = lazy(() => import('./pages/videoteka/Videoteka'));
 const Recipes = lazy(() => import('./pages/health/Recipes'));
 const Changelog = lazy(() => import('./pages/changelog/Changelog'));
 const NewStart = lazy(() => import('./pages/health/newStart/NewStart'));
+const HealthVideos = lazy(() => import('./pages/health/HealthVideos'));
+const HealthBooks = lazy(() => import('./pages/health/HealthBooks'));
+const FacebookGroups = lazy(() => import('./pages/FacebookGroups'));
+const Services = lazy(() => import('./pages/health/Services'));
 
 // const theme = createTheme();
 
@@ -167,6 +173,10 @@ const Router = () => (
           <Route
             path={routes.commune('pastor-online')}
             element={<PastorOnline />}
+          />
+          <Route
+            path={routes.commune('facebook-groups')}
+            element={<FacebookGroups />}
           />
           <Route path={routes.churchLife('poetry')} element={<Poetry />} />
           {/* Църковен живот - Обяви*/}
@@ -265,11 +275,14 @@ const Router = () => (
           {/* Здраве */}
           <Route path={routes.health()} element={<Health />} />
           <Route path={routes.health('new-start')} element={<NewStart />} />
+          <Route path={routes.health('video')} element={<HealthVideos />} />
+          <Route path={routes.health('books')} element={<HealthBooks />} />
           <Route path={routes.health('recipes')} element={<Recipes />} />
           <Route
             path={routes.health('institutions')}
             element={<HealthInstitutions />}
           />
+          <Route path={routes.health('services')} element={<Services />} />
 
           {/* За нас */}
           <Route path={routes.about()} element={<About />} />
@@ -282,7 +295,7 @@ const Router = () => (
           {/* Какво ново */}
           <Route path={routes.changelog} element={<Changelog />} />
 
-          {/* 
+          {/*
           <Route path="teams" element={<Teams />}>
             <Route path=":teamId" element={<Team />} />
             <Route path="new" element={<NewTeamForm />} />

@@ -9,13 +9,15 @@ type AudioPlaylistListProps = {
   playlists?: PlaylistType[];
   showDownloadAll?: boolean;
   defaultImageIcon?: ReactNode;
+  withListPadding?: boolean;
 };
 
 const AudioPlaylistListComponent = ({
   pagePath,
   playlists,
   showDownloadAll = true,
-  defaultImageIcon 
+  defaultImageIcon,
+  withListPadding = false
 }: AudioPlaylistListProps) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const playerRef = useRef<AudioPlayerHandle | null>(null);
@@ -23,7 +25,7 @@ const AudioPlaylistListComponent = ({
   return (
     <AudioPlayerProvider playerRef={playerRef}>
       <MediaPlaylistList
-        className="u-space--top"
+        className={`u-space--top${withListPadding ? ' u-padding--sides' : ''}`}
         pagePath={pagePath}
         mediaPlaylists={playlists}
         mediaType={'audio'}

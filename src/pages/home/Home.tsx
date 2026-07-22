@@ -15,14 +15,19 @@ import { CallForHelp } from 'src/components/CallForHelp';
 // import { deleteAllLinks } from 'src/utils/DelteSanityDocuments';
 // import { fixSlugs } from 'src/utils/Sanity/fix-slug';
 // import {
-//   // linkPlaylistsToItems,
-//   // linkMusicPlaylistsToItems,
-//   // linkBibleVideoPlaylistsToItems,
-//   linkTestimoniesVideoPlaylistsToItems
+// linkPlaylistsToItems,
+// linkMusicPlaylistsToItems,
+// linkBibleVideoPlaylistsToItems,
+// linkTestimoniesVideoPlaylistsToItems
 // linkBookPlaylistsToItems
+// linkHealthPlaylistsToItems
+// linkVideosPlaylistsToItems
 // } from 'src/utils/Sanity/link-playlists';
 // import { deleteAllAudioLinks } from 'src/utils/Sanity/delete-audio-links';
 // import { cleanupPlaylistItems } from 'src/utils/Sanity/cleanup-playlist-items';
+// import { updateVideoTopics } from 'src/utils/Sanity/updateVideoTopics';
+// import { cleanNumericKeywords } from 'src/utils/Sanity/cleanNumericKeywords';
+// import { formatEpisodeTitles } from 'src/utils/Sanity/formatEpisodeTitles';
 
 // for DEMO:
 // import { TestLinks } from 'src/components/TestLinks';
@@ -32,9 +37,10 @@ import { HomeTopContainer } from './HomeTopContainer';
 // import DailyVerseDark from 'src/components/dailyVerse/DailyVerseDark';
 // import { VideoDemo } from '../components/media/video/demo/VideoDemo';
 // import { FeedDemo } from 'src/components/rssFeed/demo/FeedDemo';
-import { useScrollToHash } from 'src/hooks/useScrollToHash';
-
 // import LatestAdvertisementsDemo from '../advertisement/LatestAdvertisementsDemo';
+// import { DictionaryDemo } from '../dictionary/DictionaryDemo';
+
+import { useScrollToHash } from 'src/hooks/useScrollToHash';
 
 const Home = () => {
   const [currentDate, setCurrentDate] = useState(() => moment());
@@ -71,16 +77,11 @@ const Home = () => {
         <DailyVerse date={moment('2025-12-23')}></DailyVerse>
       </section> */}
 
-      <section className="full-page">
+      <section className="u-spacing--triple full-page">
         <HomeEvents />
-      </section>
-
-      <section className="full-page">
         <CallForHelp />
-      </section>
-
-      <section className="full-page">
         <AdvertisementsPreview />
+        <RssFeeds />
       </section>
 
       {/* <section className="u-spacing--double"> */}
@@ -122,19 +123,55 @@ const Home = () => {
         <Button onClick={() => void cleanupPlaylistItems('testimony', 'СРЕЩИ')}>
           Изтрий видеата от плейлист СРЕЩИ
         </Button>
-      </div> */} 
+      </div> */}
       {/* <div className="u-spacing--double">
         <Button onClick={() => void linkBookPlaylistsToItems()}>
           Fill Book Playlists
         </Button>
       </div> */}
+      {/* <div>
+        <Button onClick={() => void linkHealthPlaylistsToItems()}>
+          Fill Health Playlists
+        </Button>
+      </div>
+      <div>
+        <Button onClick={() => void updateVideoTopics()}>
+          Update video topics
+        </Button>
+      </div>*/}
 
-      <section className="full-page u-spacing--triple">
-        {/* <VideoDemo /> */}
-        {/* <FeedDemo /> */}
-        {/* <LatestAdvertisementsDemo /> */}
-        <RssFeeds />
-      </section>
+      {/* <div>
+        <Button onClick={() => void linkVideosPlaylistsToItems('title match "Произход*"')}>
+          Fill &quot;Произход&quot; playlists
+        </Button>
+        <Button
+          onClick={() =>
+            void linkVideosPlaylistsToItems('title match "От корица до корица*"')
+          }
+        >
+          Fill &quot;От корица до корица&quot; playlists
+        </Button>
+      </div> */}
+
+      {/* <Button
+        onClick={() =>
+          void cleanNumericKeywords(
+            'Произход - сезон 1'
+          )
+        }
+      >
+        Clean Numeric Keywords
+      </Button> */}
+      {/* <Button onClick={() => void formatEpisodeTitles('Произход - сезон 1')}>
+          Format Episode Titles
+        </Button> */}
+
+      {/* <section className="full-page u-spacing--triple"> */}
+      {/* <VideoDemo /> */}
+      {/* <FeedDemo /> */}
+      {/* <LatestAdvertisementsDemo /> */}
+      {/* <DictionaryDemo /> */}
+      {/* </section> */}
 
       <Partners />
     </section>

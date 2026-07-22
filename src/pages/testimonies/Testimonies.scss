@@ -1,6 +1,6 @@
 @use '/src/styles/colors.scss' as *;
+@use '/src/styles/const.scss' as *;
 
-$btnBorderRadius: 3.125rem;
 .testimonies-page {
   .MuiTabs-root.testimonies-tabs {
     color: $lighterMingColor;

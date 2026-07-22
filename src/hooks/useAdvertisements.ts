@@ -3,7 +3,8 @@ import { AdType } from 'src/constants';
 import { useAdvertisementsContext } from 'src/contexts/AdvertisementsContext';
 import {
   loadAdvertisements,
-  loadLatestAdvertisement
+  loadLatestAdvertisement,
+  loadHealthAdvertisements
 } from 'src/utils/FetchHelper';
 import { getTodayString } from 'src/utils/getTodayString';
 
@@ -16,7 +17,11 @@ export function useAdvertisements() {
     latestAdvertisements,
     setLatestAdvertisements,
     lastLatestLoaded,
-    setLastLatestLoaded
+    setLastLatestLoaded,
+    healthAdvertisements,
+    setHealthAdvertisements,
+    lastHealtLoaded,
+    setLastHealtLoaded
   } = useAdvertisementsContext();
 
   /**
@@ -63,10 +68,34 @@ export function useAdvertisements() {
     setLastLatestLoaded
   ]);
 
+  /**
+   * Load the health advertisements and store them in healthAdvertisements
+   * Does not modify the main advertisements map
+   */
+  const getHealthAdvertisements = useCallback(async () => {
+    const today = getTodayString();
+
+    if (healthAdvertisements && lastHealtLoaded === today) {
+      return Promise.resolve(healthAdvertisements);
+    }
+
+    const healthAds = await loadHealthAdvertisements();
+    setHealthAdvertisements(healthAds);
+    setLastHealtLoaded(today);
+    return healthAds;
+  }, [
+    healthAdvertisements,
+    lastHealtLoaded,
+    setHealthAdvertisements,
+    setLastHealtLoaded
+  ]);
+
   return {
     advertisements,
     getAdvertisements,
     latestAdvertisements,
-    getLatestAdvertisements
+    getLatestAdvertisements,
+    healthAdvertisements,
+    getHealthAdvertisements
   };
 }

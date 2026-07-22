@@ -29,8 +29,13 @@
     Header set Cache-Control "max-age=31536000, immutable"
   </FilesMatch>
 
-  # Ensure Service Worker updates are applied immediately
-  Header set Cache-Control "no-cache, no-store, must-revalidate" "expr=%{REQUEST_URI} =~ m#^/sw.js$#"
+  # sw.js must never be cached - browsers must always fetch it fresh to detect updates.
+  # This explicit FilesMatch overrides the immutable JS cache rule above.
+  <FilesMatch "^sw\.js$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires 0
+  </FilesMatch>
 
   # Disable caching for phpinfo_.php
   <FilesMatch "phpinfo_\.php$">

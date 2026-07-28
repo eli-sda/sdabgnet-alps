@@ -1,0 +1,13 @@
+@use '/src/styles/colors.scss' as *;
+
+.block-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+
+  .chip-no-bg {
+    background: none !important;
+    border: 1px solid $lightGrayColor;
+    color: inherit;
+  }
+}

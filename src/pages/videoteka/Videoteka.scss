@@ -1,4 +1,18 @@
 @use '/src/styles/colors.scss' as *;
+@use '/src/styles/tabs-bar' as tabs;
+
+.videoteka-page {
+  .MuiTabs-root.videoteka-tabs {
+    @include tabs.tabs-bar;
+  }
+
+  .MuiTabPanel-root.videoteka-tab-panel {
+    width: 100%;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
 
 .videoteka-playlist-group {
   border-top: 2px solid $lightGrayColor;

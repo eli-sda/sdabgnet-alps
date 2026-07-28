@@ -1,7 +1,8 @@
-import { Chip } from '@mui/material';
 import { LinkType, TopicType } from 'src/contexts/PlaylistsContext';
-import './VideoLinkBlock.scss';
+
 import { cleanedDescription } from 'src/utils/Links';
+import { TopicsBlock } from './TopicsBlock';
+import './VideoLinkBlock.scss';
 
 interface VideoLinkBlockProps {
   video: LinkType;
@@ -86,20 +87,7 @@ export const VideoLinkBlock = ({
                     {playlistName}
                   </span>
                 )}
-                {video.topics && video.topics.length > 0 && (
-                  <div className="video-block-topics">
-                    {video.topics.map((topic) => (
-                      <Chip
-                        key={topic._id}
-                        label={topic.title}
-                        size="small"
-                        className={
-                          appliedIds.has(topic._id) ? '' : 'chip-no-bg'
-                        }
-                      />
-                    ))}
-                  </div>
-                )}
+                <TopicsBlock topics={video.topics} appliedIds={appliedIds} />
               </div>
             )}
           </div>

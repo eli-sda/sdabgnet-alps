@@ -252,6 +252,25 @@ export const loadAllTopics = async (): Promise<
   return await client.fetch(query);
 };
 
+/** Topics referenced by non-resource video links */
+export const loadAllVideoTopics = async (): Promise<
+  { _id: string; title: string }[]
+> => {
+  const query = `*[_type == "topic" && _id in *[_type == "link" && type == "video" && isResource != true].topics[]._ref] | order(title asc) { _id, title }`;
+  return await client.fetch(query);
+};
+
+/** Topics referenced by embedded video playlists or YouTube-link playlists */
+export const loadAllPlaylistTopics = async (): Promise<
+  { _id: string; title: string }[]
+> => {
+  const query = `*[_type == "topic" && (
+    _id in *[_type == "playlist" && type == "video" && isResource != true].topics[]._ref ||
+    _id in *[_type == "link" && type == "playlist" && isResource != true].topics[]._ref
+  )] | order(title asc) { _id, title }`;
+  return await client.fetch(query);
+};
+
 const TITLE_PREFIX_RE = /^(д-р|п-р|проф\.|професор)\s+/i;
 
 const stripTitlePrefix = (name: string) =>
@@ -338,6 +357,93 @@ export const loadVideosByFilters = async (
       } as LinkType;
     })
     .sort((a, b) => collator.compare(a.title, b.title));
+};
+
+export const loadAllPlaylistAuthors = async (): Promise<string[]> => {
+  // Authors from embedded playlists
+  const embeddedQuery = `array::unique(*[_type == "playlist" && type == "video" && isResource != true && defined(author) && author != ""].author)`;
+  // Authors from YouTube-link playlists
+  const ytQuery = `array::unique(*[_type == "link" && type == "playlist" && isResource != true && defined(author) && author != ""].author)`;
+
+  const [embedded, yt] = await Promise.all([
+    client.fetch<string[]>(embeddedQuery),
+    client.fetch<string[]>(ytQuery)
+  ]);
+
+  const seen = new Map<string, string>();
+  for (const a of [...embedded, ...yt]) {
+    const normalized = normalizeAuthor(a);
+    const key = normalized.toLowerCase();
+    if (!seen.has(key)) seen.set(key, normalized);
+  }
+  return [...seen.values()].sort((a, b) =>
+    stripTitlePrefix(a).localeCompare(stripTitlePrefix(b), 'bg')
+  );
+};
+
+export type PlaylistSearchResults = {
+  embedded: PlaylistType[];
+  ytLinks: LinkType[];
+};
+
+export const loadPlaylistsByFilters = async (
+  topicIds: string[],
+  author: string,
+  text: string
+): Promise<PlaylistSearchResults> => {
+  const topicFilter =
+    topicIds.length > 0 ? '&& count(topics[_ref in $topicIds]) > 0' : '';
+  const authorFilter = author
+    ? '&& lower(coalesce(author, "")) == lower($author)'
+    : '';
+  const textFilter = text
+    ? '&& (lower(coalesce(title, "")) match $textPattern || lower(coalesce(description, "")) match $textPattern)'
+    : '';
+  const params: Record<string, unknown> = {};
+  if (topicIds.length > 0) params.topicIds = topicIds;
+  if (author) params.author = author;
+  if (text) params.textPattern = `*${text.toLowerCase()}*`;
+
+  const embeddedQuery = `*[
+    _type == "playlist"
+    && type == "video"
+    && isResource != true
+    && count(items[_type == "reference"]) > 0
+    ${topicFilter}
+    ${authorFilter}
+    ${textFilter}
+  ] | order(title asc) {
+    _id,
+    author,
+    title,
+    description,
+    "imageUrl": image.asset -> url,
+    "topics": topics[]->{ _id, title },
+    "items": items[_type == "reference"]->{_id, author, title, description, "path": URL, size}
+  }`;
+
+  const ytQuery = `*[
+    _type == "link"
+    && type == "playlist"
+    && isResource != true
+    ${topicFilter}
+    ${authorFilter}
+    ${textFilter}
+  ] | order(title asc) {
+    _id,
+    title,
+    description,
+    author,
+    "topics": topics[]->{ _id, title },
+    "path": URL
+  }`;
+
+  const [embedded, ytLinks] = await Promise.all([
+    client.fetch<PlaylistType[]>(embeddedQuery, params),
+    client.fetch<LinkType[]>(ytQuery, params)
+  ]);
+
+  return { embedded, ytLinks };
 };
 
 export const loadSeminarRelatedPresentations = async (): Promise<

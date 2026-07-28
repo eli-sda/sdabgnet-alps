@@ -25,6 +25,8 @@
   &__content {
     flex: 1;
     min-width: 0;
+    // keep the new lines in plain text (for description)
+    white-space: pre-line;
   }
   &__meta {
     display: flex;

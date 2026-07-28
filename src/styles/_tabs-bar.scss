@@ -1,0 +1,40 @@
+@use '/src/styles/const.scss' as *;
+@use '/src/styles/colors.scss' as *;
+
+/// Renders a MUI TabList styled as a connected button group.
+@mixin tabs-bar {
+  color: $lighterMingColor;
+  width: 100%;
+
+  .MuiTabs-list {
+    &.MuiTabs-flexContainer {
+      @media (min-width: 665px) {
+        justify-content: center;
+      }
+    }
+
+    button.MuiTab-root {
+      line-height: 1;
+      font-family: inherit;
+      font-weight: bold;
+      border-radius: 0;
+      border-width: 1px;
+      border-style: solid;
+
+      &:first-child {
+        border-top-left-radius: $btnBorderRadius;
+        border-bottom-left-radius: $btnBorderRadius;
+      }
+
+      &:last-child {
+        border-top-right-radius: $btnBorderRadius;
+        border-bottom-right-radius: $btnBorderRadius;
+      }
+
+      &.Mui-selected {
+        background-color: $lighterMingColor;
+        color: $mingDarkestColor !important;
+      }
+    }
+  }
+}

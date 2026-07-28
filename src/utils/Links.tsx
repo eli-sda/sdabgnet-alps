@@ -161,8 +161,8 @@ export const newLinesWithLinks = (text: string): React.ReactNode[] => {
 };
 
 /** Converts markdown-style links [text](url) in an HTML string to <a> tags, preserving existing HTML. */
-export const parseLinksMdToHtml = (html: string): string =>
-  html.replace(
+export const parseLinksMdToHtml = (html?: string): string | undefined =>
+  html?.replace(
     new RegExp(MD_LINK_REGEX.source, 'g'),
     (_, linkText: string, linkUrl: string) => {
       const isExternal = linkUrl.startsWith('http');
@@ -171,7 +171,7 @@ export const parseLinksMdToHtml = (html: string): string =>
         : '';
       return `<a href="${linkUrl}" class="u-theme--link-hover--dark"${attrs}>${linkText}</a>`;
     }
-  );
+  ) ?? html;
 
 //to remove thumbnail from description if it exists (for rumble videos we put the thumbnail in the description)
 export const cleanedDescription = (description: string): string =>

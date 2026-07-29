@@ -13,6 +13,7 @@ import { CarouselAdsProvider } from './providers/CarouselAdsProvider';
 import { RssFeedProvider } from './providers/RssFeedProvider';
 import { PoetryProvider } from './providers/PoetryProvider';
 import { DictionaryProvider } from './providers/DictionaryProvider';
+import { VideotekaProvider } from './providers/VideotekaProvider';
 
 import './App.scss';
 
@@ -44,6 +45,7 @@ const App = () => {
               <PoetryProvider>
                 <DictionaryProvider>
                   <SunsetProvider>
+                    <VideotekaProvider>
                     <PlaylistsProvider>
                       <CalendarEventsProvider>
                         <RssFeedProvider>
@@ -55,6 +57,7 @@ const App = () => {
                         </RssFeedProvider>
                       </CalendarEventsProvider>
                     </PlaylistsProvider>
+                    </VideotekaProvider>
                   </SunsetProvider>
                 </DictionaryProvider>
               </PoetryProvider>

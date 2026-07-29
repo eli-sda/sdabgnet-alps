@@ -170,11 +170,7 @@ export const loadPlaylists = async (
 ): Promise<PlaylistType[]> => {
   const titleFilter = title ? `&& title == '${title}'` : '';
   const isResourceFilter =
-    isResource === true
-      ? '&& isResource == true'
-      : isResource === false
-        ? '&& (isResource != true)'
-        : '';
+    isResource === undefined ? '' : `&& isResource ${isResource ? '==' : '!='} true`;
 
   const playlistQuery = `*[
     _type == "playlist"
@@ -277,7 +273,7 @@ const stripTitlePrefix = (name: string) =>
   name.replace(TITLE_PREFIX_RE, '').trim();
 
 const normalizeAuthor = (name: string): string => {
-  const match = name.match(TITLE_PREFIX_RE);
+  const match = new RegExp(TITLE_PREFIX_RE).exec(name);
   if (!match) return name;
   const prefix = match[1].toLowerCase().replace('професор', 'проф.');
   const canonicalPrefix = prefix.charAt(0).toUpperCase() + prefix.slice(1);
@@ -322,8 +318,8 @@ export const loadVideosByFilters = async (
     params.topicIds = topicIds;
   }
   if (author) {
-    filterParts.push('lower(coalesce(author, "")) == lower($author)');
-    params.author = author;
+    filterParts.push('lower(coalesce(author, "")) match $authorPattern');
+    params.authorPattern = `*${author.toLowerCase()}*`;
   }
   if (text) {
     filterParts.push(
@@ -360,18 +356,14 @@ export const loadVideosByFilters = async (
 };
 
 export const loadAllPlaylistAuthors = async (): Promise<string[]> => {
-  // Authors from embedded playlists
-  const embeddedQuery = `array::unique(*[_type == "playlist" && type == "video" && isResource != true && defined(author) && author != ""].author)`;
-  // Authors from YouTube-link playlists
-  const ytQuery = `array::unique(*[_type == "link" && type == "playlist" && isResource != true && defined(author) && author != ""].author)`;
-
-  const [embedded, yt] = await Promise.all([
-    client.fetch<string[]>(embeddedQuery),
-    client.fetch<string[]>(ytQuery)
-  ]);
+  const query = `array::unique(
+    *[_type == "playlist" && type == "video" && isResource != true && defined(author) && author != ""].author
+    + *[_type == "link" && type == "playlist" && isResource != true && defined(author) && author != ""].author
+  )`;
+  const authors = await client.fetch<string[]>(query);
 
   const seen = new Map<string, string>();
-  for (const a of [...embedded, ...yt]) {
+  for (const a of authors) {
     const normalized = normalizeAuthor(a);
     const key = normalized.toLowerCase();
     if (!seen.has(key)) seen.set(key, normalized);
@@ -394,14 +386,14 @@ export const loadPlaylistsByFilters = async (
   const topicFilter =
     topicIds.length > 0 ? '&& count(topics[_ref in $topicIds]) > 0' : '';
   const authorFilter = author
-    ? '&& lower(coalesce(author, "")) == lower($author)'
+    ? '&& lower(coalesce(author, "")) match $authorPattern'
     : '';
   const textFilter = text
     ? '&& (lower(coalesce(title, "")) match $textPattern || lower(coalesce(description, "")) match $textPattern)'
     : '';
   const params: Record<string, unknown> = {};
   if (topicIds.length > 0) params.topicIds = topicIds;
-  if (author) params.author = author;
+  if (author) params.authorPattern = `*${author.toLowerCase()}*`;
   if (text) params.textPattern = `*${text.toLowerCase()}*`;
 
   const embeddedQuery = `*[
@@ -550,7 +542,7 @@ export const loadSunset = async (
 
   const evts: { title: string; start: string; end: string }[] = [];
   for (const r of results) {
-    if (!r.json || r.json.status !== 'OK') continue;
+    if (r.json?.status !== 'OK') continue;
     const sunset = moment(r.json.results.sunset).format('HH:mm');
     const parts = sunset.split(':').map(Number);
     const start = r.date.clone().hour(parts[0]).minute(parts[1]);

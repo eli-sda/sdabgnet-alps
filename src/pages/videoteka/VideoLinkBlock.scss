@@ -28,6 +28,12 @@
     // keep the new lines in plain text (for description)
     white-space: pre-line;
   }
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
   &__meta {
     display: flex;
     flex-direction: column;

@@ -6,10 +6,10 @@ import { getTitle } from 'src/utils/Navigation';
 import { LinksData, MediaListSection } from './MediaLinksPage';
 
 const Institutions = (): JSX.Element => {
-  useScrollToHash();
   const breadcrumbsUrls = [routes.media(), routes.media('institutions')];
 
   const [institutions, setInstitutions] = useState<LinksData[]>([]);
+  useScrollToHash({ enabled: institutions.length > 0 });
 
   useEffect(() => {
     fetch('/json/institutions.json')

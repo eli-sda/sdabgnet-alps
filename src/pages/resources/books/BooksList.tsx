@@ -19,7 +19,7 @@ const BooksList = ({
   items,
   isFiltered
 }: PlaylistType & { isFiltered?: boolean }) => {
-  useScrollToHash();
+  useScrollToHash({ delayMs: 1000 });
   const { hash } = useLocation();
   const activeBookId = useHashActive();
 

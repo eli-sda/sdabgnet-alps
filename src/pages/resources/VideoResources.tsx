@@ -13,16 +13,17 @@ import { SUBPAGE_KICKER } from './Resources';
 const videoPath = routes.resources('video');
 
 const VideoResources = () => {
-  useScrollToHash();
-
   const breadcrumbsUrls = [routes.resources(), videoPath];
   const { getPagePlaylists } = usePlaylists();
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
+  const [playlistsLoaded, setPlaylistsLoaded] = useState(false);
+  useScrollToHash({ enabled: playlistsLoaded, delayMs: 1000 });
 
   useEffect(() => {
     getPagePlaylists(videoPath)
       .then(setPlaylists)
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
+      .finally(() => setPlaylistsLoaded(true));
   }, [getPagePlaylists]);
 
   return (
@@ -43,7 +44,7 @@ const VideoResources = () => {
         {/* Map playlists to DownloadList */}
         {playlists.map(({ _id, title, author, items }, i) => (
           <DownloadList
-            key={i}
+            key={_id || i}
             id={_id}
             title={title}
             author={author}

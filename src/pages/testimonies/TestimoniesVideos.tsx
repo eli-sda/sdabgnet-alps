@@ -7,11 +7,10 @@ import VideoGrid from 'src/components/media/video/videoGrid/VideoGrid';
 const testimonyVideosPath = '/church_life/testimonies';
 
 const TestimoniesVideos = () => {
-  useScrollToHash();
-
   const { getPagePlaylists } = usePlaylists();
 
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
+  useScrollToHash({ enabled: playlists.length > 0 });
 
   useEffect(() => {
     getPagePlaylists(testimonyVideosPath)

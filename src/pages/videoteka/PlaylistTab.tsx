@@ -5,19 +5,14 @@ import { TopicType } from 'src/contexts/PlaylistsContext';
 import { useVideotekaFilters } from 'src/hooks/useVideotekaFilters';
 import { FilterForm } from './FilterForm';
 import { PlaylistSearchBlock } from './PlaylistSearchBlock';
-
-export type PlaylistApplied = {
-  topic: TopicType | null;
-  author: string;
-  text: string;
-};
+import type { SearchSource, VideotekaApplied } from './types';
 
 export interface PlaylistTabProps {
   isActive: boolean;
   initTopicTitle: string;
   initAuthor: string;
   initText: string;
-  onSearch: (applied: PlaylistApplied) => void;
+  onSearch: (applied: VideotekaApplied, source?: SearchSource) => void;
 }
 
 export const PlaylistTab = ({
@@ -33,7 +28,7 @@ export const PlaylistTab = ({
   const [pTopic, setPTopic] = useState<TopicType | null>(null);
   const [pAuthor, setPAuthor] = useState<string | null>(null);
   const [pText, setPText] = useState(initText);
-  const [pApplied, setPApplied] = useState<PlaylistApplied | null>(null);
+  const [pApplied, setPApplied] = useState<VideotekaApplied | null>(null);
   const [playlists, setPlaylists] = useState<PlaylistSearchResults>({ embedded: [], ytLinks: [] });
   const [pLoading, setPLoading] = useState(false);
 
@@ -56,9 +51,9 @@ export const PlaylistTab = ({
           setPTopic(resolved);
           setPAuthor(initAuthor || null);
           setPText(initText);
-          const applied: PlaylistApplied = { topic: resolved, author: initAuthor, text: initText };
+          const applied: VideotekaApplied = { topic: resolved, author: initAuthor, text: initText };
           setPApplied(applied);
-          onSearchRef.current(applied);
+          onSearchRef.current(applied, 'init');
         }
       })
       .catch((err) => console.error('Failed to load playlist data', err));
@@ -87,9 +82,9 @@ export const PlaylistTab = ({
     !pLoading && pHasApplied && playlists.embedded.length === 0 && playlists.ytLinks.length === 0;
 
   const handleSearch = () => {
-    const applied: PlaylistApplied = { topic: pTopic, author: pAuthor ?? '', text: pText.trim() };
+    const applied: VideotekaApplied = { topic: pTopic, author: pAuthor ?? '', text: pText.trim() };
     setPApplied(applied);
-    onSearch(applied);
+    onSearch(applied, 'user');
   };
 
   return (

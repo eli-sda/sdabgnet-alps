@@ -2,8 +2,10 @@ import { useEffect, useRef, useState, useMemo } from 'react';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import { Button } from 'src/alps/atoms/Button';
 import { LinkType, TopicType, PlaylistType } from 'src/contexts/PlaylistsContext';
+import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { useVideotekaFilters } from 'src/hooks/useVideotekaFilters';
 import { FilterForm } from './FilterForm';
+import type { SearchSource, VideotekaApplied } from './types';
 import { VideoLinkBlock } from './VideoLinkBlock';
 import { VideoPlayerDialog } from 'src/components/media/video/VideoPlayerDialog';
 
@@ -13,18 +15,12 @@ type VideoGroup = {
   videos: LinkType[];
 };
 
-export type VideoApplied = {
-  topic: TopicType | null;
-  author: string;
-  text: string;
-};
-
 export interface VideoTabProps {
   isActive: boolean;
   initTopicTitle: string;
   initAuthor: string;
   initText: string;
-  onSearch: (applied: VideoApplied) => void;
+  onSearch: (applied: VideotekaApplied, source?: SearchSource) => void;
 }
 
 export const VideoTab = ({
@@ -40,7 +36,7 @@ export const VideoTab = ({
   const [vTopic, setVTopic] = useState<TopicType | null>(null);
   const [vAuthor, setVAuthor] = useState<string | null>(null);
   const [vText, setVText] = useState(initText);
-  const [vApplied, setVApplied] = useState<VideoApplied | null>(null);
+  const [vApplied, setVApplied] = useState<VideotekaApplied | null>(null);
   const [videos, setVideos] = useState<LinkType[]>([]);
   const [vLoading, setVLoading] = useState(false);
   const [dialogPlaylist, setDialogPlaylist] = useState<PlaylistType | null>(null);
@@ -65,9 +61,9 @@ export const VideoTab = ({
           setVTopic(resolved);
           setVAuthor(initAuthor || null);
           setVText(initText);
-          const applied: VideoApplied = { topic: resolved, author: initAuthor, text: initText };
+          const applied: VideotekaApplied = { topic: resolved, author: initAuthor, text: initText };
           setVApplied(applied);
-          onSearchRef.current(applied);
+          onSearchRef.current(applied, 'init');
         }
       })
       .catch((err) => console.error('Failed to load video data', err));
@@ -96,6 +92,10 @@ export const VideoTab = ({
     [videos]
   );
 
+  useScrollToHash({
+    enabled: !vLoading && youtubeVideos.length > 0
+  });
+
   useEffect(() => {
     setSelectedIds(new Set());
   }, [vApplied]);
@@ -103,7 +103,7 @@ export const VideoTab = ({
   const groupedVideos = useMemo((): VideoGroup[] => {
     const map = new Map<string | null, LinkType[]>();
     youtubeVideos.forEach((video: LinkType) => {
-      const key = (video.playlistId as string | undefined) ?? null;
+      const key = video.playlistId ?? null;
       let arr = map.get(key);
       if (!arr) {
         arr = [];
@@ -153,9 +153,9 @@ export const VideoTab = ({
   const vHasApplied = vApplied && (!!vApplied.topic || !!vApplied.author || !!vApplied.text);
 
   const handleSearch = () => {
-    const applied: VideoApplied = { topic: vTopic, author: vAuthor ?? '', text: vText.trim() };
+    const applied: VideotekaApplied = { topic: vTopic, author: vAuthor ?? '', text: vText.trim() };
     setVApplied(applied);
-    onSearch(applied);
+    onSearch(applied, 'user');
   };
 
   return (

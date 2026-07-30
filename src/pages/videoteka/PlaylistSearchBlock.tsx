@@ -4,7 +4,6 @@ import {
   TopicType
 } from 'src/contexts/PlaylistsContext';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
-
 import { TopicsBlock } from './TopicsBlock';
 
 interface PlaylistSearchBlockProps {
@@ -29,7 +28,17 @@ export const PlaylistSearchBlock = ({
           <h2 className="u-font--primary--m u-theme--color--darker">
             Видео поредици ({embedded.length})
           </h2>
-          <VideoPlaylistList playlists={embedded} withListPadding={false} />
+          <VideoPlaylistList
+            playlists={embedded}
+            withListPadding={false}
+            renderPlaylistExtra={(playlist) => (
+              <TopicsBlock topics={playlist.topics} appliedIds={appliedIds} />
+            )}
+            getShareBaseParams={(playlist) => ({
+              tab: 'playlists',
+              pText: playlist.title || ''
+            })}
+          />
         </section>
       )}
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -7,8 +7,9 @@ import TabList from '@mui/lab/TabList';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
-import { VideoTab, VideoApplied } from './VideoTab';
-import { PlaylistTab, PlaylistApplied } from './PlaylistTab';
+import type { SearchSource, VideotekaApplied } from './types';
+import { VideoTab } from './VideoTab';
+import { PlaylistTab } from './PlaylistTab';
 import './Videoteka.scss';
 
 type ActiveTab = 'videos' | 'playlists';
@@ -50,18 +51,16 @@ function saveSession(s: VideotekaSession): void {
 // URL helpers — extracted to keep component function complexity under limit
 // ---------------------------------------------------------------------------
 
-function applyVideoParams(next: URLSearchParams, applied: VideoApplied | null) {
-  next.delete('pTopic'); next.delete('pAuthor'); next.delete('pText');
-  if (applied?.topic) next.set('vTopic', applied.topic.title); else next.delete('vTopic');
-  if (applied?.author) next.set('vAuthor', applied.author); else next.delete('vAuthor');
-  if (applied?.text) next.set('vText', applied.text); else next.delete('vText');
-}
+function applyTabParams(
+  next: URLSearchParams,
+  tab: ActiveTab,
+  applied: VideotekaApplied | null
+) {
+  const prefix = tab === 'videos' ? 'v' : 'p';
 
-function applyPlaylistParams(next: URLSearchParams, applied: PlaylistApplied | null) {
-  next.delete('vTopic'); next.delete('vAuthor'); next.delete('vText');
-  if (applied?.topic) next.set('pTopic', applied.topic.title); else next.delete('pTopic');
-  if (applied?.author) next.set('pAuthor', applied.author); else next.delete('pAuthor');
-  if (applied?.text) next.set('pText', applied.text); else next.delete('pText');
+  if (applied?.topic) next.set(`${prefix}Topic`, applied.topic.title); else next.delete(`${prefix}Topic`);
+  if (applied?.author) next.set(`${prefix}Author`, applied.author); else next.delete(`${prefix}Author`);
+  if (applied?.text) next.set(`${prefix}Text`, applied.text); else next.delete(`${prefix}Text`);
 }
 
 // ---------------------------------------------------------------------------
@@ -70,7 +69,9 @@ function applyPlaylistParams(next: URLSearchParams, applied: PlaylistApplied | n
 
 const Videoteka = () => {
   const breadcrumbsUrls = [routes.videoteka];
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   // URL params take priority; fall back to last session when navigating without params
   const hasUrlFilters =
@@ -96,38 +97,47 @@ const Videoteka = () => {
   const [activeTab, setActiveTab] = React.useState<ActiveTab>(initRef.current.tab);
 
   // Applied filters tracked here for URL sync and session save only
-  const [vApplied, setVApplied] = useState<VideoApplied | null>(null);
-  const [pApplied, setPApplied] = useState<PlaylistApplied | null>(null);
+  const [vApplied, setVApplied] = useState<VideotekaApplied | null>(null);
+  const [pApplied, setPApplied] = useState<VideotekaApplied | null>(null);
+
+  const updateParams = (
+    tab: ActiveTab,
+    applied: VideotekaApplied | null,
+    source: SearchSource = 'user'
+  ) => {
+    const next =
+      source === 'init' ? new URLSearchParams(searchParams) : new URLSearchParams();
+
+    next.set('tab', tab);
+    applyTabParams(next, tab, applied);
+
+    navigate(
+      source === 'init'
+        ? { search: '?' + next.toString(), hash: location.hash }
+        : { search: '?' + next.toString() },
+      { replace: true }
+    );
+  };
 
   const handleTabChange = (_e: React.SyntheticEvent, v: ActiveTab) => {
     setActiveTab(v);
-    setSearchParams((prev) => {
-      const next = new URLSearchParams(prev);
-      next.set('tab', v);
-      if (v === 'videos') applyVideoParams(next, vApplied);
-      else applyPlaylistParams(next, pApplied);
-      return next;
-    });
+    updateParams(v, v === 'videos' ? vApplied : pApplied);
   };
 
-  const handleVideoSearch = (applied: VideoApplied) => {
+  const handleVideoSearch = (
+    applied: VideotekaApplied,
+    source: SearchSource = 'user'
+  ) => {
     setVApplied(applied);
-    setSearchParams((prev) => {
-      const next = new URLSearchParams(prev);
-      next.set('tab', 'videos');
-      applyVideoParams(next, applied);
-      return next;
-    });
+    updateParams('videos', applied, source);
   };
 
-  const handlePlaylistSearch = (applied: PlaylistApplied) => {
+  const handlePlaylistSearch = (
+    applied: VideotekaApplied,
+    source: SearchSource = 'user'
+  ) => {
     setPApplied(applied);
-    setSearchParams((prev) => {
-      const next = new URLSearchParams(prev);
-      next.set('tab', 'playlists');
-      applyPlaylistParams(next, applied);
-      return next;
-    });
+    updateParams('playlists', applied, source);
   };
 
   // Persist applied filters so navigating away and back restores the last search

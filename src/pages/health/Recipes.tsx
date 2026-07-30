@@ -25,7 +25,7 @@ const Recipes = (): JSX.Element => {
 
   const [recipes, setRecipes] = useState<LinksData[]>([]);
   const [reels, setReels] = useState<Map<string, ReelRecipe[]>>(new Map());
-  useScrollToHash();
+  useScrollToHash({ enabled: recipes.length > 0 });
 
   useEffect(() => {
     fetch('/json/recipes.json')

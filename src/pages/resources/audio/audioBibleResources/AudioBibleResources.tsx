@@ -12,7 +12,7 @@ import BibleAudioPalylist from './BibleAudioPalylist';
 import bibles_data from './audio_bible.json';
 
 const AudioBibleResources = () => {
-  useScrollToHash();
+  useScrollToHash({ delayMs: 1000 });
 
   const breadcrumbs = [
     routes.resources(),

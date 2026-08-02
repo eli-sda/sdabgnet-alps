@@ -26,17 +26,20 @@ const LessonAudio: React.FC<LessonAudioProps> = ({
   }, []);
 
   const audioUrl = `https://web.3-16.bg/lessons/${year}_Q${quarter}/${year}_Q${quarter}_Lesson_${week}.mp3`;
-
+  const audioLists = React.useMemo(
+    () => [
+      {
+        name: `Урок ${week} ${title}`,
+        singer: 'Радио 3:16',
+        cover: '/img/logos/radio3-16_white_red.svg',
+        musicSrc: audioUrl
+      }
+    ],
+    [audioUrl, week, title]
+  );
   return (
     <ReactJkMusicPlayer
-      audioLists={[
-        {
-          name: `Урок ${week} ${title}`,
-          singer: `Радио 3:16`,
-          cover: '/img/logos/radio3-16_white_red.svg',
-          musicSrc: audioUrl
-        }
-      ]}
+      audioLists={audioLists}
       mode="full"
       defaultPosition={{
         right: 100,

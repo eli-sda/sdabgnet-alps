@@ -283,6 +283,9 @@ const LessonCont = ({
     );
   }, [video, videoDiscussion, videoComment, passedLessons, cqVideoDiscussion]);
 
+  const [audioContainer, setAudioContainer] =
+    React.useState<HTMLElement | null>(null);
+
   return (
     <>
       {qLesson && (
@@ -295,17 +298,16 @@ const LessonCont = ({
           />
           {quarterObject?.type === '' && quarterObject.lessonYear >= 2019 && (
             <>
-              <div id="lesson-audio-container" />
-              <LessonAudio
-                year={quarterObject.lessonYear}
-                quarter={quarterObject.lessonQuarter}
-                week={qLesson.num}
-                title={qLesson.title}
-                getContainer={() =>
-                  document.getElementById('lesson-audio-container') ||
-                  document.body
-                }
-              />
+              <div ref={setAudioContainer} id="lesson-audio-container" />
+              {audioContainer && (
+                <LessonAudio
+                  year={quarterObject.lessonYear}
+                  quarter={quarterObject.lessonQuarter}
+                  week={qLesson.num}
+                  title={qLesson.title}
+                  getContainer={() => audioContainer}
+                />
+              )}
             </>
           )}
           <ArticleContent sidebar={sidebar}>

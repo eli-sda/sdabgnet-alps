@@ -12,11 +12,10 @@ import DownloadList from 'src/components/downloadList/DownloadList';
 const imagePath = routes.resources('image');
 
 const ImageResources = () => {
-  useScrollToHash();
-
   const breadcrumbsUrls = [routes.resources(), imagePath];
   const { getPagePlaylists } = usePlaylists();
   const [images, setImages] = useState<PlaylistType[]>([]);
+  useScrollToHash({ enabled: images.length > 0});
 
   useEffect(() => {
     getPagePlaylists(imagePath)

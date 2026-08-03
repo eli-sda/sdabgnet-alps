@@ -162,7 +162,7 @@ const Biblical = () => {
           >
             <strong>
               {title}
-              <i className="fas fa-external-link-alt u-space--quarter--left"></i>
+              <i className="fas fa-external-link-alt fa-sm u-space--quarter--left"></i>
             </strong>
           </a>
         </div>

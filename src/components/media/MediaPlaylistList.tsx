@@ -9,6 +9,7 @@ import {
 import { useLocation } from 'react-router-dom';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlaylists } from 'src/hooks/usePlaylists';
+import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { generateShareUrl } from 'src/utils/urlUtils';
 import PlaylistActionButtons from '../playlistButtons/PlaylistActionButtons';
 import AudioResumeDialog from './audio/AudioResumeDialog';
@@ -78,6 +79,8 @@ interface MediaPlaylistListProps {
   getCurrentTime?: () => number;
   className?: string;
   defaultImageIcon?: ReactNode;
+  renderPlaylistExtra?: (playlist: PlaylistType) => ReactNode;
+  getShareBaseParams?: (playlist: PlaylistType) => Record<string, string>;
 }
 
 const MediaPlaylistList = ({
@@ -90,7 +93,9 @@ const MediaPlaylistList = ({
   renderPlayer,
   getCurrentTime,
   className = '',
-  defaultImageIcon
+  defaultImageIcon,
+  renderPlaylistExtra,
+  getShareBaseParams
 }: MediaPlaylistListProps) => {
   const { hash, search } = useLocation();
 
@@ -121,14 +126,15 @@ const MediaPlaylistList = ({
     time?: number;
   } | null>(null);
 
+  useScrollToHash({ enabled: playlists.length > 0 && Boolean(hash) });
+
   // Determine the track ID that was initially loaded from a shared URL
   const urlTrackId = useMemo(() => {
     const playlistId =
       playlistIdFromSearch || (hash ? hash.replace('#', '') : null);
     if (
       !playlistId ||
-      !selectedPlaylist ||
-      selectedPlaylist._id !== playlistId
+      selectedPlaylist?._id !== playlistId
     ) {
       return null;
     }
@@ -191,8 +197,7 @@ const MediaPlaylistList = ({
         const matchedPlaylist = playlistArr.find((p) => p._id === playlistId);
 
         if (
-          matchedPlaylist &&
-          matchedPlaylist.items &&
+          matchedPlaylist?.items &&
           matchedPlaylist.items.length > 0 &&
           playId
         ) {
@@ -206,14 +211,17 @@ const MediaPlaylistList = ({
 
           if (timeParam && /^\d+$/.test(timeParam)) {
             // Parse initial time (integer) from URL
-            setInitialTime(parseInt(timeParam, 10));
+            setInitialTime(Number.parseInt(timeParam, 10));
           } else {
             setInitialTime(undefined);
           }
         }
 
         setSelectedPlaylist(matchedPlaylist || null);
-        if (matchedPlaylist) onPlaylistSelect?.(matchedPlaylist);
+        if (matchedPlaylist) {
+          onPlaylistSelect?.(matchedPlaylist);
+
+        }
       }
     },
     [hash, onPlaylistSelect, playId, playlistIdFromSearch, timeParam]
@@ -288,39 +296,43 @@ const MediaPlaylistList = ({
                 type={mediaType}
                 defaultImageIcon={defaultImageIcon}
                 actionButtons={
-                  <div className="u-padding--half--top">
-                    <PlaylistActionButtons
-                      shareUrl={generateShareUrl({
-                        id: playlist._id
-                      })}
-                      fromPlayId={currentItem?._id}
-                      fromTitle={currentItem?.title}
-                      itemUrls={
-                        showDownloadAll
-                          ? playlist.items
-                              ?.map((item) => item.path)
-                              .filter((path): path is string => !!path) || []
-                          : undefined
-                      }
-                      playlistName={playlist.title}
-                      getCurrentTime={getCurrentTime}
-                      simpleCopyButton={mediaType === 'video'}
-                      showSaveButton={Boolean(
-                        mediaType === 'audio' && isCurrent && currentItem
-                      )}
-                      onSaveAction={() => {
-                        if (currentItem) {
-                          const currentTime = getCurrentTime?.();
-                          saveLastPlayedMedia(
-                            playlist._id,
-                            currentItem._id,
-                            currentItem.title,
-                            currentTime
-                          );
+                  <>
+                    <div className="u-padding--half--top">
+                      <PlaylistActionButtons
+                        shareUrl={generateShareUrl({
+                          id: playlist._id
+                        })}
+                        fromPlayId={currentItem?._id}
+                        fromTitle={currentItem?.title}
+                        itemUrls={
+                          showDownloadAll
+                            ? playlist.items
+                                ?.map((item) => item.path)
+                                .filter((path): path is string => !!path) || []
+                            : undefined
                         }
-                      }}
-                    />
-                  </div>
+                        playlistName={playlist.title}
+                        getCurrentTime={getCurrentTime}
+                        shareBaseParams={getShareBaseParams?.(playlist)}
+                        simpleCopyButton={mediaType === 'video'}
+                        showSaveButton={Boolean(
+                          mediaType === 'audio' && isCurrent && currentItem
+                        )}
+                        onSaveAction={() => {
+                          if (currentItem) {
+                            const currentTime = getCurrentTime?.();
+                            saveLastPlayedMedia(
+                              playlist._id,
+                              currentItem._id,
+                              currentItem.title,
+                              currentTime
+                            );
+                          }
+                        }}
+                      />
+                    </div>
+                    {renderPlaylistExtra?.(playlist)}
+                  </>
                 }
               />
             </div>

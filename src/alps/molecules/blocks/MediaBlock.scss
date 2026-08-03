@@ -7,6 +7,7 @@
     -webkit-line-clamp: 5; /* Number of lines to show */
     line-clamp: 5; /* Standard property for compatibility */
     -webkit-box-orient: vertical;
+    white-space: pre-line; /* keep the new lines in plain text */
   }
 }
 .media-icon-button-container {

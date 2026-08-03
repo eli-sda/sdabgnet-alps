@@ -9,9 +9,8 @@ interface LinksProps {
 }
 
 const Links = ({ jsonName, mediaType }: LinksProps): JSX.Element => {
-  useScrollToHash();
-
   const [links, setLinks] = useState<LinkGroup[]>([]);
+  useScrollToHash({ enabled: links.length > 0 });
 
   useEffect(() => {
     fetch(`/json/${jsonName}.json`)

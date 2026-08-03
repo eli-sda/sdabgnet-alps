@@ -170,11 +170,7 @@ export const loadPlaylists = async (
 ): Promise<PlaylistType[]> => {
   const titleFilter = title ? `&& title == '${title}'` : '';
   const isResourceFilter =
-    isResource === true
-      ? '&& isResource == true'
-      : isResource === false
-        ? '&& (isResource == null || isResource == false)'
-        : '';
+    isResource === undefined ? '' : `&& isResource ${isResource ? '==' : '!='} true`;
 
   const playlistQuery = `*[
     _type == "playlist"
@@ -220,10 +216,8 @@ export const loadLinks = async (type: string): Promise<LinkType[]> => {
     && type == "${type}"
   ] | order(_createdAt desc) {
     _id,
-    // isResource,
     // type,
     // isResource,
-    // type,
     author,
     title,
     description,
@@ -254,38 +248,194 @@ export const loadAllTopics = async (): Promise<
   return await client.fetch(query);
 };
 
-/**
- * Load videos filtered by topic _ids (references) OR legacy keyWords strings.
- * Pass topic._id values from loadAllTopics().
- */
-export const loadLinksByTopics = async (
-  topicIds: string[]
+/** Topics referenced by non-resource video links */
+export const loadAllVideoTopics = async (): Promise<
+  { _id: string; title: string }[]
+> => {
+  const query = `*[_type == "topic" && _id in *[_type == "link" && type == "video" && isResource != true].topics[]._ref] | order(title asc) { _id, title }`;
+  return await client.fetch(query);
+};
+
+/** Topics referenced by embedded video playlists or YouTube-link playlists */
+export const loadAllPlaylistTopics = async (): Promise<
+  { _id: string; title: string }[]
+> => {
+  const query = `*[_type == "topic" && (
+    _id in *[_type == "playlist" && type == "video" && isResource != true].topics[]._ref ||
+    _id in *[_type == "link" && type == "playlist" && isResource != true].topics[]._ref
+  )] | order(title asc) { _id, title }`;
+  return await client.fetch(query);
+};
+
+const TITLE_PREFIX_RE = /^(д-р|п-р|проф\.|професор)\s+/i;
+
+const stripTitlePrefix = (name: string) =>
+  name.replace(TITLE_PREFIX_RE, '').trim();
+
+const normalizeAuthor = (name: string): string => {
+  const match = new RegExp(TITLE_PREFIX_RE).exec(name);
+  if (!match) return name;
+  const prefix = match[1].toLowerCase().replace('професор', 'проф.');
+  const canonicalPrefix = prefix.charAt(0).toUpperCase() + prefix.slice(1);
+  return `${canonicalPrefix} ${stripTitlePrefix(name)}`;
+};
+
+// load authors of not resource videos
+export const loadAllVideoAuthors = async (): Promise<string[]> => {
+  const query = `array::unique(*[_type == "link" && type == "video" && isResource != true && defined(author) && author != ""].author)`;
+  const authors: string[] = await client.fetch(query);
+  // Normalize prefix casing and deduplicate (e.g. "д-р X" and "Д-р X" → "Д-р X")
+  const seen = new Map<string, string>();
+  for (const a of authors) {
+    const normalized = normalizeAuthor(a);
+    const key = normalized.toLowerCase();
+    if (!seen.has(key)) seen.set(key, normalized);
+  }
+  return [...seen.values()].sort((a, b) =>
+    stripTitlePrefix(a).localeCompare(stripTitlePrefix(b), 'bg')
+  );
+};
+
+const collator = new Intl.Collator('bg', {
+  numeric: true,
+  sensitivity: 'base'
+});
+
+export const loadVideosByFilters = async (
+  topicIds: string[],
+  author: string,
+  text: string
 ): Promise<LinkType[]> => {
+  const filterParts: string[] = [
+    '_type == "link"',
+    'type == "video"',
+    'isResource != true'
+  ];
+  const params: Record<string, unknown> = {};
+
+  if (topicIds.length > 0) {
+    filterParts.push('count(topics[_ref in $topicIds]) > 0');
+    params.topicIds = topicIds;
+  }
+  if (author) {
+    filterParts.push('lower(coalesce(author, "")) match $authorPattern');
+    params.authorPattern = `*${author.toLowerCase()}*`;
+  }
+  if (text) {
+    filterParts.push(
+      '(lower(coalesce(title, "")) match $textPattern || lower(coalesce(description, "")) match $textPattern)'
+    );
+    params.textPattern = `*${text.toLowerCase()}*`;
+  }
+
   const linkQuery = `*[
-    _type == "link"
-    && type == "video"
-    && count(topics[_ref in $topicIds]) > 0
-  ] | order(_createdAt desc) {
+    ${filterParts.join('\n    && ')}
+  ] | order(title asc) {
     _id,
     title,
     size,
     isResource,
     keyWords,
+    author,
+    description,
     "topics": topics[]->{ _id, title },
-    "path": select(isResource == true => "images/" + fileName,
-    true => URL
-    )
+    "playlistId": *[_type == 'playlist' && defined(^.keyWords[0]) && title == ^.keyWords[0]][0]._id,
+    "path": URL
   }`;
 
-  const results: LinkType[] = await client.fetch(linkQuery, { topicIds });
-  // Use helper to clean keyWords and keep null when none left
-  return results.map((link) => {
-    const filtered = filterTags(link.keyWords as string[] | null);
-    return {
-      ...link,
-      keyWords: filtered.length ? filtered : null
-    } as LinkType;
-  });
+  const results: LinkType[] = await client.fetch(linkQuery, params);
+  return results
+    .map((link) => {
+      const filtered = filterTags(link.keyWords as string[] | null);
+      return {
+        ...link,
+        keyWords: filtered.length ? filtered : null
+      } as LinkType;
+    })
+    .sort((a, b) => collator.compare(a.title, b.title));
+};
+
+export const loadAllPlaylistAuthors = async (): Promise<string[]> => {
+  const query = `array::unique(
+    *[_type == "playlist" && type == "video" && isResource != true && defined(author) && author != ""].author
+    + *[_type == "link" && type == "playlist" && isResource != true && defined(author) && author != ""].author
+  )`;
+  const authors = await client.fetch<string[]>(query);
+
+  const seen = new Map<string, string>();
+  for (const a of authors) {
+    const normalized = normalizeAuthor(a);
+    const key = normalized.toLowerCase();
+    if (!seen.has(key)) seen.set(key, normalized);
+  }
+  return [...seen.values()].sort((a, b) =>
+    stripTitlePrefix(a).localeCompare(stripTitlePrefix(b), 'bg')
+  );
+};
+
+export type PlaylistSearchResults = {
+  embedded: PlaylistType[];
+  ytLinks: LinkType[];
+};
+
+export const loadPlaylistsByFilters = async (
+  topicIds: string[],
+  author: string,
+  text: string
+): Promise<PlaylistSearchResults> => {
+  const topicFilter =
+    topicIds.length > 0 ? '&& count(topics[_ref in $topicIds]) > 0' : '';
+  const authorFilter = author
+    ? '&& lower(coalesce(author, "")) match $authorPattern'
+    : '';
+  const textFilter = text
+    ? '&& (lower(coalesce(title, "")) match $textPattern || lower(coalesce(description, "")) match $textPattern)'
+    : '';
+  const params: Record<string, unknown> = {};
+  if (topicIds.length > 0) params.topicIds = topicIds;
+  if (author) params.authorPattern = `*${author.toLowerCase()}*`;
+  if (text) params.textPattern = `*${text.toLowerCase()}*`;
+
+  const embeddedQuery = `*[
+    _type == "playlist"
+    && type == "video"
+    && isResource != true
+    && count(items[_type == "reference"]) > 0
+    ${topicFilter}
+    ${authorFilter}
+    ${textFilter}
+  ] | order(title asc) {
+    _id,
+    author,
+    title,
+    description,
+    "imageUrl": image.asset -> url,
+    "topics": topics[]->{ _id, title },
+    "items": items[_type == "reference"]->{_id, author, title, description, "path": URL, size}
+  }`;
+
+  const ytQuery = `*[
+    _type == "link"
+    && type == "playlist"
+    && isResource != true
+    ${topicFilter}
+    ${authorFilter}
+    ${textFilter}
+  ] | order(title asc) {
+    _id,
+    title,
+    description,
+    author,
+    "topics": topics[]->{ _id, title },
+    "path": URL
+  }`;
+
+  const [embedded, ytLinks] = await Promise.all([
+    client.fetch<PlaylistType[]>(embeddedQuery, params),
+    client.fetch<LinkType[]>(ytQuery, params)
+  ]);
+
+  return { embedded, ytLinks };
 };
 
 export const loadSeminarRelatedPresentations = async (): Promise<
@@ -392,7 +542,7 @@ export const loadSunset = async (
 
   const evts: { title: string; start: string; end: string }[] = [];
   for (const r of results) {
-    if (!r.json || r.json.status !== 'OK') continue;
+    if (r.json?.status !== 'OK') continue;
     const sunset = moment(r.json.results.sunset).format('HH:mm');
     const parts = sunset.split(':').map(Number);
     const start = r.date.clone().hour(parts[0]).minute(parts[1]);

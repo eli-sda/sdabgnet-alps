@@ -15,6 +15,7 @@ type VideoPlayerDialogProps = {
   isOpen: boolean;
   onClose?: () => void;
   playIndex?: number;
+  shareBaseParams?: Record<string, string>;
 };
 
 const Transition = React.forwardRef(function Transition(
@@ -31,7 +32,8 @@ export const VideoPlayerDialog = ({
   title = '',
   isOpen,
   onClose,
-  playIndex = 0
+  playIndex = 0,
+  shareBaseParams
 }: VideoPlayerDialogProps) => {
   const handleClose = useCallback(() => {
     onClose?.();
@@ -84,6 +86,7 @@ export const VideoPlayerDialog = ({
             playlist={videoPlaylist}
             isVisible={isOpen}
             initialIndex={playIndex}
+            shareBaseParams={shareBaseParams}
           />
         )}
       </DialogContent>

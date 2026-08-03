@@ -4,6 +4,7 @@ import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlayer } from 'src/contexts/AudioPlayerContext';
 import { getImage, getImageTypeByUrl } from 'src/utils/ImageHelper';
 import './MediaPalylist.scss';
+import { parseLinksMdToHtml } from 'src/utils/Links';
 
 type MediaPlaylistProps = {
   type: 'audio' | 'video';
@@ -50,6 +51,7 @@ const MediaPlaylist = ({
         type="stacked"
         title={title}
         kicker={author}
+        description={parseLinksMdToHtml(playlist.description)}
         mediaIcon={type}
         mediaIconAction={
           showPlayPauseControls && isCurrent

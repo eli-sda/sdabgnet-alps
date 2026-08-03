@@ -1,137 +1,203 @@
-import { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
-import { Autocomplete, TextField } from '@mui/material';
-import { Caption } from 'alps-library/atoms/text/Caption';
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
 import routes from 'src/routes';
-import { Button } from 'src/alps/atoms/Button';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
-import { loadAllTopics, loadLinksByTopics } from 'src/utils/FetchHelper';
-import { LinkType, TopicType } from 'src/contexts/PlaylistsContext';
-import { LinksBlock } from 'src/pages/links/LinksBlock';
-import DownloadList from 'src/components/downloadList/DownloadList';
+import type { SearchSource, VideotekaApplied } from './types';
+import { VideoTab } from './VideoTab';
+import { PlaylistTab } from './PlaylistTab';
 import './Videoteka.scss';
+
+type ActiveTab = 'videos' | 'playlists';
+
+// ---------------------------------------------------------------------------
+// Session persistence
+// ---------------------------------------------------------------------------
+
+const SESSION_KEY = 'videoteka-session';
+
+type VideotekaSession = {
+  tab: ActiveTab;
+  vTopicTitle: string;
+  vAuthor: string;
+  vText: string;
+  pTopicTitle: string;
+  pAuthor: string;
+  pText: string;
+};
+
+function readSession(): VideotekaSession | null {
+  try {
+    const raw = sessionStorage.getItem(SESSION_KEY);
+    return raw ? (JSON.parse(raw) as VideotekaSession) : null;
+  } catch {
+    return null;
+  }
+}
+
+function saveSession(s: VideotekaSession): void {
+  try {
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(s));
+  } catch {
+    // quota exceeded or private browsing — ignore
+  }
+}
+
+// ---------------------------------------------------------------------------
+// URL helpers — extracted to keep component function complexity under limit
+// ---------------------------------------------------------------------------
+
+function applyTabParams(
+  next: URLSearchParams,
+  tab: ActiveTab,
+  applied: VideotekaApplied | null
+) {
+  const prefix = tab === 'videos' ? 'v' : 'p';
+
+  if (applied?.topic) next.set(`${prefix}Topic`, applied.topic.title); else next.delete(`${prefix}Topic`);
+  if (applied?.author) next.set(`${prefix}Author`, applied.author); else next.delete(`${prefix}Author`);
+  if (applied?.text) next.set(`${prefix}Text`, applied.text); else next.delete(`${prefix}Text`);
+}
+
+// ---------------------------------------------------------------------------
+// Main page
+// ---------------------------------------------------------------------------
 
 const Videoteka = () => {
   const breadcrumbsUrls = [routes.videoteka];
-  const [allTopics, setAllTopics] = useState<TopicType[]>([]);
-  const [selectedTopics, setSelectedTopics] = useState<TopicType[]>([]);
-  const [appliedTopics, setAppliedTopics] = useState<TopicType[]>([]);
-  const [videos, setVideos] = useState<LinkType[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [searchParams] = useSearchParams();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    loadAllTopics()
-      .then(setAllTopics)
-      .catch((err) => {
-        console.error('Failed to load topics', err);
-        setAllTopics([]);
-      });
-  }, []);
+  // URL params take priority; fall back to last session when navigating without params
+  const hasUrlFilters =
+    searchParams.has('vTopic') ||
+    searchParams.has('vAuthor') ||
+    searchParams.has('vText') ||
+    searchParams.has('pTopic') ||
+    searchParams.has('pAuthor') ||
+    searchParams.has('pText') ||
+    searchParams.has('tab');
+  const session = hasUrlFilters ? null : readSession();
 
-  useEffect(() => {
-    if (appliedTopics.length > 0) {
-      setIsLoading(true);
-      loadLinksByTopics(appliedTopics.map((t) => t._id))
-        .then(setVideos)
-        .catch((err) => {
-          console.error('Failed to load videos by topics', err);
-          setVideos([]);
-        })
-        .finally(() => setIsLoading(false));
-    } else {
-      setVideos([]);
-    }
-  }, [appliedTopics]);
+  const initRef = useRef({
+    tab: (searchParams.get('tab') as ActiveTab | null) ?? session?.tab ?? 'videos',
+    vTopicTitle: searchParams.get('vTopic') ?? session?.vTopicTitle ?? '',
+    vAuthor: searchParams.get('vAuthor') ?? session?.vAuthor ?? '',
+    vText: searchParams.get('vText') ?? session?.vText ?? '',
+    pTopicTitle: searchParams.get('pTopic') ?? session?.pTopicTitle ?? '',
+    pAuthor: searchParams.get('pAuthor') ?? session?.pAuthor ?? '',
+    pText: searchParams.get('pText') ?? session?.pText ?? ''
+  });
 
-  const handleSearch = () => {
-    setAppliedTopics(selectedTopics);
+  const [activeTab, setActiveTab] = React.useState<ActiveTab>(initRef.current.tab);
+
+  // Applied filters tracked here for URL sync and session save only
+  const [vApplied, setVApplied] = useState<VideotekaApplied | null>(null);
+  const [pApplied, setPApplied] = useState<VideotekaApplied | null>(null);
+
+  const updateParams = (
+    tab: ActiveTab,
+    applied: VideotekaApplied | null,
+    source: SearchSource = 'user'
+  ) => {
+    const next =
+      source === 'init' ? new URLSearchParams(searchParams) : new URLSearchParams();
+
+    next.set('tab', tab);
+    applyTabParams(next, tab, applied);
+
+    navigate(
+      source === 'init'
+        ? { search: '?' + next.toString(), hash: location.hash }
+        : { search: '?' + next.toString() },
+      { replace: true }
+    );
   };
 
-  const { resourceVideos, youtubeVideos } = useMemo(() => {
-    const resourceVideos = videos.filter((video) => video.isResource === true);
-    const youtubeVideos = videos.filter((video) => video.isResource !== true);
-    return { resourceVideos, youtubeVideos };
-  }, [videos]);
+  const handleTabChange = (_e: React.SyntheticEvent, v: ActiveTab) => {
+    setActiveTab(v);
+    updateParams(v, v === 'videos' ? vApplied : pApplied);
+  };
+
+  const handleVideoSearch = (
+    applied: VideotekaApplied,
+    source: SearchSource = 'user'
+  ) => {
+    setVApplied(applied);
+    updateParams('videos', applied, source);
+  };
+
+  const handlePlaylistSearch = (
+    applied: VideotekaApplied,
+    source: SearchSource = 'user'
+  ) => {
+    setPApplied(applied);
+    updateParams('playlists', applied, source);
+  };
+
+  // Persist applied filters so navigating away and back restores the last search
+  useEffect(() => {
+    saveSession({
+      tab: activeTab,
+      vTopicTitle: vApplied?.topic?.title ?? '',
+      vAuthor: vApplied?.author ?? '',
+      vText: vApplied?.text ?? '',
+      pTopicTitle: pApplied?.topic?.title ?? '',
+      pAuthor: pApplied?.author ?? '',
+      pText: pApplied?.text ?? ''
+    });
+  }, [activeTab, vApplied, pApplied]);
 
   return (
-    <Page title={getTitle(routes.videoteka)} breadcrumbsUrls={breadcrumbsUrls}>
-      <div className="u-spacing--double">
-        <section className="u-spacing">
-          <Caption>
-            Изберете поне една тема, за да търсите видео ресурси
-          </Caption>
+    <Page
+      title={getTitle(routes.videoteka)}
+      breadcrumbsUrls={breadcrumbsUrls}
+      blockType="wrap6"
+      pageClassName="videoteka-page"
+    >
+      <TabContext value={activeTab}>
+        <TabList
+          onChange={handleTabChange}
+          aria-label="Видеотека табове"
+          className="videoteka-tabs u-theme--background-color--darker u-padding"
+          slotProps={{ indicator: { sx: { display: 'none' } } }}
+          variant="scrollable"
+          scrollButtons="auto"
+          allowScrollButtonsMobile
+        >
+          <Tab label="Видеа" value="videos" className="o-button o-button--outline" />
+          <Tab label="Плейлисти" value="playlists" className="o-button o-button--outline" />
+        </TabList>
 
-          <div className="videoteka-search-wrapper u-spacing">
-            <Autocomplete<TopicType, true>
-              multiple
-              options={allTopics}
-              value={selectedTopics}
-              onChange={(_event, newValue) => setSelectedTopics(newValue)}
-              getOptionLabel={(option) => option.title}
-              isOptionEqualToValue={(option, value) => option._id === value._id}
-              clearText="Изчисти"
-              openText="Отвори"
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Филтрирай по теми"
-                  placeholder="Избери теми"
-                />
-              )}
-            />
-            <Button
-              label="Търси"
-              onClick={handleSearch}
-              disabled={selectedTopics.length === 0}
-            />
-          </div>
-        </section>
-        {isLoading && (
-          <div className="centered-text">
-            <i className="fas fa-spinner fa-pulse fa-5x u-space--triple"></i>
-          </div>
-        )}
+        {/*
+          Use div[hidden] instead of TabPanel so both tabs stay mounted after
+          first activation — preserving loaded Sanity data when switching tabs.
+        */}
+        <div role="tabpanel" hidden={activeTab !== 'videos'} className="videoteka-tab-panel full-page">
+          <VideoTab
+            isActive={activeTab === 'videos'}
+            initTopicTitle={initRef.current.vTopicTitle}
+            initAuthor={initRef.current.vAuthor}
+            initText={initRef.current.vText}
+            onSearch={handleVideoSearch}
+          />
+        </div>
 
-        {!isLoading && resourceVideos.length > 0 && (
-          <section className="u-spacing">
-            <h2 className="u-font--primary--m u-theme--color--darker">
-              Видео ресурси за изтегляне
-            </h2>
-            <DownloadList items={resourceVideos} />
-          </section>
-        )}
-
-        {!isLoading && youtubeVideos.length > 0 && (
-          <section className="u-spacing">
-            <h2 className="u-font--primary--m u-theme--color--darker">
-              YouTube видеа
-            </h2>
-            {youtubeVideos.map((video, i) => (
-              <LinksBlock
-                key={video._id || i}
-                title={video.title}
-                link={video.path}
-                buttons={[
-                  {
-                    label: 'Виж видео',
-                    url: video.path,
-                    faIconClass: 'fas fa-video',
-                    isExternal: true,
-                    outline: true
-                  }
-                ]}
-              />
-            ))}
-          </section>
-        )}
-
-        {!isLoading && appliedTopics.length > 0 && videos.length === 0 && (
-          <div className="u-spacing u-text-align--center">
-            <p>Не са намерени резултати за избраните теми.</p>
-          </div>
-        )}
-      </div>
+        <div role="tabpanel" hidden={activeTab !== 'playlists'} className="videoteka-tab-panel full-page">
+          <PlaylistTab
+            isActive={activeTab === 'playlists'}
+            initTopicTitle={initRef.current.pTopicTitle}
+            initAuthor={initRef.current.pAuthor}
+            initText={initRef.current.pText}
+            onSearch={handlePlaylistSearch}
+          />
+        </div>
+      </TabContext>
     </Page>
   );
 };

@@ -52,7 +52,6 @@ const Testimonies = () => {
   };
 
   return (
-    <>
       <Page
         title={getTitle(routes.churchLife('testimonies'))}
         breadcrumbsUrls={breadcrumbsUrls}
@@ -86,7 +85,6 @@ const Testimonies = () => {
           </TabPanel>
         </TabContext>
       </Page>
-    </>
   );
 };
 

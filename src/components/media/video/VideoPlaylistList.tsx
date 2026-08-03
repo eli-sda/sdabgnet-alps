@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo, ReactNode, useState } from 'react';
 import { FaVideo } from 'react-icons/fa';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import MediaPlaylistList from 'src/components/media/MediaPlaylistList';
@@ -10,12 +10,16 @@ type VideoPlaylistListProps = {
   pagePath?: string;
   playlists?: PlaylistType[];
   withListPadding?: boolean;
+  renderPlaylistExtra?: (playlist: PlaylistType) => ReactNode;
+  getShareBaseParams?: (playlist: PlaylistType) => Record<string, string>;
 };
 
 const VideoPlaylistList = ({
   pagePath,
   playlists,
-  withListPadding = false
+  withListPadding = false,
+  renderPlaylistExtra,
+  getShareBaseParams
 }: VideoPlaylistListProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -36,8 +40,15 @@ const VideoPlaylistList = ({
           title={selectedPlaylist?.title}
           onClose={() => setDialogOpen(false)}
           playIndex={playIndex}
+          shareBaseParams={
+            selectedPlaylist && getShareBaseParams
+              ? getShareBaseParams(selectedPlaylist)
+              : undefined
+          }
         />
       )}
+      renderPlaylistExtra={renderPlaylistExtra}
+      getShareBaseParams={getShareBaseParams}
     />
   );
 };

@@ -15,6 +15,7 @@ export type LinkType = {
   description?: string | null;
   size?: number;
   keyWords?: string[] | null;
+  playlistId?: string; // extracted by keyWords[0] matching a playlist title
   topics?: TopicType[] | null;
   path: string;
 };
@@ -27,6 +28,7 @@ export type PlaylistType = {
   title?: string;
   description?: string;
   // keyWords?: string[] | null;
+  topics?: TopicType[] | null;
   image?: SanityImageSource | null;
   imageUrl?: string | null;
   items?: LinkType[];

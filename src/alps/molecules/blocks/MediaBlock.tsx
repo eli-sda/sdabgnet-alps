@@ -225,7 +225,7 @@ export const MediaBlock = ({
             'group' in preset ? preset.group : ''
           }`}
         >
-          <div className="u-width--100p u-spacing">
+          <div className="u-width--100p u-spacing--half">
             {kicker && (
               <KickerTag className="c-block__kicker u-space--quarter--bottom">
                 {kicker}
@@ -265,7 +265,7 @@ export const MediaBlock = ({
             )}
             {description && (
               <div
-                className={`c-block__description-wrapper u-spacing ${
+                className={`c-block__description-wrapper u-spacing hyphens-auto ${
                   expandable ? openClass : ''
                 }`}
               >

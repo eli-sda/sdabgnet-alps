@@ -19,12 +19,11 @@ const asideLinks = {
 };
 
 const PresentationResources = () => {
-  useScrollToHash();
-
   const breadcrumbsUrls = [routes.resources(), presentationPath];
   const { getPagePlaylists } = usePlaylists();
 
   const [allPlaylists, setAllPlaylists] = useState<PlaylistType[]>([]);
+  useScrollToHash({ enabled: allPlaylists.length > 0, delayMs: 1000 });
 
   useEffect(() => {
     getPagePlaylists(presentationPath)

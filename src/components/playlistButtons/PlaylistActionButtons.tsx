@@ -19,6 +19,7 @@ type PlaylistActionButtonsProps = {
   getCurrentTime?: () => number;
   showSaveButton?: boolean;
   onSaveAction?: () => void;
+  shareBaseParams?: Record<string, string>;
 };
 
 const PlaylistActionButtons = ({
@@ -31,7 +32,8 @@ const PlaylistActionButtons = ({
   getCurrentTime,
   simpleCopyButton = false,
   showSaveButton = false,
-  onSaveAction
+  onSaveAction,
+  shareBaseParams
 }: PlaylistActionButtonsProps) => {
   const [toShow, setToShow] = useState(false);
   const [fromCurrent, setFromCurrent] = useState(false);
@@ -46,18 +48,25 @@ const PlaylistActionButtons = ({
   const url = useMemo(() => {
     if (!shareUrl) return '';
 
-    const baseUrl = shareUrl.split('#')[0];
-    const hash = shareUrl.includes('#') ? '#' + playlistID : '';
+    const hashIdx = shareUrl.indexOf('#');
+    const baseUrl = hashIdx >= 0 ? shareUrl.substring(0, hashIdx) : shareUrl;
+    const hash = hashIdx >= 0 ? shareUrl.substring(hashIdx) : '';
 
     const params = new URLSearchParams();
 
-    const currentTab =
-      typeof window !== 'undefined'
-        ? new URLSearchParams(window.location.search).get('tab')
-        : null;
+    if (shareBaseParams) {
+      for (const [key, value] of Object.entries(shareBaseParams)) {
+        params.set(key, value);
+      }
+    } else {
+      const currentTab =
+        typeof window !== 'undefined'
+          ? new URLSearchParams(window.location.search).get('tab')
+          : null;
 
-    if (currentTab) {
-      params.set('tab', currentTab);
+      if (currentTab) {
+        params.set('tab', currentTab);
+      }
     }
 
     if (fromCurrent) {
@@ -86,12 +95,12 @@ const PlaylistActionButtons = ({
     return query ? `${baseUrl}?${query}${hash}` : shareUrl;
   }, [
     shareUrl,
+    shareBaseParams,
     playlistName,
     fromPlayId,
     fromTitle,
     fromCurrent,
     withTime,
-    playlistID,
     getCurrentTime
   ]);
 
@@ -167,7 +176,7 @@ const PlaylistActionButtons = ({
               label={showCopyLabel ? 'Линкът е копиран' : 'Сподели линк'}
               value={url}
               readOnly
-              onClick={(e) => (e.target as HTMLInputElement).select()}
+              onClick={(e: React.MouseEvent<HTMLInputElement>) => e.currentTarget.select()}
             />
 
             <Button

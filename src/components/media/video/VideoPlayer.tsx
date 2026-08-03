@@ -25,12 +25,14 @@ interface VideoPlayerProps {
   playlist: VideoPlaylistType;
   isVisible?: boolean;
   initialIndex?: number;
+  shareBaseParams?: Record<string, string>;
 }
 
 const VideoPlayer = ({
   playlist,
   isVisible = true,
-  initialIndex = 0
+  initialIndex = 0,
+  shareBaseParams
 }: VideoPlayerProps) => {
   const { playlistTitle, playlistAuthor, playlistDescription, videoItems } =
     playlist;
@@ -96,9 +98,16 @@ const VideoPlayer = ({
 
   const computeFinalUrl = (videoId: string, videoTitle: string) => {
     const url = new URL(window.location.pathname, window.location.origin);
-    const currentTab = new URLSearchParams(window.location.search).get('tab');
-    if (currentTab) {
-      url.searchParams.set('tab', currentTab);
+
+    if (shareBaseParams) {
+      for (const [key, value] of Object.entries(shareBaseParams)) {
+        url.searchParams.set(key, value);
+      }
+    } else {
+      const currentTab = new URLSearchParams(window.location.search).get('tab');
+      if (currentTab) {
+        url.searchParams.set('tab', currentTab);
+      }
     }
     url.searchParams.set('playlistId', playlist._id);
     url.searchParams.set('playId', videoId);

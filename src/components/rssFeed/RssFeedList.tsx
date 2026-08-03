@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react';
 import { useRssFeed } from 'src/hooks/useRssFeed';
 import { FeedItemType } from './FeedItem';
 import { FeedList } from './FeedList';
+import { useScrollToHash } from 'src/hooks/useScrollToHash';
 
 export type RssFeedListProps = {
   rssFeedName: 'hopetv' | '3_16' | 'newlife' | 'svetlina' | 'ltv';
@@ -28,6 +29,8 @@ export const RssFeedList = ({
       title: item.title?.replace(' СУБТИТРИ', '') ?? item.title
     }));
   }, [rssFeedName, feeds]);
+
+  useScrollToHash({ enabled: items.length > 0 });
 
   const feedProps = useMemo(() => {
     let logoName: string | undefined;

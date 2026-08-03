@@ -1,4 +1,5 @@
 import { useLocation } from 'react-router-dom';
+import { Caption } from 'alps-library/atoms/text/Caption';
 import { PageMetaType } from 'src/utils/PageMeta';
 import { getTitle, findMenuItemByUrl } from 'src/utils/Navigation';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
@@ -10,7 +11,7 @@ export const PageWithSubpages = ({
 }: {
   breadcrumbsUrls: string[];
 }) => {
-  const { getMetaMap } = usePagesMeta();
+  const { pageMeta, getMetaMap } = usePagesMeta();
   const location = useLocation();
   const path = location.pathname;
 
@@ -32,8 +33,9 @@ export const PageWithSubpages = ({
       title={title}
       breadcrumbsUrls={breadcrumbsUrls}
       blockType="wrap6"
-      pageClassName="full-page"
+      pageClassName="full-page u-spacing"
     >
+      <Caption>{pageMeta?.description}</Caption>
       {Object.values(metaMap).map(
         ({ path, title, description }: PageMetaType, idx) => {
           const subnavItem = subnav.find((item) => item.url === path);

@@ -319,11 +319,11 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
       }
     ]
   },
-  {
-    text: 'Видеотека',
-    url: routes.videoteka,
-    faIconClass: 'fas fa-video'
-  },
+  // {
+  //   text: 'Видеотека',
+  //   url: routes.videoteka,
+  //   faIconClass: 'fas fa-video'
+  // },
   {
     text: 'Здраве',
     url: routes.health(),

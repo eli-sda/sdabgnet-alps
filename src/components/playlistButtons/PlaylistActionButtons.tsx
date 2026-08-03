@@ -176,7 +176,9 @@ const PlaylistActionButtons = ({
               label={showCopyLabel ? 'Линкът е копиран' : 'Сподели линк'}
               value={url}
               readOnly
-              onClick={(e: React.MouseEvent<HTMLInputElement>) => e.currentTarget.select()}
+              onClick={(
+                e: React.MouseEvent<HTMLInputElement | HTMLTextAreaElement>
+              ) => e.currentTarget.select()}
             />
 
             <Button

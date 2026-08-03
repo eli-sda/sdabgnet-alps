@@ -142,7 +142,9 @@ const DownloadListItem = ({
             return (
               <div
                 key={`text-${index}`}
-                dangerouslySetInnerHTML={{ __html: parseLinksMdToHtml(part) }}
+                dangerouslySetInnerHTML={{
+                  __html: parseLinksMdToHtml(part) || ''
+                }}
               />
             );
           }

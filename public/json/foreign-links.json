@@ -207,7 +207,7 @@
   {
     "title": "Greg Sereda",
     "description": "Видеата обхващат теми като библейски факти, религиозни новини, въпроси и отговори, свързани с Библията, както и библейски пророчества. Целта на неговото служение е да помогне на хората по-добре да разбират Библията и да се подготвят за Второто пришествие на Исус. (на английки език)",
-    "image": "/img/logos/greg-sereda-logo.png",
+    "image": "/img/logos/greg-sereda-logo.webp",
     "links": [
       { "url": "https://www.youtube.com/@GregSereda", "type": "youtube" },
       {
@@ -262,6 +262,29 @@
       {
         "url": "https://www.youtube.com/@PilipenkoVitalii",
         "type": "youtube"
+      }
+    ]
+  },
+  {
+    "title": "Scriptures Illustrator",
+    "description": "Библейски пророчества, духовни послания и истински истории за Божии чудеса, представени чрез въздействащи илюстрации и AI филми. Някои от тях можете да гледате дублирани в [поредицата \"Филмирани истински истории\"](/church_life/testimonies?tab=videoPlaylists&playlistTitle=Филмирани+истински+истории#1746f3dc-295b-4cc5-9cd8-b6c36fa5aa4b).",
+    "image": "/img/logos/ScripturesIllustrator.webp",
+    "links": [
+      {
+        "url": "https://www.scripturesillustrator.com/",
+        "type": "сайт"
+      },
+      {
+        "url":"https://www.facebook.com/profile.php?id=61570488754070",
+        "type":"facebook"
+      },
+      {
+        "url": "https://www.youtube.com/@ScripturesIllustrator",
+        "type": "youtube"
+      },
+      {
+        "url": "https://www.instagram.com/scriptures.illustrator",
+        "type": "instagram"
       }
     ]
   },

@@ -1,5 +1,20 @@
 [
   {
+    "id": "2026-08-10",
+    "date": "2026-08-10",
+    "title": "Подобрения – 10.08.2026",
+    "changes": [
+      {
+        "type": "improvement",
+        "text": "Актуализация на [Календара със събития](/church_life/events) - ASI Europe Convention 2026."
+      },
+      {
+        "type": "improvement",
+        "text": "Добавен e линк към [Scriptures Illustrator](/media/links#scriptures-illustrator) в страницата \"Чужди сайтове\"."
+      }
+    ]
+  },
+  {
     "id": "2026-08-03",
     "date": "2026-08-03",
     "title": "Подобрения – 3.08.2026",

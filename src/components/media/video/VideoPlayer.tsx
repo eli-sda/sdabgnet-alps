@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { Panel, Group, Separator } from 'react-resizable-panels';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import { Caption } from 'alps-library/atoms/text/Caption';
@@ -70,6 +70,20 @@ const VideoPlayer = ({
     setCurrentIndex(initialIndex);
   }, [playlist, initialIndex, videoItems.length]);
 
+  const activeVideoRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (isVertical || !playlist.videoItems.length || currentIndex == null) {
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      activeVideoRef.current?.scrollIntoView({
+        behavior: 'auto',
+        block: 'nearest'
+      });
+    });
+  }, [playlist, currentIndex, isVertical]);
+
   const playVideo = (index: number) => {
     if (index < 0) index = videoItems.length - 1;
     if (index >= videoItems.length) index = 0;
@@ -117,12 +131,34 @@ const VideoPlayer = ({
     return url.href;
   };
 
+  const caption = useMemo(() => {
+    return (
+      <div>
+        <div className="video_title">
+          {currentVideo.title}
+          {currentVideo.author && currentVideo.author !== playlistAuthor
+            ? ` | ${currentVideo.author}`
+            : ''}
+        </div>
+        {currentVideo.description && (
+          <div className="text u-space--half--top">
+            {newLinesWithLinks(currentVideo.description)}
+          </div>
+        )}
+      </div>
+    );
+  }, [
+    currentVideo.author,
+    currentVideo.description,
+    currentVideo.title,
+    playlistAuthor
+  ]);
   const playerDiv = (
     <div className="videoPlayer-layout-player">
       {currentVideo ? (
         <>
           <Figure
-            caption={`${currentVideo.title}${currentVideo.author && currentVideo.author !== playlistAuthor ? ' | ' + currentVideo.author : ''}\n\n${currentVideo.description || ''}`}
+            caption={caption}
             size="large"
             videoSrc={`https://www.youtube.com/embed/${currentVideo.videoId}?autoplay=1`}
             onVideoEnded={handleVideoEnded}
@@ -148,6 +184,7 @@ const VideoPlayer = ({
         return (
           <div
             key={i}
+            ref={isActive ? activeVideoRef : null}
             className={`videoItem u-border--left u-theme--border-color--darker ${isActive ? 'active' : ''}`}
             onClick={() => playVideo(i)}
           >

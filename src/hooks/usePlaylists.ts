@@ -13,11 +13,6 @@ import {
 } from 'src/utils/FetchHelper';
 import { getTodayString } from 'src/utils/getTodayString';
 
-// removes prefixes like "п-р", "П-р", "д-р", "Д-р", with optional dots/spaces
-function normalizeAuthor(author?: string) {
-  return (author || '').replace(/^(п|д)[.\- ]?р\.?\s*/i, '').trim();
-}
-
 export function usePlaylists() {
   const {
     playlists,
@@ -31,102 +26,72 @@ export function usePlaylists() {
   } = usePlaylistsContext();
 
   /**
-   * Retrieves playlists for a given type.
-   * - If playlists of that type are cached and up-to-date (loaded today), returns the cached data.
-   * - Otherwise, fetches them from the backend, updates the cache, and returns the new data.
+   * Retrieves playlists for a given type and set of titles.
+   *
+   * - If playlists matching the titles are cached and up-to-date (loaded today),
+   *   returns the cached data.
+   * - Otherwise, fetches them from Sanity, updates the cache, and returns the new data.
+   * - The playlists are ordered according to the order of the titles array.
    *
    * @param type The playlist type (e.g. "video", "presentation").
    * @param isResource Whether it is a resource.
-   * @param title Optional title to filter by.
-   * @param shouldSort Optional flag to disable sorting. Defaults to true.
+   * @param titles - title to filter by.
    * @returns A promise resolving to an array of playlists.
    */
-  const getPlaylists = useCallback(
+  const getPlaylistsByTitles = useCallback(
     async (
       type: string,
       isResource: boolean,
-      title?: string,
-      shouldSort: boolean = true
+      titles: string[]
     ): Promise<PlaylistType[]> => {
       const today = getTodayString();
 
-      // Build a cache key that includes resource flag, title (if any), and sort preference
-      const titleKey = title ? `_title=${encodeURIComponent(title)}` : '';
-      const sortKey = shouldSort ? '' : '_unsorted';
-      const cacheKey = isResource
-        ? `resource_${type}${titleKey}${sortKey}`
-        : `${type}${titleKey}${sortKey}`;
+      // Same cache key regardless of the order of titles
+      const titleKey = `_titles=${titles
+        .slice()
+        .sort()
+        .map(encodeURIComponent)
+        .join(',')}`;
 
-      // Return cached playlists for cacheKey if up-to-date
+      const cacheKey = isResource
+        ? `resource_${type}${titleKey}`
+        : `${type}${titleKey}`;
+
+      const sortByTitles = (items: PlaylistType[]) => {
+        const titleOrder = new Map(
+          titles.map((title, index) => [title, index])
+        );
+
+        return items
+          .slice()
+          .sort(
+            (a, b) =>
+              (titleOrder.get(a.title ?? '') ?? Infinity) -
+              (titleOrder.get(b.title ?? '') ?? Infinity)
+          );
+      };
+
+      // Return sorted cached playlists for cacheKey if up-to-date
       if (playlists[cacheKey] && lastLoaded[`playlist_${cacheKey}`] === today) {
-        return Promise.resolve(playlists[cacheKey]);
+        return sortByTitles(playlists[cacheKey]);
       }
 
-      // Otherwise, fetch from backend and update cache
-      return await loadPlaylists(type, isResource, title)
-        .then((loadedPlaylists) => {
-          const processedPlaylists = loadedPlaylists?.slice() || [];
+      // Sanity
+      try {
+        const loadedPlaylists = await loadPlaylists(type, isResource, titles);
 
-          if (shouldSort) {
-            processedPlaylists.sort((a, b) => {
-              const special = ['чуждоговорящи', 'други'];
+        const processedPlaylists = sortByTitles(loadedPlaylists);
 
-              const aTitle = (a.title || '').toLowerCase();
-              const bTitle = (b.title || '').toLowerCase();
+        setPlaylists(cacheKey, processedPlaylists);
+        setLastLoaded(`playlist_${cacheKey}`, today);
 
-              const aIsSpecial = special.some((s) => aTitle === s);
-              const bIsSpecial = special.some((s) => bTitle === s);
-
-              // Push "Чуждоговорящи" or "Други" playlists to the end
-              if (aIsSpecial && !bIsSpecial) return 1;
-              if (!aIsSpecial && bIsSpecial) return -1;
-
-              // Sort first by normalized author
-              const authorComparison = normalizeAuthor(a.author).localeCompare(
-                normalizeAuthor(b.author),
-                'bg',
-                { sensitivity: 'base' }
-              );
-
-              if (authorComparison !== 0) return authorComparison;
-
-              // Then, if same author, sort alphabetically by title
-              return (a.title ?? '').localeCompare(b.title ?? '', 'bg', {
-                sensitivity: 'base'
-              });
-            });
-          }
-
-          setPlaylists(cacheKey, processedPlaylists);
-          setLastLoaded(`playlist_${cacheKey}`, today);
-          return Promise.resolve(processedPlaylists);
-        })
-        .catch((err) => {
-          console.error(`Failed to fetch ${type} playlists: ${err}`);
-          return Promise.resolve([]);
-        });
+        return processedPlaylists;
+      } catch (err) {
+        console.error(`Failed to fetch ${type} playlists:`, err);
+        return [];
+      }
     },
     [playlists, lastLoaded, setPlaylists, setLastLoaded]
-  );
-
-  /**
-   * Retrieves resource playlists for a given type.
-   * - If playlists of that type are cached and up-to-date (loaded today), returns the cached data.
-   * - Otherwise, fetches them from the backend, updates the cache, and returns the new data.
-   *
-   * @param type The playlist type (e.g. "video", "presentation").
-   * @param shouldSort Optional flag to disable sorting. Defaults to true.
-   * @returns A promise resolving to an array of playlists.
-   */
-  const getResourcePlaylists = useCallback(
-    async (
-      type: string,
-      title?: string,
-      shouldSort: boolean = true
-    ): Promise<PlaylistType[]> => {
-      return getPlaylists(type, true, title, shouldSort);
-    },
-    [getPlaylists]
   );
 
   /**
@@ -233,8 +198,7 @@ export function usePlaylists() {
   ]);
 
   return {
-    getPlaylists,
-    getResourcePlaylists,
+    getPlaylistsByTitles,
     getPagePlaylists,
     getLinks,
     getSeminarRelatedPresentations

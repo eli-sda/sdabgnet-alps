@@ -55,7 +55,7 @@ const MusicPage = () => {
 
   const breadcrumbsUrls = [routes.resources(), pagePath];
 
-  const { getPlaylists } = usePlaylists();
+  const { getPlaylistsByTitles } = usePlaylists();
   const [musicVideos, setMusicVideos] = useState<PlaylistType[]>([]);
   const [videoPlaylist, setVideoPlaylist] = useState<PlaylistType[]>([]);
 
@@ -72,7 +72,10 @@ const MusicPage = () => {
   }, []);
 
   useEffect(() => {
-    getPlaylists('video', false, 'За музиката')
+    getPlaylistsByTitles('video', false, [
+      'Инструментална музика',
+      'Музиката в християнския живот'
+    ])
       .then(setVideoPlaylist)
       .catch((err) => console.error(err));
     // eslint-disable-next-line react-hooks/exhaustive-deps

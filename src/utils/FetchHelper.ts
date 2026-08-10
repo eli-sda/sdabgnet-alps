@@ -166,11 +166,15 @@ export const loadPagePlaylists = async (
 export const loadPlaylists = async (
   type: string,
   isResource?: boolean,
-  title?: string
+  titles?: string[]
 ): Promise<PlaylistType[]> => {
-  const titleFilter = title ? `&& title == '${title}'` : '';
+  const titleFilter = titles?.length
+    ? `&& title in [${titles.map((title) => `"${title}"`).join(', ')}]`
+    : '';
   const isResourceFilter =
-    isResource === undefined ? '' : `&& isResource ${isResource ? '==' : '!='} true`;
+    isResource === undefined
+      ? ''
+      : `&& isResource ${isResource ? '==' : '!='} true`;
 
   const playlistQuery = `*[
     _type == "playlist"

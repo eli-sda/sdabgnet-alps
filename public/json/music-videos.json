@@ -1,6 +1,7 @@
 {
   "_id": "youtube_music_playlist",
-  "title": "Песни от YouTube",
+  "title": "Песни в YouTube",
+  "description": "Подбрани песни от различни адвентни изпълнители",
   "imageUrl": "/img/resources/music-videos.webp",
   "items": [
     {
@@ -48,6 +49,12 @@
       "_id": "nw-p_5YoTR4",
       "path": "https://www.youtube.com/watch?v=nw-p_5YoTR4",
       "title": "\"Заради нас\" - Красимир Лазаров"
+    },
+    {
+      "_id": "JfrOXpZTjfI",
+      "path": "https://m.youtube.com/watch?v=JfrOXpZTjfI",
+      "title": "Светлана Малова - Лучшие Песни",
+      "description": "Руският автор и изпълнител [Светлана Малова](https://smalova.ru/) съчетава в своето творчество музика и послания за вяра, надежда и Божията любов."
     }
   ]
 }

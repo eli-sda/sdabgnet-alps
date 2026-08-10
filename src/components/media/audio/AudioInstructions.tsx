@@ -36,8 +36,8 @@ const typeText: Record<AudioInstructionsType, TypeText> = {
     item: 'проповедта'
   },
   music: {
-    listen: 'избран списък от песни',
-    share: 'поредицата от песни или конкретно аудио от нея',
+    listen: 'избран албум',
+    share: 'албума от песни или конкретно аудио от нея',
     item: 'аудиото'
   },
   bible: {
@@ -74,7 +74,7 @@ export const AudioInstructions = ({
   return (
     <ContentBlockExpand
       kicker="Помощ "
-      title="Как да използвате аудио поредиците"
+      title={`Как да използвате аудио ${type == 'music' ? 'албумите' : 'поредиците'}`}
       className={`audio-instructions${className ? ` ${className}` : ''}`}
     >
       <p className="audio-instructions__caption">
@@ -104,8 +104,9 @@ export const AudioInstructions = ({
         <br />• За да изтеглите{' '}
         {!hideDownloadAll && (
           <>
-            всички аудио файлове от поредицата в архив (zip-формат), използвайте
-            бутона &quot;Изтегли всички&quot;, а за да изтеглите{' '}
+            всички аудио файлове от {type == 'music' ? 'албума' : 'поредицата'}{' '}
+            в архив (zip-формат), използвайте бутона &quot;Изтегли всички&quot;,
+            а за да изтеглите{' '}
           </>
         )}
         текущия файл, използвайте иконата{' '}

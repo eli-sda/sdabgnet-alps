@@ -475,3 +475,7 @@ input.o-input__search[type='search'][name='search'] {
     }
   }
 }
+// allow links in Figure.caption (VideoPlayer) and overwrite the block display
+figcaption a {
+  display: inline !important;
+}

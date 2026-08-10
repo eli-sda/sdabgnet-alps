@@ -72,7 +72,7 @@ const VideoPlayer = ({
 
   const activeVideoRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (!playlist.videoItems.length || currentIndex == null) {
+    if (isVertical || !playlist.videoItems.length || currentIndex == null) {
       return;
     }
 
@@ -82,7 +82,7 @@ const VideoPlayer = ({
         block: 'nearest'
       });
     });
-  }, [playlist, currentIndex]);
+  }, [playlist, currentIndex, isVertical]);
 
   const playVideo = (index: number) => {
     if (index < 0) index = videoItems.length - 1;

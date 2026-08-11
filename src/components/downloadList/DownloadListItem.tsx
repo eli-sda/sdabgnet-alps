@@ -115,7 +115,7 @@ const DownloadListItem = ({
             const href = anchor.getAttribute('href');
             if (href && !href.startsWith('http')) {
               e.preventDefault();
-              navigate(href);
+              void navigate(href);
             }
           }
         }}

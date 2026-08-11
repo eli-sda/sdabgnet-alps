@@ -106,6 +106,11 @@ const Videoteka = () => {
   const [vApplied, setVApplied] = useState<VideotekaApplied | null>(null);
   const [pApplied, setPApplied] = useState<VideotekaApplied | null>(null);
 
+  const hashMatch = location.hash.match(
+    /^#(video-)?([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$/i
+  );
+
+  const validHash = hashMatch ? `#${hashMatch[1] ?? ''}${hashMatch[2]}` : '';
   const updateParams = (
     tab: ActiveTab,
     applied: VideotekaApplied | null,
@@ -121,7 +126,7 @@ const Videoteka = () => {
 
     void navigate(
       source === 'init'
-        ? { search: '?' + next.toString(), hash: location.hash }
+        ? { search: '?' + next.toString(), hash: validHash }
         : { search: '?' + next.toString() },
       { replace: true }
     );

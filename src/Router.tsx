@@ -115,9 +115,7 @@ const Router = () => (
       />
     }
   >
-    <BrowserRouter
-      future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
-    >
+    <BrowserRouter>
       {/* <ThemeProvider theme={theme}> */}
       <ScrollToTop />
       <MatomoTracker />

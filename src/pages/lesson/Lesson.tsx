@@ -45,7 +45,7 @@ const Lesson = ({ type = '' }: { type?: LessonType }) => {
       const sanitizedQuarter = Math.max(1, Math.min(4, lessonQuarter));
       const sanitizedNumber = Math.max(1, Math.min(13, lessonNumber));
 
-      navigate(
+      void navigate(
         `${lessonURL}/${sanitizedYear}/${sanitizedQuarter}/${sanitizedNumber}`
       );
     }

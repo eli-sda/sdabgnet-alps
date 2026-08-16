@@ -18,7 +18,7 @@ type ActiveTab = 'videos' | 'playlists';
 // Session persistence
 // ---------------------------------------------------------------------------
 
-const SESSION_KEY = 'videoteka-session';
+const VIDEOTEKA_STORAGE = 'videoteka-session';
 
 type VideotekaSession = {
   tab: ActiveTab;
@@ -32,7 +32,7 @@ type VideotekaSession = {
 
 function readSession(): VideotekaSession | null {
   try {
-    const raw = sessionStorage.getItem(SESSION_KEY);
+    const raw = sessionStorage.getItem(VIDEOTEKA_STORAGE);
     return raw ? (JSON.parse(raw) as VideotekaSession) : null;
   } catch {
     return null;
@@ -41,7 +41,7 @@ function readSession(): VideotekaSession | null {
 
 function saveSession(s: VideotekaSession): void {
   try {
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify(s));
+    sessionStorage.setItem(VIDEOTEKA_STORAGE, JSON.stringify(s));
   } catch {
     // quota exceeded or private browsing — ignore
   }
@@ -58,9 +58,12 @@ function applyTabParams(
 ) {
   const prefix = tab === 'videos' ? 'v' : 'p';
 
-  if (applied?.topic) next.set(`${prefix}Topic`, applied.topic.title); else next.delete(`${prefix}Topic`);
-  if (applied?.author) next.set(`${prefix}Author`, applied.author); else next.delete(`${prefix}Author`);
-  if (applied?.text) next.set(`${prefix}Text`, applied.text); else next.delete(`${prefix}Text`);
+  if (applied?.topic) next.set(`${prefix}Topic`, applied.topic.title);
+  else next.delete(`${prefix}Topic`);
+  if (applied?.author) next.set(`${prefix}Author`, applied.author);
+  else next.delete(`${prefix}Author`);
+  if (applied?.text) next.set(`${prefix}Text`, applied.text);
+  else next.delete(`${prefix}Text`);
 }
 
 // ---------------------------------------------------------------------------
@@ -85,7 +88,8 @@ const Videoteka = () => {
   const session = hasUrlFilters ? null : readSession();
 
   const initRef = useRef({
-    tab: (searchParams.get('tab') as ActiveTab | null) ?? session?.tab ?? 'videos',
+    tab:
+      (searchParams.get('tab') as ActiveTab | null) ?? session?.tab ?? 'videos',
     vTopicTitle: searchParams.get('vTopic') ?? session?.vTopicTitle ?? '',
     vAuthor: searchParams.get('vAuthor') ?? session?.vAuthor ?? '',
     vText: searchParams.get('vText') ?? session?.vText ?? '',
@@ -94,26 +98,35 @@ const Videoteka = () => {
     pText: searchParams.get('pText') ?? session?.pText ?? ''
   });
 
-  const [activeTab, setActiveTab] = React.useState<ActiveTab>(initRef.current.tab);
+  const [activeTab, setActiveTab] = React.useState<ActiveTab>(
+    initRef.current.tab
+  );
 
   // Applied filters tracked here for URL sync and session save only
   const [vApplied, setVApplied] = useState<VideotekaApplied | null>(null);
   const [pApplied, setPApplied] = useState<VideotekaApplied | null>(null);
 
+  const hashMatch = location.hash.match(
+    /^#(video-)?([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$/i
+  );
+
+  const validHash = hashMatch ? `#${hashMatch[1] ?? ''}${hashMatch[2]}` : '';
   const updateParams = (
     tab: ActiveTab,
     applied: VideotekaApplied | null,
     source: SearchSource = 'user'
   ) => {
     const next =
-      source === 'init' ? new URLSearchParams(searchParams) : new URLSearchParams();
+      source === 'init'
+        ? new URLSearchParams(searchParams)
+        : new URLSearchParams();
 
     next.set('tab', tab);
     applyTabParams(next, tab, applied);
 
-    navigate(
+    void navigate(
       source === 'init'
-        ? { search: '?' + next.toString(), hash: location.hash }
+        ? { search: '?' + next.toString(), hash: validHash }
         : { search: '?' + next.toString() },
       { replace: true }
     );
@@ -170,15 +183,27 @@ const Videoteka = () => {
           scrollButtons="auto"
           allowScrollButtonsMobile
         >
-          <Tab label="Видеа" value="videos" className="o-button o-button--outline" />
-          <Tab label="Плейлисти" value="playlists" className="o-button o-button--outline" />
+          <Tab
+            label="Видеа"
+            value="videos"
+            className="o-button o-button--outline"
+          />
+          <Tab
+            label="Плейлисти"
+            value="playlists"
+            className="o-button o-button--outline"
+          />
         </TabList>
 
         {/*
           Use div[hidden] instead of TabPanel so both tabs stay mounted after
           first activation — preserving loaded Sanity data when switching tabs.
         */}
-        <div role="tabpanel" hidden={activeTab !== 'videos'} className="videoteka-tab-panel full-page">
+        <div
+          role="tabpanel"
+          hidden={activeTab !== 'videos'}
+          className="videoteka-tab-panel full-page"
+        >
           <VideoTab
             isActive={activeTab === 'videos'}
             initTopicTitle={initRef.current.vTopicTitle}
@@ -188,7 +213,11 @@ const Videoteka = () => {
           />
         </div>
 
-        <div role="tabpanel" hidden={activeTab !== 'playlists'} className="videoteka-tab-panel full-page">
+        <div
+          role="tabpanel"
+          hidden={activeTab !== 'playlists'}
+          className="videoteka-tab-panel full-page"
+        >
           <PlaylistTab
             isActive={activeTab === 'playlists'}
             initTopicTitle={initRef.current.pTopicTitle}

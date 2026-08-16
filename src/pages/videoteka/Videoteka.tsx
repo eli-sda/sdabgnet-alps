@@ -18,7 +18,7 @@ type ActiveTab = 'videos' | 'playlists';
 // Session persistence
 // ---------------------------------------------------------------------------
 
-const SESSION_KEY = 'videoteka-session';
+const VIDEOTEKA_STORAGE = 'videoteka-session';
 
 type VideotekaSession = {
   tab: ActiveTab;
@@ -32,7 +32,7 @@ type VideotekaSession = {
 
 function readSession(): VideotekaSession | null {
   try {
-    const raw = sessionStorage.getItem(SESSION_KEY);
+    const raw = sessionStorage.getItem(VIDEOTEKA_STORAGE);
     return raw ? (JSON.parse(raw) as VideotekaSession) : null;
   } catch {
     return null;
@@ -41,7 +41,7 @@ function readSession(): VideotekaSession | null {
 
 function saveSession(s: VideotekaSession): void {
   try {
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify(s));
+    sessionStorage.setItem(VIDEOTEKA_STORAGE, JSON.stringify(s));
   } catch {
     // quota exceeded or private browsing — ignore
   }

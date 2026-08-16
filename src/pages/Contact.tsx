@@ -92,9 +92,9 @@ const Contact = () => {
   ) => {
     e.preventDefault();
     if (window.history.length > 1) {
-      navigate(-1);
+      void navigate(-1);
     } else {
-      navigate('/'); // fallback to home if no history
+      void navigate('/'); // fallback to home if no history
     }
   };
 

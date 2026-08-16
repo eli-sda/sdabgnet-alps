@@ -150,7 +150,7 @@ const LessonsSearch = () => {
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!lessonURL.startsWith('/') || /^\/\/|:/.test(lessonURL)) return;
-    navigate(lessonURL);
+    void navigate(lessonURL);
   };
 
   return (
@@ -210,7 +210,11 @@ const LessonsSearch = () => {
                 type="feature"
                 kicker={quarterOption.text}
                 title={quarterOption.title}
-                url={lessonURL.startsWith('/') && !/^\/\/|:/.test(lessonURL) ? lessonURL : undefined}
+                url={
+                  lessonURL.startsWith('/') && !/^\/\/|:/.test(lessonURL)
+                    ? lessonURL
+                    : undefined
+                }
               />
             </div>
           )}

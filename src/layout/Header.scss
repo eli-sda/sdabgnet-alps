@@ -3,7 +3,10 @@
 a.c-secondary-nav__link {
   cursor: pointer;
 }
-
+.c-header__logo {
+  width: auto;
+  max-width: 18.75rem; //the width in alps
+}
 // Prevent CLS: tell the browser the logo's aspect ratio before the SVG loads
 // so it can reserve the correct space. The ALPS CSS still controls the actual size.
 // (250 / 128 ≈ 1.95 matches the SVG viewBox ratio; the browser uses this only
@@ -78,6 +81,7 @@ a.c-secondary-nav__link {
 
 // not for drawer menu
 .c-header {
+  background-color: transparent;
   .c-primary-nav__link,
   .c-subnav__link {
     white-space: nowrap !important;

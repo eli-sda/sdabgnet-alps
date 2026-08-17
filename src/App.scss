@@ -2,12 +2,16 @@
 @use '/src/styles/const.scss' as *;
 @use '/src/Alps-font-overwrite.scss' as *;
 
+:root {
+  color-scheme: light;
+  --background-color: white;
+}
 /* Enable native smooth scrolling for in-page anchor links */
 html {
   scroll-behavior: smooth;
 }
-:root {
-  color-scheme: light;
+body {
+  background: var(--background-color) !important;
 }
 /* Fix for empty images - ensure they have height 0 when no src */
 img:not([src]),

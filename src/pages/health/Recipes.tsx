@@ -12,6 +12,7 @@ import { useScrollToHash } from 'src/hooks/useScrollToHash';
 interface ReelRecipe {
   id: string;
   title: string;
+  description: string;
   image: string;
   reelUrl: string;
 }
@@ -76,8 +77,8 @@ const Recipes = (): JSX.Element => {
                       <h3>Рецепти от {reelsLabels[key] ?? key}</h3>
                       <h4>
                         <em>
-                          Рецептата е в описанието — натиснете &quot;Вижте
-                          повече&quot; под всяко видео
+                          Натиснете &quot;Вижте повече&quot; под всяко видео, за
+                          да видите рецептата в описанието
                         </em>
                       </h4>
                     </div>
@@ -88,10 +89,11 @@ const Recipes = (): JSX.Element => {
                       <LinksBlock
                         key={reel.id}
                         title={reel.title}
+                        description={reel.description}
                         picture={reel.image}
                         buttons={[
                           {
-                            label: 'Виж рецептата',
+                            label: 'Виж във Facebook',
                             url: reel.reelUrl,
                             small: true,
                             isExternal: true

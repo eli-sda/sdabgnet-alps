@@ -14,7 +14,10 @@
           position: absolute;
           width: 100%;
           height: 100%;
-          fill: white;
+          background-color: var(--background-color);
+          mask: url('/img/saparator-wave.svg') center / 100% 100% no-repeat;
+          -webkit-mask: url('/img/saparator-wave.svg') center / 100% 100%
+            no-repeat;
         }
       }
       &--bottom {

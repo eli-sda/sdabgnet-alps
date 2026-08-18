@@ -11,6 +11,10 @@
        {
         "type": "feature",
         "text": "Добавени са избрани [рецепти от YouTube канали](/health/recipes#others)."
+      },
+      {
+        "type": "fix",
+        "text": "Коригирана е визуализацията на логото при Dark Mode в Samsung Internet."
       }
     ]
   },

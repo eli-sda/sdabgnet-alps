@@ -298,7 +298,7 @@ def process_reels(reels_input: list) -> None:
                 "id": reel_id,
                 "title": title,
                 "image": img_public_path,
-                "reelUrl": canonical_url,
+                "url": canonical_url,
                 "description": description,
             }
             new_entries.append(entry)

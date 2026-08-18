@@ -9,23 +9,24 @@ import { AccordionItem } from 'src/alps/molecules/components/accordion/Accordion
 import { Pullquote } from 'alps-library/molecules/text/pullquote/Pullquote';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 
-interface ReelRecipe {
+interface VideoRecipe {
   id: string;
   title: string;
   description: string;
   image: string;
-  reelUrl: string;
+  url: string;
 }
-const reelsFromKeys = ['Banya'];
-const reelsLabels: Record<string, string> = {
-  Banya: '„Център за здраве", с. Баня'
+
+const videosFromLabels: Record<string, string> = {
+  'reels-Banya': '„Център за здраве", с. Баня',
+  others: 'YouTube канали'
 };
 
 const Recipes = (): JSX.Element => {
   const breadcrumbsUrls = [routes.health(), routes.health('recipes')];
 
   const [recipes, setRecipes] = useState<LinksData[]>([]);
-  const [reels, setReels] = useState<Map<string, ReelRecipe[]>>(new Map());
+  const [videos, setVideos] = useState<Map<string, VideoRecipe[]>>(new Map());
   useScrollToHash({ enabled: recipes.length > 0 });
 
   useEffect(() => {
@@ -39,14 +40,14 @@ const Recipes = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    reelsFromKeys.forEach((key) => {
-      fetch(`/json/recipes-reels-${key}.json`)
+    Object.keys(videosFromLabels).forEach((key) => {
+      fetch(`/json/recipes-${key}.json`)
         .then((res) => res.json())
-        .then((data: ReelRecipe[]) =>
-          setReels((prev) => new Map(prev).set(key, data))
+        .then((data: VideoRecipe[]) =>
+          setVideos((prev) => new Map(prev).set(key, data))
         )
         .catch((err) => {
-          console.error(`Failed to load recipes-reels-${key}.json`, err);
+          console.error(`Failed to load recipes-${key}.json`, err);
         });
     });
   }, []);
@@ -63,24 +64,26 @@ const Recipes = (): JSX.Element => {
         />
         <MediaListSection sections={recipes} doubleSpace />
 
-        {reels.size > 0 && (
+        {videos.size > 0 && (
           <Accordion>
-            {reelsFromKeys.map((key) => {
-              const items = reels.get(key);
+            {Object.keys(videosFromLabels).map((key) => {
+              const items = videos.get(key);
               if (!items?.length) return null;
               return (
                 <AccordionItem
                   key={key}
-                  id={`reels-${key}`}
+                  id={key}
                   heading={
                     <div>
-                      <h3>Рецепти от {reelsLabels[key] ?? key}</h3>
-                      <h4>
-                        <em>
-                          Натиснете &quot;Вижте повече&quot; под всяко видео, за
-                          да видите рецептата в описанието
-                        </em>
-                      </h4>
+                      <h3>Рецепти от {videosFromLabels[key] ?? key}</h3>
+                      {key.startsWith('reels-') && (
+                        <h4>
+                          <em>
+                            Натиснете &quot;Вижте повече&quot; под всяко видео,
+                            за да видите рецептата в описанието
+                          </em>
+                        </h4>
+                      )}
                     </div>
                   }
                 >
@@ -93,8 +96,8 @@ const Recipes = (): JSX.Element => {
                         picture={reel.image}
                         buttons={[
                           {
-                            label: 'Виж във Facebook',
-                            url: reel.reelUrl,
+                            label: 'Виж видеото',
+                            url: reel.url,
                             small: true,
                             isExternal: true
                           }

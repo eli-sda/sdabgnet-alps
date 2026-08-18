@@ -129,11 +129,11 @@ export const AccordionItem = ({
     <div
       className={`c-accordion__item ${openClass} u-border--left u-padding--half--left u-spacing--half`}
       id={id}
-      title={open ? 'затвори' : 'отвори'}
     >
       <div
         className={`c-accordion__heading u-font--primary--m ${themeColorClass}--darker`}
         onClick={_onToggle}
+        title={open ? 'затвори' : 'отвори'}
         style={{ userSelect: 'none' }}
       >
         {!hideDefaultIcon && renderLeadingIcon()}

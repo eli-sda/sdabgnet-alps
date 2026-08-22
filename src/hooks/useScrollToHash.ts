@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigationType } from 'react-router-dom';
 
 type UseScrollToHashOptions = {
   enabled?: boolean;
@@ -11,6 +11,7 @@ export const useScrollToHash = ({
   delayMs = 0
 }: UseScrollToHashOptions = {}) => {
   const { hash } = useLocation();
+  const navType = useNavigationType();
   const lastScrolledHashRef = useRef<string | null>(null);
 
   useEffect(() => {
@@ -22,11 +23,14 @@ export const useScrollToHash = ({
     if (!enabled) return;
     if (lastScrolledHashRef.current === hash) return;
 
-    // Remove the # from the hash
     const elementId = hash.replace('#', '');
-    let rafId: number | null = null;
+    let raf1: number | null = null;
+    let raf2: number | null = null;
 
-    // Smooth scroll when DOM is ready
+    // delay slightly more for internal navigations so layout can settle
+    const extraDelay = String(navType) !== 'POP' ? 300 : 0;
+    const finalDelay = Math.max(0, delayMs + extraDelay);
+
     const scrollToElement = () => {
       const element = document.getElementById(elementId);
       if (element) {
@@ -36,16 +40,17 @@ export const useScrollToHash = ({
     };
 
     const timeoutId = window.setTimeout(() => {
-      rafId = window.requestAnimationFrame(scrollToElement);
-    }, delayMs);
+      raf1 = window.requestAnimationFrame(() => {
+        raf2 = window.requestAnimationFrame(scrollToElement);
+      });
+    }, finalDelay);
 
     return () => {
       window.clearTimeout(timeoutId);
-      if (rafId !== null) {
-        window.cancelAnimationFrame(rafId);
-      }
+      if (raf1 !== null) window.cancelAnimationFrame(raf1);
+      if (raf2 !== null) window.cancelAnimationFrame(raf2);
     };
-  }, [hash, enabled, delayMs]);
+  }, [hash, enabled, delayMs, navType]);
 
   return hash;
 };

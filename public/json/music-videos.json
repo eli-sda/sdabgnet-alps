@@ -2,18 +2,12 @@
   "_id": "youtube_music_playlist",
   "title": "Песни в YouTube",
   "description": "Подбрани песни от различни адвентни изпълнители",
-  "imageUrl": "/img/resources/music-videos.webp",
+  "imageUrl": "/img/resources/songs-videos.webp",
   "items": [
     {
-      "_id": "muotvZ2qEO4",
-      "path": "https://www.youtube.com/watch?v=muotvZ2qEO4",
-      "title": "Mission Theme Song by Jader Santos",
-      "description": "„Мисия“ е оригиналната тематична песен от Годишния съвет 2025, написана и композирана от Джейдър Сантос, пастор, музикант и композитор на ЦАСД."
-    },
-    {
-      "_id": "saZhMqWVxKY",
-      "path": "https://www.youtube.com/watch?v=saZhMqWVxKY",
-      "title": "Aнсамбъл \"Гласът на надеждата\" - Велик си Ти"
+      "_id": "PdaV42jan10",
+      "path": "https://www.youtube.com/watch?v=PdaV42jan10&list=PLHxD0n8PEQXKiWJz28H8ckGi4HyIYNC-P",
+      "title": "При нозете Му - Петък 7 1/2"
     },
     {
       "_id": "tdBkcAwkkXM",
@@ -26,19 +20,14 @@
       "title": "Марта Ляскова - VIA DOLOROSA"
     },
     {
-      "_id": "x0iIko8HbfY",
-      "path": "https://www.youtube.com/watch?v=x0iIko8HbfY",
-      "title": "Соника Файт - Скъсаната връзка"
+      "_id": "saZhMqWVxKY",
+      "path": "https://www.youtube.com/watch?v=saZhMqWVxKY",
+      "title": "Aнсамбъл \"Гласът на надеждата\" - Велик си Ти"
     },
     {
       "_id": "UouLhKI8pNo",
       "path": "https://www.youtube.com/watch?v=UouLhKI8pNo",
       "title": "Великден Алелуя - Дима Босева"
-    },
-    {
-      "_id": "PdaV42jan10",
-      "path": "https://www.youtube.com/watch?v=PdaV42jan10&list=PLHxD0n8PEQXKiWJz28H8ckGi4HyIYNC-P",
-      "title": "При нозете Му - Петък 7 1/2"
     },
     {
       "_id": "dczox8oY75U",
@@ -49,6 +38,17 @@
       "_id": "nw-p_5YoTR4",
       "path": "https://www.youtube.com/watch?v=nw-p_5YoTR4",
       "title": "\"Заради нас\" - Красимир Лазаров"
+    },
+    {
+      "_id": "x0iIko8HbfY",
+      "path": "https://www.youtube.com/watch?v=x0iIko8HbfY",
+      "title": "Соника Файт - Скъсаната връзка"
+    },
+    {
+      "_id": "muotvZ2qEO4",
+      "path": "https://www.youtube.com/watch?v=muotvZ2qEO4",
+      "title": "Mission Theme Song by Jader Santos",
+      "description": "„Мисия“ е оригиналната тематична песен от Годишния съвет 2025, написана и композирана от Джейдър Сантос, пастор, музикант и композитор на ЦАСД."
     },
     {
       "_id": "JfrOXpZTjfI",

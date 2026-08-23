@@ -185,27 +185,36 @@ export const MediaBlock = ({
       className={`${wrapClasses} ${'block' in preset ? preset.block : ''}`}
       {...blockProps}
     >
-      {image ? (
-        <MediaImage
-          className={`${'image' in preset ? preset.image : ''}`}
-          icon={!mediaIconAction ? icon : undefined}
-          asBackgroundImage={asBackgroundImage}
-          caption={imageCaption}
-          image={image}
-          url={url}
-        />
-      ) : (
-        defaultImageIcon
-      )}
-      {mediaIconAction && (
-        <div className="media-icon-button-container">
-          <button
-            className={`media-icon-button icon--${icon} o-button u-space--half--left u-space--half--bottom`}
-            onClick={mediaIconAction}
-            title={mediaIconTitle}
-          ></button>
-        </div>
-      )}
+      <div
+        onClick={mediaIconAction}
+        style={mediaIconAction ? { cursor: 'pointer' } : undefined}
+      >
+        {image ? (
+          <MediaImage
+            className={`${'image' in preset ? preset.image : ''}`}
+            icon={!mediaIconAction ? icon : undefined}
+            asBackgroundImage={asBackgroundImage}
+            caption={imageCaption}
+            image={image}
+            url={url}
+          />
+        ) : (
+          defaultImageIcon
+        )}
+        {mediaIconAction && (
+          <div className="media-icon-button-container">
+            <button
+              className={`media-icon-button icon--${icon} o-button u-space--half--left u-space--half--bottom`}
+              onClick={(event) => {
+                event.stopPropagation();
+                mediaIconAction?.();
+              }}
+              title={mediaIconTitle}
+            ></button>
+          </div>
+        )}
+      </div>
+
       {video && (
         <div className="c-block__image-wrap">
           <Figure videoSrc={video} />

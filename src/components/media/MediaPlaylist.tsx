@@ -38,6 +38,18 @@ const MediaPlaylist = ({
 
   const showPlayPauseControls = type === 'audio';
 
+  const handlePlaylistAction = () => {
+    if (showPlayPauseControls && isCurrent) {
+      if (isPlaying) {
+        pauseAction();
+        return;
+      }
+      playAction();
+      return;
+    }
+    onPlaylistSelect();
+  };
+
   return (
     <div
       className={`playlist-card ${isCurrent ? 'is-current' : ''} ${
@@ -53,13 +65,7 @@ const MediaPlaylist = ({
         kicker={author}
         description={parseLinksMdToHtml(playlist.description)}
         mediaIcon={type}
-        mediaIconAction={
-          showPlayPauseControls && isCurrent
-            ? isPlaying
-              ? pauseAction
-              : playAction
-            : onPlaylistSelect
-        }
+        mediaIconAction={handlePlaylistAction}
         mediaIconTitle={
           showPlayPauseControls && isPlaying
             ? 'Пауза'

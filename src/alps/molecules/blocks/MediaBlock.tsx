@@ -180,15 +180,22 @@ export const MediaBlock = ({
 
   const { onToggle, openClass } = useToggle(false, 'expanded', 'collapsed');
 
+  const ImageWrapper = ({ children }: { children: React.ReactNode }) =>
+  mediaIconAction ? (
+    <div
+        onClick={mediaIconAction}
+        style={ {cursor: 'pointer' } }
+      >{children}</div>
+  ) : (
+    <>{children}</>
+  );
+
   return (
     <div
       className={`${wrapClasses} ${'block' in preset ? preset.block : ''}`}
       {...blockProps}
     >
-      <div
-        onClick={mediaIconAction}
-        style={mediaIconAction ? { cursor: 'pointer' } : undefined}
-      >
+      <ImageWrapper>
         {image ? (
           <MediaImage
             className={`${'image' in preset ? preset.image : ''}`}
@@ -213,7 +220,7 @@ export const MediaBlock = ({
             ></button>
           </div>
         )}
-      </div>
+      </ImageWrapper>
 
       {video && (
         <div className="c-block__image-wrap">

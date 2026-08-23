@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { BaseSearch } from 'alps-library/molecules/forms/elements/BaseSearch';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import routes from 'src/routes';
+import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { getTitle } from 'src/utils/Navigation';
 import { filterSectionedData } from 'src/utils/filterHelpers';
 import MediaLinksPage, { LinkGroup } from './MediaLinksPage';
@@ -9,6 +10,7 @@ import MediaLinksPage, { LinkGroup } from './MediaLinksPage';
 const AdventistsOnline = (): JSX.Element => {
   const [bgLinks, setBgLinks] = useState<LinkGroup[]>([]);
   const [filteredLinks, setFilteredLinks] = useState<LinkGroup[]>([]);
+  useScrollToHash({ enabled: bgLinks.length > 0 });
 
   useEffect(() => {
     fetch('/json/adventists-online.json')

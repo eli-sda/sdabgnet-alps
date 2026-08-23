@@ -11,11 +11,22 @@
   },
   {
     "title": "Електронна библиотека",
-    "image40": "/img/logos/40/bibliotekabg.com.png",
+    "image40": "/img/logos/40/bibliotekabg.com.svg",
     "description": "BIBLIOTEKABG.COM е онлайн библиотека, която предлага богата колекция от електронни християнски книги. Търсачите на духовна литуратура, ще могат да се докоснат до публикациите и книгите на избрани автори, които претендират за духовно водителство, насочващо читателите към възвишеното.",
     "links": [
       {
         "url": "http://bibliotekabg.com",
+        "type": "сайт"
+      }
+    ]
+  },
+  {
+    "title": "SDA Compass - БГ версия",
+    "image40": "/img/logos/sdacompass.svg",
+    "description": "Търсене в духовна, здравна и психологическа литература по език, книга и пасаж.",
+    "links": [
+      {
+        "url": "https://www.sdacompass.com/bg",
         "type": "сайт"
       }
     ]

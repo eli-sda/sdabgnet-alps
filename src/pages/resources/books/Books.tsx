@@ -54,16 +54,21 @@ const Books = () => {
       {
         title: 'Електронна библиотека',
         url: 'https://bibliotekabg.com/',
-        image: getImageTypeByUrl('/img/logos/lib.webp')
+        description:
+          'Включва над 100 книги на Елън Уайт, както и друга адвентна литература',
+        image: getImageTypeByUrl('/img/logos/BibliotekaBG.svg'),
+        category: 'bibliotekabg.com'
       },
       {
         title: 'Четете книгите на Елън Уайт онлайн',
         url: 'https://m.egwwritings.org/bg/folders/1344',
-        image: getImageTypeByUrl('/img/logos/whiteestate-logo.png')
+        image: getImageTypeByUrl('/img/logos/whiteestate-logo.png'),
+        category: 'egwwritings.org'
       },
       {
         title: 'Между редовете',
-        description: 'Предаване за книгите на издателство "Нов живот", съвместно с "Hope Channel Bulgaria"',
+        description:
+          'Предаване за книгите на издателство "Нов живот", съвместно с "Hope Channel Bulgaria"',
         category: 'YouTube плейлист',
         url: 'https://www.youtube.com/playlist?list=PLtKXLzSB_hV3NWlJ5o3LZWVq1X78n2vnB',
         image: getImageTypeByUrl('/img/logos/between-the-lines.webp')

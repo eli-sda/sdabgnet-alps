@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="112" viewBox="0 0 420 112" role="img" aria-labelledby="title desc">
+  <title id="title">BibliotekaBG</title>
+  <desc id="desc">BibliotekaBG — Biblical Guidance Library logo</desc>
+  <rect width="420" height="112" rx="22" fill="#fffdf8"/>
+  <g transform="translate(24 20)">
+    <path d="M14 10h34c10 0 18 8 18 18v54H31c-9 0-17-7-17-16V10Z" fill="#7a3f58"/>
+    <path d="M66 28c0-10 8-18 18-18h34v56c0 9-8 16-17 16H66V28Z" fill="#c49350"/>
+    <path d="M30 24h24M30 38h24M30 52h20M82 24h24M82 38h24M82 52h20" stroke="#fffdf8" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <text x="160" y="52" font-family="Georgia, serif" font-size="36" font-weight="700" fill="#2f2b27">BibliotekaBG</text>
+  <text x="162" y="79" font-family="Arial, sans-serif" font-size="15" fill="#746a5e">Biblical Guidance Library</text>
+</svg>

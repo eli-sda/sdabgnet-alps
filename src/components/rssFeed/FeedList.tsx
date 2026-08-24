@@ -1,6 +1,11 @@
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Mousewheel, Pagination } from 'swiper/modules';
 import { DarkTitle } from '../DarkTitle';
 import { FeedItemType, FeedItem } from './FeedItem';
+
 import './FeedList.scss';
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 export type FeedListProps = {
   id: string;
@@ -36,11 +41,22 @@ export const FeedList = ({
       )}
 
       {items && items.length > 0 ? (
-        <div className={`feed-list u-space--top ${feedListClassName}`}>
-          {items?.map((item, i) => (
-            <FeedItem key={i} {...item} />
+        <Swiper
+          modules={[Pagination, Mousewheel]}
+          mousewheel={{
+            forceToAxis: true
+          }}
+          pagination={{ clickable: true }}
+          spaceBetween={32}
+          slidesPerView="auto"
+          className={`feed-swiper u-space--top ${feedListClassName}`}
+        >
+          {items.map((item, i) => (
+            <SwiperSlide key={i}>
+              <FeedItem {...item} />
+            </SwiperSlide>
           ))}
-        </div>
+        </Swiper>
       ) : (
         <div className="centered-text">
           <i className="fas fa-spinner fa-pulse fa-5x u-space--triple"></i>

@@ -42,4 +42,14 @@
       }
     }
   }
+
+  .swiper-slide {
+    height: auto;
+    display: flex;
+    justify-content: center;
+    cursor: grab;
+    &:active {
+      cursor: grabbing;
+    }
+  }
 }

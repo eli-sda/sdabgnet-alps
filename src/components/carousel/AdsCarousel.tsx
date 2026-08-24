@@ -77,7 +77,11 @@ export const AdsCarousel = () => {
   // The skeleton mirrors the real slide structure: image (16:9) + text section below.
   if (slides === undefined) {
     return (
-      <div id="ads-carousel" className="c-carousel c-carousel--skeleton" aria-hidden="true">
+      <div
+        id="ads-carousel"
+        className="c-carousel c-carousel--skeleton"
+        aria-hidden="true"
+      >
         <div className="c-carousel--skeleton__image" />
         <div className="c-carousel--skeleton__text" />
       </div>
@@ -87,7 +91,9 @@ export const AdsCarousel = () => {
   return slides.length > 0 ? (
     <div id="ads-carousel" className="c-carousel">
       <Swiper
-        mousewheel
+        mousewheel={{
+          forceToAxis: true
+        }}
         keyboard
         loop
         autoplay={{

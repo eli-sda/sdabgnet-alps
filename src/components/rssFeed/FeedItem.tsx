@@ -14,7 +14,7 @@ export const FeedItem = ({ title, link, date, imgUrl }: FeedItemType) => {
 
   return (
     <MediaBlock
-      type="mediaRow"
+      type="stacked"
       titleAs="h4"
       title={title}
       url={link}

@@ -1,4 +1,6 @@
 @use '/src/styles/colors.scss' as *;
+@use '/src/styles/swiper-controls' as *;
+
 .feed-section {
   position: relative;
   container-type: inline-size;
@@ -18,28 +20,20 @@
     max-width: 100px;
     max-height: 80px;
   }
-  .feed-list {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr); /* Default: 1 column (1+1+1+1+1+1) */
-    gap: 2rem;
 
-    /* Small width: 2 columns (2+2+2) */
-    @container (min-width: 430px) {
-      grid-template-columns: repeat(2, 1fr);
+  .feed-swiper {
+    padding-bottom: 0;
+
+    .swiper-pagination {
+      position: static;
+      margin-top: 1rem;
     }
 
-    /* Medium width: 3 columns (3+3) */
-    @container (min-width: 700px) {
-      grid-template-columns: repeat(3, 1fr);
+    .swiper-slide {
+      width: 220px;
     }
 
-    /* Large width: 4 columns (4+2) */
-    @container (min-width: 900px) {
-      grid-template-columns: repeat(4, 1fr);
-    }
     .c-media-block {
-      width: 100%;
-      min-width: 0;
       & > * {
         width: 100% !important;
         max-width: 220px;
@@ -63,8 +57,15 @@
       }
     }
     // Special styling for books - vertical items need smaller max-width
-    &.books .c-media-block > * {
-      max-width: 180px;
+    &.books {
+      .swiper-slide {
+        width: 180px;
+      }
+      .c-media-block > * {
+        max-width: 180px;
+      }
     }
+
+    @include swiper-controls();
   }
 }

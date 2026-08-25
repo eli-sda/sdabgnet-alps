@@ -17,6 +17,8 @@ export type FeedListProps = {
   feedListClassName?: string;
 };
 
+const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+
 export const FeedList = ({
   id,
   title,
@@ -43,7 +45,10 @@ export const FeedList = ({
       {items && items.length > 0 ? (
         <Swiper
           modules={[Pagination, Mousewheel]}
+          // Enable mouse wheel/trackpad navigation only on non-touch devices.
+          // forceToAxis keeps vertical scrolling for the page and uses horizontal gestures for the carousel.
           mousewheel={{
+            enabled: !isTouchDevice,
             forceToAxis: true
           }}
           pagination={{ clickable: true }}

@@ -32,8 +32,9 @@
       background-color: $mingDarkestColor !important; // as the swipper buttons
       width: 12px !important;
       height: 12px !important;
-      margin: 0 5px !important;
+      margin: 0 6px !important;
       transition: all 0.3s ease !important;
+      touch-action: manipulation;
 
       &.swiper-pagination-bullet-active {
         opacity: 1;

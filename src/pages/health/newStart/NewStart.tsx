@@ -109,6 +109,8 @@ const newStartPath = routes.health('new-start');
 const NewStart = (): JSX.Element => {
   useScrollToHash();
 
+  const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+
   const breadcrumbsUrls = [routes.health(), newStartPath];
   const { pageBackground } = usePagesMeta();
 
@@ -259,7 +261,12 @@ const NewStart = (): JSX.Element => {
             spaceBetween={10}
             navigation
             pagination={{ clickable: true }}
-            mousewheel
+            // Enable mouse wheel/trackpad navigation only on non-touch devices.
+            // forceToAxis keeps vertical scrolling for the page and uses horizontal gestures for the carousel.
+            mousewheel={{
+              enabled: !isTouchDevice,
+              forceToAxis: true
+            }}
             keyboard
             centeredSlides
             modules={[Navigation, Pagination, Mousewheel, Keyboard]}

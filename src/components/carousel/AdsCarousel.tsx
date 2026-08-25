@@ -53,6 +53,8 @@ const carouselImageSizes: ImageDimensions = {
   useHeight: true // Use height instead of width for vertical images
 };
 
+const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+
 export const AdsCarousel = () => {
   const { carouselAds, getCarouselAds } = useCarouselAds();
 
@@ -91,7 +93,10 @@ export const AdsCarousel = () => {
   return slides.length > 0 ? (
     <div id="ads-carousel" className="c-carousel">
       <Swiper
+        // Enable mouse wheel/trackpad navigation only on non-touch devices.
+        // forceToAxis keeps vertical scrolling for the page and uses horizontal gestures for the carousel.
         mousewheel={{
+          enabled: !isTouchDevice,
           forceToAxis: true
         }}
         keyboard

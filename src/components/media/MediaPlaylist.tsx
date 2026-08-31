@@ -1,4 +1,5 @@
-import { ReactNode } from 'react';
+import { MouseEvent, ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MediaBlock } from 'src/alps/molecules/blocks/MediaBlock';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlayer } from 'src/contexts/AudioPlayerContext';
@@ -35,6 +36,7 @@ const MediaPlaylist = ({
   const ctx = usePlayer();
   const pauseAction = ctx.pause ?? (() => {});
   const playAction = ctx.play ?? (() => {});
+  const navigate = useNavigate();
 
   const showPlayPauseControls = type === 'audio';
 
@@ -50,12 +52,26 @@ const MediaPlaylist = ({
     onPlaylistSelect();
   };
 
+  const handleDescriptionClick = (e: MouseEvent) => {
+    // Intercept clicks on internal links to act like <NavLink> instead of a full reload
+    const target = e.target as HTMLElement;
+    const anchor = target.closest('a');
+    if (anchor) {
+      const href = anchor.getAttribute('href');
+      if (href && !href.startsWith('http')) {
+        e.preventDefault();
+        void navigate(href);
+      }
+    }
+  };
+
   return (
     <div
       className={`playlist-card ${isCurrent ? 'is-current' : ''} ${
         isPlaying ? 'is-playing' : ''
       }`}
       id={playlist._id}
+      onClick={handleDescriptionClick}
     >
       <MediaBlock
         image={img}

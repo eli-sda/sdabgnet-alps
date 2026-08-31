@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react';
 import routes from 'src/routes';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
-import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
-import { LinksData, MediaListSection } from './MediaLinksPage';
+import MediaLinksPage, { LinksData } from './MediaLinksPage';
 
 const Institutions = (): JSX.Element => {
-  const breadcrumbsUrls = [routes.media(), routes.media('institutions')];
-
   const [institutions, setInstitutions] = useState<LinksData[]>([]);
   useScrollToHash({ enabled: institutions.length > 0 });
 
@@ -22,9 +19,9 @@ const Institutions = (): JSX.Element => {
   }, []);
 
   return (
-    <Page
-      title={getTitle(routes.media('institutions'))}
-      breadcrumbsUrls={breadcrumbsUrls}
+    <MediaLinksPage
+      mediaType="institutions"
+      linksJson={institutions}
       relatedPosts={{
         heading: 'Други връзки',
         blocks: [
@@ -40,11 +37,7 @@ const Institutions = (): JSX.Element => {
           }
         ]
       }}
-    >
-      <div className="u-spacing--double">
-        <MediaListSection sections={institutions} doubleSpace={false} />
-      </div>
-    </Page>
+    />
   );
 };
 

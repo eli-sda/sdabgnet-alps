@@ -110,7 +110,7 @@ const MediaLinksPage = ({
   isDoubleSpacing = false,
   children
 }: MediaLinksPageProps): JSX.Element => {
-  const breadcrumbsUrls = [routes.media(), routes.media(mediaType)];
+  const breadcrumbsUrls = [routes.info(), routes.media(), routes.media(mediaType)];
 
   const mainSections = useMemo(
     () => (isSectionsArray(linksJson) ? linksJson : ensureSections(linksJson)),

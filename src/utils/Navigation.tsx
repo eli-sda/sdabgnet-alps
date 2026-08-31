@@ -152,7 +152,7 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
     ]
   },
   {
-    text: 'БГ Справочник',
+    text: 'Справочник',
     url: routes.info(),
     faIconClass: 'fas fa-book',
     subnav: [
@@ -167,12 +167,6 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
         text: 'Библейски учения и курсове',
         url: routes.info('biblical'),
         faIconClass: 'fas fa-book-reader'
-      },
-      {
-        type: 'primary',
-        text: 'Адвентни църкви',
-        url: routes.info('churches'),
-        icon: 'logo'
       },
       {
         type: 'primary',
@@ -191,61 +185,68 @@ export const primaryNavigationItems: PrimaryNavItemProps[] = [
         text: 'Залез слънце',
         url: routes.info('sunset'),
         reactIcon: TbSunset2Filled
-      }
-    ]
-  },
-  {
-    text: 'Медии',
-    url: routes.media(),
-    faIconClass: 'fas fa-link',
-    subnav: [
-      {
-        type: 'primary',
-        text: 'Радиа',
-        url: routes.media('radio'),
-        faIconClass: 'fas fa-broadcast-tower'
       },
       {
         type: 'primary',
-        text: 'Телевизии',
-        url: routes.media('tv'),
-        faIconClass: 'fas fa-tv'
+        text: 'Адвентни църкви',
+        url: routes.info('churches'),
+        icon: 'logo'
       },
       {
         type: 'primary',
-        text: 'Издателство "Нов живот"',
-        isExternal: true,
-        url: 'https://newlife-bg.com/'
-      },
-      {
-        type: 'primary',
-        text: 'Списание "Християнска мисъл"',
-        isExternal: true,
-        url: 'https://hm-aw.adventist.bg/'
-      },
-      {
-        type: 'primary',
-        text: 'Адвентни отдели и институции',
-        url: routes.media('institutions'),
-        faIconClass: 'fas fa-link'
-      },
-      {
-        type: 'primary',
-        text: 'Адвентисти онлайн',
-        url: routes.media('bg-links'),
-        faIconClass: 'fas fa-link'
-      },
-      {
-        type: 'primary',
-        text: 'Приложения',
-        url: routes.media('apps'),
-        faIconClass: 'fas fa-mobile-alt'
-      },
-      {
-        type: 'primary',
-        text: 'Чужди сайтове',
-        url: routes.media('links'),
-        faIconClass: 'fas fa-link'
+        text: 'Медии',
+        url: routes.media(),
+        faIconClass: 'fas fa-link',
+        subnav: [
+          {
+            type: 'primary',
+            text: 'Радиа',
+            url: routes.media('radio'),
+            faIconClass: 'fas fa-broadcast-tower'
+          },
+          {
+            type: 'primary',
+            text: 'Телевизии',
+            url: routes.media('tv'),
+            faIconClass: 'fas fa-tv'
+          },
+          {
+            type: 'primary',
+            text: 'Издателство "Нов живот"',
+            isExternal: true,
+            url: 'https://newlife-bg.com/'
+          },
+          {
+            type: 'primary',
+            text: 'Списание "Християнска мисъл"',
+            isExternal: true,
+            url: 'https://hm-aw.adventist.bg/'
+          },
+          {
+            type: 'primary',
+            text: 'Адвентни отдели и институции',
+            url: routes.media('institutions'),
+            faIconClass: 'fas fa-link'
+          },
+          {
+            type: 'primary',
+            text: 'Адвентисти онлайн',
+            url: routes.media('bg-links'),
+            faIconClass: 'fas fa-link'
+          },
+          {
+            type: 'primary',
+            text: 'Приложения',
+            url: routes.media('apps'),
+            faIconClass: 'fas fa-mobile-alt'
+          },
+          {
+            type: 'primary',
+            text: 'Чужди сайтове',
+            url: routes.media('links'),
+            faIconClass: 'fas fa-link'
+          }
+        ]
       }
     ]
   },

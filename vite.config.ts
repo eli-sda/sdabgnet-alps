@@ -64,8 +64,10 @@ export default defineConfig({
             ) {
               return next();
             }
-            const cleanPath = req.url.split('?')[0].split('#')[0];
-            const rel = cleanPath.slice(1);
+          const cleanPath = decodeURIComponent(
+            req.url.split('?')[0].split('#')[0]
+          );
+          const rel = cleanPath.slice(1);
             // Check both public/ and project root (e.g. manifest.json lives at root)
             const inPublic = resolve(__dirname, 'public', rel);
             const inRoot = resolve(__dirname, rel);

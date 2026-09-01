@@ -26,6 +26,7 @@ export const VideoLinkBlock = ({
   const playlistName =
     showPlaylist && video.playlistId ? video.keyWords?.[0] || null : null;
   const isYouTube = video.path.includes('youtube.com');
+  const isShort = /youtube\.com\/shorts\//i.test(video.path || '');
   const elementId = `video-${video._id}`;
 
   const shareUrlObj = new URL(window.location.pathname, window.location.origin);
@@ -42,7 +43,7 @@ export const VideoLinkBlock = ({
     >
       <div className="c-cta-block__content c-block__content u-spacing--half u-padding--half">
         <div className="video-link-block__header">
-          {onToggleSelect && isYouTube && (
+          {onToggleSelect && isYouTube && !isShort && (
             <input
               type="checkbox"
               checked={isSelected}
@@ -69,7 +70,7 @@ export const VideoLinkBlock = ({
               </strong>
             </a>
             <div className="video-link-block__actions">
-              {onPlay && isYouTube && (
+              {onPlay && isYouTube && !isShort && (
                 <button
                   className="o-button o-button--outline video-link-block__play-btn"
                   onClick={onPlay}

@@ -132,6 +132,7 @@ const VideoPlayer = ({
   };
 
   const caption = useMemo(() => {
+    if (!currentVideo) return <div />;
     return (
       <div>
         <div className="video_title">
@@ -147,12 +148,7 @@ const VideoPlayer = ({
         )}
       </div>
     );
-  }, [
-    currentVideo.author,
-    currentVideo.description,
-    currentVideo.title,
-    playlistAuthor
-  ]);
+  }, [currentVideo, playlistAuthor]);
   const playerDiv = (
     <div className="videoPlayer-layout-player">
       {currentVideo ? (

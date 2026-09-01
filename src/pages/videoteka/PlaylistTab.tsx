@@ -1,12 +1,9 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { Caption } from 'alps-library/atoms/text/Caption';
-import { Pagination } from 'alps-library/molecules/navigation/pagination/Pagination';
+import { useCallback, useMemo, useState } from 'react';
 import { PlaylistSearchResults } from 'src/utils/FetchHelper';
-import { LinkType, PlaylistType, TopicType } from 'src/contexts/PlaylistsContext';
+import { LinkType, PlaylistType } from 'src/contexts/PlaylistsContext';
 import { useVideotekaFilters } from 'src/hooks/useVideotekaFilters';
-import { scrollToId } from 'src/utils/Links';
-import { FilterForm } from './FilterForm';
 import { PlaylistSearchBlock } from './PlaylistSearchBlock';
+import { VideotekaSubTab, VideotekaSubTabContext } from './VideotekaSubTab';
 import type { SearchSource, VideotekaApplied } from './types';
 
 const PLAYLISTS_PER_PAGE = 20;
@@ -22,6 +19,10 @@ export interface PlaylistTabProps {
   onPageChange: (page: number) => void;
 }
 
+type CombinedPlaylist =
+  | { kind: 'embedded'; playlist: PlaylistType }
+  | { kind: 'yt'; link: LinkType };
+
 export const PlaylistTab = ({
   isActive,
   initTopicTitle,
@@ -32,73 +33,32 @@ export const PlaylistTab = ({
   onPageChange
 }: PlaylistTabProps) => {
   const { getPlaylistTopics, getPlaylistAuthors, searchPlaylists } = useVideotekaFilters();
-  const [playlistTopics, setPlaylistTopics] = useState<TopicType[]>([]);
-  const [playlistAuthors, setPlaylistAuthors] = useState<string[]>([]);
-  const [pTopic, setPTopic] = useState<TopicType | null>(null);
-  const [pAuthor, setPAuthor] = useState<string | null>(null);
-  const [pText, setPText] = useState(initText);
-  const [pApplied, setPApplied] = useState<VideotekaApplied | null>(null);
   const [playlists, setPlaylists] = useState<PlaylistSearchResults>({ embedded: [], ytLinks: [] });
-  const [pLoading, setPLoading] = useState(false);
 
-  const dataLoadedRef = useRef(false);
-  const onSearchRef = useRef(onSearch);
-  useEffect(() => { onSearchRef.current = onSearch; }, [onSearch]);
-
-  // Lazy load: only when first activated
-  useEffect(() => {
-    if (!isActive || dataLoadedRef.current) return;
-    dataLoadedRef.current = true;
-
-    Promise.all([getPlaylistTopics(), getPlaylistAuthors()])
-      .then(([topics, authors]) => {
-        setPlaylistTopics(topics);
-        setPlaylistAuthors(authors);
-
-        if (initTopicTitle || initAuthor || initText) {
-          const resolved = topics.find((t) => t.title === initTopicTitle) ?? null;
-          setPTopic(resolved);
-          setPAuthor(initAuthor || null);
-          setPText(initText);
-          const applied: VideotekaApplied = { topic: resolved, author: initAuthor, text: initText };
-          setPApplied(applied);
-          onSearchRef.current(applied, 'init');
-        }
-      })
-      .catch((err) => console.error('Failed to load playlist data', err));
-  }, [isActive, initTopicTitle, initAuthor, initText, getPlaylistTopics, getPlaylistAuthors]);
-
-  // Playlist search
-  useEffect(() => {
-    if (!pApplied) return;
-    const { topic, author, text } = pApplied;
-    if (!topic && !author && !text) {
-      setPlaylists({ embedded: [], ytLinks: [] });
-      return;
-    }
-    setPLoading(true);
-    searchPlaylists(topic?._id ?? null, topic?.title ?? '', author, text)
-      .then(setPlaylists)
-      .catch((err) => {
-        console.error('Failed to load playlists', err);
+  const fetchResults = useCallback(
+    (applied: VideotekaApplied, setLoading: (l: boolean) => void) => {
+      const { topic, author, text } = applied;
+      if (!topic && !author && !text) {
         setPlaylists({ embedded: [], ytLinks: [] });
-      })
-      .finally(() => setPLoading(false));
-  }, [pApplied, searchPlaylists]);
-
-  const pHasApplied = pApplied && (!!pApplied.topic || !!pApplied.author || !!pApplied.text);
-  const pNoResults =
-    !pLoading && pHasApplied && playlists.embedded.length === 0 && playlists.ytLinks.length === 0;
+        return;
+      }
+      setLoading(true);
+      searchPlaylists(topic?._id ?? null, topic?.title ?? '', author, text)
+        .then(setPlaylists)
+        .catch((err) => {
+          console.error('Failed to load playlists', err);
+          setPlaylists({ embedded: [], ytLinks: [] });
+        })
+        .finally(() => setLoading(false));
+    },
+    [searchPlaylists]
+  );
 
   // Combine embedded series and YouTube playlists into one list sorted by
   // title, then paginate that single list. The page's items are split back by
   // type so both sections (Видео поредици / YouTube плейлисти) stay visible,
   // but a YouTube playlist lands on the page matching its alphabetical rank
   // among ALL playlists.
-  type CombinedPlaylist =
-    | { kind: 'embedded'; playlist: PlaylistType }
-    | { kind: 'yt'; link: LinkType };
-
   const combinedSorted = useMemo<CombinedPlaylist[]>(
     () =>
       [
@@ -115,100 +75,64 @@ export const PlaylistTab = ({
     [playlists.embedded, playlists.ytLinks]
   );
 
-  const totalResults = combinedSorted.length;
-  const totalPages = Math.max(1, Math.ceil(totalResults / PLAYLISTS_PER_PAGE));
-  const effectivePage = Math.min(page, totalPages);
+  const noResults = playlists.embedded.length === 0 && playlists.ytLinks.length === 0;
 
-  const { pageEmbedded, pageYt } = useMemo(() => {
-    const pageItems = combinedSorted.slice(
-      (effectivePage - 1) * PLAYLISTS_PER_PAGE,
-      effectivePage * PLAYLISTS_PER_PAGE
-    );
-    return {
-      pageEmbedded: pageItems
+  const renderResults = useCallback(
+    (ctx: VideotekaSubTabContext) => {
+      const pageItems = combinedSorted.slice(
+        (ctx.effectivePage - 1) * PLAYLISTS_PER_PAGE,
+        ctx.effectivePage * PLAYLISTS_PER_PAGE
+      );
+      const pageEmbedded = pageItems
         .filter((i): i is Extract<CombinedPlaylist, { kind: 'embedded' }> => i.kind === 'embedded')
-        .map((i) => i.playlist),
-      pageYt: pageItems
+        .map((i) => i.playlist);
+      const pageYt = pageItems
         .filter((i): i is Extract<CombinedPlaylist, { kind: 'yt' }> => i.kind === 'yt')
-        .map((i) => i.link)
-    };
-  }, [combinedSorted, effectivePage]);
+        .map((i) => i.link);
 
-  const handleSearch = () => {
-    const applied: VideotekaApplied = { topic: pTopic, author: pAuthor ?? '', text: pText.trim() };
-    setPApplied(applied);
-    onSearch(applied, 'user');
-    scrollToId(RESULTS_ID, true);
-  };
-
-  const handlePageChange = (nextPage: number) => {
-    onPageChange(nextPage);
-    scrollToId(RESULTS_ID);
-  };
-
-  const renderPagination = () =>
-    totalPages > 1 ? (
-      <Pagination
-        page={effectivePage}
-        total={totalPages}
-        onPageClick={handlePageChange}
-        onNextClick={() => handlePageChange(Math.min(effectivePage + 1, totalPages))}
-        onPrevClick={() => handlePageChange(Math.max(effectivePage - 1, 1))}
-        nextLabel="Следваща"
-        prevLabel="Предишна"
-        setUrl={(_pageNumber: number) => `#page-${_pageNumber}`}
-        surrounding={1}
-      />
-    ) : null;
-
-  return (
-    <div className="u-spacing--double">
-      <section className="u-spacing">
-        <Caption>
-          Изберете поне един критерий за търсене на YouTube видео поредици.
-          Можете да филтрирате по тема, автор или да въведете ключова дума в
-          заглавието или описанието. Вградените поредици се пускат директно в
-          сайта, а YouTube плейлистите се отварят в YouTube.
-        </Caption>
-        <FilterForm
-          type="playlists"
-          allTopics={playlistTopics}
-          allAuthors={playlistAuthors}
-          selectedTopic={pTopic}
-          selectedAuthor={pAuthor}
-          searchText={pText}
-          onTopicChange={setPTopic}
-          onAuthorChange={setPAuthor}
-          onSearchTextChange={setPText}
-          onSearch={handleSearch}
-        />
-      </section>
-
-      {pLoading && (
-        <div className="centered-text">
-          <i className="fas fa-spinner fa-pulse fa-5x u-space--triple"></i>
-        </div>
-      )}
-
-      {!pLoading && pHasApplied && !pNoResults && (
-        <div id={RESULTS_ID}>
-          {renderPagination()}
+      return (
+        <>
+          {ctx.renderPagination()}
           <PlaylistSearchBlock
             embedded={pageEmbedded}
             ytLinks={pageYt}
             embeddedTotal={playlists.embedded.length}
             ytTotal={playlists.ytLinks.length}
-            appliedTopics={pApplied?.topic ? [pApplied.topic] : []}
+            appliedTopics={ctx.applied?.topic ? [ctx.applied.topic] : []}
           />
-          {renderPagination()}
-        </div>
-      )}
+          {ctx.renderPagination()}
+        </>
+      );
+    },
+    [combinedSorted, playlists.embedded.length, playlists.ytLinks.length]
+  );
 
-      {pNoResults && (
-        <div className="u-spacing u-text-align--center">
-          <p>Не са намерени резултати.</p>
-        </div>
-      )}
-    </div>
+  return (
+    <VideotekaSubTab
+      isActive={isActive}
+      initTopicTitle={initTopicTitle}
+      initAuthor={initAuthor}
+      initText={initText}
+      page={page}
+      onSearch={onSearch}
+      onPageChange={onPageChange}
+      resultsId={RESULTS_ID}
+      pageSize={PLAYLISTS_PER_PAGE}
+      filterType="playlists"
+      caption={
+        <>
+          Изберете поне един критерий за търсене на YouTube видео поредици.
+          Можете да филтрирате по тема, автор или да въведете ключова дума в
+          заглавието или описанието. Вградените поредици се пускат директно в
+          сайта, а YouTube плейлистите се отварят в YouTube.
+        </>
+      }
+      getTopics={getPlaylistTopics}
+      getAuthors={getPlaylistAuthors}
+      fetchResults={fetchResults}
+      totalResults={combinedSorted.length}
+      noResults={noResults}
+      renderResults={renderResults}
+    />
   );
 };

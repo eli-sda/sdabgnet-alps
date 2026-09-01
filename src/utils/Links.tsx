@@ -1,21 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-/** Smooth-scrolls to an element by id, optionally deferred to the next frame. */
-export const scrollToId = (elementId: string, deferred = false): void => {
-  const doScroll = () => {
-    const element = document.getElementById(elementId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-  if (deferred) {
-    requestAnimationFrame(doScroll);
-  } else {
-    doScroll();
-  }
-};
-
 export type LinkItem = {
   url: string;
   type:

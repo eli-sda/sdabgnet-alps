@@ -9,12 +9,16 @@ import { TopicsBlock } from './TopicsBlock';
 interface PlaylistSearchBlockProps {
   embedded: PlaylistType[];
   ytLinks: LinkType[];
+  embeddedTotal?: number;
+  ytTotal?: number;
   appliedTopics?: TopicType[];
 }
 
 export const PlaylistSearchBlock = ({
   embedded,
   ytLinks,
+  embeddedTotal = embedded.length,
+  ytTotal = ytLinks.length,
   appliedTopics = []
 }: PlaylistSearchBlockProps) => {
   const appliedIds = new Set(appliedTopics.map((t) => t._id));
@@ -26,7 +30,7 @@ export const PlaylistSearchBlock = ({
       {embedded.length > 0 && (
         <section className="u-spacing">
           <h2 className="u-font--primary--m u-theme--color--darker">
-            Видео поредици ({embedded.length})
+            Видео поредици ({embeddedTotal})
           </h2>
           <VideoPlaylistList
             playlists={embedded}
@@ -45,7 +49,7 @@ export const PlaylistSearchBlock = ({
       {ytLinks.length > 0 && (
         <section className="u-spacing">
           <h2 className="u-font--primary--m u-theme--color--darker">
-            YouTube плейлисти ({ytLinks.length})
+            YouTube плейлисти ({ytTotal})
           </h2>
           <div className="u-spacing">
             {ytLinks.map((link) => (

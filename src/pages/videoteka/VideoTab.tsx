@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { Caption } from 'alps-library/atoms/text/Caption';
+import { Pagination } from 'alps-library/molecules/navigation/pagination/Pagination';
 import { Button } from 'src/alps/atoms/Button';
 import { LinkType, TopicType, PlaylistType } from 'src/contexts/PlaylistsContext';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { useVideotekaFilters } from 'src/hooks/useVideotekaFilters';
 import { FilterForm } from './FilterForm';
 import type { SearchSource, VideotekaApplied } from './types';
+import { scrollToId } from 'src/utils/Links';
 import { VideoLinkBlock } from './VideoLinkBlock';
 import { VideoPlayerDialog } from 'src/components/media/video/VideoPlayerDialog';
 
@@ -15,12 +17,17 @@ type VideoGroup = {
   videos: LinkType[];
 };
 
+const VIDEOS_PER_PAGE = 20;
+const RESULTS_ID = 'videoteka-video-results';
+
 export interface VideoTabProps {
   isActive: boolean;
   initTopicTitle: string;
   initAuthor: string;
   initText: string;
+  page: number;
   onSearch: (applied: VideotekaApplied, source?: SearchSource) => void;
+  onPageChange: (page: number) => void;
 }
 
 export const VideoTab = ({
@@ -28,7 +35,9 @@ export const VideoTab = ({
   initTopicTitle,
   initAuthor,
   initText,
-  onSearch
+  page,
+  onSearch,
+  onPageChange
 }: VideoTabProps) => {
   const { getVideoTopics, getVideoAuthors, searchVideos } = useVideotekaFilters();
   const [videoTopics, setVideoTopics] = useState<TopicType[]>([]);
@@ -92,6 +101,58 @@ export const VideoTab = ({
     [videos]
   );
 
+  const stripQuotes = (s: string) => s.replace(/^["'„“]+/, '');
+
+  // Build a stable playlist name for every playlist id so a playlist's videos
+  // sort contiguously (keyed by the same id used for grouping), and the pages
+  // stay alphabetical without another playlist appearing between its parts.
+  const playlistNameById = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const v of youtubeVideos) {
+      if (v.playlistId && !map.has(v.playlistId)) {
+        map.set(v.playlistId, v.keyWords?.[0] ?? v.playlistId);
+      }
+    }
+    return map;
+  }, [youtubeVideos]);
+
+  // Sort the full result set so singles come first (grouped under "Единични
+  // видеа"), then by playlist name, then by video title.
+  const sortedYoutubeVideos = useMemo<LinkType[]>(() => {
+    const locCompare = (a: string, b: string) =>
+      stripQuotes(a).localeCompare(stripQuotes(b), 'bg', { sensitivity: 'base', numeric: true });
+
+    return [...youtubeVideos].sort((a, b) => {
+      const pa = a.playlistId ? playlistNameById.get(a.playlistId) ?? a.playlistId : '';
+      const pb = b.playlistId ? playlistNameById.get(b.playlistId) ?? b.playlistId : '';
+      const byPlaylist = locCompare(pa, pb);
+      return byPlaylist !== 0 ? byPlaylist : locCompare(a.title, b.title);
+    });
+  }, [youtubeVideos, playlistNameById]);
+
+  const totalPages = Math.max(1, Math.ceil(sortedYoutubeVideos.length / VIDEOS_PER_PAGE));
+  const effectivePage = Math.min(page, totalPages);
+
+  const paginatedVideos = useMemo<LinkType[]>(
+    () =>
+      sortedYoutubeVideos.slice(
+        (effectivePage - 1) * VIDEOS_PER_PAGE,
+        effectivePage * VIDEOS_PER_PAGE
+      ),
+    [sortedYoutubeVideos, effectivePage]
+  );
+
+  // Total video count per group across the whole result set (not just the page),
+  // keyed by playlist id, with 'singles' for videos not in a playlist.
+  const groupCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const v of sortedYoutubeVideos) {
+      const key = v.playlistId ?? 'singles';
+      counts.set(key, (counts.get(key) ?? 0) + 1);
+    }
+    return counts;
+  }, [sortedYoutubeVideos]);
+
   useScrollToHash({
     enabled: !vLoading && youtubeVideos.length > 0
   });
@@ -101,8 +162,13 @@ export const VideoTab = ({
   }, [vApplied]);
 
   const groupedVideos = useMemo((): VideoGroup[] => {
+    const sortByTitle = (a: LinkType, b: LinkType) =>
+      a.title
+        .replace(/^["'„“]+/, '')
+        .localeCompare(b.title.replace(/^["'„“]+/, ''), 'bg', { sensitivity: 'base', numeric: true });
+
     const map = new Map<string | null, LinkType[]>();
-    youtubeVideos.forEach((video: LinkType) => {
+    paginatedVideos.forEach((video: LinkType) => {
       const key = video.playlistId ?? null;
       let arr = map.get(key);
       if (!arr) {
@@ -114,15 +180,23 @@ export const VideoTab = ({
     const result: VideoGroup[] = [];
     for (const [id, vids] of map) {
       if (id !== null) {
-        result.push({ playlistId: id, playlistName: vids[0].keyWords?.[0] ?? null, videos: vids });
+        result.push({
+          playlistId: id,
+          playlistName: playlistNameById.get(id) ?? vids[0].keyWords?.[0] ?? null,
+          videos: [...vids].sort(sortByTitle)
+        });
       }
     }
+    result.sort((a, b) =>
+      stripQuotes(a.playlistName ?? '')
+        .localeCompare(stripQuotes(b.playlistName ?? ''), 'bg', { sensitivity: 'base', numeric: true })
+    );
     const singles = map.get(null) ?? [];
     if (singles.length > 0) {
-      result.push({ playlistId: null, playlistName: null, videos: singles });
+      result.unshift({ playlistId: null, playlistName: null, videos: [...singles].sort(sortByTitle) });
     }
     return result;
-  }, [youtubeVideos]);
+  }, [paginatedVideos, playlistNameById]);
 
   const toggleSelect = (id: string) =>
     setSelectedIds((prev) => {
@@ -156,7 +230,28 @@ export const VideoTab = ({
     const applied: VideotekaApplied = { topic: vTopic, author: vAuthor ?? '', text: vText.trim() };
     setVApplied(applied);
     onSearch(applied, 'user');
+    scrollToId(RESULTS_ID, true);
   };
+
+  const handlePageChange = (nextPage: number) => {
+    onPageChange(nextPage);
+    scrollToId(RESULTS_ID);
+  };
+
+  const renderPagination = () =>
+    totalPages > 1 ? (
+      <Pagination
+        page={effectivePage}
+        total={totalPages}
+        onPageClick={handlePageChange}
+        onNextClick={() => handlePageChange(Math.min(effectivePage + 1, totalPages))}
+        onPrevClick={() => handlePageChange(Math.max(effectivePage - 1, 1))}
+        nextLabel="Следваща"
+        prevLabel="Предишна"
+        setUrl={(_pageNumber: number) => `#page-${_pageNumber}`}
+        surrounding={1}
+      />
+    ) : null;
 
   return (
     <>
@@ -188,9 +283,14 @@ export const VideoTab = ({
         )}
 
         {!vLoading && youtubeVideos.length > 0 && (
-          <section className="u-spacing--double">
+          <section
+            id={RESULTS_ID}
+            className="u-spacing--double"
+          >
             <div className="videoteka-youtube-header">
-              <h2 className="u-font--primary--m u-theme--color--darker">YouTube видеа</h2>
+              <h2 className="u-font--primary--m u-theme--color--darker">
+                YouTube видеа ({youtubeVideos.length})
+              </h2>
               {selectedIds.size > 0 ? (
                 <Button
                   outline
@@ -203,6 +303,7 @@ export const VideoTab = ({
                 <Button outline small disabled faIconClass="fas fa-play-circle" label="Пусни избраните" />
               )}
             </div>
+            {renderPagination()}
             {groupedVideos.map((group) => (
               <div key={group.playlistId ?? 'singles'} className="videoteka-playlist-group u-spacing">
                 <div className="videoteka-group-header">
@@ -211,7 +312,7 @@ export const VideoTab = ({
                       <span>
                         <i className="fas fa-list u-space--quarter--right"></i>
                         {group.playlistName ?? group.playlistId}
-                        <span className="videoteka-group-count"> ({group.videos.length})</span>
+                        <span className="videoteka-group-count"> ({groupCounts.get(group.playlistId ?? '') ?? group.videos.length})</span>
                       </span>
                       <Button
                         outline
@@ -222,7 +323,7 @@ export const VideoTab = ({
                       />
                     </>
                   ) : (
-                    <span>Единични видеа ({group.videos.length})</span>
+                    <span>Единични видеа ({groupCounts.get('singles') ?? group.videos.length})</span>
                   )}
                 </div>
                 {group.videos.map((video, i) => (
@@ -238,6 +339,7 @@ export const VideoTab = ({
                 ))}
               </div>
             ))}
+            {renderPagination()}
           </section>
         )}
 

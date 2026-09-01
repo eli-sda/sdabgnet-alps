@@ -1,7 +1,7 @@
 import { LinkType, TopicType } from 'src/contexts/PlaylistsContext';
 import ShareItemButton from 'src/components/ShareItemButton';
 
-import { cleanedDescription } from 'src/utils/Links';
+import { cleanedDescription, parseLinksMdToHtml } from 'src/utils/Links';
 import { TopicsBlock } from './TopicsBlock';
 import './VideoLinkBlock.scss';
 
@@ -89,7 +89,17 @@ export const VideoLinkBlock = ({
                     <br />
                   </span>
                 )}
-                {cleanedDescription(video.description || '')}
+                {cleanedDescription(video.description || '') && (
+                  <span
+                    className="text"
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        parseLinksMdToHtml(
+                          cleanedDescription(video.description || '')
+                        ) || ''
+                    }}
+                  />
+                )}
               </p>
             )}
             {(playlistName || (video.topics && video.topics.length > 0)) && (

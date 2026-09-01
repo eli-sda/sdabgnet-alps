@@ -265,7 +265,7 @@ export const loadAllPlaylistTopics = async (): Promise<
   { _id: string; title: string }[]
 > => {
   const query = `*[_type == "topic" && (
-    _id in *[_type == "playlist" && type == "video" && isResource != true].topics[]._ref ||
+    _id in *[_type == "playlist" && (type == "video" || type == "video-book") && isResource != true].topics[]._ref ||
     _id in *[_type == "link" && type == "playlist" && isResource != true].topics[]._ref
   )] | order(title asc) { _id, title }`;
   return await client.fetch(query);
@@ -361,7 +361,7 @@ export const loadVideosByFilters = async (
 
 export const loadAllPlaylistAuthors = async (): Promise<string[]> => {
   const query = `array::unique(
-    *[_type == "playlist" && type == "video" && isResource != true && defined(author) && author != ""].author
+    *[_type == "playlist" && (type == "video" || type == "video-book") && isResource != true && defined(author) && author != ""].author
     + *[_type == "link" && type == "playlist" && isResource != true && defined(author) && author != ""].author
   )`;
   const authors = await client.fetch<string[]>(query);
@@ -402,7 +402,7 @@ export const loadPlaylistsByFilters = async (
 
   const embeddedQuery = `*[
     _type == "playlist"
-    && type == "video"
+    && (type == "video" || type == "video-book")
     && isResource != true
     && count(items[_type == "reference"]) > 0
     ${topicFilter}

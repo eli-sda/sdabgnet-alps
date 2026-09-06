@@ -584,7 +584,7 @@ export const isValidUrl = (url: string): boolean => {
       'asi-bg.org',
       'radiosvetlina.org',
       'ltv.bg',
-      'lifeinhope.com',
+      'novstart.com',
       'zdravencentarmedovo.com',
       'healthcare-bg.com',
       'yanikabg.com',

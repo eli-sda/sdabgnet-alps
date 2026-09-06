@@ -36,7 +36,7 @@ const relatedHealthCenters = (
     blocks={[
       {
         title: 'Център за здраве в с. Баня',
-        url: 'https://lifeinhope.com/bg/'
+        url: 'https://novstart.com/'
       },
       {
         title: 'Център за здраве в с. Медово',

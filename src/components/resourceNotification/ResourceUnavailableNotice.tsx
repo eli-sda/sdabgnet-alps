@@ -31,7 +31,7 @@ export const ResourceUnavailableNotice = () => {
       () => {
         void check();
       },
-      5 * 60 * 1000 // every 5 minutes
+      60 * 1000 // every 1 minute
     );
 
     return () => clearInterval(intervalId);

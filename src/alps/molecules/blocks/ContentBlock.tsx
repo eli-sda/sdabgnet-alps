@@ -19,6 +19,7 @@ import { newLinesWithLinks } from 'src/utils/Links';
 import './ContentBlock.scss';
 
 export interface ContentBlockProps {
+  id?: string;
   /**
    * Specify the title of your ContentBlock
    */
@@ -85,6 +86,7 @@ export interface ContentBlockProps {
 }
 
 export const ContentBlock = ({
+  id,
   title,
   reactIcon,
   faIconClass,
@@ -118,6 +120,7 @@ export const ContentBlock = ({
   );
 
   const moreClasses = more ? ' can-be--dark-dark u-clear-fix' : '';
+  const idProps = id ? { id } : {};
 
   const isExternal = url.startsWith('http');
 
@@ -150,7 +153,7 @@ export const ContentBlock = ({
   }
 
   return (
-    <div className={classes + moreClasses}>
+    <div {...idProps} className={classes + moreClasses}>
       {image && <MediaImage image={image} url={url} />}
       <div className="u-spacing">
         <h3

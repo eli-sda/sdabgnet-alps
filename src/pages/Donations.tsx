@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { getImageTypeByUrl } from 'src/utils/ImageHelper';
 import { Pullquote } from 'alps-library/molecules/text/pullquote/Pullquote.tsx';
 import { HeadingBlock } from 'alps-library/molecules/blocks/headingBlock/HeadingBlock';
@@ -8,12 +9,14 @@ import { Page } from 'src/organisms/Page';
 import { PageLinkItem } from 'src/organisms/PageLinkItem';
 import { getTitle } from 'src/utils/Navigation';
 import { isValidUrl } from 'src/utils/FetchHelper';
+import { generateId } from 'src/utils/Links';
 
 const breadcrumbsUrls = [routes.churchLife(), routes.churchLife('donations')];
 
 const Donations = () => {
   const title = getTitle(routes.churchLife('donations'));
   const [donations, setDonations] = useState<ExternalPageLink[]>([]);
+  useScrollToHash({ enabled: donations.length > 0 });
 
   useEffect(() => {
     fetch('/json/donations.json')
@@ -52,18 +55,23 @@ const Donations = () => {
       </section>
 
       <>
-        {donations.map(({ url, title, description, img, buttons }, idx) => (
-          <PageLinkItem
-            key={idx}
-            url={url}
-            title={title}
-            description={description}
-            img={getImageTypeByUrl(img, title)}
-            buttons={buttons}
-            sizeAtM="6"
-            sizeAtXL="3"
-          />
-        ))}
+        {donations.map(({ url, title, description, img, buttons }, idx) => {
+          const donationId = generateId(title);
+
+          return (
+            <PageLinkItem
+              key={donationId || idx}
+              id={donationId}
+              url={url}
+              title={title}
+              description={description}
+              img={getImageTypeByUrl(img, title)}
+              buttons={buttons}
+              sizeAtM="6"
+              sizeAtXL="3"
+            />
+          );
+        })}
       </>
 
       <section>

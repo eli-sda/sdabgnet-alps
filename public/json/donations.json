@@ -62,6 +62,17 @@
     "img": "/img/health/qnika.svg"
   },
   {
+  "url": "https://sofiawest.sdabg.net/",
+    "title": "Строеж на църква София-Запад",
+    "description": "ЦАСД София-Запад набира средства за строеж на нова модерна сграда в кв. Люлин.",
+    "img": "/img/logos/sdasofiawest.webp"
+  }, {
+  "url": "https://vtarnovo.sdabg.net/novdom/",
+    "title": "Нова църква - Велико Търново",
+    "description": "ЦАСД - гр. Велико Търново отправя апел за събиране на средства за строеж на нов молитвен дом.",
+    "img": "/img/logos/vtarnovo.webp"
+  },
+  {
     "title": "Топла супа",
     "url": "https://www.facebook.com/toplasupavnedelq/",
     "img": "/img/logos/topla-supa-logo.svg",

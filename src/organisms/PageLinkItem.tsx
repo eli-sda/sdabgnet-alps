@@ -20,6 +20,7 @@ export type PageLinkItemType = BaseLinkType & {
   reactIcon?: IconType;
   faIconClass?: string;
   icon?: keyof typeof iconConfig.iconNamesMap;
+  id?: string;
 };
 
 export const PageLinkItem = ({
@@ -32,27 +33,27 @@ export const PageLinkItem = ({
   sizeAtXL = '2',
   reactIcon,
   faIconClass,
-  icon
+  icon,
+  id
 }: PageLinkItemType) => {
   return (
-    <>
-      <GridItem
-        className={'u-space--triple--bottom l-grid-item page-link-item'}
-        sizeAtM={sizeAtM}
-        sizeAtXL={sizeAtXL}
-      >
-        <ContentBlock
-          title={title}
-          reactIcon={reactIcon}
-          faIconClass={faIconClass}
-          icon={icon}
-          description={description}
-          url={url}
-          cta="Отвори страницата"
-          image={img || undefined}
-          buttons={buttons}
-        ></ContentBlock>
-      </GridItem>
-    </>
+    <GridItem
+      className={'u-space--triple--bottom l-grid-item page-link-item'}
+      sizeAtM={sizeAtM}
+      sizeAtXL={sizeAtXL}
+    >
+      <ContentBlock
+        id={id}
+        title={title}
+        reactIcon={reactIcon}
+        faIconClass={faIconClass}
+        icon={icon}
+        description={description}
+        url={url}
+        cta="Отвори страницата"
+        image={img || undefined}
+        buttons={buttons}
+      ></ContentBlock>
+    </GridItem>
   );
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { wordStartPattern } from 'src/utils/searchText';
 
 export type LinkItem = {
   url: string;
@@ -106,6 +107,49 @@ export const generateId = (title: string): string =>
 
 /** Matches markdown-style links: [text](url) */
 const MD_LINK_REGEX = /\[([^\]]+)\]\(([^)]+)\)/g;
+
+/** Highlights the search term (matched at word start, keeping inflected forms) in HTML content without touching tags/attributes. */
+export const highlightHtml = (
+  html: string | undefined,
+  term: string
+): string | undefined => {
+  const trimmed = term.trim();
+  if (!html || !trimmed) return html;
+  const pattern = new RegExp(`(<[^>]*>)|${wordStartPattern(trimmed)}`, 'giu');
+  return html.replace(
+    pattern,
+    (match, tag: string | undefined) =>
+      tag !== undefined ? match : `<mark>${match}</mark>`
+  );
+};
+
+/** Highlights the search term (matched at word start) in plain text as React nodes. */
+export const highlightTextNodes = (
+  text: string,
+  term: string
+): React.ReactNode[] => {
+  const trimmed = term.trim();
+  if (!trimmed) return [text];
+  const pattern = new RegExp(wordStartPattern(trimmed), 'giu');
+  const parts: React.ReactNode[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  while ((match = pattern.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index));
+    }
+    parts.push(
+      <mark key={match.index}>
+        {match[0]}
+      </mark>
+    );
+    lastIndex = match.index + match[0].length;
+  }
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+  return parts;
+};
 
 /** Parses markdown-style links [text](url) in a string and renders them as <a> (external) or <NavLink> (internal). */
 export const parseLinksMd = (text: string): React.ReactNode[] => {

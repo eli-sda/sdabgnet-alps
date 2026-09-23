@@ -1,7 +1,7 @@
 import { LinkType, TopicType } from 'src/contexts/PlaylistsContext';
 import ShareItemButton from 'src/components/ShareItemButton';
 
-import { cleanedDescription, parseLinksMdToHtml } from 'src/utils/Links';
+import { cleanedDescription, highlightHtml, parseLinksMdToHtml } from 'src/utils/Links';
 import { TopicsBlock } from './TopicsBlock';
 import './VideoLinkBlock.scss';
 
@@ -12,6 +12,7 @@ interface VideoLinkBlockProps {
   onToggleSelect?: () => void;
   onPlay?: () => void;
   showPlaylist?: boolean;
+  highlightText?: string;
 }
 
 export const VideoLinkBlock = ({
@@ -20,7 +21,8 @@ export const VideoLinkBlock = ({
   isSelected = false,
   onToggleSelect,
   onPlay,
-  showPlaylist = true
+  showPlaylist = true,
+  highlightText = ''
 }: VideoLinkBlockProps) => {
   const appliedIds = new Set(appliedTopics.map((t) => t._id));
   const playlistName =
@@ -95,8 +97,11 @@ export const VideoLinkBlock = ({
                     className="text"
                     dangerouslySetInnerHTML={{
                       __html:
-                        parseLinksMdToHtml(
-                          cleanedDescription(video.description || '')
+                        highlightHtml(
+                          parseLinksMdToHtml(
+                            cleanedDescription(video.description || '')
+                          ),
+                          highlightText
                         ) || ''
                     }}
                   />

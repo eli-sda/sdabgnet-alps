@@ -81,6 +81,7 @@ interface MediaPlaylistListProps {
   defaultImageIcon?: ReactNode;
   renderPlaylistExtra?: (playlist: PlaylistType) => ReactNode;
   getShareBaseParams?: (playlist: PlaylistType) => Record<string, string>;
+  highlightText?: string;
 }
 
 const MediaPlaylistList = ({
@@ -95,7 +96,8 @@ const MediaPlaylistList = ({
   className = '',
   defaultImageIcon,
   renderPlaylistExtra,
-  getShareBaseParams
+  getShareBaseParams,
+  highlightText
 }: MediaPlaylistListProps) => {
   const { hash, search } = useLocation();
 
@@ -295,6 +297,7 @@ const MediaPlaylistList = ({
                 isPlaying={isCurrent && isPlaying}
                 type={mediaType}
                 defaultImageIcon={defaultImageIcon}
+                highlightText={highlightText}
                 actionButtons={
                   <>
                     <div className="u-padding--half--top">

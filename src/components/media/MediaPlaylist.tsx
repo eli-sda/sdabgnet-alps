@@ -4,8 +4,8 @@ import { MediaBlock } from 'src/alps/molecules/blocks/MediaBlock';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlayer } from 'src/contexts/AudioPlayerContext';
 import { getImage, getImageTypeByUrl } from 'src/utils/ImageHelper';
+import { highlightHtml, parseLinksMdToHtml } from 'src/utils/Links';
 import './MediaPalylist.scss';
-import { parseLinksMdToHtml } from 'src/utils/Links';
 
 type MediaPlaylistProps = {
   type: 'audio' | 'video';
@@ -15,6 +15,7 @@ type MediaPlaylistProps = {
   isPlaying?: boolean;
   actionButtons?: JSX.Element;
   defaultImageIcon?: ReactNode;
+  highlightText?: string;
 };
 
 const MediaPlaylist = ({
@@ -24,7 +25,8 @@ const MediaPlaylist = ({
   isCurrent,
   isPlaying,
   actionButtons,
-  defaultImageIcon
+  defaultImageIcon,
+  highlightText = ''
 }: MediaPlaylistProps) => {
   const { author, title = '', imageUrl } = playlist;
   const img = imageUrl
@@ -79,7 +81,10 @@ const MediaPlaylist = ({
         type="stacked"
         title={title}
         kicker={author}
-        description={parseLinksMdToHtml(playlist.description)}
+        description={highlightHtml(
+          parseLinksMdToHtml(playlist.description),
+          highlightText
+        )}
         mediaIcon={type}
         mediaIconAction={handlePlaylistAction}
         mediaIconTitle={

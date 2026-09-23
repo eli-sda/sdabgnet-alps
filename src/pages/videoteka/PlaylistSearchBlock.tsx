@@ -4,6 +4,7 @@ import {
   TopicType
 } from 'src/contexts/PlaylistsContext';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
+import { highlightTextNodes } from 'src/utils/Links';
 import { TopicsBlock } from './TopicsBlock';
 
 interface PlaylistSearchBlockProps {
@@ -12,6 +13,7 @@ interface PlaylistSearchBlockProps {
   embeddedTotal?: number;
   ytTotal?: number;
   appliedTopics?: TopicType[];
+  highlightText?: string;
 }
 
 export const PlaylistSearchBlock = ({
@@ -19,7 +21,8 @@ export const PlaylistSearchBlock = ({
   ytLinks,
   embeddedTotal = embedded.length,
   ytTotal = ytLinks.length,
-  appliedTopics = []
+  appliedTopics = [],
+  highlightText = ''
 }: PlaylistSearchBlockProps) => {
   const appliedIds = new Set(appliedTopics.map((t) => t._id));
 
@@ -35,6 +38,7 @@ export const PlaylistSearchBlock = ({
           <VideoPlaylistList
             playlists={embedded}
             withListPadding={false}
+            highlightText={highlightText}
             renderPlaylistExtra={(playlist) => (
               <TopicsBlock topics={playlist.topics} appliedIds={appliedIds} />
             )}
@@ -79,7 +83,11 @@ export const PlaylistSearchBlock = ({
                     </p>
                   )}
                   {link.description && (
-                    <p className="u-font--secondary--s">{link.description}</p>
+                    <p className="u-font--secondary--s">
+                      {highlightText
+                        ? highlightTextNodes(link.description, highlightText)
+                        : link.description}
+                    </p>
                   )}
                   <TopicsBlock topics={link.topics} appliedIds={appliedIds} />
                 </div>

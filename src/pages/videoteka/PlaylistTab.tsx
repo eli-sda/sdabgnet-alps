@@ -99,6 +99,7 @@ export const PlaylistTab = ({
             embeddedTotal={playlists.embedded.length}
             ytTotal={playlists.ytLinks.length}
             appliedTopics={ctx.applied?.topic ? [ctx.applied.topic] : []}
+            highlightText={ctx.applied?.text ?? ''}
           />
           {ctx.renderPagination()}
         </>

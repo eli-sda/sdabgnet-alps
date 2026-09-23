@@ -12,6 +12,7 @@ type VideoPlaylistListProps = {
   withListPadding?: boolean;
   renderPlaylistExtra?: (playlist: PlaylistType) => ReactNode;
   getShareBaseParams?: (playlist: PlaylistType) => Record<string, string>;
+  highlightText?: string;
 };
 
 const VideoPlaylistList = ({
@@ -19,7 +20,8 @@ const VideoPlaylistList = ({
   playlists,
   withListPadding = false,
   renderPlaylistExtra,
-  getShareBaseParams
+  getShareBaseParams,
+  highlightText
 }: VideoPlaylistListProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -30,6 +32,7 @@ const VideoPlaylistList = ({
       className={withListPadding ? 'u-padding--sides' : ''}
       mediaType="video"
       defaultImageIcon={<FaVideo {...reactIconProps} />}
+      highlightText={highlightText}
       onPlaylistSelect={() => {
         setDialogOpen(true);
       }}

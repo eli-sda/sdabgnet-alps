@@ -290,6 +290,7 @@ export const VideoTab = ({
                   onToggleSelect={() => toggleSelect(video._id)}
                   onPlay={() => openSingle(video)}
                   showPlaylist={false}
+                  highlightText={ctx.applied?.text ?? ''}
                 />
               ))}
             </div>

@@ -43,8 +43,9 @@ export interface ContentBlockProps {
 
   /**
    * Specify the date of your ContentBlock
+   * A number (timestamp) is formatted via DateTimeFormat; a string is rendered as-is.
    */
-  date?: number;
+  date?: number | string;
   /**
    * Specify the datetime of your ContentBlock
    */
@@ -195,12 +196,16 @@ export const ContentBlock = ({
                 className="c-block__date u-text-transform--upper"
                 dateTime={`${date}`}
               >
-                <DateTimeFormat
-                  datetime={date}
-                  locales={dateLocales}
-                  format={dateFormat}
-                  style={dateStyle}
-                />
+                {typeof date === 'string' ? (
+                  date
+                ) : (
+                  <DateTimeFormat
+                    datetime={date}
+                    locales={dateLocales}
+                    format={dateFormat}
+                    style={dateStyle}
+                  />
+                )}
               </time>
             )}
           </span>

@@ -8,6 +8,11 @@ interface LessonsStoriesProps {
   year: number;
 }
 
+const getStoryTimestamp = (date: string) => {
+  const [day, month, year] = date.split('/').map(Number);
+  return new Date(year, month - 1, day).getTime();
+};
+
 export const LessonsStories: React.FC<LessonsStoriesProps> = ({ year }) => {
   const [stories, setStories] = useState<LessonDayType[]>([]);
   const [loading, setLoading] = useState(true);
@@ -24,7 +29,13 @@ export const LessonsStories: React.FC<LessonsStoriesProps> = ({ year }) => {
         }
 
         const data = (await response.json()) as LessonDayType[];
-        setStories(data);
+        // Sort oldest first so the newest stories appear at the bottom.
+        const sortedData = data
+          .slice()
+          .sort(
+            (a, b) => getStoryTimestamp(a.date) - getStoryTimestamp(b.date)
+          );
+        setStories(sortedData);
       } catch (error) {
         console.warn(`Грешка при зареждане на разкази за ${year}:`, error);
         setStories([]);
@@ -50,8 +61,8 @@ export const LessonsStories: React.FC<LessonsStoriesProps> = ({ year }) => {
         {stories.map((story, index) => (
           <li key={index}>
             <PopupContent
-              title={story.title}
               buttonLabel={story.title}
+              title={story.title}
               faIconClass="far fa-comment-dots"
               asLink={true}
               maxWidth="md"

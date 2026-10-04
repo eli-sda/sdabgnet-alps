@@ -299,6 +299,14 @@
           {
             "url": "http://sofia-b.sdabg.net",
             "type": "сайт"
+          },
+          {
+            "url": "https://www.facebook.com/profile.php?id=100080144206544",
+            "type": "facebook"
+          },
+          {
+            "url": "https://www.youtube.com/@seventh-day-adventist-sofia",
+            "type": "youtube"
           }
         ]
       },

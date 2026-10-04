@@ -66,11 +66,33 @@
     "title": "Строеж на църква София-Запад",
     "description": "ЦАСД София-Запад набира средства за строеж на нова модерна сграда в кв. Люлин.",
     "img": "/img/logos/sdasofiawest.webp"
-  }, {
+  },
+  {
   "url": "https://vtarnovo.sdabg.net/novdom/",
     "title": "Нова църква - Велико Търново",
     "description": "ЦАСД - гр. Велико Търново отправя апел за събиране на средства за строеж на нов молитвен дом.",
     "img": "/img/logos/vtarnovo.webp"
+  },
+  
+  {
+  "url": "https://www.facebook.com/VIVOstarazagora/posts/pfbid0Sexh2XhptV1hKAMQN8w6mUswMZ8abFMa7JWBTqPPjRhTChsQZy8UQZ2K8sg3Vpkal",
+    "title": "ВИВО - Ремонт на новия център",
+    "description": "ВИВО е растяща християнска общност в Стара Загора, която набира средства за основен ремонт на новозакупено помещение в центъра на града. Целта на първия етап е 25 000 €.",
+    "img": "/img/logos/VIVO.webp",
+    "buttons": [
+      {
+        "label": "Направи дарение",
+        "url": "https://4fund.com/bg/rrw9wc",
+        "isExternal": true,
+        "outline": true
+      },
+      {
+        "label": "Отвори страницата",
+        "url": "https://www.facebook.com/VIVOstarazagora",
+        "isExternal": true,
+        "outline": true
+      }
+    ]
   },
   {
     "title": "Топла супа",

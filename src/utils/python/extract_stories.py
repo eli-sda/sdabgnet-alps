@@ -75,6 +75,12 @@ def get_day_content(day_full_read_path: str) -> Dict[str, Any]:
     url = f"{day_full_read_path}/index.json"
     return fetch_json(url)
 
+def filter_bible_with_verses(
+    bible: List[Dict[str, Any]]
+) -> List[Dict[str, Any]]:
+    """Премахва записите за библии без извлечени стихове."""
+    return [entry for entry in bible if entry.get('verses')]
+
 def extract_title_from_content(content: str) -> tuple[str, str]:
     """
     Извлича заглавието от съдържанието и го премахва.
@@ -151,13 +157,15 @@ def fetch_stories_for_quarterlies(year: str, quarterlies: List[Dict[str, Any]]) 
                         content = day_content.get('content', '')
                         title, content_clean = extract_title_from_content(content)
 
-                        story = {
+                        story: Dict[str, Any] = {
                             'date': day_content.get('date', ''),
-                            'bible': day_content.get('bible', []),
                             'content': content_clean,
                             'title': title,
                             'index': day_content.get('index', '')
                         }
+                        bible = filter_bible_with_verses(day_content.get('bible', []))
+                        if bible:
+                            story['bible'] = bible
 
                         stories.append(story)
                         print(f"        Added story: {story['title'][:50]}...")

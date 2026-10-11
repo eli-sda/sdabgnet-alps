@@ -113,7 +113,8 @@ export const VideoTab = ({
   }, [youtubeVideos, playlistNameById]);
 
   // Total video count per group across the whole result set (not just the page),
-  // keyed by playlist id, with 'singles' for videos not in a playlist.
+  // keyed by playlist id, with 'singles' for videos not in a playlist. Used to
+  // show "page count of total" when a group spans several pages.
   const groupCounts = useMemo(() => {
     const counts = new Map<string, number>();
     for (const v of sortedYoutubeVideos) {
@@ -217,6 +218,17 @@ export const VideoTab = ({
           items: group.videos
         });
 
+      // Show "this page of total" when a group spans several pages, otherwise
+      // just the total (they are the same on a single-page group).
+      const groupCountLabel = (group: VideoGroup) => {
+        const total =
+          groupCounts.get(group.playlistId ?? 'singles') ??
+          group.videos.length;
+        return group.videos.length < total
+          ? `${group.videos.length} от ${total}`
+          : `${total}`;
+      };
+
       const pageVideos = sortedYoutubeVideos.slice(
         (ctx.effectivePage - 1) * VIDEOS_PER_PAGE,
         ctx.effectivePage * VIDEOS_PER_PAGE
@@ -260,10 +272,7 @@ export const VideoTab = ({
                       {group.playlistName ?? group.playlistId}
                       <span className="videoteka-group-count">
                         {' '}
-                        (
-                        {groupCounts.get(group.playlistId ?? '') ??
-                          group.videos.length}
-                        )
+                        ({groupCountLabel(group)})
                       </span>
                     </span>
                     <Button
@@ -275,10 +284,7 @@ export const VideoTab = ({
                     />
                   </>
                 ) : (
-                  <span>
-                    Единични видеа (
-                    {groupCounts.get('singles') ?? group.videos.length})
-                  </span>
+                  <span>Единични видеа ({groupCountLabel(group)})</span>
                 )}
               </div>
               {group.videos.map((video, i) => (

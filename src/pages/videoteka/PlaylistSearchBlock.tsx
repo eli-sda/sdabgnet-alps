@@ -7,6 +7,11 @@ import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
 import { highlightTextNodes } from 'src/utils/Links';
 import { TopicsBlock } from './TopicsBlock';
 
+// Show "this page of total" when a section spans several pages, otherwise just
+// the total (they are the same when everything fits on one page).
+const countLabel = (shown: number, total: number) =>
+  shown < total ? `${shown} от ${total}` : `${total}`;
+
 interface PlaylistSearchBlockProps {
   embedded: PlaylistType[];
   ytLinks: LinkType[];
@@ -33,7 +38,7 @@ export const PlaylistSearchBlock = ({
       {embedded.length > 0 && (
         <section className="u-spacing">
           <h2 className="u-font--primary--m u-theme--color--darker">
-            Видео поредици ({embeddedTotal})
+            Видео поредици ({countLabel(embedded.length, embeddedTotal)})
           </h2>
           <VideoPlaylistList
             playlists={embedded}
@@ -53,7 +58,7 @@ export const PlaylistSearchBlock = ({
       {ytLinks.length > 0 && (
         <section className="u-spacing">
           <h2 className="u-font--primary--m u-theme--color--darker">
-            YouTube плейлисти ({ytTotal})
+            YouTube плейлисти ({countLabel(ytLinks.length, ytTotal)})
           </h2>
           <div className="u-spacing">
             {ytLinks.map((link) => (

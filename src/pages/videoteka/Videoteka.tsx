@@ -60,6 +60,13 @@ function applyTabParams(
   page: number
 ) {
   const prefix = tab === 'videos' ? 'v' : 'p';
+  const otherPrefix = tab === 'videos' ? 'p' : 'v';
+
+  // The URL must only ever describe the active tab; the other tab's filters are
+  // kept in session storage only, so drop any stale ones carried over here.
+  (['Topic', 'Author', 'Text', 'Page'] as const).forEach((key) =>
+    next.delete(`${otherPrefix}${key}`)
+  );
 
   if (applied?.topic) next.set(`${prefix}Topic`, applied.topic.title);
   else next.delete(`${prefix}Topic`);
@@ -110,6 +117,10 @@ const Videoteka = () => {
     initRef.current.tab
   );
 
+  // Tracks the active tab synchronously so a tab's async init can tell whether
+  // it is still the one on screen before writing to the URL.
+  const activeTabRef = useRef<ActiveTab>(initRef.current.tab);
+
   // Applied filters tracked here for URL sync and session save only
   const [vApplied, setVApplied] = useState<VideotekaApplied | null>(null);
   const [pApplied, setPApplied] = useState<VideotekaApplied | null>(null);
@@ -128,12 +139,18 @@ const Videoteka = () => {
     }
     const tab = searchParams.get('tab');
     if (tab === 'videos' || tab === 'playlists') {
-      const pageFromUrl = parseInt(searchParams.get(`${tab === 'videos' ? 'v' : 'p'}Page`) ?? '', 10);
+      const pageFromUrl = parseInt(
+        searchParams.get(`${tab === 'videos' ? 'v' : 'p'}Page`) ?? '',
+        10
+      );
+      activeTabRef.current = tab;
       setActiveTab(tab);
-      if (tab === 'videos') {
-        if (pageFromUrl > 0) setVPage(pageFromUrl);
-      } else if (pageFromUrl > 0) {
-        setPPage(pageFromUrl);
+      if (pageFromUrl > 0) {
+        if (tab === 'videos') {
+          setVPage(pageFromUrl);
+        } else {
+          setPPage(pageFromUrl);
+        }
       }
     }
   }, [searchParams]);
@@ -167,6 +184,7 @@ const Videoteka = () => {
   };
 
   const handleTabChange = (_e: React.SyntheticEvent, v: ActiveTab) => {
+    activeTabRef.current = v;
     setActiveTab(v);
     updateParams(
       v,
@@ -184,6 +202,9 @@ const Videoteka = () => {
     // the page already read from the URL so shared links land on the right page.
     const page = source === 'init' ? vPage : 1;
     setVPage(page);
+    // Only the active tab may put filters in the URL; a restored inactive tab
+    // keeps its filters in session/state until it is actually opened.
+    if (source === 'init' && activeTabRef.current !== 'videos') return;
     updateParams('videos', applied, page, source);
   };
 
@@ -194,6 +215,9 @@ const Videoteka = () => {
     setPApplied(applied);
     const page = source === 'init' ? pPage : 1;
     setPPage(page);
+    // Only the active tab may put filters in the URL; a restored inactive tab
+    // keeps its filters in session/state until it is actually opened.
+    if (source === 'init' && activeTabRef.current !== 'playlists') return;
     updateParams('playlists', applied, page, source);
   };
 

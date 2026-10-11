@@ -90,10 +90,11 @@ const Events = () => {
   useEffect(() => {
     Promise.all([
       fetchCalendar('/json/calendar-2025.json'),
-      fetchCalendar('/json/calendar-2026.json')
+      fetchCalendar('/json/calendar-2026.json'),
+      fetchCalendar('/json/calendar-2027.json')
     ])
-      .then(([events2025, events2026]) => {
-        const events = [...events2025, ...events2026];
+      .then(([events2025, events2026, events2027]) => {
+        const events = [...events2025, ...events2026, ...events2027];
 
         const calendarEvents: CalendarEvent[] = events.map(
           ({ title, start, end, link }) => {

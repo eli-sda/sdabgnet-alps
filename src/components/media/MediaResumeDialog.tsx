@@ -40,6 +40,7 @@ export const MediaResumeDialog = ({
   }, [onContinue, resumePrompt]);
 
   const isVideo = mediaType === 'video';
+  const showTime = Boolean(resumePrompt?.time && resumePrompt.time > 0);
 
   return (
     <Dialog
@@ -55,13 +56,13 @@ export const MediaResumeDialog = ({
         <p>
           Последно сте {isVideo ? 'гледали' : 'слушали'}{' '}
           <strong>{resumePrompt?.title}</strong>
-          {!isVideo && resumePrompt?.time && resumePrompt.time > 0 && (
+          {showTime && (
             <span>
               {' '}
-              до <strong>{formatTime(resumePrompt.time)}</strong>
+              до <strong>{formatTime(resumePrompt?.time as number)}</strong>
             </span>
           )}
-          . Искате ли да продължите {isVideo ? 'с него' : 'от там'}?
+          . Искате ли да продължите {showTime || !isVideo ? 'от там' : 'с него'}?
         </p>
       </DialogContent>
       <DialogActions>

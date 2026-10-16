@@ -1,9 +1,14 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { Panel, Group, Separator } from 'react-resizable-panels';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
+import type { VideoPlayerApi } from 'alps-library/atoms/video/Video';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import { Button } from 'src/alps/atoms/Button';
 import { newLinesWithLinks } from 'src/utils/Links';
+import {
+  getLastPlayedMedia,
+  saveLastPlayedMedia
+} from 'src/utils/lastPlayedMedia';
 import ShareItemButton from 'src/components/ShareItemButton';
 import './VideoPlayer.scss';
 
@@ -25,7 +30,10 @@ interface VideoPlayerProps {
   playlist: VideoPlaylistType;
   isVisible?: boolean;
   initialIndex?: number;
+  initialTime?: number;
   onPlayIndexChange?: (index: number) => void;
+  isRealPlaylist?: boolean;
+  openedViaLink?: boolean;
   shareBaseParams?: Record<string, string>;
 }
 
@@ -33,7 +41,10 @@ const VideoPlayer = ({
   playlist,
   isVisible = true,
   initialIndex = 0,
+  initialTime,
   onPlayIndexChange,
+  isRealPlaylist = false,
+  openedViaLink = false,
   shareBaseParams
 }: VideoPlayerProps) => {
   const { playlistTitle, playlistAuthor, playlistDescription, videoItems } =
@@ -41,8 +52,11 @@ const VideoPlayer = ({
 
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [savedFeedback, setSavedFeedback] = useState(false);
   const playerRef = useRef<HTMLDivElement | null>(null);
   const [playerContainerWidth, setPlayerContainerWidth] = useState<number>(670);
+  const playerApiRef = useRef<VideoPlayerApi | null>(null);
+  const pendingSeekRef = useRef<number | null>(null);
 
   const currentVideo = videoItems[currentIndex];
 
@@ -75,6 +89,63 @@ const VideoPlayer = ({
   useEffect(() => {
     onPlayIndexChange?.(currentIndex);
   }, [currentIndex, onPlayIndexChange]);
+
+  const handlePlayerReady = useCallback((api: VideoPlayerApi) => {
+    playerApiRef.current = api;
+    if (pendingSeekRef.current != null) {
+      api.seekTo(pendingSeekRef.current);
+      pendingSeekRef.current = null;
+    }
+  }, []);
+
+  // Seek to the resume position once the player is available
+  useEffect(() => {
+    if (!initialTime || initialTime <= 0) return;
+    if (playerApiRef.current) {
+      playerApiRef.current.seekTo(initialTime);
+    } else {
+      pendingSeekRef.current = initialTime;
+    }
+  }, [initialTime]);
+
+  const handleSave = useCallback(() => {
+    if (!currentVideo) return;
+    const api = playerApiRef.current;
+    if (!api) return;
+    const time = Math.floor(api.getCurrentTime());
+    saveLastPlayedMedia(
+      playlist._id,
+      currentVideo._id,
+      currentVideo.title,
+      time > 0 ? time : undefined
+    );
+    setSavedFeedback(true);
+    window.setTimeout(() => setSavedFeedback(false), 3000);
+  }, [playlist._id, currentVideo]);
+
+  const remembered = getLastPlayedMedia(playlist._id);
+  const resumeIndex = remembered
+    ? videoItems.findIndex((video) => video._id === remembered.itemId)
+    : -1;
+  const canResume = Boolean(
+    openedViaLink &&
+    remembered &&
+    resumeIndex >= 0 &&
+    (resumeIndex !== currentIndex || (remembered.time ?? 0) > 0)
+  );
+
+  const handleResume = useCallback(() => {
+    if (!remembered || resumeIndex < 0) return;
+    const time = remembered.time && remembered.time > 0 ? remembered.time : 0;
+
+    if (resumeIndex === currentIndex) {
+      if (time > 0) playerApiRef.current?.seekTo(time);
+      return;
+    }
+
+    if (time > 0) playerApiRef.current?.setNextStartSeconds(time);
+    setCurrentIndex(resumeIndex);
+  }, [remembered, resumeIndex, currentIndex]);
 
   const activeVideoRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -165,11 +236,37 @@ const VideoPlayer = ({
             videoSrc={`https://www.youtube.com/embed/${currentVideo.videoId}?autoplay=1`}
             onVideoEnded={handleVideoEnded}
             isVisible={isVisible}
+            onPlayerReady={handlePlayerReady}
           />
-          <ShareItemButton
-            url={computeFinalUrl(currentVideo._id, currentVideo.title)}
-            btnClassName="share-video-button"
-          />
+          {isRealPlaylist && (
+            <div className="videoPlayer-actions u-space--half--top">
+              <ShareItemButton
+                url={computeFinalUrl(currentVideo._id, currentVideo.title)}
+                btnClassName="share-video-button"
+              />
+              <Button
+                onClick={handleSave}
+                label={savedFeedback ? 'Запомнено' : 'Запомни'}
+                title={
+                  savedFeedback
+                    ? 'Успешно запазено'
+                    : 'Запомни докъде съм стигнал'
+                }
+                faIconClass={savedFeedback ? 'fas fa-check' : 'fas fa-bookmark'}
+                disabled={savedFeedback}
+                small
+              />
+              {canResume && (
+                <Button
+                  onClick={handleResume}
+                  label="Пусни от запомненото"
+                  title="Продължи от запомненото място"
+                  faIconClass="fas fa-play"
+                  small
+                />
+              )}
+            </div>
+          )}
         </>
       ) : (
         <Caption>Няма налично видео</Caption>
@@ -200,18 +297,22 @@ const VideoPlayer = ({
             </div>
             <h4 className="videoItem-text hyphens-auto">{video.title}</h4>
 
-            <Button
-              className="videoItem-link"
-              onClick={(e) => {
-                e.stopPropagation();
-                (e.currentTarget as HTMLElement).blur();
-                handleCopyLink(video._id, video.title);
-              }}
-              simple
-              faIconClass={`fas fa-${copiedId === video._id ? 'check' : 'share-alt'} fa-lg`}
-              title={copiedId === video._id ? 'Линкът е копиран' : 'Вземи линк'}
-              disabled={copiedId === video._id}
-            />
+            {isRealPlaylist && (
+              <Button
+                className="videoItem-link"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  (e.currentTarget as HTMLElement).blur();
+                  handleCopyLink(video._id, video.title);
+                }}
+                simple
+                faIconClass={`fas fa-${copiedId === video._id ? 'check' : 'share-alt'} fa-lg`}
+                title={
+                  copiedId === video._id ? 'Линкът е копиран' : 'Вземи линк'
+                }
+                disabled={copiedId === video._id}
+              />
+            )}
           </div>
         );
       })}

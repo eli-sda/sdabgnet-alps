@@ -92,6 +92,13 @@ $shareBtnSwitch: 380px;
       .share-video-button {
         display: none;
       }
+
+      .videoPlayer-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+      }
     }
 
     &-sidebar {

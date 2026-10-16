@@ -12,7 +12,7 @@ import { usePlaylists } from 'src/hooks/usePlaylists';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { generateShareUrl } from 'src/utils/urlUtils';
 import PlaylistActionButtons from '../playlistButtons/PlaylistActionButtons';
-import AudioResumeDialog from './audio/AudioResumeDialog';
+import MediaResumeDialog from './MediaResumeDialog';
 import MediaPlaylist from './MediaPlaylist';
 import './MediaPlaylistList.scss';
 
@@ -145,8 +145,6 @@ const MediaPlaylistList = ({
 
   const checkAndSetResumePrompt = useCallback(
     (playlist: PlaylistType) => {
-      if (mediaType !== 'audio') return;
-
       const lastPlayed = getLastPlayedMedia(playlist._id);
       if (lastPlayed) {
         const savedIndex = playlist.items?.findIndex(
@@ -168,7 +166,7 @@ const MediaPlaylistList = ({
       }
       setResumePrompt(null);
     },
-    [mediaType]
+    []
   );
 
   const handleSelect = useCallback(
@@ -258,14 +256,20 @@ const MediaPlaylistList = ({
   ]);
 
   useEffect(() => {
-    if (mediaType === 'audio' && selectedPlaylist && !resumePrompt) {
+    if (selectedPlaylist && !resumePrompt) {
       const currentItem = selectedPlaylist.items?.[currentPlayIndex];
 
       if (currentItem) {
-        // Skip auto-saving the initial URL track to preserve existing progress until the track is changed.
+        // When the current item comes from the URL (?playId), do not overwrite an
+        // already remembered item for this playlist.
         if (urlTrackId === currentItem._id) {
           const existing = getLastPlayedMedia(selectedPlaylist._id);
-          if (existing && existing.itemId !== currentItem._id) {
+          if (mediaType === 'video') {
+            // Video is remembered from the URL only if nothing was remembered yet.
+            if (existing) {
+              return;
+            }
+          } else if (existing && existing.itemId !== currentItem._id) {
             return;
           }
         }
@@ -343,8 +347,9 @@ const MediaPlaylistList = ({
         })}
       </section>
 
-      <AudioResumeDialog
+      <MediaResumeDialog
         resumePrompt={resumePrompt}
+        mediaType={mediaType}
         onClose={() => setResumePrompt(null)}
         onContinue={(index) => {
           setCurrentPlayIndex(index);

@@ -25,6 +25,7 @@ interface VideoPlayerProps {
   playlist: VideoPlaylistType;
   isVisible?: boolean;
   initialIndex?: number;
+  onPlayIndexChange?: (index: number) => void;
   shareBaseParams?: Record<string, string>;
 }
 
@@ -32,6 +33,7 @@ const VideoPlayer = ({
   playlist,
   isVisible = true,
   initialIndex = 0,
+  onPlayIndexChange,
   shareBaseParams
 }: VideoPlayerProps) => {
   const { playlistTitle, playlistAuthor, playlistDescription, videoItems } =
@@ -69,6 +71,10 @@ const VideoPlayer = ({
 
     setCurrentIndex(initialIndex);
   }, [playlist, initialIndex, videoItems.length]);
+
+  useEffect(() => {
+    onPlayIndexChange?.(currentIndex);
+  }, [currentIndex, onPlayIndexChange]);
 
   const activeVideoRef = useRef<HTMLDivElement>(null);
   useEffect(() => {

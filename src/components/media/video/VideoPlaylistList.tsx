@@ -36,13 +36,14 @@ const VideoPlaylistList = ({
       onPlaylistSelect={() => {
         setDialogOpen(true);
       }}
-      renderPlayer={(selectedPlaylist, _setPlayIndex, playIndex) => (
+      renderPlayer={(selectedPlaylist, setPlayIndex, playIndex) => (
         <VideoPlayerDialog
-          isOpen={dialogOpen}
+          isOpen={dialogOpen && Boolean(selectedPlaylist)}
           playlist={selectedPlaylist}
           title={selectedPlaylist?.title}
           onClose={() => setDialogOpen(false)}
           playIndex={playIndex}
+          onPlayIndexChange={setPlayIndex}
           shareBaseParams={
             selectedPlaylist && getShareBaseParams
               ? getShareBaseParams(selectedPlaylist)

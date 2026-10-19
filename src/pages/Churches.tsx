@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { BaseSearch } from 'alps-library/molecules/forms/elements/BaseSearch';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import routes from 'src/routes';
+import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
 import { filterSectionedData } from 'src/utils/filterHelpers';
@@ -14,6 +15,8 @@ const Churches = () => {
   const [filteredChurchesLinks, setFilteredChurchesLinks] = useState<
     LinksData[]
   >([]);
+
+  useScrollToHash({ enabled: filteredChurchesLinks.length > 0 });
 
   useEffect(() => {
     fetch('/json/adventis-online-churches.json')

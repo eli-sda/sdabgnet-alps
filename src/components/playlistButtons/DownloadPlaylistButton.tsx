@@ -64,7 +64,7 @@ const DownloadPlaylistButton = ({
 
       // Create ZIP archive
       const zipped = zipSync(files);
-      const zipBlob = new Blob([zipped.buffer as ArrayBuffer], {
+      const zipBlob = new Blob([zipped], {
         type: 'application/zip'
       });
 

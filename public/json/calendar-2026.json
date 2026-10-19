@@ -312,7 +312,8 @@
   },
   {
     "title": "EUD Song Contest - онлайн",
-    "start": "2026-10-23"
+    "start": "2026-10-23",
+    "link": "https://www.facebook.com/share/p/1En9VouEdJ/"
   },
   {
     "title": "Конференция на АСИ България",
@@ -348,8 +349,10 @@
   },
   {
     "title": "Студентска среща – АМИКУС",
-    "start": "2026-12-04",
-    "end": "2026-12-07"
+    "start": "2026-12-04T18:00:00",
+    "end": "2026-12-06T10:00:00",
+    "link": "https://www.facebook.com/events/1677602763721393/",
+    "endRegistration": "2026-11-22"
   },
   {
     "title": "GAiN Europe 2026",

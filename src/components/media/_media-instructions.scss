@@ -1,0 +1,13 @@
+// Shared styles for the inline pseudo-buttons inside the media
+// instructions captions (audio and video help blocks).
+@mixin media-instructions-btn {
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+
+  .o-button--small {
+    pointer-events: none;
+    padding: 0.5rem;
+    font-size: 0.65rem;
+  }
+}

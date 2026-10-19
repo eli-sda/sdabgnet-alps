@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { Panel, Group, Separator } from 'react-resizable-panels';
+import { Dialog, DialogTitle, DialogContent } from '@mui/material';
 import { Figure } from 'alps-library/molecules/media/figure/Figure';
 import type { VideoPlayerApi } from 'alps-library/atoms/video/Video';
 import { Caption } from 'alps-library/atoms/text/Caption';
@@ -10,6 +11,7 @@ import {
   saveLastPlayedMedia
 } from 'src/utils/lastPlayedMedia';
 import ShareItemButton from 'src/components/ShareItemButton';
+import { VideoInstructions } from './VideoInstructions';
 import './VideoPlayer.scss';
 
 export type VideoPlaylistType = {
@@ -53,6 +55,7 @@ const VideoPlayer = ({
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [savedFeedback, setSavedFeedback] = useState(false);
+  const [helpOpen, setHelpOpen] = useState(false);
   const playerRef = useRef<HTMLDivElement | null>(null);
   const [playerContainerWidth, setPlayerContainerWidth] = useState<number>(670);
   const playerApiRef = useRef<VideoPlayerApi | null>(null);
@@ -239,33 +242,43 @@ const VideoPlayer = ({
             onPlayerReady={handlePlayerReady}
           />
           {isRealPlaylist && (
-            <div className="videoPlayer-actions u-space--half--top">
-              <ShareItemButton
-                url={computeFinalUrl(currentVideo._id, currentVideo.title)}
-                btnClassName="share-video-button"
-              />
-              <Button
-                onClick={handleSave}
-                label={savedFeedback ? 'Запомнено' : 'Запомни'}
-                title={
-                  savedFeedback
-                    ? 'Успешно запазено'
-                    : 'Запомни докъде съм стигнал'
-                }
-                faIconClass={savedFeedback ? 'fas fa-check' : 'fas fa-bookmark'}
-                disabled={savedFeedback}
-                small
-              />
-              {canResume && (
+            <>
+              <div className="videoPlayer-actions u-space--half--top">
+                <ShareItemButton
+                  url={computeFinalUrl(currentVideo._id, currentVideo.title)}
+                  btnClassName="share-video-button"
+                />
                 <Button
-                  onClick={handleResume}
-                  label="Пусни от запомненото"
-                  title="Продължи от запомненото място"
-                  faIconClass="fas fa-play"
+                  onClick={handleSave}
+                  label={savedFeedback ? 'Запомнено' : 'Запомни'}
+                  title={
+                    savedFeedback
+                      ? 'Успешно запазено'
+                      : 'Запомни докъде съм стигнал'
+                  }
+                  faIconClass={
+                    savedFeedback ? 'fas fa-check' : 'fas fa-bookmark'
+                  }
+                  disabled={savedFeedback}
                   small
                 />
-              )}
-            </div>
+                {canResume && (
+                  <Button
+                    onClick={handleResume}
+                    label="Пусни от запомненото"
+                    title="Продължи от запомненото място"
+                    faIconClass="fas fa-play"
+                    small
+                  />
+                )}
+                <Button
+                  onClick={() => setHelpOpen(true)}
+                  label="Помощ"
+                  faIconClass="fas fa-info-circle fa-lg"
+                  simple
+                />
+              </div>
+            </>
           )}
         </>
       ) : (
@@ -362,6 +375,30 @@ const VideoPlayer = ({
           {playlistDiv}
         </Panel>
       </Group>
+
+      <Dialog
+        open={helpOpen}
+        onClose={() => setHelpOpen(false)}
+        maxWidth="sm"
+        fullWidth
+        className="videoPlayer-helpDialog"
+      >
+        <DialogTitle className="videoPlayer-helpDialog-title">
+          Помощ
+          <div className="close-wrapper">
+            <Button
+              faIconClass="fas fa-times fa-lg"
+              iconPosition="right"
+              title="Затвори"
+              simple
+              onClick={() => setHelpOpen(false)}
+            />
+          </div>
+        </DialogTitle>
+        <DialogContent>
+          <VideoInstructions className="u-padding--top" />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

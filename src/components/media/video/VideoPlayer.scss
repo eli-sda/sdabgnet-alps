@@ -1,5 +1,6 @@
 @use '/src/styles/colors.scss' as *;
 @use '/src/styles/const.scss' as *;
+@use '/src/styles/_dialog-title' as *;
 
 $shareBtnSwitch: 380px;
 
@@ -212,6 +213,12 @@ $shareBtnSwitch: 380px;
       height: 12px;
       flex-shrink: 0;
       color: white;
+    }
+  }
+
+  &-helpDialog {
+    &-title.MuiTypography-root {
+      @include dialog-title;
     }
   }
 }

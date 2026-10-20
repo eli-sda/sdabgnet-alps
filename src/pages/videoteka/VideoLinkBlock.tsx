@@ -1,7 +1,7 @@
 import { LinkType, TopicType } from 'src/contexts/PlaylistsContext';
 import ShareItemButton from 'src/components/ShareItemButton';
 
-import { cleanedDescription } from 'src/utils/Links';
+import { cleanedDescription, highlightHtml, parseLinksMdToHtml } from 'src/utils/Links';
 import { TopicsBlock } from './TopicsBlock';
 import './VideoLinkBlock.scss';
 
@@ -12,6 +12,7 @@ interface VideoLinkBlockProps {
   onToggleSelect?: () => void;
   onPlay?: () => void;
   showPlaylist?: boolean;
+  highlightText?: string;
 }
 
 export const VideoLinkBlock = ({
@@ -20,12 +21,14 @@ export const VideoLinkBlock = ({
   isSelected = false,
   onToggleSelect,
   onPlay,
-  showPlaylist = true
+  showPlaylist = true,
+  highlightText = ''
 }: VideoLinkBlockProps) => {
   const appliedIds = new Set(appliedTopics.map((t) => t._id));
   const playlistName =
     showPlaylist && video.playlistId ? video.keyWords?.[0] || null : null;
   const isYouTube = video.path.includes('youtube.com');
+  const isShort = /youtube\.com\/shorts\//i.test(video.path || '');
   const elementId = `video-${video._id}`;
 
   const shareUrlObj = new URL(window.location.pathname, window.location.origin);
@@ -42,7 +45,7 @@ export const VideoLinkBlock = ({
     >
       <div className="c-cta-block__content c-block__content u-spacing--half u-padding--half">
         <div className="video-link-block__header">
-          {onToggleSelect && isYouTube && (
+          {onToggleSelect && isYouTube && !isShort && (
             <input
               type="checkbox"
               checked={isSelected}
@@ -69,7 +72,7 @@ export const VideoLinkBlock = ({
               </strong>
             </a>
             <div className="video-link-block__actions">
-              {onPlay && isYouTube && (
+              {onPlay && isYouTube && !isShort && (
                 <button
                   className="o-button o-button--outline video-link-block__play-btn"
                   onClick={onPlay}
@@ -89,7 +92,20 @@ export const VideoLinkBlock = ({
                     <br />
                   </span>
                 )}
-                {cleanedDescription(video.description || '')}
+                {cleanedDescription(video.description || '') && (
+                  <span
+                    className="text"
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        highlightHtml(
+                          parseLinksMdToHtml(
+                            cleanedDescription(video.description || '')
+                          ),
+                          highlightText
+                        ) || ''
+                    }}
+                  />
+                )}
               </p>
             )}
             {(playlistName || (video.topics && video.topics.length > 0)) && (

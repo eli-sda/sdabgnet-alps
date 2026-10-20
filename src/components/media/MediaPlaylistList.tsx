@@ -11,57 +11,14 @@ import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { generateShareUrl } from 'src/utils/urlUtils';
+import {
+  getLastPlayedMedia,
+  saveLastPlayedMedia
+} from 'src/utils/lastPlayedMedia';
 import PlaylistActionButtons from '../playlistButtons/PlaylistActionButtons';
-import AudioResumeDialog from './audio/AudioResumeDialog';
+import MediaResumeDialog from './MediaResumeDialog';
 import MediaPlaylist from './MediaPlaylist';
 import './MediaPlaylistList.scss';
-
-const STORAGE_KEY = 'last_played_media';
-
-interface LastPlayedData {
-  [playlistId: string]: {
-    itemId: string;
-    title: string;
-    time?: number;
-  };
-}
-
-const saveLastPlayedMedia = (
-  playlistId: string,
-  itemId: string,
-  title: string,
-  time?: number
-) => {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    const parsed = stored ? (JSON.parse(stored) as unknown) : {};
-    const data = parsed as LastPlayedData;
-
-    // Prevent overwriting the saved time if auto-saving the same item without a specific time
-    const existing = data[playlistId];
-    const timeToSave =
-      time === undefined && existing?.itemId === itemId ? existing.time : time;
-
-    data[playlistId] = { itemId, title, time: timeToSave };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  } catch (e) {
-    console.error('Error saving last played media to local storage', e);
-  }
-};
-
-const getLastPlayedMedia = (playlistId: string) => {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      const parsed = JSON.parse(stored) as unknown;
-      const data = parsed as LastPlayedData;
-      return data[playlistId] || null;
-    }
-  } catch (e) {
-    console.error('Error reading last played media from local storage', e);
-  }
-  return null;
-};
 
 interface MediaPlaylistListProps {
   mediaType: 'audio' | 'video';
@@ -74,13 +31,15 @@ interface MediaPlaylistListProps {
     playlist: PlaylistType | null,
     setPlayIndex: (i: number) => void,
     playIndex?: number,
-    initialTime?: number
+    initialTime?: number,
+    openedViaLink?: boolean
   ) => React.ReactNode;
   getCurrentTime?: () => number;
   className?: string;
   defaultImageIcon?: ReactNode;
   renderPlaylistExtra?: (playlist: PlaylistType) => ReactNode;
   getShareBaseParams?: (playlist: PlaylistType) => Record<string, string>;
+  highlightText?: string;
 }
 
 const MediaPlaylistList = ({
@@ -95,7 +54,8 @@ const MediaPlaylistList = ({
   className = '',
   defaultImageIcon,
   renderPlaylistExtra,
-  getShareBaseParams
+  getShareBaseParams,
+  highlightText
 }: MediaPlaylistListProps) => {
   const { hash, search } = useLocation();
 
@@ -118,6 +78,9 @@ const MediaPlaylistList = ({
   );
   const [currentPlayIndex, setCurrentPlayIndex] = useState(0);
   const [initialTime, setInitialTime] = useState<number | undefined>(undefined);
+  // True only while the currently selected playlist is the one the URL opened.
+  // Cleared as soon as the user picks a playlist manually.
+  const [openedViaLink, setOpenedViaLink] = useState(false);
   const [resumePrompt, setResumePrompt] = useState<{
     playlistId: string;
     itemId: string;
@@ -143,8 +106,6 @@ const MediaPlaylistList = ({
 
   const checkAndSetResumePrompt = useCallback(
     (playlist: PlaylistType) => {
-      if (mediaType !== 'audio') return;
-
       const lastPlayed = getLastPlayedMedia(playlist._id);
       if (lastPlayed) {
         const savedIndex = playlist.items?.findIndex(
@@ -166,11 +127,14 @@ const MediaPlaylistList = ({
       }
       setResumePrompt(null);
     },
-    [mediaType]
+    []
   );
 
   const handleSelect = useCallback(
     (playlist: PlaylistType) => {
+      // Manual selection always leaves the "opened via link" state.
+      setOpenedViaLink(false);
+
       if (selectedPlaylist?._id === playlist._id) {
         onPlaylistSelect?.(playlist);
         return; // Do nothing if the same playlist is selected
@@ -219,6 +183,8 @@ const MediaPlaylistList = ({
 
         setSelectedPlaylist(matchedPlaylist || null);
         if (matchedPlaylist) {
+          // Only the playlist picked by the URL counts as "opened via link".
+          setOpenedViaLink(true);
           onPlaylistSelect?.(matchedPlaylist);
 
         }
@@ -256,14 +222,20 @@ const MediaPlaylistList = ({
   ]);
 
   useEffect(() => {
-    if (mediaType === 'audio' && selectedPlaylist && !resumePrompt) {
+    if (selectedPlaylist && !resumePrompt) {
       const currentItem = selectedPlaylist.items?.[currentPlayIndex];
 
       if (currentItem) {
-        // Skip auto-saving the initial URL track to preserve existing progress until the track is changed.
+        // When the current item comes from the URL (?playId), do not overwrite an
+        // already remembered item for this playlist.
         if (urlTrackId === currentItem._id) {
           const existing = getLastPlayedMedia(selectedPlaylist._id);
-          if (existing && existing.itemId !== currentItem._id) {
+          if (mediaType === 'video') {
+            // Video is remembered from the URL only if nothing was remembered yet.
+            if (existing) {
+              return;
+            }
+          } else if (existing && existing.itemId !== currentItem._id) {
             return;
           }
         }
@@ -295,6 +267,7 @@ const MediaPlaylistList = ({
                 isPlaying={isCurrent && isPlaying}
                 type={mediaType}
                 defaultImageIcon={defaultImageIcon}
+                highlightText={highlightText}
                 actionButtons={
                   <>
                     <div className="u-padding--half--top">
@@ -340,8 +313,9 @@ const MediaPlaylistList = ({
         })}
       </section>
 
-      <AudioResumeDialog
+      <MediaResumeDialog
         resumePrompt={resumePrompt}
+        mediaType={mediaType}
         onClose={() => setResumePrompt(null)}
         onContinue={(index) => {
           setCurrentPlayIndex(index);
@@ -356,7 +330,8 @@ const MediaPlaylistList = ({
         resumePrompt ? null : selectedPlaylist,
         setCurrentPlayIndex,
         currentPlayIndex,
-        initialTime
+        initialTime,
+        openedViaLink
       )}
     </>
   );

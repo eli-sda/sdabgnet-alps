@@ -4,18 +4,30 @@ import {
   TopicType
 } from 'src/contexts/PlaylistsContext';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
+import { highlightTextNodes } from 'src/utils/Links';
 import { TopicsBlock } from './TopicsBlock';
+
+// Show "this page of total" when a section spans several pages, otherwise just
+// the total (they are the same when everything fits on one page).
+const countLabel = (shown: number, total: number) =>
+  shown < total ? `${shown} от ${total}` : `${total}`;
 
 interface PlaylistSearchBlockProps {
   embedded: PlaylistType[];
   ytLinks: LinkType[];
+  embeddedTotal?: number;
+  ytTotal?: number;
   appliedTopics?: TopicType[];
+  highlightText?: string;
 }
 
 export const PlaylistSearchBlock = ({
   embedded,
   ytLinks,
-  appliedTopics = []
+  embeddedTotal = embedded.length,
+  ytTotal = ytLinks.length,
+  appliedTopics = [],
+  highlightText = ''
 }: PlaylistSearchBlockProps) => {
   const appliedIds = new Set(appliedTopics.map((t) => t._id));
 
@@ -26,11 +38,12 @@ export const PlaylistSearchBlock = ({
       {embedded.length > 0 && (
         <section className="u-spacing">
           <h2 className="u-font--primary--m u-theme--color--darker">
-            Видео поредици ({embedded.length})
+            Видео поредици ({countLabel(embedded.length, embeddedTotal)})
           </h2>
           <VideoPlaylistList
             playlists={embedded}
             withListPadding={false}
+            highlightText={highlightText}
             renderPlaylistExtra={(playlist) => (
               <TopicsBlock topics={playlist.topics} appliedIds={appliedIds} />
             )}
@@ -45,7 +58,7 @@ export const PlaylistSearchBlock = ({
       {ytLinks.length > 0 && (
         <section className="u-spacing">
           <h2 className="u-font--primary--m u-theme--color--darker">
-            YouTube плейлисти ({ytLinks.length})
+            YouTube плейлисти ({countLabel(ytLinks.length, ytTotal)})
           </h2>
           <div className="u-spacing">
             {ytLinks.map((link) => (
@@ -75,7 +88,11 @@ export const PlaylistSearchBlock = ({
                     </p>
                   )}
                   {link.description && (
-                    <p className="u-font--secondary--s">{link.description}</p>
+                    <p className="u-font--secondary--s">
+                      {highlightText
+                        ? highlightTextNodes(link.description, highlightText)
+                        : link.description}
+                    </p>
                   )}
                   <TopicsBlock topics={link.topics} appliedIds={appliedIds} />
                 </div>

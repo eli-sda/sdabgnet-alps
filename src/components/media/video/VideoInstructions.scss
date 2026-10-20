@@ -1,0 +1,11 @@
+@use '/src/components/media/media-instructions' as *;
+
+.video-instructions {
+  &__caption {
+    margin: 0;
+
+    &__bookmark-btn-wrap {
+      @include media-instructions-btn;
+    }
+  }
+}

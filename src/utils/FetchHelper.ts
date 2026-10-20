@@ -18,6 +18,7 @@ import { SunsetEvent } from 'src/contexts/SunsetContext';
 import { CarouselAdType } from 'src/contexts/CarouselAdsContext';
 import { PoetryType } from 'src/contexts/PoetryContext';
 import { DictionaryType } from 'src/contexts/DictionaryContext';
+import { matchesWordStart } from 'src/utils/searchText';
 
 export const loadPagesMeta = async (): Promise<PageMetaMap> => {
   const query = `*[_type == "page"] {
@@ -265,7 +266,7 @@ export const loadAllPlaylistTopics = async (): Promise<
   { _id: string; title: string }[]
 > => {
   const query = `*[_type == "topic" && (
-    _id in *[_type == "playlist" && type == "video" && isResource != true].topics[]._ref ||
+    _id in *[_type == "playlist" && (type == "video" || type == "video-book") && isResource != true].topics[]._ref ||
     _id in *[_type == "link" && type == "playlist" && isResource != true].topics[]._ref
   )] | order(title asc) { _id, title }`;
   return await client.fetch(query);
@@ -349,6 +350,12 @@ export const loadVideosByFilters = async (
 
   const results: LinkType[] = await client.fetch(linkQuery, params);
   return results
+    .filter(
+      (link) =>
+        !text ||
+        matchesWordStart(link.title, text) ||
+        matchesWordStart(link.description, text)
+    )
     .map((link) => {
       const filtered = filterTags(link.keyWords as string[] | null);
       return {
@@ -361,7 +368,7 @@ export const loadVideosByFilters = async (
 
 export const loadAllPlaylistAuthors = async (): Promise<string[]> => {
   const query = `array::unique(
-    *[_type == "playlist" && type == "video" && isResource != true && defined(author) && author != ""].author
+    *[_type == "playlist" && (type == "video" || type == "video-book") && isResource != true && defined(author) && author != ""].author
     + *[_type == "link" && type == "playlist" && isResource != true && defined(author) && author != ""].author
   )`;
   const authors = await client.fetch<string[]>(query);
@@ -402,7 +409,7 @@ export const loadPlaylistsByFilters = async (
 
   const embeddedQuery = `*[
     _type == "playlist"
-    && type == "video"
+    && (type == "video" || type == "video-book")
     && isResource != true
     && count(items[_type == "reference"]) > 0
     ${topicFilter}
@@ -439,7 +446,20 @@ export const loadPlaylistsByFilters = async (
     client.fetch<LinkType[]>(ytQuery, params)
   ]);
 
-  return { embedded, ytLinks };
+  const matchesText =
+    (term: string) =>
+    (item: { title?: string | null; description?: string | null }) =>
+      matchesWordStart(item.title ?? '', term) ||
+      matchesWordStart(item.description ?? '', term);
+
+  const filteredEmbedded = text
+    ? embedded.filter(matchesText(text))
+    : embedded;
+  const filteredYtLinks = text
+    ? ytLinks.filter((link) => matchesText(text)(link))
+    : ytLinks;
+
+  return { embedded: filteredEmbedded, ytLinks: filteredYtLinks };
 };
 
 export const loadSeminarRelatedPresentations = async (): Promise<

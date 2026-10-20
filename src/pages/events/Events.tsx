@@ -3,6 +3,7 @@ import moment from 'moment';
 import 'moment/dist/locale/bg';
 moment.locale('bg');
 import { Calendar, momentLocalizer } from 'react-big-calendar';
+import { useSearchParams } from 'react-router-dom';
 import { Grid } from 'alps-library/atoms/grids/Grid';
 import { GridItem } from 'alps-library/atoms/grids/GridItem';
 import { PageHeaderLong } from 'alps-library/organisms/sections/pageHeaderLong/PageHeaderLong';
@@ -48,6 +49,14 @@ const formats = {
   monthHeaderFormat: 'MMMM YYYY' // август 2025
 };
 
+// Parses a `m=YYYY-MM` query param into the 1st day of that month.
+// Returns null when the param is missing or invalid.
+const parseMonthParam = (value: string | null): Date | null => {
+  if (!value) return null;
+  const m = moment(value, 'YYYY-MM', true);
+  return m.isValid() ? m.startOf('month').toDate() : null;
+};
+
 const Events = () => {
   // Patch react-big-calendar overlay position in production
   useEffect(() => {
@@ -83,6 +92,7 @@ const Events = () => {
 
   const breadcrumbsUrls = [routes.churchLife(), routes.churchLife('events')];
   const [parsedEvents, setParsedEvents] = useState<CalendarEvent[]>([]);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const fetchCalendar = (url: string): Promise<RawCalendarEvent[]> =>
     fetch(url).then((res) => res.json());
@@ -139,7 +149,17 @@ const Events = () => {
 
   const getFirstOfMonth = (date: Date) =>
     new Date(date.getFullYear(), date.getMonth(), 1);
-  const [currentDate, setCurrentDate] = useState<Date>(getFirstOfMonth(today));
+  const [currentDate, setCurrentDate] = useState<Date>(
+    () => parseMonthParam(searchParams.get('m')) ?? getFirstOfMonth(today)
+  );
+
+  // Keep the visible month in the URL (`m=YYYY-MM`) so the link stays shareable.
+  useEffect(() => {
+    const m = `${currentDate.getFullYear()}-${String(
+      currentDate.getMonth() + 1
+    ).padStart(2, '0')}`;
+    setSearchParams({ m }, { replace: true });
+  }, [currentDate, setSearchParams]);
 
   const handleNavigate = (date: Date, view: string, action: string) => {
     if (view === 'agenda') {

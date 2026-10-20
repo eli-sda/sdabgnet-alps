@@ -12,8 +12,8 @@
     "description": "ASI - организация на миряните Адвентисти от седмия ден, ангажирани в професионалната сфера, в областта на индустрията, образованието или услугите - има за цел да вдъхновява, възпитава и обменя опит в споделянето на Христос в бизнес средата както и да бъде в подкрепа на глобалната мисия на Църквата на Адвентистите от седмия ден."
   },
   {
-    "title": "Радио и телевизия Светлина",
-    "url": "https://radiosvetlina.org/дарения/",
+    "title": "Радио и телевизия \"Светлина\"",
+    "url": "https://radiosvetlina.org/donation/",
     "img": "/img/logos/radiosvetlina-logo.svg",
     "description": "Мисията на тази медиа е да разпространява християнската вяра, като свидетелства за нея, без да я налага. В същността си дейността на Радио и Телевизия „Светлина“ е противодействието на злото в съизмерими с позволеното от ефира измерения и форми; усъвършенстването на християнина като такъв; обясняването на неясните моменти от вярата за слушателите/зрителите, незапознати или слабо запознати с нея."
   },
@@ -62,20 +62,19 @@
     "img": "/img/health/qnika.svg"
   },
   {
-  "url": "https://sofiawest.sdabg.net/",
+    "url": "https://sofiawest.sdabg.net/",
     "title": "Строеж на църква София-Запад",
     "description": "ЦАСД София-Запад набира средства за строеж на нова модерна сграда в кв. Люлин.",
     "img": "/img/logos/sdasofiawest.webp"
   },
   {
-  "url": "https://vtarnovo.sdabg.net/novdom/",
+    "url": "https://vtarnovo.sdabg.net/novdom/",
     "title": "Нова църква - Велико Търново",
     "description": "ЦАСД - гр. Велико Търново отправя апел за събиране на средства за строеж на нов молитвен дом.",
     "img": "/img/logos/vtarnovo.webp"
   },
-  
   {
-  "url": "https://www.facebook.com/VIVOstarazagora/posts/pfbid0Sexh2XhptV1hKAMQN8w6mUswMZ8abFMa7JWBTqPPjRhTChsQZy8UQZ2K8sg3Vpkal",
+    "url": "https://www.facebook.com/VIVOstarazagora/posts/pfbid0Sexh2XhptV1hKAMQN8w6mUswMZ8abFMa7JWBTqPPjRhTChsQZy8UQZ2K8sg3Vpkal",
     "title": "ВИВО - Ремонт на новия център",
     "description": "ВИВО е растяща християнска общност в Стара Загора, която набира средства за основен ремонт на новозакупено помещение в центъра на града. Целта на първия етап е 25 000 €.",
     "img": "/img/logos/VIVO.webp",

@@ -19,6 +19,7 @@ type VideoPlayerDialogProps = {
   onPlayIndexChange?: (index: number) => void;
   isRealPlaylist?: boolean;
   openedViaLink?: boolean;
+  linkTrackId?: string | null;
   shareBaseParams?: Record<string, string>;
 };
 
@@ -41,6 +42,7 @@ export const VideoPlayerDialog = ({
   onPlayIndexChange,
   isRealPlaylist = false,
   openedViaLink = false,
+  linkTrackId,
   shareBaseParams
 }: VideoPlayerDialogProps) => {
   const handleClose = useCallback(() => {
@@ -98,6 +100,7 @@ export const VideoPlayerDialog = ({
             onPlayIndexChange={onPlayIndexChange}
             isRealPlaylist={isRealPlaylist}
             openedViaLink={openedViaLink}
+            linkTrackId={linkTrackId}
             shareBaseParams={shareBaseParams}
           />
         )}

@@ -6,6 +6,7 @@ import { RESOURCES_FOLDER } from 'src/constants';
 import { formatTime } from 'src/utils/formatTime';
 import ShareItemButton from '../ShareItemButton';
 import DownloadPlaylistButton from './DownloadPlaylistButton';
+import ResumeButton, { type ResumeButtonProps } from './ResumeButton';
 import './PlaylistActionButtons.scss';
 
 type PlaylistActionButtonsProps = {
@@ -19,6 +20,7 @@ type PlaylistActionButtonsProps = {
   getCurrentTime?: () => number;
   showSaveButton?: boolean;
   onSaveAction?: () => void;
+  resume?: ResumeButtonProps;
   shareBaseParams?: Record<string, string>;
 };
 
@@ -33,6 +35,7 @@ const PlaylistActionButtons = ({
   simpleCopyButton = false,
   showSaveButton = false,
   onSaveAction,
+  resume,
   shareBaseParams
 }: PlaylistActionButtonsProps) => {
   const [toShow, setToShow] = useState(false);
@@ -130,8 +133,24 @@ const PlaylistActionButtons = ({
 
   return (
     <div className="playlist-action-buttons u-spacing--half">
-      {(shareUrl || hasDownload || showSaveButton) && (
+      {(shareUrl || hasDownload || showSaveButton || resume) && (
         <div className="buttons">
+          {showSaveButton && (
+            <Button
+              className="stacked-button"
+              onClick={handleSave}
+              label={isSaved ? 'Запомнено' : 'Запомни'}
+              title={
+                isSaved ? 'Успешно запазено' : 'Запомни докъде съм стигнал'
+              }
+              faIconClass={isSaved ? 'fas fa-check' : 'fas fa-bookmark'}
+              disabled={isSaved}
+              small
+            />
+          )}
+
+          {resume && <ResumeButton {...resume} className="stacked-button" />}
+
           {shareUrl &&
             (!simpleCopyButton ? (
               <Button
@@ -150,19 +169,6 @@ const PlaylistActionButtons = ({
                 (url) => `${RESOURCES_FOLDER}${url.replace(/^\/+/, '')}`
               )}
               playlistName={playlistName}
-            />
-          )}
-
-          {showSaveButton && (
-            <Button
-              onClick={handleSave}
-              label={isSaved ? 'Запомнено' : 'Запомни'}
-              title={
-                isSaved ? 'Успешно запазено' : 'Запомни докъде съм стигнал'
-              }
-              faIconClass={isSaved ? 'fas fa-check' : 'fas fa-bookmark'}
-              disabled={isSaved}
-              small
             />
           )}
         </div>

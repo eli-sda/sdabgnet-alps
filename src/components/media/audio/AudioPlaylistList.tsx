@@ -32,21 +32,16 @@ const AudioPlaylistListComponent = ({
         showDownloadAll={showDownloadAll}
         defaultImageIcon={defaultImageIcon}
         getCurrentTime={() => playerRef.current?.getCurrentTime() ?? 0}
-        renderPlayer={(
-          selectedPlaylist,
-          setPlayIndex,
-          playIndex,
-          initialTime
-        ) =>
+        seekTo={(time) => playerRef.current?.seekTo(time)}
+        playerRef={playerRef}
+        renderPlayer={(selectedPlaylist, controls) =>
           selectedPlaylist?.items ? (
             <AudioPlayer
               ref={playerRef}
               playlist={selectedPlaylist}
-              playIndex={playIndex}
-              onPlayIndexChange={setPlayIndex}
               onAudioPlay={() => setIsPlaying(true)}
               onAudioPause={() => setIsPlaying(false)}
-              initialTime={initialTime}
+              {...controls}
             />
           ) : null
         }

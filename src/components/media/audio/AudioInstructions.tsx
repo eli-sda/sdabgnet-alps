@@ -131,6 +131,16 @@ export const AudioInstructions = ({
         {item}. Щом започнете {nextUnit}, {nextPronoun} автоматично ще стане
         вашето ново запомнено място.{' '}
         <em>(Запазва се само в текущия браузър.)</em>
+        <br />• При отваряне на поредица чрез споделен линк, можете да
+        продължите от запомненото място с бутона{' '}
+        <span className="audio-instructions__caption__bookmark-btn-wrap">
+          <button className="o-button o-button--small">
+            <i className="fas fa-play u-space--quarter--right"></i>Пусни от
+            запомненото
+          </button>
+        </span>
+        . След края на аудиото, отворено по този начин, плеърът спира, вместо да
+        пусне следващото, така че запомненото място да не се замести.
       </p>
     </ContentBlockExpand>
   );

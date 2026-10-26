@@ -11,6 +11,7 @@ import {
   saveLastPlayedMedia
 } from 'src/utils/lastPlayedMedia';
 import ShareItemButton from 'src/components/ShareItemButton';
+import ResumeButton from 'src/components/playlistButtons/ResumeButton';
 import { VideoInstructions } from './VideoInstructions';
 import './VideoPlayer.scss';
 
@@ -36,6 +37,8 @@ interface VideoPlayerProps {
   onPlayIndexChange?: (index: number) => void;
   isRealPlaylist?: boolean;
   openedViaLink?: boolean;
+  /** Video that was opened from a shared link; playback stops when it ends. */
+  linkTrackId?: string | null;
   shareBaseParams?: Record<string, string>;
 }
 
@@ -47,6 +50,7 @@ const VideoPlayer = ({
   onPlayIndexChange,
   isRealPlaylist = false,
   openedViaLink = false,
+  linkTrackId,
   shareBaseParams
 }: VideoPlayerProps) => {
   const { playlistTitle, playlistAuthor, playlistDescription, videoItems } =
@@ -130,25 +134,6 @@ const VideoPlayer = ({
   const resumeIndex = remembered
     ? videoItems.findIndex((video) => video._id === remembered.itemId)
     : -1;
-  const canResume = Boolean(
-    openedViaLink &&
-    remembered &&
-    resumeIndex >= 0 &&
-    (resumeIndex !== currentIndex || (remembered.time ?? 0) > 0)
-  );
-
-  const handleResume = useCallback(() => {
-    if (!remembered || resumeIndex < 0) return;
-    const time = remembered.time && remembered.time > 0 ? remembered.time : 0;
-
-    if (resumeIndex === currentIndex) {
-      if (time > 0) playerApiRef.current?.seekTo(time);
-      return;
-    }
-
-    if (time > 0) playerApiRef.current?.setNextStartSeconds(time);
-    setCurrentIndex(resumeIndex);
-  }, [remembered, resumeIndex, currentIndex]);
 
   const activeVideoRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -171,13 +156,19 @@ const VideoPlayer = ({
   };
 
   const handleVideoEnded = useCallback(() => {
+    // Do not auto-advance past the video opened from a shared link: it would
+    // silently change the remembered video without the user asking.
+    if (currentVideo && currentVideo._id === linkTrackId) {
+      return;
+    }
+
     setCurrentIndex((prevIndex) => {
       if (prevIndex < videoItems.length - 1) {
         return prevIndex + 1;
       }
       return prevIndex;
     });
-  }, [videoItems.length]);
+  }, [videoItems.length, currentVideo, linkTrackId]);
 
   const handleCopyLink = (videoId: string, videoTitle: string) => {
     const finalUrl = computeFinalUrl(videoId, videoTitle);
@@ -262,15 +253,20 @@ const VideoPlayer = ({
                   disabled={savedFeedback}
                   small
                 />
-                {canResume && (
-                  <Button
-                    onClick={handleResume}
-                    label="Пусни от запомненото"
-                    title="Продължи от запомненото място"
-                    faIconClass="fas fa-play"
-                    small
-                  />
-                )}
+                <ResumeButton
+                  openedViaLink={openedViaLink}
+                  remembered={remembered}
+                  resumeIndex={resumeIndex}
+                  currentIndex={currentIndex}
+                  onSeek={(time) => playerApiRef.current?.seekTo(time)}
+                  playerRef={playerApiRef}
+                  onSwitch={(index, time) => {
+                    if (time > 0) {
+                      playerApiRef.current?.setNextStartSeconds(time);
+                    }
+                    setCurrentIndex(index);
+                  }}
+                />
                 <Button
                   onClick={() => setHelpOpen(true)}
                   label="Помощ"

@@ -3,10 +3,10 @@ import {
   ReactNode,
   useCallback,
   useEffect,
-  useMemo,
+  useRef,
   useState
 } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
@@ -16,9 +16,44 @@ import {
   saveLastPlayedMedia
 } from 'src/utils/lastPlayedMedia';
 import PlaylistActionButtons from '../playlistButtons/PlaylistActionButtons';
+import type { PlayableRef } from '../playlistButtons/ResumeButton';
 import MediaResumeDialog from './MediaResumeDialog';
 import MediaPlaylist from './MediaPlaylist';
+import type { MediaPlayerRenderControls } from './MediaPlayerControls';
 import './MediaPlaylistList.scss';
+
+// The router defers location state updates (startTransition), so a filtered
+// list can refresh before useLocation() reflects a new URL. Read the browser
+// URL directly when capturing the shared-link selection.
+type UrlSelection = {
+  playlistId: string;
+  playId: string | null;
+  timeParam: string | null;
+};
+
+const readCurrentUrlSelection = (): UrlSelection | null => {
+  const params = new URLSearchParams(window.location.search);
+  const rawHash = window.location.hash;
+  const playlistId =
+    params.get('playlistId') || (rawHash ? rawHash.replace('#', '') : null);
+
+  if (!playlistId) return null;
+
+  return {
+    playlistId,
+    playId: params.get('playId'),
+    timeParam: params.get('time')
+  };
+};
+
+// Removed from the URL once a video playlist opened from a shared link, so the
+// player is not re-opened on later refreshes of the list.
+const VIDEO_SHARE_PARAMS = [
+  'playlistId',
+  'playId',
+  'playlistTitle',
+  'title'
+] as const;
 
 interface MediaPlaylistListProps {
   mediaType: 'audio' | 'video';
@@ -29,12 +64,11 @@ interface MediaPlaylistListProps {
   onPlaylistSelect?: (playlist: PlaylistType) => void;
   renderPlayer?: (
     playlist: PlaylistType | null,
-    setPlayIndex: (i: number) => void,
-    playIndex?: number,
-    initialTime?: number,
-    openedViaLink?: boolean
+    controls: MediaPlayerRenderControls
   ) => React.ReactNode;
   getCurrentTime?: () => number;
+  seekTo?: (time: number) => void;
+  playerRef?: PlayableRef;
   className?: string;
   defaultImageIcon?: ReactNode;
   renderPlaylistExtra?: (playlist: PlaylistType) => ReactNode;
@@ -51,23 +85,16 @@ const MediaPlaylistList = ({
   onPlaylistSelect,
   renderPlayer,
   getCurrentTime,
+  seekTo,
+  playerRef,
   className = '',
   defaultImageIcon,
   renderPlaylistExtra,
   getShareBaseParams,
   highlightText
 }: MediaPlaylistListProps) => {
-  const { hash, search } = useLocation();
-
-  const { playId, playlistIdFromSearch, timeParam } = useMemo(() => {
-    const searchParams = new URLSearchParams(search);
-    return {
-      playId: searchParams.get('playId'),
-      playlistIdFromSearch: searchParams.get('playlistId'),
-      // Supports only time as seconds (integer)
-      timeParam: searchParams.get('time')
-    };
-  }, [search]);
+  const { hash } = useLocation();
+  const navigate = useNavigate();
 
   const { getPagePlaylists } = usePlaylists();
   const [playlists, setPlaylists] = useState<PlaylistType[]>(
@@ -78,8 +105,11 @@ const MediaPlaylistList = ({
   );
   const [currentPlayIndex, setCurrentPlayIndex] = useState(0);
   const [initialTime, setInitialTime] = useState<number | undefined>(undefined);
-  // True only while the currently selected playlist is the one the URL opened.
-  // Cleared as soon as the user picks a playlist manually.
+  // Forces a re-render after an explicit save so canResume/resume button read
+  // the newly stored position immediately instead of staying stale.
+  const [, refreshRemembered] = useState(0);
+  // True only while the selected playlist is the one the URL opened and the
+  // resume action has not been used yet. Cleared on manual selection or resume.
   const [openedViaLink, setOpenedViaLink] = useState(false);
   const [resumePrompt, setResumePrompt] = useState<{
     playlistId: string;
@@ -89,57 +119,69 @@ const MediaPlaylistList = ({
     time?: number;
   } | null>(null);
 
+  // Captured once on mount: a shared link must open its playlist only once.
+  // Later data refreshes (for example a new search in Videoteka) recreate the
+  // playlists array and must not apply the selection again.
+  const pendingSelectionRef = useRef<UrlSelection | null>(
+    readCurrentUrlSelection()
+  );
+  // Playlist and track that came from the link, needed by the "remember last
+  // played" logic even after the playback params are removed from the URL.
+  const linkPlaylistIdRef = useRef<string | null>(null);
+  const linkTrackIdRef = useRef<string | null>(null);
+
+  const clearInitialTime = useCallback(() => {
+    setInitialTime(undefined);
+  }, []);
+
+  const clearVideoShareParams = useCallback(() => {
+    const params = new URLSearchParams(window.location.search);
+    (VIDEO_SHARE_PARAMS as readonly string[]).forEach((key) =>
+      params.delete(key)
+    );
+    const search = params.toString();
+
+    void navigate(
+      { search: search ? `?${search}` : '', hash: '' },
+      { replace: true }
+    );
+  }, [navigate]);
+
   useScrollToHash({ enabled: playlists.length > 0 && Boolean(hash) });
 
-  // Determine the track ID that was initially loaded from a shared URL
-  const urlTrackId = useMemo(() => {
-    const playlistId =
-      playlistIdFromSearch || (hash ? hash.replace('#', '') : null);
-    if (
-      !playlistId ||
-      selectedPlaylist?._id !== playlistId
-    ) {
-      return null;
-    }
-    return playId || selectedPlaylist.items?.[0]?._id;
-  }, [playlistIdFromSearch, hash, playId, selectedPlaylist]);
-
-  const checkAndSetResumePrompt = useCallback(
-    (playlist: PlaylistType) => {
-      const lastPlayed = getLastPlayedMedia(playlist._id);
-      if (lastPlayed) {
-        const savedIndex = playlist.items?.findIndex(
-          (item) => item._id === lastPlayed.itemId
-        );
-        if (
-          savedIndex !== undefined &&
-          (savedIndex > 0 || (lastPlayed.time && lastPlayed.time > 0))
-        ) {
-          setResumePrompt({
-            playlistId: playlist._id,
-            itemId: lastPlayed.itemId,
-            title: lastPlayed.title,
-            index: savedIndex,
-            time: lastPlayed.time
-          });
-          return;
-        }
+  const checkAndSetResumePrompt = useCallback((playlist: PlaylistType) => {
+    const lastPlayed = getLastPlayedMedia(playlist._id);
+    if (lastPlayed) {
+      const savedIndex = playlist.items?.findIndex(
+        (item) => item._id === lastPlayed.itemId
+      );
+      if (
+        savedIndex !== undefined &&
+        (savedIndex > 0 || (lastPlayed.time && lastPlayed.time > 0))
+      ) {
+        setResumePrompt({
+          playlistId: playlist._id,
+          itemId: lastPlayed.itemId,
+          title: lastPlayed.title,
+          index: savedIndex,
+          time: lastPlayed.time
+        });
+        return;
       }
-      setResumePrompt(null);
-    },
-    []
-  );
+    }
+    setResumePrompt(null);
+  }, []);
 
   const handleSelect = useCallback(
     (playlist: PlaylistType) => {
-      // Manual selection always leaves the "opened via link" state.
-      setOpenedViaLink(false);
-
       if (selectedPlaylist?._id === playlist._id) {
         onPlaylistSelect?.(playlist);
         return; // Do nothing if the same playlist is selected
       }
 
+      // Only switching to a different playlist leaves the "opened via link"
+      // state, so re-opening the same shared playlist keeps the resume button.
+      setOpenedViaLink(false);
       setSelectedPlaylist(playlist);
       setCurrentPlayIndex(0);
       setInitialTime(undefined);
@@ -153,44 +195,52 @@ const MediaPlaylistList = ({
   const setInitialPlaylists = useCallback(
     (playlistArr: PlaylistType[]) => {
       setPlaylists(playlistArr);
-      // support playlist selection from either hash (#<id>) or query ?playlistId=<id>
-      const playlistId =
-        playlistIdFromSearch || (hash ? hash.replace('#', '') : null);
 
-      if (playlistId) {
-        const matchedPlaylist = playlistArr.find((p) => p._id === playlistId);
+      const selection = pendingSelectionRef.current;
+      if (!selection) return;
 
-        if (
-          matchedPlaylist?.items &&
-          matchedPlaylist.items.length > 0 &&
-          playId
-        ) {
-          const index = matchedPlaylist.items.findIndex(
-            (item) => item._id === playId
-          );
+      const matchedPlaylist = playlistArr.find(
+        (p) => p._id === selection.playlistId
+      );
 
-          if (index !== -1) {
-            setCurrentPlayIndex(index);
-          }
+      // The playlist may arrive with a later batch of results; wait for it
+      // instead of marking the link as handled.
+      if (!matchedPlaylist) return;
 
-          if (timeParam && /^\d+$/.test(timeParam)) {
-            // Parse initial time (integer) from URL
-            setInitialTime(Number.parseInt(timeParam, 10));
-          } else {
-            setInitialTime(undefined);
-          }
+      pendingSelectionRef.current = null;
+
+      const { playId, timeParam } = selection;
+
+      if (matchedPlaylist.items && matchedPlaylist.items.length > 0 && playId) {
+        const index = matchedPlaylist.items.findIndex(
+          (item) => item._id === playId
+        );
+
+        if (index !== -1) {
+          setCurrentPlayIndex(index);
         }
 
-        setSelectedPlaylist(matchedPlaylist || null);
-        if (matchedPlaylist) {
-          // Only the playlist picked by the URL counts as "opened via link".
-          setOpenedViaLink(true);
-          onPlaylistSelect?.(matchedPlaylist);
-
+        if (timeParam && /^\d+$/.test(timeParam)) {
+          // Parse initial time (integer) from URL
+          setInitialTime(Number.parseInt(timeParam, 10));
+        } else {
+          setInitialTime(undefined);
         }
       }
+
+      linkPlaylistIdRef.current = matchedPlaylist._id;
+      linkTrackIdRef.current =
+        playId || matchedPlaylist.items?.[0]?._id || null;
+      setSelectedPlaylist(matchedPlaylist);
+      // Only the playlist picked by the URL counts as "opened via link".
+      setOpenedViaLink(true);
+      onPlaylistSelect?.(matchedPlaylist);
+
+      if (mediaType === 'video') {
+        clearVideoShareParams();
+      }
     },
-    [hash, onPlaylistSelect, playId, playlistIdFromSearch, timeParam]
+    [onPlaylistSelect, mediaType, clearVideoShareParams]
   );
 
   useEffect(() => {
@@ -222,32 +272,38 @@ const MediaPlaylistList = ({
   ]);
 
   useEffect(() => {
-    if (selectedPlaylist && !resumePrompt) {
-      const currentItem = selectedPlaylist.items?.[currentPlayIndex];
+    if (!selectedPlaylist || resumePrompt) return;
 
-      if (currentItem) {
-        // When the current item comes from the URL (?playId), do not overwrite an
-        // already remembered item for this playlist.
-        if (urlTrackId === currentItem._id) {
-          const existing = getLastPlayedMedia(selectedPlaylist._id);
-          if (mediaType === 'video') {
-            // Video is remembered from the URL only if nothing was remembered yet.
-            if (existing) {
-              return;
-            }
-          } else if (existing && existing.itemId !== currentItem._id) {
-            return;
-          }
+    // If the audio player's handlePlay patch ever stops working, skip auto-saving
+    // automatic advances in a shared-link playlist so the remembered item stays.
+    const currentItem = selectedPlaylist.items?.[currentPlayIndex];
+    if (!currentItem) return;
+
+    // When the current item comes from the shared link (?playId), do not
+    // overwrite an already remembered item for this playlist.
+    const linkTrackId =
+      selectedPlaylist._id === linkPlaylistIdRef.current
+        ? linkTrackIdRef.current
+        : null;
+
+    if (linkTrackId === currentItem._id) {
+      const existing = getLastPlayedMedia(selectedPlaylist._id);
+      if (mediaType === 'video') {
+        // Video is remembered from the link only if nothing was remembered yet.
+        if (existing) {
+          return;
         }
-
-        saveLastPlayedMedia(
-          selectedPlaylist._id,
-          currentItem._id,
-          currentItem.title
-        );
+      } else if (existing && existing.itemId !== currentItem._id) {
+        return;
       }
     }
-  }, [mediaType, selectedPlaylist, currentPlayIndex, resumePrompt, urlTrackId]);
+
+    saveLastPlayedMedia(
+      selectedPlaylist._id,
+      currentItem._id,
+      currentItem.title
+    );
+  }, [mediaType, selectedPlaylist, currentPlayIndex, resumePrompt]);
 
   return (
     <>
@@ -257,6 +313,18 @@ const MediaPlaylistList = ({
           const currentItem = isCurrent
             ? playlist.items?.[currentPlayIndex]
             : undefined;
+
+          // Mirror the video player's "Пусни от запомненото" for audio rows:
+          // shown when the playlist was opened via a shared link and there is a
+          // remembered position that differs from the current one.
+          const rememberedEntry = isCurrent
+            ? getLastPlayedMedia(playlist._id)
+            : null;
+          const resumeIndex = rememberedEntry
+            ? (playlist.items?.findIndex(
+                (item) => item._id === rememberedEntry.itemId
+              ) ?? -1)
+            : -1;
 
           return (
             <div key={playlist._id} className="playlist-item">
@@ -300,8 +368,30 @@ const MediaPlaylistList = ({
                               currentItem.title,
                               currentTime
                             );
+                            // Re-render so the resume button reflects this save.
+                            refreshRemembered((version) => version + 1);
                           }
                         }}
+                        resume={
+                          mediaType === 'audio' && isCurrent
+                            ? {
+                                openedViaLink,
+                                remembered: rememberedEntry,
+                                resumeIndex,
+                                currentIndex: currentPlayIndex,
+                                onSeek: (time) => {
+                                  seekTo?.(time);
+                                  setOpenedViaLink(false);
+                                },
+                                playerRef,
+                                onSwitch: (index, time) => {
+                                  setOpenedViaLink(false);
+                                  setCurrentPlayIndex(index);
+                                  if (time > 0) setInitialTime(time);
+                                }
+                              }
+                            : undefined
+                        }
                       />
                     </div>
                     {renderPlaylistExtra?.(playlist)}
@@ -328,10 +418,18 @@ const MediaPlaylistList = ({
 
       {renderPlayer?.(
         resumePrompt ? null : selectedPlaylist,
-        setCurrentPlayIndex,
-        currentPlayIndex,
-        initialTime,
-        openedViaLink
+        {
+          onPlayIndexChange: setCurrentPlayIndex,
+          playIndex: currentPlayIndex,
+          initialTime,
+          openedViaLink,
+          onInitialTimeApplied: clearInitialTime,
+          // Only while the opened playlist is the one from the shared link.
+          linkTrackId:
+            selectedPlaylist?._id === linkPlaylistIdRef.current
+              ? linkTrackIdRef.current
+              : null
+        }
       )}
     </>
   );

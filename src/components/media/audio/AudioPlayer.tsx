@@ -6,8 +6,7 @@ import {
   useRef
 } from 'react';
 import ReactJkMusicPlayer, {
-  type ReactJkMusicPlayerInstance,
-  type ReactJkMusicPlayerLocale
+  type ReactJkMusicPlayerInstance
 } from 'react-jinke-music-player';
 import { createDynamicMusicPlayerLocale } from 'src/utils/bgMusicPlayerLocale';
 import { suppressMusicPlayerWarnings } from 'src/utils/suppressMusicPlayerWarnings';
@@ -227,7 +226,7 @@ const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
         mode="full"
         defaultPosition={{ right: 100, bottom: 120 }}
         autoPlay={typeof initialTime !== 'number' || initialTime <= 0}
-        locale={dynamicLocale as ReactJkMusicPlayerLocale}
+        locale={dynamicLocale}
         showDownload
         showThemeSwitch={false}
         showReload={false}

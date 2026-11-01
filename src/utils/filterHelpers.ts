@@ -44,7 +44,7 @@ export const filterSectionedData = <
     if (itemMatches) {
       acc.push(item);
     } else if (matchedChildren.length > 0) {
-      acc.push({ ...item, [childrenKey]: matchedChildren } as SectionType);
+      acc.push({ ...item, [childrenKey]: matchedChildren });
     }
 
     return acc;

@@ -2,7 +2,7 @@ import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
-import { LinksData, MediaListSection } from '../links/MediaLinksPage';
+import { MediaListSection } from '../links/MediaLinksPage';
 import biblesJson from './online-bibles.json';
 
 const Bibles = () => {
@@ -32,7 +32,7 @@ const Bibles = () => {
         ]
       }}
     >
-      <MediaListSection sections={biblesJson as LinksData[]} doubleSpace />
+      <MediaListSection sections={biblesJson} doubleSpace />
     </Page>
   );
 };

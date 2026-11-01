@@ -597,6 +597,64 @@ export async function linkHealthPlaylistsToItems() {
   }
 }
 
+export async function linkAudioResourcePlaylistsToItems(
+  playlistType: string,
+  playlistFilter: string
+) {
+  console.log(
+    `Starting to link ${playlistType} audio resource playlists to their items with filter: "${playlistFilter}"...`
+  );
+  let totalUpdated = 0;
+
+  try {
+    // Inject the raw GROQ filter clause directly into the query string
+    const playlists = await client.fetch<PlaylistDocument[]>(
+      `*[_type == "playlist" && type == "${playlistType}" && isResource == true && ${playlistFilter} && (items == null || count(items) == 0)] | order(title asc){
+        _id,
+        _type,
+        title,
+        items
+      }`
+    );
+
+    if (!playlists || playlists.length === 0) {
+      console.log(
+        `No empty audio playlists found matching the filter "${playlistFilter}".`
+      );
+      return;
+    }
+
+    const playlistTitles = playlists.map((p) => p.title);
+    console.log(`Found ${playlists.length} empty playlists for type.`);
+
+    // Fetch audio resource links where first keyWord matches one of the playlist titles
+    const links = await client.fetch<LinkDocument[]>(
+      `*[_type == "link" && type == "audio" && isResource == true && keyWords[0] in $playlistTitles]{
+        _id,
+        _type,
+        title,
+        author,
+        fileName,
+        keyWords
+      }`,
+      { playlistTitles }
+    );
+
+    console.log(
+      `Found ${playlists.length} playlists and ${links.length} links`
+    );
+
+    // Match links to playlists and update in Sanity
+    totalUpdated = await populatePlaylistsWithLinks(playlists, links);
+
+    console.log(
+      `\n🎉 Successfully updated ${totalUpdated} playlists out of ${playlists.length}`
+    );
+  } catch (error) {
+    console.error('❌ Error in linkAudioResourcePlaylistsToItems:', error);
+  }
+}
+
 export async function linkVideosPlaylistsToItems(playlistFilter: string) {
   console.log(
     `Starting to link video playlists to their items with filter: "${playlistFilter}"...`

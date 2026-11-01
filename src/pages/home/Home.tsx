@@ -21,7 +21,8 @@ import { CallForHelp } from 'src/components/CallForHelp';
 // linkTestimoniesVideoPlaylistsToItems
 // linkBookPlaylistsToItems
 // linkHealthPlaylistsToItems
-// linkVideosPlaylistsToItems
+// linkVideosPlaylistsToItems,
+// linkAudioResourcePlaylistsToItems
 // } from 'src/utils/Sanity/link-playlists';
 // import { deleteAllAudioLinks } from 'src/utils/Sanity/delete-audio-links';
 // import { cleanupPlaylistItems } from 'src/utils/Sanity/cleanup-playlist-items';
@@ -152,7 +153,18 @@ const Home = () => {
           Fill &quot;От корица до корица&quot; playlists
         </Button>
       </div> */}
-
+      {/* <div>
+        <Button
+          onClick={() =>
+            void linkAudioResourcePlaylistsToItems(
+              'audio-book',
+              'title match "Пътешествие в свръхестественото"'
+            )
+          }
+        >
+          Fill &quot;Пътешествие в свръхестественото&quot; audiobook
+        </Button>
+      </div> */}
       {/* <Button
         onClick={() =>
           void cleanNumericKeywords(

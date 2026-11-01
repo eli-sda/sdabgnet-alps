@@ -21,13 +21,13 @@ export function suppressYouTubeErrors() {
   const wrapConsoleMethod = (
     method: 'error' | 'warn'
   ): ((...args: unknown[]) => void) => {
-    const original = console[method];
+    const original = console[method].bind(console);
     return (...args: unknown[]) => {
       const message = args.join(' ');
       if (typeof message === 'string' && shouldSuppress(message)) {
         return;
       }
-      original.apply(console, args);
+      original(...args);
     };
   };
 

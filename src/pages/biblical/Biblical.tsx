@@ -10,7 +10,7 @@ import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
 import VideoWithPreview from 'src/components/media/video/videoWithPreview/VideoWithPreview';
 import { LinksBlock } from '../links/LinksBlock';
-import { LinksData, MediaListSection } from '../links/MediaLinksPage';
+import { MediaListSection } from '../links/MediaLinksPage';
 import biblicalJson from './biblical.json';
 import believe28 from './believe28.json';
 import './Biblical.scss';
@@ -237,10 +237,7 @@ const Biblical = () => {
         </section>
 
         <section className="u-space--bottom">
-          <MediaListSection
-            sections={biblicalJson as LinksData[]}
-            doubleSpace={false}
-          />
+          <MediaListSection sections={biblicalJson} doubleSpace={false} />
         </section>
       </Page>
 

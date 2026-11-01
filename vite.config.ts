@@ -113,6 +113,10 @@ export default defineConfig({
   },
   css: {
     preprocessorOptions: {
+      scss: {
+        // react-big-calendar still uses legacy Sass @import directives.
+        silenceDeprecations: ['import']
+      },
       less: {
         modifyVars: {
           // set react-jinke-music-player variables

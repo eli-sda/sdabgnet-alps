@@ -1,7 +1,5 @@
 import React from 'react';
-import ReactJkMusicPlayer, {
-  ReactJkMusicPlayerLocale
-} from 'react-jinke-music-player';
+import ReactJkMusicPlayer from 'react-jinke-music-player';
 import { bgMusicPlayerLocale } from '../../utils/bgMusicPlayerLocale';
 import { suppressMusicPlayerWarnings } from '../../utils/suppressMusicPlayerWarnings';
 
@@ -46,7 +44,7 @@ const LessonAudio: React.FC<LessonAudioProps> = ({
         bottom: 120
       }}
       autoPlay={false}
-      locale={bgMusicPlayerLocale as ReactJkMusicPlayerLocale}
+      locale={bgMusicPlayerLocale}
       showDownload={false}
       showThemeSwitch={false}
       showReload={false}

@@ -357,11 +357,11 @@ export const loadVideosByFilters = async (
         matchesWordStart(link.description, text)
     )
     .map((link) => {
-      const filtered = filterTags(link.keyWords as string[] | null);
+      const filtered = filterTags(link.keyWords);
       return {
         ...link,
         keyWords: filtered.length ? filtered : null
-      } as LinkType;
+      };
     })
     .sort((a, b) => collator.compare(a.title, b.title));
 };
@@ -452,9 +452,7 @@ export const loadPlaylistsByFilters = async (
       matchesWordStart(item.title ?? '', term) ||
       matchesWordStart(item.description ?? '', term);
 
-  const filteredEmbedded = text
-    ? embedded.filter(matchesText(text))
-    : embedded;
+  const filteredEmbedded = text ? embedded.filter(matchesText(text)) : embedded;
   const filteredYtLinks = text
     ? ytLinks.filter((link) => matchesText(text)(link))
     : ytLinks;
@@ -554,13 +552,7 @@ export const loadSunset = async (
       return fetch(apiUrl)
         .then((res) => res.json())
         .then((json: SunsetApiResponse) => ({ date, json }))
-        .catch(
-          () =>
-            ({ date, json: null }) as {
-              date: moment.Moment;
-              json: SunsetApiResponse | null;
-            }
-        );
+        .catch(() => ({ date, json: null }));
     })
   );
 

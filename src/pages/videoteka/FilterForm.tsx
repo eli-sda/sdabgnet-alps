@@ -78,7 +78,7 @@ export const FilterForm = ({
             name={`${type}-searchText`}
             type="text"
             value={searchText}
-            placeholder="Въведи ключова дума"
+            placeholder="Въведете дума или фраза..."
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
             ) => onSearchTextChange(e.target.value)}

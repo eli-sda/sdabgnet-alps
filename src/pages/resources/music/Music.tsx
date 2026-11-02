@@ -7,6 +7,7 @@ import { RelatedPosts } from 'src/alps/organisms/asides/RelatedPosts';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { usePlaylists } from 'src/hooks/usePlaylists';
+import { usePagesMeta } from 'src/hooks/usePagesMeta';
 import { getTitle } from 'src/utils/Navigation';
 import { AudioPlaylistList } from 'src/components/media/audio/AudioPlaylistList';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
@@ -55,6 +56,7 @@ const MusicPage = () => {
 
   const breadcrumbsUrls = [routes.resources(), pagePath];
 
+  const { pageBackground } = usePagesMeta();
   const { getPlaylistsByTitles } = usePlaylists();
   const [musicVideos, setMusicVideos] = useState<PlaylistType[]>([]);
   const [videoPlaylist, setVideoPlaylist] = useState<PlaylistType[]>([]);
@@ -86,6 +88,7 @@ const MusicPage = () => {
         title={getTitle(routes.resources('music'))}
         kicker={SUBPAGE_KICKER}
         breadcrumbsUrls={breadcrumbsUrls}
+        background={pageBackground}
         relatedPosts={musicLinks}
         aside={<RelatedPosts {...asideLinks} />}
       >

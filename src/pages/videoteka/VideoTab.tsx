@@ -222,8 +222,7 @@ export const VideoTab = ({
       // just the total (they are the same on a single-page group).
       const groupCountLabel = (group: VideoGroup) => {
         const total =
-          groupCounts.get(group.playlistId ?? 'singles') ??
-          group.videos.length;
+          groupCounts.get(group.playlistId ?? 'singles') ?? group.videos.length;
         return group.videos.length < total
           ? `${group.videos.length} от ${total}`
           : `${total}`;
@@ -331,9 +330,9 @@ export const VideoTab = ({
         filterType="videos"
         caption={
           <>
-            Изберете поне един критерий за търсене на YouTube видеа от нашата
-            колекция. Можете да филтрирате по тема, автор или да въведете
-            ключова дума в заглавието или описанието.
+            Търсете отделни видеа по тематика, автор или думи от заглавието или
+            описанието. Можете да изберете няколко видеа и да ги пуснете
+            последователно във вградения плеър без реклами.
           </>
         }
         getTopics={getVideoTopics}

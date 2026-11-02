@@ -5,6 +5,7 @@ import { RelatedPostsProps } from 'src/alps/organisms/asides/RelatedPosts';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
+import { usePagesMeta } from 'src/hooks/usePagesMeta';
 import { AudioInstructions } from 'src/components/media/audio/AudioInstructions';
 import { AudioPlaylistList } from 'src/components/media/audio/AudioPlaylistList';
 import { reactIconProps } from 'src/components/media/MediaPlaylistListDefReactIcon';
@@ -20,6 +21,7 @@ const AudioPage = ({ type, aside, relatedPosts }: AudioPageProps) => {
   useScrollToHash();
 
   const pagePath = routes.resources('audio', type);
+  const { pageBackground } = usePagesMeta();
 
   const breadcrumbsUrls = [
     routes.resources(),
@@ -33,6 +35,7 @@ const AudioPage = ({ type, aside, relatedPosts }: AudioPageProps) => {
         title={getTitle(pagePath)}
         kicker={SUBPAGE_KICKER}
         breadcrumbsUrls={breadcrumbsUrls}
+        background={pageBackground}
         aside={aside}
         relatedPosts={relatedPosts}
       >

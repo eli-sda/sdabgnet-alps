@@ -4,9 +4,11 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
+import { Caption } from 'alps-library/atoms/text/Caption';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
+import { usePagesMeta } from 'src/hooks/usePagesMeta';
 import type { SearchSource, VideotekaApplied } from './types';
 import { VideoTab } from './VideoTab';
 import { PlaylistTab } from './PlaylistTab';
@@ -83,6 +85,7 @@ function applyTabParams(
 
 const Videoteka = () => {
   const breadcrumbsUrls = [routes.videoteka];
+  const { pageMeta, pageBackground } = usePagesMeta();
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -248,11 +251,18 @@ const Videoteka = () => {
 
   return (
     <Page
-      title={getTitle(routes.videoteka)}
+      title={getTitle(routes.videoteka) || pageMeta?.title || ''}
       breadcrumbsUrls={breadcrumbsUrls}
+      background={pageBackground}
       blockType="wrap6"
-      pageClassName="videoteka-page"
+      pageClassName="videoteka-page u-spacing"
     >
+      <div className="u-width--100p full-page">
+        <Caption>
+          Колекция от YouTube видеа и плейлисти, събрани от различни адвентни
+          канали.
+        </Caption>
+      </div>
       <TabContext value={activeTab}>
         <TabList
           onChange={handleTabChange}

@@ -49,15 +49,22 @@ export interface BreadcrumbsProps {
 
 export const Breadcrumbs = ({ items = [] }: BreadcrumbsProps): JSX.Element => {
   const { pageMeta } = usePagesMeta();
+  // Pages missing from the menu have no title from getTitle; fall back to the
+  // title of the current page's Sanity meta so the last breadcrumb is not empty.
+  const displayItems = items.map((item) =>
+    !item.text && !item.url && pageMeta?.title
+      ? { ...item, text: pageMeta.title }
+      : item
+  );
   return (
     <>
       {pageMeta && (
         <PageMeta meta={pageMeta} breadcrumbs={[...items]}></PageMeta>
       )}
-      {items.length > 0 && (
+      {displayItems.length > 0 && (
         <nav className="c-breadcrumbs" role="navigation">
           <ul className="c-breadcrumbs__list">
-            {renderItems(items, BreadcrumbItem, '')}
+            {renderItems(displayItems, BreadcrumbItem, '')}
           </ul>
         </nav>
       )}

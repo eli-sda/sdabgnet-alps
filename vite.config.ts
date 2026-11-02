@@ -20,6 +20,9 @@ const proxyAgent =
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
+    watch: {
+      ignored: ['**/tmp/**']
+    },
     proxy: {
       '/sdabg': {
         target: 'https://sdasofia.org',

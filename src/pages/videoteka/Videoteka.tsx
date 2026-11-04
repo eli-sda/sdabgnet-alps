@@ -28,10 +28,12 @@ type VideotekaSession = {
   vTopicTitle: string;
   vAuthor: string;
   vText: string;
+  vAll: boolean;
   pPage: number;
   pTopicTitle: string;
   pAuthor: string;
   pText: string;
+  pAll: boolean;
 };
 
 function readSession(): VideotekaSession | null {
@@ -66,10 +68,12 @@ function applyTabParams(
 
   // The URL must only ever describe the active tab; the other tab's filters are
   // kept in session storage only, so drop any stale ones carried over here.
-  (['Topic', 'Author', 'Text', 'Page'] as const).forEach((key) =>
+  (['Topic', 'Author', 'Text', 'Page', 'All'] as const).forEach((key) =>
     next.delete(`${otherPrefix}${key}`)
   );
 
+  if (applied?.all) next.set(`${prefix}All`, 'true');
+  else next.delete(`${prefix}All`);
   if (applied?.topic) next.set(`${prefix}Topic`, applied.topic.title);
   else next.delete(`${prefix}Topic`);
   if (applied?.author) next.set(`${prefix}Author`, applied.author);
@@ -95,10 +99,12 @@ const Videoteka = () => {
     searchParams.has('vTopic') ||
     searchParams.has('vAuthor') ||
     searchParams.has('vText') ||
+    searchParams.has('vAll') ||
     searchParams.has('vPage') ||
     searchParams.has('pTopic') ||
     searchParams.has('pAuthor') ||
     searchParams.has('pText') ||
+    searchParams.has('pAll') ||
     searchParams.has('pPage') ||
     searchParams.has('tab');
   const session = hasUrlFilters ? null : readSession();
@@ -110,10 +116,12 @@ const Videoteka = () => {
     vTopicTitle: searchParams.get('vTopic') ?? session?.vTopicTitle ?? '',
     vAuthor: searchParams.get('vAuthor') ?? session?.vAuthor ?? '',
     vText: searchParams.get('vText') ?? session?.vText ?? '',
+    vAll: searchParams.get('vAll') === 'true' || (session?.vAll ?? false),
     pPage: parseInt(searchParams.get('pPage') ?? '', 10) || session?.pPage || 1,
     pTopicTitle: searchParams.get('pTopic') ?? session?.pTopicTitle ?? '',
     pAuthor: searchParams.get('pAuthor') ?? session?.pAuthor ?? '',
-    pText: searchParams.get('pText') ?? session?.pText ?? ''
+    pText: searchParams.get('pText') ?? session?.pText ?? '',
+    pAll: searchParams.get('pAll') === 'true' || (session?.pAll ?? false)
   });
 
   const [activeTab, setActiveTab] = React.useState<ActiveTab>(
@@ -242,10 +250,12 @@ const Videoteka = () => {
       vTopicTitle: vApplied?.topic?.title ?? '',
       vAuthor: vApplied?.author ?? '',
       vText: vApplied?.text ?? '',
+      vAll: !!vApplied?.all,
       pPage,
       pTopicTitle: pApplied?.topic?.title ?? '',
       pAuthor: pApplied?.author ?? '',
-      pText: pApplied?.text ?? ''
+      pText: pApplied?.text ?? '',
+      pAll: !!pApplied?.all
     });
   }, [activeTab, vPage, pPage, vApplied, pApplied]);
 
@@ -299,6 +309,7 @@ const Videoteka = () => {
             initTopicTitle={initRef.current.vTopicTitle}
             initAuthor={initRef.current.vAuthor}
             initText={initRef.current.vText}
+            initAll={initRef.current.vAll}
             page={vPage}
             onSearch={handleVideoSearch}
             onPageChange={handleVideoPageChange}
@@ -315,6 +326,7 @@ const Videoteka = () => {
             initTopicTitle={initRef.current.pTopicTitle}
             initAuthor={initRef.current.pAuthor}
             initText={initRef.current.pText}
+            initAll={initRef.current.pAll}
             page={pPage}
             onSearch={handlePlaylistSearch}
             onPageChange={handlePlaylistPageChange}

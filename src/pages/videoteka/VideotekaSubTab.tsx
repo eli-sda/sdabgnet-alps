@@ -3,22 +3,8 @@ import { Caption } from 'alps-library/atoms/text/Caption';
 import { Pagination } from 'alps-library/molecules/navigation/pagination/Pagination';
 import { TopicType } from 'src/contexts/PlaylistsContext';
 import { FilterForm } from './FilterForm';
+import { scrollToId } from 'src/utils/scrollToId';
 import type { SearchSource, VideotekaApplied } from './types';
-
-/** Smooth-scrolls to an element by id, optionally deferred to the next frame. */
-const scrollToId = (elementId: string, deferred = false): void => {
-  const doScroll = () => {
-    const element = document.getElementById(elementId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-  if (deferred) {
-    requestAnimationFrame(doScroll);
-  } else {
-    doScroll();
-  }
-};
 
 export interface VideotekaSubTabContext {
   applied: VideotekaApplied | null;
@@ -34,6 +20,7 @@ export interface VideotekaSubTabProps {
   initTopicTitle: string;
   initAuthor: string;
   initText: string;
+  initAll?: boolean;
   page: number;
   onSearch: (applied: VideotekaApplied, source?: SearchSource) => void;
   onPageChange: (page: number) => void;
@@ -57,6 +44,7 @@ export const VideotekaSubTab = ({
   initTopicTitle,
   initAuthor,
   initText,
+  initAll = false,
   page,
   onSearch,
   onPageChange,
@@ -95,7 +83,7 @@ export const VideotekaSubTab = ({
         setTopics(topicsResult);
         setAuthors(authorsResult);
 
-        if (initTopicTitle || initAuthor || initText) {
+        if (initTopicTitle || initAuthor || initText || initAll) {
           const resolved =
             topicsResult.find((t) => t.title === initTopicTitle) ?? null;
           setTopic(resolved);
@@ -104,16 +92,26 @@ export const VideotekaSubTab = ({
           const initApplied: VideotekaApplied = {
             topic: resolved,
             author: initAuthor,
-            text: initText
+            text: initText,
+            all: initAll || undefined
           };
           setApplied(initApplied);
           onSearchRef.current(initApplied, 'init');
         }
       })
       .catch((err) => console.error('Failed to load tab data', err));
-  }, [isActive, initTopicTitle, initAuthor, initText, getTopics, getAuthors]);
+  }, [
+    isActive,
+    initTopicTitle,
+    initAuthor,
+    initText,
+    initAll,
+    getTopics,
+    getAuthors
+  ]);
 
-  // Fetch results whenever the applied filter changes
+  // Fetch results whenever the applied filter changes; fetchResults scrolls
+  // to them once they are rendered.
   useEffect(() => {
     if (!applied) return;
     fetchResults(applied, setLoading);
@@ -121,9 +119,7 @@ export const VideotekaSubTab = ({
 
   const totalPages = Math.max(1, Math.ceil(totalResults / pageSize));
   const effectivePage = Math.min(page, totalPages);
-  const hasApplied = applied
-    ? !!(applied.topic || applied.author || applied.text)
-    : false;
+  const hasApplied = applied !== null;
 
   const handleSearch = () => {
     const next: VideotekaApplied = {
@@ -133,7 +129,20 @@ export const VideotekaSubTab = ({
     };
     setApplied(next);
     onSearch(next, 'user');
-    scrollToId(resultsId, true);
+  };
+
+  const handleShowAll = () => {
+    setTopic(null);
+    setAuthor(null);
+    setText('');
+    const next: VideotekaApplied = {
+      topic: null,
+      author: '',
+      text: '',
+      all: true
+    };
+    setApplied(next);
+    onSearch(next, 'user');
   };
 
   const handlePageChange = (nextPage: number) => {
@@ -182,6 +191,7 @@ export const VideotekaSubTab = ({
           onAuthorChange={setAuthor}
           onSearchTextChange={setText}
           onSearch={handleSearch}
+          onShowAll={handleShowAll}
         />
       </section>
 
@@ -198,7 +208,7 @@ export const VideotekaSubTab = ({
       )}
 
       {!loading && hasApplied && noResults && (
-        <div className="u-spacing u-text-align--center">
+        <div id={resultsId} className="u-spacing u-text-align--center">
           <p>{filterType === 'videos' ? 'Не са намерени видеа.' : 'Не са намерени плейлисти.'}</p>
         </div>
       )}

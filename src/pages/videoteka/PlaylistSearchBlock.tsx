@@ -4,8 +4,9 @@ import {
   TopicType
 } from 'src/contexts/PlaylistsContext';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
-import { highlightTextNodes } from 'src/utils/Links';
+import { highlightHtml, parseLinksMdToHtml } from 'src/utils/Links';
 import { TopicsBlock } from './TopicsBlock';
+import './PlaylistSearchBlock.scss';
 
 // Show "this page of total" when a section spans several pages, otherwise just
 // the total (they are the same when everything fits on one page).
@@ -64,7 +65,7 @@ export const PlaylistSearchBlock = ({
             {ytLinks.map((link) => (
               <div
                 key={link._id}
-                className="playlist-search-block c-cta-block c-block u-border--left u-theme--border-color--darker--left"
+                className="c-cta-block c-block u-border--left u-theme--border-color--darker--left"
               >
                 <div className="c-cta-block__content c-block__content u-spacing--half u-padding--half">
                   <a
@@ -88,11 +89,16 @@ export const PlaylistSearchBlock = ({
                     </p>
                   )}
                   {link.description && (
-                    <p className="u-font--secondary--s">
-                      {highlightText
-                        ? highlightTextNodes(link.description, highlightText)
-                        : link.description}
-                    </p>
+                    <p
+                      className="text u-font--secondary--s playlist-search-block__description"
+                      dangerouslySetInnerHTML={{
+                        __html:
+                          highlightHtml(
+                            parseLinksMdToHtml(link.description),
+                            highlightText
+                          ) || ''
+                      }}
+                    />
                   )}
                   <TopicsBlock topics={link.topics} appliedIds={appliedIds} />
                 </div>

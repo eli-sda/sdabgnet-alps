@@ -5,6 +5,7 @@ import { useVideotekaFilters } from 'src/hooks/useVideotekaFilters';
 import { PlaylistSearchBlock } from './PlaylistSearchBlock';
 import { VideotekaSubTab, VideotekaSubTabContext } from './VideotekaSubTab';
 import type { SearchSource, VideotekaApplied } from './types';
+import { scrollToId } from 'src/utils/scrollToId';
 
 const PLAYLISTS_PER_PAGE = 20;
 const RESULTS_ID = 'videoteka-playlist-results';
@@ -14,6 +15,7 @@ export interface PlaylistTabProps {
   initTopicTitle: string;
   initAuthor: string;
   initText: string;
+  initAll?: boolean;
   page: number;
   onSearch: (applied: VideotekaApplied, source?: SearchSource) => void;
   onPageChange: (page: number) => void;
@@ -28,20 +30,21 @@ export const PlaylistTab = ({
   initTopicTitle,
   initAuthor,
   initText,
+  initAll,
   page,
   onSearch,
   onPageChange
 }: PlaylistTabProps) => {
-  const { getPlaylistTopics, getPlaylistAuthors, searchPlaylists } = useVideotekaFilters();
-  const [playlists, setPlaylists] = useState<PlaylistSearchResults>({ embedded: [], ytLinks: [] });
+  const { getPlaylistTopics, getPlaylistAuthors, searchPlaylists } =
+    useVideotekaFilters();
+  const [playlists, setPlaylists] = useState<PlaylistSearchResults>({
+    embedded: [],
+    ytLinks: []
+  });
 
   const fetchResults = useCallback(
     (applied: VideotekaApplied, setLoading: (l: boolean) => void) => {
       const { topic, author, text } = applied;
-      if (!topic && !author && !text) {
-        setPlaylists({ embedded: [], ytLinks: [] });
-        return;
-      }
       setLoading(true);
       searchPlaylists(topic?._id ?? null, topic?.title ?? '', author, text)
         .then(setPlaylists)
@@ -49,7 +52,10 @@ export const PlaylistTab = ({
           console.error('Failed to load playlists', err);
           setPlaylists({ embedded: [], ytLinks: [] });
         })
-        .finally(() => setLoading(false));
+        .finally(() => {
+          setLoading(false);
+          scrollToId(RESULTS_ID, true);
+        });
     },
     [searchPlaylists]
   );
@@ -62,20 +68,26 @@ export const PlaylistTab = ({
   const combinedSorted = useMemo<CombinedPlaylist[]>(
     () =>
       [
-        ...playlists.embedded.map((playlist) => ({ kind: 'embedded' as const, playlist })),
+        ...playlists.embedded.map((playlist) => ({
+          kind: 'embedded' as const,
+          playlist
+        })),
         ...playlists.ytLinks.map((link) => ({ kind: 'yt' as const, link }))
       ].sort((a, b) => {
         // Strip leading quote(s) so "„/"" prefixed titles sort by the real title
-        const ta = (a.kind === 'embedded' ? (a.playlist.title ?? '') : a.link.title)
-          .replace(/^["'„“]+/, '');
-        const tb = (b.kind === 'embedded' ? (b.playlist.title ?? '') : b.link.title)
-          .replace(/^["'„“]+/, '');
+        const ta = (
+          a.kind === 'embedded' ? (a.playlist.title ?? '') : a.link.title
+        ).replace(/^["'„“]+/, '');
+        const tb = (
+          b.kind === 'embedded' ? (b.playlist.title ?? '') : b.link.title
+        ).replace(/^["'„“]+/, '');
         return ta.localeCompare(tb, 'bg', { sensitivity: 'base' });
       }),
     [playlists.embedded, playlists.ytLinks]
   );
 
-  const noResults = playlists.embedded.length === 0 && playlists.ytLinks.length === 0;
+  const noResults =
+    playlists.embedded.length === 0 && playlists.ytLinks.length === 0;
 
   const renderResults = useCallback(
     (ctx: VideotekaSubTabContext) => {
@@ -84,10 +96,15 @@ export const PlaylistTab = ({
         ctx.effectivePage * PLAYLISTS_PER_PAGE
       );
       const pageEmbedded = pageItems
-        .filter((i): i is Extract<CombinedPlaylist, { kind: 'embedded' }> => i.kind === 'embedded')
+        .filter(
+          (i): i is Extract<CombinedPlaylist, { kind: 'embedded' }> =>
+            i.kind === 'embedded'
+        )
         .map((i) => i.playlist);
       const pageYt = pageItems
-        .filter((i): i is Extract<CombinedPlaylist, { kind: 'yt' }> => i.kind === 'yt')
+        .filter(
+          (i): i is Extract<CombinedPlaylist, { kind: 'yt' }> => i.kind === 'yt'
+        )
         .map((i) => i.link);
 
       return (
@@ -114,6 +131,7 @@ export const PlaylistTab = ({
       initTopicTitle={initTopicTitle}
       initAuthor={initAuthor}
       initText={initText}
+      initAll={initAll}
       page={page}
       onSearch={onSearch}
       onPageChange={onPageChange}

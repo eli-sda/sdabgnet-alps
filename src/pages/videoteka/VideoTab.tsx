@@ -7,6 +7,7 @@ import { VideoLinkBlock } from './VideoLinkBlock';
 import { VideoPlayerDialog } from 'src/components/media/video/VideoPlayerDialog';
 import { VideotekaSubTab, VideotekaSubTabContext } from './VideotekaSubTab';
 import type { SearchSource, VideotekaApplied } from './types';
+import { scrollToId } from 'src/utils/scrollToId';
 
 type VideoGroup = {
   playlistId: string | null;
@@ -22,6 +23,7 @@ export interface VideoTabProps {
   initTopicTitle: string;
   initAuthor: string;
   initText: string;
+  initAll?: boolean;
   page: number;
   onSearch: (applied: VideotekaApplied, source?: SearchSource) => void;
   onPageChange: (page: number) => void;
@@ -32,6 +34,7 @@ export const VideoTab = ({
   initTopicTitle,
   initAuthor,
   initText,
+  initAll,
   page,
   onSearch,
   onPageChange
@@ -47,10 +50,6 @@ export const VideoTab = ({
   const fetchResults = useCallback(
     (applied: VideotekaApplied, setLoading: (l: boolean) => void) => {
       const { topic, author, text } = applied;
-      if (!topic && !author && !text) {
-        setVideos([]);
-        return;
-      }
       setLoading(true);
       searchVideos(topic?._id ?? null, topic?.title ?? '', author, text)
         .then(setVideos)
@@ -58,7 +57,10 @@ export const VideoTab = ({
           console.error('Failed to load videos', err);
           setVideos([]);
         })
-        .finally(() => setLoading(false));
+        .finally(() => {
+          setLoading(false);
+          scrollToId(RESULTS_ID, true);
+        });
     },
     [searchVideos]
   );
@@ -322,6 +324,7 @@ export const VideoTab = ({
         initTopicTitle={initTopicTitle}
         initAuthor={initAuthor}
         initText={initText}
+        initAll={initAll}
         page={page}
         onSearch={onSearch}
         onPageChange={onPageChange}

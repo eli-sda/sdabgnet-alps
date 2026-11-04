@@ -1,0 +1,6 @@
+.playlist-search-block {
+  &__description {
+    // keep the new lines in playlist descriptions
+    white-space: pre-line;
+  }
+}

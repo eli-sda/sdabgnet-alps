@@ -17,6 +17,7 @@ export interface FilterFormProps {
   onAuthorChange: (v: string | null) => void;
   onSearchTextChange: (v: string) => void;
   onSearch: () => void;
+  onShowAll: () => void;
 }
 
 export const FilterForm = ({
@@ -29,7 +30,8 @@ export const FilterForm = ({
   onTopicChange,
   onAuthorChange,
   onSearchTextChange,
-  onSearch
+  onSearch,
+  onShowAll
 }: FilterFormProps) => {
   const hasFilters =
     !!selectedTopic || !!selectedAuthor || searchText.trim() !== '';
@@ -85,7 +87,21 @@ export const FilterForm = ({
           />
         </div>
       </div>
-      <Button label="Търси" disabled={!hasFilters} />
+      <div className="u-flex">
+        <Button
+          className="u-space--right"
+          label="Търси"
+          disabled={!hasFilters}
+        />
+        <Button
+          outline
+          label="Покажи всички"
+          onClick={(e) => {
+            e.preventDefault();
+            onShowAll();
+          }}
+        />
+      </div>
     </Form>
   );
 };

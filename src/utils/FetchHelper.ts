@@ -452,10 +452,22 @@ export const loadPlaylistsByFilters = async (
       matchesWordStart(item.title ?? '', term) ||
       matchesWordStart(item.description ?? '', term);
 
-  const filteredEmbedded = text ? embedded.filter(matchesText(text)) : embedded;
+  // The "SINGLE" playlist only collects individual videos and must not be
+  // listed as a playlist in the Videoteka playlists tab.
+  const isSinglePlaylist = (title?: string | null) =>
+    !!title && title.toUpperCase().includes('SINGLE');
+  const withoutSingles = <T extends { title?: string | null }>(items: T[]) =>
+    items.filter((item) => !isSinglePlaylist(item.title));
+
+  const nonSingleEmbedded = withoutSingles(embedded);
+  const nonSingleYtLinks = withoutSingles(ytLinks);
+
+  const filteredEmbedded = text
+    ? nonSingleEmbedded.filter(matchesText(text))
+    : nonSingleEmbedded;
   const filteredYtLinks = text
-    ? ytLinks.filter((link) => matchesText(text)(link))
-    : ytLinks;
+    ? nonSingleYtLinks.filter((link) => matchesText(text)(link))
+    : nonSingleYtLinks;
 
   return { embedded: filteredEmbedded, ytLinks: filteredYtLinks };
 };

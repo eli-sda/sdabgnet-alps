@@ -1,20 +1,39 @@
 import { createContext, useContext } from 'react';
 import { LinkType, PlaylistType, TopicType } from './PlaylistsContext';
 
+/** Lightweight row used to sort/paginate videoteka results. */
+export type VideoIndexItem = {
+  _id: string;
+  title: string;
+  playlistId?: string | null;
+  playlistName?: string | null;
+};
+
+/** Lightweight row used to sort/paginate videoteka playlists. */
+export type PlaylistIndexItem = {
+  _id: string;
+  title: string;
+  kind: 'embedded' | 'yt';
+};
+
 export type CachedVideoSearch = {
   topicTitle: string;
   author: string;
   text: string;
-  videos: LinkType[];
+  index: VideoIndexItem[];
 };
 
 export type CachedPlaylistSearch = {
   topicTitle: string;
   author: string;
   text: string;
-  embedded: PlaylistType[];
-  ytLinks: LinkType[];
+  index: PlaylistIndexItem[];
 };
+
+/** Full playlist document, kept across page navigations. */
+export type CachedPlaylistItem =
+  | { kind: 'embedded'; playlist: PlaylistType }
+  | { kind: 'yt'; link: LinkType };
 
 export type VideotekaContextType = {
   videoTopics: TopicType[];
@@ -31,6 +50,10 @@ export type VideotekaContextType = {
   setLastVideoSearch: (s: CachedVideoSearch) => void;
   lastPlaylistSearch: CachedPlaylistSearch | null;
   setLastPlaylistSearch: (s: CachedPlaylistSearch) => void;
+  /** Full video documents by id, shared across Videoteka visits. */
+  videoCache: Map<string, LinkType>;
+  /** Full playlist documents by `kind:id`, shared across Videoteka visits. */
+  playlistCache: Map<string, CachedPlaylistItem>;
 };
 
 export const VideotekaContext = createContext<VideotekaContextType>({
@@ -47,7 +70,9 @@ export const VideotekaContext = createContext<VideotekaContextType>({
   lastVideoSearch: null,
   setLastVideoSearch: () => {},
   lastPlaylistSearch: null,
-  setLastPlaylistSearch: () => {}
+  setLastPlaylistSearch: () => {},
+  videoCache: new Map(),
+  playlistCache: new Map()
 });
 
 export function useVideotekaContext(): VideotekaContextType {

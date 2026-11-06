@@ -3,7 +3,6 @@ import { Caption } from 'alps-library/atoms/text/Caption';
 import { Pagination } from 'alps-library/molecules/navigation/pagination/Pagination';
 import { TopicType } from 'src/contexts/PlaylistsContext';
 import { FilterForm } from './FilterForm';
-import { scrollToId } from 'src/utils/scrollToId';
 import type { SearchSource, VideotekaApplied } from './types';
 
 export interface VideotekaSubTabContext {
@@ -145,9 +144,10 @@ export const VideotekaSubTab = ({
     onSearch(next, 'user');
   };
 
+  // The tabs scroll to their results once the new page is rendered; doing it
+  // here would target the old page/spinner before React applies the change.
   const handlePageChange = (nextPage: number) => {
     onPageChange(nextPage);
-    scrollToId(resultsId);
   };
 
   const renderPagination = () =>

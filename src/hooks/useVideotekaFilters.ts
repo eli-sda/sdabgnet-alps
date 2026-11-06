@@ -1,14 +1,17 @@
-import { useCallback } from 'react';
-import { LinkType, TopicType } from 'src/contexts/PlaylistsContext';
-import { useVideotekaContext } from 'src/contexts/VideotekaContext';
+import { useCallback, useRef } from 'react';
+import { TopicType } from 'src/contexts/PlaylistsContext';
+import {
+  PlaylistIndexItem,
+  useVideotekaContext,
+  VideoIndexItem
+} from 'src/contexts/VideotekaContext';
 import {
   loadAllVideoTopics,
   loadAllVideoAuthors,
   loadAllPlaylistTopics,
   loadAllPlaylistAuthors,
-  loadVideosByFilters,
-  loadPlaylistsByFilters,
-  PlaylistSearchResults
+  loadVideoSearchIndex,
+  loadPlaylistSearchIndex
 } from 'src/utils/FetchHelper';
 import { getTodayString } from 'src/utils/getTodayString';
 
@@ -17,8 +20,8 @@ export type VideotekaFiltersHook = {
   getVideoAuthors: () => Promise<string[]>;
   getPlaylistTopics: () => Promise<TopicType[]>;
   getPlaylistAuthors: () => Promise<string[]>;
-  searchVideos: (topicId: string | null, topicTitle: string, author: string, text: string) => Promise<LinkType[]>;
-  searchPlaylists: (topicId: string | null, topicTitle: string, author: string, text: string) => Promise<PlaylistSearchResults>;
+  searchVideoIndex: (topicId: string | null, topicTitle: string, author: string, text: string) => Promise<VideoIndexItem[]>;
+  searchPlaylistIndex: (topicId: string | null, topicTitle: string, author: string, text: string) => Promise<PlaylistIndexItem[]>;
 };
 
 export function useVideotekaFilters(): VideotekaFiltersHook {
@@ -31,6 +34,13 @@ export function useVideotekaFilters(): VideotekaFiltersHook {
     lastVideoSearch, setLastVideoSearch,
     lastPlaylistSearch, setLastPlaylistSearch
   } = useVideotekaContext();
+
+  // Read the cache through refs so the search callbacks keep a stable identity
+  // when the cache updates. Otherwise every cached result recreates the
+  // callbacks, which re-triggers VideotekaSubTab's fetch effect and can fire
+  // the same page request twice.
+  const lastVideoSearchRef = useRef(lastVideoSearch);
+  const lastPlaylistSearchRef = useRef(lastPlaylistSearch);
 
   const getVideoTopics = useCallback(async (): Promise<TopicType[]> => {
     const today = getTodayString();
@@ -100,53 +110,66 @@ export function useVideotekaFilters(): VideotekaFiltersHook {
       });
   }, [playlistAuthors, lastLoaded, setPlaylistAuthors, setLastLoaded]);
 
-  const searchVideos = useCallback(
-    async (topicId: string | null, topicTitle: string, author: string, text: string): Promise<LinkType[]> => {
+  // Cache only the lightweight index for the last filters. Full documents are
+  // loaded and cached per page inside VideoTab.
+  const searchVideoIndex = useCallback(
+    async (topicId: string | null, topicTitle: string, author: string, text: string): Promise<VideoIndexItem[]> => {
+      const cached = lastVideoSearchRef.current;
       if (
-        lastVideoSearch?.topicTitle === topicTitle &&
-        lastVideoSearch.author === author &&
-        lastVideoSearch.text === text
+        cached?.topicTitle === topicTitle &&
+        cached.author === author &&
+        cached.text === text
       ) {
-        return lastVideoSearch.videos;
+        return cached.index;
       }
-      return loadVideosByFilters(topicId ? [topicId] : [], author, text)
-        .then((videos) => {
-          setLastVideoSearch({ topicTitle, author, text, videos });
-          return videos;
+      return loadVideoSearchIndex(topicId ? [topicId] : [], author, text)
+        .then((index) => {
+          // Update the ref synchronously so a quick second call sees the
+          // fresh cache before React commits the state update.
+          const entry = { topicTitle, author, text, index };
+          lastVideoSearchRef.current = entry;
+          setLastVideoSearch(entry);
+          return index;
         })
         .catch((err) => {
-          console.error('Failed to fetch videos:', err);
-          return [] as LinkType[];
+          console.error('Failed to fetch video index:', err);
+          return [] as VideoIndexItem[];
         });
     },
-    [lastVideoSearch, setLastVideoSearch]
+    [setLastVideoSearch]
   );
 
-  const searchPlaylists = useCallback(
-    async (topicId: string | null, topicTitle: string, author: string, text: string): Promise<PlaylistSearchResults> => {
+  // Same as above for playlists: only id/title/kind is cached at this level.
+  const searchPlaylistIndex = useCallback(
+    async (topicId: string | null, topicTitle: string, author: string, text: string): Promise<PlaylistIndexItem[]> => {
+      const cached = lastPlaylistSearchRef.current;
       if (
-        lastPlaylistSearch?.topicTitle === topicTitle &&
-        lastPlaylistSearch.author === author &&
-        lastPlaylistSearch.text === text
+        cached?.topicTitle === topicTitle &&
+        cached.author === author &&
+        cached.text === text
       ) {
-        return { embedded: lastPlaylistSearch.embedded, ytLinks: lastPlaylistSearch.ytLinks };
+        return cached.index;
       }
-      return loadPlaylistsByFilters(topicId ? [topicId] : [], author, text)
-        .then((results) => {
-          setLastPlaylistSearch({ topicTitle, author, text, ...results });
-          return results;
+      return loadPlaylistSearchIndex(topicId ? [topicId] : [], author, text)
+        .then((index) => {
+          // Update the ref synchronously so a quick second call sees the
+          // fresh cache before React commits the state update.
+          const entry = { topicTitle, author, text, index };
+          lastPlaylistSearchRef.current = entry;
+          setLastPlaylistSearch(entry);
+          return index;
         })
         .catch((err) => {
-          console.error('Failed to fetch playlists:', err);
-          return { embedded: [], ytLinks: [] };
+          console.error('Failed to fetch playlist index:', err);
+          return [] as PlaylistIndexItem[];
         });
     },
-    [lastPlaylistSearch, setLastPlaylistSearch]
+    [setLastPlaylistSearch]
   );
 
   return {
     getVideoTopics, getVideoAuthors,
     getPlaylistTopics, getPlaylistAuthors,
-    searchVideos, searchPlaylists
+    searchVideoIndex, searchPlaylistIndex
   };
 }

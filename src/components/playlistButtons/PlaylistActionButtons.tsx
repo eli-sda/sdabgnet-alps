@@ -4,6 +4,7 @@ import { Checkbox } from 'alps-library/molecules/forms/elements/Checkbox';
 import { Button } from 'src/alps/atoms/Button';
 import { RESOURCES_FOLDER } from 'src/constants';
 import { formatTime } from 'src/utils/formatTime';
+import { serializeReadableParams } from 'src/utils/urlUtils';
 import ShareItemButton from '../ShareItemButton';
 import DownloadPlaylistButton from './DownloadPlaylistButton';
 import ResumeButton, { type ResumeButtonProps } from './ResumeButton';
@@ -94,7 +95,7 @@ const PlaylistActionButtons = ({
       params.set('title', fromTitle);
     }
 
-    const query = params.toString();
+    const query = serializeReadableParams(params);
     return query ? `${baseUrl}?${query}${hash}` : shareUrl;
   }, [
     shareUrl,

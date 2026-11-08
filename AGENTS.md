@@ -3,8 +3,8 @@
 ## Git
 
 - NEVER run `git commit`, `git commit --amend`, `git push`, or `git tag`.
-- When a commit is requested, only propose the commit message text (and the exact
-  `git commit -m "..."` command) for the user to run themselves.
+- When a commit is requested, only propose the commit message text. Do not
+  provide the `git commit` command.
 - Do not stage or unstage changes unless explicitly asked.
 
 ## Changes
@@ -23,3 +23,4 @@
 - Do not duplicate rules between `.scss` files. Extract the shared rules into
   an `@mixin` (in a shared partial, e.g. next to the components it belongs to
   or under `src/styles/`) and `@include` it where needed.
+- Reuse existing styles, classes and mixins before adding new ones.

@@ -6,6 +6,7 @@ import type { VideoPlayerApi } from 'alps-library/atoms/video/Video';
 import { Caption } from 'alps-library/atoms/text/Caption';
 import { Button } from 'src/alps/atoms/Button';
 import { newLinesWithLinks } from 'src/utils/Links';
+import { buildReadableUrl } from 'src/utils/urlUtils';
 import {
   getLastPlayedMedia,
   saveLastPlayedMedia
@@ -182,24 +183,23 @@ const VideoPlayer = ({
   };
 
   const computeFinalUrl = (videoId: string, videoTitle: string) => {
-    const url = new URL(window.location.pathname, window.location.origin);
+    const params: Record<string, string> = { ...shareBaseParams };
 
-    if (shareBaseParams) {
-      for (const [key, value] of Object.entries(shareBaseParams)) {
-        url.searchParams.set(key, value);
-      }
-    } else {
+    if (!shareBaseParams) {
       const currentTab = new URLSearchParams(window.location.search).get('tab');
-      if (currentTab) {
-        url.searchParams.set('tab', currentTab);
-      }
+      if (currentTab) params.tab = currentTab;
     }
-    url.searchParams.set('playlistId', playlist._id);
-    url.searchParams.set('playId', videoId);
-    url.searchParams.set('playlistTitle', playlistTitle);
-    url.searchParams.set('title', videoTitle);
-    url.hash = playlist._id;
-    return url.href;
+
+    params.playlistId = playlist._id;
+    params.playId = videoId;
+    params.playlistTitle = playlistTitle;
+    params.title = videoTitle;
+
+    return buildReadableUrl(
+      `${window.location.origin}${window.location.pathname}`,
+      params,
+      playlist._id
+    );
   };
 
   const caption = useMemo(() => {

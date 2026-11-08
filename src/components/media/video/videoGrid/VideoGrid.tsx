@@ -4,6 +4,7 @@ import { extractYouTubeId, extractRumbleId } from 'src/utils/extractVideoId';
 import VideoWithPreview from 'src/components/media/video/videoWithPreview/VideoWithPreview';
 import VideoPlaylistList from 'src/components/media/video/VideoPlaylistList';
 import ShareItemButton from 'src/components/ShareItemButton';
+import { buildReadableUrl } from 'src/utils/urlUtils';
 import './VideoGrid.scss';
 
 interface VideoGridProps {
@@ -82,14 +83,14 @@ const VideoGrid = ({
             ? description.match(/thumbnail:\s*(https?:\/\/[^\s]+)/i)?.[1]
             : undefined;
 
-        const shareUrlObj = new URL(
-          window.location.pathname,
-          window.location.origin
+        const params: Record<string, string> = {};
+        if (tabParam) params.tab = tabParam;
+        params.title = title;
+        const shareUrl = buildReadableUrl(
+          `${window.location.origin}${window.location.pathname}`,
+          params,
+          elementId
         );
-        if (tabParam) shareUrlObj.searchParams.set('tab', tabParam);
-        shareUrlObj.searchParams.set('title', title);
-        shareUrlObj.hash = elementId;
-        const shareUrl = shareUrlObj.href;
 
         return (
           <div key={videoId} id={elementId} className="single-video-item">

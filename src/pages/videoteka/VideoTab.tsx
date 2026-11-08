@@ -370,7 +370,18 @@ export const VideoTab = ({
           <>
             Търсете отделни видеа по тематика, автор или думи от заглавието или
             описанието. Можете да изберете няколко видеа и да ги пуснете
-            последователно във вградения плеър без реклами.
+            последователно във вградения плеър без реклами. След като изберете
+            видеа, натиснете{' '}
+            <span className="videoteka-caption-btn-wrap">
+              <span className="o-button o-button--small">
+                <i
+                  className="fas fa-play-circle u-space--quarter--right"
+                  aria-hidden="true"
+                />
+                Пусни избраните
+              </span>
+            </span>{' '}
+            — бутонът се появява долу на екрана.
           </>
         }
         getTopics={getVideoTopics}

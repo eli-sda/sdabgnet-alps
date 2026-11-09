@@ -33,7 +33,7 @@ export function useCalendarEvents() {
     const years = [currentYear, currentYear + 1];
     return Promise.allSettled(
       years.map((year) =>
-        fetch(`/json/calendar-${year}.json`).then((res) =>
+        fetch(`/json/calendar-${year}.json?v=${__BUILD_VERSION__}`).then((res) =>
           res.ok &&
           res.headers.get('content-type')?.includes('application/json')
             ? res.json()

@@ -25,8 +25,14 @@
   </FilesMatch>
 
   # Cache static assets for a long time
-  <FilesMatch "\.(js|css|jpg|jpeg|png|gif|ico|svg|webp|webm|pdf|woff|woff2|ttf|eot|otf|mp4|ogg|mp3|wav|txt|xml|json)$">
+  <FilesMatch "\.(js|css|jpg|jpeg|png|gif|ico|svg|webp|webm|pdf|woff|woff2|ttf|eot|otf|mp4|ogg|mp3|wav|txt|xml)$">
     Header set Cache-Control "max-age=31536000, immutable"
+  </FilesMatch>
+
+  # JSON data files are updated in place on deploy, so they must be revalidated
+  # instead of being cached for a year like hashed static assets.
+  <FilesMatch "\.json$">
+    Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>
 
   # sw.js must never be cached - browsers must always fetch it fresh to detect updates.

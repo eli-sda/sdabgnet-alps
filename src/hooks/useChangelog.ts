@@ -20,7 +20,7 @@ export const useChangelog = () => {
   };
 
   useEffect(() => {
-    fetch('/json/changelog.json')
+    fetch(`/json/changelog.json?v=${__BUILD_VERSION__}`)
       .then((r) => r.json())
       .then((data: ChangelogEntry[]) => {
         setEntries(data);

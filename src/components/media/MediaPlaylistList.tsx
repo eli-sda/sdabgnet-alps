@@ -10,7 +10,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { PlaylistType } from 'src/contexts/PlaylistsContext';
 import { usePlaylists } from 'src/hooks/usePlaylists';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
-import { generateShareUrl } from 'src/utils/urlUtils';
+import {
+  generateShareUrl,
+  serializeReadableParams
+} from 'src/utils/urlUtils';
 import {
   getLastPlayedMedia,
   saveLastPlayedMedia
@@ -139,7 +142,7 @@ const MediaPlaylistList = ({
     (VIDEO_SHARE_PARAMS as readonly string[]).forEach((key) =>
       params.delete(key)
     );
-    const search = params.toString();
+    const search = serializeReadableParams(params);
 
     void navigate(
       { search: search ? `?${search}` : '', hash: '' },

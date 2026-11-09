@@ -21,7 +21,12 @@ const proxyAgent =
 export default defineConfig({
   server: {
     watch: {
-      ignored: ['**/tmp/**']
+      ignored: [
+        '**/tmp/**',
+        // Python helper scripts and their generated data files; watching them
+        // triggered watcher restarts that killed the dev server.
+        '**/src/utils/python/**'
+      ]
     },
     proxy: {
       '/sdabg': {

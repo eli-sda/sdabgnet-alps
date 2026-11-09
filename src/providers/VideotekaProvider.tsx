@@ -1,6 +1,7 @@
 import { ReactNode, useCallback, useMemo, useState } from 'react';
-import { TopicType } from 'src/contexts/PlaylistsContext';
+import { LinkType, TopicType } from 'src/contexts/PlaylistsContext';
 import {
+  CachedPlaylistItem,
   CachedPlaylistSearch,
   CachedVideoSearch,
   VideotekaContext
@@ -14,6 +15,11 @@ export const VideotekaProvider = ({ children }: { children: ReactNode }) => {
   const [lastLoaded, setLastLoaded] = useState<{ [key: string]: string }>({});
   const [lastVideoSearch, setLastVideoSearch] = useState<CachedVideoSearch | null>(null);
   const [lastPlaylistSearch, setLastPlaylistSearch] = useState<CachedPlaylistSearch | null>(null);
+  // Full documents survive leaving Videoteka; only the index is in state above.
+  const [videoCache] = useState<Map<string, LinkType>>(() => new Map());
+  const [playlistCache] = useState<Map<string, CachedPlaylistItem>>(
+    () => new Map()
+  );
 
   const updateLastLoaded = useCallback((key: string, date: string) => {
     setLastLoaded((prev) => ({ ...prev, [key]: date }));
@@ -34,7 +40,9 @@ export const VideotekaProvider = ({ children }: { children: ReactNode }) => {
       lastVideoSearch,
       setLastVideoSearch,
       lastPlaylistSearch,
-      setLastPlaylistSearch
+      setLastPlaylistSearch,
+      videoCache,
+      playlistCache
     }),
     [
       videoTopics, setVideoTopics,
@@ -43,7 +51,8 @@ export const VideotekaProvider = ({ children }: { children: ReactNode }) => {
       playlistAuthors, setPlaylistAuthors,
       lastLoaded, updateLastLoaded,
       lastVideoSearch, setLastVideoSearch,
-      lastPlaylistSearch, setLastPlaylistSearch
+      lastPlaylistSearch, setLastPlaylistSearch,
+      videoCache, playlistCache
     ]
   );
 

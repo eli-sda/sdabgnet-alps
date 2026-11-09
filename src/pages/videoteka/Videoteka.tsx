@@ -8,6 +8,7 @@ import { Caption } from 'alps-library/atoms/text/Caption';
 import routes from 'src/routes';
 import { Page } from 'src/organisms/Page';
 import { getTitle } from 'src/utils/Navigation';
+import { serializeReadableParams } from 'src/utils/urlUtils';
 import { usePagesMeta } from 'src/hooks/usePagesMeta';
 import type { SearchSource, VideotekaApplied } from './types';
 import { VideoTab } from './VideoTab';
@@ -186,10 +187,9 @@ const Videoteka = () => {
     next.set('tab', tab);
     applyTabParams(next, tab, applied, page);
 
+    const search = `?${serializeReadableParams(next)}`;
     void navigate(
-      source === 'init'
-        ? { search: '?' + next.toString(), hash: validHash }
-        : { search: '?' + next.toString() },
+      source === 'init' ? { search, hash: validHash } : { search },
       { replace }
     );
   };

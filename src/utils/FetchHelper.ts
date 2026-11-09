@@ -18,7 +18,10 @@ import { SunsetEvent } from 'src/contexts/SunsetContext';
 import { CarouselAdType } from 'src/contexts/CarouselAdsContext';
 import { PoetryType } from 'src/contexts/PoetryContext';
 import { DictionaryType } from 'src/contexts/DictionaryContext';
-import { matchesWordStart } from 'src/utils/searchText';
+import {
+  PlaylistIndexItem,
+  VideoIndexItem
+} from 'src/contexts/VideotekaContext';
 
 export const loadPagesMeta = async (): Promise<PageMetaMap> => {
   const query = `*[_type == "page"] {
@@ -237,14 +240,6 @@ export const loadLinks = async (type: string): Promise<LinkType[]> => {
   return await client.fetch(linkQuery);
 };
 
-// Helper: filter out numeric-only and empty tags
-export const filterTags = (tags?: (string | null)[] | null): string[] => {
-  if (!Array.isArray(tags)) return [];
-  return tags
-    .map((t) => (t == null ? '' : String(t).trim()))
-    .filter((t) => t !== '' && !/^\d+$/.test(t));
-};
-
 /** Fetch all topic documents — list is managed dynamically in Sanity Studio */
 export const loadAllTopics = async (): Promise<
   { _id: string; title: string }[]
@@ -301,16 +296,16 @@ export const loadAllVideoAuthors = async (): Promise<string[]> => {
   );
 };
 
-const collator = new Intl.Collator('bg', {
-  numeric: true,
-  sensitivity: 'base'
-});
-
-export const loadVideosByFilters = async (
+/**
+ * Fetches only the fields needed to sort, group and paginate videos. The full
+ * documents for the current page are loaded separately with `loadVideosByIds`,
+ * so a search over 1000+ videos does not download every description/topic.
+ */
+export const loadVideoSearchIndex = async (
   topicIds: string[],
   author: string,
   text: string
-): Promise<LinkType[]> => {
+): Promise<VideoIndexItem[]> => {
   const filterParts: string[] = [
     '_type == "link"',
     'type == "video"',
@@ -327,20 +322,41 @@ export const loadVideosByFilters = async (
     params.authorPattern = `*${author.toLowerCase()}*`;
   }
   if (text) {
+    // A trailing wildcard makes GROQ match the term only at the start of a
+    // word, replacing the client-side word-start filter.
     filterParts.push(
       '(lower(coalesce(title, "")) match $textPattern || lower(coalesce(description, "")) match $textPattern)'
     );
-    params.textPattern = `*${text.toLowerCase()}*`;
+    params.textPattern = `${text.toLowerCase()}*`;
   }
 
-  const linkQuery = `*[
+  // Small fields only: id/title for sorting, plus the playlist reference and
+  // name so videos of the same playlist stay together across pages.
+  const query = `*[
     ${filterParts.join('\n    && ')}
   ] | order(title asc) {
     _id,
     title,
-    size,
-    isResource,
-    keyWords,
+    "playlistId": *[_type == 'playlist' && defined(^.keyWords[0]) && title == ^.keyWords[0]][0]._id,
+    "playlistName": keyWords[0]
+  }`;
+
+  return await client.fetch<VideoIndexItem[]>(query, params);
+};
+
+/** Fetches the full video documents for one page of results. */
+export const loadVideosByIds = async (ids: string[]): Promise<LinkType[]> => {
+  if (ids.length === 0) return [];
+
+  // Full documents for just one page of ids; the fields match what
+  // VideoLinkBlock and the player need.
+  const query = `*[
+    _type == "link"
+    && type == "video"
+    && _id in $ids
+  ] {
+    _id,
+    title,
     author,
     description,
     "topics": topics[]->{ _id, title },
@@ -348,22 +364,7 @@ export const loadVideosByFilters = async (
     "path": URL
   }`;
 
-  const results: LinkType[] = await client.fetch(linkQuery, params);
-  return results
-    .filter(
-      (link) =>
-        !text ||
-        matchesWordStart(link.title, text) ||
-        matchesWordStart(link.description, text)
-    )
-    .map((link) => {
-      const filtered = filterTags(link.keyWords);
-      return {
-        ...link,
-        keyWords: filtered.length ? filtered : null
-      };
-    })
-    .sort((a, b) => collator.compare(a.title, b.title));
+  return await client.fetch<LinkType[]>(query, { ids });
 };
 
 export const loadAllPlaylistAuthors = async (): Promise<string[]> => {
@@ -389,11 +390,21 @@ export type PlaylistSearchResults = {
   ytLinks: LinkType[];
 };
 
-export const loadPlaylistsByFilters = async (
+// The "SINGLE" playlist only collects individual videos and must not be
+// listed as a playlist in the Videoteka playlists tab.
+const isSinglePlaylist = (title?: string | null) =>
+  !!title && title.toUpperCase().includes('SINGLE');
+
+/**
+ * Fetches only the ids/titles needed to sort and paginate both embedded and
+ * YouTube playlists. Full documents for the current page are loaded with
+ * `loadPlaylistsByIds`.
+ */
+export const loadPlaylistSearchIndex = async (
   topicIds: string[],
   author: string,
   text: string
-): Promise<PlaylistSearchResults> => {
+): Promise<PlaylistIndexItem[]> => {
   const topicFilter =
     topicIds.length > 0 ? '&& count(topics[_ref in $topicIds]) > 0' : '';
   const authorFilter = author
@@ -405,8 +416,10 @@ export const loadPlaylistsByFilters = async (
   const params: Record<string, unknown> = {};
   if (topicIds.length > 0) params.topicIds = topicIds;
   if (author) params.authorPattern = `*${author.toLowerCase()}*`;
-  if (text) params.textPattern = `*${text.toLowerCase()}*`;
+  if (text) params.textPattern = `${text.toLowerCase()}*`;
 
+  // Both playlist document types are reduced to id/title. `kind` remembers
+  // which loader should fetch the full documents for a page of results.
   const embeddedQuery = `*[
     _type == "playlist"
     && (type == "video" || type == "video-book")
@@ -415,15 +428,7 @@ export const loadPlaylistsByFilters = async (
     ${topicFilter}
     ${authorFilter}
     ${textFilter}
-  ] | order(title asc) {
-    _id,
-    author,
-    title,
-    description,
-    "imageUrl": image.asset -> url,
-    "topics": topics[]->{ _id, title },
-    "items": items[_type == "reference"]->{_id, author, title, description, "path": URL, size}
-  }`;
+  ] | order(title asc) { _id, title }`;
 
   const ytQuery = `*[
     _type == "link"
@@ -432,7 +437,65 @@ export const loadPlaylistsByFilters = async (
     ${topicFilter}
     ${authorFilter}
     ${textFilter}
-  ] | order(title asc) {
+  ] | order(title asc) { _id, title }`;
+
+  type IndexTitle = { _id: string; title?: string | null };
+  const [embedded, ytLinks] = await Promise.all([
+    client.fetch<IndexTitle[]>(embeddedQuery, params),
+    client.fetch<IndexTitle[]>(ytQuery, params)
+  ]);
+
+  const toIndex = (
+    items: IndexTitle[],
+    kind: PlaylistIndexItem['kind']
+  ): PlaylistIndexItem[] =>
+    items
+      .filter((item) => !isSinglePlaylist(item.title))
+      .map((item) => ({
+        _id: item._id,
+        title: item.title ?? '',
+        kind
+      }));
+
+  return [...toIndex(embedded, 'embedded'), ...toIndex(ytLinks, 'yt')];
+};
+
+/** Fetches the full documents for one page of playlist results. */
+export const loadPlaylistsByIds = async (
+  items: PlaylistIndexItem[]
+): Promise<PlaylistSearchResults> => {
+  if (items.length === 0) return { embedded: [], ytLinks: [] };
+
+  // Split by kind so a page made only of embedded playlists does not query
+  // links (and vice versa), and each query gets only its own ids.
+  const embeddedIds = items
+    .filter((item) => item.kind === 'embedded')
+    .map((item) => item._id);
+  const ytIds = items
+    .filter((item) => item.kind === 'yt')
+    .map((item) => item._id);
+
+  // The ids already come from the filtered index, so filters are not repeated
+  // here. Embedded playlists bring their items because the player needs them.
+  const embeddedQuery = `*[
+    _type == "playlist"
+    && (type == "video" || type == "video-book")
+    && _id in $ids
+  ] {
+    _id,
+    author,
+    title,
+    description,
+    "imageUrl": image.asset -> url,
+    "topics": topics[]->{ _id, title },
+    "items": items[_type == "reference"]->{_id, author, title, description, "path": URL}
+  }`;
+
+  const ytQuery = `*[
+    _type == "link"
+    && type == "playlist"
+    && _id in $ids
+  ] {
     _id,
     title,
     description,
@@ -442,34 +505,15 @@ export const loadPlaylistsByFilters = async (
   }`;
 
   const [embedded, ytLinks] = await Promise.all([
-    client.fetch<PlaylistType[]>(embeddedQuery, params),
-    client.fetch<LinkType[]>(ytQuery, params)
+    embeddedIds.length > 0
+      ? client.fetch<PlaylistType[]>(embeddedQuery, { ids: embeddedIds })
+      : Promise.resolve([] as PlaylistType[]),
+    ytIds.length > 0
+      ? client.fetch<LinkType[]>(ytQuery, { ids: ytIds })
+      : Promise.resolve([] as LinkType[])
   ]);
 
-  const matchesText =
-    (term: string) =>
-    (item: { title?: string | null; description?: string | null }) =>
-      matchesWordStart(item.title ?? '', term) ||
-      matchesWordStart(item.description ?? '', term);
-
-  // The "SINGLE" playlist only collects individual videos and must not be
-  // listed as a playlist in the Videoteka playlists tab.
-  const isSinglePlaylist = (title?: string | null) =>
-    !!title && title.toUpperCase().includes('SINGLE');
-  const withoutSingles = <T extends { title?: string | null }>(items: T[]) =>
-    items.filter((item) => !isSinglePlaylist(item.title));
-
-  const nonSingleEmbedded = withoutSingles(embedded);
-  const nonSingleYtLinks = withoutSingles(ytLinks);
-
-  const filteredEmbedded = text
-    ? nonSingleEmbedded.filter(matchesText(text))
-    : nonSingleEmbedded;
-  const filteredYtLinks = text
-    ? nonSingleYtLinks.filter((link) => matchesText(text)(link))
-    : nonSingleYtLinks;
-
-  return { embedded: filteredEmbedded, ytLinks: filteredYtLinks };
+  return { embedded, ytLinks };
 };
 
 export const loadSeminarRelatedPresentations = async (): Promise<

@@ -12,6 +12,10 @@ import { CallForHelp } from 'src/components/CallForHelp';
 
 // for Sanity update
 // import { Button } from '@mui/material';
+// import {
+//   exportVideoIdsByPlaylist,
+//   exportVideoIdsForTranscription
+// } from 'src/utils/Sanity/exportVideoIdsForTranscription';
 // import { deleteAllLinks } from 'src/utils/DelteSanityDocuments';
 // import { fixSlugs } from 'src/utils/Sanity/fix-slug';
 // import {
@@ -177,6 +181,18 @@ const Home = () => {
       {/* <Button onClick={() => void formatEpisodeTitles('Произход - сезон 1')}>
           Format Episode Titles
         </Button> */}
+
+      {/* DEV: списъци с YouTube ID-та за извличане на субтитри (transcribe.py) */}
+      {/* {import.meta.env.DEV && (
+        <section className="u-spacing--double">
+          <Button onClick={() => void exportVideoIdsByPlaylist()}>
+            Export video IDs by playlist (zip)
+          </Button>
+          <Button onClick={() => void exportVideoIdsForTranscription()}>
+            Export all video IDs
+          </Button>
+        </section>
+      )} */}
 
       {/* <section className="full-page u-spacing--triple"> */}
       {/* <VideoDemo /> */}

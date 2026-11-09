@@ -1,7 +1,9 @@
 import { LinkType, TopicType } from 'src/contexts/PlaylistsContext';
+import { Button } from 'src/alps/atoms/Button';
 import ShareItemButton from 'src/components/ShareItemButton';
 
 import { cleanedDescription, highlightHtml, parseLinksMdToHtml } from 'src/utils/Links';
+import { buildReadableUrl } from 'src/utils/urlUtils';
 import { TopicsBlock } from './TopicsBlock';
 import './VideoLinkBlock.scss';
 
@@ -31,12 +33,11 @@ export const VideoLinkBlock = ({
   const isShort = /youtube\.com\/shorts\//i.test(video.path || '');
   const elementId = `video-${video._id}`;
 
-  const shareUrlObj = new URL(window.location.pathname, window.location.origin);
-  shareUrlObj.searchParams.set('tab', 'videos');
-  shareUrlObj.searchParams.set('vText', video.title);
-  shareUrlObj.searchParams.set('title', video.title);
-  shareUrlObj.hash = elementId;
-  const shareUrl = shareUrlObj.href;
+  const shareUrl = buildReadableUrl(
+    `${window.location.origin}${window.location.pathname}`,
+    { tab: 'videos', vText: video.title, title: video.title },
+    elementId
+  );
 
   return (
     <div
@@ -73,13 +74,11 @@ export const VideoLinkBlock = ({
             </a>
             <div className="video-link-block__actions">
               {onPlay && isYouTube && !isShort && (
-                <button
-                  className="o-button o-button--outline video-link-block__play-btn"
+                <Button
+                  faIconClass="fas fa-play-circle"
+                  label="Пусни в плеъра"
                   onClick={onPlay}
-                >
-                  <i className="fas fa-play-circle u-space--quarter--right"></i>
-                  Пусни в плеъра
-                </button>
+                />
               )}
               <ShareItemButton url={shareUrl} />
             </div>

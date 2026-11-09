@@ -1,5 +1,6 @@
 @use '/src/styles/colors.scss' as *;
 @use '/src/styles/tabs-bar' as tabs;
+@use '/src/components/media/media-instructions' as *;
 
 .videoteka-page {
   .MuiTabs-root.videoteka-tabs {
@@ -9,6 +10,11 @@
   .videoteka-tab-panel {
     width: 100%;
     padding-top: 24px;
+  }
+
+  .videoteka-caption-btn-wrap {
+    @include media-instructions-btn;
+    font-style: normal;
   }
 }
 

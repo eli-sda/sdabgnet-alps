@@ -1,13 +1,19 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button } from 'src/alps/atoms/Button';
 import { LinkType, PlaylistType } from 'src/contexts/PlaylistsContext';
+import {
+  useVideotekaContext,
+  VideoIndexItem
+} from 'src/contexts/VideotekaContext';
 import { useScrollToHash } from 'src/hooks/useScrollToHash';
 import { useVideotekaFilters } from 'src/hooks/useVideotekaFilters';
 import { VideoLinkBlock } from './VideoLinkBlock';
 import { VideoPlayerDialog } from 'src/components/media/video/VideoPlayerDialog';
 import { VideotekaSubTab, VideotekaSubTabContext } from './VideotekaSubTab';
 import type { SearchSource, VideotekaApplied } from './types';
-import { scrollToId } from 'src/utils/scrollToId';
+import { loadVideosByIds } from 'src/utils/FetchHelper';
+import { PageResultsSpinner } from './PageResultsSpinner';
+import { useVideotekaPagedResults } from 'src/hooks/useVideotekaPagedResults';
 
 type VideoGroup = {
   playlistId: string | null;
@@ -17,6 +23,19 @@ type VideoGroup = {
 
 const VIDEOS_PER_PAGE = 20;
 const RESULTS_ID = 'videoteka-video-results';
+
+const stripQuotes = (s: string) => s.replace(/^["'„“]+/, '');
+
+const compareText = (a: string, b: string) =>
+  stripQuotes(a).localeCompare(stripQuotes(b), 'bg', {
+    sensitivity: 'base',
+    numeric: true
+  });
+
+const getVideoPageKey = (item: VideoIndexItem) => item._id;
+const getVideoDocKey = (video: LinkType) => video._id;
+const loadVideoPage = (items: VideoIndexItem[]) =>
+  loadVideosByIds(items.map((item) => item._id));
 
 export interface VideoTabProps {
   isActive: boolean;
@@ -39,106 +58,109 @@ export const VideoTab = ({
   onSearch,
   onPageChange
 }: VideoTabProps) => {
-  const { getVideoTopics, getVideoAuthors, searchVideos } =
+  const { getVideoTopics, getVideoAuthors, searchVideoIndex } =
     useVideotekaFilters();
-  const [videos, setVideos] = useState<LinkType[]>([]);
+  const { videoCache } = useVideotekaContext();
+  const [videoIndex, setVideoIndex] = useState<VideoIndexItem[]>([]);
   const [dialogPlaylist, setDialogPlaylist] = useState<PlaylistType | null>(
     null
   );
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
-  const fetchResults = useCallback(
-    (applied: VideotekaApplied, setLoading: (l: boolean) => void) => {
-      const { topic, author, text } = applied;
-      setLoading(true);
-      searchVideos(topic?._id ?? null, topic?.title ?? '', author, text)
-        .then(setVideos)
-        .catch((err) => {
-          console.error('Failed to load videos', err);
-          setVideos([]);
-        })
-        .finally(() => {
-          setLoading(false);
-          scrollToId(RESULTS_ID, true);
-        });
-    },
-    [searchVideos]
-  );
-
-  const youtubeVideos = useMemo<LinkType[]>(
-    () => videos.filter((v) => v.isResource !== true),
-    [videos]
-  );
-
+  // Only scroll to a deep link once the index has produced results.
   useScrollToHash({
-    enabled: youtubeVideos.length > 0
+    enabled: videoIndex.length > 0
   });
 
+  // A new result set invalidates selections made on the previous one.
   useEffect(() => {
     setSelectedIds(new Set());
-  }, [videos]);
-
-  const stripQuotes = (s: string) => s.replace(/^["'„“]+/, '');
+  }, [videoIndex]);
 
   // Build a stable playlist name for every playlist id so a playlist's videos
   // sort contiguously (keyed by the same id used for grouping), and the pages
   // stay alphabetical without another playlist appearing between its parts.
   const playlistNameById = useMemo(() => {
     const map = new Map<string, string>();
-    for (const v of youtubeVideos) {
+    for (const v of videoIndex) {
       if (v.playlistId && !map.has(v.playlistId)) {
-        map.set(v.playlistId, v.keyWords?.[0] ?? v.playlistId);
+        map.set(v.playlistId, v.playlistName ?? v.playlistId);
       }
     }
     return map;
-  }, [youtubeVideos]);
+  }, [videoIndex]);
 
   // Sort the full result set so singles come first (grouped under "Единични
   // видеа"), then by playlist name, then by video title.
-  const sortedYoutubeVideos = useMemo<LinkType[]>(() => {
-    const locCompare = (a: string, b: string) =>
-      stripQuotes(a).localeCompare(stripQuotes(b), 'bg', {
-        sensitivity: 'base',
-        numeric: true
-      });
-
-    return [...youtubeVideos].sort((a, b) => {
+  const sortedVideos = useMemo<VideoIndexItem[]>(() => {
+    return [...videoIndex].sort((a, b) => {
       const pa = a.playlistId
         ? (playlistNameById.get(a.playlistId) ?? a.playlistId)
         : '';
       const pb = b.playlistId
         ? (playlistNameById.get(b.playlistId) ?? b.playlistId)
         : '';
-      const byPlaylist = locCompare(pa, pb);
-      return byPlaylist !== 0 ? byPlaylist : locCompare(a.title, b.title);
+      const byPlaylist = compareText(pa, pb);
+      return byPlaylist !== 0 ? byPlaylist : compareText(a.title, b.title);
     });
-  }, [youtubeVideos, playlistNameById]);
+  }, [videoIndex, playlistNameById]);
+
+  const {
+    pageItems: pageVideos,
+    loading: pageLoading,
+    requestScroll,
+    getCached
+  } = useVideotekaPagedResults<VideoIndexItem, LinkType>({
+    index: sortedVideos,
+    page,
+    pageSize: VIDEOS_PER_PAGE,
+    resultsId: RESULTS_ID,
+    getPageKey: getVideoPageKey,
+    getDocKey: getVideoDocKey,
+    load: loadVideoPage,
+    cache: videoCache
+  });
+
+  // Load the lightweight index (id/title/playlist) for the whole result set.
+  // Full video documents are fetched per page by useVideotekaPagedResults.
+  const fetchResults = useCallback(
+    (applied: VideotekaApplied, setLoading: (l: boolean) => void) => {
+      const { topic, author, text } = applied;
+      setLoading(true);
+      requestScroll();
+      searchVideoIndex(topic?._id ?? null, topic?.title ?? '', author, text)
+        // Copy the array so an identical cached search still triggers the
+        // scroll effect (React bails out on the same reference).
+        .then((index) => setVideoIndex([...index]))
+        .catch((err) => {
+          console.error('Failed to load video index', err);
+          setVideoIndex([]);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    },
+    [searchVideoIndex, requestScroll]
+  );
 
   // Total video count per group across the whole result set (not just the page),
   // keyed by playlist id, with 'singles' for videos not in a playlist. Used to
   // show "page count of total" when a group spans several pages.
   const groupCounts = useMemo(() => {
     const counts = new Map<string, number>();
-    for (const v of sortedYoutubeVideos) {
+    for (const v of sortedVideos) {
       const key = v.playlistId ?? 'singles';
       counts.set(key, (counts.get(key) ?? 0) + 1);
     }
     return counts;
-  }, [sortedYoutubeVideos]);
+  }, [sortedVideos]);
 
   // Group a page of videos by playlist (singles first), sorted alphabetically.
   const buildGroupedVideos = useCallback(
-    (pageVideos: LinkType[]): VideoGroup[] => {
-      const sortByTitle = (a: LinkType, b: LinkType) =>
-        a.title
-          .replace(/^["'„“]+/, '')
-          .localeCompare(b.title.replace(/^["'„“]+/, ''), 'bg', {
-            sensitivity: 'base',
-            numeric: true
-          });
-
+    (videos: LinkType[]): VideoGroup[] => {
+      // Bucket the page by playlist id; videos without a playlist use null.
       const map = new Map<string | null, LinkType[]>();
-      pageVideos.forEach((video: LinkType) => {
+      videos.forEach((video) => {
         const key = video.playlistId ?? null;
         let arr = map.get(key);
         if (!arr) {
@@ -147,30 +169,30 @@ export const VideoTab = ({
         }
         arr.push(video);
       });
+
+      // Playlist groups come next, sorted by their display name, with their
+      // videos sorted by title.
       const result: VideoGroup[] = [];
       for (const [id, vids] of map) {
         if (id !== null) {
           result.push({
             playlistId: id,
-            playlistName:
-              playlistNameById.get(id) ?? vids[0].keyWords?.[0] ?? null,
-            videos: [...vids].sort(sortByTitle)
+            playlistName: playlistNameById.get(id) ?? null,
+            videos: [...vids].sort((a, b) => compareText(a.title, b.title))
           });
         }
       }
       result.sort((a, b) =>
-        stripQuotes(a.playlistName ?? '').localeCompare(
-          stripQuotes(b.playlistName ?? ''),
-          'bg',
-          { sensitivity: 'base', numeric: true }
-        )
+        compareText(a.playlistName ?? '', b.playlistName ?? '')
       );
+
+      // "Единични видеа" always goes first when such videos are on the page.
       const singles = map.get(null) ?? [];
       if (singles.length > 0) {
         result.unshift({
           playlistId: null,
           playlistName: null,
-          videos: [...singles].sort(sortByTitle)
+          videos: [...singles].sort((a, b) => compareText(a.title, b.title))
         });
       }
       return result;
@@ -189,9 +211,15 @@ export const VideoTab = ({
     []
   );
 
+  // Selections can span pages, so resolve their full documents from the cache
+  // instead of relying only on the videos of the currently visible page.
   const selectedVideos = useMemo(
-    () => youtubeVideos.filter((v) => selectedIds.has(v._id)),
-    [selectedIds, youtubeVideos]
+    () =>
+      sortedVideos
+        .filter((v) => selectedIds.has(v._id))
+        .map((v) => getCached(v._id))
+        .filter((v): v is LinkType => Boolean(v)),
+    [selectedIds, sortedVideos, getCached]
   );
 
   const openSelected = useCallback(
@@ -230,16 +258,22 @@ export const VideoTab = ({
           : `${total}`;
       };
 
-      const pageVideos = sortedYoutubeVideos.slice(
-        (ctx.effectivePage - 1) * VIDEOS_PER_PAGE,
-        ctx.effectivePage * VIDEOS_PER_PAGE
-      );
+      // Pagination is rendered above and below the results. Keep it visible
+      // even while the page documents are still loading.
+      const pagination = ctx.renderPagination();
+
+      if (pageLoading) {
+        return <PageResultsSpinner pagination={pagination} />;
+      }
+
+      // Group only the current page; the counts above still come from the
+      // full index so a playlist split across pages shows "x от total".
       const videoGroups = buildGroupedVideos(pageVideos);
       return (
         <>
           <div className="videoteka-youtube-header">
             <h2 className="u-font--primary--m u-theme--color--darker">
-              YouTube видеа ({youtubeVideos.length})
+              YouTube видеа ({videoIndex.length})
             </h2>
             {selectedIds.size > 0 ? (
               <Button
@@ -259,7 +293,7 @@ export const VideoTab = ({
               />
             )}
           </div>
-          {ctx.renderPagination()}
+          {pagination}
           {videoGroups.map((group) => (
             <div
               key={group.playlistId ?? 'singles'}
@@ -302,13 +336,14 @@ export const VideoTab = ({
               ))}
             </div>
           ))}
-          {ctx.renderPagination()}
+          {pagination}
         </>
       );
     },
     [
-      youtubeVideos.length,
-      sortedYoutubeVideos,
+      pageLoading,
+      pageVideos,
+      videoIndex.length,
       selectedIds,
       groupCounts,
       toggleSelect,
@@ -335,14 +370,25 @@ export const VideoTab = ({
           <>
             Търсете отделни видеа по тематика, автор или думи от заглавието или
             описанието. Можете да изберете няколко видеа и да ги пуснете
-            последователно във вградения плеър без реклами.
+            последователно във вградения плеър без реклами. След като изберете
+            видеа, натиснете{' '}
+            <span className="videoteka-caption-btn-wrap">
+              <span className="o-button o-button--small">
+                <i
+                  className="fas fa-play-circle u-space--quarter--right"
+                  aria-hidden="true"
+                />
+                Пусни избраните
+              </span>
+            </span>{' '}
+            — бутонът се появява долу на екрана.
           </>
         }
         getTopics={getVideoTopics}
         getAuthors={getVideoAuthors}
         fetchResults={fetchResults}
-        totalResults={youtubeVideos.length}
-        noResults={videos.length === 0}
+        totalResults={videoIndex.length}
+        noResults={videoIndex.length === 0}
         renderResults={renderResults}
       />
 

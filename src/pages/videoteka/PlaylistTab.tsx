@@ -1,14 +1,42 @@
 import { useCallback, useMemo, useState } from 'react';
-import { PlaylistSearchResults } from 'src/utils/FetchHelper';
-import { LinkType, PlaylistType } from 'src/contexts/PlaylistsContext';
+import {
+  CachedPlaylistItem,
+  PlaylistIndexItem,
+  useVideotekaContext
+} from 'src/contexts/VideotekaContext';
 import { useVideotekaFilters } from 'src/hooks/useVideotekaFilters';
 import { PlaylistSearchBlock } from './PlaylistSearchBlock';
 import { VideotekaSubTab, VideotekaSubTabContext } from './VideotekaSubTab';
 import type { SearchSource, VideotekaApplied } from './types';
-import { scrollToId } from 'src/utils/scrollToId';
+import { loadPlaylistsByIds } from 'src/utils/FetchHelper';
+import { PageResultsSpinner } from './PageResultsSpinner';
+import { useVideotekaPagedResults } from 'src/hooks/useVideotekaPagedResults';
 
 const PLAYLISTS_PER_PAGE = 20;
 const RESULTS_ID = 'videoteka-playlist-results';
+
+type CombinedPlaylist = CachedPlaylistItem;
+
+// Strip leading quote(s) so "„/"" prefixed titles sort by the real title.
+const sortTitle = (title: string) => title.replace(/^["'„“]+/, '');
+
+const getPlaylistPageKey = (item: PlaylistIndexItem) =>
+  `${item.kind}:${item._id}`;
+
+const getPlaylistDocKey = (item: CombinedPlaylist) =>
+  item.kind === 'embedded'
+    ? `embedded:${item.playlist._id}`
+    : `yt:${item.link._id}`;
+
+const loadPlaylistPage = async (
+  items: PlaylistIndexItem[]
+): Promise<CombinedPlaylist[]> => {
+  const { embedded, ytLinks } = await loadPlaylistsByIds(items);
+  return [
+    ...embedded.map((playlist) => ({ kind: 'embedded' as const, playlist })),
+    ...ytLinks.map((link) => ({ kind: 'yt' as const, link }))
+  ];
+};
 
 export interface PlaylistTabProps {
   isActive: boolean;
@@ -21,10 +49,6 @@ export interface PlaylistTabProps {
   onPageChange: (page: number) => void;
 }
 
-type CombinedPlaylist =
-  | { kind: 'embedded'; playlist: PlaylistType }
-  | { kind: 'yt'; link: LinkType };
-
 export const PlaylistTab = ({
   isActive,
   initTopicTitle,
@@ -35,66 +59,88 @@ export const PlaylistTab = ({
   onSearch,
   onPageChange
 }: PlaylistTabProps) => {
-  const { getPlaylistTopics, getPlaylistAuthors, searchPlaylists } =
+  const { getPlaylistTopics, getPlaylistAuthors, searchPlaylistIndex } =
     useVideotekaFilters();
-  const [playlists, setPlaylists] = useState<PlaylistSearchResults>({
-    embedded: [],
-    ytLinks: []
+  const { playlistCache } = useVideotekaContext();
+  const [playlistIndex, setPlaylistIndex] = useState<PlaylistIndexItem[]>([]);
+
+  // Sort the lightweight index by title, then paginate that single combined
+  // list. The page's items are split back by type so both sections (Видео
+  // поредици / YouTube плейлисти) stay visible, but a YouTube playlist lands
+  // on the page matching its alphabetical rank among ALL playlists.
+  const combinedSorted = useMemo<PlaylistIndexItem[]>(
+    () =>
+      [...playlistIndex].sort((a, b) =>
+        sortTitle(a.title).localeCompare(sortTitle(b.title), 'bg', {
+          sensitivity: 'base'
+        })
+      ),
+    [playlistIndex]
+  );
+
+  // Section totals come from the full index so the headers can show
+  // "page count of total" when the section spans several pages.
+  const { embeddedTotal, ytTotal } = useMemo(() => {
+    let embedded = 0;
+    let yt = 0;
+    for (const item of playlistIndex) {
+      if (item.kind === 'embedded') embedded += 1;
+      else yt += 1;
+    }
+    return { embeddedTotal: embedded, ytTotal: yt };
+  }, [playlistIndex]);
+
+  const {
+    pageItems,
+    loading: pageLoading,
+    requestScroll
+  } = useVideotekaPagedResults<PlaylistIndexItem, CombinedPlaylist>({
+    index: combinedSorted,
+    page,
+    pageSize: PLAYLISTS_PER_PAGE,
+    resultsId: RESULTS_ID,
+    getPageKey: getPlaylistPageKey,
+    getDocKey: getPlaylistDocKey,
+    load: loadPlaylistPage,
+    cache: playlistCache
   });
 
+  // Load only the lightweight index for all matching playlists. Full
+  // documents are fetched per page by useVideotekaPagedResults.
   const fetchResults = useCallback(
     (applied: VideotekaApplied, setLoading: (l: boolean) => void) => {
       const { topic, author, text } = applied;
       setLoading(true);
-      searchPlaylists(topic?._id ?? null, topic?.title ?? '', author, text)
-        .then(setPlaylists)
+      requestScroll();
+      searchPlaylistIndex(topic?._id ?? null, topic?.title ?? '', author, text)
+        // Copy the array so an identical cached search still triggers the
+        // scroll effect (React bails out on the same reference).
+        .then((index) => setPlaylistIndex([...index]))
         .catch((err) => {
-          console.error('Failed to load playlists', err);
-          setPlaylists({ embedded: [], ytLinks: [] });
+          console.error('Failed to load playlist index', err);
+          setPlaylistIndex([]);
         })
         .finally(() => {
           setLoading(false);
-          scrollToId(RESULTS_ID, true);
         });
     },
-    [searchPlaylists]
+    [searchPlaylistIndex, requestScroll]
   );
 
-  // Combine embedded series and YouTube playlists into one list sorted by
-  // title, then paginate that single list. The page's items are split back by
-  // type so both sections (Видео поредици / YouTube плейлисти) stay visible,
-  // but a YouTube playlist lands on the page matching its alphabetical rank
-  // among ALL playlists.
-  const combinedSorted = useMemo<CombinedPlaylist[]>(
-    () =>
-      [
-        ...playlists.embedded.map((playlist) => ({
-          kind: 'embedded' as const,
-          playlist
-        })),
-        ...playlists.ytLinks.map((link) => ({ kind: 'yt' as const, link }))
-      ].sort((a, b) => {
-        // Strip leading quote(s) so "„/"" prefixed titles sort by the real title
-        const ta = (
-          a.kind === 'embedded' ? (a.playlist.title ?? '') : a.link.title
-        ).replace(/^["'„“]+/, '');
-        const tb = (
-          b.kind === 'embedded' ? (b.playlist.title ?? '') : b.link.title
-        ).replace(/^["'„“]+/, '');
-        return ta.localeCompare(tb, 'bg', { sensitivity: 'base' });
-      }),
-    [playlists.embedded, playlists.ytLinks]
-  );
-
-  const noResults =
-    playlists.embedded.length === 0 && playlists.ytLinks.length === 0;
+  const noResults = playlistIndex.length === 0;
 
   const renderResults = useCallback(
     (ctx: VideotekaSubTabContext) => {
-      const pageItems = combinedSorted.slice(
-        (ctx.effectivePage - 1) * PLAYLISTS_PER_PAGE,
-        ctx.effectivePage * PLAYLISTS_PER_PAGE
-      );
+      // Pagination is rendered above and below the results. Keep it visible
+      // even while the page documents are still loading.
+      const pagination = ctx.renderPagination();
+
+      if (pageLoading) {
+        return <PageResultsSpinner pagination={pagination} />;
+      }
+
+      // Split the current page back into the two sections. Their order inside
+      // each section still follows the combined alphabetical page slice above.
       const pageEmbedded = pageItems
         .filter(
           (i): i is Extract<CombinedPlaylist, { kind: 'embedded' }> =>
@@ -109,20 +155,20 @@ export const PlaylistTab = ({
 
       return (
         <>
-          {ctx.renderPagination()}
+          {pagination}
           <PlaylistSearchBlock
             embedded={pageEmbedded}
             ytLinks={pageYt}
-            embeddedTotal={playlists.embedded.length}
-            ytTotal={playlists.ytLinks.length}
+            embeddedTotal={embeddedTotal}
+            ytTotal={ytTotal}
             appliedTopics={ctx.applied?.topic ? [ctx.applied.topic] : []}
             highlightText={ctx.applied?.text ?? ''}
           />
-          {ctx.renderPagination()}
+          {pagination}
         </>
       );
     },
-    [combinedSorted, playlists.embedded.length, playlists.ytLinks.length]
+    [pageLoading, pageItems, embeddedTotal, ytTotal]
   );
 
   return (

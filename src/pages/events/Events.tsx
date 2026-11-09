@@ -95,7 +95,7 @@ const Events = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const fetchCalendar = (url: string): Promise<RawCalendarEvent[]> =>
-    fetch(url).then((res) => res.json());
+    fetch(`${url}?v=${__BUILD_VERSION__}`).then((res) => res.json());
 
   useEffect(() => {
     Promise.all([

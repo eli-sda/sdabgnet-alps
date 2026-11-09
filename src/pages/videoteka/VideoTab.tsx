@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Button } from 'src/alps/atoms/Button';
 import { LinkType, PlaylistType } from 'src/contexts/PlaylistsContext';
 import {
@@ -23,6 +24,10 @@ type VideoGroup = {
 
 const VIDEOS_PER_PAGE = 20;
 const RESULTS_ID = 'videoteka-video-results';
+
+// Shared video links carry the video id in the hash, e.g. #video-<id>.
+const SHARED_VIDEO_HASH =
+  /^#(?:video-)?([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$/i;
 
 const stripQuotes = (s: string) => s.replace(/^["'„“]+/, '');
 
@@ -61,15 +66,32 @@ export const VideoTab = ({
   const { getVideoTopics, getVideoAuthors, searchVideoIndex } =
     useVideotekaFilters();
   const { videoCache } = useVideotekaContext();
+  const { hash } = useLocation();
   const [videoIndex, setVideoIndex] = useState<VideoIndexItem[]>([]);
   const [dialogPlaylist, setDialogPlaylist] = useState<PlaylistType | null>(
     null
   );
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
+  // A shared link points at one video through its hash. Restrict the results to
+  // that video so the link opens only what was shared, even when the text
+  // filter also matches other titles. A new search clears the hash and with it
+  // this filter, restoring the full result set.
+  const sharedVideoId = useMemo(
+    () => hash.match(SHARED_VIDEO_HASH)?.[1] ?? null,
+    [hash]
+  );
+  const resultVideos = useMemo(
+    () =>
+      sharedVideoId
+        ? videoIndex.filter((video) => video._id === sharedVideoId)
+        : videoIndex,
+    [videoIndex, sharedVideoId]
+  );
+
   // Only scroll to a deep link once the index has produced results.
   useScrollToHash({
-    enabled: videoIndex.length > 0
+    enabled: resultVideos.length > 0
   });
 
   // A new result set invalidates selections made on the previous one.
@@ -82,18 +104,18 @@ export const VideoTab = ({
   // stay alphabetical without another playlist appearing between its parts.
   const playlistNameById = useMemo(() => {
     const map = new Map<string, string>();
-    for (const v of videoIndex) {
+    for (const v of resultVideos) {
       if (v.playlistId && !map.has(v.playlistId)) {
         map.set(v.playlistId, v.playlistName ?? v.playlistId);
       }
     }
     return map;
-  }, [videoIndex]);
+  }, [resultVideos]);
 
   // Sort the full result set so singles come first (grouped under "Единични
   // видеа"), then by playlist name, then by video title.
   const sortedVideos = useMemo<VideoIndexItem[]>(() => {
-    return [...videoIndex].sort((a, b) => {
+    return [...resultVideos].sort((a, b) => {
       const pa = a.playlistId
         ? (playlistNameById.get(a.playlistId) ?? a.playlistId)
         : '';
@@ -103,7 +125,7 @@ export const VideoTab = ({
       const byPlaylist = compareText(pa, pb);
       return byPlaylist !== 0 ? byPlaylist : compareText(a.title, b.title);
     });
-  }, [videoIndex, playlistNameById]);
+  }, [resultVideos, playlistNameById]);
 
   const {
     pageItems: pageVideos,
@@ -273,7 +295,7 @@ export const VideoTab = ({
         <>
           <div className="videoteka-youtube-header">
             <h2 className="u-font--primary--m u-theme--color--darker">
-              YouTube видеа ({videoIndex.length})
+              YouTube видеа ({resultVideos.length})
             </h2>
             {selectedIds.size > 0 ? (
               <Button
@@ -343,7 +365,7 @@ export const VideoTab = ({
     [
       pageLoading,
       pageVideos,
-      videoIndex.length,
+      resultVideos.length,
       selectedIds,
       groupCounts,
       toggleSelect,
@@ -387,8 +409,8 @@ export const VideoTab = ({
         getTopics={getVideoTopics}
         getAuthors={getVideoAuthors}
         fetchResults={fetchResults}
-        totalResults={videoIndex.length}
-        noResults={videoIndex.length === 0}
+        totalResults={resultVideos.length}
+        noResults={resultVideos.length === 0}
         renderResults={renderResults}
       />
 
